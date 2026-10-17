@@ -100,6 +100,9 @@ export const jsonRequestParts = <Body>(input: JsonRequestInput<Body>) =>
       headers: Headers.fromInput({
         ...input.headers?.({ request: input.request }),
         ...input.request.http?.headers,
+        // kilocode_change: tag for the executor's browser-fingerprint limb when a
+        // provider opts into Chrome TLS/HTTP2 impersonation (see executor.ts).
+        ...(input.request.http?.fingerprint ? { "x-kilo-fingerprint": input.request.http.fingerprint } : {}),
       }),
     })
     return { url, jsonBody: body.jsonBody, bodyText: body.bodyText, headers }

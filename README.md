@@ -129,6 +129,33 @@ Learn more about [agents and custom agents](https://kilo.ai/docs/code-with-ai/ag
 - **Kilo Marketplace** to install agents, skills, MCP servers, and plugins that extend what the agent can do.
 - **500+ models** with mid-task switching, so you can match latency, cost, and reasoning to the job.
 
+### Fork feature: browser-fingerprint HTTP transport
+
+This fork adds a **browser TLS/HTTP2 fingerprint transport** so the CLI can reach
+Cloudflare-guarded and anti-bot inference providers that reject non-browser
+client signatures (e.g. `freeinference.org` keyed Cloudflare `403 1010`).
+
+Opt any provider in with a `fingerprint` on its HTTP options:
+
+```jsonc
+{
+  "provider": {
+    "freeinference": {
+      "type": "openai_compatible",
+      "options": { "baseURL": "https://freeinference.org/v1" },
+      "http": { "fingerprint": "chrome" }
+    }
+  }
+}
+```
+
+When set, Kilo forwards requests with Chrome-aligned headers and presents a
+browser HTTP signature (`sec-ch-ua`, `accept-language`, `sec-ch-ua-platform`,
+etc.) instead of the runtime default. On Bun the native fetch already carries a
+passing fingerprint for common Cloudflare guards; this option is the explicit
+opt-in that guarantees the Chrome signature and is the mount point for a
+stricter raw-TLS impersonator on harder-to-reach providers.
+
 ### Autonomous Mode (CI/CD)
 
 Run `kilo run` with `--auto` for fully autonomous operation with no prompts, built for CI/CD pipelines:

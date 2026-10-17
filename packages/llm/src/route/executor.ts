@@ -363,6 +363,29 @@ const retryStatusFailures = <A, R>(
     )
   })
 
+// kilocode_change start
+// Kilo browser-fingerprint transport marker header. A request carrying
+// `request.http.fingerprint` is tagged with this header by the Kilo fingerprint
+// transport; the executor then forwards it with a Chrome-aligned header set so
+// Cloudflare-guarded providers (freeinference error 1010) see a browser
+// signature. The marker header is stripped before the request reaches the wire.
+const FINGERPRINT_HEADER = "x-kilo-fingerprint"
+// kilocode_change end
+
+const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kilocode_change
+  if (request.headers[FINGERPRINT_HEADER] === undefined) return request
+  const headers = { ...request.headers }
+  delete headers[FINGERPRINT_HEADER]
+  return HttpClientRequest.setHeaders(request, {
+    ...headers,
+    "accept": "application/json, text/plain, */*",
+    "accept-language": "en-US,en;q=0.9",
+    "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Linux"',
+  })
+}
+
 export const layer: Layer.Layer<Service, never, HttpClient.HttpClient> = Layer.effect(
   Service,
   Effect.gen(function* () {
@@ -371,7 +394,7 @@ export const layer: Layer.Layer<Service, never, HttpClient.HttpClient> = Layer.e
       Effect.gen(function* () {
         const redactedNames = yield* Headers.CurrentRedactedNames
         return yield* http
-          .execute(request)
+          .execute(withFingerprintHeaders(request)) // kilocode_change
           .pipe(Effect.mapError(toHttpError(redactedNames)), Effect.flatMap(statusError(request, redactedNames)))
       })
     return Service.of({
