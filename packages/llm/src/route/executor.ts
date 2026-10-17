@@ -363,27 +363,34 @@ const retryStatusFailures = <A, R>(
     )
   })
 
-// kilocode_change start
+// kappacode_change start
 // Kilo browser-fingerprint transport marker header. A request carrying
 // `request.http.fingerprint` is tagged with this header by the Kilo fingerprint
 // transport; the executor then forwards it with a Chrome-aligned header set so
 // Cloudflare-guarded providers (freeinference error 1010) see a browser
 // signature. The marker header is stripped before the request reaches the wire.
 const FINGERPRINT_HEADER = "x-kappa-fingerprint"
-// kilocode_change end
+// kappacode_change end
 
-const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kilocode_change
-  if (request.headers[FINGERPRINT_HEADER] === undefined) return request
-  const chrome = {
+const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kappacode_change
+  if (!Headers.has(request.headers, FINGERPRINT_HEADER)) return request
+  const chrome = Headers.fromInput({
     "accept": "application/json, text/plain, */*",
     "accept-language": "en-US,en;q=0.9",
     "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": '"Linux"',
-  }
-  // Strip the internal marker and inject the Chrome-aligned header set before the wire.
-  const { [FINGERPRINT_HEADER]: _marker, ...rest } = request.headers
-  return HttpClientRequest.setHeaders(request, { ...rest, ...chrome })
+  })
+  const withoutFp = Headers.remove(request.headers, FINGERPRINT_HEADER)
+  const combined = Headers.merge(withoutFp, chrome)
+  return HttpClientRequest.makeWith(
+    request.method,
+    request.url,
+    request.urlParams,
+    request.hash,
+    combined,
+    request.body,
+  )
 }
 
 export const layer: Layer.Layer<Service, never, HttpClient.HttpClient> = Layer.effect(
@@ -394,7 +401,7 @@ export const layer: Layer.Layer<Service, never, HttpClient.HttpClient> = Layer.e
       Effect.gen(function* () {
         const redactedNames = yield* Headers.CurrentRedactedNames
         return yield* http
-          .execute(withFingerprintHeaders(request)) // kilocode_change
+          .execute(withFingerprintHeaders(request)) // kappacode_change
           .pipe(Effect.mapError(toHttpError(redactedNames)), Effect.flatMap(statusError(request, redactedNames)))
       })
     return Service.of({
