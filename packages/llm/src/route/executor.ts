@@ -374,16 +374,16 @@ const FINGERPRINT_HEADER = "x-kilo-fingerprint"
 
 const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kilocode_change
   if (request.headers[FINGERPRINT_HEADER] === undefined) return request
-  const headers = { ...request.headers }
-  delete headers[FINGERPRINT_HEADER]
-  return HttpClientRequest.setHeaders(request, {
-    ...headers,
-    "accept": "application/json, text/plain, */*",
-    "accept-language": "en-US,en;q=0.9",
-    "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": '"Linux"',
-  })
+  return HttpClientRequest.setHeaders(
+    HttpClientRequest.setHeader(request, FINGERPRINT_HEADER, undefined),
+    {
+      "accept": "application/json, text/plain, */*",
+      "accept-language": "en-US,en;q=0.9",
+      "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"Linux"',
+    },
+  )
 }
 
 export const layer: Layer.Layer<Service, never, HttpClient.HttpClient> = Layer.effect(

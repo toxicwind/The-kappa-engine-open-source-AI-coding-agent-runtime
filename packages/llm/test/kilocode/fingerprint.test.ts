@@ -17,7 +17,7 @@ describe("Kilo fingerprint transport", () => {
           HttpClient.make((request) =>
             Effect.gen(function* () {
               yield* Ref.set(seen, { ...request.headers })
-              return HttpClientResponse.fromWeb(request, new Response("rate limited", { status: 429 }))
+              return HttpClientResponse.fromWeb(request, new Response("ok", { status: 200 }))
             }),
           ),
         ),
