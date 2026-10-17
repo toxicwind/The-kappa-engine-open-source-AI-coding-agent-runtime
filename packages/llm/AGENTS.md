@@ -80,6 +80,16 @@ The four-axis decomposition is the reason DeepSeek, TogetherAI, Cerebras, Basete
 
 When a provider ships a non-HTTP transport (OpenAI's WebSocket Responses backend, hypothetical bidirectional streaming APIs), the seam is `Transport` — `WebSocketTransport.jsonTransport.with(...)` constructs an IO template whose `prepare` receives the route endpoint/auth at compile time, builds a WebSocket URL and message, and whose `frames` yields decoded text from the socket. Same protocol and endpoint source, different transport.
 
+**Browser-fingerprint transport (Kilo fork feature).** For Cloudflare-guarded
+providers (e.g. `freeinference.org` keyed `403 1010`), a provider opts into a
+Chrome TLS/HTTP2 fingerprint via `HttpOptions.fingerprint` (`http.fingerprint`).
+The route transport tags the request with `x-kilo-fingerprint`; `RequestExecutor`
+strips that marker and injects Chrome-aligned headers before the wire
+(markers live in shared `executor.ts`, guarded by `kilocode_change`). Coverage
+is in `test/kilocode/fingerprint.test.ts` (Kilo-owned). On Bun the native fetch
+already passes common guards; this is the explicit opt-in + the seam for a
+raw-TLS impersonator.
+
 ### URL Construction
 
 `Endpoint` owns `{ baseURL, path, query }`. Each protocol route includes a canonical endpoint when the provider has one (e.g. `https://api.openai.com/v1`); provider helpers override endpoint fields by configuring the route before selecting a model. Routes that have no canonical URL (OpenAI-compatible Chat, GitHub Copilot) require configuration before execution.
