@@ -15,7 +15,6 @@ node_modules
 !.vscode/launch.json
 !.vscode/settings.json
 !.vscode/tasks.json
-# use vscode workspaces with peacock to have many vscodes with the same repo:
 *.code-workspace
 .codex
 *~
@@ -37,7 +36,7 @@ a.out
 target
 .scripts
 .direnv/
-packages/kilo-jetbrains/build-tasks/.gradle/
+packages/kappa-jetbrains/build-tasks/.gradle/
 
 # Local dev files
 opencode-dev
@@ -50,7 +49,7 @@ logs/
 telemetry-id
 tsconfig.tsbuildinfo
 
-# Kilo
+# Kappa
 .kilo/.gitignore
 .kilo/package.json
 .kilo/package-lock.json
@@ -68,11 +67,10 @@ tsconfig.tsbuildinfo
 .kilocode/yarn.lock
 .kilocode/node_modules
 
-# Runtime-generated per-directory TUI config (e.g. written by `PATCH /tui/config`
-# during local testing); should never be committed.
+# Runtime-generated per-directory TUI config
 packages/*/.kilo/tui.json
 packages/*/.kilo/tui.jsonc
 
 # Test Artifacts
 packages/app/.artifacts/
-packages/opencode/.artifacts/
+packages/cli/.artifacts/

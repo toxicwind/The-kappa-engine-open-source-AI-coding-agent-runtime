@@ -1,30 +1,30 @@
-# kilo monorepo build tasks (mbx-cache / nativelink enabled).
-# `mise run kilo-build` produces the single CLI binary; mbx-cache restores it
+# kappa monorepo build tasks (mbx-cache / nativelink enabled).
+# `mise run kappa-build` produces the single CLI binary; mbx-cache restores it
 # from the remote task cache at 127.0.0.1:25148 when the inputs are unchanged.
 
 [task_config.cache]
 enabled = true
 
-[tasks.kilo-build]
-description = "Build the main kilo single binary -> dist/@kilocode/*/bin/kilo"
-run = "bun run --cwd packages/opencode script/build.ts --single --skip-install"
+[tasks.kappa-build]
+description = "Build the main kappa single binary -> dist/@kappacode/*/bin/kappa"
+run = "bun run --cwd packages/cli script/build.ts --single --skip-install"
 sources = [
   "package.json",
   "bun.lock",
-  "packages/opencode/src/**/*.{ts,tsx}",
-  "packages/opencode/script/**/*.ts",
+  "packages/cli/src/**/*.{ts,tsx}",
+  "packages/cli/script/**/*.ts",
   "packages/llm/src/**/*.ts",
-  "packages/kilo-console/src/**/*.{ts,tsx}",
+  "packages/kappa-console/src/**/*.{ts,tsx}",
 ]
-outputs = ["packages/opencode/dist/**/bin/kilo"]
+outputs = ["packages/cli/dist/**/bin/kappa"]
 
-[tasks.kilo-install]
-description = "Install kilocode workspace dependencies once, richly cached"
+[tasks.kappa-install]
+description = "Install kappacode workspace dependencies once, richly cached"
 run = "bun install --no-progress"
 sources = ["package.json", "bun.lock"]
 outputs = ["node_modules/.install-complete"]
 
 
-[tasks.kilo-dev]
-description = "Run the kilo CLI locally via opencode"
-run = "bun run --cwd packages/opencode --conditions=node src/index.ts"
+[tasks.kappa-dev]
+description = "Run the kappa CLI locally via opencode"
+run = "bun run --cwd packages/cli --conditions=node src/index.ts"
