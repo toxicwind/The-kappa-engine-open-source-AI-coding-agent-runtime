@@ -374,16 +374,16 @@ const FINGERPRINT_HEADER = "x-kappa-fingerprint"
 
 const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kilocode_change
   if (request.headers[FINGERPRINT_HEADER] === undefined) return request
-  return HttpClientRequest.setHeaders(
-    HttpClientRequest.setHeader(request, FINGERPRINT_HEADER, undefined),
-    {
-      "accept": "application/json, text/plain, */*",
-      "accept-language": "en-US,en;q=0.9",
-      "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
-      "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": '"Linux"',
-    },
-  )
+  const chrome = {
+    "accept": "application/json, text/plain, */*",
+    "accept-language": "en-US,en;q=0.9",
+    "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Linux"',
+  }
+  // Strip the internal marker and inject the Chrome-aligned header set before the wire.
+  const { [FINGERPRINT_HEADER]: _marker, ...rest } = request.headers
+  return HttpClientRequest.setHeaders(request, { ...rest, ...chrome })
 }
 
 export const layer: Layer.Layer<Service, never, HttpClient.HttpClient> = Layer.effect(
