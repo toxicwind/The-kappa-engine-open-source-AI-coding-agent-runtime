@@ -1,14 +1,14 @@
 ---
 title: "Cloud Platform Architecture"
-description: "Architecture overview for Kilo Cloud services and hosted runtimes"
+description: "Architecture overview for Kappa Cloud services and hosted runtimes"
 ---
 
 # Cloud Platform Architecture
 
-Kilo Cloud is hosted platform layer for authentication, model routing, billing, product configuration, automation, and scoped execution services. Cloud implementation lives in open-source [`Kilo-Org/cloud`](https://github.com/Kilo-Org/cloud) repository.
+Kappa Cloud is hosted platform layer for authentication, model routing, billing, product configuration, automation, and scoped execution services. Cloud implementation lives in open-source [`Kappa-Org/cloud`](https://github.com/Kappa-Org/cloud) repository.
 
 {% callout type="info" title="Static source scope" %}
-This page describes Worker surfaces, bindings, routes, and code paths present in `Kilo-Org/cloud`. Static source shows deployable architecture, not live production enablement, rollout percentages, retention configuration, or vendor settings. Validate live environment before making production or compliance claims. Use [Kilo Cloud Security Architecture](/docs/contributing/architecture/cloud-security) for trust boundaries and data flows.
+This page describes Worker surfaces, bindings, routes, and code paths present in `Kappa-Org/cloud`. Static source shows deployable architecture, not live production enablement, rollout percentages, retention configuration, or vendor settings. Validate live environment before making production or compliance claims. Use [Kappa Cloud Security Architecture](/docs/contributing/architecture/cloud-security) for trust boundaries and data flows.
 {% /callout %}
 
 ## How to use this page
@@ -20,9 +20,9 @@ Use this page to understand hosted service topology: which product boundaries ex
 | Layer | Responsibility | Examples |
 |---|---|---|
 | Web control plane | Identity, organization authorization, billing, product configuration, and API orchestration | Next.js application in `apps/web/` |
-| Shared cloud services | Model routing, asynchronous orchestration, real-time delivery, persistence adapters, and operational services | Kilo Gateway, Workers, queues, Durable Objects, R2, KV, Hyperdrive |
+| Shared cloud services | Model routing, asynchronous orchestration, real-time delivery, persistence adapters, and operational services | Kappa Gateway, Workers, queues, Durable Objects, R2, KV, Hyperdrive |
 | Scoped execution | Runs code or scoped runtime workloads | Cloud Agent, Gas Town container |
-| External providers | Services outside Kilo Cloud trust boundary | Model providers, source-control providers, messaging providers, telemetry providers |
+| External providers | Services outside Kappa Cloud trust boundary | Model providers, source-control providers, messaging providers, telemetry providers |
 
 Where these pages say `owner`, they mean personal user or organization that authorizes scoped product state and credentials.
 
@@ -46,10 +46,10 @@ Where these pages say `owner`, they mean personal user or organization that auth
 flowchart LR
   clients["Browser, editor, and mobile clients"]
   web["Web control plane"]
-  gateway["Kilo Gateway"]
+  gateway["Kappa Gateway"]
   automation["Automation Workers"]
   agent["Cloud Agent"]
-  chat["Kilo Chat / Event Service / Notifications"]
+  chat["Kappa Chat / Event Service / Notifications"]
   town["Gas Town"]
   wasteland["Wasteland"]
   repos["GitHub and GitLab repositories"]
@@ -86,9 +86,9 @@ Not every hosted flow launches Cloud Agent. Shared services also route model req
 | Evaluation and operations | `o11y`{% linebreak /%}`kappa-ops`{% linebreak /%}`model-eval-ingest` | Metrics, alerts, operations, and model-evaluation ingestion |
 | Attribution | `ai-attribution` | AI-edit attribution events |
 
-## Kilo Gateway
+## Kappa Gateway
 
-Gateway consists of cloud API routes plus `packages/kappa-gateway/` client integration in `Kilo-Org/kilocode`. It handles account-aware and anonymous-free model access. See [Cloud Security](/docs/contributing/architecture/cloud-security#model-request-gateway) for request branches and endpoint families.
+Gateway consists of cloud API routes plus `packages/kappa-gateway/` client integration in `Kappa-Org/kappacode`. It handles account-aware and anonymous-free model access. See [Cloud Security](/docs/contributing/architecture/cloud-security#model-request-gateway) for request branches and endpoint families.
 
 | Responsibility | Description |
 |---|---|
@@ -155,7 +155,7 @@ flowchart TB
 
 | Service | Hosted execution relationship |
 |---|---|
-| Kilo Bot | Launches Cloud Agent for requested repository work |
+| Kappa Bot | Launches Cloud Agent for requested repository work |
 | Code Review | Runs queued review sessions through Cloud Agent |
 | Auto Triage | Can classify issue without Cloud Agent during duplicate check; launches Cloud Agent when classification session is needed |
 | Auto Fix | Launches Cloud Agent to create issue-fix pull request |
@@ -205,7 +205,7 @@ sequenceDiagram
   participant Ticket as Event Service ticket API
   participant Events as Event Service
   participant Session as UserSessionDO
-  participant Chat as Kilo Chat conversation-state DOs
+  participant Chat as Kappa Chat conversation-state DOs
   participant Notify as NotificationChannelDO
   participant Expo
   participant Queue as Receipt queue
@@ -229,7 +229,7 @@ sequenceDiagram
   end
 ```
 
-Kilo Chat stores conversation state in Durable Objects and fans events out through Event Service. Notifications checks Event Service presence context before selected pushes and processes Expo receipts asynchronously. See [Cloud Security](/docs/contributing/architecture/cloud-security#chat-events-and-notifications) for ticket and push-delivery trust boundaries.
+Kappa Chat stores conversation state in Durable Objects and fans events out through Event Service. Notifications checks Event Service presence context before selected pushes and processes Expo receipts asynchronously. See [Cloud Security](/docs/contributing/architecture/cloud-security#chat-events-and-notifications) for ticket and push-delivery trust boundaries.
 
 ## Gas Town and Wasteland
 
@@ -277,7 +277,7 @@ flowchart LR
 
 ## Source map
 
-Paths below are relative to [`Kilo-Org/cloud`](https://github.com/Kilo-Org/cloud).
+Paths below are relative to [`Kappa-Org/cloud`](https://github.com/Kappa-Org/cloud).
 
 | Concern | Source paths |
 |---|---|

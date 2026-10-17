@@ -2,13 +2,13 @@ import { Component, For, Show, createMemo, createSignal } from "solid-js"
 import { Button } from "@kappacode/kappa-ui/button"
 import { Card } from "@kappacode/kappa-ui/card"
 import { DEFAULT_VECTOR_STORE, isFileExtension, parseFileExtensions } from "@kappacode/kappa-indexing/config"
-import { formatKiloEmbeddingModelLabel, getKiloEmbeddingModel } from "@kappacode/kappa-indexing/embedding-models"
+import { formatKappaEmbeddingModelLabel, getKappaEmbeddingModel } from "@kappacode/kappa-indexing/embedding-models"
 import { Select } from "@kappacode/kappa-ui/select"
 import { Switch } from "@kappacode/kappa-ui/switch"
 import { TextField } from "@kappacode/kappa-ui/text-field"
 import { useConfig } from "../../context/config"
 import { formatIndexingLabel, useIndexing } from "../../context/indexing"
-import { useKiloEmbeddingModels } from "../../context/kappa-embedding-models"
+import { useKappaEmbeddingModels } from "../../context/kappa-embedding-models"
 import { useLanguage } from "../../context/language"
 import { useProvider } from "../../context/provider"
 import { useServer } from "../../context/server"
@@ -33,7 +33,7 @@ type Project = { id: string; root: string; label: string }
 type TuningKey = "searchMinScore" | "searchMaxResults" | "embeddingBatchSize" | "scannerMaxBatchRetries"
 
 const allProviders: { value: ProviderId; label: string }[] = [
-  { value: "kappa", label: "Kilo" },
+  { value: "kappa", label: "Kappa" },
   { value: "openai", label: "OpenAI" },
   { value: "ollama", label: "Ollama (local)" },
   { value: "openai-compatible", label: "OpenAI-Compatible" },
@@ -164,7 +164,7 @@ const ScopeRows: Component<{
 const IndexingTab: Component = () => {
   const { globalConfig, projectConfig, settings, updateGlobalConfig, updateProjectConfig, updateSetting } = useConfig()
   const indexing = useIndexing()
-  const embeds = useKiloEmbeddingModels()
+  const embeds = useKappaEmbeddingModels()
   const language = useLanguage()
   const provider = useProvider()
   const server = useServer()
@@ -209,28 +209,28 @@ const IndexingTab: Component = () => {
   }
 
   const vectorStore = () => cfg().vectorStore ?? DEFAULT_VECTOR_STORE
-  const kiloDefault = () =>
-    getKiloEmbeddingModel(embeds.catalog().defaultModel, embeds.catalog())?.id ?? embeds.catalog().defaultModel
-  const kiloModels = createMemo(() =>
+  const kappaDefault = () =>
+    getKappaEmbeddingModel(embeds.catalog().defaultModel, embeds.catalog())?.id ?? embeds.catalog().defaultModel
+  const kappaModels = createMemo(() =>
     embeds.catalog().models.map((model) => ({
       value: model.id,
-      label: formatKiloEmbeddingModelLabel(model),
+      label: formatKappaEmbeddingModelLabel(model),
     })),
   )
-  const knownKiloModel = (model: string | null | undefined) =>
-    getKiloEmbeddingModel(model ?? undefined, embeds.catalog())?.id
-  const kiloValue = () => knownKiloModel(cfg().model) ?? kiloDefault()
-  const kiloAvailable = () => !!server.profileData() || provider.authStates()[KILO_PROVIDER_ID] !== undefined
-  const selectedProvider = () => cfg().provider ?? (kiloAvailable() ? "kappa" : undefined)
-  const staleKiloModel = () => selectedProvider() === "kappa" && !!cfg().model && !knownKiloModel(cfg().model)
+  const knownKappaModel = (model: string | null | undefined) =>
+    getKappaEmbeddingModel(model ?? undefined, embeds.catalog())?.id
+  const kappaValue = () => knownKappaModel(cfg().model) ?? kappaDefault()
+  const kappaAvailable = () => !!server.profileData() || provider.authStates()[KILO_PROVIDER_ID] !== undefined
+  const selectedProvider = () => cfg().provider ?? (kappaAvailable() ? "kappa" : undefined)
+  const staleKappaModel = () => selectedProvider() === "kappa" && !!cfg().model && !knownKappaModel(cfg().model)
   const providers = createMemo(() =>
-    allProviders.filter((item) => item.value !== "kappa" || kiloAvailable() || selectedProvider() === "kappa"),
+    allProviders.filter((item) => item.value !== "kappa" || kappaAvailable() || selectedProvider() === "kappa"),
   )
   const fields = createMemo(() => providerFields(selectedProvider()))
 
   const saveProvider = (next: ProviderId | undefined) => {
     if (next === "kappa") {
-      const model = knownKiloModel(cfg().model) ?? (kiloDefault() || null)
+      const model = knownKappaModel(cfg().model) ?? (kappaDefault() || null)
       updateIndexing({
         provider: next,
         model,
@@ -248,11 +248,11 @@ const IndexingTab: Component = () => {
   }
 
   const saveEnabled = (next: boolean) => {
-    if (next && !cfg().provider && kiloAvailable()) {
+    if (next && !cfg().provider && kappaAvailable()) {
       updateIndexing({
         enabled: next,
         provider: "kappa",
-        model: knownKiloModel(cfg().model) ?? (kiloDefault() || null),
+        model: knownKappaModel(cfg().model) ?? (kappaDefault() || null),
         dimension: null,
       })
       return
@@ -426,18 +426,18 @@ const IndexingTab: Component = () => {
           />
         </SettingsRow>
         <Show when={selectedProvider() === "kappa"}>
-          <Show when={kiloModels().length > 0}>
+          <Show when={kappaModels().length > 0}>
             <SettingsRow
-              title={language.t("settings.indexing.kiloModel.title")}
-              description={description(language.t("settings.indexing.kiloModel.description"), [["model"]])}
+              title={language.t("settings.indexing.kappaModel.title")}
+              description={description(language.t("settings.indexing.kappaModel.description"), [["model"]])}
               tag={() => tag(scope(), [["model"]])}
             >
               <Select
-                options={kiloModels()}
-                current={kiloModels().find((item) => item.value === kiloValue())}
+                options={kappaModels()}
+                current={kappaModels().find((item) => item.value === kappaValue())}
                 value={(item) => item.value}
                 label={(item) => item.label}
-                onSelect={(item) => updateIndexing({ model: item?.value ?? kiloDefault(), dimension: null })}
+                onSelect={(item) => updateIndexing({ model: item?.value ?? kappaDefault(), dimension: null })}
                 variant="secondary"
                 size="small"
                 triggerVariant="settings"
@@ -463,25 +463,25 @@ const IndexingTab: Component = () => {
               : description(language.t("settings.indexing.dimension.description"), [["dimension"]])
           }
           tag={() => (selectedProvider() === "kappa" ? undefined : tag(scope(), [["dimension"]]))}
-          last={!selectedProvider() || (fields().length === 0 && !(selectedProvider() === "kappa" && !kiloAvailable()))}
+          last={!selectedProvider() || (fields().length === 0 && !(selectedProvider() === "kappa" && !kappaAvailable()))}
         >
           <TextField
             value={
-              staleKiloModel() || cfg().dimension === undefined || cfg().dimension === null
+              staleKappaModel() || cfg().dimension === undefined || cfg().dimension === null
                 ? ""
                 : String(cfg().dimension)
             }
             placeholder={
-              selectedProvider() === "kappa" ? "Provided by Kilo" : language.t("settings.indexing.dimension.placeholder")
+              selectedProvider() === "kappa" ? "Provided by Kappa" : language.t("settings.indexing.dimension.placeholder")
             }
             disabled={selectedProvider() === "kappa"}
             onChange={(value) => saveNumber("dimension", value, { integer: true, min: 1 })}
           />
         </SettingsRow>
-        <Show when={selectedProvider() === "kappa" && !kiloAvailable()}>
+        <Show when={selectedProvider() === "kappa" && !kappaAvailable()}>
           <SettingsRow
-            title={language.t("settings.indexing.kiloSignIn.title")}
-            description={language.t("settings.indexing.kiloSignIn.description")}
+            title={language.t("settings.indexing.kappaSignIn.title")}
+            description={language.t("settings.indexing.kappaSignIn.description")}
             last
           >
             <span />

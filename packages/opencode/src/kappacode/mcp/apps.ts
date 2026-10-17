@@ -5,7 +5,7 @@ import type { RuntimeFlags } from "@/effect/runtime-flags"
 
 /**
  * MCP Apps lets MCP servers advertise UI resources alongside their tools. This module owns all the
- * Kilo-specific behavior for that experimental feature so the shared upstream files only need to
+ * Kappa-specific behavior for that experimental feature so the shared upstream files only need to
  * register the endpoints and call these helpers.
  */
 export namespace McpApps {

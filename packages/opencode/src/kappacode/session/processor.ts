@@ -23,7 +23,7 @@ export type ReviewTelemetry = {
   tool?: "suggest"
 }
 
-export namespace KiloSessionProcessor {
+export namespace KappaSessionProcessor {
   const log = Log.create({ service: "session.processor.kappa" })
   export const INCOMPLETE_RESPONSE_RETRIES = 2
   export const INCOMPLETE_RESPONSE_MESSAGE =
@@ -46,7 +46,7 @@ export namespace KiloSessionProcessor {
   export const REASONING_LENGTH_WARNING =
     "The model hit its output limit while reasoning and produced no actionable output. Try disabling reasoning or increasing the output limit."
   export const PROVIDER_FINISH_ERROR_MESSAGE =
-    "The provider ended the response with an error before returning details. Start a new message to retry; Kilo will compact the oversized conversation first if needed."
+    "The provider ended the response with an error before returning details. Start a new message to retry; Kappa will compact the oversized conversation first if needed."
 
   export function reviewTelemetry(command: string | undefined): ReviewTelemetry | undefined {
     const cmd = reviewCommandName(command)
@@ -330,7 +330,7 @@ export namespace KiloSessionProcessor {
   }
 
   /**
-   * Returns the Kilo-specific retry policy options (limit + offline handler).
+   * Returns the Kappa-specific retry policy options (limit + offline handler).
    * Designed to be spread into SessionRetry.policy() opts.
    *
    * The `abort` signal is used by the offline handler to cancel the network
@@ -429,7 +429,12 @@ export namespace KiloSessionProcessor {
 
   export function observe(attempt: Attempt, event: LLMEvent) {
     if (event.type === "text-delta" && event.text.trim()) attempt.text = true
-    if (event.type === "reasoning-delta" && event.text.trim()) attempt.reasoning = true
+    if (event.type === "reasoning-delta" && event.text.trim()) {
+      attempt.reasoning = true
+      // Reasoning content IS output text for models like glm-5.3-flash and
+      // nemotron-3-super that return content: null with reasoning_content
+      attempt.text = true
+    }
     if (event.type === "tool-call" || event.type === "tool-result" || event.type === "tool-error") attempt.tool = true
     if (event.type === "step-finish") {
       attempt.finished = true

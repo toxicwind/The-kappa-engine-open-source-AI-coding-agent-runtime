@@ -14,7 +14,7 @@ The legacy extension had feature-complete Rules and Workflows sub-tabs with togg
 | Per-rule enable/disable toggle | `ToggleSwitch` per rule file | Not available — paths are either in the list or removed |
 | Create new rule file | Input field with validation (.md, .txt, or no extension) per section | Not available |
 | Add instruction file path | Not available (auto-discovered from filesystem) | `TextField` + "Add" button |
-| Rule source discovery | Auto-discovers from `.kilocode/rules/`, `.kilocoderules`, `.roorules`, `.clinerules`, mode-specific dirs, `AGENTS.md` | Only shows explicitly configured paths in `config.instructions` |
+| Rule source discovery | Auto-discovers from `.kappacode/rules/`, `.kappacoderules`, `.roorules`, `.clinerules`, mode-specific dirs, `AGENTS.md` | Only shows explicitly configured paths in `config.instructions` |
 
 ### Key Architectural Difference
 
@@ -39,7 +39,7 @@ The legacy extension auto-discovered rule files from well-known filesystem locat
 - **Global vs workspace separation**: If the CLI distinguishes between global and workspace instruction files, separate them into two sections
 - **Enable/disable toggles**: If rules can be toggled without removing them from config, add toggle switches per rule
 - **New rule file creation**: Add a button/input to create a new rule file (not just add an existing path)
-- **Auto-discovery**: Consider adding a section showing auto-discovered rule sources (`.kilocode/rules/`, `AGENTS.md`) that the CLI loads regardless of explicit `config.instructions` entries
+- **Auto-discovery**: Consider adding a section showing auto-discovered rule sources (`.kappacode/rules/`, `AGENTS.md`) that the CLI loads regardless of explicit `config.instructions` entries
 
 ### Workflows (P3)
 

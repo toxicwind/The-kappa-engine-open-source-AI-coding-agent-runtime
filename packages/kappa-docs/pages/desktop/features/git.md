@@ -1,6 +1,6 @@
 ---
 title: "Git integration"
-description: "Review your uncommitted changes, switch branches, and run sessions in an isolated worktree, without leaving the chat in Kilo Desktop."
+description: "Review your uncommitted changes, switch branches, and run sessions in an isolated worktree, without leaving the chat in Kappa Desktop."
 ---
 
 # Git integration
@@ -46,10 +46,10 @@ Beside the workspace in the chat, a mode control sets where a session's changes 
 - **Local repository** — work in the repository already on your machine, on whatever branch is checked out. This is the default.
 - **New worktree** — create a separate copy for the session, based on a branch you pick, so your main checkout stays untouched while the agent works.
 
-Kilo Desktop remembers your choice per workspace.
+Kappa Desktop remembers your choice per workspace.
 
 ## Set up git for a folder
 
 If the workspace folder isn't a git repository yet, the Changes tab offers an **Initialize Git** action to create one, after which the diff and branch tools become available.
 
-The branch switcher appears for regular repositories. For repositories that can't be used safely — bare, unsafe, or with no commits yet — Kilo Desktop shows a short explanation instead of a broken or misleading control.
+The branch switcher appears for regular repositories. For repositories that can't be used safely — bare, unsafe, or with no commits yet — Kappa Desktop shows a short explanation instead of a broken or misleading control.

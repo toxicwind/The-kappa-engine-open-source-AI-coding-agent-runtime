@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { asSchema, jsonSchema, type JSONSchema7, tool } from "ai"
-import { KiloToolSchema } from "@/kappacode/session/tool-schema"
+import { KappaToolSchema } from "@/kappacode/session/tool-schema"
 
 describe("provider tool schema sanitization", () => {
   test("removes lookarounds without changing safe regex syntax or local validation", async () => {
@@ -37,7 +37,7 @@ describe("provider tool schema sanitization", () => {
       invite: tool({ description: "Invite by email", inputSchema: jsonSchema(schema, { validate }), execute }),
     }
 
-    const output = await KiloToolSchema.sanitize(input)
+    const output = await KappaToolSchema.sanitize(input)
     const result = (await asSchema(output.invite.inputSchema).jsonSchema) as JSONSchema7
     const properties = result.properties as Record<string, JSONSchema7>
 
@@ -68,7 +68,7 @@ describe("provider tool schema sanitization", () => {
       lookup: tool({ inputSchema: jsonSchema({ type: "object", properties: { slug: { pattern: "^[a-z]+$" } } }) }),
     }
 
-    expect(await KiloToolSchema.sanitize(input)).toBe(input)
+    expect(await KappaToolSchema.sanitize(input)).toBe(input)
   })
 
   test("keeps strict dynamic properties available when their key pattern is removed", async () => {
@@ -82,7 +82,7 @@ describe("provider tool schema sanitization", () => {
     }
     const input = { dynamic: tool({ inputSchema: jsonSchema(schema) }) }
 
-    const output = await KiloToolSchema.sanitize(input)
+    const output = await KappaToolSchema.sanitize(input)
     const result = (await asSchema(output.dynamic.inputSchema).jsonSchema) as JSONSchema7
 
     expect(result).toEqual({ type: "object", additionalProperties: true })
@@ -111,7 +111,7 @@ describe("provider tool schema sanitization", () => {
     }
     const input = { exact: tool({ inputSchema: jsonSchema(schema) }) }
 
-    const output = await KiloToolSchema.sanitize(input)
+    const output = await KappaToolSchema.sanitize(input)
     const result = await asSchema(output.exact.inputSchema).jsonSchema
 
     expect(result).toEqual({ type: "object", additionalProperties: true })

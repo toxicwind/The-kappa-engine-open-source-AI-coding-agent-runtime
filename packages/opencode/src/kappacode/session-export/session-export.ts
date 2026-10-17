@@ -201,7 +201,7 @@ function configure(options: Opts): void {
 }
 
 function currentSurface(): string {
-  return process.env.KILOCODE_FEATURE?.trim() || "unknown"
+  return process.env.KAPPACODE_FEATURE?.trim() || "unknown"
 }
 
 function respawn(err: unknown): void {

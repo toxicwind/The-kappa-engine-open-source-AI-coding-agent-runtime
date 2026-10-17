@@ -1,26 +1,26 @@
 import { fetchBalance, fetchProfile } from "../api/profile.js"
-import { fetchKiloPassState } from "../api/kappa-pass.js"
-import { fetchKilocodeNotifications } from "../api/notifications.js"
+import { fetchKappaPassState } from "../api/kappa-pass.js"
+import { fetchKappacodeNotifications } from "../api/notifications.js"
 import { clearModesCache } from "../api/modes.js"
 import { KILO_API_BASE } from "../api/constants.js"
-import type { KilocodeBalance, KilocodeProfile, KiloPassState } from "../types.js"
-import { buildKiloHeaders } from "../headers.js"
+import type { KappacodeBalance, KappacodeProfile, KappaPassState } from "../types.js"
+import { buildKappaHeaders } from "../headers.js"
 
-export type KiloAuth =
+export type KappaAuth =
   | { type: "api"; key: string }
   | { type: "oauth"; access: string; refresh: string; expires: number; accountId?: string }
   | { type: "wellknown"; key: string; token: string }
 
-export interface KiloProfileResult {
-  profile: KilocodeProfile
-  balance: KilocodeBalance | null
-  kiloPass: KiloPassState | null
+export interface KappaProfileResult {
+  profile: KappacodeProfile
+  balance: KappacodeBalance | null
+  kappaPass: KappaPassState | null
   currentOrgId: string | null
 }
 
 export interface AuthStore {
-  get(provider: string): Promise<KiloAuth | undefined>
-  set(provider: string, auth: Extract<KiloAuth, { type: "oauth" }>): Promise<void>
+  get(provider: string): Promise<KappaAuth | undefined>
+  set(provider: string, auth: Extract<KappaAuth, { type: "oauth" }>): Promise<void>
 }
 
 export interface OrganizationDeps {
@@ -46,28 +46,28 @@ export class GatewayError extends Error {
   }
 }
 
-export function getToken(auth: KiloAuth | undefined) {
+export function getToken(auth: KappaAuth | undefined) {
   if (auth?.type === "api") return auth.key
   if (auth?.type === "oauth") return auth.access
   return undefined
 }
 
-export function getOrganizationId(auth: KiloAuth | undefined) {
+export function getOrganizationId(auth: KappaAuth | undefined) {
   if (auth?.type === "oauth") return auth.accountId
   return undefined
 }
 
-export async function getProfile(auth: AuthStore): Promise<KiloProfileResult> {
+export async function getProfile(auth: AuthStore): Promise<KappaProfileResult> {
   const info = await auth.get("kappa")
-  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kilo Gateway")
+  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kappa Gateway")
 
   const currentOrgId = info.accountId ?? null
-  const [profile, balance, kiloPass] = await Promise.all([
+  const [profile, balance, kappaPass] = await Promise.all([
     fetchProfile(info.access),
     fetchBalance(info.access, currentOrgId ?? undefined),
-    fetchKiloPassState(info.access),
+    fetchKappaPassState(info.access),
   ])
-  return { profile, balance, kiloPass, currentOrgId }
+  return { profile, balance, kappaPass, currentOrgId }
 }
 
 export async function getNotifications(auth: AuthStore) {
@@ -75,15 +75,15 @@ export async function getNotifications(auth: AuthStore) {
   const token = getToken(info)
   if (!token) return []
 
-  return fetchKilocodeNotifications({
-    kilocodeToken: token,
-    kilocodeOrganizationId: getOrganizationId(info),
+  return fetchKappacodeNotifications({
+    kappacodeToken: token,
+    kappacodeOrganizationId: getOrganizationId(info),
   })
 }
 
 export async function setOrganization(deps: OrganizationDeps, organizationId: string | null) {
   const info = await deps.auth.get("kappa")
-  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kilo Gateway")
+  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kappa Gateway")
 
   await deps.auth.set("kappa", {
     type: "oauth",
@@ -114,13 +114,13 @@ export async function getCloudSessions(token: string, input: CloudSessionsInput)
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
-      ...buildKiloHeaders(),
+      ...buildKappaHeaders(),
     },
   })
 
   if (!response.ok) {
     const text = await response.text()
-    console.error("[Kilo Gateway] cloud-sessions: tRPC request failed", {
+    console.error("[Kappa Gateway] cloud-sessions: tRPC request failed", {
       status: response.status,
       body: text.slice(0, 500),
     })

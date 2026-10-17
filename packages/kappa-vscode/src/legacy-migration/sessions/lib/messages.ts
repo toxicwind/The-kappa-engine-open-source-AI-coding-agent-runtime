@@ -1,4 +1,4 @@
-import type { KilocodeSessionImportMessageData as Message } from "@kappacode/sdk/v2"
+import type { KappacodeSessionImportMessageData as Message } from "@kappacode/sdk/v2"
 import type { LegacyApiMessage, LegacyHistoryItem } from "./legacy-types"
 import { createMessageID, createSessionID } from "./ids"
 

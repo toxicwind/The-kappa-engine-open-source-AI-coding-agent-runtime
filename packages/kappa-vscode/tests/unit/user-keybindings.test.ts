@@ -49,10 +49,10 @@ describe("user keybindings", () => {
 
   it("finds the file for the default profile and falls back from a profile", () => {
     const user = path.join("/data", "User")
-    expect(userKeybindingFiles(path.join(user, "globalStorage", "kilocode.kappa-code"))).toEqual([
+    expect(userKeybindingFiles(path.join(user, "globalStorage", "kappacode.kappa-code"))).toEqual([
       path.join(user, "keybindings.json"),
     ])
-    expect(userKeybindingFiles(path.join(user, "profiles", "abc", "globalStorage", "kilocode.kappa-code"))).toEqual([
+    expect(userKeybindingFiles(path.join(user, "profiles", "abc", "globalStorage", "kappacode.kappa-code"))).toEqual([
       path.join(user, "profiles", "abc", "keybindings.json"),
       path.join(user, "keybindings.json"),
     ])

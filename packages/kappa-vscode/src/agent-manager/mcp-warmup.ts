@@ -1,10 +1,10 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 
-type Client = Pick<KiloClient, "mcp">
+type Client = Pick<KappaClient, "mcp">
 type Log = (...args: unknown[]) => void
 
 export async function prepareDirectory(
-  client: Pick<KiloClient, "app" | "config" | "mcp" | "kappacode">,
+  client: Pick<KappaClient, "app" | "config" | "mcp" | "kappacode">,
   dir: string,
 ): Promise<void> {
   // Listing agents computes the agent and skill state for the directory, so
@@ -13,7 +13,7 @@ export async function prepareDirectory(
     client.config.get({ directory: dir }, { throwOnError: true }),
     client.app.agents({ directory: dir }, { throwOnError: true }),
     client.mcp.status({ directory: dir }, { throwOnError: true }),
-    client.kilocode.snapshot.prepare({ directory: dir }, { throwOnError: true }),
+    client.kappacode.snapshot.prepare({ directory: dir }, { throwOnError: true }),
   ])
   const failure = results.find((result) => result.status === "rejected")
   if (failure?.status === "rejected") throw failure.reason

@@ -29,8 +29,8 @@ const auth = Layer.mock(Auth.Service)({
 
 function layer() {
   const models = Layer.succeed(
-    ModelCache.KiloModelsService,
-    ModelCache.KiloModelsService.of({
+    ModelCache.KappaModelsService,
+    ModelCache.KappaModelsService.of({
       fetch: () => (error ? Effect.fail(error) : Effect.succeed(result)),
     }),
   )

@@ -1,4 +1,4 @@
-export namespace KiloSessionTuiSync {
+export namespace KappaSessionTuiSync {
   export function model(input: { role: string; parts?: readonly { type: string }[] }) {
     if (input.role !== "user") return false
     if (!input.parts) return false

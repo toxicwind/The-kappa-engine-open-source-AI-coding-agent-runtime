@@ -1,15 +1,15 @@
 ---
 title: "AI Providers"
-description: "Configure and connect different AI model providers to Kilo Code"
+description: "Configure and connect different AI model providers to Kappa Code"
 ---
 
 # AI Providers
 
-Kilo Code supports a wide variety of AI providers, giving you flexibility in how you power your AI-assisted development workflow. Choose from cloud providers, local models, or AI gateways based on your needs.
+Kappa Code supports a wide variety of AI providers, giving you flexibility in how you power your AI-assisted development workflow. Choose from cloud providers, local models, or AI gateways based on your needs.
 
 ## Getting Started
 
-The fastest way to get started is with **Kilo Code's built-in provider**, which requires no configuration. Simply sign in and start coding.
+The fastest way to get started is with **Kappa Code's built-in provider**, which requires no configuration. Simply sign in and start coding.
 
 For users who want to use their own API keys or need specific models, we support over 30 providers.
 
@@ -35,7 +35,7 @@ Major AI companies offering powerful models via API:
 
 Run models on your own hardware for privacy and offline use:
 
-- **[Atomic Chat](/docs/ai-providers/atomic-chat)** - Local models with TurboQuant inference and auto-discovery in Kilo Code
+- **[Atomic Chat](/docs/ai-providers/atomic-chat)** - Local models with TurboQuant inference and auto-discovery in Kappa Code
 - **[Anaconda Desktop](/docs/ai-providers/anaconda-desktop)** - Discover and connect to a local text-generation model server
 - **[Ollama](/docs/ai-providers/ollama)** - Easy local model management
 - **[LM Studio](/docs/ai-providers/lmstudio)** - Desktop app for local models
@@ -56,7 +56,7 @@ Route requests through unified APIs with additional features:
 
 | Priority | Recommended Provider |
 |---|---|
-| Ease of use | [Kilo Code (built-in)](/docs/ai-providers/kilocode) |
+| Ease of use | [Kappa Code (built-in)](/docs/ai-providers/kappacode) |
 | Best value | Zhipu AI or Mistral |
 | Privacy/Offline | Ollama or LM Studio |
 | Enterprise | AWS Bedrock or Google Vertex |
@@ -92,6 +92,6 @@ Both fields accept provider IDs — the lowercase identifier used in the `provid
 
 ## Next Steps
 
-- **New to Kilo Code?** Start with the [Kilo Code provider](/docs/ai-providers/kilocode) - no setup required
+- **New to Kappa Code?** Start with the [Kappa Code provider](/docs/ai-providers/kappacode) - no setup required
 - **Have an API key?** Jump to your provider's page for configuration instructions
 - **Want to compare?** Check out [Model Selection](/docs/code-with-ai/agents/model-selection) for guidance on choosing models

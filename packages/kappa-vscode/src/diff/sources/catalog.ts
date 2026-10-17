@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloConnectionService } from "../../services/cli-backend"
+import type { KappaConnectionService } from "../../services/cli-backend"
 import { GitOps } from "../../agent-manager/GitOps"
 import { gitGeneratedFiles } from "../shared/git-attributes"
 import { resolveLocalDiffTarget } from "../shared/target"
@@ -78,7 +78,7 @@ export class DiffSourceCatalog implements vscode.Disposable {
   private attributeOutput: vscode.OutputChannel | undefined
 
   constructor(
-    private readonly connection: KiloConnectionService,
+    private readonly connection: KappaConnectionService,
     private readonly local?: LocalDiffSource,
   ) {}
 
@@ -181,14 +181,14 @@ export class DiffSourceCatalog implements vscode.Disposable {
 
   private ensureBranchGit(): GitOps {
     if (this.branchGit) return this.branchGit
-    this.branchOutput = vscode.window.createOutputChannel("Kilo Diff: Branches")
+    this.branchOutput = vscode.window.createOutputChannel("Kappa Diff: Branches")
     this.branchGit = new GitOps({ log: this.branchLog })
     return this.branchGit
   }
 
   private ensureAttributeGit(): GitOps {
     if (this.attributeGit) return this.attributeGit
-    this.attributeOutput = vscode.window.createOutputChannel("Kilo Diff: Attributes")
+    this.attributeOutput = vscode.window.createOutputChannel("Kappa Diff: Attributes")
     this.attributeGit = new GitOps({
       log: (...args) => appendOutput(this.attributeOutput!, "DiffSourceCatalog", ...args),
     })

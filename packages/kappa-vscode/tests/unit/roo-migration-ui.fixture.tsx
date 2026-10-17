@@ -44,7 +44,7 @@ const { DialogProvider } = await import("@kappacode/kappa-ui/context/dialog")
 const { VSCodeProvider } = await import("../../webview-ui/src/context/vscode")
 const { LanguageProvider } = await import("../../webview-ui/src/context/language")
 const { ConfigProvider } = await import("../../webview-ui/src/context/config")
-const { default: AboutKiloCodeTab } = await import("../../webview-ui/src/components/settings/AboutKiloCodeTab")
+const { default: AboutKappaCodeTab } = await import("../../webview-ui/src/components/settings/AboutKappaCodeTab")
 const { default: MigrationWizard } = await import("../../webview-ui/src/components/migration/MigrationWizard")
 
 const root = document.createElement("div")
@@ -64,7 +64,7 @@ const dispose = render(
             <Show
               when={open()}
               fallback={
-                <AboutKiloCodeTab
+                <AboutKappaCodeTab
                   port={null}
                   connectionState="disconnected"
                   onMigrationClick={(source) => {

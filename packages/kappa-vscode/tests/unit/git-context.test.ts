@@ -15,7 +15,7 @@ async function repo(run: (dir: string) => Promise<void>, commit = true) {
   try {
     git(dir, ["init"])
     if (commit)
-      git(dir, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "--allow-empty", "-m", "init"])
+      git(dir, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "--allow-empty", "-m", "init"])
     await run(dir)
   } finally {
     await fs.rm(dir, { recursive: true, force: true })
@@ -46,7 +46,7 @@ describe("getGitChangesContext", () => {
     await repo(async (dir) => {
       await fs.writeFile(path.join(dir, "tracked.txt"), "before\n")
       git(dir, ["add", "tracked.txt"])
-      git(dir, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "tracked"])
+      git(dir, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "-m", "tracked"])
       await fs.writeFile(path.join(dir, "tracked.txt"), "after\n")
 
       const result = await getGitChangesContext(dir)
@@ -60,10 +60,10 @@ describe("getGitChangesContext", () => {
     await repo(async (dir) => {
       await fs.writeFile(path.join(dir, "base.txt"), "before\n")
       git(dir, ["add", "base.txt"])
-      git(dir, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "base"])
+      git(dir, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "-m", "base"])
       await fs.writeFile(path.join(dir, "base.txt"), "after\n")
       git(dir, ["add", "base.txt"])
-      git(dir, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "change"])
+      git(dir, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "-m", "change"])
       await fs.writeFile(path.join(dir, "new.txt"), "new\n")
 
       const result = await getGitChangesContext(dir, "HEAD~1")

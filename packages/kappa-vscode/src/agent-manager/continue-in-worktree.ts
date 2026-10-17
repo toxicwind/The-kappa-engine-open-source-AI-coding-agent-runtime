@@ -1,4 +1,4 @@
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import type { CreateWorktreeResult } from "./WorktreeManager"
 import type { WorktreeStateManager } from "./WorktreeStateManager"
 import { capture as captureGitState, apply as applyGitState, type GitSnapshot } from "./git-transfer"
@@ -9,7 +9,7 @@ import { recordForkHandoff } from "./fork-handoff"
 export interface ContinueContext {
   root: string
   binary?: string
-  getClient: () => KiloClient
+  getClient: () => KappaClient
   createWorktreeOnDisk: (opts: { baseBranch: string; baseRef: string }) => Promise<{
     worktree: { id: string }
     result: CreateWorktreeResult
@@ -95,7 +95,7 @@ async function rollback(
 
 /** Fork the session into the worktree directory. */
 export async function forkSession(ctx: ContinueContext, sessionId: string, dir: string): Promise<StepResult<Session>> {
-  let client: KiloClient
+  let client: KappaClient
   try {
     client = ctx.getClient()
   } catch (err) {

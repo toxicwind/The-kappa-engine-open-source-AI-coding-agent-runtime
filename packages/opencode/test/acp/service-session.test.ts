@@ -10,7 +10,7 @@ import type {
   SessionConfigSelectOption,
   SetSessionConfigOptionResponse,
 } from "@agentclientprotocol/sdk"
-import type { AssistantMessage, Event, KiloClient } from "@kappacode/sdk/v2"
+import type { AssistantMessage, Event, KappaClient } from "@kappacode/sdk/v2"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { Effect } from "effect"
@@ -198,7 +198,7 @@ describe("ACP service sessions", () => {
       sessionUpdate?: (update: SessionNotification) => Promise<void>
     },
   ) => {
-    const history = [...messages] // kilocode_change
+    const history = [...messages] // kappacode_change
     const updates: SessionNotification[] = []
     const mcpAdds: string[] = []
     const aborts: string[] = []
@@ -249,7 +249,7 @@ describe("ACP service sessions", () => {
           Promise.resolve({
             data: input.directory ? sessions.filter((session) => session.directory === input.directory) : sessions,
           }),
-        messages: () => Promise.resolve({ data: history }), // kilocode_change
+        messages: () => Promise.resolve({ data: history }), // kappacode_change
         prompt: async (input: { sessionID: string }) => {
           const response = await (options?.prompt?.(input) ??
             Promise.resolve({
@@ -263,22 +263,22 @@ describe("ACP service sessions", () => {
               },
             }))
           prompts.push(input)
-          events.push(updated(input.sessionID, response.data.info)) // kilocode_change
+          events.push(updated(input.sessionID, response.data.info)) // kappacode_change
           events.push(idleEvent(input.sessionID))
           return response
         },
         command: (input: { sessionID: string }) => {
           commands.push(input)
-          // kilocode_change start - model the response message that precedes idle
+          // kappacode_change start - model the response message that precedes idle
           const info = assistantInfo({ input: 3, output: 4, reasoning: 0, cache: { read: 0, write: 0 } })
           events.push(updated(input.sessionID, info))
           events.push(idleEvent(input.sessionID))
           return Promise.resolve({ data: { info } })
-          // kilocode_change end
+          // kappacode_change end
         },
         summarize: (input: { sessionID: string }) => {
           summarizes.push(input)
-          // kilocode_change start - model the generated summary message that precedes idle
+          // kappacode_change start - model the generated summary message that precedes idle
           const info = {
             summary: true,
             ...assistantInfo({ input: 1, output: 1, reasoning: 0, cache: { read: 0, write: 0 } }),
@@ -287,7 +287,7 @@ describe("ACP service sessions", () => {
           events.push(updated(input.sessionID, info))
           events.push(idleEvent(input.sessionID))
           return Promise.resolve({ data: true })
-          // kilocode_change end
+          // kappacode_change end
         },
         abort:
           options?.abort ??
@@ -306,7 +306,7 @@ describe("ACP service sessions", () => {
           return Promise.resolve({ data: {} })
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const connection = {
       sessionUpdate: (update: SessionNotification) => {
         updates.push(update)
@@ -605,7 +605,7 @@ describe("ACP service sessions", () => {
         command: {
           list: () => Promise.resolve({ data: [] }),
         },
-      } as unknown as KiloClient,
+      } as unknown as KappaClient,
     })
     const error = await Effect.runPromise(
       service
@@ -643,7 +643,7 @@ describe("ACP service sessions", () => {
       mcp: {
         add: () => Promise.resolve({ data: {} }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const service = ACPService.make({ sdk })
 
     const first = await Effect.runPromise(
@@ -686,7 +686,7 @@ describe("ACP service sessions", () => {
           return Promise.resolve({ data: {} })
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const service = ACPService.make({ sdk })
 
     await Effect.runPromise(
@@ -727,7 +727,7 @@ describe("ACP service sessions", () => {
       mcp: {
         add: () => Promise.resolve({ data: {} }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const service = ACPService.make({ sdk })
 
     const result = await Effect.runPromise(service.newSession({ cwd: "/workspace", mcpServers: [] }))
@@ -766,7 +766,7 @@ describe("ACP service sessions", () => {
       mcp: {
         add: () => Promise.resolve({ data: {} }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const service = ACPService.make({ sdk })
 
     const result = await Effect.runPromise(service.newSession({ cwd: "/workspace", mcpServers: [] }))
@@ -883,7 +883,7 @@ describe("ACP service sessions", () => {
           return Promise.resolve({ data: {} })
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const service = ACPService.make({ sdk })
     const session = await Effect.runPromise(service.newSession({ cwd: "/workspace", mcpServers: [] }))
 
@@ -938,7 +938,7 @@ describe("ACP service sessions", () => {
       mcp: {
         add: () => Promise.resolve({ data: {} }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const service = ACPService.make({ sdk })
     const session = await Effect.runPromise(service.newSession({ cwd: "/workspace", mcpServers: [] }))
     const updated = await Effect.runPromise(
@@ -1008,7 +1008,7 @@ describe("ACP service sessions", () => {
       mcp: {
         add: () => Promise.resolve({ data: {} }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const service = ACPService.make({ sdk })
 
     const first = await Effect.runPromise(service.newSession({ cwd: "/workspace", mcpServers: [] }))
@@ -1326,7 +1326,7 @@ describe("ACP service sessions", () => {
         mcp: {
           add: () => Promise.resolve({ data: {} }),
         },
-      } as unknown as KiloClient,
+      } as unknown as KappaClient,
       usage: UsageService.Service.of({
         buildUsage: UsageService.buildUsage,
         latestAssistantMessage: UsageService.latestAssistantMessage,
@@ -1346,7 +1346,7 @@ describe("ACP service sessions", () => {
   })
 })
 
-// kilocode_change start - include the response identity used by the idle barrier
+// kappacode_change start - include the response identity used by the idle barrier
 function assistantInfo(
   tokens: UsageService.AssistantTokenCost["tokens"],
   error?: AssistantMessage["error"],
@@ -1354,7 +1354,7 @@ function assistantInfo(
   return {
     id: "msg_assistant",
     sessionID: "ses_new",
-    // kilocode_change end
+    // kappacode_change end
     role: "assistant",
     providerID: "test",
     modelID: "test-model",
@@ -1364,7 +1364,7 @@ function assistantInfo(
   }
 }
 
-// kilocode_change start
+// kappacode_change start
 function updated(sessionID: string, info: ReturnType<typeof assistantInfo>): Event {
   return {
     id: `evt_${info.id}`,
@@ -1372,7 +1372,7 @@ function updated(sessionID: string, info: ReturnType<typeof assistantInfo>): Eve
     properties: { sessionID, info: info as AssistantMessage },
   }
 }
-// kilocode_change end
+// kappacode_change end
 
 function categories(result: NewSessionResponse | LoadSessionResponse) {
   return result.configOptions?.map((option) => option.category) ?? []

@@ -14,7 +14,7 @@ interface AutocompleteModelBase {
   readonly provider: string
   /** Full model ID sent upstream by the autocomplete route. */
   readonly requestModel: string
-  /** Provider key to use for direct BYOK. Empty means Kilo Gateway. */
+  /** Provider key to use for direct BYOK. Empty means Kappa Gateway. */
   readonly directProvider?: DirectAutocompleteProviderID
   /** Request temperature. */
   readonly temperature: number
@@ -41,7 +41,7 @@ const models: AutocompleteModelDef[] = [
     modelID: "mistralai/codestral-2508",
     label: "Codestral",
     providerID: "kappa",
-    provider: "Kilo Gateway",
+    provider: "Kappa Gateway",
     requestModel: "mistralai/codestral-2508",
     temperature: 0.2,
   },
@@ -50,19 +50,19 @@ const models: AutocompleteModelDef[] = [
     modelID: "inception/mercury-edit-2",
     label: "Mercury Edit 2 (FIM)",
     providerID: "kappa",
-    provider: "Kilo Gateway",
+    provider: "Kappa Gateway",
     requestModel: "inception/mercury-edit-2",
     temperature: 0,
   },
   {
     // Same wire-level model as `kappa/inception/mercury-edit-2`, but routed
-    // through the Kilo Gateway's Next Edit endpoint instead of FIM. Picked by
+    // through the Kappa Gateway's Next Edit endpoint instead of FIM. Picked by
     // users who want multi-line next-edit predictions with the jump-to-edit UX.
     id: "kappa/inception/mercury-next-edit",
     modelID: "inception/mercury-next-edit",
     label: "Mercury Edit 2 (Next Edit)",
     providerID: "kappa",
-    provider: "Kilo Gateway",
+    provider: "Kappa Gateway",
     requestModel: "inception/mercury-edit-2",
     temperature: 0,
     kind: "edit",
@@ -127,7 +127,7 @@ const aliases: Record<string, string> = {
 }
 
 export function getAutocompleteModel(provider?: string, model?: string): AutocompleteModelDef {
-  // When provider is unset, always default to Kilo Gateway. Direct-provider
+  // When provider is unset, always default to Kappa Gateway. Direct-provider
   // use must be opted into explicitly via the provider setting — never inferred
   // from a model name, since the same plain model id can exist on multiple
   // providers and we don't want to silently route legacy settings to BYOK.

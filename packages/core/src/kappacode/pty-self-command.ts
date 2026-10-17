@@ -55,7 +55,7 @@ export function resolve(input: Input, cmd = self): Input {
   }
 }
 
-export const KiloPtySelfCommand = {
+export const KappaPtySelfCommand = {
   command,
   resolve,
 }

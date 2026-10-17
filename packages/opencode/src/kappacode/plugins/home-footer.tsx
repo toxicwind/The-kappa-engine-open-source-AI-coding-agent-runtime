@@ -1,6 +1,6 @@
-// kilocode_change - new file
+// kappacode_change - new file
 /**
- * Kilo-specific home footer plugin.
+ * Kappa-specific home footer plugin.
  *
  * Replaces the upstream `home_footer` slot (order 101 > upstream 100)
  * to inject the RemoteIndicator alongside the standard directory, MCP,
@@ -9,7 +9,7 @@
 import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, Match, Show, Switch } from "solid-js"
 import { Global } from "@opencode-ai/core/global"
-import { RemoteIndicator } from "@/kilocode/remote-tui"
+import { RemoteIndicator } from "@/kappacode/remote-tui"
 
 const id = "internal:kappa-home-footer"
 

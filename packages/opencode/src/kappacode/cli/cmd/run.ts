@@ -1,5 +1,5 @@
-import type { KiloClient } from "@kappacode/sdk/v2"
-import { KiloRunDrain } from "../run-drain"
+import type { KappaClient } from "@kappacode/sdk/v2"
+import { KappaRunDrain } from "../run-drain"
 import { UI } from "@/cli/ui"
 import { FormatError, FormatUnknownError } from "@/cli/error"
 import { DaemonClient } from "@/kappacode/daemon/client"
@@ -7,8 +7,8 @@ import { isBuiltinCommand, type BuiltinCommand } from "@/kappacode/session/built
 import { Provider } from "@/provider/provider"
 import { Filesystem } from "@/util/filesystem"
 
-export namespace KiloRun {
-  export async function resolveBuiltin(sdk: KiloClient, command?: string, directory?: string) {
+export namespace KappaRun {
+  export async function resolveBuiltin(sdk: KappaClient, command?: string, directory?: string) {
     if (!isBuiltinCommand(command)) return
     const result = await sdk.command.list({ directory })
     if (result.error) return
@@ -30,7 +30,7 @@ export namespace KiloRun {
   }
 
   export async function goal(
-    sdk: KiloClient,
+    sdk: KappaClient,
     sessionID: string,
     text: string,
     emit: (type: string, data: Record<string, unknown>) => boolean,
@@ -55,7 +55,7 @@ export namespace KiloRun {
   }
 
   export async function runBuiltin(
-    sdk: KiloClient,
+    sdk: KappaClient,
     sessionID: string,
     command: BuiltinCommand,
     model?: string,
@@ -81,17 +81,17 @@ export namespace KiloRun {
   }
 }
 
-export namespace KiloRunDaemon {
+export namespace KappaRunDaemon {
   export type Input = {
     directory?: string
-    execute: (client: KiloClient) => Promise<void>
+    execute: (client: KappaClient) => Promise<void>
   }
 
   export async function attach(input: Input) {
     const daemon = await DaemonClient.maybe()
     if (!daemon) return false
     const dir = input.directory ?? Filesystem.resolve(process.cwd())
-    const client = KiloRunDrain.client({ baseUrl: daemon.url, directory: dir, headers: daemon.headers })
+    const client = KappaRunDrain.client({ baseUrl: daemon.url, directory: dir, headers: daemon.headers })
     await input.execute(client)
     return true
   }

@@ -358,7 +358,7 @@ export namespace Daemon {
           ...input.env,
           KILO_SERVER_USERNAME: username,
           KILO_SERVER_PASSWORD: password,
-          KILOCODE_FEATURE: "daemon",
+          KAPPACODE_FEATURE: "daemon",
         },
         stdio: ["ignore", stdout.fd, stderr.fd],
         windowsHide: process.platform === "win32",

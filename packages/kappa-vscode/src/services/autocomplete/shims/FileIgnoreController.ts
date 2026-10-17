@@ -2,11 +2,11 @@ import path from "node:path"
 import fs from "node:fs"
 import ignore, { type Ignore } from "ignore"
 
-const KILOCODEIGNORE = ".kilocodeignore"
+const KAPPACODEIGNORE = ".kappacodeignore"
 const GITIGNORE = ".gitignore"
 
 /**
- * Patterns for sensitive environment files, applied only when no .kilocodeignore exists.
+ * Patterns for sensitive environment files, applied only when no .kappacodeignore exists.
  */
 const SENSITIVE_PATTERNS = [".env", ".env.*"]
 
@@ -37,15 +37,15 @@ export class FileIgnoreController {
       return
     }
 
-    // Try .kilocodeignore first — if it exists, use only that.
+    // Try .kappacodeignore first — if it exists, use only that.
     // Use existsSync to distinguish "missing" from "unreadable" — permission
     // errors on readFileSync will propagate instead of being silently swallowed.
-    const kilocodeignorePath = path.join(this.workspacePath, KILOCODEIGNORE)
-    if (fs.existsSync(kilocodeignorePath)) {
-      const kilocodeignoreContent = fs.readFileSync(kilocodeignorePath, "utf-8")
-      if (kilocodeignoreContent.trim()) {
-        this.ignoreInstance.add(kilocodeignoreContent)
-        this.ignoreInstance.add(KILOCODEIGNORE)
+    const kappacodeignorePath = path.join(this.workspacePath, KAPPACODEIGNORE)
+    if (fs.existsSync(kappacodeignorePath)) {
+      const kappacodeignoreContent = fs.readFileSync(kappacodeignorePath, "utf-8")
+      if (kappacodeignoreContent.trim()) {
+        this.ignoreInstance.add(kappacodeignoreContent)
+        this.ignoreInstance.add(KAPPACODEIGNORE)
         return
       }
     }

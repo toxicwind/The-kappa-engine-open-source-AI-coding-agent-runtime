@@ -1,5 +1,5 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kilocode_change
+import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
 import { Session } from "./session"
@@ -14,24 +14,24 @@ import { Config } from "@/config/config"
 import { NotFoundError } from "@/storage/storage"
 
 import { Effect, Layer, Context } from "effect"
-import * as DateTime from "effect/DateTime" // kilocode_change
+import * as DateTime from "effect/DateTime" // kappacode_change
 import { InstanceState } from "@/effect/instance-state"
 import { isOverflow as overflow, usable } from "./overflow"
 import { serviceUse } from "@opencode-ai/core/effect/service-use"
-// kilocode_change start
-import { KiloSessionPromptQueue } from "@/kilocode/session/prompt-queue"
-import { KiloCompactionPayloadRecovery } from "@/kilocode/session/compaction-payload-recovery"
-import { KiloCompactionChunks } from "@/kilocode/session/compaction-chunks"
-import { SessionExport } from "@/kilocode/session-export"
-import { KiloSession } from "@/kilocode/session"
-// kilocode_change end
+// kappacode_change start
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
+import { KappaCompactionPayloadRecovery } from "@/kappacode/session/compaction-payload-recovery"
+import { KappaCompactionChunks } from "@/kappacode/session/compaction-chunks"
+import { SessionExport } from "@/kappacode/session-export"
+import { KappaSession } from "@/kappacode/session"
+// kappacode_change end
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { EventV2Bridge } from "@/event-v2-bridge"
-import { SessionEvent } from "@opencode-ai/core/session/event" // kilocode_change
-import { SessionMessage } from "@opencode-ai/core/session/message" // kilocode_change
+import { SessionEvent } from "@opencode-ai/core/session/event" // kappacode_change
+import { SessionMessage } from "@opencode-ai/core/session/message" // kappacode_change
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { Database } from "@opencode-ai/core/database/database" // kilocode_change
+import { Database } from "@opencode-ai/core/database/database" // kappacode_change
 import { buildPrompt } from "@opencode-ai/core/session/compaction"
 import { SessionCompactionEvent } from "@opencode-ai/schema/session-compaction-event"
 
@@ -96,9 +96,9 @@ const serialize = (message: SessionV1.WithParts) => {
     .join("\n")
 }
 
-// kilocode_change start - allow safe pruning at cache-invalidating boundaries
+// kappacode_change start - allow safe pruning at cache-invalidating boundaries
 export type PruneReason = "normal" | "post-compaction" | "payload-limit"
-// kilocode_change end
+// kappacode_change end
 
 function summaryText(message: SessionV1.WithParts) {
   const text = message.parts
@@ -128,14 +128,14 @@ function completedCompactions(messages: SessionV1.WithParts[]) {
   })
 }
 
-// kilocode_change start
+// kappacode_change start
 function preserveRecentBudget(input: { cfg: ConfigV1.Info; model: Provider.Model; outputTokenMax?: number }) {
   return (
     input.cfg.compaction?.preserve_recent_tokens ??
     Math.min(MAX_PRESERVE_RECENT_TOKENS, Math.max(MIN_PRESERVE_RECENT_TOKENS, Math.floor(usable(input) * 0.25)))
   )
 }
-// kilocode_change end
+// kappacode_change end
 
 function turns(messages: SessionV1.WithParts[]) {
   const result: Turn[] = []
@@ -185,13 +185,13 @@ export interface Interface {
     tokens: SessionV1.Assistant["tokens"]
     model: Provider.Model
   }) => Effect.Effect<boolean>
-  // kilocode_change start - callers that already loaded the transcript pass it as messages; returns cleared outputs
+  // kappacode_change start - callers that already loaded the transcript pass it as messages; returns cleared outputs
   readonly prune: (input: {
     sessionID: SessionID
     reason?: PruneReason
     messages?: SessionV1.WithParts[]
   }) => Effect.Effect<number>
-  // kilocode_change end
+  // kappacode_change end
   readonly process: (input: {
     parentID: MessageID
     messages: SessionV1.WithParts[]
@@ -223,7 +223,7 @@ const layer = Layer.effect(
     const provider = yield* Provider.Service
     const events = yield* EventV2Bridge.Service
     const flags = yield* RuntimeFlags.Service
-    const database = yield* Database.Service // kilocode_change
+    const database = yield* Database.Service // kappacode_change
 
     const isOverflow = Effect.fn("SessionCompaction.isOverflow")(function* (input: {
       tokens: SessionV1.Assistant["tokens"]
@@ -250,18 +250,18 @@ const layer = Layer.effect(
       cfg: ConfigV1.Info
       model: Provider.Model
     }) {
-      const limit = input.cfg.compaction?.tail_turns ?? 2 // kilocode_change
-      if (limit <= 0) return { head: input.messages, tail_start_id: undefined } // kilocode_change
-      // kilocode_change start
+      const limit = input.cfg.compaction?.tail_turns ?? 2 // kappacode_change
+      if (limit <= 0) return { head: input.messages, tail_start_id: undefined } // kappacode_change
+      // kappacode_change start
       const budget = preserveRecentBudget({
         cfg: input.cfg,
         model: input.model,
         outputTokenMax: flags.outputTokenMax,
       })
-      // kilocode_change end
+      // kappacode_change end
       const all = turns(input.messages)
       if (!all.length) return { head: input.messages, tail_start_id: undefined }
-      const recent = all.slice(-limit) // kilocode_change
+      const recent = all.slice(-limit) // kappacode_change
 
       let total = 0
       let keep: Tail | undefined
@@ -301,7 +301,7 @@ const layer = Layer.effect(
 
     // goes backwards through parts until there are PRUNE_PROTECT tokens worth of tool
     // calls, then erases output of older tool calls to free context space
-    // kilocode_change start - preserve normal opt-in pruning, but allow payload/compaction cleanup by default
+    // kappacode_change start - preserve normal opt-in pruning, but allow payload/compaction cleanup by default
     const prune = Effect.fn("SessionCompaction.prune")(function* (input: {
       sessionID: SessionID
       reason?: PruneReason
@@ -366,7 +366,7 @@ const layer = Layer.effect(
       yield* Effect.logInfo("pruned", { reason, count: toPrune.length })
       return toPrune.length
     })
-    // kilocode_change end
+    // kappacode_change end
 
     const processCompaction = Effect.fn("SessionCompaction.process")(function* (input: {
       parentID: MessageID
@@ -389,7 +389,7 @@ const layer = Layer.effect(
             parts: SessionV1.Part[]
           }
         | undefined
-      // kilocode_change start - false is preflight replay; undefined disables replay
+      // kappacode_change start - false is preflight replay; undefined disables replay
       if (input.overflow !== undefined) {
         const idx = input.messages.findIndex((m) => m.info.id === input.parentID)
         for (let i = idx - 1; i >= 0; i--) {
@@ -419,7 +419,7 @@ const layer = Layer.effect(
           messages = input.messages
         }
       }
-      // kilocode_change end
+      // kappacode_change end
 
       const agent = yield* agents.get("compaction")
       const model = agent.model
@@ -430,12 +430,12 @@ const layer = Layer.effect(
       const prior = completedCompactions(history)
       const hidden = new Set(prior.flatMap((item) => [item.userIndex, item.assistantIndex]))
       const previousSummary = prior.at(-1)?.summary
-      // kilocode_change start
+      // kappacode_change start
       const available = history.filter((_, index) => !hidden.has(index))
       const selected = replay
         ? { head: available, tail_start_id: undefined }
         : yield* select({ messages: available, cfg, model })
-      // kilocode_change end
+      // kappacode_change end
       // Allow plugins to inject context or replace compaction prompt.
       const compacting = yield* plugin.trigger(
         "experimental.session.compacting",
@@ -445,7 +445,7 @@ const layer = Layer.effect(
       const msgs = structuredClone(selected.head)
       yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
       const conversation = msgs.map(serialize).filter(Boolean).join("\n\n")
-      // kilocode_change start - rerender upstream prompt after payload stripping or chunk reduction
+      // kappacode_change start - rerender upstream prompt after payload stripping or chunk reduction
       const render = (context: string[]) => {
         if (compacting.prompt)
           return [
@@ -457,13 +457,13 @@ const layer = Layer.effect(
         return [buildPrompt({ previousSummary, context }), ...compacting.context].filter(Boolean).join("\n\n")
       }
       const nextPrompt = render(conversation ? [conversation] : [])
-      // kilocode_change end
-      // kilocode_change start
+      // kappacode_change end
+      // kappacode_change start
       const modelMessages = yield* MessageV2.toModelMessagesEffect(msgs, model, {
         stripMedia: true,
         toolOutputMaxChars: TOOL_OUTPUT_MAX_CHARS,
       })
-      const tokens = Token.estimate(JSON.stringify(modelMessages)) // kilocode_change
+      const tokens = Token.estimate(JSON.stringify(modelMessages)) // kappacode_change
       const tailIndex = selected.tail_start_id
         ? history.findIndex((message) => message.info.id === selected.tail_start_id)
         : -1
@@ -476,7 +476,7 @@ const layer = Layer.effect(
                 toolOutputMaxChars: TOOL_OUTPUT_MAX_CHARS,
               }),
             )
-      // kilocode_change end
+      // kappacode_change end
       const ctx = yield* InstanceState.context
       const msg: SessionV1.Assistant = {
         id: MessageID.ascending(),
@@ -510,10 +510,10 @@ const layer = Layer.effect(
         sessionID: input.sessionID,
         model,
       })
-      // kilocode_change start
-      const result = KiloCompactionChunks.needed({ cfg, model, tokens, outputTokenMax: flags.outputTokenMax })
+      // kappacode_change start
+      const result = KappaCompactionChunks.needed({ cfg, model, tokens, outputTokenMax: flags.outputTokenMax })
         ? "compact"
-        : yield* KiloCompactionPayloadRecovery.process({
+        : yield* KappaCompactionPayloadRecovery.process({
             processor,
             user: userMessage,
             agent,
@@ -525,13 +525,13 @@ const layer = Layer.effect(
             recovery: selected.head,
             updateMessage: session.updateMessage,
             updatePart: session.updatePart,
-          }).pipe(Effect.provideService(Database.Service, database)) // kilocode_change
+          }).pipe(Effect.provideService(Database.Service, database)) // kappacode_change
 
-      let fallback = KiloCompactionChunks.eligible({
+      let fallback = KappaCompactionChunks.eligible({
         result,
         error: processor.message.error ?? processor.compactError?.(),
       })
-        ? yield* KiloCompactionChunks.process({
+        ? yield* KappaCompactionChunks.process({
             processors,
             session,
             user: userMessage,
@@ -545,26 +545,26 @@ const layer = Layer.effect(
             target: processor.message,
             updateMessage: session.updateMessage,
             updatePart: session.updatePart,
-          }).pipe(Effect.provideService(Database.Service, database)) // kilocode_change
+          }).pipe(Effect.provideService(Database.Service, database)) // kappacode_change
         : result
       if (fallback === "compact") {
-        // kilocode_change end
+        // kappacode_change end
         processor.message.error = new SessionV1.ContextOverflowError({
           message: replay
-            ? "Conversation history too large to compact - exceeds model context limit. Start a new session to continue." // kilocode_change
-            : "Session too large to compact - context exceeds model limit even after stripping media. Start a new session to continue.", // kilocode_change
+            ? "Conversation history too large to compact - exceeds model context limit. Start a new session to continue." // kappacode_change
+            : "Session too large to compact - context exceeds model limit even after stripping media. Start a new session to continue.", // kappacode_change
         }).toObject()
         processor.message.finish = "error"
-        processor.message.time.completed = Date.now() // kilocode_change
+        processor.message.time.completed = Date.now() // kappacode_change
         yield* session.updateMessage(processor.message)
-        // kilocode_change start - publish the terminal failure after all compaction recovery paths
+        // kappacode_change start - publish the terminal failure after all compaction recovery paths
         yield* Effect.logError("compaction failed", { "session.id": input.sessionID, error: processor.message.error })
         yield* events.publish(Session.Event.Error, { sessionID: input.sessionID, error: processor.message.error })
-        // kilocode_change end
+        // kappacode_change end
         return "stop"
       }
 
-      // kilocode_change start - an empty worker response fails retryably and never replaces the session
+      // kappacode_change start - an empty worker response fails retryably and never replaces the session
       if (fallback === "continue") {
         const produced = yield* MessageV2.parts(msg.id).pipe(Effect.provideService(Database.Service, database))
         const visible = produced.some((part) => part.type === "text" && part.text.trim().length > 0)
@@ -572,7 +572,7 @@ const layer = Layer.effect(
         // answered with nothing; fail retryably instead of replacing the session.
         if (!visible) {
           processor.message.error = new MessageV2.APIError({
-            message: KiloCompactionChunks.EMPTY_SUMMARY,
+            message: KappaCompactionChunks.EMPTY_SUMMARY,
             isRetryable: true,
           }).toObject()
           processor.message.finish = "error"
@@ -581,9 +581,9 @@ const layer = Layer.effect(
           fallback = "stop"
         }
       }
-      // kilocode_change end
+      // kappacode_change end
 
-      // kilocode_change start - a failed compaction never anchors a tail
+      // kappacode_change start - a failed compaction never anchors a tail
       if (
         fallback === "continue" &&
         compactionPart &&
@@ -595,14 +595,14 @@ const layer = Layer.effect(
           tail_start_id: selected.tail_start_id,
         })
       }
-      // kilocode_change end
+      // kappacode_change end
 
-      // kilocode_change start
+      // kappacode_change start
       if (fallback === "continue" && input.auto) {
-        // kilocode_change end
+        // kappacode_change end
         if (replay) {
-          // kilocode_change start - compact oversized replay turns instead of looping into replay overflow
-          replay = yield* KiloCompactionChunks.replay({
+          // kappacode_change start - compact oversized replay turns instead of looping into replay overflow
+          replay = yield* KappaCompactionChunks.replay({
             processors,
             session,
             user: userMessage,
@@ -617,8 +617,8 @@ const layer = Layer.effect(
             updateMessage: session.updateMessage,
             updatePart: session.updatePart,
             replay,
-          }).pipe(Effect.provideService(Database.Service, database)) // kilocode_change
-          // kilocode_change end
+          }).pipe(Effect.provideService(Database.Service, database)) // kappacode_change
+          // kappacode_change end
           const original = replay.info
           const replayMsg = yield* session.updateMessage({
             id: MessageID.ascending(),
@@ -630,12 +630,12 @@ const layer = Layer.effect(
             format: original.format,
             tools: original.tools,
             system: original.system,
-            editorContext: original.editorContext, // kilocode_change
+            editorContext: original.editorContext, // kappacode_change
           })
-          KiloSessionPromptQueue.retarget(input.sessionID, replayMsg.id) // kilocode_change - expose replay to scope()
+          KappaSessionPromptQueue.retarget(input.sessionID, replayMsg.id) // kappacode_change - expose replay to scope()
           for (const part of replay.parts) {
             if (part.type === "compaction") continue
-            // kilocode_change start - preserve media for preflight replay but strip it after provider overflow
+            // kappacode_change start - preserve media for preflight replay but strip it after provider overflow
             const replayPart =
               input.overflow && part.type === "file" && MessageV2.isMedia(part.mime)
                 ? { type: "text" as const, text: `[Attached ${part.mime}: ${part.filename ?? "file"}]` }
@@ -647,7 +647,7 @@ const layer = Layer.effect(
               messageID: replayMsg.id,
               sessionID: input.sessionID,
             })
-            // kilocode_change end
+            // kappacode_change end
           }
         }
 
@@ -681,7 +681,7 @@ const layer = Layer.effect(
               agent: userMessage.agent,
               model: userMessage.model,
             })
-            KiloSessionPromptQueue.retarget(input.sessionID, continueMsg.id) // kilocode_change - expose auto-continue to scope()
+            KappaSessionPromptQueue.retarget(input.sessionID, continueMsg.id) // kappacode_change - expose auto-continue to scope()
             const text =
               (input.overflow
                 ? "The previous request exceeded the provider's size limit due to large media attachments. The conversation was compacted and media files were removed from context. If the user was asking about attached images or files, explain that the attachments were too large to process and suggest they try again with smaller or fewer files.\n\n"
@@ -707,7 +707,7 @@ const layer = Layer.effect(
         }
       }
 
-      // kilocode_change start - compaction already invalidates cache, so collapse stale tool outputs too
+      // kappacode_change start - compaction already invalidates cache, so collapse stale tool outputs too
       if (processor.message.error) {
         // The empty-summary copy is written only for the empty-summary failure:
         // a retryable failure with no rendered part is dropped by clients, so
@@ -716,14 +716,14 @@ const layer = Layer.effect(
         const error = processor.message.error
         const produced = yield* MessageV2.parts(msg.id).pipe(Effect.provideService(Database.Service, database))
         const visible = produced.some((part) => part.type === "text" && part.text.trim().length > 0)
-        const empty = error.name === "APIError" && error.data.message === KiloCompactionChunks.EMPTY_SUMMARY
+        const empty = error.name === "APIError" && error.data.message === KappaCompactionChunks.EMPTY_SUMMARY
         if (empty && !visible) {
           yield* session.updatePart({
             id: PartID.ascending(),
             messageID: msg.id,
             sessionID: input.sessionID,
             type: "text",
-            text: KiloCompactionChunks.EMPTY_SUMMARY,
+            text: KappaCompactionChunks.EMPTY_SUMMARY,
           })
         }
         if (empty) {
@@ -750,12 +750,12 @@ const layer = Layer.effect(
               reason: input.auto ? "auto" : "manual",
               text: summary ?? "",
               recent,
-              include: recent, // kilocode_change - released Core V2 readers recognize this field
+              include: recent, // kappacode_change - released Core V2 readers recognize this field
             })
         }
-        // kilocode_change start - export self-contained compaction capture
-        const parent = KiloSession.resolveParent(input.sessionID)
-        const found = KiloSession.resolveRoot(input.sessionID)
+        // kappacode_change start - export self-contained compaction capture
+        const parent = KappaSession.resolveParent(input.sessionID)
+        const found = KappaSession.resolveRoot(input.sessionID)
         const root = parent ? (found === input.sessionID ? parent : found) : input.sessionID
         const workspace = yield* InstanceState.context
         SessionExport.compaction({
@@ -782,12 +782,12 @@ const layer = Layer.effect(
             outputTokens: processor.message.tokens.output,
           },
         })
-        // kilocode_change end
+        // kappacode_change end
         yield* prune({ sessionID: input.sessionID, reason: "post-compaction" })
         yield* events.publish(Event.Compacted, { sessionID: input.sessionID })
       }
       return fallback
-      // kilocode_change end
+      // kappacode_change end
     })
 
     const create = Effect.fn("SessionCompaction.create")(function* (input: {
@@ -813,9 +813,9 @@ const layer = Layer.effect(
         auto: input.auto,
         overflow: input.overflow,
       })
-      // kilocode_change start - keep auto-compaction markers visible during queued turns
-      KiloSessionPromptQueue.retarget(input.sessionID, msg.id)
-      // kilocode_change end
+      // kappacode_change start - keep auto-compaction markers visible during queued turns
+      KappaSessionPromptQueue.retarget(input.sessionID, msg.id)
+      // kappacode_change end
       if (flags.experimentalEventSystem) {
         yield* events.publish(SessionEvent.Compaction.Started, {
           sessionID: input.sessionID,
@@ -829,13 +829,13 @@ const layer = Layer.effect(
     return Service.of({
       isOverflow,
       prune,
-      process: (input) => processCompaction(input).pipe(Effect.orDie), // kilocode_change
+      process: (input) => processCompaction(input).pipe(Effect.orDie), // kappacode_change
       create,
     })
   }),
 )
 
-export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kilocode_change - build from the LayerNode graph
+export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kappacode_change - build from the LayerNode graph
 
 export const node = LayerNode.make({
   service: Service,
@@ -849,7 +849,7 @@ export const node = LayerNode.make({
     Provider.node,
     EventV2Bridge.node,
     RuntimeFlags.node,
-    Database.node, // kilocode_change
+    Database.node, // kappacode_change
   ],
 })
 

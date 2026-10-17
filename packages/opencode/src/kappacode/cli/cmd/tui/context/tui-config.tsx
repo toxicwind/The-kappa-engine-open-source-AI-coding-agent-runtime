@@ -2,7 +2,7 @@
  * Reactive TUI config provider with hot reload.
  *
  * Replaces the static upstream `TuiConfigProvider` so declarative TUI settings apply live when
- * changed from the Kilo Console. Fetched config stays serializable and is resolved into a fresh
+ * changed from the Kappa Console. Fetched config stays serializable and is resolved into a fresh
  * OpenTUI keymap lookup before the reactive store is reconciled.
  */
 import { createContext, useContext, type ParentProps } from "solid-js"
@@ -10,13 +10,13 @@ import { createStore, reconcile } from "solid-js/store"
 import { LeaderTimeoutDefault, TuiConfig, TuiConfigProvider, useTuiConfig } from "@tui/config"
 import { TuiKeybind } from "@tui/config/keybind"
 import { createBindingLookup } from "@opentui/keymap/extras"
-import { KiloTitleIcon } from "@/kilocode/cli/cmd/tui/title-icon"
+import { KappaTitleIcon } from "@/kappacode/cli/cmd/tui/title-icon"
 
 export type SetTuiConfig = (next: TuiConfig.Info) => void
 
 const SetContext = createContext<SetTuiConfig>()
 
-export namespace KiloTuiConfig {
+export namespace KappaTuiConfig {
   // Pure factory so reactive behavior is unit-testable without JSX or contexts.
   export function makeStore(initial: TuiConfig.Resolved) {
     const [store, setStore] = createStore<TuiConfig.Resolved>(initial)
@@ -24,7 +24,7 @@ export namespace KiloTuiConfig {
       const keybinds = TuiKeybind.parse(next.keybinds ?? {})
       const config: TuiConfig.Resolved = {
         ...next,
-        title_icon: next.title_icon ?? KiloTitleIcon.Default,
+        title_icon: next.title_icon ?? KappaTitleIcon.Default,
         attention: {
           enabled: next.attention?.enabled ?? false,
           notifications: next.attention?.notifications ?? true,

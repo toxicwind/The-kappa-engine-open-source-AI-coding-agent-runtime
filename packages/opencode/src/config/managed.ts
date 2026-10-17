@@ -20,11 +20,11 @@ const PLIST_META = new Set([
 function systemManagedConfigDir(): string {
   switch (process.platform) {
     case "darwin":
-      return "/Library/Application Support/kappa" // kilocode_change
+      return "/Library/Application Support/kappa" // kappacode_change
     case "win32":
-      return path.join(process.env.ProgramData || "C:\\ProgramData", "kappa") // kilocode_change
+      return path.join(process.env.ProgramData || "C:\\ProgramData", "kappa") // kappacode_change
     default:
-      return "/etc/kappa" // kilocode_change
+      return "/etc/kappa" // kappacode_change
   }
 }
 

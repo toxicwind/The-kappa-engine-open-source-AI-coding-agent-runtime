@@ -2,9 +2,9 @@
 sidebar_label: Venice AI
 ---
 
-# Using Venice AI With Kilo Code
+# Using Venice AI With Kappa Code
 
-Kilo Code supports Venice AI through the native Venice provider. Venice offers privacy-focused access to open and reasoning-capable models through its API.
+Kappa Code supports Venice AI through the native Venice provider. Venice offers privacy-focused access to open and reasoning-capable models through its API.
 
 **Website:** [https://venice.ai/](https://venice.ai/)
 
@@ -12,10 +12,10 @@ Kilo Code supports Venice AI through the native Venice provider. Venice offers p
 
 1. Sign in to Venice AI.
 2. Open your API settings.
-3. Create a key for Kilo Code.
+3. Create a key for Kappa Code.
 4. Copy the key immediately and store it securely.
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -60,12 +60,12 @@ Then select a Venice model from the model picker, or set a default model after c
 
 ## Tips and Notes
 
-- **Native provider:** Kilo uses the Venice AI SDK provider for built-in Venice models.
-- **Reasoning models:** Some Venice models expose reasoning controls. Kilo maps supported reasoning effort and disable-thinking options when the selected model supports them.
+- **Native provider:** Kappa uses the Venice AI SDK provider for built-in Venice models.
+- **Reasoning models:** Some Venice models expose reasoning controls. Kappa maps supported reasoning effort and disable-thinking options when the selected model supports them.
 - **Model availability:** Venice model IDs and access can vary by plan. Use the model picker or Venice dashboard for the current list.
 - **Pricing:** Refer to Venice AI pricing and account limits for current token costs and rate limits.
 
 ## Troubleshooting
 
-- **Invalid API key:** Verify `VENICE_API_KEY` is set in the same environment that launches Kilo, or reconnect the provider in Settings.
+- **Invalid API key:** Verify `VENICE_API_KEY` is set in the same environment that launches Kappa, or reconnect the provider in Settings.
 - **Model not available:** Confirm your Venice account has access to the selected model and try selecting it from the model picker.

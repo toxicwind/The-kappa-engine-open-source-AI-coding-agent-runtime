@@ -1,17 +1,17 @@
 ﻿---
 title: "Customize"
-description: "Make Kilo Code work your way with custom agents, rules, instructions, and more"
+description: "Make Kappa Code work your way with custom agents, rules, instructions, and more"
 ---
 
 # {% $markdoc.frontmatter.title %}
 
 {% callout type="generic" %}
-Kilo Code is highly customizable. Tailor its behavior to match your workflow, team standards, and project requirements with custom agents, rules, instructions, and more.
+Kappa Code is highly customizable. Tailor its behavior to match your workflow, team standards, and project requirements with custom agents, rules, instructions, and more.
 {% /callout %}
 
 ## Customization
 
-Configure how Kilo Code behaves and responds:
+Configure how Kappa Code behaves and responds:
 
 - [**Custom Modes**](/docs/customize/custom-modes) - Create specialized agents for different tasks (code review, documentation, testing, etc.)
 - [**Custom Rules**](/docs/customize/custom-rules) - Define rules that apply to specific file types or situations
@@ -20,25 +20,25 @@ Configure how Kilo Code behaves and responds:
 - [**Agent Permissions**](/docs/customize/agent-permissions) - Configure rule precedence, shell command patterns, file paths, and subagent delegation
 - [**agents.md**](/docs/customize/agents-md) - Configure agent behavior at the project level
 - [**Workflows**](/docs/customize/workflows) - Automate multi-step processes
-- [**Skills**](/docs/customize/skills) - Extend Kilo's capabilities with reusable skill definitions
+- [**Skills**](/docs/customize/skills) - Extend Kappa's capabilities with reusable skill definitions
 - [**Prompt Engineering**](/docs/customize/prompt-engineering) - Write effective prompts for better results
 
 ## Context & Indexing
 
-Help Kilo understand your codebase better:
+Help Kappa understand your codebase better:
 
 - [**Codebase Indexing**](/docs/customize/context/codebase-indexing) - Build a semantic index of your code for better context awareness
 - [**Context Condensing**](/docs/customize/context/context-condensing) - Summarize older context to stay within limits
-- [**Memory**](/docs/customize/context/memory) - Store useful project details that Kilo remembers across sessions
+- [**Memory**](/docs/customize/context/memory) - Store useful project details that Kappa remembers across sessions
 - [**AGENTS.md**](/docs/customize/agents-md) - Store project context, decisions, and important information
 
 ## Getting Started
 
 New to customization? Here's where to start:
 
-1. **Start with Custom Instructions** — Set up instructions in the [Custom Instructions](/docs/customize/custom-instructions) section to guide Kilo Code's behavior
+1. **Start with Custom Instructions** — Set up instructions in the [Custom Instructions](/docs/customize/custom-instructions) section to guide Kappa Code's behavior
 2. **Explore Custom Agents** — Try the built-in agents first, then create your own
-3. **Enable Codebase Indexing** — Help Kilo understand your project structure
+3. **Enable Codebase Indexing** — Help Kappa understand your project structure
 
 ## Best Practices
 
@@ -48,6 +48,6 @@ New to customization? Here's where to start:
 
 ## Next Steps
 
-- Check out [**Code with AI**](/docs/code-with-ai) to learn how to use Kilo effectively
+- Check out [**Code with AI**](/docs/code-with-ai) to learn how to use Kappa effectively
 - Explore [**Automate**](/docs/automate) for CI/CD integration and advanced automation
 - Learn about [**Collaboration**](/docs/collaborate) features for teams

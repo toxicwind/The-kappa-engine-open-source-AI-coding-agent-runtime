@@ -4,7 +4,7 @@ import { Filesystem } from "@/util/filesystem"
 import { ConfigVariableGuard } from "./variable"
 import path from "node:path"
 
-export namespace KilocodeMarkdown {
+export namespace KappacodeMarkdown {
   export type Source = {
     trusted: boolean
     source: string

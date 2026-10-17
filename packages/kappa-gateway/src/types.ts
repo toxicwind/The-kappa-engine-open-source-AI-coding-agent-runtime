@@ -23,7 +23,7 @@ export interface Organization {
   role: string
 }
 
-export interface KilocodeProfile {
+export interface KappacodeProfile {
   email: string
   name?: string
   organizations?: Organization[]
@@ -31,11 +31,11 @@ export interface KilocodeProfile {
   hasPersonalAccount?: boolean
 }
 
-export interface KilocodeBalance {
+export interface KappacodeBalance {
   balance: number
 }
 
-export interface KiloPassState {
+export interface KappaPassState {
   currentPeriodBaseCreditsUsd: number
   currentPeriodUsageUsd: number
   currentPeriodBonusCreditsUsd: number
@@ -59,23 +59,23 @@ export interface PollResult<T> {
 // ============================================================================
 
 /**
- * Options for creating a Kilo provider instance
+ * Options for creating a Kappa provider instance
  */
-export interface KiloProviderOptions {
+export interface KappaProviderOptions {
   /**
-   * KiloCode authentication token
+   * KappaCode authentication token
    */
-  kilocodeToken?: string
+  kappacodeToken?: string
 
   /**
    * Organization ID for multi-tenant setups
    */
-  kilocodeOrganizationId?: string
+  kappacodeOrganizationId?: string
 
   /**
    * Model ID to use (e.g., "anthropic/claude-sonnet-4")
    */
-  kilocodeModel?: string
+  kappacodeModel?: string
 
   /**
    * Specific OpenRouter provider to use
@@ -83,7 +83,7 @@ export interface KiloProviderOptions {
   openRouterSpecificProvider?: string
 
   /**
-   * Base URL for the KiloCode API
+   * Base URL for the KappaCode API
    * Can be overridden by KILO_API_URL environment variable
    * @default "https://api.kappa.ai"
    */
@@ -95,7 +95,7 @@ export interface KiloProviderOptions {
   headers?: Record<string, string>
 
   /**
-   * API key (alternative to kilocodeToken)
+   * API key (alternative to kappacodeToken)
    */
   apiKey?: string
 
@@ -123,7 +123,7 @@ export interface KiloProviderOptions {
 /**
  * Metadata for API requests
  */
-export interface KiloMetadata {
+export interface KappaMetadata {
   /**
    * Task ID for tracking
    */
@@ -173,7 +173,7 @@ export interface ProviderInfo {
   models: Record<string, any>
 }
 
-export type KiloProvider = Provider & {
+export type KappaProvider = Provider & {
   anthropic(modelId: string): LanguageModel
   openai(modelId: string): LanguageModel
   openaiCompatible(modelId: string): LanguageModel

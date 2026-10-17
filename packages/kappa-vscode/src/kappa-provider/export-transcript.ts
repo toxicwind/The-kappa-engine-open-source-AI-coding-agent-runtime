@@ -1,6 +1,6 @@
 import * as path from "path"
 import * as vscode from "vscode"
-import type { KiloClient, Message, Part, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Message, Part, Session } from "@kappacode/sdk/v2/client"
 import { fetchMessagePage } from "./message-page"
 
 type Item = {
@@ -9,7 +9,7 @@ type Item = {
 }
 
 export async function exportTranscript(
-  client: KiloClient,
+  client: KappaClient,
   input: {
     sessionID: string
     dir: string

@@ -1,8 +1,8 @@
 # Architecture Documentation
 
-Technical architecture documentation for the ContinueDev library within the Kilocode monorepo.
+Technical architecture documentation for the ContinueDev library within the Kappacode monorepo.
 
-> **Note**: This library is a streamlined extraction from the [Continue](https://github.com/continuedev/continue) project, containing only autocomplete and NextEdit functionality. All GUI, chat, agents, and other features have been removed. It's integrated into Kilocode as a TypeScript service library at `src/services/continuedev/`.
+> **Note**: This library is a streamlined extraction from the [Continue](https://github.com/continuedev/continue) project, containing only autocomplete and NextEdit functionality. All GUI, chat, agents, and other features have been removed. It's integrated into Kappacode as a TypeScript service library at `src/services/continuedev/`.
 
 ## Table of Contents
 

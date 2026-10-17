@@ -3,7 +3,7 @@ import { formatClock, formatDuration } from "../../webview-ui/src/utils/message-
 import { LOCALES, localeToBcp47 } from "../../webview-ui/src/context/language-utils"
 
 describe("message-time", () => {
-  it("resolves every Kilo UI language to a real Intl locale", () => {
+  it("resolves every Kappa UI language to a real Intl locale", () => {
     for (const locale of LOCALES) {
       const tag = localeToBcp47(locale)
       const resolved = new Intl.DateTimeFormat(tag, { timeStyle: "short" }).resolvedOptions().locale

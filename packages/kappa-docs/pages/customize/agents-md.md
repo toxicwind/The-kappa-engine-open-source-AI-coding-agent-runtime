@@ -8,7 +8,7 @@ description: "Project-level configuration with agents.md files"
 AGENTS.md files provide a standardized way to configure AI agent behavior across different AI coding tools. They allow you to define project-specific instructions, coding standards, and guidelines that AI agents should follow when working with your codebase.
 
 {% callout type="note" title="Memory Bank Deprecation" %}
-The Kilo Code **memory bank** feature has been deprecated in favor of AGENTS.md.
+The Kappa Code **memory bank** feature has been deprecated in favor of AGENTS.md.
 
 **Existing memory bank rules will continue to work.**
 
@@ -16,13 +16,13 @@ Legacy Memory Bank status indicators such as `[Memory Bank: Active]` and `[Memor
 
 If you'd like to migrate your memory bank content to AGENTS.md:
 
-1. Examine the contents in `.kappa/rules/memory-bank/` (or the legacy `.kilocode/rules/memory-bank/`)
-2. Move that content into your project's `AGENTS.md` file (or ask Kilo to do it for you)
+1. Examine the contents in `.kappa/rules/memory-bank/` (or the legacy `.kappacode/rules/memory-bank/`)
+2. Move that content into your project's `AGENTS.md` file (or ask Kappa to do it for you)
 {% /callout %}
 
 ## What is AGENTS.md?
 
-AGENTS.md is an open standard for configuring AI agent behavior in software projects. It's a simple Markdown file placed at the root of your project that contains instructions for AI coding assistants. The standard is supported by multiple AI coding tools, including Kilo Code, Cursor, and Windsurf.
+AGENTS.md is an open standard for configuring AI agent behavior in software projects. It's a simple Markdown file placed at the root of your project that contains instructions for AI coding assistants. The standard is supported by multiple AI coding tools, including Kappa Code, Cursor, and Windsurf.
 
 Think of AGENTS.md as a "README for AI agents" - it tells the AI how to work with your specific project, what conventions to follow, and what constraints to respect.
 
@@ -79,7 +79,7 @@ This is useful for providing context-specific guidance for different parts of a 
 
 ## File Protection
 
-Both `AGENTS.md` and `AGENT.md` are **write-protected files** in Kilo Code. This means:
+Both `AGENTS.md` and `AGENT.md` are **write-protected files** in Kappa Code. This means:
 
 - The AI agent cannot modify these files without explicit user approval
 - You'll be prompted to confirm any changes to these files
@@ -129,13 +129,13 @@ Brief description of the project and its purpose.
 - **Keep it concise** - Use bullet points and direct language; avoid long paragraphs
 - **Update regularly** - Review and revise as your project's conventions evolve
 
-## How AGENTS.md Works in Kilo Code
+## How AGENTS.md Works in Kappa Code
 
 ### Loading Behavior
 
-When you start a task in Kilo Code:
+When you start a task in Kappa Code:
 
-1. Kilo Code checks for `AGENTS.md` or `AGENT.md` at the project root
+1. Kappa Code checks for `AGENTS.md` or `AGENT.md` at the project root
 2. If found, the content is loaded and included in the AI's context
 3. The AI follows these instructions throughout the conversation
 4. Changes to AGENTS.md take effect in new tasks (reload may be required)
@@ -200,7 +200,7 @@ AGENTS.md itself cannot be individually disabled — it is always loaded if pres
 
 ## Related Features
 
-- **[Custom Rules](/docs/customize/custom-rules)** - Kilo Code-specific rules with more control
+- **[Custom Rules](/docs/customize/custom-rules)** - Kappa Code-specific rules with more control
 - **[Custom Modes](/docs/customize/custom-modes)** - Specialized workflows with specific permissions
 - **[Custom Instructions](/docs/customize/custom-instructions)** - Personal preferences across all projects
 - **[Migrating from Cursor or Windsurf](/docs/getting-started/migrating)** - Migration guide for other tools

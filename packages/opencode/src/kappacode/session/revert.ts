@@ -3,7 +3,7 @@ import type { MessageV2 } from "@/session/message-v2"
 import type { Session } from "@/session/session"
 import type { Snapshot } from "@/snapshot"
 
-export namespace KiloSessionRevert {
+export namespace KappaSessionRevert {
   const rollback = <E>(snap: Snapshot.Interface, hash: string, files: string[], cause: Cause.Cause<E>) =>
     restore(snap, hash, files).pipe(
       Effect.matchCauseEffect({
@@ -26,7 +26,7 @@ export namespace KiloSessionRevert {
     return [...new Set(result)]
   }
 
-  export const apply = Effect.fn("KiloSessionRevert.apply")(function* <A, E, R>(
+  export const apply = Effect.fn("KappaSessionRevert.apply")(function* <A, E, R>(
     snap: Snapshot.Interface,
     baseline: string | undefined,
     files: string[],
@@ -40,7 +40,7 @@ export namespace KiloSessionRevert {
     )
   })
 
-  export const restore = Effect.fn("KiloSessionRevert.restore")(function* (
+  export const restore = Effect.fn("KappaSessionRevert.restore")(function* (
     snap: Snapshot.Interface,
     hash: string,
     files: string[],

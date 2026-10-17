@@ -107,7 +107,7 @@ export namespace Identity {
     if (profile?.email) await write({ token: tokenHash, email: profile.email, fetchedAt: Date.now() })
   }
 
-  export async function updateFromKiloAuth(token: string | null, accountId?: string): Promise<void> {
+  export async function updateFromKappaAuth(token: string | null, accountId?: string): Promise<void> {
     organizationId = accountId || null
 
     if (!token) {

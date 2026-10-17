@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { retry } from "../services/cli-backend/retry"
 
 const KEY = "kappa.dismissedNotificationIds"
@@ -26,7 +26,7 @@ export interface NotificationsMessage {
 
 export interface NotificationsContext {
   context: vscode.ExtensionContext | undefined
-  client: KiloClient | null
+  client: KappaClient | null
   cached: () => NotificationsMessage | null
   set: (message: NotificationsMessage) => void
   post: (message: NotificationsMessage) => void
@@ -58,7 +58,7 @@ export async function fetchAndSendNotifications(ctx: NotificationsContext): Prom
     ctx.set(message)
     ctx.post(message)
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to fetch notifications:", error)
+    console.error("[Kappa New] KappaProvider: Failed to fetch notifications:", error)
   }
 }
 

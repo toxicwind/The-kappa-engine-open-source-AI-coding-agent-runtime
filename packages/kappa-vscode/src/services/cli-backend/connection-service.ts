@@ -1,6 +1,6 @@
 import * as vscode from "vscode"
 import { ServerManager } from "./server-manager"
-import { createKiloClient, type EventSessionTurnClose, type KiloClient } from "@kappacode/sdk/v2/client"
+import { createKappaClient, type EventSessionTurnClose, type KappaClient } from "@kappacode/sdk/v2/client"
 import { SdkSSEAdapter, type SSEPayload } from "./sdk-sse-adapter"
 import type { ServerConfig } from "./types"
 import { createDuplicateEventFilter, resolveEventSessionId as resolveEventSessionIdPure } from "./connection-utils"
@@ -41,7 +41,7 @@ async function parallel(items: string[], fn: (item: string) => Promise<void>): P
   if (errors.size === 0) return
   const failures = [...errors].sort((a, b) => a[0] - b[0])
   for (const [index, error] of failures.slice(1)) {
-    console.warn(`[Kilo New] ConnectionService: Additional prompt drain failed for ${items[index]}:`, error)
+    console.warn(`[Kappa New] ConnectionService: Additional prompt drain failed for ${items[index]}:`, error)
   }
   throw failures[0]![1]
 }
@@ -72,7 +72,7 @@ const PERMISSION_RESPONSE_TTL_MS = 60_000
 const PERMISSION_RESPONSE_LIMIT = 256
 
 /** Reject all pending network-offline waits for a given directory. */
-async function drainNetworkWaits(client: KiloClient, dir: string) {
+async function drainNetworkWaits(client: KappaClient, dir: string) {
   const { data: waits, error: err } = await client.network.list({ directory: dir })
   if (err) throw new Error(`Failed to list network waits for ${dir}: ${String(err)}`)
   if (!waits) return
@@ -83,13 +83,13 @@ async function drainNetworkWaits(client: KiloClient, dir: string) {
 }
 
 /**
- * Shared connection service that owns the single ServerManager, KiloClient (SDK), and SdkSSEAdapter.
- * Multiple KiloProvider instances subscribe to it for SSE events and state changes.
+ * Shared connection service that owns the single ServerManager, KappaClient (SDK), and SdkSSEAdapter.
+ * Multiple KappaProvider instances subscribe to it for SSE events and state changes.
  */
-export class KiloConnectionService {
+export class KappaConnectionService {
   readonly sandboxPreference: SandboxPreference
   private readonly serverManager: ServerManager
-  private client: KiloClient | null = null
+  private client: KappaClient | null = null
   private sseClient: SdkSSEAdapter | null = null
   private info: { port: number } | null = null
   private config: ServerConfig | null = null
@@ -198,7 +198,7 @@ export class KiloConnectionService {
   /**
    * Get the shared SDK client. Throws if not connected.
    */
-  getClient(): KiloClient {
+  getClient(): KappaClient {
     if (!this.client || this.state !== "connected") {
       throw new Error("Not connected — call connect() first")
     }
@@ -215,7 +215,7 @@ export class KiloConnectionService {
    * to the first VS Code workspace folder. Throws if neither is available
    * or if the connection fails.
    */
-  async getClientAsync(dir?: string): Promise<KiloClient> {
+  async getClientAsync(dir?: string): Promise<KappaClient> {
     if (dir) this.trackDirectory(dir)
     if (this.client && this.state === "connected") return this.client
     const root = dir ?? vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
@@ -529,7 +529,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Subscribe to notification dismiss events broadcast from any KiloProvider. Returns unsubscribe function.
+   * Subscribe to notification dismiss events broadcast from any KappaProvider. Returns unsubscribe function.
    */
   onNotificationDismissed(listener: NotificationDismissListener): () => void {
     this.notificationDismissListeners.add(listener)
@@ -539,7 +539,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Broadcast a notification dismiss event to all subscribed KiloProvider instances.
+   * Broadcast a notification dismiss event to all subscribed KappaProvider instances.
    */
   notifyNotificationDismissed(notificationId: string): void {
     for (const listener of this.notificationDismissListeners) {
@@ -567,7 +567,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Subscribe to language change events broadcast from any KiloProvider. Returns unsubscribe function.
+   * Subscribe to language change events broadcast from any KappaProvider. Returns unsubscribe function.
    */
   onLanguageChanged(listener: LanguageChangeListener): () => void {
     this.languageChangeListeners.add(listener)
@@ -577,7 +577,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Broadcast a language change event to all subscribed KiloProvider instances.
+   * Broadcast a language change event to all subscribed KappaProvider instances.
    */
   notifyLanguageChanged(locale: string): void {
     for (const listener of this.languageChangeListeners) {
@@ -586,7 +586,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Subscribe to profile change events broadcast from any KiloProvider. Returns unsubscribe function.
+   * Subscribe to profile change events broadcast from any KappaProvider. Returns unsubscribe function.
    */
   onProfileChanged(listener: ProfileChangeListener): () => void {
     this.profileChangeListeners.add(listener)
@@ -596,7 +596,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Broadcast a profile change event to all subscribed KiloProvider instances.
+   * Broadcast a profile change event to all subscribed KappaProvider instances.
    */
   notifyProfileChanged(data: unknown): void {
     for (const listener of this.profileChangeListeners) {
@@ -605,7 +605,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Subscribe to favorites change events broadcast from any KiloProvider. Returns unsubscribe function.
+   * Subscribe to favorites change events broadcast from any KappaProvider. Returns unsubscribe function.
    */
   onFavoritesChanged(listener: FavoritesChangeListener): () => void {
     this.favoritesChangeListeners.add(listener)
@@ -615,7 +615,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Broadcast a favorites change event to all subscribed KiloProvider instances.
+   * Broadcast a favorites change event to all subscribed KappaProvider instances.
    */
   notifyFavoritesChanged(favorites: Array<{ providerID: string; modelID: string }>): void {
     for (const listener of this.favoritesChangeListeners) {
@@ -624,7 +624,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Subscribe to model-selector expand/collapse changes broadcast from any KiloProvider. Returns unsubscribe function.
+   * Subscribe to model-selector expand/collapse changes broadcast from any KappaProvider. Returns unsubscribe function.
    */
   onModelSelectorExpandedChanged(listener: ModelSelectorExpandedListener): () => void {
     this.modelSelectorExpandedListeners.add(listener)
@@ -634,7 +634,7 @@ export class KiloConnectionService {
   }
 
   /**
-   * Broadcast a model-selector expand/collapse change to all subscribed KiloProvider instances.
+   * Broadcast a model-selector expand/collapse change to all subscribed KappaProvider instances.
    */
   notifyModelSelectorExpandedChanged(value: boolean): void {
     for (const listener of this.modelSelectorExpandedListeners) {
@@ -656,7 +656,7 @@ export class KiloConnectionService {
 
   /**
    * Register a callback that returns workspace directories tracked by a
-   * KiloProvider (root + worktree dirs). Used by drainPendingPrompts() to
+   * KappaProvider (root + worktree dirs). Used by drainPendingPrompts() to
    * cover all active Instance directories across every provider.
    */
   registerDirectoryProvider(provider: DirectoryProvider): () => void {
@@ -674,7 +674,7 @@ export class KiloConnectionService {
 
   /**
    * Reject all pending permission requests and questions across every
-   * directory known to any currently-mounted KiloProvider.
+   * directory known to any currently-mounted KappaProvider.
    *
    * Must be called before operations that trigger Instance.disposeAll()
    * (e.g. config save) to prevent orphaned Promises from freezing
@@ -815,7 +815,7 @@ export class KiloConnectionService {
     this.viewedDirty = false
     void this.client.session
       .viewed({ viewer: { id: this.viewerId, active: this.active }, attached: [...attached], visible: [...visible] })
-      .catch((err) => console.warn("[Kilo New] ConnectionService: viewed flush failed:", err))
+      .catch((err) => console.warn("[Kappa New] ConnectionService: viewed flush failed:", err))
       .finally(() => {
         this.viewedSending = false
         if (this.viewedDirty) this.sendViewed()
@@ -900,7 +900,7 @@ export class KiloConnectionService {
       }
       const healthy = await this.checkHealth(baseUrl, password)
       if (!healthy && this.state === "connected") {
-        console.warn("[Kilo New] ConnectionService: ❤️‍🩹 Health check failed — forcing SSE reconnect")
+        console.warn("[Kappa New] ConnectionService: ❤️‍🩹 Health check failed — forcing SSE reconnect")
         this.sseClient?.reconnect()
       }
     }, HEALTH_POLL_INTERVAL_MS)
@@ -951,7 +951,7 @@ export class KiloConnectionService {
 
   private handleServerExit(code: number | null, signal: NodeJS.Signals | null): void {
     const reason = signal ? `signal ${signal}` : `code ${code ?? "unknown"}`
-    console.warn(`[Kilo New] ConnectionService: CLI background process exited with ${reason}`)
+    console.warn(`[Kappa New] ConnectionService: CLI background process exited with ${reason}`)
     this.resetConnection()
     this.setState("error", new Error(`CLI background process exited with ${reason}. Retry to reconnect.`))
   }
@@ -972,7 +972,7 @@ export class KiloConnectionService {
 
     // Create SDK client with Basic Auth header
     const authHeader = `Basic ${Buffer.from(`kappa:${server.password}`).toString("base64")}`
-    const client = createKiloClient({
+    const client = createKappaClient({
       baseUrl: config.baseUrl,
       headers: {
         Authorization: authHeader,
@@ -1116,7 +1116,7 @@ export class KiloConnectionService {
   }
 }
 
-async function drainSuggestions(client: KiloClient, directory: string): Promise<void> {
+async function drainSuggestions(client: KappaClient, directory: string): Promise<void> {
   const { data, error: err } = await client.suggestion.list({ directory })
   if (err) throw new Error(`Failed to list suggestions for ${directory}: ${String(err)}`)
   if (data) {

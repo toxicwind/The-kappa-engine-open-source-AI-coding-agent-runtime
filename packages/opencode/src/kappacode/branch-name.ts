@@ -1,5 +1,5 @@
 import { Agent } from "@/agent/agent"
-import { KiloLLM } from "@/kappacode/session/llm"
+import { KappaLLM } from "@/kappacode/session/llm"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { Provider } from "@/provider/provider"
@@ -102,7 +102,7 @@ export const generate = Effect.fn("BranchName.generate")(function* (input: {
     model: { providerID: model.providerID, modelID: model.id },
   }
   const body = input.messages.map((message, index) => `${index + 1}. ${message}`).join("\n\n")
-  const result = yield* KiloLLM.text(
+  const result = yield* KappaLLM.text(
     llm.stream({
       agent,
       user,

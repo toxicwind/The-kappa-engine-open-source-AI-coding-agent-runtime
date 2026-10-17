@@ -2,7 +2,7 @@ export type FocusTarget = "prompt" | "mainTerminal" | "sideTerminal" | "other"
 
 const DELAY = 150
 
-/** Remember whether a Kilo webview should reclaim prompt focus after OS window focus returns. */
+/** Remember whether a Kappa webview should reclaim prompt focus after OS window focus returns. */
 export function createLatch(opts: { focused: () => boolean; defer?: (fn: () => void) => void }) {
   let held = false
   let live = false

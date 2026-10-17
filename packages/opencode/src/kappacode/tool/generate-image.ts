@@ -106,7 +106,7 @@ function buildRequest(resolved: ResolvedProvider, prompt: string, model: string,
     Authorization: `Bearer ${resolved.token}`,
     "Content-Type": "application/json",
   }
-  if (resolved.organizationId) headers["X-KILOCODE-ORGANIZATIONID"] = resolved.organizationId
+  if (resolved.organizationId) headers["X-KAPPACODE-ORGANIZATIONID"] = resolved.organizationId
 
   const content = inputImage
     ? [
@@ -175,7 +175,7 @@ export const GenerateImageTool = Tool.define(
             return {
               title: "Image generation unavailable",
               output:
-                "No image generation provider available. Log in to Kilo or set OPENROUTER_API_KEY, then try again.",
+                "No image generation provider available. Log in to Kappa or set OPENROUTER_API_KEY, then try again.",
               metadata: { error: "no-provider" } as Meta,
             }
           }

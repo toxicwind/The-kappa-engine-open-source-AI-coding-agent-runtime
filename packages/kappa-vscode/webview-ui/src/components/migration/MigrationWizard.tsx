@@ -27,14 +27,14 @@ import type {
 } from "../../types/messages"
 import "./migration.css"
 
-const KiloLogo = (): JSX.Element => {
+const KappaLogo = (): JSX.Element => {
   const iconsBaseUri = (window as { ICONS_BASE_URI?: string }).ICONS_BASE_URI || ""
   const isLight =
     document.body.classList.contains("vscode-light") || document.body.classList.contains("vscode-high-contrast-light")
   const icon = isLight ? "kappa-light.svg" : "kappa-dark.svg"
   return (
     <div class="migration-wizard__logo">
-      <img src={`${iconsBaseUri}/${icon}`} alt="Kilo Code" />
+      <img src={`${iconsBaseUri}/${icon}`} alt="Kappa Code" />
     </div>
   )
 }
@@ -253,9 +253,9 @@ const MigrationWizard: Component<MigrationWizardProps> = (props) => {
       <div class="migration-wizard__container">
         <div class="migration-wizard__screen--active">
           <div class="migration-wizard__header">
-            <KiloLogo />
-            <h1>{language.t("settings.aboutKiloCode.rooImport.button")}</h1>
-            <p>{language.t("settings.aboutKiloCode.rooImport.description")}</p>
+            <KappaLogo />
+            <h1>{language.t("settings.aboutKappaCode.rooImport.button")}</h1>
+            <p>{language.t("settings.aboutKappaCode.rooImport.description")}</p>
           </div>
 
           <Show when={sessions().length === 0}>

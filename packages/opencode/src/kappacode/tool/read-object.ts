@@ -4,7 +4,7 @@ import { Readable } from "node:stream"
 import { Effect } from "effect"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 
-export namespace KiloReadObject {
+export namespace KappaReadObject {
   export class ChangedError extends Error {}
 
   export type FileInfo = {
@@ -43,7 +43,7 @@ export namespace KiloReadObject {
     return { requested, target: normalize(resolved), stat: opened }
   }
 
-  export const file = Effect.fn("KiloReadObject.file")(function* (requested: string) {
+  export const file = Effect.fn("KappaReadObject.file")(function* (requested: string) {
     const info = yield* Effect.tryPromise({ try: () => inspect(requested), catch: failure })
     if (!info.stat.isFile()) return yield* Effect.fail(new ChangedError(`Not a regular file: ${requested}`))
     return info satisfies FileInfo

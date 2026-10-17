@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
-import { createKiloClient } from "@kappacode/sdk/v2/client"
+import { createKappaClient } from "@kappacode/sdk/v2/client"
 import { ensureSandbox } from "../../src/agent-manager/sandbox-bootstrap"
 
 type State = {
@@ -27,7 +27,7 @@ function setup(states: State[]) {
 
   return {
     calls,
-    client: createKiloClient({ baseUrl: "http://localhost", fetch }),
+    client: createKappaClient({ baseUrl: "http://localhost", fetch }),
   }
 }
 

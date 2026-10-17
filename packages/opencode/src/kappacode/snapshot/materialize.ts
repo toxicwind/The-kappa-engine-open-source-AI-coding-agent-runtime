@@ -4,7 +4,7 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import * as Log from "@opencode-ai/core/util/log"
 import { Hash } from "@opencode-ai/core/util/hash"
 
-export namespace KiloSnapshotMaterialize {
+export namespace KappaSnapshotMaterialize {
   const log = Log.create({ service: "snapshot.materialize" })
 
   interface Result {

@@ -5,7 +5,7 @@ import { Database } from "@opencode-ai/core/database/database"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Config } from "../../../src/config/config"
 import { Session } from "../../../src/session/session"
-import { KiloSessionRetention } from "../../../src/kappacode/session/retention"
+import { KappaSessionRetention } from "../../../src/kappacode/session/retention"
 import { testEffect } from "../../lib/effect"
 
 const it = testEffect(LayerNode.compile(Database.node))
@@ -22,7 +22,7 @@ bench(
       expect(Database.path()).toBe(":memory:")
       const { db } = yield* Database.Service
       const now = Date.now()
-      const old = now - 40 * KiloSessionRetention.DAY_MS
+      const old = now - 40 * KappaSessionRetention.DAY_MS
       yield* db
         .run(
           sql`INSERT INTO project (id,worktree,time_created,time_updated,sandboxes) VALUES ('proj_bench','/tmp/retention-bench',${now},${now},'[]')`,
@@ -73,7 +73,7 @@ bench(
             (timer) => Effect.sync(() => clearInterval(timer)),
           )
           const start = performance.now()
-          const outcome = yield* KiloSessionRetention.run({ force: true }).pipe(Effect.provide(enabled))
+          const outcome = yield* KappaSessionRetention.run({ force: true }).pipe(Effect.provide(enabled))
           const elapsed = performance.now() - start
           yield* Effect.promise(() => Bun.sleep(2))
           clearInterval(timer)

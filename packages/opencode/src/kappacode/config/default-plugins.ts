@@ -8,7 +8,7 @@ type Log = {
   debug: (msg: string, data?: Record<string, unknown>) => void
 }
 
-export namespace KilocodeDefaultPlugins {
+export namespace KappacodeDefaultPlugins {
   export function apply<T extends { plugin?: ConfigPluginV1.Spec[]; plugin_origins?: ConfigPlugin.Origin[] }>(
     cfg: T,
     opts: { disabled: boolean; log?: Log },

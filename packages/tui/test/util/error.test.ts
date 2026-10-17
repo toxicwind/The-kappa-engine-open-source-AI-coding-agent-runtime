@@ -47,8 +47,8 @@ describe("util.error", () => {
     expect(String(data.formatted)).toContain("ResolveMessage")
   })
 
-  // kilocode_change start - preserve Kilo-branded CLI guidance
-  test("uses Kilo commands and capability messaging", () => {
+  // kappacode_change start - preserve Kappa-branded CLI guidance
+  test("uses Kappa commands and capability messaging", () => {
     const model = cliErrorMessage({
       _tag: "ProviderModelNotFoundError",
       providerID: "anthropic",
@@ -61,5 +61,5 @@ describe("util.error", () => {
     const mcp = cliErrorMessage({ name: "MCPFailed", data: { name: "example" } })
     expect(mcp).toBe('MCP server "example" failed.')
   })
-  // kilocode_change end
+  // kappacode_change end
 })

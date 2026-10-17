@@ -4,7 +4,7 @@ import { Agent } from "../../../src/agent/agent"
 import { Session } from "../../../src/session/session"
 import { Permission } from "../../../src/permission"
 import { PermissionProvenance } from "../../../src/kappacode/permission/provenance"
-import { KiloSessionPrompt } from "../../../src/kappacode/session/prompt"
+import { KappaSessionPrompt } from "../../../src/kappacode/session/prompt"
 import { SessionID } from "../../../src/session/schema"
 
 describe("PermissionProvenance", () => {
@@ -209,7 +209,7 @@ describe("askPermission returns provenance", () => {
 
   const run = (outcome: Permission.AskOutcome, origins?: PermissionProvenance.Origins) =>
     Effect.gen(function* () {
-      return yield* KiloSessionPrompt.askPermission({
+      return yield* KappaSessionPrompt.askPermission({
         permission: yield* Permission.Service,
         agents: yield* Agent.Service,
         sessions: yield* Session.Service,
@@ -271,7 +271,7 @@ describe("askPermission returns provenance", () => {
     }
     const planSession = { id: sessionID, permission: [{ permission: "edit", pattern: "*", action: "deny" }] } as unknown as Session.Info
     await Effect.gen(function* () {
-      yield* KiloSessionPrompt.askPermission({
+      yield* KappaSessionPrompt.askPermission({
         permission: yield* Permission.Service,
         agents: yield* Agent.Service,
         sessions: yield* Session.Service,

@@ -6,7 +6,7 @@ import path from "path"
 describe("McpMigrator", () => {
   describe("convertServer", () => {
     test("converts local server with command and args", () => {
-      const server: McpMigrator.KilocodeMcpServer = {
+      const server: McpMigrator.KappacodeMcpServer = {
         command: "npx",
         args: ["-y", "@modelcontextprotocol/server-filesystem"],
         env: { NODE_ENV: "production" },
@@ -22,7 +22,7 @@ describe("McpMigrator", () => {
     })
 
     test("converts server with command only (no args)", () => {
-      const server: McpMigrator.KilocodeMcpServer = {
+      const server: McpMigrator.KappacodeMcpServer = {
         command: "my-mcp-server",
       }
 
@@ -35,7 +35,7 @@ describe("McpMigrator", () => {
     })
 
     test("converts disabled servers with enabled: false", () => {
-      const server: McpMigrator.KilocodeMcpServer = {
+      const server: McpMigrator.KappacodeMcpServer = {
         command: "npx",
         args: ["-y", "some-package"],
         disabled: true,
@@ -51,7 +51,7 @@ describe("McpMigrator", () => {
     })
 
     test("omits environment when env is empty object", () => {
-      const server: McpMigrator.KilocodeMcpServer = {
+      const server: McpMigrator.KappacodeMcpServer = {
         command: "npx",
         env: {},
       }
@@ -66,7 +66,7 @@ describe("McpMigrator", () => {
     })
 
     test("omits environment when env is undefined", () => {
-      const server: McpMigrator.KilocodeMcpServer = {
+      const server: McpMigrator.KappacodeMcpServer = {
         command: "npx",
       }
 
@@ -76,7 +76,7 @@ describe("McpMigrator", () => {
     })
 
     test("preserves multiple environment variables", () => {
-      const server: McpMigrator.KilocodeMcpServer = {
+      const server: McpMigrator.KappacodeMcpServer = {
         command: "node",
         args: ["server.js"],
         env: {

@@ -51,7 +51,7 @@ type Props = {
       onBodyChange?: (body: string) => void
       onDestinationChange?: (value: "local" | "github") => void
       onSave: (body: string, selectedText: string) => void
-      onSendKilo: (body: string, selectedText: string) => void
+      onSendKappa: (body: string, selectedText: string) => void
       onGithubSuccess: () => void
       onCancel: () => void
     }
@@ -199,9 +199,9 @@ export function PRCommentForm(props: Props) {
     patch({ open: false })
   }
 
-  function sendKilo() {
+  function sendKappa() {
     if (props.action !== "diff" || !ready()) return
-    props.onSendKilo(state().body, props.selectedText)
+    props.onSendKappa(state().body, props.selectedText)
     patch({ body: "", open: false, preview: false, sent: "line" })
   }
 
@@ -244,7 +244,7 @@ export function PRCommentForm(props: Props) {
 
   function sendPrimary() {
     if (destination() === "github") sendGithub()
-    else sendKilo()
+    else sendKappa()
   }
 
   function submit(deleting = false) {
@@ -452,7 +452,7 @@ export function PRCommentForm(props: Props) {
                   if (event.isComposing || event.keyCode === 229) return
                   if (props.action === "diff") {
                     if (event.key !== "Enter" || event.shiftKey) return
-                    // Cmd/Ctrl+Enter saves the comment. Plain Enter sends it to Kilo,
+                    // Cmd/Ctrl+Enter saves the comment. Plain Enter sends it to Kappa,
                     // and GitHub is never published from the keyboard.
                     if (event.ctrlKey || event.metaKey) {
                       event.preventDefault()
@@ -461,7 +461,7 @@ export function PRCommentForm(props: Props) {
                     }
                     if (destination() === "github") return
                     event.preventDefault()
-                    sendKilo()
+                    sendKappa()
                     return
                   }
                   if (event.key !== "Enter") return
@@ -515,9 +515,9 @@ export function PRCommentForm(props: Props) {
                       variant="primary"
                       size="small"
                       disabled={!ready()}
-                      onClick={sendKilo}
+                      onClick={sendKappa}
                     >
-                      {t("diffViewer.comment.sendToKilo")}
+                      {t("diffViewer.comment.sendToKappa")}
                     </Button>
                   }
                 >
@@ -537,7 +537,7 @@ export function PRCommentForm(props: Props) {
                         </Show>
                         {destination() === "github"
                           ? t("diffViewer.comment.sendToGithub", { number: pr().prNumber })
-                          : t("diffViewer.comment.sendToKilo")}
+                          : t("diffViewer.comment.sendToKappa")}
                       </Button>
                       <DropdownMenu gutter={4} placement="bottom-end">
                         <DropdownMenu.Trigger
@@ -561,7 +561,7 @@ export function PRCommentForm(props: Props) {
                                   <Icon name="check" size="small" />
                                 </Show>
                               </span>
-                              <DropdownMenu.ItemLabel>{t("diffViewer.comment.sendToKilo")}</DropdownMenu.ItemLabel>
+                              <DropdownMenu.ItemLabel>{t("diffViewer.comment.sendToKappa")}</DropdownMenu.ItemLabel>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               disabled={pr().closed}

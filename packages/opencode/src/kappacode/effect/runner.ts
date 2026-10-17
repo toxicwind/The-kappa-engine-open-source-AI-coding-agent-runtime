@@ -1,6 +1,6 @@
 import { Effect, Exit, Fiber, Latch, Scope } from "effect"
 
-export namespace KiloRunner {
+export namespace KappaRunner {
   export type Started = {
     fiber: Fiber.Fiber<unknown, unknown>
     ready: Latch.Latch

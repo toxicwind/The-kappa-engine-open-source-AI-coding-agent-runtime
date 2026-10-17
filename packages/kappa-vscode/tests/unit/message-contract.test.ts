@@ -3,7 +3,7 @@
  *
  * These tests verify that:
  * 1. Every message type named in ExtensionMessage has a corresponding interface/type definition
- * 2. Every WebviewMessage type handled in KiloProvider has a corresponding member in the WebviewMessage union
+ * 2. Every WebviewMessage type handled in KappaProvider has a corresponding member in the WebviewMessage union
  * 3. The message types used by mapSSEEventToWebviewMessage exist in ExtensionMessage
  *
  * These are static analysis tests - they read source files and check consistency.
@@ -17,7 +17,7 @@ const ROOT = path.resolve(import.meta.dir, "../..")
 const MESSAGES_DIR = path.join(ROOT, "webview-ui/src/types/messages")
 const EXTENSION_MESSAGES_FILE = path.join(MESSAGES_DIR, "extension-messages.ts")
 const WEBVIEW_MESSAGES_FILE = path.join(MESSAGES_DIR, "webview-messages.ts")
-const KILO_PROVIDER_FILE = path.join(ROOT, "src/KiloProvider.ts")
+const KILO_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
 const KILO_PROVIDER_UTILS_FILE = path.join(ROOT, "src/kappa-provider-utils.ts")
 // Some wire types (partUpdated, partsUpdated) live in a file shared by the
 // extension and webview; the contract checks must include it.
@@ -93,8 +93,8 @@ describe("ExtensionMessage type members", () => {
   })
 })
 
-describe("KiloProvider message handler coverage", () => {
-  it("all WebviewMessage switch cases in KiloProvider exist in WebviewMessage union", () => {
+describe("KappaProvider message handler coverage", () => {
+  it("all WebviewMessage switch cases in KappaProvider exist in WebviewMessage union", () => {
     const providerContent = readFile(KILO_PROVIDER_FILE)
     const messagesContent = readMessageTypeSources()
 
@@ -109,7 +109,7 @@ describe("KiloProvider message handler coverage", () => {
 
     expect(
       unrecognized,
-      `KiloProvider switch cases not found in any message type definition: ${unrecognized.join(", ")}`,
+      `KappaProvider switch cases not found in any message type definition: ${unrecognized.join(", ")}`,
     ).toEqual([])
   })
 })

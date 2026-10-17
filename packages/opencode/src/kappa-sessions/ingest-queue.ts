@@ -1,6 +1,6 @@
 import { ulid } from "ulid"
 import type * as SDK from "@kappacode/sdk/v2"
-import type { KiloSession } from "@/kilocode/session"
+import type { KappaSession } from "@/kappacode/session"
 
 export namespace IngestQueue {
   export type Client = {
@@ -8,7 +8,7 @@ export namespace IngestQueue {
     fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>
   }
 
-  export type CloseReason = KiloSession.CloseReason
+  export type CloseReason = KappaSession.CloseReason
 
   export type Data =
     | {

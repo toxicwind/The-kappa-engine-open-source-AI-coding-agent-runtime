@@ -1,9 +1,9 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { configFeatures, serverFeatures } from "../features"
 import { retry } from "../services/cli-backend/retry"
 import type { ConfigTarget } from "./config-bindings"
 
-type Client = Pick<KiloClient, "config" | "global" | "experimental">
+type Client = Pick<KappaClient, "config" | "global" | "experimental">
 type Settings = {
   maxCost: number
   languageCommitMessage: string

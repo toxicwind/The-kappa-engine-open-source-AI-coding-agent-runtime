@@ -90,7 +90,7 @@ describe("TelemetryEvent", () => {
 describe("Telemetry", () => {
   test("skips identity updates when disabled", async () => {
     const enabled = spyOn(Client, "isEnabled").mockReturnValue(false)
-    const update = spyOn(Identity, "updateFromKiloAuth").mockResolvedValue()
+    const update = spyOn(Identity, "updateFromKappaAuth").mockResolvedValue()
 
     try {
       await Telemetry.updateIdentity("token")

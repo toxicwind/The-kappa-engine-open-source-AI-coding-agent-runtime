@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { SystemPrompt } from "../../src/session/system"
 import { environmentDetails } from "../../src/kappacode/editor-context"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
 import { MessageV2 } from "../../src/session/message-v2"
 import { SessionID, MessageID, PartID } from "../../src/session/schema"
 import { ProviderV2 } from "@opencode-ai/core/provider"
@@ -195,7 +195,7 @@ describe("environmentDetails", () => {
   })
 })
 
-describe("KiloSessionPrompt.injectEditorContext", () => {
+describe("KappaSessionPrompt.injectEditorContext", () => {
   const sessionID = SessionID.make("ses_env_sep")
   const providerID = ProviderV2.ID.make("test")
 
@@ -231,9 +231,9 @@ describe("KiloSessionPrompt.injectEditorContext", () => {
         ] as MessageV2.Part[],
       },
     ]
-    const cache: KiloSessionPrompt.EnvCache = {}
+    const cache: KappaSessionPrompt.EnvCache = {}
 
-    KiloSessionPrompt.injectEditorContext({
+    KappaSessionPrompt.injectEditorContext({
       msgs,
       session: { directory: "/repo/session", path: "session" },
       sessionID,

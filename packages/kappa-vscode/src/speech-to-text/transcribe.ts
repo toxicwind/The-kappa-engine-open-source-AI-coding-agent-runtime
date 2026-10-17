@@ -1,4 +1,4 @@
-import type { KiloConnectionService } from "../services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 import { getErrorMessage } from "../kappa-provider-utils"
 import { getSpeechToTextModel } from "./models"
 import { hasCustomSource, sourceHeaders, sourceUrl, type SpeechToTextSource } from "./source"
@@ -32,7 +32,7 @@ type Err = {
 export type SpeechToTextResult = Ok | Err
 
 export async function transcribeSpeech(
-  connection: KiloConnectionService,
+  connection: KappaConnectionService,
   input: Req,
   dir: string,
   signal?: AbortSignal,
@@ -41,7 +41,7 @@ export async function transcribeSpeech(
   if (hasCustomSource(source)) return await transcribeWithSource(source, input, signal)
 
   const cfg = connection.getServerConfig()
-  if (!cfg) return { ok: false, error: "Not connected to the Kilo backend", code: "not_connected" }
+  if (!cfg) return { ok: false, error: "Not connected to the Kappa backend", code: "not_connected" }
 
   const auth = Buffer.from(`kappa:${cfg.password}`).toString("base64")
   const url = new URL(PATH, cfg.baseUrl)
@@ -108,7 +108,7 @@ async function read(res: Response, source?: SpeechToTextSource): Promise<SpeechT
 
   if (!res.ok) {
     // A 401 from a custom endpoint means the user's own key was rejected, so it must not
-    // route the webview into the "sign in to Kilo" flow that `not_authenticated` triggers.
+    // route the webview into the "sign in to Kappa" flow that `not_authenticated` triggers.
     return {
       ok: false,
       error: errorMessage(body, raw) ?? failed(res.status, source),

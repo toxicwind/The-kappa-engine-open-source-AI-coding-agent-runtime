@@ -27,7 +27,7 @@ New users need a clearer first-run path and better discovery of product features
 | Interactive tutorial | Planned | Guide users through current UI controls and chat input |
 | Tutorial completion state | Planned | Avoid showing completed or skipped tutorial repeatedly |
 | In-product changelog | Planned | Surface relevant product changes to returning users |
-| Kilo provider settings layout | Planned | Put provider setup action beside relevant field and improve discoverability |
+| Kappa provider settings layout | Planned | Put provider setup action beside relevant field and improve discoverability |
 | Onboarding analytics | Planned | Track onboarding progress and later product engagement |
 
 ## Proposed welcome-screen extension

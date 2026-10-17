@@ -68,7 +68,7 @@ export function createDiffCommentForms(opts: Options) {
             onBodyChange={actions.onBodyChange}
             onDestinationChange={actions.onDestination}
             onSave={actions.onSave}
-            onSendKilo={actions.onSend}
+            onSendKappa={actions.onSend}
             onGithubSuccess={actions.onGithubSuccess}
             onCancel={actions.onCancel}
           />

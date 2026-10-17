@@ -5,7 +5,7 @@ import { testRender } from "@opentui/solid"
 import type { TuiPluginApi } from "@kappacode/plugin/tui"
 import type { Event, Message, Part, Session } from "@kappacode/sdk/v2"
 import { createSignal } from "solid-js"
-import { MemorySidebar } from "@/kilocode/cli/cmd/tui/component/memory-status"
+import { MemorySidebar } from "@/kappacode/cli/cmd/tui/component/memory-status"
 import { directory } from "../../../../fixture/tui-sdk"
 
 const id = "ses_memory_status"
@@ -105,7 +105,7 @@ test("sidebar refetches status and scopes save activity", async () => {
         messageID: "msg_memory_sidebar",
         type: "text",
         text: "",
-        metadata: { kiloMemory: { type: "recall", count: 2 } },
+        metadata: { kappaMemory: { type: "recall", count: 2 } },
       },
     ])
     await app.renderOnce()

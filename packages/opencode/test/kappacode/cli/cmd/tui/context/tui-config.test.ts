@@ -8,8 +8,8 @@ import { createEffect, createRoot } from "solid-js"
 import { createBindingLookup } from "@opentui/keymap/extras"
 import { TuiKeybind } from "@tui/config/keybind"
 import { TuiConfig } from "@tui/config"
-import { KiloTuiConfig } from "@/kappacode/cli/cmd/tui/context/tui-config"
-import { KiloTerminalTitle } from "@/kappacode/cli/cmd/tui/terminal-title"
+import { KappaTuiConfig } from "@/kappacode/cli/cmd/tui/context/tui-config"
+import { KappaTerminalTitle } from "@/kappacode/cli/cmd/tui/terminal-title"
 
 function cfg(input: Partial<TuiConfig.Info>): TuiConfig.Info {
   return input as TuiConfig.Info
@@ -43,9 +43,9 @@ function resolve(input: TuiConfig.Info): TuiConfig.Resolved {
   }
 }
 
-describe("KiloTuiConfig.makeStore", () => {
+describe("KappaTuiConfig.makeStore", () => {
   test("reactive reads update when set() reconciles a new config", () => {
-    const store = KiloTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kappa" })))
+    const store = KappaTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kappa" })))
 
     const exits: Array<string | undefined> = []
     const themes: Array<string | undefined> = []
@@ -59,7 +59,7 @@ describe("KiloTuiConfig.makeStore", () => {
       createEffect(() => icons.push(store.config.title_icon))
       createEffect(() =>
         titles.push(
-          KiloTerminalTitle.format({ base: "Kilo CLI", indicator: "working", icon: store.config.title_icon }),
+          KappaTerminalTitle.format({ base: "Kappa CLI", indicator: "working", icon: store.config.title_icon }),
         ),
       )
     })
@@ -68,7 +68,7 @@ describe("KiloTuiConfig.makeStore", () => {
     expect(exits).toEqual(["ctrl+c"])
     expect(themes).toEqual(["kappa"])
     expect(icons).toEqual(["none"])
-    expect(titles).toEqual(["Kilo CLI"])
+    expect(titles).toEqual(["Kappa CLI"])
 
     store.set(cfg({ keybinds: { app_exit: "ctrl+q", leader: "ctrl+x" }, theme: "nord", title_icon: "emojis" }))
 
@@ -82,13 +82,13 @@ describe("KiloTuiConfig.makeStore", () => {
     expect(exits).toEqual(["ctrl+c", "ctrl+q"])
     expect(themes).toEqual(["kappa", "nord"])
     expect(icons).toEqual(["none", "emojis"])
-    expect(titles).toEqual(["Kilo CLI", "💭 Kilo CLI"])
+    expect(titles).toEqual(["Kappa CLI", "💭 Kappa CLI"])
 
     dispose()
   })
 
   test("set() restores the default title icon when the setting is removed", () => {
-    const store = KiloTuiConfig.makeStore(resolve(cfg({ title_icon: "unicode" })))
+    const store = KappaTuiConfig.makeStore(resolve(cfg({ title_icon: "unicode" })))
 
     store.set(cfg({}))
 
@@ -96,7 +96,7 @@ describe("KiloTuiConfig.makeStore", () => {
   })
 
   test("set() does not re-notify a tracked read when its value is unchanged", () => {
-    const store = KiloTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kappa" })))
+    const store = KappaTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kappa" })))
 
     const exits: Array<string | undefined> = []
     let dispose!: () => void

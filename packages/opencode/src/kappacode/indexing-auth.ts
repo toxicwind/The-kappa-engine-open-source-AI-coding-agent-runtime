@@ -12,7 +12,7 @@ type Provider = {
   options?: Record<string, unknown>
 }
 
-export type KiloIndexingAuth = {
+export type KappaIndexingAuth = {
   apiKey?: string
   baseUrl?: string
   organizationId?: string
@@ -66,12 +66,12 @@ function hasOtherProvider(indexing: unknown): boolean {
   return providers.some((provider) => value(cfg[provider]))
 }
 
-export function resolveKiloIndexingAuth(input: {
+export function resolveKappaIndexingAuth(input: {
   config?: unknown
   provider?: Provider
   auth?: Auth
   env?: Env
-}): KiloIndexingAuth {
+}): KappaIndexingAuth {
   const config = record(input.config)
   const options = record(record(config.provider).kappa)
   const provider = input.provider ?? record(input.provider)
@@ -98,20 +98,20 @@ export function resolveKiloIndexingAuth(input: {
   }
 }
 
-export function hasKiloIndexingAuth(input: Parameters<typeof resolveKiloIndexingAuth>[0]): boolean {
-  return !!resolveKiloIndexingAuth(input).apiKey
+export function hasKappaIndexingAuth(input: Parameters<typeof resolveKappaIndexingAuth>[0]): boolean {
+  return !!resolveKappaIndexingAuth(input).apiKey
 }
 
-export function shouldDefaultIndexingToKilo(indexing: unknown, auth: KiloIndexingAuth): boolean {
+export function shouldDefaultIndexingToKappa(indexing: unknown, auth: KappaIndexingAuth): boolean {
   const cfg = record(indexing)
   if (cfg.provider !== undefined || !auth.apiKey) return false
   return !hasOtherProvider(cfg)
 }
 
-export function indexingWithKiloDefault(
+export function indexingWithKappaDefault(
   indexing: IndexingConfig | undefined,
-  auth: KiloIndexingAuth,
+  auth: KappaIndexingAuth,
 ): IndexingConfig | undefined {
-  if (!shouldDefaultIndexingToKilo(indexing, auth)) return indexing
+  if (!shouldDefaultIndexingToKappa(indexing, auth)) return indexing
   return { ...indexing, provider: "kappa" }
 }

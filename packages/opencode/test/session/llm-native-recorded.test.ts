@@ -27,9 +27,9 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { LayerNodePlatform } from "@opencode-ai/core/effect/app-node-platform"
 
 const FIXTURES_DIR = path.join(import.meta.dir, "../fixtures/recordings")
-const KILO_FIXTURES_DIR = path.join(FIXTURES_DIR, "kappacode") // kilocode_change
+const KILO_FIXTURES_DIR = path.join(FIXTURES_DIR, "kappacode") // kappacode_change
 
-const zenURL = (connection: string) => `https://console.opencode.ai/proxy/connections/${connection}/v1` // kilocode_change
+const zenURL = (connection: string) => `https://console.opencode.ai/proxy/connections/${connection}/v1` // kappacode_change
 
 const replayOpenAIOAuth = {
   type: "oauth",
@@ -60,10 +60,10 @@ const cloneModel = (model: ModelsDev.Provider["models"][string]) => {
   // oxlint-disable-next-line typescript-eslint/no-unsafe-type-assertion -- The config schema accepts the same model shape except object-valued experimental metadata.
   if (typeof experimental === "boolean") {
     // oxlint-disable-next-line typescript-eslint/no-unsafe-type-assertion -- The fixture model already matches config input when experimental is boolean.
-    return cloned as NonNullable<NonNullable<NonNullable<ConfigV1.Info["provider"]>[string]>["models"]>[string] // kilocode_change
+    return cloned as NonNullable<NonNullable<NonNullable<ConfigV1.Info["provider"]>[string]>["models"]>[string] // kappacode_change
   }
   // oxlint-disable-next-line typescript-eslint/no-unsafe-type-assertion -- Dropping non-boolean experimental metadata makes the fixture model match config input.
-  return rest as NonNullable<NonNullable<NonNullable<ConfigV1.Info["provider"]>[string]>["models"]>[string] // kilocode_change
+  return rest as NonNullable<NonNullable<NonNullable<ConfigV1.Info["provider"]>[string]>["models"]>[string] // kappacode_change
 }
 
 const envValue = (...names: string[]) => names.map((name) => process.env[name]).find(Boolean)
@@ -161,7 +161,7 @@ const RECORDED_SCENARIOS = [
   },
   {
     id: "opencode-proxy",
-    name: "OpenCode proxy", // kilocode_change
+    name: "OpenCode proxy", // kappacode_change
     providerID: ProviderV2.ID.opencode,
     modelID: "gpt-5.2-codex",
     cassette: "session/native-zen-tool-loop",
@@ -223,11 +223,11 @@ function isSelected(scenario: RecordedScenario) {
 }
 
 const canRun = (scenario: RecordedScenario) =>
-  // kilocode_change start
+  // kappacode_change start
   shouldRecord
     ? scenario.canRecord()
     : HttpRecorderInternal.hasCassetteSync(scenario.cassette, { directory: KILO_FIXTURES_DIR })
-  // kilocode_change end
+  // kappacode_change end
 
 const recordError = (scenario: RecordedScenario) =>
   scenario.id === "openai-oauth"
@@ -277,12 +277,12 @@ function recordedNativeLLMLayer(scenario: RecordedScenario) {
   }
   const recordedHttp = shouldRecord
     ? HttpRecorderInternal.cassetteLayer(scenario.cassette, {
-        directory: KILO_FIXTURES_DIR, // kilocode_change
+        directory: KILO_FIXTURES_DIR, // kappacode_change
         mode: "record",
         metadata,
         redactor: HttpRecorderInternal.Redactor.make(redact),
       })
-    : HttpRecorder.http(scenario.cassette, { directory: KILO_FIXTURES_DIR, metadata, redact }) // kilocode_change
+    : HttpRecorder.http(scenario.cassette, { directory: KILO_FIXTURES_DIR, metadata, redact }) // kappacode_change
   return AppNodeBuilder.build(LayerNode.group([Provider.node, LLM.node]), [
     [LayerNodePlatform.requestExecutor, RequestExecutor.layer.pipe(Layer.provide(recordedHttp))],
     [RuntimeFlags.node, RuntimeFlags.layer({ experimentalNativeLlm: true })],
@@ -294,7 +294,7 @@ const writeConfig = (directory: string, scenario: RecordedScenario, model: Model
   Effect.promise(() =>
     Bun.write(
       path.join(directory, "opencode.json"),
-      JSON.stringify({ $schema: "https://app.kappa.ai/config.json", ...scenario.config(model) }), // kilocode_change
+      JSON.stringify({ $schema: "https://app.kappa.ai/config.json", ...scenario.config(model) }), // kappacode_change
     ),
   )
 

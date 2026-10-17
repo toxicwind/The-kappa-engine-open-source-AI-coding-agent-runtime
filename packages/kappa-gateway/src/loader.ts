@@ -9,7 +9,7 @@ import type { CustomLoaderResult, ProviderInfo } from "./types.js"
  * @param provider - Provider information from the models database
  * @returns Loader result with autoload status and options
  */
-export async function kiloCustomLoader(provider: ProviderInfo): Promise<CustomLoaderResult> {
+export async function kappaCustomLoader(provider: ProviderInfo): Promise<CustomLoaderResult> {
   // Check if we have authentication
   const hasKey = await checkAuthentication(provider)
 
@@ -40,7 +40,7 @@ export async function kiloCustomLoader(provider: ProviderInfo): Promise<CustomLo
  */
 async function checkAuthentication(provider: ProviderInfo): Promise<boolean> {
   // Check 1: Provider configuration
-  if (provider.options?.apiKey || provider.options?.kilocodeToken) {
+  if (provider.options?.apiKey || provider.options?.kappacodeToken) {
     return true
   }
 

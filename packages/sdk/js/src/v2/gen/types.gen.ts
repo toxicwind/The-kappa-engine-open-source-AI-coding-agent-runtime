@@ -113,12 +113,12 @@ export type Event =
   | EventSuggestionShown
   | EventSuggestionAccepted
   | EventSuggestionDismissed
-  | EventKilocodeAgentManagerStart
-  | EventKilocodeAgentManagerRequested
-  | EventKilocodeAgentManagerCancelled
-  | EventKilocodeNotebookRequested
-  | EventKilocodeNotebookCancelled
-  | EventKiloSessionsRemoteStatusChanged
+  | EventKappacodeAgentManagerStart
+  | EventKappacodeAgentManagerRequested
+  | EventKappacodeAgentManagerCancelled
+  | EventKappacodeNotebookRequested
+  | EventKappacodeNotebookCancelled
+  | EventKappaSessionsRemoteStatusChanged
   | EventLspClientDiagnostics
   | EventMemoryStatus1
   | EventMemoryUpdated1
@@ -1163,12 +1163,12 @@ export type GlobalEvent = {
     | EventSuggestionShown
     | EventSuggestionAccepted
     | EventSuggestionDismissed
-    | EventKilocodeAgentManagerStart
-    | EventKilocodeAgentManagerRequested
-    | EventKilocodeAgentManagerCancelled
-    | EventKilocodeNotebookRequested
-    | EventKilocodeNotebookCancelled
-    | EventKiloSessionsRemoteStatusChanged
+    | EventKappacodeAgentManagerStart
+    | EventKappacodeAgentManagerRequested
+    | EventKappacodeAgentManagerCancelled
+    | EventKappacodeNotebookRequested
+    | EventKappacodeNotebookCancelled
+    | EventKappaSessionsRemoteStatusChanged
     | EventLspClientDiagnostics
     | EventMemoryStatus
     | EventMemoryUpdated
@@ -2574,7 +2574,7 @@ export type Config = {
   indexing?: IndexingConfig
   console?: {
     /**
-     * Width of the Kilo Console project context sidebar in pixels
+     * Width of the Kappa Console project context sidebar in pixels
      */
     context_sidebar_width?: number
     diff_style?: "unified" | "split"
@@ -4139,7 +4139,7 @@ export type TuiKeybindListResponse = {
   keybinds: Array<TuiKeybindInfo>
 }
 
-export type KiloEmbeddingModelCatalog = {
+export type KappaEmbeddingModelCatalog = {
   defaultModel: string
   models: Array<{
     id: string
@@ -4720,7 +4720,7 @@ export type AnacondaDesktopOperationError = {
   message: string
 }
 
-export type KilocodeMigrateSessionsMigrated = {
+export type KappacodeMigrateSessionsMigrated = {
   /**
    * Source session UUID.
    */
@@ -4743,11 +4743,11 @@ export type KilocodeMigrateSessionsMigrated = {
   dropped: Array<string>
 }
 
-export type KilocodeMigrateSessionsResult = {
+export type KappacodeMigrateSessionsResult = {
   /**
    * Per-source outcomes, most recently modified source first.
    */
-  sessions: Array<KilocodeMigrateSessionsMigrated>
+  sessions: Array<KappacodeMigrateSessionsMigrated>
   /**
    * Number of sources migrated by this call.
    */
@@ -4766,12 +4766,12 @@ export type MigrateFailedError = {
   message: string
 }
 
-export type KilocodeMigrateSessionsModel = {
+export type KappacodeMigrateSessionsModel = {
   providerID: string
   modelID: string
 }
 
-export type KilocodeMigrateSessionsDiscovered = {
+export type KappacodeMigrateSessionsDiscovered = {
   /**
    * Session UUID parsed from the transcript filename.
    */
@@ -4797,22 +4797,22 @@ export type KilocodeMigrateSessionsDiscovered = {
    * Number of user + assistant steps in the transcript.
    */
   messages: number
-  model?: KilocodeMigrateSessionsModel
+  model?: KappacodeMigrateSessionsModel
   sessionID?: string
 }
 
-export type KilocodeMigrateSessionsDiscoverResult = {
+export type KappacodeMigrateSessionsDiscoverResult = {
   /**
    * Discovered migratable sessions, most recently modified first.
    */
-  sessions: Array<KilocodeMigrateSessionsDiscovered>
+  sessions: Array<KappacodeMigrateSessionsDiscovered>
   /**
    * Human-readable reasons for transcripts that were found but could not be previewed.
    */
   dropped: Array<string>
 }
 
-export type KilocodeSessionImportResult = {
+export type KappacodeSessionImportResult = {
   ok: boolean
   id: string
   skipped?: boolean
@@ -5275,9 +5275,9 @@ export type EventSuggestionDismissed = {
   }
 }
 
-export type EventKilocodeAgentManagerStart = {
+export type EventKappacodeAgentManagerStart = {
   id: string
-  type: "kilocode.agent_manager.start"
+  type: "kappacode.agent_manager.start"
   properties: {
     requestID: string
     sessionID: string
@@ -5298,15 +5298,15 @@ export type EventKilocodeAgentManagerStart = {
   }
 }
 
-export type EventKilocodeAgentManagerRequested = {
+export type EventKappacodeAgentManagerRequested = {
   id: string
-  type: "kilocode.agent_manager.requested"
+  type: "kappacode.agent_manager.requested"
   properties: AgentManagerRequest
 }
 
-export type EventKilocodeAgentManagerCancelled = {
+export type EventKappacodeAgentManagerCancelled = {
   id: string
-  type: "kilocode.agent_manager.cancelled"
+  type: "kappacode.agent_manager.cancelled"
   properties: {
     requestID: AgentManagerRequestId
     sessionID: string
@@ -5314,15 +5314,15 @@ export type EventKilocodeAgentManagerCancelled = {
   }
 }
 
-export type EventKilocodeNotebookRequested = {
+export type EventKappacodeNotebookRequested = {
   id: string
-  type: "kilocode.notebook.requested"
+  type: "kappacode.notebook.requested"
   properties: NotebookRequest
 }
 
-export type EventKilocodeNotebookCancelled = {
+export type EventKappacodeNotebookCancelled = {
   id: string
-  type: "kilocode.notebook.cancelled"
+  type: "kappacode.notebook.cancelled"
   properties: {
     requestID: NotebookRequestId
     sessionID: string
@@ -5330,7 +5330,7 @@ export type EventKilocodeNotebookCancelled = {
   }
 }
 
-export type EventKiloSessionsRemoteStatusChanged = {
+export type EventKappaSessionsRemoteStatusChanged = {
   id: string
   type: "kappa-sessions.remote-status-changed"
   properties: {
@@ -16214,9 +16214,9 @@ export type IndexingModelsError = IndexingModelsErrors[keyof IndexingModelsError
 
 export type IndexingModelsResponses = {
   /**
-   * Kilo embedding model catalog
+   * Kappa embedding model catalog
    */
-  200: KiloEmbeddingModelCatalog
+  200: KappaEmbeddingModelCatalog
 }
 
 export type IndexingModelsResponse = IndexingModelsResponses[keyof IndexingModelsResponses]
@@ -16283,7 +16283,7 @@ export type InstanceReloadResponses = {
 
 export type InstanceReloadResponse = InstanceReloadResponses[keyof InstanceReloadResponses]
 
-export type KiloProfileData = {
+export type KappaProfileData = {
   body?: never
   path?: never
   query?: {
@@ -16293,16 +16293,16 @@ export type KiloProfileData = {
   url: "/kappa/profile"
 }
 
-export type KiloProfileErrors = {
+export type KappaProfileErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloProfileError = KiloProfileErrors[keyof KiloProfileErrors]
+export type KappaProfileError = KappaProfileErrors[keyof KappaProfileErrors]
 
-export type KiloProfileResponses = {
+export type KappaProfileResponses = {
   /**
    * Profile data
    */
@@ -16321,7 +16321,7 @@ export type KiloProfileResponses = {
     balance: {
       balance: number
     } | null
-    kiloPass: {
+    kappaPass: {
       currentPeriodBaseCreditsUsd: number
       currentPeriodUsageUsd: number
       currentPeriodBonusCreditsUsd: number
@@ -16331,9 +16331,9 @@ export type KiloProfileResponses = {
   }
 }
 
-export type KiloProfileResponse = KiloProfileResponses[keyof KiloProfileResponses]
+export type KappaProfileResponse = KappaProfileResponses[keyof KappaProfileResponses]
 
-export type KiloAuthStatusData = {
+export type KappaAuthStatusData = {
   body?: never
   path?: never
   query?: {
@@ -16343,18 +16343,18 @@ export type KiloAuthStatusData = {
   url: "/kappa/auth-status"
 }
 
-export type KiloAuthStatusErrors = {
+export type KappaAuthStatusErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloAuthStatusError = KiloAuthStatusErrors[keyof KiloAuthStatusErrors]
+export type KappaAuthStatusError = KappaAuthStatusErrors[keyof KappaAuthStatusErrors]
 
-export type KiloAuthStatusResponses = {
+export type KappaAuthStatusResponses = {
   /**
-   * Kilo authentication status
+   * Kappa authentication status
    */
   200: {
     authenticated: boolean
@@ -16363,9 +16363,9 @@ export type KiloAuthStatusResponses = {
   }
 }
 
-export type KiloAuthStatusResponse = KiloAuthStatusResponses[keyof KiloAuthStatusResponses]
+export type KappaAuthStatusResponse = KappaAuthStatusResponses[keyof KappaAuthStatusResponses]
 
-export type KiloModesData = {
+export type KappaModesData = {
   body?: never
   path?: never
   query?: {
@@ -16375,16 +16375,16 @@ export type KiloModesData = {
   url: "/kappa/modes"
 }
 
-export type KiloModesErrors = {
+export type KappaModesErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KiloModesError = KiloModesErrors[keyof KiloModesErrors]
+export type KappaModesError = KappaModesErrors[keyof KappaModesErrors]
 
-export type KiloModesResponses = {
+export type KappaModesResponses = {
   /**
    * Organization modes list
    */
@@ -16417,9 +16417,9 @@ export type KiloModesResponses = {
   }
 }
 
-export type KiloModesResponse = KiloModesResponses[keyof KiloModesResponses]
+export type KappaModesResponse = KappaModesResponses[keyof KappaModesResponses]
 
-export type KiloFimData = {
+export type KappaFimData = {
   body?: {
     prefix: string
     suffix: string
@@ -16436,16 +16436,16 @@ export type KiloFimData = {
   url: "/kappa/fim"
 }
 
-export type KiloFimErrors = {
+export type KappaFimErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloFimError = KiloFimErrors[keyof KiloFimErrors]
+export type KappaFimError = KappaFimErrors[keyof KappaFimErrors]
 
-export type KiloFimResponses = {
+export type KappaFimResponses = {
   /**
    * Streaming FIM completion response
    */
@@ -16464,9 +16464,9 @@ export type KiloFimResponses = {
   }
 }
 
-export type KiloFimResponse = KiloFimResponses[keyof KiloFimResponses]
+export type KappaFimResponse = KappaFimResponses[keyof KappaFimResponses]
 
-export type KiloEditData = {
+export type KappaEditData = {
   body?: {
     provider?: string
     model?: string
@@ -16491,16 +16491,16 @@ export type KiloEditData = {
   url: "/kappa/edit"
 }
 
-export type KiloEditErrors = {
+export type KappaEditErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloEditError = KiloEditErrors[keyof KiloEditErrors]
+export type KappaEditError = KappaEditErrors[keyof KappaEditErrors]
 
-export type KiloEditResponses = {
+export type KappaEditResponses = {
   /**
    * Next Edit completion
    */
@@ -16513,9 +16513,9 @@ export type KiloEditResponses = {
   }
 }
 
-export type KiloEditResponse = KiloEditResponses[keyof KiloEditResponses]
+export type KappaEditResponse = KappaEditResponses[keyof KappaEditResponses]
 
-export type KiloAudioTranscriptionsData = {
+export type KappaAudioTranscriptionsData = {
   body?: {
     model: string
     input_audio: {
@@ -16534,16 +16534,16 @@ export type KiloAudioTranscriptionsData = {
   url: "/kappa/audio/transcriptions"
 }
 
-export type KiloAudioTranscriptionsErrors = {
+export type KappaAudioTranscriptionsErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloAudioTranscriptionsError = KiloAudioTranscriptionsErrors[keyof KiloAudioTranscriptionsErrors]
+export type KappaAudioTranscriptionsError = KappaAudioTranscriptionsErrors[keyof KappaAudioTranscriptionsErrors]
 
-export type KiloAudioTranscriptionsResponses = {
+export type KappaAudioTranscriptionsResponses = {
   /**
    * Transcription response
    */
@@ -16553,9 +16553,9 @@ export type KiloAudioTranscriptionsResponses = {
   }
 }
 
-export type KiloAudioTranscriptionsResponse = KiloAudioTranscriptionsResponses[keyof KiloAudioTranscriptionsResponses]
+export type KappaAudioTranscriptionsResponse = KappaAudioTranscriptionsResponses[keyof KappaAudioTranscriptionsResponses]
 
-export type KiloModelsImagesData = {
+export type KappaModelsImagesData = {
   body?: never
   path?: never
   query?: {
@@ -16565,16 +16565,16 @@ export type KiloModelsImagesData = {
   url: "/kappa/models/images"
 }
 
-export type KiloModelsImagesErrors = {
+export type KappaModelsImagesErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloModelsImagesError = KiloModelsImagesErrors[keyof KiloModelsImagesErrors]
+export type KappaModelsImagesError = KappaModelsImagesErrors[keyof KappaModelsImagesErrors]
 
-export type KiloModelsImagesResponses = {
+export type KappaModelsImagesResponses = {
   /**
    * Image-capable model list
    */
@@ -16585,9 +16585,9 @@ export type KiloModelsImagesResponses = {
   }>
 }
 
-export type KiloModelsImagesResponse = KiloModelsImagesResponses[keyof KiloModelsImagesResponses]
+export type KappaModelsImagesResponse = KappaModelsImagesResponses[keyof KappaModelsImagesResponses]
 
-export type KiloModelsTranscriptionsData = {
+export type KappaModelsTranscriptionsData = {
   body?: never
   path?: never
   query?: {
@@ -16597,16 +16597,16 @@ export type KiloModelsTranscriptionsData = {
   url: "/kappa/models/transcriptions"
 }
 
-export type KiloModelsTranscriptionsErrors = {
+export type KappaModelsTranscriptionsErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloModelsTranscriptionsError = KiloModelsTranscriptionsErrors[keyof KiloModelsTranscriptionsErrors]
+export type KappaModelsTranscriptionsError = KappaModelsTranscriptionsErrors[keyof KappaModelsTranscriptionsErrors]
 
-export type KiloModelsTranscriptionsResponses = {
+export type KappaModelsTranscriptionsResponses = {
   /**
    * Speech-to-text model list
    */
@@ -16616,10 +16616,10 @@ export type KiloModelsTranscriptionsResponses = {
   }>
 }
 
-export type KiloModelsTranscriptionsResponse =
-  KiloModelsTranscriptionsResponses[keyof KiloModelsTranscriptionsResponses]
+export type KappaModelsTranscriptionsResponse =
+  KappaModelsTranscriptionsResponses[keyof KappaModelsTranscriptionsResponses]
 
-export type KiloNotificationsData = {
+export type KappaNotificationsData = {
   body?: never
   path?: never
   query?: {
@@ -16629,16 +16629,16 @@ export type KiloNotificationsData = {
   url: "/kappa/notifications"
 }
 
-export type KiloNotificationsErrors = {
+export type KappaNotificationsErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloNotificationsError = KiloNotificationsErrors[keyof KiloNotificationsErrors]
+export type KappaNotificationsError = KappaNotificationsErrors[keyof KappaNotificationsErrors]
 
-export type KiloNotificationsResponses = {
+export type KappaNotificationsResponses = {
   /**
    * Notifications list
    */
@@ -16655,9 +16655,9 @@ export type KiloNotificationsResponses = {
   }>
 }
 
-export type KiloNotificationsResponse = KiloNotificationsResponses[keyof KiloNotificationsResponses]
+export type KappaNotificationsResponse = KappaNotificationsResponses[keyof KappaNotificationsResponses]
 
-export type KiloOrganizationSetData = {
+export type KappaOrganizationSetData = {
   body?: {
     organizationId: string | null
   }
@@ -16669,25 +16669,25 @@ export type KiloOrganizationSetData = {
   url: "/kappa/organization"
 }
 
-export type KiloOrganizationSetErrors = {
+export type KappaOrganizationSetErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloOrganizationSetError = KiloOrganizationSetErrors[keyof KiloOrganizationSetErrors]
+export type KappaOrganizationSetError = KappaOrganizationSetErrors[keyof KappaOrganizationSetErrors]
 
-export type KiloOrganizationSetResponses = {
+export type KappaOrganizationSetResponses = {
   /**
    * Organization updated successfully
    */
   200: boolean
 }
 
-export type KiloOrganizationSetResponse = KiloOrganizationSetResponses[keyof KiloOrganizationSetResponses]
+export type KappaOrganizationSetResponse = KappaOrganizationSetResponses[keyof KappaOrganizationSetResponses]
 
-export type KiloCloudSessionsData = {
+export type KappaCloudSessionsData = {
   body?: never
   path?: never
   query?: {
@@ -16700,16 +16700,16 @@ export type KiloCloudSessionsData = {
   url: "/kappa/cloud-sessions"
 }
 
-export type KiloCloudSessionsErrors = {
+export type KappaCloudSessionsErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KiloCloudSessionsError = KiloCloudSessionsErrors[keyof KiloCloudSessionsErrors]
+export type KappaCloudSessionsError = KappaCloudSessionsErrors[keyof KappaCloudSessionsErrors]
 
-export type KiloCloudSessionsResponses = {
+export type KappaCloudSessionsResponses = {
   /**
    * Cloud sessions list
    */
@@ -16725,9 +16725,9 @@ export type KiloCloudSessionsResponses = {
   }
 }
 
-export type KiloCloudSessionsResponse = KiloCloudSessionsResponses[keyof KiloCloudSessionsResponses]
+export type KappaCloudSessionsResponse = KappaCloudSessionsResponses[keyof KappaCloudSessionsResponses]
 
-export type KiloCloudSessionGetData = {
+export type KappaCloudSessionGetData = {
   body?: never
   path: {
     id: string
@@ -16739,7 +16739,7 @@ export type KiloCloudSessionGetData = {
   url: "/kappa/cloud/session/{id}"
 }
 
-export type KiloCloudSessionGetErrors = {
+export type KappaCloudSessionGetErrors = {
   /**
    * Bad request
    */
@@ -16750,9 +16750,9 @@ export type KiloCloudSessionGetErrors = {
   404: NotFoundError
 }
 
-export type KiloCloudSessionGetError = KiloCloudSessionGetErrors[keyof KiloCloudSessionGetErrors]
+export type KappaCloudSessionGetError = KappaCloudSessionGetErrors[keyof KappaCloudSessionGetErrors]
 
-export type KiloCloudSessionGetResponses = {
+export type KappaCloudSessionGetResponses = {
   /**
    * Cloud session data
    */
@@ -16785,9 +16785,9 @@ export type KiloCloudSessionGetResponses = {
   }
 }
 
-export type KiloCloudSessionGetResponse = KiloCloudSessionGetResponses[keyof KiloCloudSessionGetResponses]
+export type KappaCloudSessionGetResponse = KappaCloudSessionGetResponses[keyof KappaCloudSessionGetResponses]
 
-export type KiloCloudSessionImportData = {
+export type KappaCloudSessionImportData = {
   body?: {
     sessionId: string
   }
@@ -16799,7 +16799,7 @@ export type KiloCloudSessionImportData = {
   url: "/kappa/cloud/session/import"
 }
 
-export type KiloCloudSessionImportErrors = {
+export type KappaCloudSessionImportErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
@@ -16814,9 +16814,9 @@ export type KiloCloudSessionImportErrors = {
   500: CloudSessionImportError
 }
 
-export type KiloCloudSessionImportError = KiloCloudSessionImportErrors[keyof KiloCloudSessionImportErrors]
+export type KappaCloudSessionImportError = KappaCloudSessionImportErrors[keyof KappaCloudSessionImportErrors]
 
-export type KiloCloudSessionImportResponses = {
+export type KappaCloudSessionImportResponses = {
   /**
    * Imported session info
    */
@@ -16830,9 +16830,9 @@ export type KiloCloudSessionImportResponses = {
   }
 }
 
-export type KiloCloudSessionImportResponse = KiloCloudSessionImportResponses[keyof KiloCloudSessionImportResponses]
+export type KappaCloudSessionImportResponse = KappaCloudSessionImportResponses[keyof KappaCloudSessionImportResponses]
 
-export type KilocodeResumeSessionData = {
+export type KappacodeResumeSessionData = {
   body?: {
     messageID: string
     snapshotInitialization?: "wait"
@@ -16844,10 +16844,10 @@ export type KilocodeResumeSessionData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/session/{sessionID}/resume"
+  url: "/kappacode/session/{sessionID}/resume"
 }
 
-export type KilocodeResumeSessionErrors = {
+export type KappacodeResumeSessionErrors = {
   /**
    * InvalidRequestError
    */
@@ -16858,18 +16858,18 @@ export type KilocodeResumeSessionErrors = {
   404: NotFoundError
 }
 
-export type KilocodeResumeSessionError = KilocodeResumeSessionErrors[keyof KilocodeResumeSessionErrors]
+export type KappacodeResumeSessionError = KappacodeResumeSessionErrors[keyof KappacodeResumeSessionErrors]
 
-export type KilocodeResumeSessionResponses = {
+export type KappacodeResumeSessionResponses = {
   /**
    * Session continuation accepted
    */
   200: boolean
 }
 
-export type KilocodeResumeSessionResponse = KilocodeResumeSessionResponses[keyof KilocodeResumeSessionResponses]
+export type KappacodeResumeSessionResponse = KappacodeResumeSessionResponses[keyof KappacodeResumeSessionResponses]
 
-export type KilocodeDrainSessionData = {
+export type KappacodeDrainSessionData = {
   body?: {
     token: string
   }
@@ -16880,10 +16880,10 @@ export type KilocodeDrainSessionData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/session/{sessionID}/drain"
+  url: "/kappacode/session/{sessionID}/drain"
 }
 
-export type KilocodeDrainSessionErrors = {
+export type KappacodeDrainSessionErrors = {
   /**
    * Bad request
    */
@@ -16894,18 +16894,18 @@ export type KilocodeDrainSessionErrors = {
   404: NotFoundError
 }
 
-export type KilocodeDrainSessionError = KilocodeDrainSessionErrors[keyof KilocodeDrainSessionErrors]
+export type KappacodeDrainSessionError = KappacodeDrainSessionErrors[keyof KappacodeDrainSessionErrors]
 
-export type KilocodeDrainSessionResponses = {
+export type KappacodeDrainSessionResponses = {
   /**
    * Session work drained
    */
   200: boolean
 }
 
-export type KilocodeDrainSessionResponse = KilocodeDrainSessionResponses[keyof KilocodeDrainSessionResponses]
+export type KappacodeDrainSessionResponse = KappacodeDrainSessionResponses[keyof KappacodeDrainSessionResponses]
 
-export type KilocodeSessionBoardData = {
+export type KappacodeSessionBoardData = {
   body?: never
   path: {
     sessionID: string
@@ -16916,10 +16916,10 @@ export type KilocodeSessionBoardData = {
     before?: string
     limit?: number
   }
-  url: "/kilocode/session/{sessionID}/board"
+  url: "/kappacode/session/{sessionID}/board"
 }
 
-export type KilocodeSessionBoardErrors = {
+export type KappacodeSessionBoardErrors = {
   /**
    * InvalidRequestError
    */
@@ -16938,18 +16938,18 @@ export type KilocodeSessionBoardErrors = {
   500: UnknownError1
 }
 
-export type KilocodeSessionBoardError = KilocodeSessionBoardErrors[keyof KilocodeSessionBoardErrors]
+export type KappacodeSessionBoardError = KappacodeSessionBoardErrors[keyof KappacodeSessionBoardErrors]
 
-export type KilocodeSessionBoardResponses = {
+export type KappacodeSessionBoardResponses = {
   /**
    * Shared board snapshot
    */
   200: SessionBoard
 }
 
-export type KilocodeSessionBoardResponse = KilocodeSessionBoardResponses[keyof KilocodeSessionBoardResponses]
+export type KappacodeSessionBoardResponse = KappacodeSessionBoardResponses[keyof KappacodeSessionBoardResponses]
 
-export type KilocodeResetSessionBoardData = {
+export type KappacodeResetSessionBoardData = {
   body?: {
     revision: number
   }
@@ -16960,10 +16960,10 @@ export type KilocodeResetSessionBoardData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/session/{sessionID}/board/reset"
+  url: "/kappacode/session/{sessionID}/board/reset"
 }
 
-export type KilocodeResetSessionBoardErrors = {
+export type KappacodeResetSessionBoardErrors = {
   /**
    * InvalidRequestError
    */
@@ -16982,75 +16982,75 @@ export type KilocodeResetSessionBoardErrors = {
   500: UnknownError1
 }
 
-export type KilocodeResetSessionBoardError = KilocodeResetSessionBoardErrors[keyof KilocodeResetSessionBoardErrors]
+export type KappacodeResetSessionBoardError = KappacodeResetSessionBoardErrors[keyof KappacodeResetSessionBoardErrors]
 
-export type KilocodeResetSessionBoardResponses = {
+export type KappacodeResetSessionBoardResponses = {
   /**
    * Shared board after reset
    */
   200: SessionBoard
 }
 
-export type KilocodeResetSessionBoardResponse =
-  KilocodeResetSessionBoardResponses[keyof KilocodeResetSessionBoardResponses]
+export type KappacodeResetSessionBoardResponse =
+  KappacodeResetSessionBoardResponses[keyof KappacodeResetSessionBoardResponses]
 
-export type KilocodeHeapSnapshotData = {
+export type KappacodeHeapSnapshotData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/heap/snapshot"
+  url: "/kappacode/heap/snapshot"
 }
 
-export type KilocodeHeapSnapshotErrors = {
+export type KappacodeHeapSnapshotErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeHeapSnapshotError = KilocodeHeapSnapshotErrors[keyof KilocodeHeapSnapshotErrors]
+export type KappacodeHeapSnapshotError = KappacodeHeapSnapshotErrors[keyof KappacodeHeapSnapshotErrors]
 
-export type KilocodeHeapSnapshotResponses = {
+export type KappacodeHeapSnapshotResponses = {
   /**
    * Heap snapshot file path
    */
   200: string
 }
 
-export type KilocodeHeapSnapshotResponse = KilocodeHeapSnapshotResponses[keyof KilocodeHeapSnapshotResponses]
+export type KappacodeHeapSnapshotResponse = KappacodeHeapSnapshotResponses[keyof KappacodeHeapSnapshotResponses]
 
-export type KilocodeCommandFilesData = {
+export type KappacodeCommandFilesData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/command/files"
+  url: "/kappacode/command/files"
 }
 
-export type KilocodeCommandFilesErrors = {
+export type KappacodeCommandFilesErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeCommandFilesError = KilocodeCommandFilesErrors[keyof KilocodeCommandFilesErrors]
+export type KappacodeCommandFilesError = KappacodeCommandFilesErrors[keyof KappacodeCommandFilesErrors]
 
-export type KilocodeCommandFilesResponses = {
+export type KappacodeCommandFilesResponses = {
   /**
    * Command files
    */
   200: Array<CommandFile>
 }
 
-export type KilocodeCommandFilesResponse = KilocodeCommandFilesResponses[keyof KilocodeCommandFilesResponses]
+export type KappacodeCommandFilesResponse = KappacodeCommandFilesResponses[keyof KappacodeCommandFilesResponses]
 
-export type KilocodeRemoveCommandData = {
+export type KappacodeRemoveCommandData = {
   body?: {
     location: string
   }
@@ -17059,28 +17059,28 @@ export type KilocodeRemoveCommandData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/command/remove"
+  url: "/kappacode/command/remove"
 }
 
-export type KilocodeRemoveCommandErrors = {
+export type KappacodeRemoveCommandErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeRemoveCommandError = KilocodeRemoveCommandErrors[keyof KilocodeRemoveCommandErrors]
+export type KappacodeRemoveCommandError = KappacodeRemoveCommandErrors[keyof KappacodeRemoveCommandErrors]
 
-export type KilocodeRemoveCommandResponses = {
+export type KappacodeRemoveCommandResponses = {
   /**
    * Command removed
    */
   200: boolean
 }
 
-export type KilocodeRemoveCommandResponse = KilocodeRemoveCommandResponses[keyof KilocodeRemoveCommandResponses]
+export type KappacodeRemoveCommandResponse = KappacodeRemoveCommandResponses[keyof KappacodeRemoveCommandResponses]
 
-export type KilocodeRemoveSkillData = {
+export type KappacodeRemoveSkillData = {
   body?: {
     location: string
   }
@@ -17089,28 +17089,28 @@ export type KilocodeRemoveSkillData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/skill/remove"
+  url: "/kappacode/skill/remove"
 }
 
-export type KilocodeRemoveSkillErrors = {
+export type KappacodeRemoveSkillErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeRemoveSkillError = KilocodeRemoveSkillErrors[keyof KilocodeRemoveSkillErrors]
+export type KappacodeRemoveSkillError = KappacodeRemoveSkillErrors[keyof KappacodeRemoveSkillErrors]
 
-export type KilocodeRemoveSkillResponses = {
+export type KappacodeRemoveSkillResponses = {
   /**
    * Skill removed
    */
   200: boolean
 }
 
-export type KilocodeRemoveSkillResponse = KilocodeRemoveSkillResponses[keyof KilocodeRemoveSkillResponses]
+export type KappacodeRemoveSkillResponse = KappacodeRemoveSkillResponses[keyof KappacodeRemoveSkillResponses]
 
-export type KilocodeRemoveAgentData = {
+export type KappacodeRemoveAgentData = {
   body?: {
     name: string
     scope?: "global" | "project"
@@ -17120,56 +17120,56 @@ export type KilocodeRemoveAgentData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/agent/remove"
+  url: "/kappacode/agent/remove"
 }
 
-export type KilocodeRemoveAgentErrors = {
+export type KappacodeRemoveAgentErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeRemoveAgentError = KilocodeRemoveAgentErrors[keyof KilocodeRemoveAgentErrors]
+export type KappacodeRemoveAgentError = KappacodeRemoveAgentErrors[keyof KappacodeRemoveAgentErrors]
 
-export type KilocodeRemoveAgentResponses = {
+export type KappacodeRemoveAgentResponses = {
   /**
    * Agent removed
    */
   200: boolean
 }
 
-export type KilocodeRemoveAgentResponse = KilocodeRemoveAgentResponses[keyof KilocodeRemoveAgentResponses]
+export type KappacodeRemoveAgentResponse = KappacodeRemoveAgentResponses[keyof KappacodeRemoveAgentResponses]
 
-export type KilocodeMarketplaceListData = {
+export type KappacodeMarketplaceListData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/marketplace"
+  url: "/kappacode/marketplace"
 }
 
-export type KilocodeMarketplaceListErrors = {
+export type KappacodeMarketplaceListErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeMarketplaceListError = KilocodeMarketplaceListErrors[keyof KilocodeMarketplaceListErrors]
+export type KappacodeMarketplaceListError = KappacodeMarketplaceListErrors[keyof KappacodeMarketplaceListErrors]
 
-export type KilocodeMarketplaceListResponses = {
+export type KappacodeMarketplaceListResponses = {
   /**
    * Marketplace catalog and installed metadata
    */
   200: MarketplaceListResult
 }
 
-export type KilocodeMarketplaceListResponse = KilocodeMarketplaceListResponses[keyof KilocodeMarketplaceListResponses]
+export type KappacodeMarketplaceListResponse = KappacodeMarketplaceListResponses[keyof KappacodeMarketplaceListResponses]
 
-export type KilocodeMarketplaceInstallData = {
+export type KappacodeMarketplaceInstallData = {
   body?: {
     item: MarketplaceInstallItem
     target?: "project" | "global"
@@ -17182,29 +17182,29 @@ export type KilocodeMarketplaceInstallData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/marketplace/install"
+  url: "/kappacode/marketplace/install"
 }
 
-export type KilocodeMarketplaceInstallErrors = {
+export type KappacodeMarketplaceInstallErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeMarketplaceInstallError = KilocodeMarketplaceInstallErrors[keyof KilocodeMarketplaceInstallErrors]
+export type KappacodeMarketplaceInstallError = KappacodeMarketplaceInstallErrors[keyof KappacodeMarketplaceInstallErrors]
 
-export type KilocodeMarketplaceInstallResponses = {
+export type KappacodeMarketplaceInstallResponses = {
   /**
    * Marketplace install result
    */
   200: MarketplaceInstallResult
 }
 
-export type KilocodeMarketplaceInstallResponse =
-  KilocodeMarketplaceInstallResponses[keyof KilocodeMarketplaceInstallResponses]
+export type KappacodeMarketplaceInstallResponse =
+  KappacodeMarketplaceInstallResponses[keyof KappacodeMarketplaceInstallResponses]
 
-export type KilocodeMarketplaceRemoveData = {
+export type KappacodeMarketplaceRemoveData = {
   body?: {
     item: MarketplaceItemRef
     scope: "project" | "global"
@@ -17214,29 +17214,29 @@ export type KilocodeMarketplaceRemoveData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/marketplace/remove"
+  url: "/kappacode/marketplace/remove"
 }
 
-export type KilocodeMarketplaceRemoveErrors = {
+export type KappacodeMarketplaceRemoveErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeMarketplaceRemoveError = KilocodeMarketplaceRemoveErrors[keyof KilocodeMarketplaceRemoveErrors]
+export type KappacodeMarketplaceRemoveError = KappacodeMarketplaceRemoveErrors[keyof KappacodeMarketplaceRemoveErrors]
 
-export type KilocodeMarketplaceRemoveResponses = {
+export type KappacodeMarketplaceRemoveResponses = {
   /**
    * Marketplace removal result
    */
   200: MarketplaceRemoveResult
 }
 
-export type KilocodeMarketplaceRemoveResponse =
-  KilocodeMarketplaceRemoveResponses[keyof KilocodeMarketplaceRemoveResponses]
+export type KappacodeMarketplaceRemoveResponse =
+  KappacodeMarketplaceRemoveResponses[keyof KappacodeMarketplaceRemoveResponses]
 
-export type KilocodeRemoveSnapshotData = {
+export type KappacodeRemoveSnapshotData = {
   body?: {
     worktree: string
   }
@@ -17245,28 +17245,28 @@ export type KilocodeRemoveSnapshotData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/snapshot/remove"
+  url: "/kappacode/snapshot/remove"
 }
 
-export type KilocodeRemoveSnapshotErrors = {
+export type KappacodeRemoveSnapshotErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeRemoveSnapshotError = KilocodeRemoveSnapshotErrors[keyof KilocodeRemoveSnapshotErrors]
+export type KappacodeRemoveSnapshotError = KappacodeRemoveSnapshotErrors[keyof KappacodeRemoveSnapshotErrors]
 
-export type KilocodeRemoveSnapshotResponses = {
+export type KappacodeRemoveSnapshotResponses = {
   /**
    * Snapshot repository removed
    */
   200: boolean
 }
 
-export type KilocodeRemoveSnapshotResponse = KilocodeRemoveSnapshotResponses[keyof KilocodeRemoveSnapshotResponses]
+export type KappacodeRemoveSnapshotResponse = KappacodeRemoveSnapshotResponses[keyof KappacodeRemoveSnapshotResponses]
 
-export type KilocodeTeardownWorktreeData = {
+export type KappacodeTeardownWorktreeData = {
   body?: {
     worktree: string
   }
@@ -17275,19 +17275,19 @@ export type KilocodeTeardownWorktreeData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/worktree/teardown"
+  url: "/kappacode/worktree/teardown"
 }
 
-export type KilocodeTeardownWorktreeErrors = {
+export type KappacodeTeardownWorktreeErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeTeardownWorktreeError = KilocodeTeardownWorktreeErrors[keyof KilocodeTeardownWorktreeErrors]
+export type KappacodeTeardownWorktreeError = KappacodeTeardownWorktreeErrors[keyof KappacodeTeardownWorktreeErrors]
 
-export type KilocodeTeardownWorktreeResponses = {
+export type KappacodeTeardownWorktreeResponses = {
   /**
    * Worktree backend teardown result
    */
@@ -17296,29 +17296,29 @@ export type KilocodeTeardownWorktreeResponses = {
   }
 }
 
-export type KilocodeTeardownWorktreeResponse =
-  KilocodeTeardownWorktreeResponses[keyof KilocodeTeardownWorktreeResponses]
+export type KappacodeTeardownWorktreeResponse =
+  KappacodeTeardownWorktreeResponses[keyof KappacodeTeardownWorktreeResponses]
 
-export type KilocodeSnapshotPrepareData = {
+export type KappacodeSnapshotPrepareData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/snapshot/prepare"
+  url: "/kappacode/snapshot/prepare"
 }
 
-export type KilocodeSnapshotPrepareErrors = {
+export type KappacodeSnapshotPrepareErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeSnapshotPrepareError = KilocodeSnapshotPrepareErrors[keyof KilocodeSnapshotPrepareErrors]
+export type KappacodeSnapshotPrepareError = KappacodeSnapshotPrepareErrors[keyof KappacodeSnapshotPrepareErrors]
 
-export type KilocodeSnapshotPrepareResponses = {
+export type KappacodeSnapshotPrepareResponses = {
   /**
    * Snapshot repository preparation result
    */
@@ -17328,19 +17328,19 @@ export type KilocodeSnapshotPrepareResponses = {
   }
 }
 
-export type KilocodeSnapshotPrepareResponse = KilocodeSnapshotPrepareResponses[keyof KilocodeSnapshotPrepareResponses]
+export type KappacodeSnapshotPrepareResponse = KappacodeSnapshotPrepareResponses[keyof KappacodeSnapshotPrepareResponses]
 
-export type KilocodeProviderUsageGetData = {
+export type KappacodeProviderUsageGetData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/provider-usage"
+  url: "/kappacode/provider-usage"
 }
 
-export type KilocodeProviderUsageGetErrors = {
+export type KappacodeProviderUsageGetErrors = {
   /**
    * Bad request
    */
@@ -17351,29 +17351,29 @@ export type KilocodeProviderUsageGetErrors = {
   503: EffectHttpApiErrorServiceUnavailable
 }
 
-export type KilocodeProviderUsageGetError = KilocodeProviderUsageGetErrors[keyof KilocodeProviderUsageGetErrors]
+export type KappacodeProviderUsageGetError = KappacodeProviderUsageGetErrors[keyof KappacodeProviderUsageGetErrors]
 
-export type KilocodeProviderUsageGetResponses = {
+export type KappacodeProviderUsageGetResponses = {
   /**
    * Current provider usage
    */
   200: ProviderUsage
 }
 
-export type KilocodeProviderUsageGetResponse =
-  KilocodeProviderUsageGetResponses[keyof KilocodeProviderUsageGetResponses]
+export type KappacodeProviderUsageGetResponse =
+  KappacodeProviderUsageGetResponses[keyof KappacodeProviderUsageGetResponses]
 
-export type KilocodeProviderUsageRefreshData = {
+export type KappacodeProviderUsageRefreshData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/provider-usage/refresh"
+  url: "/kappacode/provider-usage/refresh"
 }
 
-export type KilocodeProviderUsageRefreshErrors = {
+export type KappacodeProviderUsageRefreshErrors = {
   /**
    * Bad request
    */
@@ -17384,48 +17384,48 @@ export type KilocodeProviderUsageRefreshErrors = {
   503: EffectHttpApiErrorServiceUnavailable
 }
 
-export type KilocodeProviderUsageRefreshError =
-  KilocodeProviderUsageRefreshErrors[keyof KilocodeProviderUsageRefreshErrors]
+export type KappacodeProviderUsageRefreshError =
+  KappacodeProviderUsageRefreshErrors[keyof KappacodeProviderUsageRefreshErrors]
 
-export type KilocodeProviderUsageRefreshResponses = {
+export type KappacodeProviderUsageRefreshResponses = {
   /**
    * Refreshed provider usage
    */
   200: ProviderUsage
 }
 
-export type KilocodeProviderUsageRefreshResponse =
-  KilocodeProviderUsageRefreshResponses[keyof KilocodeProviderUsageRefreshResponses]
+export type KappacodeProviderUsageRefreshResponse =
+  KappacodeProviderUsageRefreshResponses[keyof KappacodeProviderUsageRefreshResponses]
 
-export type KilocodeNotebookListData = {
+export type KappacodeNotebookListData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/notebook"
+  url: "/kappacode/notebook"
 }
 
-export type KilocodeNotebookListErrors = {
+export type KappacodeNotebookListErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeNotebookListError = KilocodeNotebookListErrors[keyof KilocodeNotebookListErrors]
+export type KappacodeNotebookListError = KappacodeNotebookListErrors[keyof KappacodeNotebookListErrors]
 
-export type KilocodeNotebookListResponses = {
+export type KappacodeNotebookListResponses = {
   /**
    * Pending notebook host requests
    */
   200: Array<NotebookRequest>
 }
 
-export type KilocodeNotebookListResponse = KilocodeNotebookListResponses[keyof KilocodeNotebookListResponses]
+export type KappacodeNotebookListResponse = KappacodeNotebookListResponses[keyof KappacodeNotebookListResponses]
 
-export type KilocodeNotebookReplyData = {
+export type KappacodeNotebookReplyData = {
   body?: {
     result: NotebookResult
   }
@@ -17436,10 +17436,10 @@ export type KilocodeNotebookReplyData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/notebook/{requestID}/reply"
+  url: "/kappacode/notebook/{requestID}/reply"
 }
 
-export type KilocodeNotebookReplyErrors = {
+export type KappacodeNotebookReplyErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
@@ -17450,18 +17450,18 @@ export type KilocodeNotebookReplyErrors = {
   404: NotFoundError
 }
 
-export type KilocodeNotebookReplyError = KilocodeNotebookReplyErrors[keyof KilocodeNotebookReplyErrors]
+export type KappacodeNotebookReplyError = KappacodeNotebookReplyErrors[keyof KappacodeNotebookReplyErrors]
 
-export type KilocodeNotebookReplyResponses = {
+export type KappacodeNotebookReplyResponses = {
   /**
    * Notebook reply accepted
    */
   200: boolean
 }
 
-export type KilocodeNotebookReplyResponse = KilocodeNotebookReplyResponses[keyof KilocodeNotebookReplyResponses]
+export type KappacodeNotebookReplyResponse = KappacodeNotebookReplyResponses[keyof KappacodeNotebookReplyResponses]
 
-export type KilocodeNotebookRejectData = {
+export type KappacodeNotebookRejectData = {
   body?: {
     error: NotebookFailure
   }
@@ -17472,10 +17472,10 @@ export type KilocodeNotebookRejectData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/notebook/{requestID}/reject"
+  url: "/kappacode/notebook/{requestID}/reject"
 }
 
-export type KilocodeNotebookRejectErrors = {
+export type KappacodeNotebookRejectErrors = {
   /**
    * Bad request
    */
@@ -17486,47 +17486,47 @@ export type KilocodeNotebookRejectErrors = {
   404: NotFoundError
 }
 
-export type KilocodeNotebookRejectError = KilocodeNotebookRejectErrors[keyof KilocodeNotebookRejectErrors]
+export type KappacodeNotebookRejectError = KappacodeNotebookRejectErrors[keyof KappacodeNotebookRejectErrors]
 
-export type KilocodeNotebookRejectResponses = {
+export type KappacodeNotebookRejectResponses = {
   /**
    * Notebook rejection accepted
    */
   200: boolean
 }
 
-export type KilocodeNotebookRejectResponse = KilocodeNotebookRejectResponses[keyof KilocodeNotebookRejectResponses]
+export type KappacodeNotebookRejectResponse = KappacodeNotebookRejectResponses[keyof KappacodeNotebookRejectResponses]
 
-export type KilocodeAgentManagerListData = {
+export type KappacodeAgentManagerListData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/agent-manager"
+  url: "/kappacode/agent-manager"
 }
 
-export type KilocodeAgentManagerListErrors = {
+export type KappacodeAgentManagerListErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeAgentManagerListError = KilocodeAgentManagerListErrors[keyof KilocodeAgentManagerListErrors]
+export type KappacodeAgentManagerListError = KappacodeAgentManagerListErrors[keyof KappacodeAgentManagerListErrors]
 
-export type KilocodeAgentManagerListResponses = {
+export type KappacodeAgentManagerListResponses = {
   /**
    * Pending Agent Manager host requests
    */
   200: Array<AgentManagerRequest>
 }
 
-export type KilocodeAgentManagerListResponse =
-  KilocodeAgentManagerListResponses[keyof KilocodeAgentManagerListResponses]
+export type KappacodeAgentManagerListResponse =
+  KappacodeAgentManagerListResponses[keyof KappacodeAgentManagerListResponses]
 
-export type KilocodeAgentManagerReplyData = {
+export type KappacodeAgentManagerReplyData = {
   body?: {
     result: AgentManagerResult
   }
@@ -17537,10 +17537,10 @@ export type KilocodeAgentManagerReplyData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/agent-manager/{requestID}/reply"
+  url: "/kappacode/agent-manager/{requestID}/reply"
 }
 
-export type KilocodeAgentManagerReplyErrors = {
+export type KappacodeAgentManagerReplyErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
@@ -17551,19 +17551,19 @@ export type KilocodeAgentManagerReplyErrors = {
   404: NotFoundError
 }
 
-export type KilocodeAgentManagerReplyError = KilocodeAgentManagerReplyErrors[keyof KilocodeAgentManagerReplyErrors]
+export type KappacodeAgentManagerReplyError = KappacodeAgentManagerReplyErrors[keyof KappacodeAgentManagerReplyErrors]
 
-export type KilocodeAgentManagerReplyResponses = {
+export type KappacodeAgentManagerReplyResponses = {
   /**
    * Agent Manager reply accepted
    */
   200: boolean
 }
 
-export type KilocodeAgentManagerReplyResponse =
-  KilocodeAgentManagerReplyResponses[keyof KilocodeAgentManagerReplyResponses]
+export type KappacodeAgentManagerReplyResponse =
+  KappacodeAgentManagerReplyResponses[keyof KappacodeAgentManagerReplyResponses]
 
-export type KilocodeAgentManagerRejectData = {
+export type KappacodeAgentManagerRejectData = {
   body?: {
     error: AgentManagerFailure
   }
@@ -17574,10 +17574,10 @@ export type KilocodeAgentManagerRejectData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/agent-manager/{requestID}/reject"
+  url: "/kappacode/agent-manager/{requestID}/reject"
 }
 
-export type KilocodeAgentManagerRejectErrors = {
+export type KappacodeAgentManagerRejectErrors = {
   /**
    * Bad request
    */
@@ -17588,19 +17588,19 @@ export type KilocodeAgentManagerRejectErrors = {
   404: NotFoundError
 }
 
-export type KilocodeAgentManagerRejectError = KilocodeAgentManagerRejectErrors[keyof KilocodeAgentManagerRejectErrors]
+export type KappacodeAgentManagerRejectError = KappacodeAgentManagerRejectErrors[keyof KappacodeAgentManagerRejectErrors]
 
-export type KilocodeAgentManagerRejectResponses = {
+export type KappacodeAgentManagerRejectResponses = {
   /**
    * Agent Manager rejection accepted
    */
   200: boolean
 }
 
-export type KilocodeAgentManagerRejectResponse =
-  KilocodeAgentManagerRejectResponses[keyof KilocodeAgentManagerRejectResponses]
+export type KappacodeAgentManagerRejectResponse =
+  KappacodeAgentManagerRejectResponses[keyof KappacodeAgentManagerRejectResponses]
 
-export type KilocodeSessionModelUsageData = {
+export type KappacodeSessionModelUsageData = {
   body?: never
   path: {
     sessionID: string
@@ -17612,7 +17612,7 @@ export type KilocodeSessionModelUsageData = {
   url: "/session/{sessionID}/model-usage"
 }
 
-export type KilocodeSessionModelUsageErrors = {
+export type KappacodeSessionModelUsageErrors = {
   /**
    * Bad request
    */
@@ -17623,9 +17623,9 @@ export type KilocodeSessionModelUsageErrors = {
   404: NotFoundError
 }
 
-export type KilocodeSessionModelUsageError = KilocodeSessionModelUsageErrors[keyof KilocodeSessionModelUsageErrors]
+export type KappacodeSessionModelUsageError = KappacodeSessionModelUsageErrors[keyof KappacodeSessionModelUsageErrors]
 
-export type KilocodeSessionModelUsageResponses = {
+export type KappacodeSessionModelUsageResponses = {
   /**
    * Model usage for a session tree
    */
@@ -17663,10 +17663,10 @@ export type KilocodeSessionModelUsageResponses = {
   }
 }
 
-export type KilocodeSessionModelUsageResponse =
-  KilocodeSessionModelUsageResponses[keyof KilocodeSessionModelUsageResponses]
+export type KappacodeSessionModelUsageResponse =
+  KappacodeSessionModelUsageResponses[keyof KappacodeSessionModelUsageResponses]
 
-export type KilocodeBackgroundJobsData = {
+export type KappacodeBackgroundJobsData = {
   body?: never
   path?: never
   query: {
@@ -17674,19 +17674,19 @@ export type KilocodeBackgroundJobsData = {
     workspace?: string
     sessionID: string
   }
-  url: "/kilocode/background-jobs"
+  url: "/kappacode/background-jobs"
 }
 
-export type KilocodeBackgroundJobsErrors = {
+export type KappacodeBackgroundJobsErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeBackgroundJobsError = KilocodeBackgroundJobsErrors[keyof KilocodeBackgroundJobsErrors]
+export type KappacodeBackgroundJobsError = KappacodeBackgroundJobsErrors[keyof KappacodeBackgroundJobsErrors]
 
-export type KilocodeBackgroundJobsResponses = {
+export type KappacodeBackgroundJobsResponses = {
   /**
    * Background jobs
    */
@@ -17704,9 +17704,9 @@ export type KilocodeBackgroundJobsResponses = {
   }>
 }
 
-export type KilocodeBackgroundJobsResponse = KilocodeBackgroundJobsResponses[keyof KilocodeBackgroundJobsResponses]
+export type KappacodeBackgroundJobsResponse = KappacodeBackgroundJobsResponses[keyof KappacodeBackgroundJobsResponses]
 
-export type KilocodeBackgroundJobCancelData = {
+export type KappacodeBackgroundJobCancelData = {
   body?: never
   path: {
     jobID: string
@@ -17715,10 +17715,10 @@ export type KilocodeBackgroundJobCancelData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/background-jobs/{jobID}/cancel"
+  url: "/kappacode/background-jobs/{jobID}/cancel"
 }
 
-export type KilocodeBackgroundJobCancelErrors = {
+export type KappacodeBackgroundJobCancelErrors = {
   /**
    * Bad request
    */
@@ -17729,20 +17729,20 @@ export type KilocodeBackgroundJobCancelErrors = {
   404: NotFoundError
 }
 
-export type KilocodeBackgroundJobCancelError =
-  KilocodeBackgroundJobCancelErrors[keyof KilocodeBackgroundJobCancelErrors]
+export type KappacodeBackgroundJobCancelError =
+  KappacodeBackgroundJobCancelErrors[keyof KappacodeBackgroundJobCancelErrors]
 
-export type KilocodeBackgroundJobCancelResponses = {
+export type KappacodeBackgroundJobCancelResponses = {
   /**
    * Background job cancelled
    */
   200: boolean
 }
 
-export type KilocodeBackgroundJobCancelResponse =
-  KilocodeBackgroundJobCancelResponses[keyof KilocodeBackgroundJobCancelResponses]
+export type KappacodeBackgroundJobCancelResponse =
+  KappacodeBackgroundJobCancelResponses[keyof KappacodeBackgroundJobCancelResponses]
 
-export type KilocodeBackgroundJobPromoteData = {
+export type KappacodeBackgroundJobPromoteData = {
   body?: never
   path: {
     jobID: string
@@ -17751,10 +17751,10 @@ export type KilocodeBackgroundJobPromoteData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/background-jobs/{jobID}/promote"
+  url: "/kappacode/background-jobs/{jobID}/promote"
 }
 
-export type KilocodeBackgroundJobPromoteErrors = {
+export type KappacodeBackgroundJobPromoteErrors = {
   /**
    * Bad request
    */
@@ -17765,39 +17765,39 @@ export type KilocodeBackgroundJobPromoteErrors = {
   404: NotFoundError
 }
 
-export type KilocodeBackgroundJobPromoteError =
-  KilocodeBackgroundJobPromoteErrors[keyof KilocodeBackgroundJobPromoteErrors]
+export type KappacodeBackgroundJobPromoteError =
+  KappacodeBackgroundJobPromoteErrors[keyof KappacodeBackgroundJobPromoteErrors]
 
-export type KilocodeBackgroundJobPromoteResponses = {
+export type KappacodeBackgroundJobPromoteResponses = {
   /**
    * Background job promoted
    */
   200: boolean
 }
 
-export type KilocodeBackgroundJobPromoteResponse =
-  KilocodeBackgroundJobPromoteResponses[keyof KilocodeBackgroundJobPromoteResponses]
+export type KappacodeBackgroundJobPromoteResponse =
+  KappacodeBackgroundJobPromoteResponses[keyof KappacodeBackgroundJobPromoteResponses]
 
-export type KilocodeWakeupsData = {
+export type KappacodeWakeupsData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/wakeups"
+  url: "/kappacode/wakeups"
 }
 
-export type KilocodeWakeupsErrors = {
+export type KappacodeWakeupsErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeWakeupsError = KilocodeWakeupsErrors[keyof KilocodeWakeupsErrors]
+export type KappacodeWakeupsError = KappacodeWakeupsErrors[keyof KappacodeWakeupsErrors]
 
-export type KilocodeWakeupsResponses = {
+export type KappacodeWakeupsResponses = {
   /**
    * Pending wakeups for the routed directory
    */
@@ -17807,28 +17807,28 @@ export type KilocodeWakeupsResponses = {
   }>
 }
 
-export type KilocodeWakeupsResponse = KilocodeWakeupsResponses[keyof KilocodeWakeupsResponses]
+export type KappacodeWakeupsResponse = KappacodeWakeupsResponses[keyof KappacodeWakeupsResponses]
 
-export type KilocodeRetentionStatusData = {
+export type KappacodeRetentionStatusData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/retention"
+  url: "/kappacode/retention"
 }
 
-export type KilocodeRetentionStatusErrors = {
+export type KappacodeRetentionStatusErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeRetentionStatusError = KilocodeRetentionStatusErrors[keyof KilocodeRetentionStatusErrors]
+export type KappacodeRetentionStatusError = KappacodeRetentionStatusErrors[keyof KappacodeRetentionStatusErrors]
 
-export type KilocodeRetentionStatusResponses = {
+export type KappacodeRetentionStatusResponses = {
   /**
    * Session retention policy and last run
    */
@@ -17858,9 +17858,9 @@ export type KilocodeRetentionStatusResponses = {
   }
 }
 
-export type KilocodeRetentionStatusResponse = KilocodeRetentionStatusResponses[keyof KilocodeRetentionStatusResponses]
+export type KappacodeRetentionStatusResponse = KappacodeRetentionStatusResponses[keyof KappacodeRetentionStatusResponses]
 
-export type KilocodeRetentionRunData = {
+export type KappacodeRetentionRunData = {
   body?: {
     force?: boolean
   }
@@ -17869,19 +17869,19 @@ export type KilocodeRetentionRunData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/retention/run"
+  url: "/kappacode/retention/run"
 }
 
-export type KilocodeRetentionRunErrors = {
+export type KappacodeRetentionRunErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeRetentionRunError = KilocodeRetentionRunErrors[keyof KilocodeRetentionRunErrors]
+export type KappacodeRetentionRunError = KappacodeRetentionRunErrors[keyof KappacodeRetentionRunErrors]
 
-export type KilocodeRetentionRunResponses = {
+export type KappacodeRetentionRunResponses = {
   /**
    * Retention pass outcome
    */
@@ -17911,28 +17911,28 @@ export type KilocodeRetentionRunResponses = {
   }
 }
 
-export type KilocodeRetentionRunResponse = KilocodeRetentionRunResponses[keyof KilocodeRetentionRunResponses]
+export type KappacodeRetentionRunResponse = KappacodeRetentionRunResponses[keyof KappacodeRetentionRunResponses]
 
-export type KilocodeRetentionCancelData = {
+export type KappacodeRetentionCancelData = {
   body?: never
   path?: never
   query?: {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/retention/cancel"
+  url: "/kappacode/retention/cancel"
 }
 
-export type KilocodeRetentionCancelErrors = {
+export type KappacodeRetentionCancelErrors = {
   /**
    * Bad request
    */
   400: BadRequestError
 }
 
-export type KilocodeRetentionCancelError = KilocodeRetentionCancelErrors[keyof KilocodeRetentionCancelErrors]
+export type KappacodeRetentionCancelError = KappacodeRetentionCancelErrors[keyof KappacodeRetentionCancelErrors]
 
-export type KilocodeRetentionCancelResponses = {
+export type KappacodeRetentionCancelResponses = {
   /**
    * Retention cancel request outcome; false when no pass was running
    */
@@ -17941,7 +17941,7 @@ export type KilocodeRetentionCancelResponses = {
   }
 }
 
-export type KilocodeRetentionCancelResponse = KilocodeRetentionCancelResponses[keyof KilocodeRetentionCancelResponses]
+export type KappacodeRetentionCancelResponse = KappacodeRetentionCancelResponses[keyof KappacodeRetentionCancelResponses]
 
 export type AnacondaDesktopStatusData = {
   body?: never
@@ -17950,7 +17950,7 @@ export type AnacondaDesktopStatusData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/anaconda-desktop/status"
+  url: "/kappacode/anaconda-desktop/status"
 }
 
 export type AnacondaDesktopStatusErrors = {
@@ -17978,7 +17978,7 @@ export type AnacondaDesktopOpenData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/anaconda-desktop/open"
+  url: "/kappacode/anaconda-desktop/open"
 }
 
 export type AnacondaDesktopOpenErrors = {
@@ -18016,7 +18016,7 @@ export type AnacondaDesktopSyncData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/anaconda-desktop/sync"
+  url: "/kappacode/anaconda-desktop/sync"
 }
 
 export type AnacondaDesktopSyncErrors = {
@@ -18055,7 +18055,7 @@ export type AnacondaDesktopSyncResponses = {
 
 export type AnacondaDesktopSyncResponse = AnacondaDesktopSyncResponses[keyof AnacondaDesktopSyncResponses]
 
-export type KilocodeMigrateSessionsData = {
+export type KappacodeMigrateSessionsData = {
   body?: {
     cwd?: string
     formats?: Array<"claude" | "codex">
@@ -18069,10 +18069,10 @@ export type KilocodeMigrateSessionsData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/migrate/sessions"
+  url: "/kappacode/migrate/sessions"
 }
 
-export type KilocodeMigrateSessionsErrors = {
+export type KappacodeMigrateSessionsErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
@@ -18083,18 +18083,18 @@ export type KilocodeMigrateSessionsErrors = {
   422: MigrateFailedError
 }
 
-export type KilocodeMigrateSessionsError = KilocodeMigrateSessionsErrors[keyof KilocodeMigrateSessionsErrors]
+export type KappacodeMigrateSessionsError = KappacodeMigrateSessionsErrors[keyof KappacodeMigrateSessionsErrors]
 
-export type KilocodeMigrateSessionsResponses = {
+export type KappacodeMigrateSessionsResponses = {
   /**
    * Session migration result
    */
-  200: KilocodeMigrateSessionsResult
+  200: KappacodeMigrateSessionsResult
 }
 
-export type KilocodeMigrateSessionsResponse = KilocodeMigrateSessionsResponses[keyof KilocodeMigrateSessionsResponses]
+export type KappacodeMigrateSessionsResponse = KappacodeMigrateSessionsResponses[keyof KappacodeMigrateSessionsResponses]
 
-export type KilocodeMigrateDiscoverData = {
+export type KappacodeMigrateDiscoverData = {
   body?: {
     cwd?: string
     formats?: Array<"claude" | "codex">
@@ -18104,10 +18104,10 @@ export type KilocodeMigrateDiscoverData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/migrate/sessions/discover"
+  url: "/kappacode/migrate/sessions/discover"
 }
 
-export type KilocodeMigrateDiscoverErrors = {
+export type KappacodeMigrateDiscoverErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
@@ -18118,16 +18118,16 @@ export type KilocodeMigrateDiscoverErrors = {
   422: MigrateFailedError
 }
 
-export type KilocodeMigrateDiscoverError = KilocodeMigrateDiscoverErrors[keyof KilocodeMigrateDiscoverErrors]
+export type KappacodeMigrateDiscoverError = KappacodeMigrateDiscoverErrors[keyof KappacodeMigrateDiscoverErrors]
 
-export type KilocodeMigrateDiscoverResponses = {
+export type KappacodeMigrateDiscoverResponses = {
   /**
    * Discovered migratable sessions
    */
-  200: KilocodeMigrateSessionsDiscoverResult
+  200: KappacodeMigrateSessionsDiscoverResult
 }
 
-export type KilocodeMigrateDiscoverResponse = KilocodeMigrateDiscoverResponses[keyof KilocodeMigrateDiscoverResponses]
+export type KappacodeMigrateDiscoverResponse = KappacodeMigrateDiscoverResponses[keyof KappacodeMigrateDiscoverResponses]
 
 export type NetworkListData = {
   body?: never
@@ -18429,7 +18429,7 @@ export type SandboxToggleResponses = {
 
 export type SandboxToggleResponse = SandboxToggleResponses[keyof SandboxToggleResponses]
 
-export type KilocodeSessionImportProjectData = {
+export type KappacodeSessionImportProjectData = {
   body?: {
     id: string
     worktree: string
@@ -18450,30 +18450,30 @@ export type KilocodeSessionImportProjectData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/session-import/project"
+  url: "/kappacode/session-import/project"
 }
 
-export type KilocodeSessionImportProjectErrors = {
+export type KappacodeSessionImportProjectErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeSessionImportProjectError =
-  KilocodeSessionImportProjectErrors[keyof KilocodeSessionImportProjectErrors]
+export type KappacodeSessionImportProjectError =
+  KappacodeSessionImportProjectErrors[keyof KappacodeSessionImportProjectErrors]
 
-export type KilocodeSessionImportProjectResponses = {
+export type KappacodeSessionImportProjectResponses = {
   /**
    * Project import result
    */
-  200: KilocodeSessionImportResult
+  200: KappacodeSessionImportResult
 }
 
-export type KilocodeSessionImportProjectResponse =
-  KilocodeSessionImportProjectResponses[keyof KilocodeSessionImportProjectResponses]
+export type KappacodeSessionImportProjectResponse =
+  KappacodeSessionImportProjectResponses[keyof KappacodeSessionImportProjectResponses]
 
-export type KilocodeSessionImportSessionData = {
+export type KappacodeSessionImportSessionData = {
   body?: {
     id: string
     projectID: string
@@ -18513,30 +18513,30 @@ export type KilocodeSessionImportSessionData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/session-import/session"
+  url: "/kappacode/session-import/session"
 }
 
-export type KilocodeSessionImportSessionErrors = {
+export type KappacodeSessionImportSessionErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeSessionImportSessionError =
-  KilocodeSessionImportSessionErrors[keyof KilocodeSessionImportSessionErrors]
+export type KappacodeSessionImportSessionError =
+  KappacodeSessionImportSessionErrors[keyof KappacodeSessionImportSessionErrors]
 
-export type KilocodeSessionImportSessionResponses = {
+export type KappacodeSessionImportSessionResponses = {
   /**
    * Session import result
    */
-  200: KilocodeSessionImportResult
+  200: KappacodeSessionImportResult
 }
 
-export type KilocodeSessionImportSessionResponse =
-  KilocodeSessionImportSessionResponses[keyof KilocodeSessionImportSessionResponses]
+export type KappacodeSessionImportSessionResponse =
+  KappacodeSessionImportSessionResponses[keyof KappacodeSessionImportSessionResponses]
 
-export type KilocodeSessionImportMessageData = {
+export type KappacodeSessionImportMessageData = {
   body?: {
     id: string
     sessionID: string
@@ -18593,30 +18593,30 @@ export type KilocodeSessionImportMessageData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/session-import/message"
+  url: "/kappacode/session-import/message"
 }
 
-export type KilocodeSessionImportMessageErrors = {
+export type KappacodeSessionImportMessageErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeSessionImportMessageError =
-  KilocodeSessionImportMessageErrors[keyof KilocodeSessionImportMessageErrors]
+export type KappacodeSessionImportMessageError =
+  KappacodeSessionImportMessageErrors[keyof KappacodeSessionImportMessageErrors]
 
-export type KilocodeSessionImportMessageResponses = {
+export type KappacodeSessionImportMessageResponses = {
   /**
    * Message import result
    */
-  200: KilocodeSessionImportResult
+  200: KappacodeSessionImportResult
 }
 
-export type KilocodeSessionImportMessageResponse =
-  KilocodeSessionImportMessageResponses[keyof KilocodeSessionImportMessageResponses]
+export type KappacodeSessionImportMessageResponse =
+  KappacodeSessionImportMessageResponses[keyof KappacodeSessionImportMessageResponses]
 
-export type KilocodeSessionImportPartData = {
+export type KappacodeSessionImportPartData = {
   body?: {
     id: string
     messageID: string
@@ -18712,27 +18712,27 @@ export type KilocodeSessionImportPartData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilocode/session-import/part"
+  url: "/kappacode/session-import/part"
 }
 
-export type KilocodeSessionImportPartErrors = {
+export type KappacodeSessionImportPartErrors = {
   /**
    * BadRequest | InvalidRequestError
    */
   400: EffectHttpApiErrorBadRequest | InvalidRequestError
 }
 
-export type KilocodeSessionImportPartError = KilocodeSessionImportPartErrors[keyof KilocodeSessionImportPartErrors]
+export type KappacodeSessionImportPartError = KappacodeSessionImportPartErrors[keyof KappacodeSessionImportPartErrors]
 
-export type KilocodeSessionImportPartResponses = {
+export type KappacodeSessionImportPartResponses = {
   /**
    * Part import result
    */
-  200: KilocodeSessionImportResult
+  200: KappacodeSessionImportResult
 }
 
-export type KilocodeSessionImportPartResponse =
-  KilocodeSessionImportPartResponses[keyof KilocodeSessionImportPartResponses]
+export type KappacodeSessionImportPartResponse =
+  KappacodeSessionImportPartResponses[keyof KappacodeSessionImportPartResponses]
 
 export type SuggestionListData = {
   body?: never

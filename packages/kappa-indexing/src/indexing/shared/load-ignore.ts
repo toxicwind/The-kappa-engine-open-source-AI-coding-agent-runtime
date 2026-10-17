@@ -4,7 +4,7 @@ import ignore, { type Ignore } from "ignore"
 import path from "path"
 import { FileIgnore } from "../../file/ignore"
 
-const files = [".gitignore", ".kilocodeignore"] as const
+const files = [".gitignore", ".kappacodeignore"] as const
 const order = new Map(files.map((name, index) => [name, index]))
 
 type Entry = {
@@ -107,7 +107,7 @@ function rules(dir: string, txt: string): string[] {
 const GLOB_META = /[*?![\]{}()]/
 
 // Derive best-effort directory-prune globs for the native watcher from the same
-// .gitignore/.kilocodeignore lines. Only non-negated, non-glob directory patterns
+// .gitignore/.kappacodeignore lines. Only non-negated, non-glob directory patterns
 // are emitted, and any candidate a re-include (!) could reach is dropped: parcel's
 // ignore cannot honor negation, so an over-prune would silently stop indexing a
 // re-included file. Under-pruning only costs a few watch descriptors.
@@ -179,7 +179,7 @@ class WorkspaceIgnore implements IgnoreMatcher {
 }
 
 export async function loadIgnore(root: string): Promise<IgnoreMatcher> {
-  const paths = await glob("**/{.gitignore,.kilocodeignore}", {
+  const paths = await glob("**/{.gitignore,.kappacodeignore}", {
     cwd: root,
     absolute: true,
     nodir: true,
@@ -243,7 +243,7 @@ export async function loadIgnore(root: string): Promise<IgnoreMatcher> {
     }
     matcher.add(`${entry.dir}/${entry.name}`)
   }
-  matcher.add([".gitignore", ".kilocodeignore", "**/.gitignore", "**/.kilocodeignore"])
+  matcher.add([".gitignore", ".kappacodeignore", "**/.gitignore", "**/.kappacodeignore"])
 
   return new WorkspaceIgnore(matcher, pruneGlobs(sorted))
 }

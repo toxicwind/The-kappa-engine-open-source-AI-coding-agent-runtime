@@ -3,9 +3,9 @@ import path from "path"
 import { stat } from "node:fs/promises"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import * as Log from "@opencode-ai/core/util/log"
-import { KiloSnapshotMaterialize } from "./materialize"
+import { KappaSnapshotMaterialize } from "./materialize"
 
-export namespace KiloSnapshotSeed {
+export namespace KappaSnapshotSeed {
   const log = Log.create({ service: "snapshot.seed" })
 
   interface Result {
@@ -179,7 +179,7 @@ export namespace KiloSnapshotSeed {
       const hash = tree.text.trim()
       if (tree.code !== 0 || !hash) return yield* reset("write-tree", true)
 
-      const ref = KiloSnapshotMaterialize.ref(input.gitdir)
+      const ref = KappaSnapshotMaterialize.ref(input.gitdir)
       const pin = yield* input.git(["--git-dir", common, "update-ref", ref, hash])
       if (pin.code !== 0) return yield* reset("source-pin", true)
       pinned.gitdir = common

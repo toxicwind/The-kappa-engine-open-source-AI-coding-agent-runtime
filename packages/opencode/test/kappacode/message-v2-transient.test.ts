@@ -3,7 +3,7 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { MessageV2 } from "../../src/session/message-v2"
-import { KiloPartLifecycle } from "../../src/kappacode/session/part-lifecycle"
+import { KappaPartLifecycle } from "../../src/kappacode/session/part-lifecycle"
 import { MessageID, PartID, SessionID } from "../../src/session/schema"
 import type { Provider } from "../../src/provider/provider"
 
@@ -72,7 +72,7 @@ test("does not replay persisted transient snapshot progress", async () => {
           type: "text",
           text: "Initializing snapshot…",
           synthetic: true,
-          metadata: { [KiloPartLifecycle.key]: "transient" },
+          metadata: { [KappaPartLifecycle.key]: "transient" },
         },
       ] as SessionV1.Part[],
     },

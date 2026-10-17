@@ -1,6 +1,6 @@
 ---
 title: "CLI Command Reference"
-description: "Complete reference for all Kilo CLI commands and subcommands"
+description: "Complete reference for all Kappa CLI commands and subcommands"
 ---
 
 # CLI Command Reference
@@ -697,7 +697,7 @@ Options:
 ## kappa profile
 
 ```
-show Kilo account profile
+show Kappa account profile
 
 Options:
   --help     Show help  [boolean]
@@ -978,10 +978,10 @@ Options:
 ## kappa console
 
 ```
-open or stop the local Kilo Console (deprecated)
+open or stop the local Kappa Console (deprecated)
 
 Commands:
-  kappa console       open the local Kilo Console (deprecated)  [default]
+  kappa console       open the local Kappa Console (deprecated)  [default]
   kappa console stop  stop the local kappa daemon
 
 Options:
@@ -1037,7 +1037,7 @@ Options:
   --branch        repository branch  [string]
   --model         Cloud Agent model  [string]
   --mode          Cloud Agent mode  [string]
-  --org-id        Kilo organization ID  [string]
+  --org-id        Kappa organization ID  [string]
   --stream        connect to the WebSocket stream and print events as JSONL  [boolean]
 ```
 

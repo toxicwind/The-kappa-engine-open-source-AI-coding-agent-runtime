@@ -2,7 +2,7 @@ import type { McpAuth } from "../../mcp/auth"
 
 // Automatic OAuth invalidation must never delete credentials that a concurrent
 // operation already replaced. The SDK calls `invalidateCredentials` after a
-// rejected refresh, but by then another Kilo instance may have saved a newer
+// rejected refresh, but by then another Kappa instance may have saved a newer
 // token for the same server (Atlassian rotates refresh tokens, and every
 // directory instance shares one `mcp-auth.json`). Deleting blindly wipes the
 // winner's tokens and forces a fresh sign-in everywhere.

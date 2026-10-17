@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from "bun:test"
 import type { ModelMessage } from "ai"
 import { MessageV2 } from "@/session/message-v2"
-import { KiloSessionTitle } from "@/kappacode/session/title"
+import { KappaSessionTitle } from "@/kappacode/session/title"
 
 const sessionID = "ses_test" as MessageV2.WithParts["info"]["sessionID"]
 
@@ -45,51 +45,51 @@ function content(messages: ModelMessage[]) {
   return typeof first?.content === "string" ? first.content : JSON.stringify(first?.content)
 }
 
-beforeEach(() => KiloSessionTitle.clearAll())
+beforeEach(() => KappaSessionTitle.clearAll())
 
-describe("KiloSessionTitle.shouldGenerate", () => {
+describe("KappaSessionTitle.shouldGenerate", () => {
   test("waits for a short first message without tool work", () => {
     const history = [user([text("fix this bug")])]
-    expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(false)
+    expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(false)
   })
 
   test("names a substantial first message and consumes one attempt", () => {
     const history = [user([text("x".repeat(200))])]
-    expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
-    expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
+    expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
+    expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
   })
 
   test("names once a turn ran a tool", () => {
     const history = [user([text("see the link")]), assistant([tool("getBugDetails", "Bug 14212", "bug details")])]
-    expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
+    expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
   })
 
   test("names a second user message even without work", () => {
     const history = [user([text("hi")]), assistant([text("hello")]), user([text("fix the parser")])]
-    expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
+    expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
   })
 
   test("ignores synthetic-only user turns", () => {
     const history = [user([text("Summarize the task tool output above", { synthetic: true })])]
-    expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(false)
+    expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(false)
   })
 
   test("stops after the attempt cap", () => {
     const history = [user([text("x".repeat(200))])]
-    for (let i = 0; i < 4; i++) expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
-    expect(KiloSessionTitle.shouldGenerate({ sessionID, history })).toBe(false)
+    for (let i = 0; i < 4; i++) expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(true)
+    expect(KappaSessionTitle.shouldGenerate({ sessionID, history })).toBe(false)
   })
 })
 
-describe("KiloSessionTitle.build", () => {
+describe("KappaSessionTitle.build", () => {
   test("returns null without a real user turn", () => {
-    expect(KiloSessionTitle.build([])).toBeNull()
-    expect(KiloSessionTitle.build([user([text("hidden", { synthetic: true })])])).toBeNull()
+    expect(KappaSessionTitle.build([])).toBeNull()
+    expect(KappaSessionTitle.build([user([text("hidden", { synthetic: true })])])).toBeNull()
   })
 
   test("includes the title request marker and recent user messages", () => {
     const history = [user([text("first ask")]), assistant([text("ok")]), user([text("second ask")])]
-    const built = KiloSessionTitle.build(history)
+    const built = KappaSessionTitle.build(history)
     expect(built).not.toBeNull()
     const body = content(built!.messages)
     expect(body).toContain("Generate a title for this conversation")
@@ -100,7 +100,7 @@ describe("KiloSessionTitle.build", () => {
 
   test("adds bounded tool excerpts from the current turn", () => {
     const history = [user([text("fix the link")]), assistant([tool("getBugDetails", "Bug 14212", "y".repeat(900))])]
-    const body = content(KiloSessionTitle.build(history)!.messages)
+    const body = content(KappaSessionTitle.build(history)!.messages)
     expect(body).toContain("getBugDetails: Bug 14212")
     expect(body).toContain("y".repeat(500))
     expect(body).not.toContain("y".repeat(501))
@@ -108,7 +108,7 @@ describe("KiloSessionTitle.build", () => {
 
   test("drops synthetic user text from the context", () => {
     const history = [user([text("visible", {}), text("hidden", { synthetic: true })])]
-    const body = content(KiloSessionTitle.build(history)!.messages)
+    const body = content(KappaSessionTitle.build(history)!.messages)
     expect(body).toContain("visible")
     expect(body).not.toContain("hidden")
   })

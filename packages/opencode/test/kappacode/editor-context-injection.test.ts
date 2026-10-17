@@ -3,7 +3,7 @@ import path from "node:path"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import type { Provider } from "../../src/provider/provider"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
 import { MessageV2 } from "../../src/session/message-v2"
 import { MessageID, PartID, SessionID } from "../../src/session/schema"
 
@@ -78,8 +78,8 @@ function assistant(parentID: MessageID, text: string) {
   } satisfies MessageV2.WithParts
 }
 
-function inject(msgs: MessageV2.WithParts[], cache: KiloSessionPrompt.EnvCache = {}) {
-  KiloSessionPrompt.injectEditorContext({ msgs, session, sessionID, cache })
+function inject(msgs: MessageV2.WithParts[], cache: KappaSessionPrompt.EnvCache = {}) {
+  KappaSessionPrompt.injectEditorContext({ msgs, session, sessionID, cache })
 }
 
 function blocks(msg: MessageV2.WithParts) {
@@ -120,7 +120,7 @@ describe("injectEditorContext", () => {
 
   test("is byte-identical across repeated loop iterations", async () => {
     const stored = user("list files", Date.parse("2026-08-24T12:00:00Z"))
-    const cache: KiloSessionPrompt.EnvCache = {}
+    const cache: KappaSessionPrompt.EnvCache = {}
     const first = [structuredClone(stored)]
     const second = [structuredClone(stored)]
 

@@ -12,7 +12,7 @@ import { SessionProjector } from "@opencode-ai/core/session/projector"
 import { Instance } from "../../src/kappacode/instance"
 import { provideTestInstance } from "../fixture/fixture"
 import { PlanFollowup } from "../../src/kappacode/plan-followup"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
 import { makeRuntime } from "../../src/effect/run-service"
 import { Question } from "../../src/question"
 import { Session } from "../../src/session/session"
@@ -217,7 +217,7 @@ describe("plan_exit detection", () => {
       await expect(pending).resolves.toBe("break")
     }))
 
-  test("KiloSessionPrompt routes listener-local plan follow-up events to the active directory", () =>
+  test("KappaSessionPrompt routes listener-local plan follow-up events to the active directory", () =>
     withInstance(async () => {
       const seeded = await seed({
         text: "Here is the plan",
@@ -237,7 +237,7 @@ describe("plan_exit detection", () => {
         const result = await Effect.runPromise(
           Effect.gen(function* () {
             const question = yield* Question.Service
-            const pending = KiloSessionPrompt.askPlanFollowup({
+            const pending = KappaSessionPrompt.askPlanFollowup({
               sessionID: seeded.sessionID,
               messages: seeded.messages,
               abort: AbortSignal.any([]),
@@ -268,7 +268,7 @@ describe("plan_exit detection", () => {
       }
     }))
 
-  test("KiloSessionPrompt cleans listener-local plan follow-up when aborted outside instance context", () => {
+  test("KappaSessionPrompt cleans listener-local plan follow-up when aborted outside instance context", () => {
     const outside = new AsyncResource("plan-followup-abort-test")
     return withInstance(async () => {
       const seeded = await seed({
@@ -286,7 +286,7 @@ describe("plan_exit detection", () => {
         Effect.gen(function* () {
           const question = yield* Question.Service
           const abort = new AbortController()
-          const pending = KiloSessionPrompt.askPlanFollowup({
+          const pending = KappaSessionPrompt.askPlanFollowup({
             sessionID: seeded.sessionID,
             messages: seeded.messages,
             abort: abort.signal,
@@ -681,7 +681,7 @@ describe("plan_exit detection", () => {
           },
         ],
       }
-      await KiloSessionPrompt.insertPlanReminders({
+      await KappaSessionPrompt.insertPlanReminders({
         agent: { name: "Architect", options: {} },
         session,
         userMessage: user,
@@ -723,7 +723,7 @@ describe("plan_exit detection", () => {
         ],
       }
 
-      await KiloSessionPrompt.insertPlanReminders({
+      await KappaSessionPrompt.insertPlanReminders({
         agent: { name: "plan", options: {} },
         session,
         userMessage: user,
@@ -741,7 +741,7 @@ describe("plan_exit detection", () => {
 
         process.env.KILO_CLIENT = "vscode"
         const supported = userMessage({ sessionID: session.id, agent: "plan", text: "Create a plan." })
-        await KiloSessionPrompt.insertPlanReminders({
+        await KappaSessionPrompt.insertPlanReminders({
           agent: { name: "plan", options: {} },
           session,
           userMessage: supported,
@@ -753,7 +753,7 @@ describe("plan_exit detection", () => {
 
         process.env.KILO_CLIENT = "acp"
         const acp = userMessage({ sessionID: session.id, agent: "plan", text: "Create a plan." })
-        await KiloSessionPrompt.insertPlanReminders({
+        await KappaSessionPrompt.insertPlanReminders({
           agent: { name: "plan", options: {} },
           session,
           userMessage: acp,
@@ -793,7 +793,7 @@ describe("plan_exit detection", () => {
         ],
       }
 
-      await KiloSessionPrompt.insertPlanReminders({
+      await KappaSessionPrompt.insertPlanReminders({
         agent: { name: "plan", options: {} },
         session,
         userMessage: user,
@@ -844,7 +844,7 @@ describe("plan_exit detection", () => {
           },
         ],
       }
-      await KiloSessionPrompt.insertPlanReminders({
+      await KappaSessionPrompt.insertPlanReminders({
         agent: { name: "plan", options: {} },
         session,
         userMessage: user,
@@ -882,7 +882,7 @@ describe("plan_exit detection", () => {
         ],
       }
 
-      await KiloSessionPrompt.insertPlanReminders({
+      await KappaSessionPrompt.insertPlanReminders({
         agent: { name: "Architect", options: {} },
         session,
         userMessage: user,
@@ -901,7 +901,7 @@ describe("plan_exit detection", () => {
     withInstance(async () => {
       const session = await sessions.create({})
       const user = userMessage({ sessionID: session.id, agent: "plan", text: "write this to a file:" })
-      await KiloSessionPrompt.insertPlanReminders({
+      await KappaSessionPrompt.insertPlanReminders({
         agent: { name: "plan", options: {} },
         session,
         userMessage: user,

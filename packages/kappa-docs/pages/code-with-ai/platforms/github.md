@@ -1,11 +1,11 @@
 ---
 title: "GitHub"
-description: "Using Kilo Code in GitHub issues, pull requests, and review comments"
+description: "Using Kappa Code in GitHub issues, pull requests, and review comments"
 ---
 
-# Kilo for GitHub
+# Kappa for GitHub
 
-**Kilo for GitHub** lets you interact with Kilo directly from your GitHub issues, pull requests, and review comments. Mention the bot and it will:
+**Kappa for GitHub** lets you interact with Kappa directly from your GitHub issues, pull requests, and review comments. Mention the bot and it will:
 
 - Read the surrounding context
 - Access the repository
@@ -61,9 +61,9 @@ The bot examines the bug report, searches the codebase for related code paths, a
 ## How It Works
 
 1. **Mention `@kappacode-bot`** on an issue, pull request, or review comment
-2. **Kilo reads the context** — the issue description, PR diff, review thread, and connected repository code
+2. **Kappa reads the context** — the issue description, PR diff, review thread, and connected repository code
 3. **A Cloud Agent spins up** to process the request
-4. **Kilo responds** with an answer, analysis, or a pull request containing the implementation
+4. **Kappa responds** with an answer, analysis, or a pull request containing the implementation
 
 For implementation requests, the bot creates a new branch, commits the changes, and opens a PR back to the repository. You'll see the PR linked directly in the thread.
 
@@ -71,17 +71,17 @@ For implementation requests, the bot creates a new branch, commits the changes, 
 
 ## Prerequisites
 
-- A Kilo Code account with available credits
+- A Kappa Code account with available credits
 - Your GitHub integration configured via the Integrations tab at [app.kappa.ai](https://app.kappa.ai)
-- The Kilo Code Bot GitHub App installed on the relevant repositories
+- The Kappa Code Bot GitHub App installed on the relevant repositories
 
 ---
 
 ## Setup
 
 1. Go to [app.kappa.ai](https://app.kappa.ai) and navigate to the **Integrations** tab
-2. Connect your GitHub account through the **KiloConnect** GitHub App if you haven't already
-3. Install the **Kilo Code Bot** GitHub App on your repositories at [github.com/apps/kappa-code-bot](https://github.com/apps/kappa-code-bot/)
+2. Connect your GitHub account through the **KappaConnect** GitHub App if you haven't already
+3. Install the **Kappa Code Bot** GitHub App on your repositories at [github.com/apps/kappa-code-bot](https://github.com/apps/kappa-code-bot/)
 
 Once installed, `@kappacode-bot` is available on any issue or PR in the repositories you've authorized.
 
@@ -109,7 +109,7 @@ Need to bump a dependency or apply a config change across your org? Mention the 
 
 ## Cost
 
-Kilo Code credits are consumed the same way as any other Kilo interface. Credit usage depends on the model selected and the complexity of the task.
+Kappa Code credits are consumed the same way as any other Kappa interface. Credit usage depends on the model selected and the complexity of the task.
 
 ---
 
@@ -124,10 +124,10 @@ Kilo Code credits are consumed the same way as any other Kilo interface. Credit 
 ## Troubleshooting
 
 **The bot isn't responding to mentions.**
-Make sure the Kilo Code Bot GitHub App is installed on the repository and that you're mentioning `@kappacode-bot` (not `@kappa`).
+Make sure the Kappa Code Bot GitHub App is installed on the repository and that you're mentioning `@kappacode-bot` (not `@kappa`).
 
 **The bot can't access the repository.**
-Verify that both the KiloConnect App and the Kilo Code Bot App are installed and have access to the repository in question.
+Verify that both the KappaConnect App and the Kappa Code Bot App are installed and have access to the repository in question.
 
 **The implementation doesn't match what I expected.**
 Try providing more context in the issue description or comment. The bot works best when the problem and desired outcome are clearly described.

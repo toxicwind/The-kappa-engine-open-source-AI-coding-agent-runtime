@@ -1,15 +1,15 @@
 import * as vscode from "vscode"
-import { KiloProvider } from "./KiloProvider"
+import { KappaProvider } from "./KappaProvider"
 import { resolvePanelProjectDirectory } from "./project-directory"
-import type { KiloConnectionService } from "./services/cli-backend"
+import type { KappaConnectionService } from "./services/cli-backend"
 import type { RemoteStatusService } from "./services/RemoteStatusService"
 import type { AgentManagerSettingsHandler } from "./kappa-provider/options"
 
 type PanelView = "settings" | "profile" | "indexing"
 
 const PANEL_TITLES: Record<PanelView, string> = {
-  settings: "Kilo Settings",
-  profile: "Kilo Profile",
+  settings: "Kappa Settings",
+  profile: "Kappa Profile",
   indexing: "Codebase Indexing",
 }
 
@@ -20,13 +20,13 @@ const PANEL_TITLES: Record<PanelView, string> = {
  * Each view type is a singleton panel — calling openPanel() again
  * reveals the existing panel instead of creating a duplicate.
  *
- * Uses a full KiloProvider under the hood so each panel has
+ * Uses a full KappaProvider under the hood so each panel has
  * the same backend connectivity (config, providers, profile, auth)
  * as the sidebar.
  */
 export class SettingsEditorProvider implements vscode.Disposable {
   private panels = new Map<PanelView, vscode.WebviewPanel>()
-  private providers = new Map<PanelView, KiloProvider>()
+  private providers = new Map<PanelView, KappaProvider>()
   private tabs = new Map<PanelView, string>()
   private subtabs = new Map<PanelView, string>()
   /** Pending deep-link focus (e.g. an MCP server name), consumed after the first navigate it is sent with. */
@@ -36,7 +36,7 @@ export class SettingsEditorProvider implements vscode.Disposable {
 
   constructor(
     private readonly extensionUri: vscode.Uri,
-    private readonly connectionService: KiloConnectionService,
+    private readonly connectionService: KappaConnectionService,
     private readonly context: vscode.ExtensionContext,
     private readonly agentManagerSettings?: AgentManagerSettingsHandler,
   ) {}
@@ -124,9 +124,9 @@ export class SettingsEditorProvider implements vscode.Disposable {
       dark: vscode.Uri.joinPath(this.extensionUri, "assets", "icons", "kappa-dark.svg"),
     }
 
-    // Create a dedicated KiloProvider for this panel so it has full
+    // Create a dedicated KappaProvider for this panel so it has full
     // backend connectivity (config, providers, agents, profile, auth).
-    const provider = new KiloProvider(this.extensionUri, this.connectionService, this.context, {
+    const provider = new KappaProvider(this.extensionUri, this.connectionService, this.context, {
       projectDirectory,
       hideTopBar: true,
       agentManagerSettings: view === "settings" ? this.agentManagerSettings : undefined,
@@ -175,7 +175,7 @@ export class SettingsEditorProvider implements vscode.Disposable {
 
     const title = PANEL_TITLES[view]
     panel.onDidDispose(() => {
-      console.log(`[Kilo New] ${title} panel disposed`)
+      console.log(`[Kappa New] ${title} panel disposed`)
       closePanelDisposable.dispose()
       readyDisposable.dispose()
       tabDisposable.dispose()

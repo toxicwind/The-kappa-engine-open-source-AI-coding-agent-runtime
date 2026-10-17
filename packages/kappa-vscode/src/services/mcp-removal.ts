@@ -1,4 +1,4 @@
-import type { KiloConnectionService } from "./cli-backend/connection-service"
+import type { KappaConnectionService } from "./cli-backend/connection-service"
 
 export type McpRemovalEvent = {
   directory: string
@@ -19,10 +19,10 @@ class McpRemovalBus {
   }
 }
 
-const buses = new WeakMap<KiloConnectionService, McpRemovalBus>()
+const buses = new WeakMap<KappaConnectionService, McpRemovalBus>()
 
 /** Share MCP removal progress and completion across every webview using one CLI connection. */
-export function mcpRemoval(connection: KiloConnectionService): McpRemovalBus {
+export function mcpRemoval(connection: KappaConnectionService): McpRemovalBus {
   const existing = buses.get(connection)
   if (existing) return existing
   const bus = new McpRemovalBus()

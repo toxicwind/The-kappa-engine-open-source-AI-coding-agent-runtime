@@ -8,7 +8,7 @@ import { RemoveError, remove } from "../../src/kappacode/agent"
 import type { Info as AgentInfo } from "../../src/agent/agent"
 import { tmpdir } from "../fixture/fixture"
 
-describe("Kilo agent remove", () => {
+describe("Kappa agent remove", () => {
   test("removes config-backed imported agents", async () => {
     await using tmp = await tmpdir()
     const dir = path.join(tmp.path, ".kappa")

@@ -3,7 +3,7 @@ import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { Database } from "@opencode-ai/core/database/database"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
-import { Cause, Deferred, Effect, Exit, Fiber, Layer } from "effect" // kilocode_change - Cause for resume-hint coverage
+import { Cause, Deferred, Effect, Exit, Fiber, Layer } from "effect" // kappacode_change - Cause for resume-hint coverage
 import { Agent } from "../../src/agent/agent"
 import { BackgroundJob } from "@/background/job"
 import { EventV2Bridge } from "@/event-v2-bridge"
@@ -11,14 +11,14 @@ import { Config } from "@/config/config"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
 import { Session } from "@/session/session"
-import { MessageV2 } from "@/session/message-v2" // kilocode_change
+import { MessageV2 } from "@/session/message-v2" // kappacode_change
 import type { SessionPrompt } from "../../src/session/prompt"
-import { MessageID, PartID, SessionID } from "../../src/session/schema" // kilocode_change - SessionID used by cost propagation tests
+import { MessageID, PartID, SessionID } from "../../src/session/schema" // kappacode_change - SessionID used by cost propagation tests
 import { SessionRunState } from "@/session/run-state"
-import { SessionDrain } from "@/kilocode/session/drain" // kilocode_change
+import { SessionDrain } from "@/kappacode/session/drain" // kappacode_change
 import { SessionStatus } from "@/session/status"
-import { Provider } from "../../src/provider/provider" // kilocode_change
-import { KiloSession } from "../../src/kilocode/session" // kilocode_change
+import { Provider } from "../../src/provider/provider" // kappacode_change
+import { KappaSession } from "../../src/kappacode/session" // kappacode_change
 import { TaskTool, type TaskPromptOps } from "../../src/tool/task"
 import { Truncate } from "@/tool/truncate"
 import { ToolRegistry } from "@/tool/registry"
@@ -48,11 +48,11 @@ const layer = (flags: Partial<RuntimeFlags.Info> = {}) =>
       Session.node,
       SessionProjector.node,
       SessionRunState.node,
-      SessionDrain.node, // kilocode_change
+      SessionDrain.node, // kappacode_change
       SessionStatus.node,
       Truncate.node,
       ToolRegistry.node,
-      Provider.node, // kilocode_change
+      Provider.node, // kappacode_change
       Database.node,
       RuntimeFlags.node,
       Ripgrep.node,
@@ -61,8 +61,8 @@ const layer = (flags: Partial<RuntimeFlags.Info> = {}) =>
   )
 
 const it = testEffect(layer())
-const background = it // kilocode_change - background subagents are enabled by default
-const disabled = testEffect(layer({ experimentalBackgroundSubagents: false })) // kilocode_change
+const background = it // kappacode_change - background subagents are enabled by default
+const disabled = testEffect(layer({ experimentalBackgroundSubagents: false })) // kappacode_change
 
 function defer<T>() {
   let resolve!: (value: T | PromiseLike<T>) => void
@@ -102,7 +102,7 @@ const seed = Effect.fn("TaskToolTest.seed")(function* (title = "Pinned") {
   return { chat, assistant }
 })
 
-// kilocode_change start - stub signature + prompt body extended to persist assistant cost for propagation tests
+// kappacode_change start - stub signature + prompt body extended to persist assistant cost for propagation tests
 function stubOps(opts?: {
   onPrompt?: (input: SessionPrompt.PromptInput) => void
   text?: string
@@ -125,7 +125,7 @@ function stubOps(opts?: {
       }),
   }
 }
-// kilocode_change end
+// kappacode_change end
 
 function reply(
   input: SessionPrompt.PromptInput,
@@ -298,7 +298,7 @@ describe("tool.task", () => {
     }),
   )
 
-  // kilocode_change start - verify forked task children remain resumable
+  // kappacode_change start - verify forked task children remain resumable
   it.instance("execute resumes a cloned task session after the parent is forked", () =>
     Effect.gen(function* () {
       const sessions = yield* Session.Service
@@ -359,16 +359,16 @@ describe("tool.task", () => {
       expect((yield* sessions.get(SessionID.descending(id))).parentID).toBe(forked.id)
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
-  // kilocode_change start - resumed children rebuild parent platform attribution after restart
+  // kappacode_change start - resumed children rebuild parent platform attribution after restart
   it.instance("execute preserves platform attribution when resuming a task", () =>
     Effect.gen(function* () {
       const sessions = yield* Session.Service
       const { chat, assistant } = yield* seed()
-      KiloSession.setPlatformOverride(chat.id, "agent-manager")
+      KappaSession.setPlatformOverride(chat.id, "agent-manager")
       const child = yield* sessions.create({ parentID: chat.id, title: "Existing child" })
-      KiloSession.clearPlatformOverride(child.id)
+      KappaSession.clearPlatformOverride(child.id)
       const tool = yield* TaskTool
       const def = yield* tool.init()
 
@@ -391,13 +391,13 @@ describe("tool.task", () => {
         },
       )
 
-      expect(KiloSession.resolvePlatform(child.id)).toBe("agent-manager")
-      expect(KiloSession.resolveRoot(child.id)).toBe(chat.id)
+      expect(KappaSession.resolvePlatform(child.id)).toBe("agent-manager")
+      expect(KappaSession.resolveRoot(child.id)).toBe(chat.id)
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
-  // kilocode_change start - preserve upstream terminal child failure coverage with Kilo's resume hint
+  // kappacode_change start - preserve upstream terminal child failure coverage with Kappa's resume hint
   it.instance("execute surfaces child errors with a resumable task_id", () =>
     Effect.gen(function* () {
       const sessions = yield* Session.Service
@@ -486,7 +486,7 @@ describe("tool.task", () => {
       expect(failure.message).toContain("can be resumed")
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
   it.instance("execute asks by default and skips checks when bypassed", () =>
     Effect.gen(function* () {
@@ -621,7 +621,7 @@ describe("tool.task", () => {
     }),
   )
 
-  // kilocode_change start - regression for #13469: a trailing synthetic empty text part (the memory marker)
+  // kappacode_change start - regression for #13469: a trailing synthetic empty text part (the memory marker)
   // or an ignored length-warning part must not be picked as the task result
   it.instance("returns the real answer when synthetic or ignored text parts trail it", () =>
     Effect.gen(function* () {
@@ -683,7 +683,7 @@ describe("tool.task", () => {
       expect(result.output).not.toContain("<task_result></task_result>")
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
   it.instance("prevents subagents from launching subagents by default", () =>
     Effect.gen(function* () {
@@ -797,7 +797,7 @@ describe("tool.task", () => {
         const child = yield* sessions.get(result.metadata.sessionId)
         expect(child.parentID).toBe(chat.id)
         expect(child.agent).toBe("reviewer")
-        // kilocode_change start — use arrayContaining: Kilo appends inherited caller restrictions
+        // kappacode_change start — use arrayContaining: Kappa appends inherited caller restrictions
         expect(child.permission).toEqual(
           expect.arrayContaining([
             {
@@ -822,11 +822,11 @@ describe("tool.task", () => {
             },
           ]),
         )
-        // kilocode_change end
+        // kappacode_change end
         expect(seen?.tools).toEqual({
-          question: false, // kilocode_change - subagents cannot prompt the user directly
+          question: false, // kappacode_change - subagents cannot prompt the user directly
           todowrite: false,
-          task: false, // kilocode_change - Kilo disallows nested subagents
+          task: false, // kappacode_change - Kappa disallows nested subagents
           bash: false,
           read: false,
         })
@@ -843,13 +843,13 @@ describe("tool.task", () => {
         },
         experimental: {
           primary_tools: ["bash", "read"],
-          openTelemetry: true, // kilocode_change
+          openTelemetry: true, // kappacode_change
         },
       },
     },
   )
 
-  // kilocode_change start - terminal child assistant errors fail the task tool boundary
+  // kappacode_change start - terminal child assistant errors fail the task tool boundary
   it.instance("execute fails when child prompt returns assistant error", () =>
     Effect.gen(function* () {
       const sessions = yield* Session.Service
@@ -906,9 +906,9 @@ describe("tool.task", () => {
       expect(message).toContain("can be resumed")
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
-  // kilocode_change start - background subagent failures also surface the resumable task_id (#11620)
+  // kappacode_change start - background subagent failures also surface the resumable task_id (#11620)
   background.instance("background task failure injects a resumable task_id into the parent", () =>
     Effect.gen(function* () {
       const jobs = yield* BackgroundJob.Service
@@ -963,8 +963,8 @@ describe("tool.task", () => {
       expect(text).toContain("can be resumed")
     }),
   )
-  // kilocode_change end
-  // kilocode_change start - preserve the disabled-background regression test
+  // kappacode_change end
+  // kappacode_change start - preserve the disabled-background regression test
   disabled.instance("rejects background execution when the experiment is disabled", () =>
     Effect.gen(function* () {
       const { chat, assistant } = yield* seed()
@@ -995,7 +995,7 @@ describe("tool.task", () => {
       expect(Exit.isFailure(exit)).toBe(true)
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
   it.instance("promotes a running foreground task without restarting it", () =>
     Effect.gen(function* () {
@@ -1175,7 +1175,7 @@ describe("tool.task", () => {
     }),
   )
 
-  // kilocode_change start - completed background tasks propagate their invocation cost delta
+  // kappacode_change start - completed background tasks propagate their invocation cost delta
   background.instance("background tasks propagate child cost to the parent", () =>
     Effect.gen(function* () {
       const jobs = yield* BackgroundJob.Service
@@ -1208,9 +1208,9 @@ describe("tool.task", () => {
       expect(parent.info.role === "assistant" ? parent.info.cost : 0).toBeCloseTo(0.2, 6)
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
-  // kilocode_change start - the background.extend() path must also propagate its run's cost delta (regression)
+  // kappacode_change start - the background.extend() path must also propagate its run's cost delta (regression)
   background.instance("extended background tasks propagate the extended run's cost to the parent", () =>
     Effect.gen(function* () {
       const jobs = yield* BackgroundJob.Service
@@ -1278,7 +1278,7 @@ describe("tool.task", () => {
       expect(parent.info.role === "assistant" ? parent.info.cost : 0).toBeCloseTo(0.4, 6)
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 
   background.instance("background tasks complete through the background job service", () =>
     Effect.gen(function* () {
@@ -1519,7 +1519,7 @@ describe("tool.task", () => {
   )
 })
 
-// kilocode_change start - subagent cost propagation coverage (#6321)
+// kappacode_change start - subagent cost propagation coverage (#6321)
 const assistantCost = Effect.fn("TaskToolTest.assistantCost")(function* (sessionID: string) {
   const sessions = yield* Session.Service
   const msgs = yield* sessions.messages({ sessionID: SessionID.make(sessionID) })
@@ -1728,4 +1728,4 @@ describe("tool.task cost propagation", () => {
     ),
   )
 })
-// kilocode_change end
+// kappacode_change end

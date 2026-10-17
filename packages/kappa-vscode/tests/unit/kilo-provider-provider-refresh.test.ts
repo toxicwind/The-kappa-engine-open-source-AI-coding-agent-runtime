@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test"
 
 // vscode mock is provided by the shared preload (tests/setup/vscode-mock.ts)
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 
 type State = "connecting" | "connected" | "disconnected" | "error"
 
@@ -15,7 +15,7 @@ type Internals = {
   initializeConnection: () => Promise<void>
   fetchAndSendProviders: () => Promise<void>
   fetchAndSendIndexingStatus: (directory?: string, projectId?: string) => void
-  flushPendingKiloModel: () => void
+  flushPendingKappaModel: () => void
   checkConfigWarnings: (reason: string) => Promise<void>
   syncWebviewState: (reason: string) => Promise<void>
   flushPendingSessionRefresh: (reason: string) => Promise<void>
@@ -65,7 +65,7 @@ function connection(online = true, custom?: unknown) {
 }
 
 function provider(service: ReturnType<typeof connection>, root = () => "/repo") {
-  return new KiloProvider({} as never, service as never, undefined, {
+  return new KappaProvider({} as never, service as never, undefined, {
     rootDirectory: root,
   }) as unknown as Internals
 }
@@ -73,7 +73,7 @@ function provider(service: ReturnType<typeof connection>, root = () => "/repo") 
 function stub(internal: Internals) {
   internal.webview = { postMessage: async () => true }
   internal.fetchAndSendIndexingStatus = () => {}
-  internal.flushPendingKiloModel = () => {}
+  internal.flushPendingKappaModel = () => {}
   internal.checkConfigWarnings = async () => {}
   internal.syncWebviewState = async () => {}
   internal.flushPendingSessionRefresh = async () => {}
@@ -88,7 +88,7 @@ function stub(internal: Internals) {
   internal.startStatsPolling = () => {}
 }
 
-describe("KiloProvider providers on reconnect", () => {
+describe("KappaProvider providers on reconnect", () => {
   it("recovers providers against the selected project without reconnecting", async () => {
     let dir = "/unavailable"
     const requests: string[] = []

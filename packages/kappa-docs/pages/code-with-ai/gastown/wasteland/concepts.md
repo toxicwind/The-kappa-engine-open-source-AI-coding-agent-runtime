@@ -43,7 +43,7 @@ A **rig identity** is how your Gas Town is addressed on the Wasteland. It's comp
 
 <!-- TODO: verify — confirm whether rig handle changes are disallowed or just discouraged -->
 
-When you connect Gas Town to a Wasteland, authorize DoltHub through Kilo Integrations. The Mayor uses that OAuth connection to push claims and evidence. If OAuth does not work for your setup, the connection dialog also supports a DoltHub API token in **Advanced**. See [Settings](/docs/code-with-ai/gastown/wasteland/settings) for setup details.
+When you connect Gas Town to a Wasteland, authorize DoltHub through Kappa Integrations. The Mayor uses that OAuth connection to push claims and evidence. If OAuth does not work for your setup, the connection dialog also supports a DoltHub API token in **Advanced**. See [Settings](/docs/code-with-ai/gastown/wasteland/settings) for setup details.
 
 ## Wanted Board
 

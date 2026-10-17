@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import type {
   MigrationSelections,
   MigrationSessionProgress,
@@ -28,7 +28,7 @@ export function getMigrationCache(cache: MigrationCache, source: MigrationSource
 }
 
 export interface MigrationContext {
-  readonly client: KiloClient | null
+  readonly client: KappaClient | null
   readonly extensionContext: MigrationExtensionContext | undefined
   postMessage(msg: unknown): void
   refreshSessions(): void
@@ -98,7 +98,7 @@ async function startRooMigration(
       migrateSession(
         selection,
         ctx.extensionContext as Parameters<typeof migrateSession>[1],
-        ctx.client as KiloClient,
+        ctx.client as KappaClient,
         progress,
         resolved,
       ),

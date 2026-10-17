@@ -4,7 +4,7 @@ import { AgentManagerEvent, type AgentManagerTask } from "@/kappacode/agent-mana
 import { AgentManager, HostError } from "@/kappacode/agent-manager/service"
 import { RequestID } from "@/kappacode/agent-manager/protocol"
 import * as SandboxInheritance from "@/kappacode/sandbox/inheritance"
-import { KiloSessionMessageOrder } from "@/kappacode/session/message-order"
+import { KappaSessionMessageOrder } from "@/kappacode/session/message-order"
 import { Provider } from "@/provider/provider"
 import { SessionID } from "@/session/schema"
 import * as ToolJsonSchema from "@/tool/json-schema"
@@ -411,7 +411,7 @@ export const AgentManagerTool = Tool.define<
             }
           }
 
-          const msg = KiloSessionMessageOrder.latest(ctx.messages).user
+          const msg = KappaSessionMessageOrder.latest(ctx.messages).user
           const source: Source | undefined = msg
             ? {
                 model: {

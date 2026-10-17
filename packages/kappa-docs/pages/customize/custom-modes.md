@@ -1,14 +1,14 @@
 ---
 title: "Custom Modes"
-description: "Create and configure custom agents in Kilo Code"
+description: "Create and configure custom agents in Kappa Code"
 ---
 
 # Custom Modes
 
-Kilo Code allows you to create **custom agents** (also called **custom modes**) to tailor Kilo's behavior to specific tasks or workflows. Custom agents can be **global** (available across all projects), **project-specific** (defined within a single project), or **organization-managed** (provided by your Kilo organization).
+Kappa Code allows you to create **custom agents** (also called **custom modes**) to tailor Kappa's behavior to specific tasks or workflows. Custom agents can be **global** (available across all projects), **project-specific** (defined within a single project), or **organization-managed** (provided by your Kappa organization).
 
 {% callout type="info" %}
-The current VS Code extension (built on the Kilo CLI) uses **agent Markdown files** to define custom agents. The legacy extension used `custom_modes.yaml` / `.kilocodemodes`. See the tabs below for the relevant approach.
+The current VS Code extension (built on the Kappa CLI) uses **agent Markdown files** to define custom agents. The legacy extension used `custom_modes.yaml` / `.kappacodemodes`. See the tabs below for the relevant approach.
 {% /callout %}
 
 ## Why use custom agents? {% #why-use-custom-modes %}
@@ -21,7 +21,7 @@ The current VS Code extension (built on the Kilo CLI) uses **agent Markdown file
 
 ## Organization-managed agents {% #organization-managed-custom-modes %}
 
-If your Kilo organization provides custom modes, the VS Code extension and CLI load them as organization-sourced agents. They appear alongside built-in and personal agents in the agent picker.
+If your Kappa organization provides custom modes, the VS Code extension and CLI load them as organization-sourced agents. They appear alongside built-in and personal agents in the agent picker.
 
 Organization-managed agents are controlled at the organization level:
 
@@ -29,7 +29,7 @@ Organization-managed agents are controlled at the organization level:
 - Individual members cannot remove organization-managed agents from their local agent list. Changes need to be made in the organization-managed definition.
 - Organization-managed agents are useful for shared prompts, instructions, and tool access expectations that should stay consistent across a team.
 
-For organization members, contact the person or team that manages Kilo for your organization if an organization agent appears unexpectedly, needs different instructions, or needs different tool access. For admins and support teams, keep the purpose and owner of each organization-managed agent clear so members know when to use it and where to request changes.
+For organization members, contact the person or team that manages Kappa for your organization if an organization agent appears unexpectedly, needs different instructions, or needs different tool access. For admins and support teams, keep the purpose and owner of each organization-managed agent clear so members know when to use it and where to request changes.
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -55,15 +55,15 @@ In the VSCode extension and CLI, custom behavioral profiles are called **agents*
 
 ## Methods for Creating and Configuring Agents
 
-### 1. Ask Kilo! (Recommended)
+### 1. Ask Kappa! (Recommended)
 
-Ask Kilo to create an agent for you:
+Ask Kappa to create an agent for you:
 
 ```
 Create a new agent called "docs-writer" that can only read files and edit Markdown files.
 ```
 
-Kilo will generate the agent definition and write it to `.kappa/agent/` in your project.
+Kappa will generate the agent definition and write it to `.kappa/agent/` in your project.
 
 ### 2. Using the Settings UI
 
@@ -78,7 +78,7 @@ Create `.md` files in any of these directories:
 .kappa/agent/my-agent.md
 ```
 
-The legacy `.kilocode/agents/` directory is also read for backward compatibility.
+The legacy `.kappacode/agents/` directory is also read for backward compatibility.
 
 For global agents, place files in your global config directory:
 
@@ -192,7 +192,7 @@ Agent configurations merge from lowest to highest priority:
 1. Built-in (native) agent defaults
 2. Global config (`~/.config/kappa/kappa.jsonc`)
 3. Project config (`kappa.jsonc` at project root)
-4. `.kappa/` / legacy `.kilocode/` directory configs and agent `.md` files
+4. `.kappa/` / legacy `.kappacode/` directory configs and agent `.md` files
 5. Environment variable overrides (`KILO_CONFIG_CONTENT`)
 
 When the same agent name appears at multiple levels, properties are merged (not replaced wholesale), so you can override just a model or temperature without redefining the entire agent.
@@ -236,7 +236,7 @@ You are a Python specialist. Only edit Python files.
 
 ## Migration from VSCode Extension Modes
 
-If you have existing `.kilocodemodes` or `custom_modes.yaml` files from the VSCode extension, the extension automatically migrates them on startup. The migration converts:
+If you have existing `.kappacodemodes` or `custom_modes.yaml` files from the VSCode extension, the extension automatically migrates them on startup. The migration converts:
 
 - `slug` to the agent name (key)
 - `roleDefinition` + `customInstructions` to `prompt`
@@ -252,11 +252,11 @@ The current VSCode extension reads the legacy `custom_modes.yaml` file from its 
 
 | OS | Path |
 |---|---|
-| macOS | `~/Library/Application Support/Code/User/globalStorage/kilocode.kappa-code/settings/custom_modes.yaml` |
-| Linux | `~/.config/Code/User/globalStorage/kilocode.kappa-code/settings/custom_modes.yaml` |
-| Windows | `%APPDATA%\Code\User\globalStorage\kilocode.kappa-code\settings\custom_modes.yaml` |
+| macOS | `~/Library/Application Support/Code/User/globalStorage/kappacode.kappa-code/settings/custom_modes.yaml` |
+| Linux | `~/.config/Code/User/globalStorage/kappacode.kappa-code/settings/custom_modes.yaml` |
+| Windows | `%APPDATA%\Code\User\globalStorage\kappacode.kappa-code\settings\custom_modes.yaml` |
 
-Project-level `.kilocodemodes` and workspace-scoped files are handled by the CLI backend that the extension delegates to — see the [CLI tab](#cli) for the full load-order table. After the extension migrates on startup, the legacy file is no longer consulted; remove new modes through the extension UI instead of editing `custom_modes.yaml` directly.
+Project-level `.kappacodemodes` and workspace-scoped files are handled by the CLI backend that the extension delegates to — see the [CLI tab](#cli) for the full load-order table. After the extension migrates on startup, the legacy file is no longer consulted; remove new modes through the extension UI instead of editing `custom_modes.yaml` directly.
 
 {% /tab %}
 {% tab label="CLI" %}
@@ -264,7 +264,7 @@ Project-level `.kilocodemodes` and workspace-scoped files are handled by the CLI
 In the CLI, custom behavioral profiles are called **agents** instead of modes. Agents are defined as Markdown files with YAML frontmatter or as entries in the `agent` key of your config file.
 
 {% callout type="warning" %}
-**Legacy `custom_modes.yaml` is not loaded from `~/.config/kappa/`.** If you're migrating from the previous VS Code extension, global custom modes are read from `~/.kilocode/cli/global/settings/custom_modes.yaml` (not from the CLI's XDG config directory). The recommended approach is to convert legacy modes to agent `.md` files and place them in `~/.config/kappa/agent/` instead — see [Markdown files](#3-markdown-files-with-yaml-frontmatter) and [Migration](#migration-from-vscode-extension-modes) below.
+**Legacy `custom_modes.yaml` is not loaded from `~/.config/kappa/`.** If you're migrating from the previous VS Code extension, global custom modes are read from `~/.kappacode/cli/global/settings/custom_modes.yaml` (not from the CLI's XDG config directory). The recommended approach is to convert legacy modes to agent `.md` files and place them in `~/.config/kappa/agent/` instead — see [Markdown files](#3-markdown-files-with-yaml-frontmatter) and [Migration](#migration-from-vscode-extension-modes) below.
 {% /callout %}
 
 ## What's Included in a Custom Agent?
@@ -286,15 +286,15 @@ In the CLI, custom behavioral profiles are called **agents** instead of modes. A
 
 ## Methods for Creating and Configuring Agents
 
-### 1. Ask Kilo! (Recommended)
+### 1. Ask Kappa! (Recommended)
 
-Ask Kilo to create an agent for you:
+Ask Kappa to create an agent for you:
 
 ```
 Create a new agent called "docs-writer" that can only read files and edit Markdown files.
 ```
 
-Kilo will generate the agent definition and write it to `.kappa/agent/` in your project.
+Kappa will generate the agent definition and write it to `.kappa/agent/` in your project.
 
 ### 2. Using `kappa agent create`
 
@@ -315,7 +315,7 @@ Create `.md` files in any of these directories:
 .kappa/agent/my-agent.md
 ```
 
-The legacy `.kilocode/agents/` directory is also read for backward compatibility.
+The legacy `.kappacode/agents/` directory is also read for backward compatibility.
 
 For global agents, place files in your global config directory:
 
@@ -429,7 +429,7 @@ Agent configurations merge from lowest to highest priority:
 1. Built-in (native) agent defaults
 2. Global config (`~/.config/kappa/kappa.jsonc`)
 3. Project config (`kappa.jsonc` at project root)
-4. `.kappa/` / legacy `.kilocode/` directory configs and agent `.md` files
+4. `.kappa/` / legacy `.kappacode/` directory configs and agent `.md` files
 5. Environment variable overrides (`KILO_CONFIG_CONTENT`)
 
 When the same agent name appears at multiple levels, properties are merged (not replaced wholesale), so you can override just a model or temperature without redefining the entire agent.
@@ -473,7 +473,7 @@ You are a Python specialist. Only edit Python files.
 
 ## Migration from VSCode Extension Modes
 
-If you have existing `.kilocodemodes` or `custom_modes.yaml` files from the VSCode extension, the CLI automatically migrates them on startup. The migration converts:
+If you have existing `.kappacodemodes` or `custom_modes.yaml` files from the VSCode extension, the CLI automatically migrates them on startup. The migration converts:
 
 - `slug` to the agent name (key)
 - `roleDefinition` + `customInstructions` to `prompt`
@@ -490,9 +490,9 @@ The CLI reads legacy mode files from the following locations (in load order). Wh
 | Load Order | Path | Format | Scope |
 |---|---|---|---|
 | 1 | VSCode extension global storage `/settings/custom_modes.yaml` | YAML | Global |
-| 2 | `~/.kilocode/cli/global/settings/custom_modes.yaml` | YAML | Global |
-| 3 | `~/.kilocodemodes` | YAML | Global |
-| 4 | `<project>/.kilocodemodes` | YAML | Project (wins on conflict) |
+| 2 | `~/.kappacode/cli/global/settings/custom_modes.yaml` | YAML | Global |
+| 3 | `~/.kappacodemodes` | YAML | Global |
+| 4 | `<project>/.kappacodemodes` | YAML | Project (wins on conflict) |
 
 {% callout type="info" %}
 `~/.config/kappa/` is the XDG config directory for the new agent format — legacy `custom_modes.yaml` placed there will **not** be loaded. Use `~/.config/kappa/agent/*.md` or `~/.config/kappa/kappa.jsonc` for new agent definitions instead.
@@ -520,7 +520,7 @@ Agents use ordered permission rules with glob patterns. Each rule can `allow`, `
 This example prevents the agent from editing files by default while allowing Markdown files and everything under `docs/`. Define rules for other tools such as `read` and `bash` when an agent needs different access per operation.
 
 {% callout type="tip" %}
-Ask Kilo to create or validate permission glob patterns when you need more complex file restrictions.
+Ask Kappa to create or validate permission glob patterns when you need more complex file restrictions.
 {% /callout %}
 
 ## Example Configurations
@@ -709,7 +709,7 @@ Focus on:
 
 ### Common Issues
 
-- **Agent not appearing:** Ensure the `.md` file is in a recognized directory (`.kappa/agents/`, `.kappa/agent/`, `.kilocode/agents/`). Check that the `mode` property is `primary` or `all` if you expect it in the agent picker.
+- **Agent not appearing:** Ensure the `.md` file is in a recognized directory (`.kappa/agents/`, `.kappa/agent/`, `.kappacode/agents/`). Check that the `mode` property is `primary` or `all` if you expect it in the agent picker.
 - **Permission errors:** Permission rules are evaluated last-match-wins. If an agent can't use a tool you expect, check that an `allow` rule appears after any `deny` rules for that permission.
 - **YAML frontmatter parse errors:** Ensure the frontmatter block starts and ends with `---` on its own line. Validate that YAML keys match expected property names (e.g., `top_p` not `topP`).
 - **Agent overrides not working:** Config merges from global to project level. If a global config sets a property, your project config can override it, but both must use the same agent name.
@@ -719,14 +719,14 @@ Focus on:
 - **Keep prompts focused:** The markdown body is your system prompt — write it as if briefing a colleague
 - **Use `mode: subagent`** for helper agents that shouldn't be directly selectable by users
 - **Use the Settings UI** to view and edit agents through the **Settings → Agent Behaviour → Agents** subtab
-- **Legacy modes are auto-migrated:** If you have `.kilocodemodes` files, they'll be converted on startup — no manual migration needed
+- **Legacy modes are auto-migrated:** If you have `.kappacodemodes` files, they'll be converted on startup — no manual migration needed
 
 {% /tab %}
 {% tab label="CLI" %}
 
 ### Common Issues
 
-- **Agent not appearing:** Ensure the `.md` file is in a recognized directory (`.kappa/agents/`, `.kappa/agent/`, `.kilocode/agents/`). Check that the `mode` property is `primary` or `all` if you expect it in the agent picker.
+- **Agent not appearing:** Ensure the `.md` file is in a recognized directory (`.kappa/agents/`, `.kappa/agent/`, `.kappacode/agents/`). Check that the `mode` property is `primary` or `all` if you expect it in the agent picker.
 - **Permission errors:** Permission rules are evaluated last-match-wins. If an agent can't use a tool you expect, check that an `allow` rule appears after any `deny` rules for that permission.
 - **YAML frontmatter parse errors:** Ensure the frontmatter block starts and ends with `---` on its own line. Validate that YAML keys match expected property names (e.g., `top_p` not `topP`).
 - **Agent overrides not working:** Config merges from global to project level. If a global config sets a property, your project config can override it, but both must use the same agent name.
@@ -736,7 +736,7 @@ Focus on:
 - **Keep prompts focused:** The markdown body is your system prompt — write it as if briefing a colleague
 - **Use `mode: subagent`** for helper agents that shouldn't be directly selectable by users
 - **Test with `kappa agent create`** to see how the CLI generates agent definitions, then customize from there
-- **Legacy modes are auto-migrated:** If you have `.kilocodemodes` files, they'll be converted on startup — no manual migration needed
+- **Legacy modes are auto-migrated:** If you have `.kappacodemodes` files, they'll be converted on startup — no manual migration needed
 
 {% /tab %}
 {% /tabs %}

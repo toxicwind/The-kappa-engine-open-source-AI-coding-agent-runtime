@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, createResource, Show } from "solid-js"
 import { Process } from "@/util/process"

@@ -21,7 +21,7 @@ const events = Layer.mock(EventV2.Service)({
     }),
 })
 
-describe("Kilo reference compatibility", () => {
+describe("Kappa reference compatibility", () => {
   it.live("materializes and refreshes configured Git references", () =>
     withRemote((fixture) => {
       const global = Global.layerWith({

@@ -304,6 +304,7 @@
         "@kappacode/plugin": "workspace:*",
         "@openrouter/ai-sdk-provider": "2.9.0",
         "ai": "catalog:",
+        "effect": "3.10.11",
         "open": "10.1.2",
         "zod": "catalog:",
       },

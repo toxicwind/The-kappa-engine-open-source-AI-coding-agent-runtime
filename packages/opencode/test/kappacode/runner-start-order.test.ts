@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { Deferred, Effect, Exit, Fiber, Scope } from "effect"
 import { Runner } from "@/effect/runner"
-import { KiloRunner } from "@/kappacode/effect/runner"
+import { KappaRunner } from "@/kappacode/effect/runner"
 import { SessionDrain } from "@/kappacode/session/drain"
 import { SessionID } from "@/session/schema"
 import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
@@ -173,10 +173,10 @@ describe("Runner start ordering", () => {
       const id = SessionID.make("ses_runner_closed")
       const work = yield* Deferred.make<void>()
       const finish = yield* Deferred.make<void>()
-      const started = yield* KiloRunner.guard(
+      const started = yield* KappaRunner.guard(
         () => false,
         (record) =>
-          KiloRunner.start({
+          KappaRunner.start({
             scope,
             lease: drain.hold(id),
             record,

@@ -68,7 +68,7 @@ Dashboard-managed member configuration may require encrypted storage:
 create table if not exists organization_member_mcp_configs (
   id uuid not null default uuid_generate_v4(),
   organization_id uuid not null references organizations(id),
-  kilo_user_id text not null references kilocode_users(id),
+  kilo_user_id text not null references kappacode_users(id),
   config bytea not null,
   created_at timestamptz not null default now()
 )

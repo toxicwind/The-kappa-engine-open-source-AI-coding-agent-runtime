@@ -1,10 +1,10 @@
 import { Effect } from "effect"
 import path from "path"
-import { KiloSnapshotSeed } from "./seed"
-import { KiloSnapshotMaterialize } from "./materialize"
+import { KappaSnapshotSeed } from "./seed"
+import { KappaSnapshotMaterialize } from "./materialize"
 import type { Snapshot } from "@/snapshot"
 
-export namespace KiloSnapshotPrepare {
+export namespace KappaSnapshotPrepare {
   /** Marks a repository whose seed finished before any snapshot was tracked. */
   export const MARKER = "kappa-prepared"
 
@@ -39,7 +39,7 @@ export namespace KiloSnapshotPrepare {
   })
 
   // Called under the snapshot lock so preparation cannot race startup recovery.
-  export const resume = Effect.fnUntraced(function* (input: KiloSnapshotMaterialize.Input) {
+  export const resume = Effect.fnUntraced(function* (input: KappaSnapshotMaterialize.Input) {
     const marker = path.join(input.gitdir, MARKER)
     if (yield* input.fs.exists(marker)) {
       const refs = yield* input.git([
@@ -52,10 +52,10 @@ export namespace KiloSnapshotPrepare {
       if (refs.code === 0 && !refs.text.trim()) return false
       if (refs.code === 0) yield* input.fs.remove(marker)
     }
-    return yield* KiloSnapshotMaterialize.run(input)
+    return yield* KappaSnapshotMaterialize.run(input)
   })
 
-  export const initialize = Effect.fnUntraced(function* (input: KiloSnapshotSeed.Input, prepare = false) {
+  export const initialize = Effect.fnUntraced(function* (input: KappaSnapshotSeed.Input, prepare = false) {
     if (yield* input.fs.exists(input.gitdir).pipe(Effect.orDie)) return
     // Preparation runs detached from session creation, so it can arrive after the
     // worktree was removed. Do not recreate a repository for a worktree that is gone.
@@ -68,7 +68,7 @@ export namespace KiloSnapshotPrepare {
       const config = path.join(input.gitdir, "config")
       const current = yield* input.fs.readFileString(config).pipe(Effect.catch(() => Effect.succeed("")))
       yield* input.fs.writeFileString(config, current.trimEnd() + "\n" + CONFIG).pipe(Effect.orDie)
-      const seeded: KiloSnapshotSeed.Output = yield* KiloSnapshotSeed.seed(input)
+      const seeded: KappaSnapshotSeed.Output = yield* KappaSnapshotSeed.seed(input)
       if (prepare) yield* input.fs.writeFileString(path.join(input.gitdir, MARKER), "").pipe(Effect.orDie)
       yield* Effect.logInfo("initialized")
       return seeded

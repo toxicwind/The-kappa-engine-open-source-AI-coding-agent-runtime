@@ -7,17 +7,17 @@ export const indexingHandlers = HttpApiBuilder.group(InstanceHttpApi, "indexing"
   Effect.gen(function* () {
     const mod = yield* Effect.promise(() => import("@/kappacode/indexing"))
     const status = Effect.fn("IndexingHttpApi.status")(function* () {
-      return yield* EffectBridge.fromPromise(() => mod.KiloIndexing.current())
+      return yield* EffectBridge.fromPromise(() => mod.KappaIndexing.current())
     })
     const consent = Effect.fn("IndexingHttpApi.consent")(function* (ctx: { payload: { enabled: boolean } }) {
-      yield* EffectBridge.fromPromise(() => mod.KiloIndexing.setConsent(ctx.payload.enabled))
-      return yield* EffectBridge.fromPromise(() => mod.KiloIndexing.current())
+      yield* EffectBridge.fromPromise(() => mod.KappaIndexing.setConsent(ctx.payload.enabled))
+      return yield* EffectBridge.fromPromise(() => mod.KappaIndexing.current())
     })
     const models = Effect.fn("IndexingHttpApi.models")(function* () {
-      return yield* EffectBridge.fromPromise(() => mod.KiloIndexing.models())
+      return yield* EffectBridge.fromPromise(() => mod.KappaIndexing.models())
     })
     const warnings = Effect.fn("IndexingHttpApi.warnings")(function* () {
-      return yield* EffectBridge.fromPromise(() => mod.KiloIndexing.warnings())
+      return yield* EffectBridge.fromPromise(() => mod.KappaIndexing.warnings())
     })
 
     return handlers

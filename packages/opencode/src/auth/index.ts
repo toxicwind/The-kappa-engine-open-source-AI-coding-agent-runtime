@@ -4,9 +4,9 @@ import { Effect, Layer, Record, Result, Schema, Context } from "effect"
 import { NonNegativeInt } from "@opencode-ai/core/schema"
 import { Global } from "@opencode-ai/core/global"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { Telemetry } from "@kappacode/kappa-telemetry" // kilocode_change
+import { Telemetry } from "@kappacode/kappa-telemetry" // kappacode_change
 
-export const OAUTH_DUMMY_KEY = "kappa-oauth-dummy-key" // kilocode_change
+export const OAUTH_DUMMY_KEY = "kappa-oauth-dummy-key" // kappacode_change
 
 const file = path.join(Global.Path.data, "auth.json")
 
@@ -19,7 +19,7 @@ export class Oauth extends Schema.Class<Oauth>("OAuth")({
   expires: NonNegativeInt,
   accountId: Schema.optional(Schema.String),
   enterpriseUrl: Schema.optional(Schema.String),
-  baseURL: Schema.optional(Schema.String), // kilocode_change - Azure Entra endpoint captured from OAuth prompts
+  baseURL: Schema.optional(Schema.String), // kappacode_change - Azure Entra endpoint captured from OAuth prompts
 }) {}
 
 export class Api extends Schema.Class<Api>("ApiAuth")({
@@ -89,12 +89,12 @@ const layer = Layer.effect(
       delete data[norm]
       yield* fsys.writeJson(file, data, 0o600).pipe(Effect.mapError(fail("Failed to write auth data")))
 
-      // kilocode_change start - Track logout and reset telemetry identity for Kilo
+      // kappacode_change start - Track logout and reset telemetry identity for Kappa
       if (key === "kappa") {
         yield* Effect.promise(() => Telemetry.updateIdentity(null))
       }
       Telemetry.trackAuthLogout(key)
-      // kilocode_change end
+      // kappacode_change end
     })
 
     return Service.of({ get, all, set, remove })
@@ -102,6 +102,6 @@ const layer = Layer.effect(
 )
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [FSUtil.node] })
-export const defaultLayer = layer.pipe(Layer.provide(FSUtil.defaultLayer)) // kilocode_change - legacy Kilo runtime compatibility
+export const defaultLayer = layer.pipe(Layer.provide(FSUtil.defaultLayer)) // kappacode_change - legacy Kappa runtime compatibility
 
 export * as Auth from "."

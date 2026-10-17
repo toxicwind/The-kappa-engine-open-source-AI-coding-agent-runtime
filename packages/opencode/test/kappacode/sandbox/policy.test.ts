@@ -185,7 +185,7 @@ describe("sandbox policy", () => {
     expect(Exit.isFailure(right.other)).toBe(true)
   })
 
-  test("keeps Kilo state writable without exposing sandbox policy state", async () => {
+  test("keeps Kappa state writable without exposing sandbox policy state", async () => {
     await using tmp = await fixture()
     const dirs = tmp.extra
     const ctx = context(dirs.a, dirs.a, dirs)

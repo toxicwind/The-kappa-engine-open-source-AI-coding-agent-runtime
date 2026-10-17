@@ -44,19 +44,19 @@ function sameArr(a: readonly string[], b: readonly string[]): boolean {
   return true
 }
 
-export namespace KiloViewers {
+export namespace KappaViewers {
   export interface Interface {
     readonly update: (snapshot: ViewerSnapshot) => Effect.Effect<void>
     readonly invalidateAuth: () => Effect.Effect<void>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kappacode/KiloViewers") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/KappaViewers") {}
 
   export const layer = Layer.effect(
     Service,
     Effect.gen(function* () {
       const auth = yield* Auth.Service
-      const KiloSessions = (yield* Effect.promise(() => import("@/kappa-sessions/kappa-sessions"))).KiloSessions
+      const KappaSessions = (yield* Effect.promise(() => import("@/kappa-sessions/kappa-sessions"))).KappaSessions
 
       const platform = inferPlatform()
       const killSwitch = process.env.KILO_DISABLE_PRESENCE === "1"
@@ -107,7 +107,7 @@ export namespace KiloViewers {
         const union = attachedUnion([...s.viewers.values()])
         if (!sameArr(union, s.prevAttached)) {
           s.prevAttached = union
-          KiloSessions.setAttachedSessions(union)
+          KappaSessions.setAttachedSessions(union)
         }
       }
 
@@ -169,7 +169,7 @@ export namespace KiloViewers {
 
       const readAuth = auth.get("kappa").pipe(Effect.orElseSucceed((): Auth.Info | undefined => undefined))
 
-      const update = Effect.fn("KiloViewers.update")(function* (snapshot: ViewerSnapshot) {
+      const update = Effect.fn("KappaViewers.update")(function* (snapshot: ViewerSnapshot) {
         const info = yield* readAuth
         const { token, identity } = extract(info)
         if (identity !== s.identity) {
@@ -193,7 +193,7 @@ export namespace KiloViewers {
         apply(Date.now())
       })
 
-      const invalidateAuth = Effect.fn("KiloViewers.invalidateAuth")(function* () {
+      const invalidateAuth = Effect.fn("KappaViewers.invalidateAuth")(function* () {
         disconnectClient()
         s.identity = undefined
         s.token = undefined
@@ -212,7 +212,7 @@ export namespace KiloViewers {
           }
           disconnectClient()
           s.viewers.clear()
-          KiloSessions.setAttachedSessions([])
+          KappaSessions.setAttachedSessions([])
         }),
       )
 

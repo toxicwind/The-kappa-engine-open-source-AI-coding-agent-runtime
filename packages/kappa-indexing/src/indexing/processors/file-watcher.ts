@@ -85,8 +85,8 @@ function loadParcelWatcher(): typeof import("@parcel/watcher") | undefined {
   return parcelModule ?? undefined
 }
 
-// Kilo's always-ignored infrastructure dirs as globs the native watcher prunes.
-// Per-repo .gitignore/.kilocodeignore dirs are unioned in initialize() from the
+// Kappa's always-ignored infrastructure dirs as globs the native watcher prunes.
+// Per-repo .gitignore/.kappacodeignore dirs are unioned in initialize() from the
 // ignore matcher; correctness for indexed files stays in shouldIndex().
 function watcherIgnoreGlobs(): string[] {
   return FileIgnore.PATTERNS.map((pattern) => (pattern.includes("/") ? pattern : `**/${pattern}`))
@@ -251,7 +251,7 @@ export class FileWatcher implements IFileWatcher {
 
     log.info("initializing file watcher", { workspacePath: this.workspacePath })
 
-    // Prune Kilo's infra dirs plus (best-effort) the per-repo gitignored dirs
+    // Prune Kappa's infra dirs plus (best-effort) the per-repo gitignored dirs
     // from the native watch, so a large repo doesn't exhaust inotify descriptors
     // (ENOSPC) watching trees we never index.
     const ignore = [...new Set([...watcherIgnoreGlobs(), ...(this.ignoreInstance?.watchIgnoreGlobs?.() ?? [])])]
@@ -871,12 +871,12 @@ export class FileWatcher implements IFileWatcher {
         }
       }
 
-      // Check if file should be ignored by root .gitignore / .kilocodeignore rules.
+      // Check if file should be ignored by root .gitignore / .kappacodeignore rules.
       if (this.ignoreInstance && this.ignoreInstance.ignores(relativeFilePath)) {
         return {
           path: filePath,
           status: "skipped" as const,
-          reason: "File is ignored by .gitignore or .kilocodeignore",
+          reason: "File is ignored by .gitignore or .kappacodeignore",
         }
       }
 

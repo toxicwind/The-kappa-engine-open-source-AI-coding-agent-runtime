@@ -33,7 +33,7 @@ async function logs(dataHome: string) {
 
 export async function render(file: string, args: string[] = ["--pure"], timeout = 60_000) {
   const { spawn } = await import("@opencode-ai/core/pty/driver")
-  const { KiloPtyTermination } = await import("@opencode-ai/core/kappacode/pty/termination")
+  const { KappaPtyTermination } = await import("@opencode-ai/core/kappacode/pty/termination")
   const dir = await mkdtemp(path.join(os.tmpdir(), "kappa-pty-render-"))
   const env: Record<string, string> = {}
   for (const key of ["PATH", "SystemRoot", "SYSTEMROOT", "ComSpec", "LANG", "LC_ALL", "LC_CTYPE", "LANGUAGE"]) {
@@ -51,7 +51,7 @@ export async function render(file: string, args: string[] = ["--pure"], timeout 
     KILO_DISABLE_DEFAULT_PLUGINS: "1",
     KILO_PURE: "1",
     // A release binary logs at INFO, which is too coarse to locate a startup stall.
-    // KiloLog.init reads this, so the log tail attached on failure shows every step.
+    // KappaLog.init reads this, so the log tail attached on failure shows every step.
     KILO_LOG_LEVEL: process.env.KILO_PTY_SMOKE_LOG_LEVEL ?? "DEBUG",
     // Must stay below IDLE_LIMIT so an unanswered worker call is reported in the log tail
     // instead of being cut off by the silence watchdog.
@@ -176,7 +176,7 @@ export async function render(file: string, args: string[] = ["--pure"], timeout 
     clearInterval(watch)
     data.dispose()
     exit.dispose()
-    const failed = await KiloPtyTermination.terminate(proc).then(
+    const failed = await KappaPtyTermination.terminate(proc).then(
       () => undefined,
       (err: unknown) => err,
     )

@@ -12,7 +12,7 @@ import { testEffect } from "../../lib/effect"
 import { InstanceStore } from "../../../src/project/instance-store"
 import { TestInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
 
-const KiloSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KiloSessions
+const KappaSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KappaSessions
 
 let originalNotificationTimeout: string | undefined
 
@@ -34,7 +34,7 @@ const multi = testEffect(Layer.merge(AppNodeBuilder.build(CrossSpawnSpawner.node
 
 function layer(overrides: Partial<Config.Interface> = {}) {
   return Layer.merge(
-    KiloSessions.layer.pipe(
+    KappaSessions.layer.pipe(
       Layer.provideMerge(Bus.layer),
       Layer.provide(TestConfig.layer(overrides)),
       Layer.provide(AppNodeBuilder.build(Session.node)),
@@ -79,8 +79,8 @@ it.instance("dedicated immediate POST hits ingest path with an agent_notificatio
   reset("test-token")
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
-    yield* Effect.promise(() => KiloSessions.bootstrap("session-1"))
+    const sessions = yield* KappaSessions.Service
+    yield* Effect.promise(() => KappaSessions.bootstrap("session-1"))
     const result = yield* sessions.sendAgentNotification("session-1", {
       id: "notif-1",
       message: "Test notification",
@@ -134,8 +134,8 @@ it.instance("2xx ingest response returns ok:true", () => {
   reset("test-token")
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
-    yield* Effect.promise(() => KiloSessions.bootstrap("session-2"))
+    const sessions = yield* KappaSessions.Service
+    yield* Effect.promise(() => KappaSessions.bootstrap("session-2"))
     const result = yield* sessions.sendAgentNotification("session-2", {
       id: "notif-2",
       message: "Success test",
@@ -191,8 +191,8 @@ it.instance("non-2xx ingest response returns ok:false with no retry", () => {
   reset("test-token")
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
-    yield* Effect.promise(() => KiloSessions.bootstrap("session-3"))
+    const sessions = yield* KappaSessions.Service
+    yield* Effect.promise(() => KappaSessions.bootstrap("session-3"))
     const result = yield* sessions.sendAgentNotification("session-3", {
       id: "notif-3",
       message: "Failure test",
@@ -233,7 +233,7 @@ it.instance("unauthenticated returns not_connected", () => {
   reset("test-token")
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
+    const sessions = yield* KappaSessions.Service
     const result = yield* sessions.sendAgentNotification("session-4", {
       id: "notif-4",
       message: "No auth test",
@@ -278,7 +278,7 @@ it.instance("bounded timeout: stalled auth step returns not_connected within tim
   reset("test-token")
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
+    const sessions = yield* KappaSessions.Service
     const start = Date.now()
     const result = yield* sessions.sendAgentNotification("session-5", {
       id: "notif-5",
@@ -344,8 +344,8 @@ it.instance("coalescing: sendAgentNotification awaits in-flight bootstrap for a 
   reset("test-token")
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
-    const createPromise = KiloSessions.create("session-6")
+    const sessions = yield* KappaSessions.Service
+    const createPromise = KappaSessions.create("session-6")
     yield* Effect.promise(() => sessionPostSeen)
 
     // Start sendAgentNotification while the bootstrap is in flight, then
@@ -424,18 +424,18 @@ it.instance("coalescing: bootstrapInflight stores the real promise and concurren
   reset("test-token")
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
+    const sessions = yield* KappaSessions.Service
 
-    expect(KiloSessions._getBootstrapInflight("session-7")).toBeUndefined()
+    expect(KappaSessions._getBootstrapInflight("session-7")).toBeUndefined()
 
     // Fire two concurrent create() calls for the same session.
-    const create1 = KiloSessions.create("session-7")
-    const create2 = KiloSessions.create("session-7")
+    const create1 = KappaSessions.create("session-7")
+    const create2 = KappaSessions.create("session-7")
 
     // Synchronously after kicking off both creates, the internal tracker must
     // hold the real in-flight promise (not undefined) so the second create
     // coalesced onto the first one's POST instead of starting its own.
-    const inflight = KiloSessions._getBootstrapInflight("session-7")
+    const inflight = KappaSessions._getBootstrapInflight("session-7")
     expect(inflight).toBeDefined()
     expect(inflight).toBeInstanceOf(Promise)
 
@@ -465,7 +465,7 @@ it.instance("coalescing: bootstrapInflight stores the real promise and concurren
       data: [{ type: "agent_notification", data: { id: "notif-7", message: "Coalesced create test" } }],
     })
 
-    expect(KiloSessions._getBootstrapInflight("session-7")).toBeUndefined()
+    expect(KappaSessions._getBootstrapInflight("session-7")).toBeUndefined()
   }).pipe(
     Effect.ensuring(
       Effect.gen(function* () {

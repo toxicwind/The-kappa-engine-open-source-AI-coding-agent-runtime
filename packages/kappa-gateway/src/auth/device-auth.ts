@@ -13,7 +13,7 @@ import { spinner } from "@clack/prompts"
 import type { DeviceAuthInitiateResponse, DeviceAuthPollResponse } from "../types.js"
 import { poll, formatTimeRemaining } from "./polling.js"
 import { initiateDeviceAuth, pollDeviceAuth } from "./device.js"
-import { getKiloProfile, getKiloDefaultModel, promptOrganizationSelection } from "../api/profile.js"
+import { getKappaProfile, getKappaDefaultModel, promptOrganizationSelection } from "../api/profile.js"
 import { POLL_INTERVAL_MS } from "../api/constants.js"
 
 export interface DeviceAuthResult {
@@ -114,7 +114,7 @@ export async function authenticateWithDeviceAuth(): Promise<DeviceAuthResult> {
 
   // Step 4: Fetch profile to get organizations
   s.start("Fetching profile")
-  const profileData = await getKiloProfile(token)
+  const profileData = await getKappaProfile(token)
   s.stop("Profile fetched")
 
   // Step 5: Prompt for organization selection
@@ -126,7 +126,7 @@ export async function authenticateWithDeviceAuth(): Promise<DeviceAuthResult> {
 
   // Step 6: Fetch default model
   s.start("Fetching default model")
-  const model = await getKiloDefaultModel(token, organizationId)
+  const model = await getKappaDefaultModel(token, organizationId)
   s.stop(`Default model: ${model}`)
 
   // Step 7: Return auth result

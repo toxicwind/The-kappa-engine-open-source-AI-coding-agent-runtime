@@ -14,7 +14,7 @@ const ResultSchema = Schema.Struct({
   ok: Schema.Boolean,
   id: Schema.String,
   skipped: Schema.optional(Schema.Boolean),
-}).annotate({ identifier: "KilocodeSessionImportResult" })
+}).annotate({ identifier: "KappacodeSessionImportResult" })
 
 const ProjectSchema = Schema.Struct({
   id: Schema.String,
@@ -275,7 +275,7 @@ export const SessionImportApi = HttpApi.make("session-import")
       .annotateMerge(
         OpenApi.annotations({
           title: "session-import",
-          description: "Kilo legacy session import routes.",
+          description: "Kappa legacy session import routes.",
         }),
       )
       .middleware(InstanceContextMiddleware)
@@ -286,6 +286,6 @@ export const SessionImportApi = HttpApi.make("session-import")
     OpenApi.annotations({
       title: "kappa HttpApi",
       version: "0.0.1",
-      description: "Kilo HttpApi surface.",
+      description: "Kappa HttpApi surface.",
     }),
   )

@@ -1,10 +1,10 @@
 import { describe, it, expect } from "bun:test"
 import { buildConnectSrc, buildCspString } from "../../src/webview-html-utils"
-import { KiloProvider } from "../../src/KiloProvider"
+import { KappaProvider } from "../../src/KappaProvider"
 
 describe("Settings webview entry", () => {
   function html(route?: () => { tab?: string; projectId?: string }) {
-    const provider = new KiloProvider(
+    const provider = new KappaProvider(
       { fsPath: "/extension" } as never,
       { getServerInfo: () => ({ port: 3000 }) } as never,
       undefined,

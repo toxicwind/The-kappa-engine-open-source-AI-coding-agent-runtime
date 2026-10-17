@@ -1,5 +1,5 @@
 /**
- * Kilo Gateway Profile Dialog
+ * Kappa Gateway Profile Dialog
  *
  * Displays user profile information with a clickable usage details link.
  */
@@ -9,15 +9,15 @@ import { useTheme } from "@tui/context/theme"
 import { useDialog } from "@tui/ui/dialog"
 import { Link } from "@tui/ui/link"
 import { TextAttributes } from "@opentui/core"
-import type { KilocodeProfile, KilocodeBalance } from "@kappacode/kappa-gateway"
+import type { KappacodeProfile, KappacodeBalance } from "@kappacode/kappa-gateway"
 
-interface DialogKiloProfileProps {
-  profile: KilocodeProfile
-  balance: KilocodeBalance | null
+interface DialogKappaProfileProps {
+  profile: KappacodeProfile
+  balance: KappacodeBalance | null
   currentOrgId?: string | null
 }
 
-export function DialogKiloProfile(props: DialogKiloProfileProps) {
+export function DialogKappaProfile(props: DialogKappaProfileProps) {
   const { theme } = useTheme()
   const dialog = useDialog()
 
@@ -49,7 +49,7 @@ export function DialogKiloProfile(props: DialogKiloProfileProps) {
     <box paddingLeft={2} paddingRight={2} gap={1}>
       <box flexDirection="row" justifyContent="space-between">
         <text attributes={TextAttributes.BOLD} fg={theme.text}>
-          Kilo Gateway Profile
+          Kappa Gateway Profile
         </text>
         <text fg={theme.textMuted}>esc</text>
       </box>

@@ -54,7 +54,7 @@ export class HttpOptions extends Schema.Class<HttpOptions>("LLM.HttpOptions")({
   body: Schema.optional(JsonSchema),
   headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
   query: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  fingerprint: Schema.optional(Schema.String), // kilocode_change: browser TLS/HTTP2 fingerprint impersonation
+  fingerprint: Schema.optional(Schema.String), // kappacode_change: browser TLS/HTTP2 fingerprint impersonation
 }) {}
 
 export namespace HttpOptions {
@@ -68,9 +68,9 @@ export const mergeHttpOptions = (...items: ReadonlyArray<HttpOptions | undefined
   const body = mergeJsonRecords(...items.map((item) => item?.body))
   const headers = mergeStringRecords(...items.map((item) => item?.headers))
   const query = mergeStringRecords(...items.map((item) => item?.query))
-  const fingerprint = items.findLast((item) => item?.fingerprint !== undefined)?.fingerprint // kilocode_change
+  const fingerprint = items.findLast((item) => item?.fingerprint !== undefined)?.fingerprint // kappacode_change
   if (!body && !headers && !query && fingerprint === undefined) return undefined
-  return new HttpOptions({ body, headers, query, fingerprint }) // kilocode_change
+  return new HttpOptions({ body, headers, query, fingerprint }) // kappacode_change
 }
 
 export class GenerationOptions extends Schema.Class<GenerationOptions>("LLM.GenerationOptions")({

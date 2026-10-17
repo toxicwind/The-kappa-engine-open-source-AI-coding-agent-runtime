@@ -60,7 +60,7 @@ export interface ProjectMessageDeps {
   post: (message: AgentManagerOutMessage) => void
   /** Show a user-facing error. */
   error: (message: string) => void
-  /** Open the Kilo Settings editor, optionally on a tab and project. */
+  /** Open the Kappa Settings editor, optionally on a tab and project. */
   openSettings: (tab?: string, projectId?: string) => void
   /** Ensure a context's repository state is ready (no-op once initialized). */
   ready: (ctx: ProjectContext, options?: { warm?: boolean }) => Promise<ProjectInitResult>

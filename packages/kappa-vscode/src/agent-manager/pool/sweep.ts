@@ -15,7 +15,7 @@ const STALE = 14 * 24 * 60 * 60 * 1000
 const CREATION = 60 * 60 * 1000
 
 /**
- * Remove slots that no Kilo process can claim, across every repository in the
+ * Remove slots that no Kappa process can claim, across every repository in the
  * pool home. A slot whose repository is gone (deleted, moved, or pruned) is
  * removed at once. Other slots are removed when no live process owns them and
  * nothing touched them for {@link STALE}, or at once when the pool is disabled.

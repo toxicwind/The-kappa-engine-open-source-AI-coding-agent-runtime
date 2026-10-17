@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import type { ConnectionState } from "../cli-backend/connection-service"
 import type { SSEPayload } from "../cli-backend/sdk-sse-adapter"
 import { feed } from "./feed"
@@ -19,7 +19,7 @@ interface Connection {
   onStateChange(listener: (state: ConnectionState) => void): () => void
   getConnectionState(): ConnectionState
   getKnownDirectories(): string[]
-  getClient(): KiloClient
+  getClient(): KappaClient
 }
 
 export class CaffeinationService {
@@ -51,7 +51,7 @@ export class CaffeinationService {
         const client = connection.getClient()
         const [status, wake] = await Promise.all([
           client.session.status({ directory: dir }, { throwOnError: true }),
-          client.kilocode
+          client.kappacode
             .wakeups({ directory: dir }, { throwOnError: true })
             .then((result) => {
               const pending: Record<string, number> = {}
@@ -61,7 +61,7 @@ export class CaffeinationService {
             .catch((error: unknown) => {
               // Do not turn a transient failure into "no pending wakeups": the
               // feed keeps the previous wake set and releases it on the next sync.
-              console.warn(`[Kilo New] Keep-awake wakeup refresh failed for ${dir}:`, error)
+              console.warn(`[Kappa New] Keep-awake wakeup refresh failed for ${dir}:`, error)
               return undefined
             }),
         ])

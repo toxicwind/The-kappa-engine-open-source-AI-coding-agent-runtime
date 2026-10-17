@@ -122,17 +122,17 @@ test("scope switching preserves raw overrides and commits blur to the original s
   await expect(tuningRow.locator('[data-component="tag"]')).toHaveText("Default")
 })
 
-test("Kilo exposes only supported embedding model presets", async ({ page }) => {
+test("Kappa exposes only supported embedding model presets", async ({ page }) => {
   await page.setViewportSize({ width: 420, height: 720 })
   await page.goto(storyUrl(KILO_STORY_ID), { waitUntil: "load" })
   await disableAnimations(page)
   await page.waitForSelector("#storybook-root *", { state: "attached" })
 
-  await expect(page.getByText("Kilo model preset", { exact: true })).toBeVisible()
+  await expect(page.getByText("Kappa model preset", { exact: true })).toBeVisible()
   await expect(page.getByText("Embedding model", { exact: true })).toHaveCount(0)
   await expect(page.getByText("Vector dimension", { exact: true })).toBeVisible()
 
-  const preset = selectIn(page, "Kilo model preset")
+  const preset = selectIn(page, "Kappa model preset")
   await expect(preset).toContainText("Provider Model")
 
   const dimension = field(page, "Vector dimension").first()
@@ -143,7 +143,7 @@ test("Kilo exposes only supported embedding model presets", async ({ page }) => 
   await expect(preset).toContainText("Provider Compact")
 })
 
-test("enabling Kilo before its catalog loads does not store an empty model", async ({ page }) => {
+test("enabling Kappa before its catalog loads does not store an empty model", async ({ page }) => {
   const saved = page.getByTestId("indexing-kappa-loading-save")
   const cfg = async () => JSON.parse(((await saved.textContent()) ?? "{}").trim()) as Saved
   const verify = async () => {

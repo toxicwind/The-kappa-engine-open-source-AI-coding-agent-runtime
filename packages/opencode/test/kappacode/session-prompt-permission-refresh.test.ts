@@ -50,10 +50,10 @@ import { Snapshot } from "../../src/snapshot"
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
 import { ToolRegistry } from "../../src/tool/registry"
 import { Truncate } from "../../src/tool/truncate"
-import { KiloHeadless } from "../../src/kappacode/permission/headless"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
-import { KiloReadObject } from "../../src/kappacode/tool/read-object"
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { KappaHeadless } from "../../src/kappacode/permission/headless"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaReadObject } from "../../src/kappacode/tool/read-object"
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { provideTmpdirServer } from "../fixture/fixture"
 import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
@@ -181,7 +181,7 @@ function makeHttp() {
     [SessionSummary.node, summary],
     [LSP.node, lsp],
     [MCP.node, mcp],
-    [KiloSessions.node, KiloSessions.testLayer],
+    [KappaSessions.node, KappaSessions.testLayer],
   ])
 }
 const it = testEffect(makeHttp())
@@ -189,9 +189,9 @@ const symlinkIt = process.platform === "win32" ? it.live.skip : it.live
 
 it.live("recognizes Windows named-pipe paths before filesystem inspection", () =>
   Effect.sync(() => {
-    expect(KiloReadObject.namedPipe("\\\\.\\pipe\\secret")).toBe(true)
-    expect(KiloReadObject.namedPipe("\\\\server\\pipe\\secret")).toBe(true)
-    expect(KiloReadObject.namedPipe("C:\\project\\secret.txt")).toBe(false)
+    expect(KappaReadObject.namedPipe("\\\\.\\pipe\\secret")).toBe(true)
+    expect(KappaReadObject.namedPipe("\\\\server\\pipe\\secret")).toBe(true)
+    expect(KappaReadObject.namedPipe("C:\\project\\secret.txt")).toBe(false)
   }),
 )
 
@@ -1359,12 +1359,12 @@ it.live("headless run: subagent permission asks fail instead of waiting forever"
       const sessions = yield* Session.Service
       const root = yield* sessions.create({ title: "Root" })
       const child = yield* sessions.create({ parentID: root.id, title: "Subagent" })
-      KiloHeadless.mark(root.id)
+      KappaHeadless.mark(root.id)
 
       // mode "all" agents are valid subagents too; the deny must not key off agent mode
       const agent = worker("all")
       const err = yield* awaitWithTimeout(
-        KiloSessionPrompt.askPermission({
+        KappaSessionPrompt.askPermission({
           permission,
           agents: { get: () => Effect.succeed(agent) },
           sessions,
@@ -1377,10 +1377,10 @@ it.live("headless run: subagent permission asks fail instead of waiting forever"
 
       expect(err).toBeInstanceOf(Permission.DeniedError)
       expect(yield* permission.list()).toEqual([])
-      expect(yield* KiloHeadless.denies(child.id)).toBe(true)
-      expect(yield* KiloHeadless.denies(root.id)).toBe(false)
+      expect(yield* KappaHeadless.denies(child.id)).toBe(true)
+      expect(yield* KappaHeadless.denies(root.id)).toBe(false)
 
-      KiloHeadless.clear(root.id)
+      KappaHeadless.clear(root.id)
     }),
     { git: true },
   ),
@@ -1395,7 +1395,7 @@ it.live("interactive run: subagent permission asks still queue for a human reply
       const child = yield* sessions.create({ parentID: root.id, title: "Subagent" })
 
       const agent = worker("subagent")
-      const fiber = yield* KiloSessionPrompt.askPermission({
+      const fiber = yield* KappaSessionPrompt.askPermission({
         permission,
         agents: { get: () => Effect.succeed(agent) },
         sessions,
@@ -1426,10 +1426,10 @@ it.live("headless run: root session permission asks still queue (only subagents 
       const permission = yield* Permission.Service
       const sessions = yield* Session.Service
       const root = yield* sessions.create({ title: "Root" })
-      KiloHeadless.mark(root.id)
+      KappaHeadless.mark(root.id)
 
       const agent = { ...worker("subagent"), mode: "primary" as const }
-      const fiber = yield* KiloSessionPrompt.askPermission({
+      const fiber = yield* KappaSessionPrompt.askPermission({
         permission,
         agents: { get: () => Effect.succeed(agent) },
         sessions,
@@ -1449,7 +1449,7 @@ it.live("headless run: root session permission asks still queue (only subagents 
 
       const exit = yield* Fiber.await(fiber)
       expect(Exit.isFailure(exit)).toBe(true)
-      KiloHeadless.clear(root.id)
+      KappaHeadless.clear(root.id)
     }),
     { git: true },
   ),

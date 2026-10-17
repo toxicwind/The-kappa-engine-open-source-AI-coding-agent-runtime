@@ -1,9 +1,9 @@
 import type { LegacyApiMessage, LegacyHistoryItem } from "./lib/legacy-types"
 import type {
-  KilocodeSessionImportMessageData as Message,
-  KilocodeSessionImportPartData as Part,
-  KilocodeSessionImportProjectData as Project,
-  KilocodeSessionImportSessionData as Session,
+  KappacodeSessionImportMessageData as Message,
+  KappacodeSessionImportPartData as Part,
+  KappacodeSessionImportProjectData as Project,
+  KappacodeSessionImportSessionData as Session,
 } from "@kappacode/sdk/v2"
 import { getApiConversationHistory, parseFile } from "./lib/legacy-conversation"
 import { parseMessagesFromConversation } from "./lib/messages"

@@ -1,11 +1,11 @@
 ---
 title: "Message Feedback"
-description: "Rate assistant responses with thumbs up/down to help Kilo improve"
+description: "Rate assistant responses with thumbs up/down to help Kappa improve"
 ---
 
 # Message Feedback
 
-You can give a thumbs up or thumbs down to any response Kilo gives you. It's a quick way to tell us when something worked well, or when it didn't.
+You can give a thumbs up or thumbs down to any response Kappa gives you. It's a quick way to tell us when something worked well, or when it didn't.
 
 {% callout type="info" %}
 Feedback is only available when telemetry is on. If you turn telemetry off, the buttons no longer display. See [Turning it off](#turning-it-off) below.
@@ -16,7 +16,7 @@ Feedback is only available when telemetry is on. If you turn telemetry off, the 
 {% tabs %}
 {% tab label="VSCode" %}
 
-When Kilo finishes a response, you'll see thumbs-up and thumbs-down buttons next to the **Copy response** button. Click one to send your rating. Click the same button again to take it back, or click the other one to change your mind.
+When Kappa finishes a response, you'll see thumbs-up and thumbs-down buttons next to the **Copy response** button. Click one to send your rating. Click the same button again to take it back, or click the other one to change your mind.
 
 If you reload the window or switch to a different session, the feedback status will be reset.
 
@@ -37,7 +37,7 @@ In the terminal, two keybinds rate the most recent assistant message:
 {% /tabs %}
 ## Why it matters
 
-Your feedback is the most direct way to tell us what's working and what isn't. We use it to tune the prompts behind Kilo's behavior, pick better default models, and find and fix problems faster than we could on our own.
+Your feedback is the most direct way to tell us what's working and what isn't. We use it to tune the prompts behind Kappa's behavior, pick better default models, and find and fix problems faster than we could on our own.
 
 ## What we send
 
@@ -45,9 +45,9 @@ When you rate a response, here's what gets sent:
 
 - That you rated a response thumbs up or thumbs down.
 - The provider and model ID that produced the response (for example, `anthropic` and `claude-sonnet-4-5`).
-- For responses that came through Kilo Gateway, the request ID so we can match the rating back to the session.
+- For responses that came through Kappa Gateway, the request ID so we can match the rating back to the session.
 
-No further information is included in the rating feedback. For more information on telemetry, see [PRIVACY.md](https://github.com/Kilo-Org/kilocode/blob/main/PRIVACY.md).
+No further information is included in the rating feedback. For more information on telemetry, see [PRIVACY.md](https://github.com/Kappa-Org/kappacode/blob/main/PRIVACY.md).
 
 ## Turning it off
 
@@ -62,7 +62,7 @@ Open Settings (`Cmd+,` on Mac, `Ctrl+,` on Windows/Linux), search for **`telemet
 
 {% tab label="CLI" %}
 
-Set `KILO_TELEMETRY_LEVEL=off` in your environment before starting Kilo:
+Set `KILO_TELEMETRY_LEVEL=off` in your environment before starting Kappa:
 
 ```bash
 KILO_TELEMETRY_LEVEL=off kappa

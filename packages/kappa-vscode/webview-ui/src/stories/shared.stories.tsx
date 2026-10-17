@@ -62,9 +62,9 @@ export const ModelSelectorNoProviders: Story = {
 const ACCESSIBLE_MODELS: EnrichedModel[] = [
   {
     id: "kappa-auto/efficient",
-    name: "Kilo Auto Efficient",
+    name: "Kappa Auto Efficient",
     providerID: "kappa",
-    providerName: "Kilo",
+    providerName: "Kappa",
     recommendedIndex: 0,
     options: {
       description:
@@ -74,9 +74,9 @@ const ACCESSIBLE_MODELS: EnrichedModel[] = [
   },
   {
     id: "kappa-auto/frontier",
-    name: "Kilo Auto Frontier",
+    name: "Kappa Auto Frontier",
     providerID: "kappa",
-    providerName: "Kilo",
+    providerName: "Kappa",
     recommendedIndex: 1,
     options: {
       description: "Routes each request to the strongest available models.",
@@ -85,16 +85,16 @@ const ACCESSIBLE_MODELS: EnrichedModel[] = [
   },
   {
     id: "kappa-auto/legacy",
-    name: "Kilo Auto Legacy",
+    name: "Kappa Auto Legacy",
     providerID: "kappa",
-    providerName: "Kilo",
+    providerName: "Kappa",
   },
   { id: "omega", name: "Omega", providerID: "openai", providerName: "OpenAI", recommendedIndex: 2 },
-  { id: "alpha", name: "Alpha", providerID: "kappa", providerName: "Kilo" },
-  { id: "bravo", name: "Bravo", providerID: "kappa", providerName: "Kilo" },
-  { id: "charlie", name: "Charlie", providerID: "kappa", providerName: "Kilo" },
-  { id: "delta", name: "Delta", providerID: "kappa", providerName: "Kilo" },
-  { id: "echo", name: "Echo", providerID: "kappa", providerName: "Kilo" },
+  { id: "alpha", name: "Alpha", providerID: "kappa", providerName: "Kappa" },
+  { id: "bravo", name: "Bravo", providerID: "kappa", providerName: "Kappa" },
+  { id: "charlie", name: "Charlie", providerID: "kappa", providerName: "Kappa" },
+  { id: "delta", name: "Delta", providerID: "kappa", providerName: "Kappa" },
+  { id: "echo", name: "Echo", providerID: "kappa", providerName: "Kappa" },
   { id: "nova", name: "Nova", providerID: "nvidia", providerName: "NVIDIA" },
   { id: "nemotron", name: "Nemotron", providerID: "nvidia", providerName: "NVIDIA" },
 ]

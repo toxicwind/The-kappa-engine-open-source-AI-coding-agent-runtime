@@ -1,6 +1,6 @@
 import { Agent } from "@/agent/agent"
 import { Config } from "@/config/config"
-import { KilocodeModelState } from "@/kappacode/config/model-state"
+import { KappacodeModelState } from "@/kappacode/config/model-state"
 import { Context, Effect, Layer, Schema } from "effect"
 import { CloudAuth } from "./auth"
 import { CloudCatalog } from "./catalog"
@@ -9,7 +9,7 @@ import { ModelSchema, ModeSchema } from "./contracts"
 export namespace CloudDefaults {
   const COMPATIBLE = new Set(["code", "plan", "debug", "orchestrator", "ask", "build", "architect"])
 
-  export type ModelStateInfo = KilocodeModelState.State
+  export type ModelStateInfo = KappacodeModelState.State
 
   export interface ModelStateInterface {
     readonly get: () => Effect.Effect<ModelStateInfo>
@@ -19,7 +19,7 @@ export namespace CloudDefaults {
 
   export const modelStateLayer = Layer.succeed(
     ModelState,
-    ModelState.of({ get: () => Effect.promise(() => KilocodeModelState.get()) }),
+    ModelState.of({ get: () => Effect.promise(() => KappacodeModelState.get()) }),
   )
 
   export interface Input {
@@ -131,7 +131,7 @@ export namespace CloudDefaults {
     return yield* Effect.fail(
       new ResolutionError({
         kind: "model",
-        message: "The Kilo model catalog has no available default model",
+        message: "The Kappa model catalog has no available default model",
       }),
     )
   })

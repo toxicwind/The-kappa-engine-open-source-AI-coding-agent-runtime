@@ -1,4 +1,4 @@
-import { resolveKiloGatewayBaseUrl } from "@kappacode/kappa-gateway"
+import { resolveKappaGatewayBaseUrl } from "@kappacode/kappa-gateway"
 import { HEADER_FEATURE, HEADER_ORGANIZATIONID } from "@kappacode/kappa-gateway"
 import { MAX_ITEM_TOKENS } from "../constants"
 import type { EmbedderInfo, EmbeddingResponse, IEmbedder } from "../interfaces/embedder"
@@ -9,7 +9,7 @@ const log = Log.create({ service: "embedder-kappa" })
 
 export const KILO_INDEXING_FEATURE = "managed-indexing"
 
-export class KiloEmbedder implements IEmbedder {
+export class KappaEmbedder implements IEmbedder {
   private readonly embedder: OpenAICompatibleEmbedder
   private readonly model: string
 
@@ -20,9 +20,9 @@ export class KiloEmbedder implements IEmbedder {
     modelId?: string
     dimensions?: number
   }) {
-    if (!input.apiKey) throw new Error("Kilo API key is required for embedding.")
+    if (!input.apiKey) throw new Error("Kappa API key is required for embedding.")
 
-    if (!input.modelId) throw new Error("Kilo embedding model is required.")
+    if (!input.modelId) throw new Error("Kappa embedding model is required.")
     this.model = input.modelId
     const headers: Record<string, string> = {
       [HEADER_FEATURE]: KILO_INDEXING_FEATURE,
@@ -30,7 +30,7 @@ export class KiloEmbedder implements IEmbedder {
     }
 
     this.embedder = new OpenAICompatibleEmbedder(
-      resolveKiloGatewayBaseUrl({ baseURL: input.baseUrl, token: input.apiKey }),
+      resolveKappaGatewayBaseUrl({ baseURL: input.baseUrl, token: input.apiKey }),
       input.apiKey,
       this.model,
       MAX_ITEM_TOKENS,
@@ -42,9 +42,9 @@ export class KiloEmbedder implements IEmbedder {
     try {
       return await this.embedder.createEmbeddings(texts, model || this.model)
     } catch (err) {
-      log.error("Kilo embedder error", {
+      log.error("Kappa embedder error", {
         err: err instanceof Error ? err.message : String(err),
-        location: "KiloEmbedder:createEmbeddings",
+        location: "KappaEmbedder:createEmbeddings",
       })
       throw err
     }
@@ -54,9 +54,9 @@ export class KiloEmbedder implements IEmbedder {
     try {
       return await this.embedder.validateConfiguration()
     } catch (err) {
-      log.error("Kilo embedder validation error", {
+      log.error("Kappa embedder validation error", {
         err: err instanceof Error ? err.message : String(err),
-        location: "KiloEmbedder:validateConfiguration",
+        location: "KappaEmbedder:validateConfiguration",
       })
       throw err
     }

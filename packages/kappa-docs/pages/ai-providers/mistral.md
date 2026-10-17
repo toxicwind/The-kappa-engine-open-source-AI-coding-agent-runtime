@@ -1,12 +1,12 @@
 ---
-title: "Using Mistral AI with Kilo Code"
-description: "Configure Mistral AI models, including Codestral, in Kilo Code. Guide to getting an API key and setup for VS Code and the CLI."
+title: "Using Mistral AI with Kappa Code"
+description: "Configure Mistral AI models, including Codestral, in Kappa Code. Guide to getting an API key and setup for VS Code and the CLI."
 sidebar_label: Mistral AI
 ---
 
-# Using Mistral AI With Kilo Code
+# Using Mistral AI With Kappa Code
 
-Kilo Code supports accessing models through the Mistral AI API, including both standard Mistral models and the code-specialized Codestral model.
+Kappa Code supports accessing models through the Mistral AI API, including both standard Mistral models and the code-specialized Codestral model.
 
 **Website:** [https://mistral.ai/](https://mistral.ai/)
 
@@ -17,7 +17,7 @@ Kilo Code supports accessing models through the Mistral AI API, including both s
     - [La Plateforme API Key](https://console.mistral.ai/api-keys/) and/or
     - [Codestral API Key](https://console.mistral.ai/codestral)
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -62,7 +62,7 @@ Then set your default model:
 
 ## Reasoning Variants
 
-Mistral's adjustable reasoning support is exposed only for reasoning-capable Mistral Small 4 models: `mistral-small-2603` and `mistral-small-latest`. When one of these models is selected, Kilo offers a `high` variant that sends `reasoningEffort: "high"` to the Mistral provider.
+Mistral's adjustable reasoning support is exposed only for reasoning-capable Mistral Small 4 models: `mistral-small-2603` and `mistral-small-latest`. When one of these models is selected, Kappa offers a `high` variant that sends `reasoningEffort: "high"` to the Mistral provider.
 
 Other Mistral models do not get automatic reasoning variants, even if they appear in the same provider. See Mistral's [reasoning documentation](https://docs.mistral.ai/studio-api/conversations/reasoning) for provider-level details.
 

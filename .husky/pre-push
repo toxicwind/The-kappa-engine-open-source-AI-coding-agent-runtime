@@ -32,10 +32,12 @@ while read -r local_ref local_oid remote_ref remote_oid; do
     base=$(git merge-base "$local_oid" "$1/main" 2>/dev/null || git hash-object -t tree /dev/null)
   fi
 
-  if ! git diff --quiet "$base" "$local_oid" -- . \
-    ':(exclude).changeset/**' \
-    ':(exclude)packages/kappa-vscode/**' \
-    ':(exclude)packages/kappa-docs/**'; then
+  # Dynamically detect whether JetBrains plugin files changed. Only those
+  # changes require the (Java 21 / Gradle) JetBrains typecheck. Other
+  # packages are handled by the serial typecheck below, which skips
+  # jetbrains because its Kotlin build is broken upstream and unrelated to
+  # TS changes.
+  if ! git diff --quiet "$base" "$local_oid" -- packages/kappa-jetbrains/**; then
     jetbrains=1
   fi
 done

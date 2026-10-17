@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2"
+import type { KappaClient } from "@kappacode/sdk/v2"
 import { memoryRow } from "@/kappacode/cli/cmd/tui/component/memory-status"
 import { runMemoryCommand } from "@/kappacode/cli/cmd/tui/memory-command"
 import { MemoryTuiEvents } from "@/kappacode/cli/cmd/tui/memory-events"
@@ -35,7 +35,7 @@ describe("memory TUI command parser", () => {
           return result
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const base = {
       client,
       toast: {
@@ -79,7 +79,7 @@ describe("memory TUI command parser", () => {
           return { data: { purged: true } }
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const base = {
       client,
       toast: {
@@ -109,7 +109,7 @@ describe("memory TUI command parser", () => {
   test("status opens overview dialog", async () => {
     const shown: string[] = []
     const opened: string[] = []
-    const client = { memory: {} } as unknown as KiloClient
+    const client = { memory: {} } as unknown as KappaClient
 
     await runMemoryCommand({
       text: "/memory status",
@@ -137,7 +137,7 @@ describe("memory TUI command parser", () => {
       memory: {
         status: async () => ({ data: { root: "/tmp/kappa-memory", state: { enabled: true } } }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await runMemoryCommand({
       text: "/memory inspect",
@@ -157,7 +157,7 @@ describe("memory TUI command parser", () => {
 
   test("bare memory command opens help", async () => {
     const calls: unknown[] = []
-    const client = { memory: {} } as unknown as KiloClient
+    const client = { memory: {} } as unknown as KappaClient
 
     const result = await runMemoryCommand({
       text: "/memory",
@@ -192,7 +192,7 @@ describe("memory TUI command parser", () => {
           return { data: { state: { enabled: false } } }
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await runMemoryCommand({
       text: "/memory on",
@@ -234,7 +234,7 @@ describe("memory TUI command parser", () => {
           return { data: { state } }
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const base = {
       client,
       toast: { show() {} },

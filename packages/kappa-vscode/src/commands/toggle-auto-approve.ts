@@ -1,8 +1,8 @@
 import * as vscode from "vscode"
-import type { Event, KiloClient } from "@kappacode/sdk/v2/client"
+import type { Event, KappaClient } from "@kappacode/sdk/v2/client"
 import { replyOnce } from "../kappa-provider/handlers/permission-handler"
 import { retry } from "../services/cli-backend/retry"
-import type { KiloConnectionService } from "../services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 
 /**
  * Callback that resolves the correct working directory for a session.
@@ -36,7 +36,7 @@ const KEY = "enabled"
  */
 export function registerToggleAutoApprove(
   context: vscode.ExtensionContext,
-  connectionService: KiloConnectionService,
+  connectionService: KappaConnectionService,
   resolve: DirectoryResolver,
   directories: AllDirectories,
 ): AutoApproveController {
@@ -79,7 +79,7 @@ export function registerToggleAutoApprove(
           await replyOnce(client, req.id, dir, () => generation === snapshot)
         }
       } catch (err) {
-        console.error("[Kilo New] toggleAutoApprove: failed to list pending permissions:", err)
+        console.error("[Kappa New] toggleAutoApprove: failed to list pending permissions:", err)
       }
     }
 
@@ -138,7 +138,7 @@ function target(): vscode.ConfigurationTarget {
   return vscode.ConfigurationTarget.Global
 }
 
-function tryGetClient(connectionService: KiloConnectionService): KiloClient | undefined {
+function tryGetClient(connectionService: KappaConnectionService): KappaClient | undefined {
   try {
     return connectionService.getClient()
   } catch {

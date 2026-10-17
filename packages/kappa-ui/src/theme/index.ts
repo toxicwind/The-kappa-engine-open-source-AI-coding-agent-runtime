@@ -31,11 +31,11 @@ export { applyTheme, loadThemeFromUrl, getActiveTheme, removeTheme, setColorSche
 // Override: use our context with kappa default
 export { ThemeProvider, useTheme, type ColorScheme } from "./context"
 
-// Override: use our default-themes which includes Kilo themes
+// Override: use our default-themes which includes Kappa themes
 export {
   DEFAULT_THEMES,
-  kiloTheme,
-  kiloVscodeTheme,
+  kappaTheme,
+  kappaVscodeTheme,
   oc2Theme,
   tokyonightTheme,
   draculaTheme,

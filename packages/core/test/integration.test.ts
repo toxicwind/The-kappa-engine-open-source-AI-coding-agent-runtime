@@ -12,10 +12,10 @@ import os from "node:os"
 import path from "node:path"
 import { testEffect } from "./lib/effect"
 
-// kilocode_change start - Kilo dual-writes stored credentials into Global.data/auth.json and re-imports
+// kappacode_change start - Kappa dual-writes stored credentials into Global.data/auth.json and re-imports
 // them on every startup. testEffect rebuilds the layer per test, so without isolation one test's
 // credentials reappear in the next as "Imported" (and the real developer store gets written to).
-// KILO_AUTH_CONTENT is Kilo's process-local credential mode: it skips the auth.json dual-write.
+// KILO_AUTH_CONTENT is Kappa's process-local credential mode: it skips the auth.json dual-write.
 // Set it around this file only. bun shares one process across test files, so setting it at module
 // scope leaks into credential.test.ts, whose auth.json cases then read "{}" and see no credentials.
 const directory = fs.mkdtempSync(path.join(os.tmpdir(), "kappa-integration-test-"))
@@ -33,7 +33,7 @@ const it = testEffect(
     [Global.node, Global.layerWith({ data: directory })],
   ]),
 )
-// kilocode_change end
+// kappacode_change end
 
 describe("Integration", () => {
   it.effect("registers integrations through the editor", () =>

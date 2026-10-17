@@ -4,12 +4,12 @@ import fs from "fs/promises"
 import { describe, expect, test } from "bun:test"
 import { ConfigProtection } from "../../../src/kappacode/permission/config-paths"
 import { Global } from "@opencode-ai/core/global"
-import { KilocodePaths } from "../../../src/kappacode/paths"
+import { KappacodePaths } from "../../../src/kappacode/paths"
 import { tmpdir } from "../../fixture/fixture"
 
 describe("ConfigProtection.isRequest", () => {
   const config = path.resolve(Global.Path.config)
-  const legacy = KilocodePaths.globalDirs().map((d) => path.resolve(d))
+  const legacy = KappacodePaths.globalDirs().map((d) => path.resolve(d))
 
   // --- external_directory: bash-originated (empty metadata) ---
 
@@ -195,7 +195,7 @@ describe("ConfigProtection.isRequest", () => {
 })
 
 describe("ConfigProtection.isGlobalSkillRequest", () => {
-  const roots = [Global.Path.config, ...KilocodePaths.globalDirs()]
+  const roots = [Global.Path.config, ...KappacodePaths.globalDirs()]
 
   test("allows one exact global skill subtree", () => {
     for (const root of roots) {

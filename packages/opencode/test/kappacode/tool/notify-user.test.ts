@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, spyOn, test } from "bun:test"
 import { Effect, Layer, Schema } from "effect"
 import { Agent } from "@/agent/agent"
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
-import { KiloToolRegistry } from "@/kappacode/tool/registry"
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions"
+import { KappaToolRegistry } from "@/kappacode/tool/registry"
 import { NotifyUserTool } from "@/kappacode/tool/notify-user"
 import { MessageID, SessionID } from "@/session/schema"
 import * as Truncate from "@/tool/truncate"
@@ -41,7 +41,7 @@ const ctx: Tool.Context = {
   ask: () => Effect.void,
 }
 
-const status = spyOn(KiloSessions, "remoteStatus")
+const status = spyOn(KappaSessions, "remoteStatus")
 
 beforeEach(() => {
   status.mockReturnValue({ enabled: true, connected: true })
@@ -51,9 +51,9 @@ afterEach(() => {
   status.mockReset()
 })
 
-function runNotifyTool(params: { readonly message: string }, sessions: KiloSessions.Interface) {
+function runNotifyTool(params: { readonly message: string }, sessions: KappaSessions.Interface) {
   const layer = Layer.mergeAll(
-    Layer.succeed(KiloSessions.Service, KiloSessions.Service.of(sessions)),
+    Layer.succeed(KappaSessions.Service, KappaSessions.Service.of(sessions)),
     Layer.succeed(Agent.Service, agents),
     Layer.succeed(Truncate.Service, truncate),
   )
@@ -70,15 +70,15 @@ describe("notify_user tool", () => {
   test("is only available while remote is enabled", () => {
     const tool = { id: "notify_user" } as Tool.Def
     status.mockReturnValue({ enabled: false, connected: false })
-    expect(KiloToolRegistry.available(tool)).toBe(false)
+    expect(KappaToolRegistry.available(tool)).toBe(false)
 
     status.mockReturnValue({ enabled: true, connected: false })
-    expect(KiloToolRegistry.available(tool)).toBe(true)
+    expect(KappaToolRegistry.available(tool)).toBe(true)
   })
 
   test("registers with id and description", async () => {
     const layer = Layer.mergeAll(
-      Layer.succeed(KiloSessions.Service, KiloSessions.Service.of({
+      Layer.succeed(KappaSessions.Service, KappaSessions.Service.of({
         init: () => Effect.void,
         sendAgentNotification: () => Effect.succeed({ ok: true }),
         reportSessionTitle: () => Effect.succeed({ ok: false, reason: "not_connected" }),
@@ -125,7 +125,7 @@ describe("notify_user tool", () => {
 
   test("trims message before sending", async () => {
     const calls: { sessionID: string; input: { id: string; message: string } }[] = []
-    const sessions = KiloSessions.Service.of({
+    const sessions = KappaSessions.Service.of({
       init: () => Effect.void,
       sendAgentNotification: (sessionID, input) =>
         Effect.sync(() => {
@@ -144,7 +144,7 @@ describe("notify_user tool", () => {
   })
 
   test("returns failure text when not connected", async () => {
-    const sessions = KiloSessions.Service.of({
+    const sessions = KappaSessions.Service.of({
       init: () => Effect.void,
       sendAgentNotification: () => Effect.succeed({ ok: false, reason: "not_connected" }),
       reportSessionTitle: () => Effect.succeed({ ok: false, reason: "not_connected" }),
@@ -153,12 +153,12 @@ describe("notify_user tool", () => {
     const result = await runNotifyTool({ message: "hello" }, sessions)
 
     expect(result.metadata.ok).toBe(false)
-    expect(result.output).toContain("not connected to Kilo cloud")
+    expect(result.output).toContain("not connected to Kappa cloud")
   })
 
   test("does not send when remote is disabled", async () => {
     status.mockReturnValue({ enabled: false, connected: false })
-    const sessions = KiloSessions.Service.of({
+    const sessions = KappaSessions.Service.of({
       init: () => Effect.void,
       sendAgentNotification: () => Effect.succeed({ ok: true }),
       reportSessionTitle: () => Effect.succeed({ ok: false, reason: "not_connected" }),
@@ -173,7 +173,7 @@ describe("notify_user tool", () => {
   })
 
   test("returns failure text with arbitrary reason", async () => {
-    const sessions = KiloSessions.Service.of({
+    const sessions = KappaSessions.Service.of({
       init: () => Effect.void,
       sendAgentNotification: () => Effect.succeed({ ok: false, reason: "http_500" }),
       reportSessionTitle: () => Effect.succeed({ ok: false, reason: "not_connected" }),
@@ -186,7 +186,7 @@ describe("notify_user tool", () => {
   })
 
   test("returns failure text when not bootstrapped", async () => {
-    const sessions = KiloSessions.Service.of({
+    const sessions = KappaSessions.Service.of({
       init: () => Effect.void,
       sendAgentNotification: () => Effect.succeed({ ok: false, reason: "not_bootstrapped" }),
       reportSessionTitle: () => Effect.succeed({ ok: false, reason: "not_connected" }),
@@ -201,7 +201,7 @@ describe("notify_user tool", () => {
   })
 
   test("returns failure text on bootstrap timeout", async () => {
-    const sessions = KiloSessions.Service.of({
+    const sessions = KappaSessions.Service.of({
       init: () => Effect.void,
       sendAgentNotification: () => Effect.succeed({ ok: false, reason: "bootstrap_timeout" }),
       reportSessionTitle: () => Effect.succeed({ ok: false, reason: "not_connected" }),
@@ -215,7 +215,7 @@ describe("notify_user tool", () => {
   })
 
   test("2xx success returns ok metadata and success output", async () => {
-    const sessions = KiloSessions.Service.of({
+    const sessions = KappaSessions.Service.of({
       init: () => Effect.void,
       sendAgentNotification: () => Effect.succeed({ ok: true }),
       reportSessionTitle: () => Effect.succeed({ ok: false, reason: "not_connected" }),

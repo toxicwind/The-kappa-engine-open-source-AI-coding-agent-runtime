@@ -28,8 +28,8 @@ import { GoalPolicy } from "@/kappacode/session/goal/policy"
 import { GoalState } from "@/kappacode/session/goal/state"
 import { Wakeup } from "@/kappacode/wakeup"
 import { SessionDrain } from "@/kappacode/session/drain"
-import { KiloSessionContinuation } from "@/kappacode/session/continuation"
-import { KiloSessionPromptQueue } from "@/kappacode/session/prompt-queue"
+import { KappaSessionContinuation } from "@/kappacode/session/continuation"
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
 import { Suggestion } from "@/kappacode/suggestion"
 import { TestInstance } from "../../fixture/fixture"
 import { awaitWithTimeout, pollWithTimeout, testEffect } from "../../lib/effect"
@@ -636,7 +636,7 @@ for (const kind of ["image", "file"] as const) {
       yield* run.llm.push(reply().wait(gate.promise).text("Original execution finished").stop())
       yield* run.command(objective)
       yield* run.wait(1)
-      const base = KiloSessionPromptQueue.active(run.session.id)
+      const base = KappaSessionPromptQueue.active(run.session.id)
       const before = yield* run.sessions.messages({ sessionID: run.session.id })
       const metadata = yield* run.metadata
       const selection = yield* run.sessions.get(run.session.id)
@@ -667,7 +667,7 @@ for (const kind of ["image", "file"] as const) {
       expect(Exit.isFailure(result)).toBe(true)
       expect(yield* run.metadata).toEqual(metadata)
       expect(GoalState.active(run.session.id)).toBe(true)
-      expect(KiloSessionPromptQueue.active(run.session.id)).toBe(base)
+      expect(KappaSessionPromptQueue.active(run.session.id)).toBe(base)
       expect((yield* run.status.get(run.session.id)).type).toBe("busy")
       const after = yield* run.sessions.messages({ sessionID: run.session.id })
       expect(after.map((message) => message.info.id)).toEqual(before.map((message) => message.info.id))
@@ -921,7 +921,7 @@ it.instance(
       })
       .pipe(Effect.forkChild)
     yield* pollWithTimeout(
-      Effect.sync(() => (KiloSessionPromptQueue.snapshot(session.id).length > 0 ? true : undefined)),
+      Effect.sync(() => (KappaSessionPromptQueue.snapshot(session.id).length > 0 ? true : undefined)),
       "human prompt was not queued",
       "10 seconds",
     )
@@ -976,7 +976,7 @@ for (const kind of ["permission", "suggestion"] as const) {
         "goal attention did not arrive",
       )
       const before = yield* run.sessions.messages({ sessionID: run.session.id })
-      const base = KiloSessionPromptQueue.active(run.session.id)
+      const base = KappaSessionPromptQueue.active(run.session.id)
       expect(base).toBeDefined()
       for (const args of ["Replace the current objective", "resume"]) {
         const exit = yield* run.command(args).pipe(Effect.exit)
@@ -990,7 +990,7 @@ for (const kind of ["permission", "suggestion"] as const) {
         const pending = yield* list
         expect(pending).toHaveLength(1)
         expect(pending.at(0)).toEqual(request)
-        expect(KiloSessionPromptQueue.active(run.session.id)).toBe(base)
+        expect(KappaSessionPromptQueue.active(run.session.id)).toBe(base)
         expect(yield* run.sessions.messages({ sessionID: run.session.id })).toEqual(before)
         const busy = yield* state.assertNotBusy(run.session.id).pipe(Effect.exit)
         expect(Exit.isFailure(busy) && Cause.squash(busy.cause) instanceof Session.BusyError).toBe(true)
@@ -1027,10 +1027,10 @@ for (const idle of [false, true]) {
       yield* run.wait(2)
       if (idle)
         yield* pollWithTimeout(
-          Effect.sync(() => (!KiloSessionPromptQueue.active(run.session.id) ? true : undefined)),
+          Effect.sync(() => (!KappaSessionPromptQueue.active(run.session.id) ? true : undefined)),
           "goal did not reach its idle gap",
         )
-      const base = KiloSessionPromptQueue.active(run.session.id)
+      const base = KappaSessionPromptQueue.active(run.session.id)
       expect(!!base).toBe(!idle)
       const before = yield* run.sessions.messages({ sessionID: run.session.id })
       const feedback = yield* events.subscribe(Session.Event.Error).pipe(
@@ -1048,7 +1048,7 @@ for (const idle of [false, true]) {
         name: "UnknownError",
         data: { message: expect.stringContaining('Command not found: "gaol"') },
       })
-      expect(KiloSessionPromptQueue.active(run.session.id)).toBe(base)
+      expect(KappaSessionPromptQueue.active(run.session.id)).toBe(base)
       expect((yield* run.sessions.messages({ sessionID: run.session.id })).map((message) => message.info.id)).toEqual(
         before.map((message) => message.info.id),
       )
@@ -1111,7 +1111,7 @@ for (const busy of [true, false]) {
       yield* run.command(objective)
       yield* run.wait(2)
       if (!busy) yield* run.idle
-      const base = KiloSessionPromptQueue.active(run.session.id)
+      const base = KappaSessionPromptQueue.active(run.session.id)
       const before = yield* run.sessions.messages({ sessionID: run.session.id })
       const exit = yield* run.prompt
         .shell({ sessionID: run.session.id, agent: "code", command: `echo goal-shell-${crypto.randomUUID()}` })
@@ -1122,7 +1122,7 @@ for (const busy of [true, false]) {
           ...retained,
           "kappa.goal": { text: objective, active: true, status: "active" },
         })
-        expect(KiloSessionPromptQueue.active(run.session.id)).toBe(base)
+        expect(KappaSessionPromptQueue.active(run.session.id)).toBe(base)
         expect((yield* run.sessions.messages({ sessionID: run.session.id })).map((message) => message.info.id)).toEqual(
           before.map((message) => message.info.id),
         )
@@ -1228,7 +1228,7 @@ it.instance(
     const control = Effect.fnUntraced(function* (args: string) {
       yield* sessions.setAgentModel({ sessionID: session.id, ...selected, time: Date.now() })
       const before = yield* sessions.messages({ sessionID: session.id })
-      const target = KiloSessionContinuation.target(before)
+      const target = KappaSessionContinuation.target(before)
       if (before.length) expect(target).toBeDefined()
       for (const message of before) ids.add(message.info.id)
       const ack = yield* command(args)
@@ -1236,7 +1236,7 @@ it.instance(
       yield* awaitWithTimeout(drain.wait(session.id), "goal prompt did not drain")
       const after = yield* sessions.messages({ sessionID: session.id })
       expect(after.map((message) => message.info.id)).toEqual(before.map((message) => message.info.id))
-      expect(KiloSessionContinuation.target(after)).toBe(target)
+      expect(KappaSessionContinuation.target(after)).toBe(target)
       expect(yield* sessions.get(session.id)).toMatchObject(selected)
       expect(ack.info.role).toBe("assistant")
       expect(ids.has(ack.info.id)).toBe(false)
@@ -1317,7 +1317,7 @@ for (const kind of ["archived", "reverted"] as const) {
       yield* run.llm.hang
       yield* run.command(objective)
       yield* run.wait(1)
-      const base = KiloSessionPromptQueue.active(run.session.id)
+      const base = KappaSessionPromptQueue.active(run.session.id)
       if (!base) throw new Error("Goal turn did not start")
       if (kind === "archived") yield* run.sessions.setArchived({ sessionID: run.session.id, time: Date.now() })
       if (kind === "reverted")
@@ -1329,7 +1329,7 @@ for (const kind of ["archived", "reverted"] as const) {
         expect(Exit.isFailure(exit)).toBe(true)
         if (Exit.isFailure(exit)) expect(String(Cause.squash(exit.cause))).toContain("Restore this session")
         expect(yield* run.metadata).toEqual(metadata)
-        expect(KiloSessionPromptQueue.active(run.session.id)).toBe(base)
+        expect(KappaSessionPromptQueue.active(run.session.id)).toBe(base)
         expect((yield* run.status.get(run.session.id)).type).toBe("busy")
         expect((yield* run.sessions.messages({ sessionID: run.session.id })).map((message) => message.info.id)).toEqual(
           before.map((message) => message.info.id),
@@ -1355,7 +1355,7 @@ it.instance(
       })
       .pipe(Effect.forkChild)
     yield* run.wait(1)
-    const base = KiloSessionPromptQueue.active(run.session.id)
+    const base = KappaSessionPromptQueue.active(run.session.id)
     expect(base).toBeDefined()
 
     yield* run.llm.hang
@@ -1373,7 +1373,7 @@ it.instance(
       "kappa.goal": { text: objective, active: true, status: "active" },
     })
     yield* awaitWithTimeout(Fiber.await(ordinary), "ordinary response was not replaced")
-    expect(KiloSessionPromptQueue.active(run.session.id)).not.toBe(base)
+    expect(KappaSessionPromptQueue.active(run.session.id)).not.toBe(base)
     yield* run.prompt.cancel(run.session.id)
   }),
   30_000,
@@ -2042,7 +2042,7 @@ for (const override of [
       // goal:command instead of being dropped.
       expect(list.map((item) => item.name).includes("goal:command")).toBe(aliased)
 
-      // Dispatch still reaches Kilo's own goal, on the dispatched model, and never
+      // Dispatch still reaches Kappa's own goal, on the dispatched model, and never
       // renders the override's template.
       yield* run.llm.text("Goal complete. All work is done.")
       yield* run.command(objective)

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { preserveVariant, resolvePreservedVariant } from "@/kappacode/cli/cmd/run/variant"
 
-describe("Kilo CLI variant preservation", () => {
+describe("Kappa CLI variant preservation", () => {
   test("keeps exact variants across supported families", () => {
     expect(preserveVariant("high", ["low", "high"])).toBe("high")
     expect(preserveVariant("thinking", ["instant", "thinking"])).toBe("thinking")

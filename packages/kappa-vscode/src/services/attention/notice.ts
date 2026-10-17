@@ -9,7 +9,7 @@ import type { AttentionNotice } from "./service"
 export function lines(notice: AttentionNotice): string[] {
   return [
     notice.message,
-    notice.workspace ? `${t("kilocode:attention.workspace")}: ${notice.workspace}` : undefined,
-    notice.session ? `${t("kilocode:attention.session")}: ${notice.session}` : undefined,
+    notice.workspace ? `${t("kappacode:attention.workspace")}: ${notice.workspace}` : undefined,
+    notice.session ? `${t("kappacode:attention.session")}: ${notice.session}` : undefined,
   ].filter((line): line is string => line !== undefined)
 }

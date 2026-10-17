@@ -34,7 +34,7 @@ export async function startVscodeRunTask(config: RunTaskConfig, done: (exit: Run
     { type: "kappa-worktree-run" },
     vscode.TaskScope.Workspace,
     `Run: ${config.branch}`,
-    "Kilo Code",
+    "Kappa Code",
     proc,
     [],
   )

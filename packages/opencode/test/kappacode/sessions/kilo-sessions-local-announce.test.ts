@@ -3,8 +3,8 @@
 // live list the same way app-spawned (create_session) sessions do: the relay's
 // per-connection registry is fed only by heartbeat attached ids, so a locally
 // created session must be announced on the remote connection when its first
-// turn opens (KiloSessions.attachRemoteSession) and detached when the session
-// is disposed. These tests drive the real watcher registration (the KiloSessions
+// turn opens (KappaSessions.attachRemoteSession) and detached when the session
+// is disposed. These tests drive the real watcher registration (the KappaSessions
 // layer state installed by init) through GlobalBus session events plus the real
 // enableRemote/AttachedState path, with only the relay socket faked.
 
@@ -33,15 +33,15 @@ import { TestConfig } from "../../fixture/config"
 import { TestInstance, tmpdir } from "../../fixture/fixture"
 import { pollWithTimeout, testEffect } from "../../lib/effect"
 
-const { KiloSessions } = await import("../../../src/kappa-sessions/kappa-sessions")
+const { KappaSessions } = await import("../../../src/kappa-sessions/kappa-sessions")
 
 const it = testEffect(AppNodeBuilder.build(CrossSpawnSpawner.node))
 
-// Mirrors the KiloSessions layer wiring used by test/kappacode/kappa-sessions.test.ts:
+// Mirrors the KappaSessions layer wiring used by test/kappacode/kappa-sessions.test.ts:
 // real Bus/Session/Config graph, TestConfig so `init` does not read real config.
 function layer(overrides: Partial<Config.Interface> = {}) {
   return Layer.merge(
-    KiloSessions.layer.pipe(
+    KappaSessions.layer.pipe(
       Layer.provideMerge(Bus.layer),
       Layer.provide(TestConfig.layer(overrides)),
       Layer.provide(AppNodeBuilder.build(Session.node)),
@@ -58,7 +58,7 @@ function reset(...tokens: string[]) {
 
 const token = "local-announce-token"
 
-describe("KiloSessions locally started session announce", () => {
+describe("KappaSessions locally started session announce", () => {
   type Beat = { requireSessionId?: string; detachSessionId?: string }
   let beats: Beat[] = []
   // Per-test heartbeat behavior; resolved synchronously by default so the
@@ -99,7 +99,7 @@ describe("KiloSessions locally started session announce", () => {
     process.env["KILO_SESSION_INGEST_URL"] = "http://127.0.0.1:9"
     process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
     reset(token)
-    KiloSessions.resetInstanceAdvertisementForTests()
+    KappaSessions.resetInstanceAdvertisementForTests()
 
     spyOn(RemoteSender, "create").mockImplementation(
       () =>
@@ -143,7 +143,7 @@ describe("KiloSessions locally started session announce", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
       },
     })
     pub.mockRestore()
@@ -158,7 +158,7 @@ describe("KiloSessions locally started session announce", () => {
   // service, not the ASL context — wrap enableRemote in the ASL-providing
   // `provide` (as the setInstanceAdvertisement/detach-fence tests do).
   const enable = (directory: string) =>
-    Effect.promise(() => provide({ directory, fn: async () => KiloSessions.enableRemote() }))
+    Effect.promise(() => provide({ directory, fn: async () => KappaSessions.enableRemote() }))
 
   let eventId = 0
   function emit(directory: string, type: string, properties: unknown) {
@@ -188,10 +188,10 @@ describe("KiloSessions locally started session announce", () => {
       const id = SessionID.descending("ses_local_announce_first_turn")
       return Effect.gen(function* () {
         const instance = yield* TestInstance
-        const kappa = yield* KiloSessions.Service
+        const kappa = yield* KappaSessions.Service
         yield* kappa.init()
         yield* enable(instance.directory)
-        expect(KiloSessions.remoteStatus()).toEqual({ enabled: true, connected: true })
+        expect(KappaSessions.remoteStatus()).toEqual({ enabled: true, connected: true })
 
         turnOpen(instance.directory, id)
         yield* pollWithTimeout(
@@ -202,7 +202,7 @@ describe("KiloSessions locally started session announce", () => {
         // (requireSessionId fence), so exactly one such beat means the id is
         // registered on the connection.
         expect(beats.some((b) => b.requireSessionId === id)).toBe(true)
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       }).pipe(Effect.provide(layer()))
     },
     15000,
@@ -214,7 +214,7 @@ describe("KiloSessions locally started session announce", () => {
       const id = SessionID.descending("ses_local_announce_idempotent")
       return Effect.gen(function* () {
         const instance = yield* TestInstance
-        const kappa = yield* KiloSessions.Service
+        const kappa = yield* KappaSessions.Service
         yield* kappa.init()
         yield* enable(instance.directory)
 
@@ -236,7 +236,7 @@ describe("KiloSessions locally started session announce", () => {
         turnClose(instance.directory, id)
         yield* Effect.sleep(150)
         expect(detached(id)).toBe(0)
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       }).pipe(Effect.provide(layer()))
     },
     15000,
@@ -246,14 +246,14 @@ describe("KiloSessions locally started session announce", () => {
     const id = SessionID.descending("ses_local_announce_disabled")
     return Effect.gen(function* () {
       const instance = yield* TestInstance
-      const kappa = yield* KiloSessions.Service
+      const kappa = yield* KappaSessions.Service
       yield* kappa.init()
 
       turnOpen(instance.directory, id)
       turnOpen(instance.directory, id)
       yield* Effect.sleep(250)
       expect(beats).toHaveLength(0)
-      expect(KiloSessions.hasRemoteSession(id)).toBe(false)
+      expect(KappaSessions.hasRemoteSession(id)).toBe(false)
     }).pipe(Effect.provide(layer()))
   })
 
@@ -263,7 +263,7 @@ describe("KiloSessions locally started session announce", () => {
       const id = SessionID.descending("ses_local_announce_race")
       return Effect.gen(function* () {
         const instance = yield* TestInstance
-        const kappa = yield* KiloSessions.Service
+        const kappa = yield* KappaSessions.Service
         yield* kappa.init()
 
         let release: () => void = () => {}
@@ -277,10 +277,10 @@ describe("KiloSessions locally started session announce", () => {
         // the enable is parked.
         const enableFiber = yield* enable(instance.directory).pipe(Effect.forkScoped)
         yield* pollWithTimeout(
-          Effect.sync(() => (KiloSessions.remoteStatus().enabled ? true : undefined)),
+          Effect.sync(() => (KappaSessions.remoteStatus().enabled ? true : undefined)),
           "enableRemote never entered",
         )
-        expect(KiloSessions.remoteStatus()).toEqual({ enabled: true, connected: false })
+        expect(KappaSessions.remoteStatus()).toEqual({ enabled: true, connected: false })
 
         turnOpen(instance.directory, id)
         // Give the announce handler time to park on the in-flight enable.
@@ -293,7 +293,7 @@ describe("KiloSessions locally started session announce", () => {
           Effect.sync(() => (announced(id) >= 1 ? true : undefined)),
           "announce after in-flight enable never fired",
         )
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       }).pipe(Effect.provide(layer()))
     },
     15000,
@@ -305,7 +305,7 @@ describe("KiloSessions locally started session announce", () => {
       const id = SessionID.descending("ses_local_announce_delete_during_enable")
       return Effect.gen(function* () {
         const instance = yield* TestInstance
-        const kappa = yield* KiloSessions.Service
+        const kappa = yield* KappaSessions.Service
         yield* kappa.init()
 
         let release: () => void = () => {}
@@ -317,10 +317,10 @@ describe("KiloSessions locally started session announce", () => {
         // `enabling` is in flight, so the announce awaits the enable.
         const enableFiber = yield* enable(instance.directory).pipe(Effect.forkScoped)
         yield* pollWithTimeout(
-          Effect.sync(() => (KiloSessions.remoteStatus().enabled ? true : undefined)),
+          Effect.sync(() => (KappaSessions.remoteStatus().enabled ? true : undefined)),
           "enableRemote never entered",
         )
-        expect(KiloSessions.remoteStatus()).toEqual({ enabled: true, connected: false })
+        expect(KappaSessions.remoteStatus()).toEqual({ enabled: true, connected: false })
 
         // First turn parks the announce on the in-flight enable.
         turnOpen(instance.directory, id)
@@ -341,7 +341,7 @@ describe("KiloSessions locally started session announce", () => {
         // detached (it was never attached), so it is not in the live list.
         expect(announced(id)).toBe(0)
         expect(detached(id)).toBe(0)
-        expect(KiloSessions.hasRemoteSession(id)).toBe(false)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(false)
       }).pipe(Effect.provide(layer()))
     },
     15000,
@@ -361,7 +361,7 @@ describe("KiloSessions locally started session announce", () => {
 
       return Effect.gen(function* () {
         const instance = yield* TestInstance
-        const kappa = yield* KiloSessions.Service
+        const kappa = yield* KappaSessions.Service
         yield* kappa.init()
         yield* enable(instance.directory)
 
@@ -373,7 +373,7 @@ describe("KiloSessions locally started session announce", () => {
         // The failure rolled the pending announcement back, so the session is
         // not falsely reported as attached.
         yield* Effect.sleep(150)
-        expect(KiloSessions.hasRemoteSession(id)).toBe(false)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(false)
 
         // The announce failure is retryable: a later turn re-announces and
         // this time the relay accepts the attach.
@@ -382,7 +382,7 @@ describe("KiloSessions locally started session announce", () => {
           Effect.sync(() => (announced(id) >= 2 ? true : undefined)),
           "announce retry never fired",
         )
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       }).pipe(Effect.provide(layer()))
     },
     15000,
@@ -395,7 +395,7 @@ describe("KiloSessions locally started session announce", () => {
       const unowned = SessionID.descending("ses_local_announce_detach_unowned")
       return Effect.gen(function* () {
         const instance = yield* TestInstance
-        const kappa = yield* KiloSessions.Service
+        const kappa = yield* KappaSessions.Service
         yield* kappa.init()
         yield* enable(instance.directory)
 
@@ -404,14 +404,14 @@ describe("KiloSessions locally started session announce", () => {
           Effect.sync(() => (announced(id) >= 1 ? true : undefined)),
           "announce before detach never fired",
         )
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
 
         sessionDeleted(instance.directory, id)
         yield* pollWithTimeout(
           Effect.sync(() => (detached(id) >= 1 ? true : undefined)),
           "detach heartbeat never fired",
         )
-        expect(KiloSessions.hasRemoteSession(id)).toBe(false)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(false)
 
         // Deleting a session this instance never announced must not fire a
         // detach heartbeat (e.g. an app-spawned session removed after its
@@ -436,7 +436,7 @@ describe("KiloSessions locally started session announce", () => {
 
       return Effect.gen(function* () {
         const instance = yield* TestInstance
-        const kappa = yield* KiloSessions.Service
+        const kappa = yield* KappaSessions.Service
         yield* kappa.init()
         yield* enable(instance.directory)
 
@@ -445,7 +445,7 @@ describe("KiloSessions locally started session announce", () => {
           Effect.sync(() => (announced(id) >= 1 ? true : undefined)),
           "announce before failed detach never fired",
         )
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
 
         sessionDeleted(instance.directory, id)
         yield* pollWithTimeout(
@@ -455,7 +455,7 @@ describe("KiloSessions locally started session announce", () => {
         // The detach fence rejected, so AttachedState restored ownership: the
         // relay keeps a coherent (still attached) view instead of a torn one.
         yield* Effect.sleep(150)
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
         expect(detached(id)).toBe(1)
       }).pipe(Effect.provide(layer()))
     },

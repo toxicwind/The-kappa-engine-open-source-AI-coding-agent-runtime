@@ -25,7 +25,7 @@ import { DbCommand } from "../../src/cli/cmd/db"
 import { HelpCommand } from "../../src/kappacode/help-command"
 import { ProfileCommand } from "../../src/kappacode/cli/cmd/profile"
 import { DaemonCommand } from "../../src/kappacode/cli/cmd/daemon"
-import { KiloConsoleCommand } from "../../src/kappacode/cli/cmd/console"
+import { KappaConsoleCommand } from "../../src/kappacode/cli/cmd/console"
 import { CloudCommand } from "../../src/kappacode/cli/cmd/cloud"
 
 // Stand-in for TuiThreadCommand — the real one imports @opentui/solid which
@@ -75,7 +75,7 @@ const commands = [
   PluginCommand,
   ProfileCommand,
   DaemonCommand,
-  KiloConsoleCommand,
+  KappaConsoleCommand,
   CloudCommand,
   HelpCommand,
   CompletionStub,
@@ -229,7 +229,7 @@ describe("generateCommandTable", () => {
   })
 })
 
-describe("Kilo CLI customizations are wired into index.ts", () => {
+describe("Kappa CLI customizations are wired into index.ts", () => {
   const file = (rel: string) => Bun.file(path.resolve(import.meta.dir, rel)).text()
   const INDEX = "../../src/index.ts"
   const SETUP = "../../src/kappacode/cli/setup.ts"
@@ -241,21 +241,21 @@ describe("Kilo CLI customizations are wired into index.ts", () => {
     expect(index).not.toContain('.scriptName("opencode")')
   })
 
-  test("index.ts invokes the KiloCli integration points", async () => {
-    // These thin call-sites are the only wiring between upstream index.ts and the Kilo
-    // customizations in setup.ts. If a future upstream merge drops them, every Kilo command
+  test("index.ts invokes the KappaCli integration points", async () => {
+    // These thin call-sites are the only wiring between upstream index.ts and the Kappa
+    // customizations in setup.ts. If a future upstream merge drops them, every Kappa command
     // and the telemetry/lifecycle hooks silently disappear, exactly the regression this guards.
     const index = await file(INDEX)
-    expect(index).toContain("KiloCli.register(")
-    expect(index).toContain("KiloCli.bootstrap(")
-    expect(index).toContain("KiloCli.shutdown(")
+    expect(index).toContain("KappaCli.register(")
+    expect(index).toContain("KappaCli.bootstrap(")
+    expect(index).toContain("KappaCli.shutdown(")
   })
 
-  test("registers the local Kilo Console instead of the upstream account console", async () => {
+  test("registers the local Kappa Console instead of the upstream account console", async () => {
     const index = await file(INDEX)
     const setup = await file(SETUP)
     const barrel = await file(BARREL)
-    expect(setup).toContain("KiloConsoleCommand")
+    expect(setup).toContain("KappaConsoleCommand")
     expect(index).not.toContain(".command(ConsoleCommand)")
     expect(barrel).not.toContain('from "../cli/cmd/account"')
   })

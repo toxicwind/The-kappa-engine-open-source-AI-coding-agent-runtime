@@ -62,7 +62,7 @@ function safeStringify(value: unknown): string | undefined {
     const json = JSON.stringify(value)
     if (json !== "{}" && json.length < 500) return json
   } catch (err) {
-    console.warn("[Kilo New] getErrorMessage: JSON.stringify failed", err)
+    console.warn("[Kappa New] getErrorMessage: JSON.stringify failed", err)
   }
   return undefined
 }
@@ -191,7 +191,7 @@ export async function runWithMessageConfirmation<T>(
     return await run()
   } catch (error) {
     if (await state.wait(id)) {
-      console.warn(`[Kilo New] ${label} ended after server accepted it; ignoring transport error`, {
+      console.warn(`[Kappa New] ${label} ended after server accepted it; ignoring transport error`, {
         error: getErrorMessage(error),
       })
       return undefined
@@ -263,8 +263,8 @@ export function filterVisibleAgents(agents: Agent[]): { visible: Agent[]; defaul
 }
 
 /**
- * Shared interface for the subset of KiloProvider state needed by session-refresh helpers.
- * Extracted here so the logic can be tested without importing KiloProvider (and vscode).
+ * Shared interface for the subset of KappaProvider state needed by session-refresh helpers.
+ * Extracted here so the logic can be tested without importing KappaProvider (and vscode).
  */
 export interface SessionRefreshContext {
   pendingSessionRefresh: boolean
@@ -310,7 +310,7 @@ async function listPages(
   const results = await Promise.all(
     targets.map((target) =>
       list(target.dir, target.cursor).catch((err: unknown) => {
-        console.error(`[Kilo] Failed to list sessions for ${target.dir}:`, err)
+        console.error(`[Kappa] Failed to list sessions for ${target.dir}:`, err)
         failed.add(target.dir)
         if (target.dir === fatal) cause = err
         return undefined

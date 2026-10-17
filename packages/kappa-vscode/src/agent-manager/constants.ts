@@ -1,8 +1,8 @@
 import * as fs from "node:fs"
 import * as path from "node:path"
 
-// TODO: Remove the legacy .kilocode -> .kappa migration helpers below after the
-// GA release cleanup tracked in https://github.com/Kilo-Org/kilocode/issues/6986.
+// TODO: Remove the legacy .kappacode -> .kappa migration helpers below after the
+// GA release cleanup tracked in https://github.com/Kappa-Org/kappacode/issues/6986.
 
 /**
  * Maximum number of parallel worktree versions for multi-version mode.
@@ -16,13 +16,13 @@ export const PLATFORM = "agent-manager" as const
 /** Keep baseline snapshots without interrupting concurrently started agents. */
 export const SNAPSHOT_INITIALIZATION = "wait" as const
 
-/** Kilo config directory name (project-level and inside worktrees). */
+/** Kappa config directory name (project-level and inside worktrees). */
 export const KILO_DIR = ".kappa"
 
 /** Legacy config directory name for backward compatibility reads. */
-export const LEGACY_DIR = ".kilocode"
+export const LEGACY_DIR = ".kappacode"
 
-/** Agent Manager files that should be migrated from .kilocode/ to .kappa/. */
+/** Agent Manager files that should be migrated from .kappacode/ to .kappa/. */
 const AGENT_MANAGER_ITEMS = [
   "agent-manager.json",
   "worktrees",
@@ -35,15 +35,15 @@ const AGENT_MANAGER_ITEMS = [
 
 /** Result of the migration so callers can react (e.g. refresh VS Code git). */
 export interface MigrationResult {
-  /** Number of git worktree refs that were rewritten from .kilocode → .kappa. */
+  /** Number of git worktree refs that were rewritten from .kappacode → .kappa. */
   refsFixed: number
 }
 
 /**
- * Migrate Agent Manager data from .kilocode/ to .kappa/.
+ * Migrate Agent Manager data from .kappacode/ to .kappa/.
  *
  * Moves individual Agent Manager files/directories (worktrees, state,
- * setup scripts) from the legacy .kilocode/ into .kappa/. Skips items
+ * setup scripts) from the legacy .kappacode/ into .kappa/. Skips items
  * that already exist in .kappa/ (the new location wins). This is safe
  * because Agent Manager exclusively owns these files.
  *
@@ -131,11 +131,11 @@ export async function resolveGitDir(root: string): Promise<string> {
 }
 
 /**
- * After moving worktrees from .kilocode/ to .kappa/, fix git internal refs.
+ * After moving worktrees from .kappacode/ to .kappa/, fix git internal refs.
  *
  * Git stores absolute paths in .git/worktrees/{name}/gitdir. When the
  * worktree directory moves, those paths become stale. This rewrites any
- * gitdir files that reference the old .kilocode path.
+ * gitdir files that reference the old .kappacode path.
  *
  * Returns the number of refs that were successfully fixed so callers can
  * tell whether a VS Code git refresh is warranted.

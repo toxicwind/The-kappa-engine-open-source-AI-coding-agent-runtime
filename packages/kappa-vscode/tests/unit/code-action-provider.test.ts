@@ -1,9 +1,9 @@
 import { describe, it, expect } from "bun:test"
 
 // vscode mock is provided by the shared preload (tests/setup/vscode-mock.ts)
-const { KiloCodeActionProvider } = await import("../../src/services/code-actions/code-action-provider")
+const { KappaCodeActionProvider } = await import("../../src/services/code-actions/code-action-provider")
 
-const provider = new KiloCodeActionProvider()
+const provider = new KappaCodeActionProvider()
 
 function makeRange(isEmpty: boolean) {
   return { isEmpty }
@@ -13,7 +13,7 @@ function makeContext(diagnosticCount: number) {
   return { diagnostics: Array.from({ length: diagnosticCount }) }
 }
 
-describe("KiloCodeActionProvider", () => {
+describe("KappaCodeActionProvider", () => {
   describe("provideCodeActions", () => {
     it("returns empty array when range is empty", () => {
       const result = provider.provideCodeActions({} as never, makeRange(true) as never, makeContext(0) as never)
@@ -29,14 +29,14 @@ describe("KiloCodeActionProvider", () => {
       it("returns Add, Explain, Improve actions", () => {
         const result = provider.provideCodeActions({} as never, makeRange(false) as never, makeContext(0) as never)
         const titles = result.map((a) => a.title)
-        expect(titles).toContain("Add to Kilo Code")
-        expect(titles).toContain("Explain with Kilo Code")
-        expect(titles).toContain("Improve with Kilo Code")
+        expect(titles).toContain("Add to Kappa Code")
+        expect(titles).toContain("Explain with Kappa Code")
+        expect(titles).toContain("Improve with Kappa Code")
       })
 
       it("does not include Fix action", () => {
         const result = provider.provideCodeActions({} as never, makeRange(false) as never, makeContext(0) as never)
-        expect(result.map((a) => a.title)).not.toContain("Fix with Kilo Code")
+        expect(result.map((a) => a.title)).not.toContain("Fix with Kappa Code")
       })
 
       it("returns exactly 3 actions", () => {
@@ -62,15 +62,15 @@ describe("KiloCodeActionProvider", () => {
       it("returns Add and Fix actions", () => {
         const result = provider.provideCodeActions({} as never, makeRange(false) as never, makeContext(2) as never)
         const titles = result.map((a) => a.title)
-        expect(titles).toContain("Add to Kilo Code")
-        expect(titles).toContain("Fix with Kilo Code")
+        expect(titles).toContain("Add to Kappa Code")
+        expect(titles).toContain("Fix with Kappa Code")
       })
 
       it("does not include Explain or Improve actions", () => {
         const result = provider.provideCodeActions({} as never, makeRange(false) as never, makeContext(1) as never)
         const titles = result.map((a) => a.title)
-        expect(titles).not.toContain("Explain with Kilo Code")
-        expect(titles).not.toContain("Improve with Kilo Code")
+        expect(titles).not.toContain("Explain with Kappa Code")
+        expect(titles).not.toContain("Improve with Kappa Code")
       })
 
       it("returns exactly 2 actions", () => {
@@ -80,19 +80,19 @@ describe("KiloCodeActionProvider", () => {
 
       it("Fix action is preferred", () => {
         const result = provider.provideCodeActions({} as never, makeRange(false) as never, makeContext(1) as never)
-        const fix = result.find((a) => a.title === "Fix with Kilo Code")
+        const fix = result.find((a) => a.title === "Fix with Kappa Code")
         expect(fix?.isPreferred).toBe(true)
       })
 
       it("Fix action uses QuickFix kind", () => {
         const result = provider.provideCodeActions({} as never, makeRange(false) as never, makeContext(1) as never)
-        const fix = result.find((a) => a.title === "Fix with Kilo Code")
+        const fix = result.find((a) => a.title === "Fix with Kappa Code")
         expect(fix?.kind.value).toBe("quickfix")
       })
 
       it("uses correct Fix command ID", () => {
         const result = provider.provideCodeActions({} as never, makeRange(false) as never, makeContext(1) as never)
-        const fix = result.find((a) => a.title === "Fix with Kilo Code")
+        const fix = result.find((a) => a.title === "Fix with Kappa Code")
         expect(fix?.command?.command).toBe("kappa-code.new.fixCode")
       })
     })

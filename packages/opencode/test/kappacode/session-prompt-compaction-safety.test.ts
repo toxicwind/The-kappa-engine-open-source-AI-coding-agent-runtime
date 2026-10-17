@@ -1,5 +1,5 @@
 // Regressions for SessionPrompt.runLoop compaction-history safety.
-// Ensures Kilo's post-filterCompacted trim and post-summary media strip are
+// Ensures Kappa's post-filterCompacted trim and post-summary media strip are
 // applied before messages are serialized for the provider request.
 
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
@@ -47,7 +47,7 @@ import { Skill } from "../../src/skill"
 import { Snapshot } from "../../src/snapshot"
 import { ToolRegistry } from "../../src/tool/registry"
 import { Truncate } from "../../src/tool/truncate"
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
 import * as Log from "@opencode-ai/core/util/log"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { provideTmpdirServer } from "../fixture/fixture"
@@ -174,7 +174,7 @@ function makeHttp() {
     [LSP.node, lsp],
     [MCP.node, mcp],
     [RuntimeFlags.node, RuntimeFlags.layer()],
-    [KiloSessions.node, KiloSessions.testLayer],
+    [KappaSessions.node, KappaSessions.testLayer],
   ])
 }
 

@@ -1,14 +1,14 @@
 import { realpath } from "node:fs/promises"
 import type {
-  EventKilocodeNotebookCancelled,
-  EventKilocodeNotebookRequested,
-  KiloClient,
+  EventKappacodeNotebookCancelled,
+  EventKappacodeNotebookRequested,
+  KappaClient,
   NotebookFailure,
   NotebookRequest,
   NotebookResult,
 } from "@kappacode/sdk/v2/client"
 import { FileIgnoreController } from "../autocomplete/shims/FileIgnoreController"
-import type { ConnectionState, KiloConnectionService } from "../cli-backend/connection-service"
+import type { ConnectionState, KappaConnectionService } from "../cli-backend/connection-service"
 import type { SSEPayload } from "../cli-backend/sdk-sse-adapter"
 import { NotebookAdapter } from "./adapter"
 import { NotebookError } from "./path"
@@ -44,7 +44,7 @@ export interface NotebookBridgeOptions {
 interface NotebookConnection {
   onEvent(listener: (event: SSEPayload, directory?: string) => void): () => void
   onStateChange(listener: (state: ConnectionState, error?: Error) => void): () => void
-  getClient(): KiloClient
+  getClient(): KappaClient
   getKnownDirectories(): string[]
 }
 
@@ -99,7 +99,7 @@ export class NotebookBridge {
   private readonly canonical: (directory: string) => Promise<string>
   private disposed = false
   private revision = 0
-  private backend: KiloClient | undefined
+  private backend: KappaClient | undefined
 
   constructor(
     private readonly connection: NotebookConnection,
@@ -115,7 +115,7 @@ export class NotebookBridge {
       this.backend = backend
       const revision = ++this.revision
       void this.recover(revision).catch((error: unknown) => {
-        console.error("[Kilo New] NotebookBridge: pending request recovery failed:", error)
+        console.error("[Kappa New] NotebookBridge: pending request recovery failed:", error)
       })
     })
   }
@@ -135,7 +135,7 @@ export class NotebookBridge {
     for (const context of this.contexts.values()) {
       void context
         .then((value) => value.dispose())
-        .catch((error: unknown) => console.error("[Kilo New] NotebookBridge: context disposal failed:", error))
+        .catch((error: unknown) => console.error("[Kappa New] NotebookBridge: context disposal failed:", error))
     }
     this.contexts.clear()
     this.origins.clear()
@@ -156,16 +156,16 @@ export class NotebookBridge {
   }
 
   private event(event: SSEPayload, directory?: string): void {
-    if (event.type === "kilocode.notebook.requested") {
-      this.request(event as EventKilocodeNotebookRequested, directory)
+    if (event.type === "kappacode.notebook.requested") {
+      this.request(event as EventKappacodeNotebookRequested, directory)
       return
     }
-    if (event.type === "kilocode.notebook.cancelled") {
-      this.cancel(event as EventKilocodeNotebookCancelled, directory)
+    if (event.type === "kappacode.notebook.cancelled") {
+      this.cancel(event as EventKappacodeNotebookCancelled, directory)
     }
   }
 
-  private request(event: EventKilocodeNotebookRequested, directory?: string): void {
+  private request(event: EventKappacodeNotebookRequested, directory?: string): void {
     const request = event.properties
     const origin = this.origins.get(request.id)
     if (origin) {
@@ -199,11 +199,11 @@ export class NotebookBridge {
     const active = { controller: new AbortController(), cancelled: false }
     this.active.set(request.id, active)
     void this.run(request, origin, active).catch((error: unknown) => {
-      console.error(`[Kilo New] NotebookBridge: request ${request.id} failed:`, error)
+      console.error(`[Kappa New] NotebookBridge: request ${request.id} failed:`, error)
     })
   }
 
-  private cancel(event: EventKilocodeNotebookCancelled, directory?: string): void {
+  private cancel(event: EventKappacodeNotebookCancelled, directory?: string): void {
     const id = event.properties.requestID
     const origin = this.origins.get(id)
     if (origin && (origin.sessionID !== event.properties.sessionID || (directory && origin.directory !== directory)))
@@ -300,24 +300,24 @@ export class NotebookBridge {
 
   private async reply(requestID: string, directory: string, result: NotebookResult): Promise<boolean> {
     try {
-      const response = await this.connection.getClient().kilocode.notebook.reply({ requestID, directory, result })
+      const response = await this.connection.getClient().kappacode.notebook.reply({ requestID, directory, result })
       if (!response.error) return true
-      console.error(`[Kilo New] NotebookBridge: reply ${requestID} failed:`, response.error)
+      console.error(`[Kappa New] NotebookBridge: reply ${requestID} failed:`, response.error)
       return false
     } catch (error) {
-      console.error(`[Kilo New] NotebookBridge: reply ${requestID} failed:`, error)
+      console.error(`[Kappa New] NotebookBridge: reply ${requestID} failed:`, error)
       return false
     }
   }
 
   private async reject(requestID: string, directory: string, error: NotebookFailure): Promise<boolean> {
     try {
-      const response = await this.connection.getClient().kilocode.notebook.reject({ requestID, directory, error })
+      const response = await this.connection.getClient().kappacode.notebook.reject({ requestID, directory, error })
       if (!response.error) return true
-      console.error(`[Kilo New] NotebookBridge: rejection ${requestID} failed:`, response.error)
+      console.error(`[Kappa New] NotebookBridge: rejection ${requestID} failed:`, response.error)
       return false
     } catch (cause) {
-      console.error(`[Kilo New] NotebookBridge: rejection ${requestID} failed:`, cause)
+      console.error(`[Kappa New] NotebookBridge: rejection ${requestID} failed:`, cause)
       return false
     }
   }
@@ -326,17 +326,17 @@ export class NotebookBridge {
     const client = this.connection.getClient()
     for (const directory of this.connection.getKnownDirectories()) {
       try {
-        const response = await client.kilocode.notebook.list({ directory })
+        const response = await client.kappacode.notebook.list({ directory })
         if (this.disposed || revision !== this.revision) return
         if (response.error) {
-          console.error(`[Kilo New] NotebookBridge: could not list requests for ${directory}:`, response.error)
+          console.error(`[Kappa New] NotebookBridge: could not list requests for ${directory}:`, response.error)
           continue
         }
         for (const request of response.data ?? []) {
-          this.request({ id: request.id, type: "kilocode.notebook.requested", properties: request }, directory)
+          this.request({ id: request.id, type: "kappacode.notebook.requested", properties: request }, directory)
         }
       } catch (error) {
-        console.error(`[Kilo New] NotebookBridge: could not list requests for ${directory}:`, error)
+        console.error(`[Kappa New] NotebookBridge: could not list requests for ${directory}:`, error)
       }
     }
   }
@@ -363,6 +363,6 @@ export class NotebookBridge {
   }
 }
 
-export function createNotebookBridge(connection: KiloConnectionService): NotebookBridge {
+export function createNotebookBridge(connection: KappaConnectionService): NotebookBridge {
   return new NotebookBridge(connection)
 }

@@ -1,4 +1,4 @@
-Search project memory from Kilo's local memory files. Use this before reading full past session transcripts.
+Search project memory from Kappa's local memory files. Use this before reading full past session transcripts.
 Use this before Grep, Glob, Read, or other repo search tools when a user request or implementation task could depend on saved project memory: project history, prior rationale, conventions, setup, implementation preferences, or why/how something was chosen. After memory recall, inspect files only to verify current state or fill gaps.
 Use this generically when project facts, environment commands/paths/tooling, decisions, constraints, or corrections are likely relevant and the injected startup memory only hints at the answer.
 The injected startup memory block is an index and continuity summary, not the full memory store. If it shows a matching key, topic, summary, truncated record, or session digest but not the exact detail needed, use this tool before answering.
@@ -23,5 +23,5 @@ Usage notes:
   - Use search mode for topic-specific memory when you do not know whether it is typed memory or a session digest.
   - Do not use this tool for current memory status, sidebar token accounting, or implementation debugging unless the user asks what prior memory says.
   - Search, browsing, and exact `sessionID` reads omit empty session digests.
-  - This tool reads only Kilo memory files for the current project. It does not read full session transcripts.
+  - This tool reads only Kappa memory files for the current project. It does not read full session transcripts.
   - If saved memory is insufficient and transcript detail is actually needed, use kilo_local_recall read as the heavier fallback.

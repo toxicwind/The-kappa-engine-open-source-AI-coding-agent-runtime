@@ -33,7 +33,7 @@ describe("Markdown bidirectional rendering contract", () => {
         useMarked: () => ({ parse: async () => "" }),
         deferredHighlight: async () => {},
         fnv1a: (text) => text,
-        KiloTheme: { name: "Kilo" },
+        KappaTheme: { name: "Kappa" },
       }))
       mock.module("./src/kappacode/mermaid/markdown-mermaid", () => ({
         cleanupMermaidActions: () => {},

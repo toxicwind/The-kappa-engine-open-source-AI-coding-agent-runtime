@@ -1,16 +1,16 @@
 ---
 title: "Notifications"
-description: "Configure sounds and alerts when Kilo needs your attention"
+description: "Configure sounds and alerts when Kappa needs your attention"
 ---
 
 # Notifications
 
-Kilo can play a sound, show a VS Code notification, or show a native operating system notification when a session needs your attention. All three are off by default.
+Kappa can play a sound, show a VS Code notification, or show a native operating system notification when a session needs your attention. All three are off by default.
 
 {% tabs %}
 {% tab label="VS Code" %}
 
-Open Kilo Code Settings with the gear icon ({% codicon name="gear" /%}) and select **Notifications**.
+Open Kappa Code Settings with the gear icon ({% codicon name="gear" /%}) and select **Notifications**.
 
 | Setting | Key | Default | Effect |
 |---|---|---|---|
@@ -25,9 +25,9 @@ The **Enable OS Notifications** row appears on macOS, Linux, and Windows. Its **
 
 These settings are stored in your VS Code settings under `kappa-code.new.attention.*`. They are not part of `kappa.jsonc`.
 
-### When Kilo notifies you
+### When Kappa notifies you
 
-Kilo alerts on these events:
+Kappa alerts on these events:
 
 - A session completes a turn.
 - A session needs your input.
@@ -55,7 +55,7 @@ Each enabled channel decides independently. The OS notification follows window f
 | Not focused | Visible | Yes | No |
 | Not focused | Not visible | Yes | Yes |
 
-Both channels can fire for the same event. The VS Code notification includes the workspace and session names and a **Show** button. **Show** focuses the Kilo sidebar and opens the session at its latest message.
+Both channels can fire for the same event. The VS Code notification includes the workspace and session names and a **Show** button. **Show** focuses the Kappa sidebar and opens the session at its latest message.
 
 ### Native notification support
 
@@ -65,7 +65,7 @@ Both channels can fire for the same event. The VS Code notification includes the
 | Linux | `notify-send` (libnotify) |
 | Windows | PowerShell toast |
 
-On Windows, Kilo reads the running editor's `win32AppUserModelId` from its `product.json` to attribute the toast. If that identity is missing or invalid, native notifications are unavailable and the **Test** button reports an error. VS Code notifications still work.
+On Windows, Kappa reads the running editor's `win32AppUserModelId` from its `product.json` to attribute the toast. If that identity is missing or invalid, native notifications are unavailable and the **Test** button reports an error. VS Code notifications still work.
 
 {% /tab %}
 {% tab label="CLI" %}

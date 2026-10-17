@@ -1,7 +1,7 @@
 /**
  * Language context
  * Provides i18n translations for kappa-ui components.
- * Merges UI translations from @opencode-ai/ui and Kilo overrides from @kappacode/kappa-i18n.
+ * Merges UI translations from @opencode-ai/ui and Kappa overrides from @kappacode/kappa-i18n.
  *
  * Locale priority: user override → VS Code display language → browser language → "en"
  */
@@ -12,7 +12,7 @@ import type { UiI18nKey, UiI18nParams, UiI18nPluralKey } from "@kappacode/kappa-
 import { dict as uiEn } from "@kappacode/kappa-ui/i18n/en"
 import { dict as appEn } from "../i18n/en"
 import { dict as amEn } from "../../agent-manager/i18n/en"
-import { dict as kiloEn } from "@kappacode/kappa-i18n/en"
+import { dict as kappaEn } from "@kappacode/kappa-i18n/en"
 import { useVSCode } from "./vscode"
 import { normalizeLocale as _normalizeLocale, resolveTemplate as _resolveTemplate } from "./language-utils"
 
@@ -45,7 +45,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   fa: "فارسی",
 }
 
-const base = { ...appEn, ...uiEn, ...kiloEn }
+const base = { ...appEn, ...uiEn, ...kappaEn }
 const english: Record<string, string> = { ...base, ...amEn }
 const cache: Partial<Record<Locale, Record<string, string>>> = { en: english }
 const loads: Partial<Record<Locale, Promise<Record<string, string> | undefined>>> = {}
@@ -57,7 +57,7 @@ function load(locale: Locale) {
     .then((module) => (cache[locale] ??= module.default(base)))
     .catch((err) => {
       delete loads[locale]
-      console.error("[Kilo New] Failed to load language", { locale, err })
+      console.error("[Kappa New] Failed to load language", { locale, err })
       return undefined
     }))
 }
@@ -152,7 +152,7 @@ export const LanguageProvider: ParentComponent<LanguageProviderProps> = (props) 
       value={{ locale, setLocale, userOverride, t: t as (key: string, params?: UiI18nParams) => string }}
     >
       {/* Shared UI formats dates and numbers with Intl from this value, so it
-          must be a BCP-47 tag (Kilo's "zht" is not one). */}
+          must be a BCP-47 tag (Kappa's "zht" is not one). */}
       <I18nProvider value={{ locale: () => localeToBcp47(locale()), t, plural }}>{props.children}</I18nProvider>
     </LanguageContext.Provider>
   )

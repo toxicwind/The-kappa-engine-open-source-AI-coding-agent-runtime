@@ -23,7 +23,7 @@ const usage = {
 const providers = {
   kappa: {
     id: "kappa",
-    name: "Kilo Gateway",
+    name: "Kappa Gateway",
     models: {
       "qwen/qwen3.7-plus": { id: "qwen/qwen3.7-plus", name: "Qwen: Qwen3.7 Plus (20% off)" },
     },
@@ -48,7 +48,7 @@ describe("model usage", () => {
     expect(tokenSummary(usage)).toEqual({ input: 10, output: 2, cached: 20 })
     expect(cacheRate(models[0])).toBe("57.1%")
     expect(cacheRate({ ...models[0], tokens: { ...tokens, input: 0, cache: { read: 0, write: 0 } } })).toBe("-")
-    expect(groupModelUsage(models, providers).map((group) => group.providerName)).toEqual(["Kilo Gateway", "MiniMax"])
+    expect(groupModelUsage(models, providers).map((group) => group.providerName)).toEqual(["Kappa Gateway", "MiniMax"])
     expect(modelUsageName(models[0], providers)).toBe("Qwen 3.7 Plus")
     expect(modelUsageName(models[1], providers)).toBe("MiniMax M3")
     expect(modelUsageName({ ...models[0], modelID: "moonshotai/kimi-k2.7-code-20260612" }, {})).toBe("kimi-k2.7-code")

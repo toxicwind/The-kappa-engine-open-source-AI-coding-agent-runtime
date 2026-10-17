@@ -1,11 +1,11 @@
 ---
 title: "Models & Providers"
-description: "Learn about the AI models available through the Kilo AI Gateway, including model IDs and how to use them."
+description: "Learn about the AI models available through the Kappa AI Gateway, including model IDs and how to use them."
 ---
 
 # Models & Providers
 
-The Kilo AI Gateway provides access to hundreds of AI models through a single unified API. You can switch between models by changing the model ID string -- no code changes required.
+The Kappa AI Gateway provides access to hundreds of AI models through a single unified API. You can switch between models by changing the model ID string -- no code changes required.
 
 ## Specifying a model
 
@@ -66,7 +66,7 @@ For NVIDIA free endpoints (Super/Ultra/etc): Trial use only - do not submit pers
 
 ## Auto models
 
-Auto virtual models select an underlying model using tier-specific routing. Frontier uses the `x-kilocode-mode` request header. Efficient classifies task difficulty in session context and falls back to a fixed baseline model, Free uses deterministic affinity across available candidates, and Small uses account balance.
+Auto virtual models select an underlying model using tier-specific routing. Frontier uses the `x-kappacode-mode` request header. Efficient classifies task difficulty in session context and falls back to a fixed baseline model, Free uses deterministic affinity across available candidates, and Small uses account balance.
 
 {% callout type="info" title="Underlying models can change" %}
 The mappings below reflect the current routing. The underlying models behind each `kappa-auto/*` tier are updated server-side as better options become available or as providers change pricing and availability — the tier IDs themselves remain stable.
@@ -117,7 +117,7 @@ With the mode header:
 ```bash
 curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
   -H "Authorization: Bearer $KILO_API_KEY" \
-  -H "x-kilocode-mode: plan" \
+  -H "x-kappacode-mode: plan" \
   -H "Content-Type: application/json" \
   -d '{"model": "kappa-auto/efficient", "messages": [{"role": "user", "content": "Design a database schema"}]}'
 ```

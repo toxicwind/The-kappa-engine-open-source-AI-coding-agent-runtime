@@ -11,7 +11,7 @@ import { described } from "@/server/routes/instance/httpapi/groups/metadata"
 
 export { IndexingStatusInfo, IndexingStatusState, IndexingWarningInfo } from "@/kappacode/indexing-event"
 
-export const KiloEmbeddingModel = Schema.Struct({
+export const KappaEmbeddingModel = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   dimension: Schema.Int.check(Schema.isGreaterThan(0)),
@@ -19,11 +19,11 @@ export const KiloEmbeddingModel = Schema.Struct({
   note: Schema.optional(Schema.String),
 })
 
-export const KiloEmbeddingModelCatalog = Schema.Struct({
+export const KappaEmbeddingModelCatalog = Schema.Struct({
   defaultModel: Schema.String,
-  models: Schema.Array(KiloEmbeddingModel),
+  models: Schema.Array(KappaEmbeddingModel),
   aliases: Schema.Record(Schema.String, Schema.String),
-}).annotate({ identifier: "KiloEmbeddingModelCatalog" })
+}).annotate({ identifier: "KappaEmbeddingModelCatalog" })
 
 const root = "/indexing"
 const IndexingConsent = Schema.Struct({
@@ -65,12 +65,12 @@ export const IndexingApi = HttpApi.make("indexing")
       .add(
         HttpApiEndpoint.get("models", IndexingPaths.models, {
           query: WorkspaceRoutingQuery,
-          success: described(KiloEmbeddingModelCatalog, "Kilo embedding model catalog"),
+          success: described(KappaEmbeddingModelCatalog, "Kappa embedding model catalog"),
         }).annotateMerge(
           OpenApi.annotations({
             identifier: "indexing.models",
-            summary: "List Kilo embedding models",
-            description: "Retrieve the embedding models available through the active Kilo account.",
+            summary: "List Kappa embedding models",
+            description: "Retrieve the embedding models available through the active Kappa account.",
           }),
         ),
       )
@@ -90,7 +90,7 @@ export const IndexingApi = HttpApi.make("indexing")
       .annotateMerge(
         OpenApi.annotations({
           title: "indexing",
-          description: "Kilo indexing routes.",
+          description: "Kappa indexing routes.",
         }),
       )
       .middleware(InstanceContextMiddleware)
@@ -101,6 +101,6 @@ export const IndexingApi = HttpApi.make("indexing")
     OpenApi.annotations({
       title: "kappa HttpApi",
       version: "0.0.1",
-      description: "Kilo HttpApi surface.",
+      description: "Kappa HttpApi surface.",
     }),
   )

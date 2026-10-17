@@ -75,7 +75,7 @@ export interface StepStartPart extends BasePart {
 // prompt_per_second / predicted_per_second, but the upstream AI SDK drops
 // them before the raw usage reaches our adapter. The `"provider"` literal is
 // reserved for the follow-up that wires a metadataExtractor into the shared
-// createOpenAICompatible call (see opencode/src/kilocode/session/metrics.ts).
+// createOpenAICompatible call (see opencode/src/kappacode/session/metrics.ts).
 export interface StepThroughputMetrics {
   prompt?: number
   generation?: number

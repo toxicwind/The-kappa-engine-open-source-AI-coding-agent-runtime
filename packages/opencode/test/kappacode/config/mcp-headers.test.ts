@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import type { Config } from "@/config/config"
 import { sanitizeProjectMcpHeaders } from "@/kappacode/config/mcp-headers"
-import { KilocodeConfig } from "@/kappacode/config/config"
+import { KappacodeConfig } from "@/kappacode/config/config"
 
 function isRemote(
   m: NonNullable<Config.Info["mcp"]>[string] | undefined,
@@ -214,7 +214,7 @@ test("drops a flat server literally named servers when it carries a variable hea
 })
 
 test("URL-only project override of a same-named global MCP does not inherit base credentials", () => {
-  const merged = KilocodeConfig.mergeProject(
+  const merged = KappacodeConfig.mergeProject(
     {
       mcp: {
         shared: {
@@ -238,7 +238,7 @@ test("URL-only project override of a same-named global MCP does not inherit base
 })
 
 test("enabled-only project overlay (no url) still keeps global remote credentials", () => {
-  const merged = KilocodeConfig.mergeProject(
+  const merged = KappacodeConfig.mergeProject(
     {
       mcp: {
         shared: {
@@ -264,7 +264,7 @@ test("enabled-only project overlay (no url) still keeps global remote credential
 })
 
 test("project MCP merges clear variant fields on local and remote transitions", () => {
-  const merged = KilocodeConfig.mergeProject(
+  const merged = KappacodeConfig.mergeProject(
     {
       mcp: {
         local: {
@@ -314,7 +314,7 @@ test("mergeConfig does not mutate caller's patch mcp key", () => {
       x: remote("https://a.example.com/mcp"),
     },
   }
-  const merged = KilocodeConfig.mergeConfig({}, patch)
+  const merged = KappacodeConfig.mergeConfig({}, patch)
   expect(isRemote(merged.mcp?.x) ? merged.mcp?.x.url : undefined).toBe("https://a.example.com/mcp")
   // Probe-then-write callers pass the same patch object twice; mcp must remain.
   expect("mcp" in patch).toBe(true)
@@ -344,7 +344,7 @@ test("project retarget keeps only supplied credentials when type is omitted", ()
     },
   } as unknown as Config.Info
 
-  const merged = KilocodeConfig.mergeProject(base, patch)
+  const merged = KappacodeConfig.mergeProject(base, patch)
 
   expect(merged.mcp?.shared).toEqual({
     type: "remote",

@@ -1,10 +1,10 @@
 ---
-title: "Using Moonshot AI (Kimi) with Kilo Code"
-description: "Connect Moonshot's Kimi models to Kilo Code. Setup guide for getting an API key and selecting models in VS Code and the CLI."
+title: "Using Moonshot AI (Kimi) with Kappa Code"
+description: "Connect Moonshot's Kimi models to Kappa Code. Setup guide for getting an API key and selecting models in VS Code and the CLI."
 sidebar_label: Moonshot.ai
 ---
 
-# Using Moonshot.ai With Kilo Code
+# Using Moonshot.ai With Kappa Code
 
 Moonshot.ai is a Chinese AI company known for their **Kimi** models featuring ultra-long context windows (up to 200K tokens) and advanced reasoning capabilities. Their K2-Thinking model delivers extended thinking and problem-solving abilities.
 
@@ -14,10 +14,10 @@ Moonshot.ai is a Chinese AI company known for their **Kimi** models featuring ul
 
 1. **Sign Up/Sign In:** Go to the [Moonshot.ai Platform](https://platform.moonshot.cn/). Create an account or sign in.
 2. **Navigate to API Keys:** Access the API Keys section in your account dashboard.
-3. **Create a Key:** Click to generate a new API key. Give it a descriptive name (e.g., "Kilo Code").
+3. **Create a Key:** Click to generate a new API key. Give it a descriptive name (e.g., "Kappa Code").
 4. **Copy the Key:** **Important:** Copy the API key _immediately_. Store it securely.
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -64,6 +64,6 @@ Then set your default model:
 
 - **Ultra-Long Context:** Kimi models excel at handling large codebases and complex projects with their extended context windows.
 - **Reasoning Capabilities:** The K2-Thinking variant provides enhanced problem-solving through extended reasoning chains.
-- **Kimi-specific prompting:** Kilo automatically uses a Kimi-tuned system prompt for model IDs containing `kimi`; no extra configuration is required.
+- **Kimi-specific prompting:** Kappa automatically uses a Kimi-tuned system prompt for model IDs containing `kimi`; no extra configuration is required.
 - **Language Support:** Kimi models have strong support for both English and Chinese languages.
 - **Pricing:** Refer to the Moonshot.ai platform for current pricing information on different models.

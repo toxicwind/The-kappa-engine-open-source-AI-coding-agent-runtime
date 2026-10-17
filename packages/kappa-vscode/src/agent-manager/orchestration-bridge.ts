@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import type { ConnectionState } from "../services/cli-backend/connection-service"
 import type { SSEPayload } from "../services/cli-backend/sdk-sse-adapter"
 import { sameDirectory } from "../kappa-provider-utils"
@@ -72,8 +72,8 @@ interface Connection {
   onStateChange(listener: (state: ConnectionState, error?: Error) => void): () => void
   registerDirectoryProvider(provider: () => string[]): () => void
   getKnownDirectories(): string[]
-  getClient(): KiloClient
-  getClientAsync(directory?: string): Promise<KiloClient>
+  getClient(): KappaClient
+  getClientAsync(directory?: string): Promise<KappaClient>
 }
 
 interface Active {
@@ -187,7 +187,7 @@ export class AgentManagerOrchestrationBridge {
   private readonly unsubscribeDirectories: () => void
   private disposed = false
   private revision = 0
-  private backend: KiloClient | undefined
+  private backend: KappaClient | undefined
 
   constructor(
     private readonly connection: Connection,
@@ -258,11 +258,11 @@ export class AgentManagerOrchestrationBridge {
       this.titles.delete(event.properties.sessionID)
       return
     }
-    if (event.type === "kilocode.agent_manager.requested") {
+    if (event.type === "kappacode.agent_manager.requested") {
       this.request((event as unknown as { properties: Request }).properties, directory)
       return
     }
-    if (event.type === "kilocode.agent_manager.cancelled") {
+    if (event.type === "kappacode.agent_manager.cancelled") {
       const properties = (event as unknown as { properties: { requestID: string; sessionID: string } }).properties
       this.cancel(properties, directory)
     }
@@ -405,7 +405,7 @@ export class AgentManagerOrchestrationBridge {
   }
 
   private async deliverPrompt(input: {
-    client: KiloClient
+    client: KappaClient
     root: string
     state: WorktreeStateManager
     request: Extract<Request, { operation: "prompt" }>
@@ -454,7 +454,7 @@ export class AgentManagerOrchestrationBridge {
   }
 
   private async resolveReply(input: {
-    client: KiloClient
+    client: KappaClient
     request: Extract<Request, { operation: "prompt" }>
     origin: Origin
   }): Promise<ReplyRoute | undefined> {
@@ -488,7 +488,7 @@ export class AgentManagerOrchestrationBridge {
   }
 
   private async restoreReplyRoute(
-    client: KiloClient,
+    client: KappaClient,
     origin: Origin,
     request: Extract<Request, { operation: "prompt" }>,
   ): Promise<ReplyRoute | undefined> {
@@ -524,7 +524,7 @@ export class AgentManagerOrchestrationBridge {
   }
 
   private async resolveQuestion(
-    client: KiloClient,
+    client: KappaClient,
     root: string,
     state: WorktreeStateManager,
     request: Extract<Request, { operation: "answer" }>,
@@ -553,7 +553,7 @@ export class AgentManagerOrchestrationBridge {
 
   private async reply(requestID: string, directory: string, result: Result): Promise<boolean> {
     try {
-      const response = await this.connection.getClient().kilocode.agentManager.reply({ requestID, directory, result })
+      const response = await this.connection.getClient().kappacode.agentManager.reply({ requestID, directory, result })
       if (!response.error) return true
       this.options.log(`Agent Manager reply ${requestID} failed:`, response.error)
     } catch (error) {
@@ -564,7 +564,7 @@ export class AgentManagerOrchestrationBridge {
 
   private async reject(requestID: string, directory: string, error: Failure): Promise<boolean> {
     try {
-      const response = await this.connection.getClient().kilocode.agentManager.reject({ requestID, directory, error })
+      const response = await this.connection.getClient().kappacode.agentManager.reject({ requestID, directory, error })
       if (!response.error) return true
       this.options.log(`Agent Manager rejection ${requestID} failed:`, response.error)
     } catch (cause) {
@@ -585,7 +585,7 @@ export class AgentManagerOrchestrationBridge {
     this.backend = client
     await Promise.all(
       this.connection.getKnownDirectories().map(async (directory) => {
-        const response = await client.kilocode.agentManager.list({ directory }).catch((error: unknown) => {
+        const response = await client.kappacode.agentManager.list({ directory }).catch((error: unknown) => {
           this.options.log(`Could not list Agent Manager requests for ${directory}:`, error)
           return undefined
         })

@@ -1,6 +1,6 @@
 ---
 title: "Automation Services Architecture"
-description: "Architecture of Kilo Cloud automation services that dispatch scoped work"
+description: "Architecture of Kappa Cloud automation services that dispatch scoped work"
 ---
 
 # Automation Services Architecture
@@ -8,7 +8,7 @@ description: "Architecture of Kilo Cloud automation services that dispatch scope
 Automation services turn commands, source-control events, labels, review requests, HTTP webhooks, and schedules into scoped work.
 
 {% callout type="info" title="Static source scope" %}
-This page describes cloud automation boundaries present in `Kilo-Org/cloud`. Static source shows supported code paths, Worker bindings, and deployable surfaces. It does not prove live production enablement or rollout policy.
+This page describes cloud automation boundaries present in `Kappa-Org/cloud`. Static source shows supported code paths, Worker bindings, and deployable surfaces. It does not prove live production enablement or rollout policy.
 {% /callout %}
 
 ## How to use this page
@@ -64,25 +64,25 @@ flowchart LR
 
 | Service | Trigger | Orchestration boundary | Execution target | Output or recovery |
 |---|---|---|---|---|
-| Kilo Bot | GitHub, Slack, or Linear command ingress | Web control plane bot libraries | Cloud Agent for requested repository work | Command response and coding-session result |
+| Kappa Bot | GitHub, Slack, or Linear command ingress | Web control plane bot libraries | Cloud Agent for requested repository work | Command response and coding-session result |
 | Code Review | Pull-request webhook or review dispatch | Database queue and `code-review-infra` Durable Object per review | Cloud Agent review session | Pull-request feedback; dispatch next waiting review |
 | Auto Triage | GitHub issue event or dispatch queue | Web duplicate check and `auto-triage-infra` Durable Object per ticket | Cloud Agent only when classification session is needed | Labels, status, callback, and timeout alarm |
 | Auto Fix | `kappa-auto-fix` label or dispatch rule | `auto-fix-infra` Durable Object per fix ticket | Cloud Agent branch and pull-request work | Pull request and lifecycle status callback |
 | Security Agent | Interactive or scheduled Dependabot sync plus analysis queue | `security-sync` and `security-auto-analysis` Workers | Model triage in `security-auto-analysis`; Cloud Agent only for selected deep analysis | Finding state, audit records, and stale-analysis cleanup |
 | Webhook Agent Ingest | HTTP webhook or scheduled alarm | `webhook-agent-ingest` queue and `TriggerDO` | Cloud Agent destination | Destination delivery and queue retry behavior |
 
-## Kilo Bot ingress and source-control targets
+## Kappa Bot ingress and source-control targets
 
-Kilo Bot command ingress and repository target support are separate concerns.
+Kappa Bot command ingress and repository target support are separate concerns.
 
 | Concern | Current static-source statement |
 |---|---|
-| Command ingress | GitHub, Slack, and Linear are current Kilo Bot command surfaces |
+| Command ingress | GitHub, Slack, and Linear are current Kappa Bot command surfaces |
 | GitHub target | Supported across bot, review, triage, fix, security, and Cloud Agent paths |
 | GitLab target | Supported in selected Cloud Agent and bot context paths |
-| GitLab command ingress | GitLab repository support does not imply note or comment-triggered Kilo Bot commands |
+| GitLab command ingress | GitLab repository support does not imply note or comment-triggered Kappa Bot commands |
 
-Do not document GitLab issue notes or merge-request comments as current Kilo Bot trigger surfaces unless source adds explicit ingress handling.
+Do not document GitLab issue notes or merge-request comments as current Kappa Bot trigger surfaces unless source adds explicit ingress handling.
 
 ## Code Review
 
@@ -161,11 +161,11 @@ flowchart LR
 
 ## Source map
 
-Paths below are relative to [`Kilo-Org/cloud`](https://github.com/Kilo-Org/cloud).
+Paths below are relative to [`Kappa-Org/cloud`](https://github.com/Kappa-Org/cloud).
 
 | Service | Source paths |
 |---|---|
-| Kilo Bot | `apps/web/src/lib/bot/`{% linebreak /%}`apps/web/src/lib/bots/`{% linebreak /%}`apps/web/src/lib/slack-bot/` |
+| Kappa Bot | `apps/web/src/lib/bot/`{% linebreak /%}`apps/web/src/lib/bots/`{% linebreak /%}`apps/web/src/lib/slack-bot/` |
 | Code Review | `apps/web/src/lib/code-reviews/`{% linebreak /%}`services/code-review-infra/` |
 | Auto Triage | `apps/web/src/lib/auto-triage/`{% linebreak /%}`services/auto-triage-infra/` |
 | Auto Fix | `apps/web/src/lib/auto-fix/`{% linebreak /%}`services/auto-fix-infra/` |

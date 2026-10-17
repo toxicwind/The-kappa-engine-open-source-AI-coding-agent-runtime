@@ -1,4 +1,4 @@
-// Verifies KiloCostPropagation.propagate() serializes concurrent writes to
+// Verifies KappaCostPropagation.propagate() serializes concurrent writes to
 // the same parent assistant message. Without the internal lock, parallel
 // subagent completions race on read-modify-write and lose deltas (#6321).
 
@@ -7,7 +7,7 @@ import { afterEach, describe, expect } from "bun:test"
 import { Effect } from "effect"
 import { Bus } from "../../src/bus"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
-import { KiloCostPropagation } from "../../src/kappacode/session/cost-propagation"
+import { KappaCostPropagation } from "../../src/kappacode/session/cost-propagation"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
@@ -72,7 +72,7 @@ const seed = Effect.fn("CostPropagationTest.seed")(function* () {
   return { chat, assistant }
 })
 
-describe("KiloCostPropagation.propagate", () => {
+describe("KappaCostPropagation.propagate", () => {
   it.live("sums deltas correctly under parallel execution", () =>
     provideTmpdirInstance(() =>
       Effect.gen(function* () {
@@ -80,7 +80,7 @@ describe("KiloCostPropagation.propagate", () => {
         const { chat, assistant } = yield* seed()
         const deltas = [0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64, 1.28]
         yield* Effect.all(
-          deltas.map((d) => KiloCostPropagation.propagate(sessions, chat.id, assistant.id, d)),
+          deltas.map((d) => KappaCostPropagation.propagate(sessions, chat.id, assistant.id, d)),
           { concurrency: "unbounded" },
         )
         const parent = yield* MessageV2.get({ sessionID: chat.id, messageID: assistant.id })
@@ -97,8 +97,8 @@ describe("KiloCostPropagation.propagate", () => {
       Effect.gen(function* () {
         const sessions = yield* Session.Service
         const { chat, assistant } = yield* seed()
-        yield* KiloCostPropagation.propagate(sessions, chat.id, assistant.id, 0)
-        yield* KiloCostPropagation.propagate(sessions, chat.id, assistant.id, -1.5)
+        yield* KappaCostPropagation.propagate(sessions, chat.id, assistant.id, 0)
+        yield* KappaCostPropagation.propagate(sessions, chat.id, assistant.id, -1.5)
         const parent = yield* MessageV2.get({ sessionID: chat.id, messageID: assistant.id })
         if (parent.info.role !== "assistant") return
         expect(parent.info.cost).toBe(0)

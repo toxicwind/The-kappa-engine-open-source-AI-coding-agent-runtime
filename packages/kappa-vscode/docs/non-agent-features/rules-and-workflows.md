@@ -8,5 +8,5 @@ Rules subtab exists and works. Workflows subtab is a stub.
 
 - Workflow management UI (currently a `<Placeholder>` stub in AgentBehaviour settings)
 - Workflow definition and execution format
-- UI for browsing `.kilocode/rules/` and similar rule sources
+- UI for browsing `.kappacode/rules/` and similar rule sources
 - Determine CLI endpoints for workflow CRUD

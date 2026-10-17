@@ -119,7 +119,7 @@ describe("trackOrphanSizes", () => {
 
   /**
    * A directory that leaves the orphan list entirely while a walk covering it is still in flight (say
-   * it was removed outside Kilo) must not have that walk's eventual answer written into the cache —
+   * it was removed outside Kappa) must not have that walk's eventual answer written into the cache —
    * if it reappears later, the stale number would apply instantly with no new walk ever correcting it.
    */
   it("does not resurrect a stale size for a directory that leaves and rejoins the orphan list mid-walk", async () => {

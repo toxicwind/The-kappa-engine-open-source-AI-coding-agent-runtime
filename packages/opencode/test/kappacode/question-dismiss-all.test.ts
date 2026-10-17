@@ -2,7 +2,7 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect } from "bun:test"
 import { Cause, Effect, Exit, Fiber, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { KiloSessionPromptQueue } from "../../src/kappacode/session/prompt-queue"
+import { KappaSessionPromptQueue } from "../../src/kappacode/session/prompt-queue"
 import { Question } from "../../src/question"
 import { MessageID, SessionID } from "../../src/session/schema"
 import { testEffect } from "../lib/effect"
@@ -85,7 +85,7 @@ describe("Question.dismissAll", () => {
         const started = Promise.withResolvers<void>()
         const release = Promise.withResolvers<void>()
 
-        const first = yield* KiloSessionPromptQueue.enqueue(
+        const first = yield* KappaSessionPromptQueue.enqueue(
           sessionID,
           MessageID.make("msg_ask_1"),
           Effect.gen(function* () {
@@ -97,14 +97,14 @@ describe("Question.dismissAll", () => {
         ).pipe(Effect.forkScoped)
         yield* Effect.promise(() => started.promise)
 
-        const second = yield* KiloSessionPromptQueue.enqueue(
+        const second = yield* KappaSessionPromptQueue.enqueue(
           sessionID,
           MessageID.make("msg_ask_2"),
           Effect.succeed("second" as const),
           Effect.succeed("second-cancelled" as const),
         ).pipe(Effect.forkScoped)
         yield* Effect.sleep("10 millis")
-        expect(KiloSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
+        expect(KappaSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
 
         const exit = yield* question.ask({ sessionID, questions: prompt }).pipe(Effect.exit)
         expect(Exit.isFailure(exit)).toBe(true)

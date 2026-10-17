@@ -9,7 +9,7 @@ import { KILO_BASE_MODE, useBindings } from "../keymap"
 import { useToast } from "../ui/toast"
 import { running } from "../util/session"
 import { createDoublePress } from "./double-press"
-import { KiloSteer } from "./steer"
+import { KappaSteer } from "./steer"
 
 // Bare-arrow parent/sibling navigation. The session route no longer binds these: while a steer is
 // typed they must reach the prompt, and the route's layer would outrank the prompt's textarea.
@@ -69,14 +69,14 @@ export function useSubagentKeys() {
   useBindings(() => ({
     mode: KILO_BASE_MODE,
     priority: 1,
-    enabled: () => KiloSteer.idle(prompt.current),
+    enabled: () => KappaSteer.idle(prompt.current),
     bindings: tuiConfig.keybinds.gather("subagent.nav", NAV),
   }))
 
   useBindings(() => ({
     mode: KILO_BASE_MODE,
     priority: 1,
-    enabled: () => KiloSteer.idle(prompt.current),
+    enabled: () => KappaSteer.idle(prompt.current),
     bindings: tuiConfig.keybinds.get("app.exit").map((binding) => ({
       ...binding,
       cmd: () => {

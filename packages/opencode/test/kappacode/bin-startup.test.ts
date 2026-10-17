@@ -264,7 +264,7 @@ describe("npm launcher startup", () => {
     })
     const stderr = proc.stderr.toString()
     expect(proc.exitCode).toBe(1)
-    expect(stderr).toContain("The Kilo CLI native binary for Windows ARM64 could not be found.")
+    expect(stderr).toContain("The Kappa CLI native binary for Windows ARM64 could not be found.")
     expect(stderr).toContain("GitHub Releases page to run under Windows 11 emulation")
   })
 // kappacode_change end

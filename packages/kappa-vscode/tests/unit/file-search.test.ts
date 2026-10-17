@@ -353,7 +353,7 @@ describe("handleFileSearch", () => {
   })
 
   it("drops files an added folder's own ignore rules exclude", async () => {
-    // Editor exclusions and this folder's Kilo ignore rules are separate filters.
+    // Editor exclusions and this folder's Kappa ignore rules are separate filters.
     const api = multiClient({ "/repo": { files: [], folders: [] } })
     const index = editorIndex({ "/repo": [], "/other": ["src/keep.ts", "vendor/skip.ts"] })
     const posted: Array<Record<string, unknown>> = []

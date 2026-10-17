@@ -3,7 +3,7 @@ import { afterEach, describe, expect, test } from "bun:test"
 import { Effect, Layer } from "effect"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
 import { Agent } from "../../src/agent/agent"
-import { KiloToolRegistry } from "../../src/kappacode/tool/registry"
+import { KappaToolRegistry } from "../../src/kappacode/tool/registry"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { ToolRegistry } from "../../src/tool/registry"
@@ -33,7 +33,7 @@ describe("apply_patch model selection", () => {
     ]
 
     for (const item of cases) {
-      expect(KiloToolRegistry.usePatch(item)).toBe(item.expected)
+      expect(KappaToolRegistry.usePatch(item)).toBe(item.expected)
     }
   })
 

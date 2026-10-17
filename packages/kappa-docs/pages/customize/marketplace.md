@@ -1,24 +1,24 @@
 ---
 title: "Marketplace"
-description: "Install agents, skills, MCP servers, and plugins from the Kilo Marketplace"
+description: "Install agents, skills, MCP servers, and plugins from the Kappa Marketplace"
 ---
 
 # Marketplace
 
-The Kilo Marketplace provides reusable extensions for Kilo. Open **Marketplace** from the Kilo sidebar to browse, install, and remove items.
+The Kappa Marketplace provides reusable extensions for Kappa. Open **Marketplace** from the Kappa sidebar to browse, install, and remove items.
 
-Marketplace items are configuration, instruction, and plugin files, not VS Code extensions. Installing an item adds files or configuration entries to either the current project or your user configuration. Kilo then discovers those files through its normal configuration system.
+Marketplace items are configuration, instruction, and plugin files, not VS Code extensions. Installing an item adds files or configuration entries to either the current project or your user configuration. Kappa then discovers those files through its normal configuration system.
 
 ## What you can install
 
 | Type | What it adds | What happens after installation |
 |---|---|---|
-| **Agent** | A reusable role with its own prompt, behavior, and permissions. | The agent becomes available in Kilo's agent selector. |
-| **Skill** | Task-specific instructions and resources that Kilo can load when relevant. | Kilo can discover and load the skill during a session. |
-| **MCP server** | Tools supplied by an external service or a program running on your machine. | Kilo starts or connects to the configured server when it loads the MCP configuration. |
-| **Plugin** | Custom hooks, tools, auth providers, model providers, and runtime behavior. | Kilo adds the plugin to the `plugin` array in the relevant config file and loads it at startup. |
+| **Agent** | A reusable role with its own prompt, behavior, and permissions. | The agent becomes available in Kappa's agent selector. |
+| **Skill** | Task-specific instructions and resources that Kappa can load when relevant. | Kappa can discover and load the skill during a session. |
+| **MCP server** | Tools supplied by an external service or a program running on your machine. | Kappa starts or connects to the configured server when it loads the MCP configuration. |
+| **Plugin** | Custom hooks, tools, auth providers, model providers, and runtime behavior. | Kappa adds the plugin to the `plugin` array in the relevant config file and loads it at startup. |
 
-MCP stands for **Model Context Protocol**, a standard that lets AI applications use external tools. For example, an MCP server might let Kilo query a database, work with GitHub, or interact with a browser. See [What is MCP?](/docs/automate/mcp/what-is-mcp) for a fuller explanation.
+MCP stands for **Model Context Protocol**, a standard that lets AI applications use external tools. For example, an MCP server might let Kappa query a database, work with GitHub, or interact with a browser. See [What is MCP?](/docs/automate/mcp/what-is-mcp) for a fuller explanation.
 
 ## Project or global
 
@@ -31,7 +31,7 @@ Every installation has a scope:
 
 Project files can be committed to version control and shared with teammates. Global files remain on your machine and do not travel with a repository.
 
-When the same configuration exists at both scopes, project configuration takes precedence over global configuration. Learn more about [Kilo's configuration files and precedence](/docs/getting-started/settings#config-file-precedence).
+When the same configuration exists at both scopes, project configuration takes precedence over global configuration. Learn more about [Kappa's configuration files and precedence](/docs/getting-started/settings#config-file-precedence).
 
 ## Files changed by installation
 
@@ -44,17 +44,17 @@ The install dialog shows the destination before it changes anything.
 | MCP server | `.kappa/kappa.json` | `~/.config/kappa/kappa.json` |
 | Plugin | `.kappa/opencode.json`, `.kappa/tui.json` | `~/.config/kappa/opencode.json`, `~/.config/kappa/tui.json` |
 
-Installing an MCP server adds an entry under the `mcp` key without replacing your other Kilo settings. Installing an agent or skill creates its own file or directory. Installing a plugin adds its specifier to the `plugin` array in the relevant config file. A server plugin updates the server config (`opencode.json`) and a TUI plugin updates `tui.json`, so a plugin that supports both targets changes both files. Removing an item deletes its marketplace-managed entry from the selected scope.
+Installing an MCP server adds an entry under the `mcp` key without replacing your other Kappa settings. Installing an agent or skill creates its own file or directory. Installing a plugin adds its specifier to the `plugin` array in the relevant config file. A server plugin updates the server config (`opencode.json`) and a TUI plugin updates `tui.json`, so a plugin that supports both targets changes both files. Removing an item deletes its marketplace-managed entry from the selected scope.
 
 ### MCP servers with companion skills
 
-An MCP server can include skills that explain how to use its tools. The install dialog lists these skills and their destinations before you install. One installation adds the server configuration and all companion skills in the selected scope. This works with both remote and local MCP servers; it does not require a Kilo plugin.
+An MCP server can include skills that explain how to use its tools. The install dialog lists these skills and their destinations before you install. One installation adds the server configuration and all companion skills in the selected scope. This works with both remote and local MCP servers; it does not require a Kappa plugin.
 
-Kilo downloads and validates the skills before it installs the bundle. If a skill directory already exists in the selected scope, installation stops without overwriting it. Remove or rename the existing skill before you retry. Project and global installations remain separate.
+Kappa downloads and validates the skills before it installs the bundle. If a skill directory already exists in the selected scope, installation stops without overwriting it. Remove or rename the existing skill before you retry. Project and global installations remain separate.
 
-Kilo records which skills belong to the installation. Removing the MCP also removes its owned companion skills and their resources, even when the catalog is unavailable or has changed. Separately installed skills are not removed. Do not delete the ownership records if you want Kilo to clean up the bundle on removal. Back up edits to bundled skills before you remove the server.
+Kappa records which skills belong to the installation. Removing the MCP also removes its owned companion skills and their resources, even when the catalog is unavailable or has changed. Separately installed skills are not removed. Do not delete the ownership records if you want Kappa to clean up the bundle on removal. Back up edits to bundled skills before you remove the server.
 
-Skills use Kilo's normal discovery and permission rules. Installing a bundle does not approve MCP tool calls or run scripts included in a skill.
+Skills use Kappa's normal discovery and permission rules. Installing a bundle does not approve MCP tool calls or run scripts included in a skill.
 
 {% callout type="warning" title="Keep credentials out of version control" %}
 Some MCP servers require API keys, access tokens, or connection strings. Project configuration may be committed to your repository. Prefer environment-variable references for secrets, and review `.kappa/kappa.json` before committing it.
@@ -67,9 +67,9 @@ An MCP server can expose tools that read data, modify external systems, or run l
 - A **local** MCP server runs a command as a child process on your machine.
 - A **remote** MCP server sends requests to an external service.
 - Installing the server makes its tools available; it does not automatically approve every tool call.
-- MCP tools follow Kilo's `allow`, `ask`, and `deny` permission rules. The default experience may prompt you before a tool runs, depending on your configuration.
+- MCP tools follow Kappa's `allow`, `ask`, and `deny` permission rules. The default experience may prompt you before a tool runs, depending on your configuration.
 
-Review the item's author, source link, prerequisites, requested parameters, and available tools before installing it. See [Using MCP in Kilo Code](/docs/automate/mcp/using-in-kappa-code) for configuration, transport, authentication, and permission details.
+Review the item's author, source link, prerequisites, requested parameters, and available tools before installing it. See [Using MCP in Kappa Code](/docs/automate/mcp/using-in-kappa-code) for configuration, transport, authentication, and permission details.
 
 ## Plugin security
 
@@ -79,11 +79,11 @@ Plugins run code with full permissions. A plugin can read and change your files,
 
 An item can be installed at both project and global scope. Its Marketplace card shows it as installed and offers a separate remove action for each installed scope. Removing the project copy does not remove the global copy, and vice versa.
 
-After an install or removal, Kilo reloads the affected configuration. Running sessions may be interrupted so they do not continue with an outdated set of agents, skills, or tools.
+After an install or removal, Kappa reloads the affected configuration. Running sessions may be interrupted so they do not continue with an outdated set of agents, skills, or tools.
 
 ## Contributing
 
-Marketplace entries are maintained in the [Kilo Marketplace repository](https://github.com/Kilo-Org/kappa-marketplace). Contributions should document prerequisites, parameters, available tools, and any platform-specific requirements.
+Marketplace entries are maintained in the [Kappa Marketplace repository](https://github.com/Kappa-Org/kappa-marketplace). Contributions should document prerequisites, parameters, available tools, and any platform-specific requirements.
 
 To publish an MCP server with companion skills:
 
@@ -99,4 +99,4 @@ skills:
 
 4. Run the marketplace's validation and generation commands, then submit the MCP entry and generated catalog. The generator checks the skill IDs and adds their archive URLs to the catalog. The existing `requirements.skills` field does not install companion skills.
 
-Users need a Kilo CLI version with companion-skill support. The VS Code extension uses its bundled CLI; the JetBrains plugin uses its pinned CLI. Publish bundles only after the relevant client release includes that support. Older clients can ignore the companion list and install only the MCP configuration.
+Users need a Kappa CLI version with companion-skill support. The VS Code extension uses its bundled CLI; the JetBrains plugin uses its pinned CLI. Publish bundles only after the relevant client release includes that support. Older clients can ignore the companion list and install only the MCP configuration.

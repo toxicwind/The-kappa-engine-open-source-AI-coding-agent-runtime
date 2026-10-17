@@ -33,19 +33,19 @@ import { SessionContext } from "../context/session"
 import { NotificationsContext } from "../context/notifications"
 import { LanguageContext } from "../context/language"
 import { IndexingProvider } from "../context/indexing"
-import { KiloEmbeddingModelsProvider } from "../context/kappa-embedding-models"
+import { KappaEmbeddingModelsProvider } from "../context/kappa-embedding-models"
 import { MemoryProvider } from "../context/memory"
 import { TranscriptSearchProvider } from "../context/transcript-search"
 import { dict as uiEn } from "@kappacode/kappa-ui/i18n/en"
 import { dict as appEn } from "../i18n/en"
 import { dict as amEn } from "../../agent-manager/i18n/en"
-import { dict as kiloEn } from "@kappacode/kappa-i18n/en"
+import { dict as kappaEn } from "@kappacode/kappa-i18n/en"
 import { hasIndexingPlugin } from "@kappacode/kappa-indexing/detect"
 import { resolveTemplate } from "../context/language-utils"
 import type {
   Config,
   FeatureFlags,
-  KilocodeNotification,
+  KappacodeNotification,
   PermissionRequest,
   ProviderAuthState,
   SessionCloseReason,
@@ -56,7 +56,7 @@ import type {
 type PluginSpec = string | [string, Record<string, unknown>]
 
 // Merged English dictionary (same merge order as the real LanguageProvider)
-const dict: Record<string, string> = { ...appEn, ...amEn, ...uiEn, ...kiloEn }
+const dict: Record<string, string> = { ...appEn, ...amEn, ...uiEn, ...kappaEn }
 
 /** Story-local translator. Usable outside the provider tree, unlike useLanguage. */
 export function t(key: string, params?: Record<string, string | number | boolean | undefined>) {
@@ -71,13 +71,13 @@ const plural = (key: UiI18nPluralKey, count: number, params?: Record<string, str
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
-// Mock providers — pre-loaded Kilo Gateway model for stories
+// Mock providers — pre-loaded Kappa Gateway model for stories
 // ---------------------------------------------------------------------------
 
 const MOCK_PROVIDERS = {
   kappa: {
     id: "kappa",
-    name: "Kilo",
+    name: "Kappa",
     env: [] as string[],
     models: {
       "anthropic/claude-sonnet-4-6": {
@@ -99,7 +99,7 @@ const MOCK_PROVIDERS = {
 const MOCK_MODELS = flattenModels(MOCK_PROVIDERS as any)
 
 /** A synchronous mock ProviderContext — provides models without waiting for a postMessage round-trip. */
-const MockProviderProvider: ParentComponent<{ kiloAuth?: boolean; training?: boolean }> = (props) => {
+const MockProviderProvider: ParentComponent<{ kappaAuth?: boolean; training?: boolean }> = (props) => {
   const models = createMemo(() =>
     MOCK_MODELS.map((model) => ({
       ...model,
@@ -116,9 +116,9 @@ const MockProviderProvider: ParentComponent<{ kiloAuth?: boolean; training?: boo
     models,
     findModel: (sel: any) => _findModel(models(), sel),
     authMethods: () => ({}),
-    authStates: () => (props.kiloAuth ? { kappa: "oauth" } : {}) as Record<string, ProviderAuthState>,
+    authStates: () => (props.kappaAuth ? { kappa: "oauth" } : {}) as Record<string, ProviderAuthState>,
     isModelValid: () => true,
-    kiloUnavailable: () => false,
+    kappaUnavailable: () => false,
   }
   return <ProviderContext.Provider value={value}>{props.children}</ProviderContext.Provider>
 }
@@ -143,7 +143,7 @@ export const defaultMockData = {
 
 function noop() {}
 
-function mockNotificationsValue(items: KilocodeNotification[] = []) {
+function mockNotificationsValue(items: KappacodeNotification[] = []) {
   return {
     notifications: () => items,
     filteredNotifications: () => items,
@@ -324,7 +324,7 @@ interface StoryProvidersProps {
   permissions?: PermissionRequest[]
   questions?: QuestionRequest[]
   suggestions?: SuggestionRequest[]
-  notifications?: KilocodeNotification[]
+  notifications?: KappacodeNotification[]
   status?: string
   sessionID?: string
   /** When provided, injects a mock ConfigContext with this config instead of the real ConfigProvider. */
@@ -337,7 +337,7 @@ interface StoryProvidersProps {
   onProjectConfigChange?: (config: Config) => void
   onOpenDiff?: OpenDiffFn
   onOpenFile?: OpenFileFn
-  kiloAuth?: boolean
+  kappaAuth?: boolean
   training?: boolean
   /** When true, renders children without the default 12px padding wrapper */
   noPadding?: boolean
@@ -456,7 +456,7 @@ export const StoryProviders: ParentComponent<StoryProvidersProps> = (props) => {
             onProjectConfigChange={props.onProjectConfigChange}
           >
             <DisplayProvider>
-              <MockProviderProvider kiloAuth={props.kiloAuth} training={props.training}>
+              <MockProviderProvider kappaAuth={props.kappaAuth} training={props.training}>
                 <DialogProvider>
                   <LanguageContext.Provider
                     value={{
@@ -471,7 +471,7 @@ export const StoryProviders: ParentComponent<StoryProvidersProps> = (props) => {
                         <SessionContext.Provider value={session as any}>
                           <MemoryProvider>
                             <IndexingProvider>
-                              <KiloEmbeddingModelsProvider>
+                              <KappaEmbeddingModelsProvider>
                                 <DataProvider
                                   data={data()}
                                   directory="/project/"
@@ -494,7 +494,7 @@ export const StoryProviders: ParentComponent<StoryProvidersProps> = (props) => {
                                     </CodeComponentProvider>
                                   </DiffComponentProvider>
                                 </DataProvider>
-                              </KiloEmbeddingModelsProvider>
+                              </KappaEmbeddingModelsProvider>
                             </IndexingProvider>
                           </MemoryProvider>
                         </SessionContext.Provider>

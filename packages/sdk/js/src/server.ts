@@ -2,8 +2,8 @@ import launch from "cross-spawn"
 import { type Config } from "./gen/types.gen.js"
 import { stop, bindAbort } from "./process.js"
 
-// kilocode_change start - Merge existing KILO_CONFIG_CONTENT with new config
-// This preserves Kilocode-injected modes when spawning nested CLI instances
+// kappacode_change start - Merge existing KILO_CONFIG_CONTENT with new config
+// This preserves Kappacode-injected modes when spawning nested CLI instances
 function mergeConfig(existing: Config | undefined, incoming: Config | undefined): Config {
   const base = existing ?? {}
   const override = incoming ?? {}
@@ -33,7 +33,7 @@ export function buildConfigEnv(config?: Config): string {
   const merged = mergeConfig(parseExistingConfig(), config)
   return JSON.stringify(merged)
 }
-// kilocode_change end
+// kappacode_change end
 
 export type ServerOptions = {
   hostname?: string
@@ -52,7 +52,7 @@ export type TuiOptions = {
   config?: Config
 }
 
-export async function createKiloServer(options?: ServerOptions) {
+export async function createKappaServer(options?: ServerOptions) {
   options = Object.assign(
     {
       hostname: "127.0.0.1",
@@ -66,10 +66,10 @@ export async function createKiloServer(options?: ServerOptions) {
   if (options.config?.logLevel) args.push(`--log-level=${options.config.logLevel}`)
 
   const proc = launch(`kappa`, args, {
-    // kilocode_change
+    // kappacode_change
     env: {
       ...process.env,
-      KILO_CONFIG_CONTENT: buildConfigEnv(options.config), // kilocode_change
+      KILO_CONFIG_CONTENT: buildConfigEnv(options.config), // kappacode_change
     },
   })
   let clear = () => {}
@@ -87,9 +87,9 @@ export async function createKiloServer(options?: ServerOptions) {
       output += chunk.toString()
       const lines = output.split("\n")
       for (const line of lines) {
-        // kilocode_change start
+        // kappacode_change start
         if (line.startsWith("kappa server listening")) {
-          // kilocode_change end
+          // kappacode_change end
           const match = line.match(/on\s+(https?:\/\/[^\s]+)/)
           if (!match) {
             clear()
@@ -135,7 +135,7 @@ export async function createKiloServer(options?: ServerOptions) {
   }
 }
 
-export function createKiloTui(options?: TuiOptions) {
+export function createKappaTui(options?: TuiOptions) {
   const args = []
 
   if (options?.project) {
@@ -152,12 +152,12 @@ export function createKiloTui(options?: TuiOptions) {
   }
 
   const proc = launch(`kappa`, args, {
-    // kilocode_change
+    // kappacode_change
     stdio: "inherit",
     windowsHide: true,
     env: {
       ...process.env,
-      KILO_CONFIG_CONTENT: buildConfigEnv(options?.config), // kilocode_change
+      KILO_CONFIG_CONTENT: buildConfigEnv(options?.config), // kappacode_change
     },
   })
 

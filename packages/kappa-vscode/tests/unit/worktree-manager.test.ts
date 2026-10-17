@@ -1005,7 +1005,7 @@ describe("WorktreeManager.discoverWorktrees", () => {
     const gitdir = path.join(root, ".git", "worktrees", "partial", "gitdir")
     await fs.mkdir(worktree, { recursive: true })
     await fs.mkdir(path.dirname(gitdir), { recursive: true })
-    await fs.writeFile(gitdir, path.join(root, ".kilocode", "worktrees", "partial", ".git"), "utf-8")
+    await fs.writeFile(gitdir, path.join(root, ".kappacode", "worktrees", "partial", ".git"), "utf-8")
 
     await mgr.discoverWorktrees()
 
@@ -1213,10 +1213,10 @@ describe("WorktreeManager.ensureGitExclude", () => {
     await mgr.ensureGitExclude()
 
     const content = await fs.readFile(path.join(root, ".git", "info", "exclude"), "utf-8")
-    expect(content).toContain(".kilocode/worktrees/")
-    expect(content).toContain(".kilocode/agent-manager.json")
-    expect(content).toContain(".kilocode/setup-script")
-    expect(content).not.toContain("\n.kilocode/\n")
+    expect(content).toContain(".kappacode/worktrees/")
+    expect(content).toContain(".kappacode/agent-manager.json")
+    expect(content).toContain(".kappacode/setup-script")
+    expect(content).not.toContain("\n.kappacode/\n")
   })
 
   it("is idempotent -- does not duplicate entries", async () => {
@@ -1741,7 +1741,7 @@ describe("WorktreeManager.createWorktree advanced", () => {
 
     const prev = { visual: process.env.VISUAL, author: process.env.GIT_AUTHOR_NAME }
     process.env.VISUAL = "true"
-    process.env.GIT_AUTHOR_NAME = "Kilo"
+    process.env.GIT_AUTHOR_NAME = "Kappa"
     const result = await createManager(clone)
       .createWorktree({ baseBranch: "topic", prompt: "from topic" })
       .finally(() => {

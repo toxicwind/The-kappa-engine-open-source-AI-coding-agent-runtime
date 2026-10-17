@@ -1,7 +1,7 @@
 import * as vscode from "vscode"
 import { basename } from "node:path"
 import { realpathSync } from "node:fs"
-import { KiloProvider } from "./KiloProvider"
+import { KappaProvider } from "./KappaProvider"
 import { AgentManagerProvider } from "./agent-manager/AgentManagerProvider"
 import { VscodeHost } from "./agent-manager/vscode-host"
 import { DiffViewerProvider } from "./diff/DiffViewerProvider"
@@ -15,7 +15,7 @@ import { SubAgentViewerProvider } from "./SubAgentViewerProvider"
 import { BrowserTabProvider } from "./browser-tab/BrowserTabProvider"
 import { formatBrowserFeedback } from "./shared/browser-feedback"
 import { EXTENSION_DISPLAY_NAME } from "./constants"
-import { KiloConnectionService } from "./services/cli-backend"
+import { KappaConnectionService } from "./services/cli-backend"
 import { retention } from "./services/task-cleanup/retention"
 import { registerAutocompleteProvider } from "./services/autocomplete"
 import { ensureBackendForAutocomplete } from "./services/autocomplete/ensure-backend"
@@ -32,7 +32,7 @@ import {
 } from "./services/browser-automation/chrome-setting"
 import { TelemetryEventName, TelemetryProxy } from "./services/telemetry"
 import { registerCommitMessageService } from "./services/commit-message"
-import { registerCodeActions, registerTerminalActions, KiloCodeActionProvider } from "./services/code-actions"
+import { registerCodeActions, registerTerminalActions, KappaCodeActionProvider } from "./services/code-actions"
 import { closeTaskTarget, SurfaceFocus } from "./commands/close-task-target"
 import { registerToggleAutoApprove } from "./commands/toggle-auto-approve"
 import { registerHeapSnapshot } from "./commands/heap-snapshot"
@@ -61,10 +61,10 @@ const panelTitleHandler = (panel: vscode.WebviewPanel) => (title: string) => {
 
 // Activated via "onStartupFinished" and "onUri" (package.json) so that commands, code actions,
 // keybindings, autocomplete, commit-message generation, and URI deep links all work immediately —
-// without requiring the user to open a Kilo sidebar or panel first. The CLI backend is NOT spawned here;
+// without requiring the user to open a Kappa sidebar or panel first. The CLI backend is NOT spawned here;
 // it starts lazily when a webview connects or when ensureBackendForAutocomplete() triggers it.
 export async function activate(context: vscode.ExtensionContext) {
-  console.log("Kilo Code extension is now active")
+  console.log("Kappa Code extension is now active")
   shuttingDown = false
 
   // Drives the "!kappa-code.new.isCursor" guards on the native view/title and
@@ -74,11 +74,11 @@ export async function activate(context: vscode.ExtensionContext) {
   const telemetry = TelemetryProxy.getInstance()
 
   await migrateIntegratedBrowserUseSystemChrome().catch((error: unknown) =>
-    console.warn("[Kilo New] Integrated Browser Chrome preference migration failed:", error),
+    console.warn("[Kappa New] Integrated Browser Chrome preference migration failed:", error),
   )
 
   const browserBroker = new BrowserBroker({
-    log: (...args) => console.warn("[Kilo New] BrowserBroker:", ...args),
+    log: (...args) => console.warn("[Kappa New] BrowserBroker:", ...args),
     enabled: () => vscode.workspace.getConfiguration("kappa-code.new.experimental").get("browserAutomation", false),
     trusted: () => vscode.workspace.isTrusted,
     useSystemChrome: () => integratedBrowserUseSystemChrome(),
@@ -88,16 +88,16 @@ export async function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(vscode.window.onDidChangeActiveColorTheme(() => browserBroker.retheme()))
 
   // Create shared connection service (one server for all webviews)
-  const connectionService = new KiloConnectionService(
+  const connectionService = new KappaConnectionService(
     context,
     () => browserBroker.env(),
     (dir): Promise<void> => browserAutomationService.ready(dir),
   )
 
-  // One MCP OAuth sign-in service for the whole extension (sidebar, Kilo tabs, Settings, Marketplace).
+  // One MCP OAuth sign-in service for the whole extension (sidebar, Kappa tabs, Settings, Marketplace).
   // Initialize it eagerly so its MCP OAuth URL subscriptions and `onUrl`
   // fallback are wired up exactly once, instead of racing whichever
-  // KiloProvider happens to construct first.
+  // KappaProvider happens to construct first.
   mcpAuth(connectionService, { onUrl: showAuthUrl })
 
   // Manages the built-in Playwright MCP server for ordinary sessions. This is
@@ -127,7 +127,7 @@ export async function activate(context: vscode.ExtensionContext) {
     if (state === "connected") {
       void browserAutomationService
         .reregisterIfEnabled()
-        .catch((error) => console.warn("[Kilo New] Playwright MCP re-registration failed:", error))
+        .catch((error) => console.warn("[Kappa New] Playwright MCP re-registration failed:", error))
       const config = connectionService.getServerConfig()
       if (config) {
         telemetry.configure(config.baseUrl, config.password)
@@ -139,8 +139,8 @@ export async function activate(context: vscode.ExtensionContext) {
       }
       try {
         remoteService.setClient(connectionService.getClient())
-        console.log("[Kilo New] CLI connected, calling remoteService.refresh()")
-        remoteService.refresh().catch((err) => console.warn("[Kilo New] initial remote refresh failed:", err))
+        console.log("[Kappa New] CLI connected, calling remoteService.refresh()")
+        remoteService.refresh().catch((err) => console.warn("[Kappa New] initial remote refresh failed:", err))
       } catch {
         remoteService.setClient(null)
       }
@@ -160,14 +160,14 @@ export async function activate(context: vscode.ExtensionContext) {
   )
 
   for (const folder of vscode.workspace.workspaceFolders ?? []) {
-    void markWorkspace(folder.uri.fsPath, (msg) => console.warn(`[Kilo New] ${msg}`))
+    void markWorkspace(folder.uri.fsPath, (msg) => console.warn(`[Kappa New] ${msg}`))
   }
 
   // Track all open tab panel providers so toolbar button commands can target them.
   // NOTE: The editor/title toolbar for tab panels intentionally omits Agent Manager
   // and Marketplace buttons (unlike the sidebar). Too many icons causes VS Code to
   // collapse them into a "..." overflow menu, hiding important buttons like Settings.
-  const tabPanels = new Map<vscode.WebviewPanel, KiloProvider>()
+  const tabPanels = new Map<vscode.WebviewPanel, KappaProvider>()
   const activeTabProvider = () => {
     for (const [panel, p] of tabPanels) {
       if (panel.active) return p
@@ -175,16 +175,16 @@ export async function activate(context: vscode.ExtensionContext) {
     return undefined
   }
 
-  // Tracks the Kilo surface the user last worked in, so commands invoked from
+  // Tracks the Kappa surface the user last worked in, so commands invoked from
   // the Command Palette still know where to act after it takes focus away.
   const focus = new SurfaceFocus()
 
   // Keep the concrete chat when focus moves to the editor to select code.
-  // SurfaceFocus alone cannot distinguish multiple Kilo editor tabs.
-  let chat: KiloProvider | AgentManagerProvider | undefined
+  // SurfaceFocus alone cannot distinguish multiple Kappa editor tabs.
+  let chat: KappaProvider | AgentManagerProvider | undefined
 
   // Create the provider with shared service
-  const provider = new KiloProvider(context.extensionUri, connectionService, context, {
+  const provider = new KappaProvider(context.extensionUri, connectionService, context, {
     focusContext: "kappa-code.new.sidebarFocused",
     onFocused: () => {
       focus.gained("sidebar")
@@ -194,7 +194,7 @@ export async function activate(context: vscode.ExtensionContext) {
   })
   provider.setRemoteService(remoteService)
 
-  // Editor-tab Integrated Browser for sidebar and Kilo editor-tab sessions. It
+  // Editor-tab Integrated Browser for sidebar and Kappa editor-tab sessions. It
   // registers its route owner before the Agent Manager so sidebar sessions are
   // claimed here (no project id) while Agent Manager worktree requests, which
   // carry a project id, still resolve to Agent Manager.
@@ -267,7 +267,7 @@ export async function activate(context: vscode.ExtensionContext) {
         if (!target) return
         target.postMessage({ type: "appendChatBoxMessage", text: formatBrowserFeedback([value]), browser: value })
       },
-      log: (...args) => console.warn("[Kilo New] BrowserTabProvider:", ...args),
+      log: (...args) => console.warn("[Kappa New] BrowserTabProvider:", ...args),
     },
   )
   context.subscriptions.push({ dispose: () => browserTabProvider.dispose() })
@@ -299,7 +299,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Register the webview view provider for the sidebar.
   // retainContextWhenHidden keeps the webview alive when switching to other sidebar panels.
   context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(KiloProvider.viewType, provider, {
+    vscode.window.registerWebviewViewProvider(KappaProvider.viewType, provider, {
       webviewOptions: { retainContextWhenHidden: true },
     }),
   )
@@ -331,7 +331,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     if (state.enabled === prior.enabled) return
     void vscode.window.showInformationMessage(
-      state.enabled ? "Keep Awake enabled. Kilo will prevent system sleep while agents work." : "Keep Awake disabled.",
+      state.enabled ? "Keep Awake enabled. Kappa will prevent system sleep while agents work." : "Keep Awake disabled.",
     )
   })
   context.subscriptions.push({ dispose: unsubscribeCaffeination })
@@ -342,20 +342,20 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     if (context.globalState.get<boolean>("caffeination.confirmed") === true) return true
     const detail = [
-      "Keep Awake prevents system sleep while Kilo sessions are in progress, including some waits for approval. It does not keep the display on or disable screen locking. It turns off when this VS Code window reloads.",
+      "Keep Awake prevents system sleep while Kappa sessions are in progress, including some waits for approval. It does not keep the display on or disable screen locking. It turns off when this VS Code window reloads.",
       "Agents may continue to access files, network services, and available credentials while the computer is locked. Enable only if your organization's device policy permits it.",
       ...(process.platform === "linux"
         ? ["On Linux, this can also block manual suspend. Turn Keep Awake off before suspending."]
         : []),
     ].join("\n\n")
     const answer = await vscode.window.showWarningMessage(
-      "Keep this computer awake while Kilo agents work?",
+      "Keep this computer awake while Kappa agents work?",
       { modal: true, detail },
       "Enable Keep Awake",
     )
     if (answer !== "Enable Keep Awake") return false
     await context.globalState.update("caffeination.confirmed", true).then(undefined, (error: unknown) => {
-      console.warn("[Kilo New] Could not save Keep Awake confirmation:", error)
+      console.warn("[Kappa New] Could not save Keep Awake confirmation:", error)
     })
     return true
   })
@@ -371,7 +371,7 @@ export async function activate(context: vscode.ExtensionContext) {
       if (!extension.isActive) await extension.activate()
       return extension.exports?.getAPI(1).git.path
     },
-    log: (message) => console.warn(`[Kilo New] ${message}`),
+    log: (message) => console.warn(`[Kappa New] ${message}`),
   })
   const binary = process.platform === "win32" ? await git() : git
   const agentManagerHost = new VscodeHost(context.extensionUri, connectionService, context, remoteService, controls)
@@ -443,7 +443,7 @@ export async function activate(context: vscode.ExtensionContext) {
     },
     focused: () => vscode.window.state.focused,
     // Every surface already reports the session it displays, gated on its own
-    // visibility, so this covers the sidebar, Kilo editor tabs, and Agent
+    // visibility, so this covers the sidebar, Kappa editor tabs, and Agent
     // Manager without each one needing its own accessor.
     visible: (sessionID) => connectionService.isVisible(sessionID),
     os: showOSNotification,
@@ -482,7 +482,7 @@ export async function activate(context: vscode.ExtensionContext) {
   )
 
   const attach = (panel: vscode.WebviewPanel) => {
-    const tabProvider = new KiloProvider(context.extensionUri, connectionService, context, {
+    const tabProvider = new KappaProvider(context.extensionUri, connectionService, context, {
       tabTitle: panelTitleHandler(panel),
       topBarSurface: "tab",
       onFocused: () => {
@@ -518,7 +518,7 @@ export async function activate(context: vscode.ExtensionContext) {
         const tabProvider = attach(panel)
         panel.onDidDispose(
           () => {
-            console.log("[Kilo New] Tab panel restored from restart disposed")
+            console.log("[Kappa New] Tab panel restored from restart disposed")
             tabPanels.delete(panel)
             tabProvider.dispose()
           },
@@ -631,7 +631,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // resolve their target from the last focused surface rather than from panel
   // activation alone.
   const taskTarget = () =>
-    closeTaskTarget<KiloProvider | AgentManagerProvider>({
+    closeTaskTarget<KappaProvider | AgentManagerProvider>({
       focused: focus.current(),
       sidebar: provider,
       tab: activeTabProvider(),
@@ -760,10 +760,10 @@ export async function activate(context: vscode.ExtensionContext) {
       })
     }),
     vscode.commands.registerCommand("kappa-code.new.toggleRemote", () => {
-      remoteService.toggle().catch((err) => console.error("[Kilo New] toggleRemote command failed:", err))
+      remoteService.toggle().catch((err) => console.error("[Kappa New] toggleRemote command failed:", err))
     }),
     vscode.commands.registerCommand("kappa-code.new.openInTab", () => {
-      return openKiloInNewTab(context, tabPanels, attach)
+      return openKappaInNewTab(context, tabPanels, attach)
     }),
     vscode.commands.registerCommand("kappa-code.new.openBrowser", () => {
       openBrowserTab()
@@ -780,7 +780,7 @@ export async function activate(context: vscode.ExtensionContext) {
         subAgentViewerProvider.openPanel(sessionID, title, directory)
       },
     ),
-    // One shortcut pair serves the sidebar, Kilo editor tabs, and Agent Manager.
+    // One shortcut pair serves the sidebar, Kappa editor tabs, and Agent Manager.
     // Every surface receives the action and acts only while it has focus, matching
     // cycleAgentMode, so one binding never depends on a shared focus context key.
     vscode.commands.registerCommand("kappa-code.new.agentManager.previousSession", () => {
@@ -811,7 +811,7 @@ export async function activate(context: vscode.ExtensionContext) {
       // diagnose() spawns git/gh probes and writes to the output channel; a rejection (disposed
       // channel, disposed context mid-probe) would otherwise be an invisible unhandled rejection.
       void agentManagerProvider.diagnose().catch((err: unknown) => {
-        console.error("[Kilo New] Agent Manager diagnostics failed:", err)
+        console.error("[Kappa New] Agent Manager diagnostics failed:", err)
       })
     }),
     vscode.commands.registerCommand("kappa-code.new.agentManager.search", () => {
@@ -872,27 +872,27 @@ export async function activate(context: vscode.ExtensionContext) {
     ),
   )
 
-  // Register URI handler for extension deep links (vscode://kilocode.kappa-code/kilocode/...)
+  // Register URI handler for extension deep links (vscode://kappacode.kappa-code/kappacode/...)
   context.subscriptions.push(
     vscode.window.registerUriHandler({
       async handleUri(uri: vscode.Uri) {
-        const sessionMatch = uri.path.match(/^\/kilocode\/s\/([a-zA-Z0-9_-]+)$/)
+        const sessionMatch = uri.path.match(/^\/kappacode\/s\/([a-zA-Z0-9_-]+)$/)
         const sessionId = sessionMatch?.[1]
         if (sessionId) {
-          console.log("[Kilo New] URI handler: opening cloud session:", sessionId)
-          await vscode.commands.executeCommand(`${KiloProvider.viewType}.focus`)
+          console.log("[Kappa New] URI handler: opening cloud session:", sessionId)
+          await vscode.commands.executeCommand(`${KappaProvider.viewType}.focus`)
           provider.openCloudSession(sessionId)
           return
         }
 
-        if (uri.path !== "/kilocode/switch" && uri.path !== "/kilocode/model") return
+        if (uri.path !== "/kappacode/switch" && uri.path !== "/kappacode/model") return
         const params = new URLSearchParams(uri.query)
         const modelID = params.get("model") || undefined
         const agent = params.get("agent") || undefined
         if (!modelID && !agent) return
-        console.log("[Kilo New] URI handler: applying linked Kilo selection:", { modelID, agent })
-        await vscode.commands.executeCommand(`${KiloProvider.viewType}.focus`)
-        provider.selectKiloModel(modelID, agent)
+        console.log("[Kappa New] URI handler: applying linked Kappa selection:", { modelID, agent })
+        await vscode.commands.executeCommand(`${KappaProvider.viewType}.focus`)
+        provider.selectKappaModel(modelID, agent)
       },
     }),
   )
@@ -907,7 +907,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand("kappa-code.new.reload", () => {
-      provider.reload().catch((e) => console.error("[Kilo New] reload command failed:", e))
+      provider.reload().catch((e) => console.error("[Kappa New] reload command failed:", e))
     }),
   )
 
@@ -919,8 +919,8 @@ export async function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.languages.registerCodeActionsProvider(
       { scheme: "file" },
-      new KiloCodeActionProvider(),
-      KiloCodeActionProvider.metadata,
+      new KappaCodeActionProvider(),
+      KappaCodeActionProvider.metadata,
     ),
   )
 
@@ -929,7 +929,7 @@ export async function activate(context: vscode.ExtensionContext) {
     dispose: () => {
       shuttingDown = true
       void caffeination?.dispose().catch((error: unknown) => {
-        console.warn("[Kilo New] Keep-awake cleanup failed:", error)
+        console.warn("[Kappa New] Keep-awake cleanup failed:", error)
       })
       unsubscribeStateChange()
       attention.dispose()
@@ -946,7 +946,7 @@ export async function deactivate() {
   shuttingDown = true
   const results = await Promise.allSettled([caffeination?.dispose(), agentManager?.shutdown()])
   for (const result of results) {
-    if (result.status === "rejected") console.warn("[Kilo New] Extension shutdown failed:", result.reason)
+    if (result.status === "rejected") console.warn("[Kappa New] Extension shutdown failed:", result.reason)
   }
   TelemetryProxy.getInstance().shutdown()
 }
@@ -957,10 +957,10 @@ function browserTheme(): "dark" | "light" {
   return kind === vscode.ColorThemeKind.Light || kind === vscode.ColorThemeKind.HighContrastLight ? "light" : "dark"
 }
 
-function openKiloInNewTab(
+function openKappaInNewTab(
   context: vscode.ExtensionContext,
-  tabPanels: Map<vscode.WebviewPanel, KiloProvider>,
-  attach: (panel: vscode.WebviewPanel) => KiloProvider,
+  tabPanels: Map<vscode.WebviewPanel, KappaProvider>,
+  attach: (panel: vscode.WebviewPanel) => KappaProvider,
 ) {
   const panel = vscode.window.createWebviewPanel(
     "kappa-code.new.TabPanel",
@@ -982,7 +982,7 @@ function openKiloInNewTab(
 
   panel.onDidDispose(
     () => {
-      console.log("[Kilo New] Tab panel disposed")
+      console.log("[Kappa New] Tab panel disposed")
       tabPanels.delete(panel)
       tabProvider.dispose()
     },

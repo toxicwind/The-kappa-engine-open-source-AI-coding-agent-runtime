@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
 import type { Part, StepFinishPart } from "@kappacode/sdk/v2"
 import { RoutedModelMeta } from "../../src/kappacode/cli/cmd/tui/routes/session/routed-model-meta"
-import { KiloRoutedModel } from "../../src/kappacode/session/routed-model"
+import { KappaRoutedModel } from "../../src/kappacode/session/routed-model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { LLMAISDK } from "../../src/session/llm/ai-sdk"
@@ -90,21 +90,21 @@ describe("session routed model", () => {
   })
 
   test("shortens date-suffixed routed model ids for display", () => {
-    expect(KiloRoutedModel.display("moonshotai/kimi-k2.7-code-20260612")).toBe("moonshotai/kimi-k2.7-code")
-    expect(KiloRoutedModel.display("openai/gpt-5.5-2026-04-23")).toBe("openai/gpt-5.5")
-    expect(KiloRoutedModel.display("openai/gpt-5.5")).toBe("openai/gpt-5.5")
+    expect(KappaRoutedModel.display("moonshotai/kimi-k2.7-code-20260612")).toBe("moonshotai/kimi-k2.7-code")
+    expect(KappaRoutedModel.display("openai/gpt-5.5-2026-04-23")).toBe("openai/gpt-5.5")
+    expect(KappaRoutedModel.display("openai/gpt-5.5")).toBe("openai/gpt-5.5")
   })
 
   test("formats routed model names for compact display", () => {
-    expect(KiloRoutedModel.displayName("Qwen: Qwen3.7 Plus (20% off)")).toBe("Qwen 3.7 Plus")
-    expect(KiloRoutedModel.displayName("anthropic.claude-opus-4-5-20251101-v1:0")).toBe(
+    expect(KappaRoutedModel.displayName("Qwen: Qwen3.7 Plus (20% off)")).toBe("Qwen 3.7 Plus")
+    expect(KappaRoutedModel.displayName("anthropic.claude-opus-4-5-20251101-v1:0")).toBe(
       "anthropic.claude-opus-4-5-20251101-v1:0",
     )
-    expect(KiloRoutedModel.displayName("moonshotai/kimi-k2.7-code")).toBe("kimi-k2.7-code")
-    expect(KiloRoutedModel.displayName("o3")).toBe("o3")
+    expect(KappaRoutedModel.displayName("moonshotai/kimi-k2.7-code")).toBe("kimi-k2.7-code")
+    expect(KappaRoutedModel.displayName("o3")).toBe("o3")
   })
 
-  test("shows compact labels only for Kilo auto selections", () => {
+  test("shows compact labels only for Kappa auto selections", () => {
     const model = { providerID: "openai", modelID: "gpt-5.5" }
     const parts = [reason, finish(model)]
 
@@ -170,11 +170,11 @@ describe("session routed model", () => {
     expect(routed.consumed.has("last")).toBe(false)
   })
 
-  test("reads routed model only for selected Kilo auto models", () => {
+  test("reads routed model only for selected Kappa auto models", () => {
     const meta = { kappacode: { routedModelID: "openai/gpt-5.5-20260423" } }
 
     expect(
-      KiloRoutedModel.readAuto(meta, {
+      KappaRoutedModel.readAuto(meta, {
         providerID: ProviderV2.ID.kappa,
         modelID: "kappa-auto/efficient",
       }),
@@ -184,13 +184,13 @@ describe("session routed model", () => {
     })
 
     expect(
-      KiloRoutedModel.readAuto(meta, {
+      KappaRoutedModel.readAuto(meta, {
         providerID: ProviderV2.ID.kappa,
         modelID: "openai/gpt-5.5",
       }),
     ).toBeUndefined()
     expect(
-      KiloRoutedModel.readAuto(meta, {
+      KappaRoutedModel.readAuto(meta, {
         providerID: ProviderV2.ID.openai,
         modelID: "gpt-5.5",
       }),

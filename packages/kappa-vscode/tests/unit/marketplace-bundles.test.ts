@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { createKiloClient } from "@kappacode/sdk/v2/client"
+import { createKappaClient } from "@kappacode/sdk/v2/client"
 import * as vscode from "vscode"
 import { marketplaceBundles } from "../../src/services/marketplace/bundles"
 
@@ -62,7 +62,7 @@ describe("marketplaceBundles", () => {
       { name: "context7-global", location: globalSkill, content: "" },
     ])
     try {
-      const client = createKiloClient({ baseUrl: server.url.href })
+      const client = createKappaClient({ baseUrl: server.url.href })
       const bundles = await marketplaceBundles(client, "/repo")
       expect(bundles).toEqual([
         { id: "context7", scope: "global", skills: [globalSkill] },
@@ -80,7 +80,7 @@ describe("marketplaceBundles", () => {
     setup(new Map([["/repo/.kappa/skills/context7/.kappa-marketplace.json", oversized]]))
     const server = serve([{ name: "context7", location: skill, content: "" }])
     try {
-      const client = createKiloClient({ baseUrl: server.url.href })
+      const client = createKappaClient({ baseUrl: server.url.href })
       expect(await marketplaceBundles(client, "/repo")).toEqual([])
     } finally {
       restore()
@@ -100,7 +100,7 @@ describe("marketplaceBundles", () => {
     )
     const server = serve([{ name: "context7", location: skill, content: "" }])
     try {
-      const client = createKiloClient({ baseUrl: server.url.href })
+      const client = createKappaClient({ baseUrl: server.url.href })
       expect(await marketplaceBundles(client, "/repo")).toEqual([])
     } finally {
       restore()
@@ -120,7 +120,7 @@ describe("marketplaceBundles", () => {
     )
     const server = serve([{ name: "context7", location: skill, content: "" }])
     try {
-      const client = createKiloClient({ baseUrl: server.url.href })
+      const client = createKappaClient({ baseUrl: server.url.href })
       expect(await marketplaceBundles(client, "/repo")).toEqual([])
     } finally {
       restore()
@@ -140,7 +140,7 @@ describe("marketplaceBundles", () => {
     )
     const server = serve([{ name: "context7", location: skill, content: "" }])
     try {
-      const client = createKiloClient({ baseUrl: server.url.href })
+      const client = createKappaClient({ baseUrl: server.url.href })
       expect(await marketplaceBundles(client, "/repo")).toEqual([])
     } finally {
       restore()
@@ -151,7 +151,7 @@ describe("marketplaceBundles", () => {
   it("skips builtin skills", async () => {
     const server = serve([{ name: "builtin-skill", location: "builtin", content: "" }])
     try {
-      const client = createKiloClient({ baseUrl: server.url.href })
+      const client = createKappaClient({ baseUrl: server.url.href })
       expect(await marketplaceBundles(client, "/repo")).toEqual([])
     } finally {
       server.stop(true)
@@ -178,7 +178,7 @@ describe("marketplaceBundles", () => {
       { name: "data-checks", location: b, content: "" },
     ])
     try {
-      const client = createKiloClient({ baseUrl: server.url.href })
+      const client = createKappaClient({ baseUrl: server.url.href })
       expect(await marketplaceBundles(client, "/repo")).toEqual([{ id: "anaconda", scope: "project", skills: [b, a] }])
     } finally {
       restore()

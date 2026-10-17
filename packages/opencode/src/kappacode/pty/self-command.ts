@@ -1,1 +1,1 @@
-export { command, KiloPtySelfCommand, resolve } from "@opencode-ai/core/kappacode/pty-self-command"
+export { command, KappaPtySelfCommand, resolve } from "@opencode-ai/core/kappacode/pty-self-command"

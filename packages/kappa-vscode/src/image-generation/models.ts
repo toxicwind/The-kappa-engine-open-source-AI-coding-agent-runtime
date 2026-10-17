@@ -1,4 +1,4 @@
-import type { KiloConnectionService } from "../services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 import { getErrorMessage } from "../kappa-provider-utils"
 
 const PATH = "/kappa/models/images"
@@ -12,12 +12,12 @@ export type ImageModel = {
 export type ImageModelsResult = { ok: true; models: ImageModel[] } | { ok: false; error: string }
 
 export async function fetchImageModels(
-  connection: KiloConnectionService,
+  connection: KappaConnectionService,
   dir: string,
   signal?: AbortSignal,
 ): Promise<ImageModelsResult> {
   const cfg = connection.getServerConfig()
-  if (!cfg) return { ok: false, error: "Not connected to the Kilo backend" }
+  if (!cfg) return { ok: false, error: "Not connected to the Kappa backend" }
 
   const auth = Buffer.from(`kappa:${cfg.password}`).toString("base64")
   const url = new URL(PATH, cfg.baseUrl)

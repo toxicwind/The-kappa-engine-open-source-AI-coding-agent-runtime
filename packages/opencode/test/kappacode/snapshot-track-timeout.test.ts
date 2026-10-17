@@ -1,6 +1,6 @@
 // kappacode_change - new file
 //
-// Unit tests for KiloSnapshotTrack.wrap — the slow-repo guard that sits
+// Unit tests for KappaSnapshotTrack.wrap — the slow-repo guard that sits
 // on top of Snapshot.track(). These tests inject fake hooks so we don't
 // touch the real Question module or write to the filesystem.
 
@@ -11,8 +11,8 @@ import { Deferred, Duration, Effect, Fiber } from "effect"
 import * as TestClock from "effect/testing/TestClock"
 import path from "path"
 import { PartID, type MessageID, type SessionID } from "../../src/session/schema"
-import { KiloSnapshotTrack } from "../../src/kappacode/snapshot/track"
-import { KiloPartLifecycle } from "../../src/kappacode/session/part-lifecycle"
+import { KappaSnapshotTrack } from "../../src/kappacode/snapshot/track"
+import { KappaPartLifecycle } from "../../src/kappacode/session/part-lifecycle"
 import { AppRuntime } from "../../src/effect/app-runtime"
 import { GlobalBus, type GlobalEvent } from "../../src/bus/global"
 import { InstanceRef } from "../../src/effect/instance-ref"
@@ -50,10 +50,10 @@ interface Calls {
 }
 
 const makeHooks = (
-  answer: KiloSnapshotTrack.Answer | Promise<KiloSnapshotTrack.Answer>,
-): { hooks: KiloSnapshotTrack.Hooks; calls: Calls } => {
+  answer: KappaSnapshotTrack.Answer | Promise<KappaSnapshotTrack.Answer>,
+): { hooks: KappaSnapshotTrack.Hooks; calls: Calls } => {
   const calls: Calls = { ask: 0, persist: 0, progress: [] }
-  const hooks: KiloSnapshotTrack.Hooks = {
+  const hooks: KappaSnapshotTrack.Hooks = {
     async ask() {
       calls.ask += 1
       return answer
@@ -74,10 +74,10 @@ const makeHooks = (
   return { hooks, calls }
 }
 
-describe("KiloSnapshotTrack.protect", () => {
+describe("KappaSnapshotTrack.protect", () => {
   it.effect("returns at the availability deadline without waiting for cancellation", () =>
     Effect.gen(function* () {
-      const state = KiloSnapshotTrack.makeState()
+      const state = KappaSnapshotTrack.makeState()
       const started = yield* Deferred.make<void>()
       const fallback = { hash: "base", files: [] as string[] }
       let finalized = false
@@ -89,7 +89,7 @@ describe("KiloSnapshotTrack.protect", () => {
           }),
         ),
       )
-      const fiber = yield* KiloSnapshotTrack.protect({
+      const fiber = yield* KappaSnapshotTrack.protect({
         inner,
         state,
         fallback,
@@ -108,10 +108,10 @@ describe("KiloSnapshotTrack.protect", () => {
 
   it.effect("bypasses later operations after a deadline opens the directory circuit", () =>
     Effect.gen(function* () {
-      const state = KiloSnapshotTrack.makeState()
+      const state = KappaSnapshotTrack.makeState()
       const started = yield* Deferred.make<void>()
       let calls = 0
-      const first = yield* KiloSnapshotTrack.protect({
+      const first = yield* KappaSnapshotTrack.protect({
         inner: Effect.sync(() => {
           calls += 1
         }).pipe(Effect.andThen(Deferred.succeed(started, undefined)), Effect.andThen(Effect.never)),
@@ -125,7 +125,7 @@ describe("KiloSnapshotTrack.protect", () => {
       yield* TestClock.adjust(100)
       expect(yield* Fiber.join(first)).toBeUndefined()
 
-      const second = yield* KiloSnapshotTrack.protect({
+      const second = yield* KappaSnapshotTrack.protect({
         inner: Effect.sync(() => {
           calls += 1
           return "unexpected"
@@ -140,7 +140,7 @@ describe("KiloSnapshotTrack.protect", () => {
   )
 
   test("keeps circuit state isolated by directory", () => {
-    const states = KiloSnapshotTrack.makeStates()
+    const states = KappaSnapshotTrack.makeStates()
     const first = states("/repo/a")
     first.disabledForSession = true
 
@@ -149,13 +149,13 @@ describe("KiloSnapshotTrack.protect", () => {
   })
 })
 
-describe("KiloSnapshotTrack.wrap", () => {
+describe("KappaSnapshotTrack.wrap", () => {
   test("returns the hash when inner resolves before the timeout", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: fastInner("fast-hash"),
         state,
         sessionID: SESSION,
@@ -173,14 +173,14 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("returns undefined immediately when already disabled", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     state.disabledForSession = true
     const { hooks, calls } = makeHooks("continue")
 
     // We pass a hang inner to prove it's never started — if the guard
     // didn't short-circuit, this test would time out.
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: hangInner(),
         state,
         sessionID: SESSION,
@@ -195,11 +195,11 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test('timeout + user answer "continue" joins the fiber and returns its value', async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(80, "finished-late"),
         state,
         sessionID: SESSION,
@@ -220,11 +220,11 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test('timeout + "disable" interrupts, persists, and flips disabledForSession', async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("disable")
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: hangInner(),
         state,
         sessionID: SESSION,
@@ -243,12 +243,12 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("disable starts snapshot cancellation before config persistence finishes", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const cancelled = Promise.withResolvers<void>()
     const persisting = Promise.withResolvers<void>()
     const persist = Promise.withResolvers<void>()
     const { hooks: base } = makeHooks("disable")
-    const hooks: KiloSnapshotTrack.Hooks = {
+    const hooks: KappaSnapshotTrack.Hooks = {
       ...base,
       async persistDisable() {
         await base.persistDisable()
@@ -265,7 +265,7 @@ describe("KiloSnapshotTrack.wrap", () => {
     )
 
     const run = Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner,
         state,
         sessionID: SESSION,
@@ -290,11 +290,11 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test('timeout + "dismissed" interrupts and disables, but does NOT persist', async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("dismissed")
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: hangInner(),
         state,
         sessionID: SESSION,
@@ -313,11 +313,11 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("timeout without sessionID skips the prompt and disables silently", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: hangInner(),
         state,
         hooks,
@@ -336,11 +336,11 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("subsequent call after disable returns undefined without starting the inner", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks: firstHooks } = makeHooks("disable")
 
     await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: hangInner(),
         state,
         sessionID: SESSION,
@@ -360,7 +360,7 @@ describe("KiloSnapshotTrack.wrap", () => {
     const { hooks: secondHooks, calls: secondCalls } = makeHooks("continue")
 
     const secondResult = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: spyingInner,
         state,
         sessionID: SESSION,
@@ -376,12 +376,12 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("second slow call after a successful continue re-asks instead of silently disabling", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     // First call: slow → ask → continue → finishes
     const first = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(80, "hash-1"),
         state,
         sessionID: SESSION,
@@ -400,7 +400,7 @@ describe("KiloSnapshotTrack.wrap", () => {
 
     // Second call: still slow → dialog again → user picks continue again → finishes
     const second = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(80, "hash-2"),
         state,
         sessionID: SESSION,
@@ -416,11 +416,11 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test('timeout + snapshot initialization "wait" keeps waiting without asking', async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("disable")
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(50, "managed-hash"),
         state,
         snapshotInitialization: "wait",
@@ -439,11 +439,11 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("concurrent timeout does not override an active continue choice", async () => {
-    const state = KiloSnapshotTrack.makeState()
-    const answer = Promise.withResolvers<KiloSnapshotTrack.Answer>()
+    const state = KappaSnapshotTrack.makeState()
+    const answer = Promise.withResolvers<KappaSnapshotTrack.Answer>()
     const asked = Promise.withResolvers<void>()
     const { hooks, calls } = makeHooks(answer.promise)
-    const firstHooks: KiloSnapshotTrack.Hooks = {
+    const firstHooks: KappaSnapshotTrack.Hooks = {
       ...hooks,
       async ask(input) {
         asked.resolve()
@@ -452,7 +452,7 @@ describe("KiloSnapshotTrack.wrap", () => {
     }
 
     const first = Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(80, "first-hash"),
         state,
         sessionID: SESSION,
@@ -466,7 +466,7 @@ describe("KiloSnapshotTrack.wrap", () => {
     answer.resolve("continue")
 
     const second = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: hangInner(),
         state,
         sessionID: SESSION,
@@ -486,10 +486,10 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("cleanup does not clear a newer prompt owner", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const replacement = Symbol()
     const { hooks: base } = makeHooks("continue")
-    const hooks: KiloSnapshotTrack.Hooks = {
+    const hooks: KappaSnapshotTrack.Hooks = {
       ...base,
       async endProgress(input) {
         state.owner = replacement
@@ -498,7 +498,7 @@ describe("KiloSnapshotTrack.wrap", () => {
     }
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(80, "continued-hash"),
         state,
         sessionID: SESSION,
@@ -515,7 +515,7 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("continue path keeps `asked` sticky when the fiber finished with no hash", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     // Simulate the fiber eventually completing but with no hash (e.g.
@@ -527,7 +527,7 @@ describe("KiloSnapshotTrack.wrap", () => {
       () => new Promise<string | undefined>((resolve) => setTimeout(() => resolve(undefined), 80)),
     )
     const first = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: noHashInner,
         state,
         sessionID: SESSION,
@@ -543,7 +543,7 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 
   test("inner typed failure is caught and returned as undefined", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     // Typed failure — mirrors how the real inner `track()` fails, which is
@@ -551,7 +551,7 @@ describe("KiloSnapshotTrack.wrap", () => {
     // (e.g. rejected Promises without Effect.tryPromise) are NOT caught; they
     // propagate and surface as test failures.
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: failingInner(new Error("boom")),
         state,
         sessionID: SESSION,
@@ -567,9 +567,9 @@ describe("KiloSnapshotTrack.wrap", () => {
   })
 })
 
-describe("KiloSnapshotTrack progress indicator", () => {
+describe("KappaSnapshotTrack progress indicator", () => {
   test("classifies persisted progress as transient", () => {
-    const part = KiloSnapshotTrack.progressPart({
+    const part = KappaSnapshotTrack.progressPart({
       sessionID: SESSION,
       messageID: MESSAGE,
       partID: PartID.make("prt_test"),
@@ -577,7 +577,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
     })
 
     expect(part.synthetic).toBe(true)
-    expect(KiloPartLifecycle.transient(part)).toBe(true)
+    expect(KappaPartLifecycle.transient(part)).toBe(true)
   })
 
   // Strip the braille spinner frame (first Unicode codepoint, plus the
@@ -586,11 +586,11 @@ describe("KiloSnapshotTrack progress indicator", () => {
   const withoutFrame = (text: string) => text.replace(/^[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏]\s/, "")
 
   test("fast path does NOT publish a progress message (avoids UI flash)", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: fastInner("hash"),
         state,
         sessionID: SESSION,
@@ -605,11 +605,11 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("slow-but-succeeding path (under timeout) starts then ends the indicator", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(200, "late-hash"),
         state,
         sessionID: SESSION,
@@ -626,7 +626,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
 
     const firstText = events.at(0) as Extract<(typeof events)[number], { text: string }>
     expect(withoutFrame(firstText.text)).toBe(
-      KiloSnapshotTrack.formatProgress(KiloSnapshotTrack.PROGRESS_INITIALIZING, "").trim(),
+      KappaSnapshotTrack.formatProgress(KappaSnapshotTrack.PROGRESS_INITIALIZING, "").trim(),
     )
 
     // Every "update" event is just an animation tick of the same label — we
@@ -635,16 +635,16 @@ describe("KiloSnapshotTrack progress indicator", () => {
     for (const evt of events) {
       if (evt.kind !== "update") continue
       expect(withoutFrame(evt.text)).toBe(
-        KiloSnapshotTrack.formatProgress(KiloSnapshotTrack.PROGRESS_INITIALIZING, "").trim(),
+        KappaSnapshotTrack.formatProgress(KappaSnapshotTrack.PROGRESS_INITIALIZING, "").trim(),
       )
     }
   })
 
   test("failed progress publication does not start update retries", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks: base } = makeHooks("continue")
     let updates = 0
-    const hooks: KiloSnapshotTrack.Hooks = {
+    const hooks: KappaSnapshotTrack.Hooks = {
       ...base,
       async startProgress() {
         throw new Error("session service unavailable")
@@ -655,7 +655,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
     }
 
     const result = await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(300, "hash"),
         state,
         sessionID: SESSION,
@@ -671,11 +671,11 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("timed-out path keeps the initializing label (no text escalation)", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(800, "late-hash"),
         state,
         sessionID: SESSION,
@@ -693,7 +693,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
     // After the timeout trips, the label should stay on PROGRESS_INITIALIZING.
     // Every emitted event carries the same descriptive text modulo spinner
     // frame, proving we never escalated to a second template.
-    const base = KiloSnapshotTrack.formatProgress(KiloSnapshotTrack.PROGRESS_INITIALIZING, "").trim()
+    const base = KappaSnapshotTrack.formatProgress(KappaSnapshotTrack.PROGRESS_INITIALIZING, "").trim()
     for (const evt of events) {
       if (!("text" in evt)) continue
       expect(withoutFrame(evt.text)).toBe(base)
@@ -701,11 +701,11 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("disable path removes the indicator before returning", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("disable")
 
     await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: hangInner(),
         state,
         sessionID: SESSION,
@@ -720,7 +720,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test.each(["disable", "dismissed"] as const)("%s path does not wait for snapshot cleanup", async (answer) => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks(answer)
     const cleaning = Promise.withResolvers<void>()
     const cleanup = Promise.withResolvers<void>()
@@ -734,7 +734,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
     )
 
     const run = Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner,
         state,
         sessionID: SESSION,
@@ -764,13 +764,13 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("stalled progress removal does not block completion and is retried", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks: base, calls } = makeHooks("continue")
     const started = Promise.withResolvers<void>()
     const ended = Promise.withResolvers<void>()
     const snapshot = Promise.withResolvers<string | undefined>()
     let attempts = 0
-    const hooks: KiloSnapshotTrack.Hooks = {
+    const hooks: KappaSnapshotTrack.Hooks = {
       ...base,
       async startProgress(input) {
         await base.startProgress(input)
@@ -790,7 +790,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
     }
 
     const run = Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: Effect.promise(() => snapshot.promise),
         state,
         sessionID: SESSION,
@@ -823,14 +823,14 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("pending progress publication is removed after the snapshot finishes", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks: base, calls } = makeHooks("continue")
     const started = Promise.withResolvers<void>()
     const publish = Promise.withResolvers<void>()
     const ended = Promise.withResolvers<void>()
     const snapshot = Promise.withResolvers<string | undefined>()
     let ends = 0
-    const hooks: KiloSnapshotTrack.Hooks = {
+    const hooks: KappaSnapshotTrack.Hooks = {
       ...base,
       async startProgress(input) {
         calls.progress.push({ kind: "start", text: input.text })
@@ -845,7 +845,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
     }
 
     const run = Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: Effect.promise(() => snapshot.promise),
         state,
         sessionID: SESSION,
@@ -866,14 +866,14 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("in-flight progress updates cannot recreate a removed indicator", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks: base, calls } = makeHooks("continue")
     const updating = Promise.withResolvers<void>()
     const update = Promise.withResolvers<void>()
     const ended = Promise.withResolvers<void>()
     const snapshot = Promise.withResolvers<string | undefined>()
     let ends = 0
-    const hooks: KiloSnapshotTrack.Hooks = {
+    const hooks: KappaSnapshotTrack.Hooks = {
       ...base,
       async updateProgress(input) {
         updating.resolve()
@@ -888,7 +888,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
     }
 
     const run = Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: Effect.promise(() => snapshot.promise),
         state,
         sessionID: SESSION,
@@ -909,11 +909,11 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("missing messageID suppresses the indicator even when slow", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(150, "hash"),
         state,
         sessionID: SESSION,
@@ -928,12 +928,12 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 
   test("frames cycle through the braille spinner set while animating", async () => {
-    const state = KiloSnapshotTrack.makeState()
+    const state = KappaSnapshotTrack.makeState()
     const { hooks, calls } = makeHooks("continue")
 
     // Run long enough to get multiple animation ticks.
     await Effect.runPromise(
-      KiloSnapshotTrack.wrap({
+      KappaSnapshotTrack.wrap({
         inner: slowInner(500, "hash"),
         state,
         sessionID: SESSION,
@@ -957,7 +957,7 @@ describe("KiloSnapshotTrack progress indicator", () => {
   })
 })
 
-describe("KiloSnapshotTrack default hooks", () => {
+describe("KappaSnapshotTrack default hooks", () => {
   it.instance(
     "preserves the instance directory for real session progress events",
     () =>
@@ -1004,9 +1004,9 @@ describe("KiloSnapshotTrack default hooks", () => {
           }),
         )
 
-        const result = yield* KiloSnapshotTrack.wrap({
+        const result = yield* KappaSnapshotTrack.wrap({
           inner: slowInner(350, "progress-hash"),
-          state: KiloSnapshotTrack.makeState(),
+          state: KappaSnapshotTrack.makeState(),
           sessionID: session.id,
           messageID: message.id,
           timeoutMs: 1_000,
@@ -1026,15 +1026,15 @@ describe("KiloSnapshotTrack default hooks", () => {
   )
 })
 
-describe("KiloSnapshotTrack persistDisable", () => {
+describe("KappaSnapshotTrack persistDisable", () => {
   it.instance(
     "disable writes snapshot:false to the project config",
     () =>
       Effect.gen(function* () {
         const test = yield* TestInstance
-        const state = KiloSnapshotTrack.makeState()
-        const hooks: KiloSnapshotTrack.Hooks = {
-          ...KiloSnapshotTrack.defaultHooks,
+        const state = KappaSnapshotTrack.makeState()
+        const hooks: KappaSnapshotTrack.Hooks = {
+          ...KappaSnapshotTrack.defaultHooks,
           async ask() {
             return "disable"
           },
@@ -1043,7 +1043,7 @@ describe("KiloSnapshotTrack persistDisable", () => {
           async endProgress() {},
         }
 
-        yield* KiloSnapshotTrack.wrap({
+        yield* KappaSnapshotTrack.wrap({
           inner: hangInner(),
           state,
           sessionID: SESSION,
@@ -1062,21 +1062,21 @@ describe("KiloSnapshotTrack persistDisable", () => {
   )
 
   test("persistDisable without instance context does not throw", async () => {
-    await KiloSnapshotTrack.defaultHooks.persistDisable()
+    await KappaSnapshotTrack.defaultHooks.persistDisable()
   })
 })
 
-describe("KiloSnapshotTrack constants", () => {
+describe("KappaSnapshotTrack constants", () => {
   test("TIMEOUT_MS defaults to 10s and respects env override", () => {
     // The constant is evaluated once at module load, so we can only assert
     // on the default in this run. The env override is exercised by running
     // with KILO_SNAPSHOT_TRACK_TIMEOUT_MS, which this test suite does not set.
-    expect(KiloSnapshotTrack.TIMEOUT_MS).toBe(10_000)
+    expect(KappaSnapshotTrack.TIMEOUT_MS).toBe(10_000)
   })
 
   test("exposes stable answer labels", () => {
-    expect(KiloSnapshotTrack.ANSWER_CONTINUE).toBe("Continue with snapshots")
-    expect(KiloSnapshotTrack.ANSWER_DISABLE).toBe("Disable for this project")
+    expect(KappaSnapshotTrack.ANSWER_CONTINUE).toBe("Continue with snapshots")
+    expect(KappaSnapshotTrack.ANSWER_DISABLE).toBe("Disable for this project")
   })
 })
 

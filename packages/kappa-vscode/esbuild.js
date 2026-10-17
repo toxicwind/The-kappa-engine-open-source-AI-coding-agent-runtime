@@ -306,10 +306,10 @@ const esbuildProblemMatcherPlugin = {
 
 /**
  * Route the shared `@opencode-ai/ui/pierre/worker` module (and its relative
- * variants) to the Kilo implementation in `webview-ui/pierre-worker.ts`.
+ * variants) to the Kappa implementation in `webview-ui/pierre-worker.ts`.
  *
  * The upstream module loads Pierre's Shiki worker via a Vite-only
- * `?worker&url` import that esbuild can't resolve. The Kilo replacement loads
+ * `?worker&url` import that esbuild can't resolve. The Kappa replacement loads
  * the worker from the bundled `dist/shiki-worker.js` asset instead, so syntax
  * highlighting runs off the main thread. `@pierre/diffs/worker` (used by that
  * replacement) is left alone.
@@ -512,7 +512,7 @@ function notices() {
 
 /**
  * The DotLottie player defaults to a CDN for its WASM renderer. Ship the copy from
- * `@lottiefiles/dotlottie-web` next to the webview bundles so the animated Kilo logo never
+ * `@lottiefiles/dotlottie-web` next to the webview bundles so the animated Kappa logo never
  * reaches the network (the webview CSP blocks it anyway).
  */
 function wasm() {

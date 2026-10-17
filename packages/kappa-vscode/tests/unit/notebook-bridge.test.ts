@@ -1,7 +1,7 @@
 import { describe, expect, it, mock } from "bun:test"
 import type { NotebookRequest } from "@kappacode/sdk/v2/client"
 import * as vscode from "vscode"
-import { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 import type { SSEPayload } from "../../src/services/cli-backend/sdk-sse-adapter"
 import { NotebookBridge, type NotebookBridgeContext } from "../../src/services/notebook/bridge"
 import { NotebookError } from "../../src/services/notebook/path"
@@ -38,7 +38,7 @@ function harness(context: NotebookBridgeContext, dirs = ["/repo"]) {
     state?: (state: "connecting" | "connected" | "disconnected" | "error") => void
   } = {}
   const client = {
-    kilocode: {
+    kappacode: {
       notebook: {
         list: async ({ directory }: { directory?: string }) => ({ data: lists.get(directory ?? "") ?? [] }),
         reply: async (input: unknown) => {
@@ -72,14 +72,14 @@ function harness(context: NotebookBridgeContext, dirs = ["/repo"]) {
   const bridge = new NotebookBridge(connection as never, { create, canonical: async (directory) => directory })
   const request = (value: NotebookRequest = read, directory = "/repo") =>
     handlers.event?.(
-      { id: `event-${value.id}`, type: "kilocode.notebook.requested", properties: value } as SSEPayload,
+      { id: `event-${value.id}`, type: "kappacode.notebook.requested", properties: value } as SSEPayload,
       directory,
     )
   const cancel = (id = read.id, directory = "/repo") =>
     handlers.event?.(
       {
         id: `cancel-${id}`,
-        type: "kilocode.notebook.cancelled",
+        type: "kappacode.notebook.cancelled",
         properties: { requestID: id, sessionID: "session-1", reason: "cancelled" },
       } as SSEPayload,
       directory,
@@ -300,14 +300,14 @@ describe("NotebookBridge", () => {
   })
 })
 
-describe("KiloConnectionService notebook directories", () => {
+describe("KappaConnectionService notebook directories", () => {
   it("tracks the workspace root, current request directory, and provider directories", async () => {
     const descriptor = Object.getOwnPropertyDescriptor(vscode.workspace, "workspaceFolders")
     Object.defineProperty(vscode.workspace, "workspaceFolders", {
       configurable: true,
       value: [{ uri: { fsPath: "/root" } }],
     })
-    const service = new KiloConnectionService({} as vscode.ExtensionContext)
+    const service = new KappaConnectionService({} as vscode.ExtensionContext)
     const internals = service as unknown as { client: object; state: string }
     internals.client = {}
     internals.state = "connected"

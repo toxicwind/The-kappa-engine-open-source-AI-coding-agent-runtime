@@ -1,23 +1,23 @@
 ---
 title: "Memory"
-description: "Store useful project details that Kilo remembers across sessions"
+description: "Store useful project details that Kappa remembers across sessions"
 ---
 
 # Memory
 
-Kilo Memory lets Kilo remember useful details about a project across sessions, so you do not have to repeat decisions, constraints, environment setup, or corrections. It is opt-in and scoped to one project.
+Kappa Memory lets Kappa remember useful details about a project across sessions, so you do not have to repeat decisions, constraints, environment setup, or corrections. It is opt-in and scoped to one project.
 
 {% callout type="info" title="Opt-in and project-only" %}
-Memory is disabled by default. Enable it per project. Kilo stores project memory only; personal or user-level memory is not supported.
+Memory is disabled by default. Enable it per project. Kappa stores project memory only; personal or user-level memory is not supported.
 {% /callout %}
 
 {% callout type="note" title="Not the deprecated Memory Bank" %}
-Kilo Memory is separate from the deprecated **memory bank**. The memory bank used rule files under `.kappa/rules/memory-bank/` and is replaced by [AGENTS.md](/docs/customize/agents-md). 
+Kappa Memory is separate from the deprecated **memory bank**. The memory bank used rule files under `.kappa/rules/memory-bank/` and is replaced by [AGENTS.md](/docs/customize/agents-md). 
 {% /callout %}
 
 ## What memory stores
 
-Kilo keeps memory in three Markdown source files plus saved session digests:
+Kappa keeps memory in three Markdown source files plus saved session digests:
 
 | Source | Contains |
 |---|---|
@@ -28,9 +28,9 @@ Kilo keeps memory in three Markdown source files plus saved session digests:
 
 Each entry is a saved key-value note. Memory is saved per repository, so linked git worktrees share the same project memory.
 
-These files live in a per-project folder under Kilo's global data directory: `<data>/memory/<project-slug>-<sha1-12>/`. On typical systems `<data>` is `~/.local/share/kappa` (respecting `XDG_DATA_HOME` if set), so the folder is `~/.local/share/kappa/memory/<project-slug>-<sha1-12>/`. 
+These files live in a per-project folder under Kappa's global data directory: `<data>/memory/<project-slug>-<sha1-12>/`. On typical systems `<data>` is `~/.local/share/kappa` (respecting `XDG_DATA_HOME` if set), so the folder is `~/.local/share/kappa/memory/<project-slug>-<sha1-12>/`. 
 
-Alongside the three source files, the folder holds a `sessions/` directory with saved session digest Markdown files, plus internal index and state files that Kilo manages automatically and that you should not edit by hand.
+Alongside the three source files, the folder holds a `sessions/` directory with saved session digest Markdown files, plus internal index and state files that Kappa manages automatically and that you should not edit by hand.
 
 ## Enable memory
 
@@ -39,7 +39,7 @@ Alongside the three source files, the folder holds a `sessions/` directory with 
 
 Enable project memory in **Settings → Context** with the **Project memory** switch. The same section shows the storage location, an **Inspect** button, and an **Auto-save project memory** switch.
 
-You can also run `/memory on` in chat, or use the Command Palette command **Kilo Code: Toggle Project Memory**.
+You can also run `/memory on` in chat, or use the Command Palette command **Kappa Code: Toggle Project Memory**.
 
 {% /tab %}
 {% tab label="CLI" %}
@@ -55,12 +55,12 @@ Run `/memory on` in the TUI. The Memory row in the sidebar shows the current sta
 
 ## Automatic memory (auto-save)
 
-When memory is enabled and auto-save is on, Kilo reviews completed turns and saves project facts and session digests automatically. Auto-save is on by default.
+When memory is enabled and auto-save is on, Kappa reviews completed turns and saves project facts and session digests automatically. Auto-save is on by default.
 
 - Auto-save sends best-effort-redacted turn context to your configured model provider. Disable it with `/memory auto off` or the **Auto-save project memory** switch.
 - Automatic saves only add or update memory. They never delete it.
 - Secret-like content is filtered before it is written. Session digests are redacted, and project memory entries that match common secret patterns are discarded.
-- Kilo throttles auto-save, so not every turn triggers a save.
+- Kappa throttles auto-save, so not every turn triggers a save.
 
 Explicit saves are not throttled.
 
@@ -86,18 +86,18 @@ Use explicit commands when you want to control what is stored:
 | `/memory correct <text>` | Save a correction to project memory |
 | `/memory forget <query>` | Remove matching project memory |
 
-Kilo can also manage memory itself through two tools:
+Kappa can also manage memory itself through two tools:
 
 | Tool | Purpose |
 |---|---|
-| `kilo_memory_save` | Save, correct, or forget memory when you ask Kilo to remember or update something |
+| `kilo_memory_save` | Save, correct, or forget memory when you ask Kappa to remember or update something |
 | `kilo_memory_recall` | Search saved memory for details that are not in the injected index |
 
 Both tools ask for approval by default. Recall can be allowed always; saving asks each time.
 
 ## How memory is used
 
-At the start of a session, Kilo injects a compact memory index that summarizes what is stored. The index is a summary, not the full memory store, so Kilo can call `kilo_memory_recall` to fetch exact details on demand.
+At the start of a session, Kappa injects a compact memory index that summarizes what is stored. The index is a summary, not the full memory store, so Kappa can call `kilo_memory_recall` to fetch exact details on demand.
 
 Recall supports four modes:
 
@@ -130,7 +130,7 @@ The `/memory` command is also available as `/mem`.
 
 ## Storage and maintenance
 
-Kilo stores project memory outside your repository, under Kilo's global data directory in a per-project folder (see [What memory stores](#what-memory-stores)). Run `/memory inspect` to reveal the exact folder for the current project.
+Kappa stores project memory outside your repository, under Kappa's global data directory in a per-project folder (see [What memory stores](#what-memory-stores)). Run `/memory inspect` to reveal the exact folder for the current project.
 
 - **Rebuild** regenerates the memory index from the source files. Use it if the index looks stale or incomplete.
 - **Purge** permanently deletes all project memory files. It requires the explicit `confirm` argument: `/memory purge confirm`.

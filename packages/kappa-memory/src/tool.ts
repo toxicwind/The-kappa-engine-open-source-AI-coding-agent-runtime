@@ -100,7 +100,7 @@ export namespace MemoryTool {
 
   export function error(action: "recall" | "save", err: unknown): Result {
     return {
-      title: "Kilo memory: error",
+      title: "Kappa memory: error",
       output: MemoryError.toToolOutput(err, action),
       metadata: { sources: [], ...(action === "recall" ? { count: 0 } : {}) },
     }
@@ -108,8 +108,8 @@ export namespace MemoryTool {
 
   function disabled(count = false): Result {
     return {
-      title: "Kilo memory: disabled",
-      output: "Kilo memory is disabled for this project.",
+      title: "Kappa memory: disabled",
+      output: "Kappa memory is disabled for this project.",
       metadata: { sources: [], ...(count ? { count: 0 } : {}) },
     }
   }
@@ -184,7 +184,7 @@ export namespace MemoryTool {
         lines.push(`## sessions`, ...sessionRows)
         count += sessionRows.length
       }
-      const head = `# Kilo Memory Catalog (${count} entr${count === 1 ? "y" : "ies"}${filter ? `, filter "${input.query}"` : ""})`
+      const head = `# Kappa Memory Catalog (${count} entr${count === 1 ? "y" : "ies"}${filter ? `, filter "${input.query}"` : ""})`
       const body = [head, ...lines].join("\n")
       const output =
         Buffer.byteLength(body) > CATALOG_MAX_BYTES
@@ -213,7 +213,7 @@ export namespace MemoryTool {
       const safe = { ...result, output: block(result.output) }
       yield* input.memory.recordRecall({ root: live.root, sessionID: live.current, now: Date.now(), count: result.count })
       return {
-        title: `Kilo memory catalog: ${result.count} entr${result.count === 1 ? "y" : "ies"}`,
+        title: `Kappa memory catalog: ${result.count} entr${result.count === 1 ? "y" : "ies"}`,
         output: safe.output,
         metadata: { sources: result.files, count: result.count },
       } satisfies Result
@@ -223,7 +223,7 @@ export namespace MemoryTool {
   function recallQuery(input: Recall, live: Live) {
     return Effect.succeed(
       {
-        title: `Kilo memory ${input.params.mode}: no query`,
+        title: `Kappa memory ${input.params.mode}: no query`,
         output: "Provide a topic query for typed/search memory recall.",
         metadata: { sources: [], count: 0 },
       } satisfies Result,
@@ -248,14 +248,14 @@ export namespace MemoryTool {
 
       if (hits.length === 0) {
         return {
-          title: `Kilo memory ${input.params.mode}: no results`,
+          title: `Kappa memory ${input.params.mode}: no results`,
           output,
           metadata: { sources: [], count: 0 },
         } satisfies Result
       }
 
       return {
-        title: `Kilo memory ${input.params.mode}: ${hits.length} hit${hits.length === 1 ? "" : "s"}`,
+        title: `Kappa memory ${input.params.mode}: ${hits.length} hit${hits.length === 1 ? "" : "s"}`,
         output,
         metadata: { sources: [...new Set(hits.map((hit) => hit.source))], count: hits.length },
       } satisfies Result
@@ -295,7 +295,7 @@ export namespace MemoryTool {
 
   function noQuery(): Result {
     return {
-      title: "Kilo memory forget: no query",
+      title: "Kappa memory forget: no query",
       output: "Provide a key, id, or query text to forget.",
       metadata: { sources: [] },
     }
@@ -303,7 +303,7 @@ export namespace MemoryTool {
 
   function noText(action: SaveParams["action"]): Result {
     return {
-      title: `Kilo memory ${action}: no text`,
+      title: `Kappa memory ${action}: no text`,
       output: `Provide text to ${action}.`,
       metadata: { sources: [] },
     }
@@ -397,12 +397,12 @@ export namespace MemoryTool {
   }
 
   function title(input: { action: SaveParams["action"]; added: number; removed: number }) {
-    if (input.action === "skip") return "Kilo memory skipped: out of scope"
-    if (input.action === "forget") return `Kilo memory updated: ${input.removed} removed`
-    if (input.added === 0) return "Kilo memory unchanged"
+    if (input.action === "skip") return "Kappa memory skipped: out of scope"
+    if (input.action === "forget") return `Kappa memory updated: ${input.removed} removed`
+    if (input.added === 0) return "Kappa memory unchanged"
     if (input.action === "correct")
-      return `Kilo memory correction saved: ${input.added} op${input.added === 1 ? "" : "s"}`
-    return `Kilo memory saved: ${input.added} op${input.added === 1 ? "" : "s"}`
+      return `Kappa memory correction saved: ${input.added} op${input.added === 1 ? "" : "s"}`
+    return `Kappa memory saved: ${input.added} op${input.added === 1 ? "" : "s"}`
   }
 
   function output(input: {

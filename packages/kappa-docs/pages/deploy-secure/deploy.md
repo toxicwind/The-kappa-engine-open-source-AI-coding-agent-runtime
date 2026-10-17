@@ -1,15 +1,15 @@
 ---
 title: "Deploy"
-description: "Deploy your applications with Kilo Code"
+description: "Deploy your applications with Kappa Code"
 ---
 
 # Deploy
 
 {% partial file="deploy-eol.md" /%}
 
-Kilo Deploy lets you ship **Next.js** and **static sites** directly from Kilo Code, with:
+Kappa Deploy lets you ship **Next.js** and **static sites** directly from Kappa Code, with:
 
-- **One-click deployment** from the Kilo Code dashboard
+- **One-click deployment** from the Kappa Code dashboard
 - **No manual configuration** — deployment settings are generated for you
 - **Deployment history** with logs and build details
 - **Automatic rebuilds** on every GitHub push
@@ -33,7 +33,7 @@ Kilo Deploy lets you ship **Next.js** and **static sites** directly from Kilo Co
 Enable the **GitHub Integration** before deploying:
 
 1. Go to **Integrations → GitHub**
-2. Click **Configure** and follow the prompts to connect GitHub to Kilo Code
+2. Click **Configure** and follow the prompts to connect GitHub to Kappa Code
 
 ---
 
@@ -54,7 +54,7 @@ Enable the **GitHub Integration** before deploying:
 
 ### 3. Click **Deploy**
 
-Kilo Code will:
+Kappa Code will:
 
 - Build your project
 - Upload artifacts
@@ -85,13 +85,13 @@ From the deployment details, you can:
 
 ## Database Support
 
-Kilo Deploy does **not** include built-in database hosting, but you can connect to any external database service.
+Kappa Deploy does **not** include built-in database hosting, but you can connect to any external database service.
 
 ---
 
 ## Environment Variables
 
-Kilo Deploy supports Environment Variables and Secrets. Add the variable **key** and **value** during the **Create New Deployment** step, and toggle to mark as secrets.
+Kappa Deploy supports Environment Variables and Secrets. Add the variable **key** and **value** during the **Create New Deployment** step, and toggle to mark as secrets.
 
 ## Common Use Cases
 

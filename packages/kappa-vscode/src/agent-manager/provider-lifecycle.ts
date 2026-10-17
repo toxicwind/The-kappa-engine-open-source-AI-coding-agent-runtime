@@ -1,4 +1,4 @@
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import { getErrorMessage } from "../kappa-provider-utils"
 import { isRunningStatus } from "../session-status"
 import type { AgentManagerOutMessage } from "./types"
@@ -129,9 +129,9 @@ export interface LifecycleHost {
   stopDiffs: (path: string, orphaned: ManagedSession[]) => void
   capture: (event: string, props: Record<string, unknown>) => void
   autoName: () => { enabled: boolean }
-  client: () => KiloClient
+  client: () => KappaClient
   acquirePtyCleanup: (directory: string) => Promise<() => void>
-  metadata: (client: KiloClient, dir: string) => Promise<Record<string, unknown>>
+  metadata: (client: KappaClient, dir: string) => Promise<Record<string, unknown>>
   post: (message: AgentManagerOutMessage) => void
   notify: (message: string) => void
   log: (...args: unknown[]) => void
@@ -242,7 +242,7 @@ export async function createLifecycleWorktree(
 /** Remove a worktree's snapshot repository. Teardown must still complete if removal fails. */
 export async function removeWorktreeSnapshot(host: LifecycleHost, root: string, dir: string): Promise<boolean> {
   try {
-    await host.client().kilocode.removeSnapshot({ directory: root, worktree: dir }, { throwOnError: true })
+    await host.client().kappacode.removeSnapshot({ directory: root, worktree: dir }, { throwOnError: true })
     return true
   } catch (error) {
     host.log(`Failed to remove worktree snapshots: ${error}`)
@@ -252,7 +252,7 @@ export async function removeWorktreeSnapshot(host: LifecycleHost, root: string, 
 
 /** Re-home sessions to the project root so they stay reachable under Local. Never rejects. */
 async function moveSessionsToRoot(
-  client: KiloClient,
+  client: KappaClient,
   host: LifecycleHost,
   root: string,
   ids: Iterable<string>,
@@ -292,7 +292,7 @@ export async function deleteLifecycleWorktree(
   }
   const managed = state.getSessions(worktreeId)
   const retained = new Set(managed.map((session) => session.id))
-  let client: KiloClient
+  let client: KappaClient
   try {
     client = host.client()
     const [status, permissions, questions, sessions] = await Promise.all([
@@ -489,7 +489,7 @@ export async function addSessionToLifecycleWorktree(
   worktreeId: string,
   sessionId?: string,
 ): Promise<null> {
-  let client: KiloClient
+  let client: KappaClient
   try {
     client = host.client()
   } catch (err) {

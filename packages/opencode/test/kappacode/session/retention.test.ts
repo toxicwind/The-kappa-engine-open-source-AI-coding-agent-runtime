@@ -15,7 +15,7 @@ import { SessionProjector } from "@opencode-ai/core/session/projector"
 import { Config } from "../../../src/config/config"
 import { Session } from "../../../src/session/session"
 import { SessionID, MessageID, PartID } from "../../../src/session/schema"
-import { KiloSessionRetention } from "../../../src/kappacode/session/retention"
+import { KappaSessionRetention } from "../../../src/kappacode/session/retention"
 import { RetentionStatus } from "../../../src/kappacode/server/httpapi/groups/kappacode"
 import { testInstanceStoreLayer } from "../../fixture/fixture"
 import { awaitWithTimeout, testEffect } from "../../lib/effect"
@@ -74,34 +74,34 @@ it("retention HTTP status accepts idle and individual-session progress", () => {
 function session(
   id: string,
   ageDays: number,
-  overrides: Partial<KiloSessionRetention.Row> = {},
-): KiloSessionRetention.Row {
+  overrides: Partial<KappaSessionRetention.Row> = {},
+): KappaSessionRetention.Row {
   return {
     id,
-    updated: NOW - ageDays * KiloSessionRetention.DAY_MS,
+    updated: NOW - ageDays * KappaSessionRetention.DAY_MS,
     ...overrides,
   }
 }
 
 describe("clampDays", () => {
   it("accepts whole days at or above one", () => {
-    expect(KiloSessionRetention.clampDays(1, 30)).toBe(1)
-    expect(KiloSessionRetention.clampDays(45, 30)).toBe(45)
+    expect(KappaSessionRetention.clampDays(1, 30)).toBe(1)
+    expect(KappaSessionRetention.clampDays(45, 30)).toBe(45)
   })
 
   it("rejects fractional and invalid input, falling back", () => {
-    expect(KiloSessionRetention.clampDays(7.9, 30)).toBe(30)
-    expect(KiloSessionRetention.clampDays(0, 30)).toBe(30)
-    expect(KiloSessionRetention.clampDays(-5, 7)).toBe(7)
-    expect(KiloSessionRetention.clampDays(Number.NaN, 30)).toBe(30)
-    expect(KiloSessionRetention.clampDays("30", 30)).toBe(30)
-    expect(KiloSessionRetention.clampDays(undefined, 7)).toBe(7)
+    expect(KappaSessionRetention.clampDays(7.9, 30)).toBe(30)
+    expect(KappaSessionRetention.clampDays(0, 30)).toBe(30)
+    expect(KappaSessionRetention.clampDays(-5, 7)).toBe(7)
+    expect(KappaSessionRetention.clampDays(Number.NaN, 30)).toBe(30)
+    expect(KappaSessionRetention.clampDays("30", 30)).toBe(30)
+    expect(KappaSessionRetention.clampDays(undefined, 7)).toBe(7)
   })
 })
 
 describe("expiredRoots", () => {
-  const run = (rows: KiloSessionRetention.Row[], busy: string[] = []) =>
-    KiloSessionRetention.expiredRoots(rows, { maxAgeDays: 30, busy: new Set(busy), now: NOW })
+  const run = (rows: KappaSessionRetention.Row[], busy: string[] = []) =>
+    KappaSessionRetention.expiredRoots(rows, { maxAgeDays: 30, busy: new Set(busy), now: NOW })
 
   it("expires regular sessions past the retention, keeps fresh ones", () => {
     const result = run([session("fresh", 5), session("old", 31)])
@@ -207,12 +207,12 @@ describe("expiredRoots", () => {
 
 describe("policy", () => {
   it("defaults to disabled at 30 days and clamps configured values", () => {
-    expect(KiloSessionRetention.policy(undefined)).toEqual({ enabled: false, maxAgeDays: 30 })
-    expect(KiloSessionRetention.policy({ retention: { enabled: true, maxAgeDays: 7.5 } })).toEqual({
+    expect(KappaSessionRetention.policy(undefined)).toEqual({ enabled: false, maxAgeDays: 30 })
+    expect(KappaSessionRetention.policy({ retention: { enabled: true, maxAgeDays: 7.5 } })).toEqual({
       enabled: true,
       maxAgeDays: 30,
     })
-    expect(KiloSessionRetention.policy({ retention: { enabled: true, maxAgeDays: 14 } })).toEqual({
+    expect(KappaSessionRetention.policy({ retention: { enabled: true, maxAgeDays: 14 } })).toEqual({
       enabled: true,
       maxAgeDays: 14,
     })
@@ -220,8 +220,8 @@ describe("policy", () => {
 })
 
 describe("shouldRun", () => {
-  const active: KiloSessionRetention.Policy = { enabled: true, maxAgeDays: 30 }
-  const state = (msAgo: number): KiloSessionRetention.State => ({
+  const active: KappaSessionRetention.Policy = { enabled: true, maxAgeDays: 30 }
+  const state = (msAgo: number): KappaSessionRetention.State => ({
     at: NOW - msAgo,
     scanned: 1,
     deleted: 1,
@@ -232,28 +232,28 @@ describe("shouldRun", () => {
   const HOUR = 3_600_000
 
   it("refuses every pass, forced or not, while the policy is disabled", () => {
-    const off: KiloSessionRetention.Policy = { enabled: false, maxAgeDays: 30 }
-    expect(KiloSessionRetention.shouldRun(off, {}, state(10 * 24 * HOUR), NOW)).toEqual({
+    const off: KappaSessionRetention.Policy = { enabled: false, maxAgeDays: 30 }
+    expect(KappaSessionRetention.shouldRun(off, {}, state(10 * 24 * HOUR), NOW)).toEqual({
       ok: false,
       reason: "disabled",
     })
-    expect(KiloSessionRetention.shouldRun(off, { force: true }, null, NOW)).toEqual({
+    expect(KappaSessionRetention.shouldRun(off, { force: true }, null, NOW)).toEqual({
       ok: false,
       reason: "disabled",
     })
   })
 
   it("waits out the spacing window for scheduled passes", () => {
-    expect(KiloSessionRetention.shouldRun(active, {}, state(10 * HOUR), NOW)).toEqual({
+    expect(KappaSessionRetention.shouldRun(active, {}, state(10 * HOUR), NOW)).toEqual({
       ok: false,
       reason: "recent",
     })
-    expect(KiloSessionRetention.shouldRun(active, {}, state(24 * HOUR), NOW)).toEqual({ ok: true })
+    expect(KappaSessionRetention.shouldRun(active, {}, state(24 * HOUR), NOW)).toEqual({ ok: true })
   })
 
   it("lets a forced pass through once enabled, and a fresh policy with no prior state", () => {
-    expect(KiloSessionRetention.shouldRun(active, { force: true }, state(10 * HOUR), NOW)).toEqual({ ok: true })
-    expect(KiloSessionRetention.shouldRun(active, {}, null, NOW)).toEqual({ ok: true })
+    expect(KappaSessionRetention.shouldRun(active, { force: true }, state(10 * HOUR), NOW)).toEqual({ ok: true })
+    expect(KappaSessionRetention.shouldRun(active, {}, null, NOW)).toEqual({ ok: true })
   })
 })
 
@@ -332,11 +332,11 @@ dbIt.live("busySessions flags sessions with recent message or part activity", ()
     yield* seed({
       directory: "/tmp/retention-busy",
       rows: [
-        { id: fresh, updated: now - KiloSessionRetention.DAY_MS, message: now - 60_000, part: now - 30_000 },
-        { id: old, updated: now - 40 * KiloSessionRetention.DAY_MS, message: now - 40 * KiloSessionRetention.DAY_MS },
+        { id: fresh, updated: now - KappaSessionRetention.DAY_MS, message: now - 60_000, part: now - 30_000 },
+        { id: old, updated: now - 40 * KappaSessionRetention.DAY_MS, message: now - 40 * KappaSessionRetention.DAY_MS },
       ],
     })
-    const busy = yield* KiloSessionRetention.busySessions(now, [fresh, old])
+    const busy = yield* KappaSessionRetention.busySessions(now, [fresh, old])
     expect(busy.has(fresh)).toBe(true)
     expect(busy.has(old)).toBe(false)
   }),
@@ -351,7 +351,7 @@ dbIt.live("run skips history queries without age candidates and includes scannin
     yield* seed({
       directory: "/tmp/retention-no-candidates",
       rows: [
-        { id: parent, updated: now - 40 * KiloSessionRetention.DAY_MS },
+        { id: parent, updated: now - 40 * KappaSessionRetention.DAY_MS },
         { id: `ses_retention_fresh_${crypto.randomUUID()}`, parent, updated: now },
       ],
     })
@@ -361,7 +361,7 @@ dbIt.live("run skips history queries without age candidates and includes scannin
       get: () => Effect.sleep(20).pipe(Effect.as({ retention: { enabled: true, maxAgeDays: 30 } })),
     })
     const sessions = Layer.mock(Session.Service, { remove: () => Effect.die("no session should be removed") })
-    const outcome = yield* KiloSessionRetention.run({ force: true }).pipe(Effect.provide(Layer.merge(config, sessions)))
+    const outcome = yield* KappaSessionRetention.run({ force: true }).pipe(Effect.provide(Layer.merge(config, sessions)))
     expect(outcome.ran).toBe(true)
     if (!outcome.ran) return
     expect(outcome.result).toMatchObject({ scanned: 2, deleted: 0, failed: 0, skippedActive: 0 })
@@ -379,25 +379,25 @@ runIt.live("90-day retention preserves younger sessions and parents with fresh o
     yield* seed({
       directory: "/tmp/retention-90-days",
       rows: [
-        { id: young, updated: now - 60 * KiloSessionRetention.DAY_MS },
-        { id: recent, updated: now - 89 * KiloSessionRetention.DAY_MS },
-        { id: parent, updated: now - 120 * KiloSessionRetention.DAY_MS },
-        { id: child, parent, updated: now - 89 * KiloSessionRetention.DAY_MS },
-        { id: ancestor, updated: now - 120 * KiloSessionRetention.DAY_MS },
+        { id: young, updated: now - 60 * KappaSessionRetention.DAY_MS },
+        { id: recent, updated: now - 89 * KappaSessionRetention.DAY_MS },
+        { id: parent, updated: now - 120 * KappaSessionRetention.DAY_MS },
+        { id: child, parent, updated: now - 89 * KappaSessionRetention.DAY_MS },
+        { id: ancestor, updated: now - 120 * KappaSessionRetention.DAY_MS },
         {
           id: busy,
           parent: ancestor,
-          updated: now - 100 * KiloSessionRetention.DAY_MS,
-          message: now - 100 * KiloSessionRetention.DAY_MS,
+          updated: now - 100 * KappaSessionRetention.DAY_MS,
+          message: now - 100 * KappaSessionRetention.DAY_MS,
           part: now,
         },
-        { id: expired, updated: now - 91 * KiloSessionRetention.DAY_MS },
+        { id: expired, updated: now - 91 * KappaSessionRetention.DAY_MS },
       ],
     })
     const config = Layer.mock(Config.Service, {
       get: () => Effect.succeed({ retention: { enabled: true, maxAgeDays: 90 } }),
     })
-    const outcome = yield* KiloSessionRetention.run({ force: true }).pipe(Effect.provide(config))
+    const outcome = yield* KappaSessionRetention.run({ force: true }).pipe(Effect.provide(config))
     expect(outcome.ran && outcome.result).toMatchObject({ scanned: 7, deleted: 1, failed: 0, skippedActive: 2 })
     const rows = yield* db.select({ id: SessionTable.id }).from(SessionTable).all().pipe(Effect.orDie)
     expect(rows.map((row) => row.id).sort()).toEqual(ids.filter((id) => id !== expired).sort())
@@ -408,7 +408,7 @@ runIt.live("candidate probes preserve cross-project descendant and busy-parent s
   Effect.gen(function* () {
     const { db } = yield* Database.Service
     const now = Date.now()
-    const old = now - 40 * KiloSessionRetention.DAY_MS
+    const old = now - 40 * KappaSessionRetention.DAY_MS
     const ids = Array.from({ length: 9 }, () => SessionID.make(`ses_retention_${crypto.randomUUID()}`))
     const [grand, parent, child, busy, idle, fresh, expired, ancestor, recent] = ids
     yield* seed({
@@ -433,7 +433,7 @@ runIt.live("candidate probes preserve cross-project descendant and busy-parent s
       directory: "/tmp/retention-grandchild",
       rows: [{ id: child, parent, updated: old, message: old, part: now }],
     })
-    const outcome = yield* KiloSessionRetention.run({ force: true }).pipe(Effect.provide(enabled))
+    const outcome = yield* KappaSessionRetention.run({ force: true }).pipe(Effect.provide(enabled))
     expect(outcome.ran && outcome.result).toMatchObject({ scanned: 9, deleted: 0, failed: 0, skippedActive: 5 })
     const rows = yield* db.select({ id: SessionTable.id }).from(SessionTable).all().pipe(Effect.orDie)
     expect(rows.map((row) => row.id).sort()).toEqual([...ids].sort())
@@ -449,7 +449,7 @@ dbIt.live("busy probes ignore unrelated recent sessions and yield to event-loop 
       directory: "/tmp/retention-probes",
       rows: [...ids, outside].map((id) => ({
         id,
-        updated: now - 40 * KiloSessionRetention.DAY_MS,
+        updated: now - 40 * KappaSessionRetention.DAY_MS,
         message: now,
       })),
     })
@@ -462,7 +462,7 @@ dbIt.live("busy probes ignore unrelated recent sessions and yield to event-loop 
       ),
       (timer) => Effect.sync(() => clearInterval(timer)),
     )
-    const busy = yield* KiloSessionRetention.busySessions(now, ids)
+    const busy = yield* KappaSessionRetention.busySessions(now, ids)
     clearInterval(timer)
     expect(busy).toEqual(new Set(ids))
     expect(busy.has(outside)).toBe(false)
@@ -479,7 +479,7 @@ runIt.live("run counts individual cascaded sessions and sweeps children in anoth
     const fresh = SessionID.make(`ses_retention_fresh_${crypto.randomUUID()}`)
     const busy = SessionID.make(`ses_retention_busy_${crypto.randomUUID()}`)
     const now = Date.now()
-    const updated = now - 40 * KiloSessionRetention.DAY_MS
+    const updated = now - 40 * KappaSessionRetention.DAY_MS
     yield* seed({
       directory: "/tmp/retention-cascade",
       rows: [
@@ -490,14 +490,14 @@ runIt.live("run counts individual cascaded sessions and sweeps children in anoth
       ],
     })
     yield* seed({ directory: "/tmp/retention-foreign", rows: [{ id: foreign, parent, updated }] })
-    const outcome = yield* KiloSessionRetention.run({ force: true }).pipe(Effect.provide(enabled))
+    const outcome = yield* KappaSessionRetention.run({ force: true }).pipe(Effect.provide(enabled))
     expect(outcome.ran).toBe(true)
     if (!outcome.ran) return
     expect(outcome.result).toMatchObject({ scanned: 5, deleted: 3, failed: 0, skippedActive: 1 })
     const rows = yield* db.select({ id: SessionTable.id }).from(SessionTable).all().pipe(Effect.orDie)
     expect(rows.map((row) => row.id).sort()).toEqual([busy, fresh].sort())
-    expect(yield* KiloSessionRetention.readState()).toEqual(outcome.result)
-    expect(yield* KiloSessionRetention.readProgress()).toBeUndefined()
+    expect(yield* KappaSessionRetention.readState()).toEqual(outcome.result)
+    expect(yield* KappaSessionRetention.readProgress()).toBeUndefined()
   }),
 )
 
@@ -507,7 +507,7 @@ dbIt.live("progress observes children while root removal is pending and verifies
     const parent = SessionID.make(`ses_retention_parent_${crypto.randomUUID()}`)
     const child = SessionID.make(`ses_retention_child_${crypto.randomUUID()}`)
     const failed = SessionID.make(`ses_retention_failed_${crypto.randomUUID()}`)
-    const updated = Date.now() - 40 * KiloSessionRetention.DAY_MS
+    const updated = Date.now() - 40 * KappaSessionRetention.DAY_MS
     yield* seed({
       directory: "/tmp/retention-progress",
       rows: [
@@ -530,12 +530,12 @@ dbIt.live("progress observes children while root removal is pending and verifies
           yield* db.delete(SessionTable).where(eq(SessionTable.id, id)).run().pipe(Effect.orDie)
         }),
     })
-    const fiber = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const fiber = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(enabled, sessions)),
       Effect.forkChild,
     )
     yield* awaitWithTimeout(Deferred.await(reached), "root removal did not reach child pause")
-    expect(yield* KiloSessionRetention.readProgress()).toEqual({
+    expect(yield* KappaSessionRetention.readProgress()).toEqual({
       phase: "deleting",
       total: 3,
       processed: 1,
@@ -546,7 +546,7 @@ dbIt.live("progress observes children while root removal is pending and verifies
     yield* Deferred.succeed(resume, undefined)
     const outcome = yield* Fiber.join(fiber)
     expect(outcome.ran && outcome.result).toMatchObject({ deleted: 2, failed: 1 })
-    expect(yield* KiloSessionRetention.readProgress()).toBeUndefined()
+    expect(yield* KappaSessionRetention.readProgress()).toBeUndefined()
     const rows = yield* db
       .select({ id: SessionTable.id })
       .from(SessionTable)
@@ -564,12 +564,12 @@ runIt.live("run verifies actual Session.remove failures instead of counting retu
     const id = SessionID.make(`ses_retention_failed_${crypto.randomUUID()}`)
     yield* seed({
       directory: "/tmp/retention-failed",
-      rows: [{ id, updated: Date.now() - 40 * KiloSessionRetention.DAY_MS }],
+      rows: [{ id, updated: Date.now() - 40 * KappaSessionRetention.DAY_MS }],
     })
     yield* db
       .run("CREATE TRIGGER retention_fail BEFORE DELETE ON session BEGIN SELECT RAISE(ABORT, 'retention failure'); END")
       .pipe(Effect.orDie)
-    const outcome = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const outcome = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(enabled),
       Effect.ensuring(db.run("DROP TRIGGER retention_fail").pipe(Effect.orDie)),
     )
@@ -581,7 +581,7 @@ runIt.live("run verifies actual Session.remove failures instead of counting retu
       .get()
       .pipe(Effect.orDie)
     expect(row?.id).toBe(id)
-    expect(yield* KiloSessionRetention.readProgress()).toBeUndefined()
+    expect(yield* KappaSessionRetention.readProgress()).toBeUndefined()
   }),
 )
 
@@ -592,12 +592,12 @@ dbIt.live("run serializes duplicates and clears progress on failure and interrup
       get: () => Deferred.succeed(reached, undefined).pipe(Effect.andThen(Effect.never)),
     })
     const sessions = Layer.mock(Session.Service, { remove: () => Effect.void })
-    const fiber = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const fiber = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(blocked, sessions)),
       Effect.forkChild,
     )
     yield* awaitWithTimeout(Deferred.await(reached), "scan did not start")
-    expect(yield* KiloSessionRetention.readProgress()).toEqual({
+    expect(yield* KappaSessionRetention.readProgress()).toEqual({
       phase: "scanning",
       total: 0,
       processed: 0,
@@ -612,7 +612,7 @@ dbIt.live("run serializes duplicates and clears progress on failure and interrup
           calls++
         }).pipe(Effect.andThen(Effect.die("scan failed"))),
     })
-    const duplicate = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const duplicate = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(broken, sessions)),
       Effect.exit,
       Effect.forkChild({ startImmediately: true }),
@@ -622,7 +622,7 @@ dbIt.live("run serializes duplicates and clears progress on failure and interrup
     const exit = yield* awaitWithTimeout(Fiber.join(duplicate), "interrupted run did not release its lock")
     expect(calls).toBe(1)
     expect(Exit.isFailure(exit)).toBe(true)
-    expect(yield* KiloSessionRetention.readProgress()).toBeUndefined()
+    expect(yield* KappaSessionRetention.readProgress()).toBeUndefined()
   }),
 )
 
@@ -631,28 +631,28 @@ dbIt.live("run clears deleting progress after interruption without replacing the
     const id = `ses_retention_abort_${crypto.randomUUID()}`
     yield* seed({
       directory: "/tmp/retention-abort",
-      rows: [{ id, updated: Date.now() - 40 * KiloSessionRetention.DAY_MS }],
+      rows: [{ id, updated: Date.now() - 40 * KappaSessionRetention.DAY_MS }],
     })
-    const previous = yield* KiloSessionRetention.readState()
+    const previous = yield* KappaSessionRetention.readState()
     const reached = yield* Deferred.make<void>()
     const sessions = Layer.mock(Session.Service, {
       remove: () => Deferred.succeed(reached, undefined).pipe(Effect.andThen(Effect.never)),
     })
-    const fiber = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const fiber = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(enabled, sessions)),
       Effect.forkChild,
     )
     yield* awaitWithTimeout(Deferred.await(reached), "deletion did not start")
-    expect((yield* KiloSessionRetention.readProgress())?.phase).toBe("deleting")
+    expect((yield* KappaSessionRetention.readProgress())?.phase).toBe("deleting")
     yield* Fiber.interrupt(fiber)
-    expect(yield* KiloSessionRetention.readProgress()).toBeUndefined()
-    expect(yield* KiloSessionRetention.readState()).toEqual(previous)
+    expect(yield* KappaSessionRetention.readProgress()).toBeUndefined()
+    expect(yield* KappaSessionRetention.readState()).toEqual(previous)
   }),
 )
 
 dbIt.live("cancel with no active pass reports false", () =>
   Effect.gen(function* () {
-    expect(KiloSessionRetention.cancel()).toBe(false)
+    expect(KappaSessionRetention.cancel()).toBe(false)
   }),
 )
 
@@ -661,7 +661,7 @@ dbIt.live("cancel during deleting keeps completed removals, stops the rest, reco
     const { db } = yield* Database.Service
     const first = `ses_retention_stop_a_${crypto.randomUUID()}`
     const second = `ses_retention_stop_b_${crypto.randomUUID()}`
-    const updated = Date.now() - 40 * KiloSessionRetention.DAY_MS
+    const updated = Date.now() - 40 * KappaSessionRetention.DAY_MS
     yield* seed({
       directory: "/tmp/retention-stop",
       rows: [
@@ -682,18 +682,18 @@ dbIt.live("cancel during deleting keeps completed removals, stops the rest, reco
           yield* db.delete(SessionTable).where(eq(SessionTable.id, id)).run().pipe(Effect.orDie)
         }),
     })
-    const fiber = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const fiber = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(enabled, sessions)),
       Effect.forkChild,
     )
     yield* awaitWithTimeout(Deferred.await(reached), "first removal did not start")
-    expect(KiloSessionRetention.cancel()).toBe(true)
-    expect((yield* KiloSessionRetention.readProgress())?.phase).toBe("cancelling")
+    expect(KappaSessionRetention.cancel()).toBe(true)
+    expect((yield* KappaSessionRetention.readProgress())?.phase).toBe("cancelling")
     yield* Deferred.succeed(resume, undefined)
     const outcome = yield* Fiber.join(fiber)
     expect(outcome.ran && outcome.result).toMatchObject({ scanned: 2, deleted: 1, failed: 0, cancelled: true })
-    expect(yield* KiloSessionRetention.readState()).toMatchObject({ deleted: 1, cancelled: true })
-    expect(yield* KiloSessionRetention.readProgress()).toBeUndefined()
+    expect(yield* KappaSessionRetention.readState()).toMatchObject({ deleted: 1, cancelled: true })
+    expect(yield* KappaSessionRetention.readProgress()).toBeUndefined()
     const rows = yield* db
       .select({ id: SessionTable.id })
       .from(SessionTable)
@@ -701,7 +701,7 @@ dbIt.live("cancel during deleting keeps completed removals, stops the rest, reco
       .all()
       .pipe(Effect.orDie)
     expect(rows.map((row) => row.id)).toEqual([SessionID.make(second)])
-    expect(KiloSessionRetention.cancel()).toBe(false)
+    expect(KappaSessionRetention.cancel()).toBe(false)
   }),
 )
 
@@ -710,7 +710,7 @@ dbIt.live("cancelled pass still counts children removed by earlier root cascades
     const { db } = yield* Database.Service
     const parent = `ses_retention_cascade_p_${crypto.randomUUID()}`
     const child = `ses_retention_cascade_c_${crypto.randomUUID()}`
-    const updated = Date.now() - 40 * KiloSessionRetention.DAY_MS
+    const updated = Date.now() - 40 * KappaSessionRetention.DAY_MS
     yield* seed({
       directory: "/tmp/retention-cascade",
       rows: [
@@ -736,12 +736,12 @@ dbIt.live("cancelled pass still counts children removed by earlier root cascades
             .pipe(Effect.orDie)
         }),
     })
-    const fiber = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const fiber = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(enabled, sessions)),
       Effect.forkChild,
     )
     yield* awaitWithTimeout(Deferred.await(reached), "root removal did not start")
-    expect(KiloSessionRetention.cancel()).toBe(true)
+    expect(KappaSessionRetention.cancel()).toBe(true)
     yield* Deferred.succeed(resume, undefined)
     const outcome = yield* Fiber.join(fiber)
     expect(outcome.ran && outcome.result).toMatchObject({ scanned: 2, deleted: 2, failed: 0, cancelled: true })
@@ -753,7 +753,7 @@ dbIt.live("cancelled pass counts a root removal that failed before the cancel", 
     const id = `ses_retention_rootfail_${crypto.randomUUID()}`
     yield* seed({
       directory: "/tmp/retention-rootfail",
-      rows: [{ id, updated: Date.now() - 40 * KiloSessionRetention.DAY_MS }],
+      rows: [{ id, updated: Date.now() - 40 * KappaSessionRetention.DAY_MS }],
     })
     const reached = yield* Deferred.make<void>()
     const resume = yield* Deferred.make<void>()
@@ -768,12 +768,12 @@ dbIt.live("cancelled pass counts a root removal that failed before the cancel", 
           // Failed removal: the row stays in place.
         }),
     })
-    const fiber = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const fiber = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(enabled, sessions)),
       Effect.forkChild,
     )
     yield* awaitWithTimeout(Deferred.await(reached), "root removal did not start")
-    expect(KiloSessionRetention.cancel()).toBe(true)
+    expect(KappaSessionRetention.cancel()).toBe(true)
     yield* Deferred.succeed(resume, undefined)
     const outcome = yield* Fiber.join(fiber)
     expect(outcome.ran && outcome.result).toMatchObject({ deleted: 0, failed: 1, cancelled: true })
@@ -785,7 +785,7 @@ dbIt.live("cancel during scanning aborts before any deletion", () =>
     const id = `ses_retention_stop_scan_${crypto.randomUUID()}`
     yield* seed({
       directory: "/tmp/retention-stop-scan",
-      rows: [{ id, updated: Date.now() - 40 * KiloSessionRetention.DAY_MS }],
+      rows: [{ id, updated: Date.now() - 40 * KappaSessionRetention.DAY_MS }],
     })
     const gate = yield* Deferred.make<void>()
     const entered = yield* Deferred.make<void>()
@@ -797,15 +797,15 @@ dbIt.live("cancel during scanning aborts before any deletion", () =>
         ),
     })
     const sessions = Layer.mock(Session.Service, { remove: () => Effect.die("no session should be removed") })
-    const fiber = yield* KiloSessionRetention.run({ force: true }).pipe(
+    const fiber = yield* KappaSessionRetention.run({ force: true }).pipe(
       Effect.provide(Layer.merge(config, sessions)),
       Effect.forkChild,
     )
     yield* awaitWithTimeout(Deferred.await(entered), "scan did not start")
-    expect(KiloSessionRetention.cancel()).toBe(true)
+    expect(KappaSessionRetention.cancel()).toBe(true)
     yield* Deferred.succeed(gate, undefined)
     const outcome = yield* Fiber.join(fiber)
     expect(outcome.ran && outcome.result).toMatchObject({ deleted: 0, failed: 0, cancelled: true })
-    expect(yield* KiloSessionRetention.readProgress()).toBeUndefined()
+    expect(yield* KappaSessionRetention.readProgress()).toBeUndefined()
   }),
 )

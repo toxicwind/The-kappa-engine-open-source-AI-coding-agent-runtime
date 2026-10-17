@@ -11,28 +11,28 @@ import { Filesystem } from "@/util/filesystem"
 import type { GlobalEvent } from "@kappacode/sdk/v2"
 import type { EventSource } from "@opencode-ai/tui/context/sdk"
 import { writeHeapSnapshot } from "v8"
-import type { StartInput } from "@/kilocode/cli/cmd/tui/thread" // kilocode_change - runtime imports deferred into handlers
+import type { StartInput } from "@/kappacode/cli/cmd/tui/thread" // kappacode_change - runtime imports deferred into handlers
 import { win32InstallCtrlCGuard } from "@opencode-ai/tui/terminal-win32"
-import { validate as validateSession } from "@/kilocode/cli/cmd/tui" // kilocode_change
-// kilocode_change start - correlate the TUI worker with its parent process
+import { validate as validateSession } from "@/kappacode/cli/cmd/tui" // kappacode_change
+// kappacode_change start - correlate the TUI worker with its parent process
 import {
   KILO_PROCESS_ROLE,
   KILO_RUN_ID,
   ensureRunID,
   sanitizedProcessEnv,
 } from "@opencode-ai/core/util/opencode-process"
-// kilocode_change end
-import type { RemoteExitBridgeClient } from "@/kilocode/cli/cmd/tui/remote-exit-bridge" // kilocode_change - runtime import deferred
-import type { Exit } from "@opencode-ai/tui/context/exit" // kilocode_change
-import { KiloRpc } from "@/kilocode/util/rpc" // kilocode_change - gates requests on worker readiness
+// kappacode_change end
+import type { RemoteExitBridgeClient } from "@/kappacode/cli/cmd/tui/remote-exit-bridge" // kappacode_change - runtime import deferred
+import type { Exit } from "@opencode-ai/tui/context/exit" // kappacode_change
+import { KappaRpc } from "@/kappacode/util/rpc" // kappacode_change - gates requests on worker readiness
 
 declare global {
   const KILO_WORKER_PATH: string
 }
 
-type RpcClient = ReturnType<typeof KiloRpc.client<typeof rpc>> // kilocode_change
+type RpcClient = ReturnType<typeof KappaRpc.client<typeof rpc>> // kappacode_change
 
-// kilocode_change start - bridge remote exit only for the embedded worker transport
+// kappacode_change start - bridge remote exit only for the embedded worker transport
 export function embeddedRemoteExitClient<T>(external: boolean, client: T | undefined): T | undefined {
   return external ? undefined : client
 }
@@ -43,7 +43,7 @@ export async function runEmbeddedRemoteExitBridge(input: {
   done: Promise<unknown>
   timeoutMs?: number
 }) {
-  const { createParentRemoteExitBridge } = await import("@/kilocode/cli/cmd/tui/remote-exit-bridge")
+  const { createParentRemoteExitBridge } = await import("@/kappacode/cli/cmd/tui/remote-exit-bridge")
   const timeoutMs = input.timeoutMs ?? 5_000
   const bridge = createParentRemoteExitBridge(input.client, input.exit)
   let ready = false
@@ -59,9 +59,9 @@ export async function runEmbeddedRemoteExitBridge(input: {
     if (ready) await bridge.dispose(timeoutMs).catch(() => {})
   }
 }
-// kilocode_change end
+// kappacode_change end
 
-// kilocode_change start - share the extracted TUI runner between daemon and worker paths
+// kappacode_change start - share the extracted TUI runner between daemon and worker paths
 async function start(input: StartInput, remoteExitClient?: RpcClient) {
   const { Effect } = await import("effect")
   const { run } = await import("../tui/layer")
@@ -78,7 +78,7 @@ async function start(input: StartInput, remoteExitClient?: RpcClient) {
   if (!exit) return
   await runEmbeddedRemoteExitBridge({ client: remoteExitClient, exit, done })
 }
-// kilocode_change end
+// kappacode_change end
 
 function createWorkerFetch(client: RpcClient): typeof fetch {
   const fn = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
@@ -123,7 +123,7 @@ async function input(value?: string) {
 }
 
 export function resolveThreadDirectory(project?: string, envPWD = process.env.PWD, cwd = process.cwd()) {
-  // kilocode_change start - ignore stale PWD from wrappers such as `bun --cwd`, except kappa-dev's caller cwd
+  // kappacode_change start - ignore stale PWD from wrappers such as `bun --cwd`, except kappa-dev's caller cwd
   const dev = process.env.KILO_DEV_CWD
   const real = Filesystem.resolve(cwd)
   const root = dev
@@ -131,19 +131,19 @@ export function resolveThreadDirectory(project?: string, envPWD = process.env.PW
     : envPWD && Filesystem.resolve(envPWD) === real
       ? Filesystem.resolve(envPWD)
       : real
-  // kilocode_change end
+  // kappacode_change end
   if (project) return Filesystem.resolve(path.isAbsolute(project) ? project : path.join(root, project))
-  return dev ? root : real // kilocode_change
+  return dev ? root : real // kappacode_change
 }
 
 export const TuiThreadCommand = cmd({
   command: "$0 [project]",
-  describe: "start kappa tui", // kilocode_change
+  describe: "start kappa tui", // kappacode_change
   builder: (yargs) =>
     withNetworkOptions(yargs)
       .positional("project", {
         type: "string",
-        describe: "path to start kappa in", // kilocode_change
+        describe: "path to start kappa in", // kappacode_change
       })
       .option("model", {
         type: "string",
@@ -168,12 +168,12 @@ export const TuiThreadCommand = cmd({
         type: "boolean",
         describe: "fetch session from cloud and continue locally (use with --session)",
       })
-      // kilocode_change start - create/reuse a git worktree before starting
+      // kappacode_change start - create/reuse a git worktree before starting
       .option("worktree", {
         type: "string",
         describe: "create (or reuse) a git worktree with this name and start kappa there",
       })
-      // kilocode_change end
+      // kappacode_change end
       .option("prompt", {
         type: "string",
         describe: "prompt to use",
@@ -263,50 +263,50 @@ export const TuiThreadCommand = cmd({
       return
     }
 
-    // kilocode_change start - lazy Kilo implementations so other CLI commands
+    // kappacode_change start - lazy Kappa implementations so other CLI commands
     // don't pay their module cost at startup
-    const { importCloudSession, localSessionID, validateCloudFork, reportCloudImportError } = await import("@/kilocode/cloud-session")
-    const { KiloTuiThreadDaemon } = await import("@/kilocode/cli/cmd/tui/thread")
-    const { preload } = await import("@/kilocode/cli/cmd/tui")
-    const { resolveTuiDirectory } = await import("@/kilocode/cli/cmd/tui-worktree")
-    // kilocode_change end
+    const { importCloudSession, localSessionID, validateCloudFork, reportCloudImportError } = await import("@/kappacode/cloud-session")
+    const { KappaTuiThreadDaemon } = await import("@/kappacode/cli/cmd/tui/thread")
+    const { preload } = await import("@/kappacode/cli/cmd/tui")
+    const { resolveTuiDirectory } = await import("@/kappacode/cli/cmd/tui-worktree")
+    // kappacode_change end
     const unguard = win32InstallCtrlCGuard()
     const shutdown = {
       pending: undefined as Promise<void> | undefined,
       exiting: false,
     }
     try {
-      // kilocode_change
+      // kappacode_change
       if (args.fork && !args.continue && !args.session) {
         UI.error("--fork requires --continue or --session")
         process.exitCode = 1
         return
       }
-      // kilocode_change start
+      // kappacode_change start
       const cloudForkError = validateCloudFork(args)
       if (cloudForkError) {
         UI.error(cloudForkError)
         process.exitCode = 1
         return
       }
-      // kilocode_change end
+      // kappacode_change end
 
       // Resolve relative --project paths from PWD, then use the real cwd after
       // chdir so the thread and worker share the same directory key.
-      // kilocode_change start - `--worktree <name>` creates/reuses a worktree; resuming
+      // kappacode_change start - `--worktree <name>` creates/reuses a worktree; resuming
       // an explicit `--session <id>` tries to restart in that session's worktree
       const next = await resolveTuiDirectory(args, resolveThreadDirectory(args.project)).catch((error) => {
         UI.error(errorMessage(error))
         process.exitCode = 1
       })
       if (!next) return
-      // kilocode_change end
+      // kappacode_change end
       const file = await target()
-      // kilocode_change start
+      // kappacode_change start
       const preloads = preload(typeof KILO_WORKER_PATH !== "undefined", () =>
         import.meta.resolve("@opentui/solid/preload"),
       )
-      // kilocode_change end
+      // kappacode_change end
       try {
         process.chdir(next)
       } catch {
@@ -314,26 +314,26 @@ export const TuiThreadCommand = cmd({
         return
       }
       const cwd = Filesystem.resolve(process.cwd())
-      // kilocode_change start - default TUI sessions attach to the daemon unless explicitly disabled
-      if (await KiloTuiThreadDaemon.attach({ args, cwd, input: () => input(args.prompt), start })) return
-      // kilocode_change end
-      const auth = KiloTuiThreadDaemon.workerAuth() // kilocode_change - protect TUI-owned HTTP routes from unauthenticated local callers
-      // kilocode_change start - propagate stable run metadata and an explicit worker role
+      // kappacode_change start - default TUI sessions attach to the daemon unless explicitly disabled
+      if (await KappaTuiThreadDaemon.attach({ args, cwd, input: () => input(args.prompt), start })) return
+      // kappacode_change end
+      const auth = KappaTuiThreadDaemon.workerAuth() // kappacode_change - protect TUI-owned HTTP routes from unauthenticated local callers
+      // kappacode_change start - propagate stable run metadata and an explicit worker role
       const env = sanitizedProcessEnv({
         [KILO_PROCESS_ROLE]: "worker",
         [KILO_RUN_ID]: ensureRunID(),
         ...auth.env,
         KILO_BACKGROUND_PROCESS_PORTS: "true",
       })
-      // kilocode_change end
+      // kappacode_change end
       const worker = new Worker(file, {
-        preload: preloads, // kilocode_change
-        env, // kilocode_change
+        preload: preloads, // kappacode_change
+        env, // kappacode_change
       })
       worker.onerror = (e) => {
         console.error("TUI worker error", e.error ?? e.message)
       }
-      const client = KiloRpc.client<typeof rpc>(worker) // kilocode_change - queues until the worker is ready
+      const client = KappaRpc.client<typeof rpc>(worker) // kappacode_change - queues until the worker is ready
       const reload = () => {
         client.call("reload", undefined).catch((err) => console.error("TUI worker reload failed", err))
       }
@@ -349,7 +349,7 @@ export const TuiThreadCommand = cmd({
         )
         worker.terminate()
       }
-      // kilocode_change start - graceful shutdown on external signals
+      // kappacode_change start - graceful shutdown on external signals
       // The worker's postMessage for the RPC result may never be delivered
       // after shutdown because the worker's event loop drains. Send the
       // shutdown request without awaiting the response, wait for the worker
@@ -380,7 +380,7 @@ export const TuiThreadCommand = cmd({
       }
       process.once("SIGHUP", () => shutdownAndExit({ reason: "signal", signal: "SIGHUP", code: 129 }))
       process.once("SIGTERM", () => shutdownAndExit({ reason: "signal", signal: "SIGTERM", code: 143 }))
-      // kilocode_change - external kill -INT takes the same graceful path as SIGHUP/SIGTERM.
+      // kappacode_change - external kill -INT takes the same graceful path as SIGHUP/SIGTERM.
       // Interactive Ctrl-C in the TUI is a raw-mode keypress, not a signal.
       process.once("SIGINT", () => shutdownAndExit({ reason: "signal", signal: "SIGINT", code: 130 }))
       // In some terminal/tab-close paths the parent shell is terminated without
@@ -415,9 +415,9 @@ export const TuiThreadCommand = cmd({
         shutdownAndExit({ reason: "parent-exit", code: 0 })
       }, 1000)
       orphanWatch.unref()
-      // kilocode_change end
+      // kappacode_change end
 
-      // kilocode_change start - a worker that never answers used to leave the TUI on a blank
+      // kappacode_change start - a worker that never answers used to leave the TUI on a blank
       // screen forever. The client queues requests until it is ready, so surface the failure
       // here and exit through the normal shutdown path instead of hanging.
       if (!(await client.ready)) {
@@ -425,10 +425,10 @@ export const TuiThreadCommand = cmd({
         shutdownAndExit({ reason: "worker-timeout", code: 1 })
         return
       }
-      // kilocode_change end
+      // kappacode_change end
 
       const prompt = await input(args.prompt)
-      const { TuiConfig } = await import("@/config/tui") // kilocode_change
+      const { TuiConfig } = await import("@/config/tui") // kappacode_change
       const config = await TuiConfig.get()
 
       const network = resolveNetworkOptionsNoConfig(args)
@@ -438,31 +438,31 @@ export const TuiThreadCommand = cmd({
         ? {
             url: (await client.call("server", network)).url,
             fetch: undefined,
-            headers: auth.headers, // kilocode_change
+            headers: auth.headers, // kappacode_change
             events: undefined,
           }
         : {
             url: "http://kappa.internal",
             fetch: createWorkerFetch(client),
-            headers: auth.headers, // kilocode_change
+            headers: auth.headers, // kappacode_change
             events: createEventSource(client),
           }
 
-      // kilocode_change - upstream validates here, but --cloud-fork's session id is only local after
+      // kappacode_change - upstream validates here, but --cloud-fork's session id is only local after
       // the import below; the guarded validateSession further down covers both paths.
       setTimeout(() => {
         client.call("checkUpgrade", { directory: cwd }).catch((err) => console.error("Upgrade check failed", err))
       }, 1000).unref?.()
 
       try {
-        // kilocode_change start - import cloud session before TUI renders
+        // kappacode_change start - import cloud session before TUI renders
         if (args.cloudFork && args.session) {
           UI.println("Importing session from cloud...")
-          const { createKiloClient } = await import("@kappacode/sdk/v2")
-          const sdk = createKiloClient({
+          const { createKappaClient } = await import("@kappacode/sdk/v2")
+          const sdk = createKappaClient({
             baseUrl: transport.url,
             fetch: transport.fetch,
-            headers: transport.headers, // kilocode_change
+            headers: transport.headers, // kappacode_change
             directory: cwd,
           })
           try {
@@ -475,15 +475,15 @@ export const TuiThreadCommand = cmd({
             return
           }
         }
-        // kilocode_change end
+        // kappacode_change end
 
         try {
           await validateSession({
-            url: transport.url, // kilocode_change
-            sessionID: localSessionID(args), // kilocode_change
+            url: transport.url, // kappacode_change
+            sessionID: localSessionID(args), // kappacode_change
             directory: cwd,
             fetch: transport.fetch,
-            headers: transport.headers, // kilocode_change
+            headers: transport.headers, // kappacode_change
           })
         } catch (error) {
           UI.error(errorMessage(error))
@@ -491,10 +491,10 @@ export const TuiThreadCommand = cmd({
           return
         }
 
-        // kilocode_change start
+        // kappacode_change start
         await start(
           {
-            // kilocode_change - shared lazy loader also supports daemon attach
+            // kappacode_change - shared lazy loader also supports daemon attach
             url: transport.url,
             async onSnapshot() {
               const tui = writeHeapSnapshot("tui.heapsnapshot")
@@ -518,7 +518,7 @@ export const TuiThreadCommand = cmd({
           },
           embeddedRemoteExitClient(external, client),
         )
-        // kilocode_change end
+        // kappacode_change end
       } finally {
         await stop()
       }

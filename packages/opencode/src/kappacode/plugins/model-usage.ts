@@ -1,6 +1,6 @@
-import type { KilocodeSessionModelUsageResponse, Session, StepFinishPart } from "@kappacode/sdk/v2"
+import type { KappacodeSessionModelUsageResponse, Session, StepFinishPart } from "@kappacode/sdk/v2"
 
-export type SessionModelUsage = KilocodeSessionModelUsageResponse
+export type SessionModelUsage = KappacodeSessionModelUsageResponse
 export type UsageResult = { sessionID: string; data?: SessionModelUsage }
 
 export type StepMetrics = NonNullable<StepFinishPart["metrics"]>

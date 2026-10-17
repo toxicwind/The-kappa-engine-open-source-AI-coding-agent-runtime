@@ -1,7 +1,7 @@
 // Simulated provider socket for the issue #8656 regression tests.
 //
 // Only the socket is simulated. The transport is injected as the provider's
-// `fetch` option, so Kilo's own fetch wrapper (connection timeout, first-byte
+// `fetch` option, so Kappa's own fetch wrapper (connection timeout, first-byte
 // guard, SSE chunk watchdog), the openai-compatible SDK, SSE parsing, the
 // session processor and the agent loop are all the production ones.
 //

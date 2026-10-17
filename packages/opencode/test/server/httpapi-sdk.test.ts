@@ -10,7 +10,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { createKiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient } from "@kappacode/sdk/v2"
 import { validateSession } from "../../src/cli/tui/validate-session"
 import { InstanceBootstrap } from "../../src/project/bootstrap"
 import { InstanceStore } from "../../src/project/instance-store"
@@ -24,7 +24,7 @@ import { TestLLMServer } from "../lib/llm-server"
 import path from "path"
 import { resetDatabase } from "../fixture/db"
 import { disposeAllInstances, TestInstance, tmpdirScoped } from "../fixture/fixture"
-import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect" // kilocode_change
+import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect" // kappacode_change
 import { testProviderConfig } from "../lib/test-provider"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -44,7 +44,7 @@ const original = {
 }
 
 type ServerPath = "default" | "raw"
-type Sdk = ReturnType<typeof createKiloClient>
+type Sdk = ReturnType<typeof createKappaClient>
 type SdkResult = { response?: Response; data?: unknown; error?: unknown }
 type Captured = { status: number; data?: unknown; error?: unknown }
 type ProjectFixture = { sdk: Sdk; directory: string }
@@ -70,7 +70,7 @@ function client(
 ) {
   return serverFetch(serverPath, input).pipe(
     Effect.map((fetch) =>
-      createKiloClient({
+      createKappaClient({
         baseUrl: "http://localhost",
         directory,
         experimental_workspaceID: input?.workspaceID,
@@ -179,14 +179,14 @@ function firstPartText(value: unknown) {
   return record(array(record(value).parts)[0]).text
 }
 
-// kilocode_change start
+// kappacode_change start
 function texts(value: unknown) {
   return array(value)
     .flatMap((item) => array(record(item).parts))
     .map((part) => record(part).text)
     .filter((text): text is string => typeof text === "string")
 }
-// kilocode_change end
+// kappacode_change end
 
 function sessionTitles(value: unknown) {
   return array(value)
@@ -294,7 +294,7 @@ function writeStandardFiles(dir: string) {
 function writeProjectSkill(dir: string) {
   return FSUtil.Service.use((fs) =>
     fs.writeWithDirs(
-      path.join(dir, ".kappa", "skills", "project-rest-skill", "SKILL.md"), // kilocode_change
+      path.join(dir, ".kappa", "skills", "project-rest-skill", "SKILL.md"), // kappacode_change
       `---
 name: project-rest-skill
 description: A project skill visible to REST API prompts.
@@ -368,25 +368,25 @@ describe("HttpApi SDK", () => {
     ({ sdk, directory }) =>
       Effect.gen(function* () {
         const file = yield* call(() => sdk.file.read({ path: "hello.txt" }))
-        const raw = yield* call(() => sdk.v2.fs.read({ path: "hello.txt" })) // kilocode_change
+        const raw = yield* call(() => sdk.v2.fs.read({ path: "hello.txt" })) // kappacode_change
         const session = yield* call(() => sdk.session.create({ title: "sdk" }))
-        const v2session = yield* call(() => sdk.v2.session.create({ agent: "build" })) // kilocode_change
+        const v2session = yield* call(() => sdk.v2.session.create({ agent: "build" })) // kappacode_change
         const listed = yield* call(() => sdk.session.list({ roots: true, limit: 10 }))
 
         expect(file.response!.status).toBe(200)
         expect(file.data).toMatchObject({ content: "hello" })
-        // kilocode_change start
+        // kappacode_change start
         expect(raw.response!.status).toBe(200)
         const body = raw.data
         if (!body) throw new Error("missing V2 file body")
         const content =
           body instanceof Blob ? yield* Effect.promise(() => body.text()) : Buffer.from(body as unknown as Uint8Array).toString()
         expect(content).toBe("hello")
-        // kilocode_change end
+        // kappacode_change end
         expect(session.response!.status).toBe(200)
         expect(session.data).toMatchObject({ title: "sdk" })
-        expect({ status: v2session.response!.status, error: v2session.error }).toEqual({ status: 200, error: undefined }) // kilocode_change
-        expect(v2session.data).toMatchObject({ data: { location: { directory } } }) // kilocode_change
+        expect({ status: v2session.response!.status, error: v2session.error }).toEqual({ status: 200, error: undefined }) // kappacode_change
+        expect(v2session.data).toMatchObject({ data: { location: { directory } } }) // kappacode_change
         expect(listed.response!.status).toBe(200)
         expect(listed.data?.map((item) => item.id)).toContain(session.data?.id)
 
@@ -426,14 +426,14 @@ describe("HttpApi SDK", () => {
         expect(request!.headers.has("x-kappa-directory")).toBe(false)
         expect(request!.headers.has("x-kappa-workspace")).toBe(false)
 
-        // kilocode_change start - encoded legacy directory headers still route on payload requests
+        // kappacode_change start - encoded legacy directory headers still route on payload requests
         const legacy = yield* client("raw", undefined, {
           headers: { "x-kappa-directory": encodeURIComponent(directory) },
         })
         const legacySession = yield* call(() => legacy.v2.session.create({ agent: "build" }))
         expect(legacySession.response!.status).toBe(200)
         expect(legacySession.data).toMatchObject({ data: { location: { directory } } })
-        // kilocode_change end
+        // kappacode_change end
       }),
     ),
   )
@@ -525,7 +525,7 @@ describe("HttpApi SDK", () => {
       Effect.gen(function* () {
         const missingSdk = yield* client("raw", directory, { password: "secret" })
         const missing = yield* capture(() => missingSdk.file.read({ path: "hello.txt" }))
-        // kilocode_change start - match Hono AuthMiddleware username default ("kappa")
+        // kappacode_change start - match Hono AuthMiddleware username default ("kappa")
         const badSdk = yield* client("raw", directory, {
           password: "secret",
           headers: { authorization: authorization("kappa", "wrong") },
@@ -536,7 +536,7 @@ describe("HttpApi SDK", () => {
           headers: { authorization: authorization("kappa", "secret") },
         })
         const good = yield* capture(() => goodSdk.file.read({ path: "hello.txt" }))
-        // kilocode_change end
+        // kappacode_change end
 
         return {
           statuses: statuses({ missing, bad, good }),
@@ -779,7 +779,7 @@ describe("HttpApi SDK", () => {
             parts: [{ type: "text", text: "hello" }],
           }),
         )
-        // kilocode_change start
+        // kappacode_change start
         const asyncPrompt = yield* capture(() =>
           sdk.session.promptAsync({
             sessionID,
@@ -801,12 +801,12 @@ describe("HttpApi SDK", () => {
           messageCount: array(messages.data).length,
           messageTexts: texts(messages.data).sort(),
         }
-        // kilocode_change end
+        // kappacode_change end
       }),
     ),
   )
 
-  // kilocode_change start - verify invalid user images fail at the real SDK boundary
+  // kappacode_change start - verify invalid user images fail at the real SDK boundary
   serverPathParity("rejects malformed user image data before persistence", (serverPath) =>
     withStandardProject(serverPath, ({ sdk }) =>
       Effect.gen(function* () {
@@ -936,7 +936,7 @@ describe("HttpApi SDK", () => {
       }),
     ),
   )
-  // kilocode_change end
+  // kappacode_change end
 
   serverPathParity("matches generated SDK prompt streaming through fake LLM", (serverPath) =>
     withFakeLlm(serverPath, ({ sdk, llm }) =>
@@ -972,7 +972,7 @@ describe("HttpApi SDK", () => {
     ),
   )
 
-  // kilocode_change start - verify provider errors remain in successful assistant messages
+  // kappacode_change start - verify provider errors remain in successful assistant messages
   serverPathParity("preserves provider errors through the generated SDK", (serverPath) =>
     withFakeLlm(serverPath, ({ sdk, llm }) =>
       Effect.gen(function* () {
@@ -1026,7 +1026,7 @@ describe("HttpApi SDK", () => {
       }),
     ),
   )
-  // kilocode_change end
+  // kappacode_change end
 
   httpapi(
     "includes project skills in REST API prompt context",

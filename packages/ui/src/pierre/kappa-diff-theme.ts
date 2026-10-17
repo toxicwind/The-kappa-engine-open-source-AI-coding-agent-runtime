@@ -1,15 +1,15 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { registerCustomTheme, type ThemeRegistrationResolved } from "@pierre/diffs"
 
-// The "Kilo" Pierre/Shiki theme used by every diff review surface (Code / Diff /
+// The "Kappa" Pierre/Shiki theme used by every diff review surface (Code / Diff /
 // File / SessionReview) and by markdown code highlighting. Pierre resolves the
-// theme by name when a worker pool initializes (resolveThemes(["Kilo"])) or when
+// theme by name when a worker pool initializes (resolveThemes(["Kappa"])) or when
 // getSharedHighlighter() attaches it; if the name was never registered it throws
-// "resolveTheme: No valid loader for Kilo".
+// "resolveTheme: No valid loader for Kappa".
 //
 // This registration lives next to the worker pool factory (./worker) so that it
 // is a guaranteed, synchronous precondition of using the diff machinery: every
-// diff component imports the worker factory, which calls ensureKiloDiffTheme()
+// diff component imports the worker factory, which calls ensureKappaDiffTheme()
 // at module load — before any WorkerPoolManager.initialize() runs. Previously the
 // registration was only a side effect of importing the (heavy, katex/marked-
 // pulling) markdown context module, which forced consumers that render diffs
@@ -19,12 +19,12 @@ import { registerCustomTheme, type ThemeRegistrationResolved } from "@pierre/dif
 //
 // Upstream owns the equivalent registerCustomTheme("OpenCode", …) block inline in
 // context/marked.tsx. Do not restore that inline block on upstream merges — route
-// the registration through ensureKiloDiffTheme() instead.
+// the registration through ensureKappaDiffTheme() instead.
 
-export const KILO_DIFF_THEME = "Kilo"
+export const KILO_DIFF_THEME = "Kappa"
 
 const registrations = (() => {
-  const key = Symbol.for("kilocode.ui.pierre.kappa-diff-theme")
+  const key = Symbol.for("kappacode.ui.pierre.kappa-diff-theme")
   const existing = Reflect.get(globalThis, key)
   if (existing instanceof WeakSet) return existing as WeakSet<typeof registerCustomTheme>
 
@@ -35,10 +35,10 @@ const registrations = (() => {
 
 // Idempotent: this is reached from both the markdown context and the diff worker
 // factory. Pierre no longer exposes its registered-theme set, so use a realm-wide
-// guard keyed by the public registration function. Duplicate Kilo modules sharing
+// guard keyed by the public registration function. Duplicate Kappa modules sharing
 // one Pierre instance stay no-ops, while separately bundled Pierre instances still
 // receive their own registration.
-export function ensureKiloDiffTheme(): void {
+export function ensureKappaDiffTheme(): void {
   if (registrations.has(registerCustomTheme)) return
 
   registerCustomTheme(KILO_DIFF_THEME, () => {

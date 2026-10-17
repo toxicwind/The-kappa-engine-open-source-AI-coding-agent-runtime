@@ -1,5 +1,5 @@
-// kilocode_change - Kilo exit banner instead of the opencode wordmark
-import { session } from "@/kilocode/cli/logo"
+// kappacode_change - Kappa exit banner instead of the opencode wordmark
+import { session } from "@/kappacode/cli/logo"
 
 const reset = "\x1b[0m"
 const dim = "\x1b[90m"

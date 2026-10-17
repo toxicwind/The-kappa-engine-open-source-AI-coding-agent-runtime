@@ -1,4 +1,4 @@
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import { retry } from "../services/cli-backend/retry"
 
 export const SESSION_PAGE_LIMIT = 50
@@ -26,7 +26,7 @@ export function createSessionPageState(): SessionPageState {
  * oldest session in the page.
  */
 export async function fetchSessionPage(
-  client: KiloClient,
+  client: KappaClient,
   input: { dir: string; cursor?: number; limit?: number },
 ): Promise<SessionPage> {
   const limit = input.limit ?? SESSION_PAGE_LIMIT

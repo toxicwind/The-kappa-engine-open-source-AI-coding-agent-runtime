@@ -1,8 +1,8 @@
 import { describe, expect, it } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 
 // vscode mock is provided by the shared preload (tests/setup/vscode-mock.ts)
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 
 type Internals = {
   currentSession: { id: string } | null
@@ -28,7 +28,7 @@ function status(root: string) {
   }
 }
 
-describe("KiloProvider memory events", () => {
+describe("KappaProvider memory events", () => {
   it("routes tracked background memory events to their session directory", async () => {
     const calls: string[] = []
     const posts: unknown[] = []
@@ -39,8 +39,8 @@ describe("KiloProvider memory events", () => {
           return { data: status(input.directory) }
         },
       },
-    } as unknown as KiloClient
-    const provider = new KiloProvider(
+    } as unknown as KappaClient
+    const provider = new KappaProvider(
       {} as never,
       {
         getClient: () => client,
@@ -85,8 +85,8 @@ describe("KiloProvider memory events", () => {
           return { data: status(input.directory) }
         },
       },
-    } as unknown as KiloClient
-    const provider = new KiloProvider(
+    } as unknown as KappaClient
+    const provider = new KappaProvider(
       {} as never,
       {
         getClient: () => client,
@@ -137,8 +137,8 @@ describe("KiloProvider memory events", () => {
           return { data: status(input.directory) }
         },
       },
-    } as unknown as KiloClient
-    const provider = new KiloProvider(
+    } as unknown as KappaClient
+    const provider = new KappaProvider(
       {} as never,
       {
         getClient: () => client,
@@ -177,9 +177,9 @@ describe("KiloProvider memory events", () => {
           return { data: { root: `${input.directory}/.kappa/memory`, state: status(input.directory).state } }
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const posts: unknown[] = []
-    const provider = new KiloProvider(
+    const provider = new KappaProvider(
       {} as never,
       {
         getClient: () => client,

@@ -5,7 +5,7 @@ import type { Session } from "@/session/session"
 import { MessageV2 } from "@/session/message-v2"
 import { MessageID, PartID, SessionID } from "@/session/schema"
 import { resumeHint } from "../task-resume"
-import { KiloPartLifecycle } from "./part-lifecycle"
+import { KappaPartLifecycle } from "./part-lifecycle"
 
 const task = "task"
 type Ops = Pick<Session.Interface, "get" | "messages" | "create" | "updateMessage" | "updatePart">
@@ -39,7 +39,7 @@ export function forkWriter(events: EventV2.Interface, ops: Pick<Ops, "get" | "me
 // Keep terminal task references so the fork can give them private child sessions.
 // In-flight jobs cannot be copied safely, so those remain historical errors.
 export function prepareForkedPart(part: MessageV2.Part): MessageV2.Part | undefined {
-  if (KiloPartLifecycle.transient(part)) return undefined
+  if (KappaPartLifecycle.transient(part)) return undefined
   if (
     part.type === "tool" &&
     part.tool === task &&

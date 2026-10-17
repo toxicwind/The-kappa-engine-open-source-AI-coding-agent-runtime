@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import type { ProjectContext } from "../../src/agent-manager/project/context"
 import type { LifecycleHost } from "../../src/agent-manager/provider-lifecycle"
 import { discardWorktree } from "../../src/agent-manager/discard-worktree"
@@ -12,13 +12,13 @@ describe("Agent Manager PTY cleanup", () => {
   it("tears down worktree PTYs through the project root instance", async () => {
     const calls: unknown[] = []
     const client = {
-      kilocode: {
+      kappacode: {
         teardownWorktree: async (input: { directory: string; worktree: string }) => {
           calls.push(input)
           return { data: { disposed: true } }
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await teardown(
       async (dir) => {
@@ -34,8 +34,8 @@ describe("Agent Manager PTY cleanup", () => {
 
   it("propagates a teardown failure so callers can isolate it from disk cleanup", async () => {
     const client = {
-      kilocode: { teardownWorktree: async () => ({ error: new Error("offline") }) },
-    } as unknown as KiloClient
+      kappacode: { teardownWorktree: async () => ({ error: new Error("offline") }) },
+    } as unknown as KappaClient
 
     await expect(teardown(async () => client, "/root", "/root/.kappa/worktrees/wt")).rejects.toThrow("offline")
   })
@@ -43,13 +43,13 @@ describe("Agent Manager PTY cleanup", () => {
   it("closes integrated terminals before removing embedded worktree PTYs", async () => {
     const calls: string[] = []
     const client = {
-      kilocode: {
+      kappacode: {
         teardownWorktree: async () => {
           calls.push("teardown")
           return { data: { disposed: false } }
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const terminals = {
       blockDirectory: async () => {
         calls.push("block-terminals")
@@ -119,8 +119,8 @@ describe("Agent Manager PTY cleanup", () => {
       client: () =>
         ({
           session: { delete: async () => undefined },
-          kilocode: { removeSnapshot: async () => calls.push("snapshots") },
-        }) as unknown as KiloClient,
+          kappacode: { removeSnapshot: async () => calls.push("snapshots") },
+        }) as unknown as KappaClient,
       log: () => undefined,
     } as unknown as LifecycleHost
 
@@ -144,8 +144,8 @@ describe("Agent Manager PTY cleanup", () => {
               throw new Error("session offline")
             },
           },
-          kilocode: { removeSnapshot: async () => calls.push("snapshots") },
-        }) as unknown as KiloClient,
+          kappacode: { removeSnapshot: async () => calls.push("snapshots") },
+        }) as unknown as KappaClient,
       log: () => calls.push("log"),
     } as unknown as LifecycleHost
 

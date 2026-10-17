@@ -125,7 +125,7 @@ export function PRSummary(props: PRSummaryProps) {
       action:
         unsent.length > 0
           ? {
-              label: t(terminal ? "agentManager.pr.comment.sendAllToTerminal" : "agentManager.pr.fixWithKiloCount", {
+              label: t(terminal ? "agentManager.pr.comment.sendAllToTerminal" : "agentManager.pr.fixWithKappaCount", {
                 count: Math.min(unsent.length, SEND_LIMIT),
               }),
               run: () => sendThreads(props.worktreeId, value.comments, unsent, state(), terminal),

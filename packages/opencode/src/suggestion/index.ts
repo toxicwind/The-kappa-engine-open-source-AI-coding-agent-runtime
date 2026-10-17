@@ -1,2 +1,2 @@
-// kilocode_change - new file
-export { Suggestion } from "../kilocode/suggestion/index"
+// kappacode_change - new file
+export { Suggestion } from "../kappacode/suggestion/index"

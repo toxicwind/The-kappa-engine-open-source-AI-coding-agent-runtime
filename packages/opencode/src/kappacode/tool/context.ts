@@ -3,8 +3,8 @@ import * as Tool from "@/tool/tool"
 import { Session } from "@/session/session"
 import { Provider } from "@/provider/provider"
 import { SessionCompaction } from "@/session/compaction"
-import { KiloSessionOverflow } from "@/kappacode/session/overflow"
-import { KiloSessionMessageOrder } from "@/kappacode/session/message-order"
+import { KappaSessionOverflow } from "@/kappacode/session/overflow"
+import { KappaSessionMessageOrder } from "@/kappacode/session/message-order"
 
 const Parameters = Schema.Struct({})
 
@@ -29,9 +29,9 @@ export const ContextInfoTool = Tool.define(
           // filterCompacted reorders messages for model consumption, so array
           // position is not chronology; derive the last finished step the way
           // the prompt loop does.
-          const { finished } = KiloSessionMessageOrder.latest(ctx.messages)
+          const { finished } = KappaSessionMessageOrder.latest(ctx.messages)
           const tokens = finished?.tokens
-          const contextTokens = tokens ? KiloSessionOverflow.count(tokens) : 0
+          const contextTokens = tokens ? KappaSessionOverflow.count(tokens) : 0
           // 0 is the "unknown context window" sentinel, not an exhausted window.
           const limit = session.model
             ? yield* provider.getModel(session.model.providerID, session.model.id).pipe(
@@ -80,7 +80,7 @@ export const CompactTool = Tool.define(
       parameters: Parameters,
       execute: (_args, ctx) =>
         Effect.gen(function* () {
-          const latest = KiloSessionMessageOrder.latest(ctx.messages)
+          const latest = KappaSessionMessageOrder.latest(ctx.messages)
           // A compaction part newer than the last finished step is queued work
           // the prompt loop will run; scheduling another would run a second
           // summariser pass over the same history. The claim below is set

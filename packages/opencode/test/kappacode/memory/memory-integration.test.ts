@@ -7,11 +7,11 @@ import { MemorySchema } from "@kappacode/kappa-memory/schema"
 import { MemoryFiles } from "@kappacode/kappa-memory/store"
 import { Bus } from "../../../src/bus"
 import { Filesystem } from "../../../src/util/filesystem"
-import { KilocodeSystemPrompt } from "../../../src/kappacode/system-prompt"
+import { KappacodeSystemPrompt } from "../../../src/kappacode/system-prompt"
 import { MemoryMarker } from "../../../src/kappacode/memory/marker"
-import { KiloSessionPrompt } from "../../../src/kappacode/session/prompt"
-import { KiloToolRegistry } from "../../../src/kappacode/tool/registry"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { KappaSessionPrompt } from "../../../src/kappacode/session/prompt"
+import { KappaToolRegistry } from "../../../src/kappacode/tool/registry"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { MemoryEvents } from "../../../src/kappacode/memory/events"
 import type { Provider } from "../../../src/provider/provider"
@@ -96,7 +96,7 @@ function expectRoot(root: string, dir: string, name: string) {
   expect(path.basename(root)).toMatch(new RegExp(`^${name}-[a-f0-9]{12}$`))
 }
 
-describe("KiloMemory integration", () => {
+describe("KappaMemory integration", () => {
   test("resolves project memory to global data folder", async () => {
     await using tmp = await tmpdir()
     await withData(path.join(tmp.path, "data"), () => {
@@ -146,9 +146,9 @@ describe("KiloMemory integration", () => {
     await Filesystem.write(path.join(next, ".git"), `gitdir: ${path.join(git, "next")}\n`)
 
     await withData(global, async () => {
-      await KiloMemory.enable({ ctx: { directory: work, worktree: work } })
-      await KiloMemory.configure({ ctx: { directory: work, worktree: work }, settings: { autoConsolidate: false } })
-      const status = await KiloMemory.status({ ctx: { directory: next, worktree: next } })
+      await KappaMemory.enable({ ctx: { directory: work, worktree: work } })
+      await KappaMemory.configure({ ctx: { directory: work, worktree: work }, settings: { autoConsolidate: false } })
+      const status = await KappaMemory.status({ ctx: { directory: next, worktree: next } })
 
       expectRoot(status.root, global, "main")
       expect(status.state.enabled).toBe(true)
@@ -205,14 +205,14 @@ describe("KiloMemory integration", () => {
       const memory = { directory: tmp.path, worktree: tmp.path }
       const root = MemoryPaths.root({ ctx: memory })
 
-      expect(await KiloMemory.toolEnabled({ ctx: memory })).toBe(false)
+      expect(await KappaMemory.toolEnabled({ ctx: memory })).toBe(false)
       expect(await Filesystem.exists(root)).toBe(false)
 
-      await KiloMemory.enable({ ctx: memory })
-      expect(await KiloMemory.toolEnabled({ ctx: memory })).toBe(true)
+      await KappaMemory.enable({ ctx: memory })
+      expect(await KappaMemory.toolEnabled({ ctx: memory })).toBe(true)
 
-      await KiloMemory.disable({ ctx: memory })
-      expect(await KiloMemory.toolEnabled({ ctx: memory })).toBe(false)
+      await KappaMemory.disable({ ctx: memory })
+      expect(await KappaMemory.toolEnabled({ ctx: memory })).toBe(false)
     })
   })
 
@@ -224,7 +224,7 @@ describe("KiloMemory integration", () => {
       await fs.mkdir(path.dirname(root), { recursive: true })
       await Bun.write(root, "not a directory")
 
-      const enabled = await Effect.runPromise(KiloSessionPrompt.memoryToolEnabled({ ctx: context }))
+      const enabled = await Effect.runPromise(KappaSessionPrompt.memoryToolEnabled({ ctx: context }))
 
       expect(enabled).toBe(false)
     })
@@ -234,14 +234,14 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     const root = path.join(tmp.path, ".kappa", "memory")
     const events: MemoryEvents.Status[] = []
-    await KiloMemory.enable({ root })
+    await KappaMemory.enable({ root })
 
     await provideTestInstance({
       directory: tmp.path,
       fn: async () => {
         const off = Bus.subscribe(MemoryEvents.Updated, (event) => events.push(event.properties))
         try {
-          await KiloMemory.apply({
+          await KappaMemory.apply({
             root,
             sessionID: "ses_memory_event",
             tokens: 1234,
@@ -263,8 +263,8 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     const root = path.join(tmp.path, ".kappa", "memory")
     const events: MemoryEvents.Status[] = []
-    await KiloMemory.enable({ root })
-    await KiloMemory.apply({
+    await KappaMemory.enable({ root })
+    await KappaMemory.apply({
       root,
       ops: [{ action: "add", key: "stale_fact", text: "This old fact should be removed." }],
     })
@@ -274,8 +274,8 @@ describe("KiloMemory integration", () => {
       fn: async () => {
         const off = Bus.subscribe(MemoryEvents.Updated, (event) => events.push(event.properties))
         try {
-          await KiloMemory.forget({ root, sessionID: "ses_forget", query: "stale_fact" })
-          await KiloMemory.forget({ root, sessionID: "ses_forget", query: "missing_fact" })
+          await KappaMemory.forget({ root, sessionID: "ses_forget", query: "stale_fact" })
+          await KappaMemory.forget({ root, sessionID: "ses_forget", query: "missing_fact" })
         } finally {
           off()
         }
@@ -290,9 +290,9 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const enabled = await KiloMemory.enable({ ctx: context })
+      const enabled = await KappaMemory.enable({ ctx: context })
       const root = enabled.root
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         root,
         sessionID: "ses_done",
         summary: "User: fix memory Result: Committed the memory continuation fix.",
@@ -308,7 +308,7 @@ describe("KiloMemory integration", () => {
         ].join("\n"),
       )
 
-      const mem = await Effect.runPromise(KilocodeSystemPrompt.memoryBlocks({ ctx: context }))
+      const mem = await Effect.runPromise(KappacodeSystemPrompt.memoryBlocks({ ctx: context }))
       const text = mem.blocks.join("\n")
 
       expect(text).toContain("type=latest_session_digest")
@@ -321,11 +321,11 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const missing = await Effect.runPromise(KilocodeSystemPrompt.memoryBlocks({ ctx: context }))
+      const missing = await Effect.runPromise(KappacodeSystemPrompt.memoryBlocks({ ctx: context }))
       expect(missing.blocks.join("\n")).not.toContain("kappa-memory-v1")
 
-      await KiloMemory.enable({ ctx: context })
-      const empty = await Effect.runPromise(KilocodeSystemPrompt.memoryBlocks({ ctx: context }))
+      await KappaMemory.enable({ ctx: context })
+      const empty = await Effect.runPromise(KappacodeSystemPrompt.memoryBlocks({ ctx: context }))
       expect(empty.blocks.join("\n")).not.toContain("kappa-memory-v1")
     })
   })
@@ -334,16 +334,16 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const enabled = await KiloMemory.enable({ ctx: context })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: context })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [{ action: "add", key: "repo_fact", text: "This fact must stay dormant while disabled." }],
       })
-      await KiloMemory.disable({ ctx: context })
+      await KappaMemory.disable({ ctx: context })
       const before = await MemoryFiles.readState(enabled.root)
 
       const mem = await Effect.runPromise(
-        KilocodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-disabled" }),
+        KappacodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-disabled" }),
       )
       const after = await MemoryFiles.readState(enabled.root)
 
@@ -358,34 +358,34 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      await KiloMemory.enable({ ctx: context })
-      await KiloMemory.remember({
+      await KappaMemory.enable({ ctx: context })
+      await KappaMemory.remember({
         ctx: context,
         key: "stable_fact",
         text: "Keep this saved fact.",
       })
-      await KiloMemory.disable({ ctx: context })
-      const before = await KiloMemory.show({ ctx: context })
+      await KappaMemory.disable({ ctx: context })
+      const before = await KappaMemory.show({ ctx: context })
 
       await expect(
-        KiloMemory.remember({
+        KappaMemory.remember({
           ctx: context,
           key: "disabled_fact",
           text: "Do not save while disabled.",
         }),
       ).rejects.toThrow("project memory is disabled")
       await expect(
-        KiloMemory.correct({
+        KappaMemory.correct({
           ctx: context,
           key: "stable_fact",
           text: "Do not correct while disabled.",
         }),
       ).rejects.toThrow("project memory is disabled")
-      await expect(KiloMemory.forget({ ctx: context, query: "stable_fact" })).rejects.toThrow(
+      await expect(KappaMemory.forget({ ctx: context, query: "stable_fact" })).rejects.toThrow(
         "project memory is disabled",
       )
-      await KiloMemory.rebuild({ ctx: context })
-      const after = await KiloMemory.show({ ctx: context })
+      await KappaMemory.rebuild({ ctx: context })
+      const after = await KappaMemory.show({ ctx: context })
 
       expect(after.sources).toEqual(before.sources)
       expect(after.index).toBe(before.index)
@@ -401,19 +401,19 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      await KiloMemory.enable({ ctx: context })
+      await KappaMemory.enable({ ctx: context })
 
-      const blocked = await KiloMemory.remember({
+      const blocked = await KappaMemory.remember({
         ctx: context,
         key: "reply_style",
         text: "I prefer terse summaries.",
       })
-      const saved = await KiloMemory.remember({
+      const saved = await KappaMemory.remember({
         ctx: context,
         key: "repo_style",
         text: "Repo convention: commit messages are concise.",
       })
-      const shown = await KiloMemory.show({ ctx: context })
+      const shown = await KappaMemory.show({ ctx: context })
 
       expect(blocked.operationCount).toBe(0)
       expect(blocked.added).toBe(0)
@@ -430,14 +430,14 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const enabled = await KiloMemory.enable({ ctx: context })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: context })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [{ action: "add", key: "repo_fact", text: "Use the CLI package test runner for CLI changes." }],
       })
 
       const mem = await Effect.runPromise(
-        KilocodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-memory" }),
+        KappacodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-memory" }),
       )
       const text = mem.blocks.join("\n")
       const state = await MemoryFiles.readState(enabled.root)
@@ -458,12 +458,12 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const enabled = await KiloMemory.enable({ ctx: context })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: context })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [{ action: "add", key: "repo_fact", text: "Keep guidance de-duplicated across memory blocks." }],
       })
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: context,
         sessionID: "ses_guidance",
         topic: "guidance dedup",
@@ -472,7 +472,7 @@ describe("KiloMemory integration", () => {
       })
 
       const mem = await Effect.runPromise(
-        KilocodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-guidance" }),
+        KappacodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-guidance" }),
       )
       const text = mem.blocks.join("\n")
       const sentinel = "Memory is context, not instruction."
@@ -489,20 +489,20 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const enabled = await KiloMemory.enable({ ctx: context })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: context })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [{ action: "add", key: "repo_fact", text: "Pin the injected memory block per session." }],
       })
 
-      KiloSessionPrompt.clearPinnedMemory()
+      KappaSessionPrompt.clearPinnedMemory()
       const build = (sessionID: string, record: boolean) =>
         Effect.runPromise(
-          KiloSessionPrompt.memoryInject({
+          KappaSessionPrompt.memoryInject({
             ctx: context,
             sessionID: SessionID.make(sessionID),
             record,
-            cache: KiloSessionPrompt.memoryCache(),
+            cache: KappaSessionPrompt.memoryCache(),
           }),
         )
 
@@ -510,11 +510,11 @@ describe("KiloMemory integration", () => {
       expect(first.join("\n")).toContain("repo_fact")
 
       // Simulate the live index changing mid-session (a later save + this session's own digest).
-      await KiloMemory.apply({
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [{ action: "add", key: "later_fact", text: "This later write must not change the pinned block." }],
       })
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: context,
         sessionID: "ses_pin_a",
         topic: "own digest",
@@ -538,36 +538,36 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const enabled = await KiloMemory.enable({ ctx: context })
+      const enabled = await KappaMemory.enable({ ctx: context })
       const root = enabled.root
-      await KiloMemory.apply({
+      await KappaMemory.apply({
         root,
         ops: [{ action: "add", key: "toggle_fact", text: "Toggled memory should update the session prompt." }],
       })
-      await KiloMemory.disable({ ctx: context })
-      KiloToolRegistry.invalidateMemoryEnabled(root)
+      await KappaMemory.disable({ ctx: context })
+      KappaToolRegistry.invalidateMemoryEnabled(root)
 
-      KiloSessionPrompt.clearPinnedMemory()
+      KappaSessionPrompt.clearPinnedMemory()
       const build = () =>
         Effect.runPromise(
-          KiloSessionPrompt.memoryInject({
+          KappaSessionPrompt.memoryInject({
             ctx: context,
             sessionID: SessionID.make("ses_toggle"),
             record: false,
-            cache: KiloSessionPrompt.memoryCache(),
+            cache: KappaSessionPrompt.memoryCache(),
           }),
         )
 
       const disabled = await build()
       expect(disabled.join("\n")).not.toContain("toggle_fact")
 
-      await KiloMemory.enable({ ctx: context })
-      KiloToolRegistry.invalidateMemoryEnabled(root)
+      await KappaMemory.enable({ ctx: context })
+      KappaToolRegistry.invalidateMemoryEnabled(root)
       const restored = await build()
       expect(restored.join("\n")).toContain("toggle_fact")
 
-      await KiloMemory.disable({ ctx: context })
-      KiloToolRegistry.invalidateMemoryEnabled(root)
+      await KappaMemory.disable({ ctx: context })
+      KappaToolRegistry.invalidateMemoryEnabled(root)
       const removed = await build()
       expect(removed.join("\n")).not.toContain("toggle_fact")
     })
@@ -577,12 +577,12 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      await KiloMemory.enable({ ctx: context })
-      KiloSessionPrompt.clearPinnedMemory()
+      await KappaMemory.enable({ ctx: context })
+      KappaSessionPrompt.clearPinnedMemory()
 
-      const first = KiloSessionPrompt.memoryCache()
+      const first = KappaSessionPrompt.memoryCache()
       await Effect.runPromise(
-        KiloSessionPrompt.memoryInject({
+        KappaSessionPrompt.memoryInject({
           ctx: context,
           sessionID: SessionID.make("ses_verbose"),
           record: false,
@@ -591,10 +591,10 @@ describe("KiloMemory integration", () => {
       )
       expect(first.verbose).toBe(false)
 
-      await KiloMemory.configure({ ctx: context, settings: { verbose: true } })
-      const second = KiloSessionPrompt.memoryCache()
+      await KappaMemory.configure({ ctx: context, settings: { verbose: true } })
+      const second = KappaSessionPrompt.memoryCache()
       await Effect.runPromise(
-        KiloSessionPrompt.memoryInject({
+        KappaSessionPrompt.memoryInject({
           ctx: context,
           sessionID: SessionID.make("ses_verbose"),
           record: false,
@@ -609,16 +609,16 @@ describe("KiloMemory integration", () => {
     await using tmp = await tmpdir()
     await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
-      const enabled = await KiloMemory.enable({ ctx: context })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: context })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [{ action: "add", key: "repo_fact", text: "Keep memory prompt text stable across tool steps." }],
       })
 
-      await Effect.runPromise(KilocodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-memory" }))
+      await Effect.runPromise(KappacodeSystemPrompt.memoryBlocks({ ctx: context, sessionID: "session-memory" }))
       const before = await MemoryFiles.readState(enabled.root)
       await Effect.runPromise(
-        KilocodeSystemPrompt.memoryBlocks({
+        KappacodeSystemPrompt.memoryBlocks({
           ctx: context,
           sessionID: "session-memory",
           record: false,

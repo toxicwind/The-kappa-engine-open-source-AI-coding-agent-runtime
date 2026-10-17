@@ -95,7 +95,7 @@ const networkNotification: TuiAttentionNotifyInput = {
   sound: { name: "question", when: "always" },
 }
 
-describe("Kilo attention TUI plugin", () => {
+describe("Kappa attention TUI plugin", () => {
   test("requests upstream attention for suggestions and network prompts", async () => {
     const harness = await setup()
 

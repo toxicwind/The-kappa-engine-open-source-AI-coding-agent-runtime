@@ -19,8 +19,8 @@ import { ToolRegistry } from "../../src/tool/registry"
 import { RuntimeFlags } from "../../src/effect/runtime-flags"
 import { BoardReadTool, BoardPostTool } from "../../src/kappacode/tool/board"
 import { BoardStore } from "../../src/kappacode/board/store"
-import { KiloTask } from "../../src/kappacode/tool/task"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaTask } from "../../src/kappacode/tool/task"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
 import { disposeAllInstances, provideTmpdirInstance } from "../fixture/fixture"
 import { testEffect } from "../lib/effect"
 
@@ -83,7 +83,7 @@ const context = Effect.fn("BoardToolTest.context")(function* (sessionID: Session
     messages: yield* sessions.messages({ sessionID }),
     metadata: () => Effect.void,
     ask: (request) =>
-      KiloSessionPrompt.askPermission({
+      KappaSessionPrompt.askPermission({
         permission,
         agents,
         sessions,
@@ -523,14 +523,14 @@ describe("shared board tools", () => {
           }
           const caller = yield* agents.get("code")
           if (!caller) throw new Error("Missing code agent")
-          const denied = KiloTask.inherited({
+          const denied = KappaTask.inherited({
             caller: { ...caller, permission: Permission.fromConfig({ "*": "allow", "board_*": "deny" }) },
             session: {},
             mcp: {},
           })
           expect(Permission.evaluate("board_read", "*", caller.permission, denied).action).toBe("deny")
           expect(Permission.evaluate("board_post", "*", caller.permission, denied).action).toBe("deny")
-          const baseline = KiloTask.inherited({
+          const baseline = KappaTask.inherited({
             caller: { ...caller, permission: Permission.fromConfig({ "*": "deny", read: "allow" }) },
             session: {},
             mcp: {},

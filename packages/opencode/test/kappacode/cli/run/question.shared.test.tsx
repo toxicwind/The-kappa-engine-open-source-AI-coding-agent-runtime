@@ -9,7 +9,7 @@ import {
   questionSelect,
   questionSetSelected,
 } from "@/cli/cmd/run/question.shared"
-import { questionAdvance } from "@/kilocode/cli/cmd/run/question.shared"
+import { questionAdvance } from "@/kappacode/cli/cmd/run/question.shared"
 import { RunQuestionBody } from "@/cli/cmd/run/footer.question"
 import { RUN_THEME_FALLBACK } from "@/cli/cmd/run/theme"
 

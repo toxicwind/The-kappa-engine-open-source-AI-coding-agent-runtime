@@ -16,12 +16,12 @@ export type FimTarget =
 const KILO_FIM_URL = KILO_API_BASE + "/api/fim/completions"
 const INCEPTION_FIM_URL = "https://api.inceptionlabs.ai/v1/fim/completions"
 
-function kiloTarget(model?: string): FimTarget {
+function kappaTarget(model?: string): FimTarget {
   return { provider: "kappa", model: model ?? "mistralai/codestral-2501", url: KILO_FIM_URL }
 }
 
 export function resolveFimTarget(provider?: string, model?: string): FimTarget {
-  if (!provider || provider === "kappa") return kiloTarget(model)
+  if (!provider || provider === "kappa") return kappaTarget(model)
 
   const info = getAutocompleteModel(provider, model)
   if (info.directProvider === "mistral") {
@@ -30,5 +30,5 @@ export function resolveFimTarget(provider?: string, model?: string): FimTarget {
   if (info.directProvider === "inception") {
     return { provider: "inception", model: info.requestModel, url: INCEPTION_FIM_URL }
   }
-  return kiloTarget(model)
+  return kappaTarget(model)
 }

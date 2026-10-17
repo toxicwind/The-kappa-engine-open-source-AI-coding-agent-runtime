@@ -84,6 +84,13 @@ export function fallback(body: Frame, responseBody: string) {
   return { type: "api_error" as const, message, isRetryable: retryable(body.error, message), responseBody }
 }
 
+export function isOverloaded(status: number | undefined, body: unknown, msg: string): boolean {
+  if (status !== undefined && [429, 500, 502, 503, 504, 520, 524, 529].includes(status)) return true
+  const f = frame(body)
+  if (retryable(f.error, msg)) return true
+  return /overload|overloaded_error|server_is_overloaded|exhausted|temporarily unavailable|at capacity|rate.?limit|too many requests/i.test(msg)
+}
+
 const AUTH_ERROR =
   "Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project."
 

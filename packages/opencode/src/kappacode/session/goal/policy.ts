@@ -2,7 +2,7 @@ import { Effect, Exit } from "effect"
 import type { SessionV1 } from "@opencode-ai/core/v1/session"
 import type { PromptInput } from "@/session/prompt"
 import type { MessageID, SessionID } from "@/session/schema"
-import { KiloSessionPromptQueue } from "../prompt-queue"
+import { KappaSessionPromptQueue } from "../prompt-queue"
 import { GoalState } from "./state"
 
 export namespace GoalPolicy {
@@ -30,25 +30,25 @@ export namespace GoalPolicy {
 
   export function available(id: SessionID, tool: string) {
     if (tool === "goal_report") {
-      const base = KiloSessionPromptQueue.active(id)
+      const base = KappaSessionPromptQueue.active(id)
       const owner = base ? owners.get(base) : undefined
       return owner?.root === id && owner.current()
     }
     if (GoalState.curbed(id) && !WAIT.has(tool)) return false
     if (tool !== "question" && tool !== "goal") return true
     if (GoalState.hold(id)) return false
-    const base = KiloSessionPromptQueue.active(id)
+    const base = KappaSessionPromptQueue.active(id)
     return !base || !owners.get(base)?.current()
   }
 
   export function report(id: SessionID, message: MessageID, report: Report) {
-    const base = KiloSessionPromptQueue.active(id)
+    const base = KappaSessionPromptQueue.active(id)
     const owner = base ? owners.get(base) : undefined
     return owner?.root === id && owner.current() && owner.report(message, report)
   }
 
   export function bind<E, R>(id: SessionID, prompt: (input: PromptInput) => Effect.Effect<SessionV1.WithParts, E, R>) {
-    const base = KiloSessionPromptQueue.active(id)
+    const base = KappaSessionPromptQueue.active(id)
     const owner = base ? owners.get(base) : undefined
     if (!owner) return prompt
     return (input: PromptInput) =>

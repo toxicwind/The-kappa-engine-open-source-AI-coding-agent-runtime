@@ -318,7 +318,7 @@ describe("daemon manager", () => {
       await using tmp = await tmpdir()
       const env = dirs(tmp.path)
       const proc = cli(["daemon", "-f", "--port", "0"], env)
-      const stdout = capture(proc.stdout, "Press Ctrl+C to stop the Kilo daemon.")
+      const stdout = capture(proc.stdout, "Press Ctrl+C to stop the Kappa daemon.")
       const stderr = new Response(proc.stderr).text()
 
       try {

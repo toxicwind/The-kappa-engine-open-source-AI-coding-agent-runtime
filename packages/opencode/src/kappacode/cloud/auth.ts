@@ -32,7 +32,7 @@ export namespace CloudAuth {
       return yield* Effect.fail(
         new ResolutionError({
           kind: "missing",
-          message: "Kilo credentials are required; run `kappa auth login`",
+          message: "Kappa credentials are required; run `kappa auth login`",
         }),
       )
     }
@@ -53,7 +53,7 @@ export namespace CloudAuth {
       return yield* Effect.fail(
         new ResolutionError({
           kind: "organization",
-          message: "Kilo organization ID must be a valid UUID",
+          message: "Kappa organization ID must be a valid UUID",
         }),
       )
     }

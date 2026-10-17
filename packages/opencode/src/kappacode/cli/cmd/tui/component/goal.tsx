@@ -7,7 +7,7 @@ import { useDialog } from "@tui/ui/dialog"
 import { DialogSelect } from "@tui/ui/dialog-select"
 import { useToast } from "@tui/ui/toast"
 import { errorMessage } from "@tui/util/error"
-import { GoalState } from "@/kilocode/session/goal/state"
+import { GoalState } from "@/kappacode/session/goal/state"
 
 export namespace GoalPrompt {
   export const read = GoalState.read

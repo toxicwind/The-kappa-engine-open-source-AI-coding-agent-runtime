@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from "bun:test"
 import { $ } from "bun"
 import { Effect } from "effect"
@@ -63,7 +63,7 @@ describe("tool.recall", () => {
 
     try {
       await $`git worktree add ${worktree} -b test-branch-${Date.now()}`.cwd(first.path).quiet()
-      await Bun.write(path.join(first.path, ".git", "kappa"), "stale-project-id") // kilocode_change
+      await Bun.write(path.join(first.path, ".git", "kappa"), "stale-project-id") // kappacode_change
 
       try {
         const root = await provideTestInstance({
@@ -182,7 +182,7 @@ describe("tool.recall", () => {
 
     try {
       await $`git worktree add ${worktree} -b test-branch-${Date.now()}`.cwd(first.path).quiet()
-      await Bun.write(path.join(first.path, ".git", "kappa"), "stale-project-id") // kilocode_change
+      await Bun.write(path.join(first.path, ".git", "kappa"), "stale-project-id") // kappacode_change
 
       try {
         const session = await provideTestInstance({

@@ -1,17 +1,17 @@
 ---
 title: Voice Transcription
-description: Dictate prompts through your signed-in Kilo account.
+description: Dictate prompts through your signed-in Kappa account.
 ---
 
 # Voice Transcription
 
-Use voice input in prompt fields instead of typing. When the Kilo provider is enabled and you are signed in, the microphone appears automatically and transcription uses your account through Kilo Gateway.
+Use voice input in prompt fields instead of typing. When the Kappa provider is enabled and you are signed in, the microphone appears automatically and transcription uses your account through Kappa Gateway.
 
 ---
 
 ## Get ready
 
-Voice input needs FFmpeg plus access to the Kilo provider.
+Voice input needs FFmpeg plus access to the Kappa provider.
 
 ### Install FFmpeg
 
@@ -35,21 +35,21 @@ Download from [ffmpeg.org/download.html](https://ffmpeg.org/download.html) and a
 
 ### Sign in
 
-Enable and sign in to the Kilo provider to use voice input in prompt fields. Requests use your Kilo account through Kilo Gateway, so no separate OpenAI provider profile or API key is needed.
+Enable and sign in to the Kappa provider to use voice input in prompt fields. Requests use your Kappa account through Kappa Gateway, so no separate OpenAI provider profile or API key is needed.
 
 ---
 
 ## Choose a model
 
-You can optionally choose a transcription model in **Settings** > **Models** > **Speech to Text Model**. Kilo stores this choice as `experimental.speech_to_text_model` in your global Kilo CLI config (`~/.config/kappa/kappa.jsonc`).
+You can optionally choose a transcription model in **Settings** > **Models** > **Speech to Text Model**. Kappa stores this choice as `experimental.speech_to_text_model` in your global Kappa CLI config (`~/.config/kappa/kappa.jsonc`).
 
-The model list is discovered from the Kilo Gateway and reflects the transcription models available to your account or organization, so newly available models appear automatically.
+The model list is discovered from the Kappa Gateway and reflects the transcription models available to your account or organization, so newly available models appear automatically.
 
 ---
 
 ## Use your own transcription service
 
-By default the model list and the audio itself go through Kilo Gateway. To use another service, set a base URL in **Settings** > **Models** > **Speech to Text Base URL**. Any OpenAI-compatible transcription API works, including OpenAI, Groq, and a self-hosted Whisper server.
+By default the model list and the audio itself go through Kappa Gateway. To use another service, set a base URL in **Settings** > **Models** > **Speech to Text Base URL**. Any OpenAI-compatible transcription API works, including OpenAI, Groq, and a self-hosted Whisper server.
 
 ```json
 {
@@ -64,27 +64,27 @@ By default the model list and the audio itself go through Kilo Gateway. To use a
 With a base URL set:
 
 - The model list is read from `{base_url}/models`, and the model field accepts any ID that service exposes
-- Audio is uploaded straight to `{base_url}/audio/transcriptions` as a multipart request, so it never passes through Kilo Gateway
-- The API key is sent as a bearer token, and voice input works without signing in to Kilo
+- Audio is uploaded straight to `{base_url}/audio/transcriptions` as a multipart request, so it never passes through Kappa Gateway
+- The API key is sent as a bearer token, and voice input works without signing in to Kappa
 
-Leave the base URL empty to go back to Kilo Gateway.
+Leave the base URL empty to go back to Kappa Gateway.
 
 {% callout type="warning" %}
-The API key is stored as plain text in your Kilo config file. For a local server that needs no credentials, leave the key empty.
+The API key is stored as plain text in your Kappa config file. For a local server that needs no credentials, leave the key empty.
 {% /callout %}
 
 ---
 
 ## Record prompts
 
-When you are signed in to the enabled Kilo provider, a microphone button appears in prompt fields:
+When you are signed in to the enabled Kappa provider, a microphone button appears in prompt fields:
 
 1. Click the microphone button to start recording
 2. Speak your message clearly
 3. Click again to stop recording
 4. Your speech is transcribed into text
 
-You can also use **Cmd/Ctrl+K** while a Kilo prompt or review comment field is focused. Tap it to start or stop recording, or hold it while speaking and release to transcribe and submit the focused field. Press it during transcription to cancel.
+You can also use **Cmd/Ctrl+K** while a Kappa prompt or review comment field is focused. Tap it to start or stop recording, or hold it while speaking and release to transcribe and submit the focused field. Press it during transcription to cancel.
 
 The feature includes real-time audio level visualization and voice activity detection to automatically detect when you're speaking.
 
@@ -93,7 +93,7 @@ The feature includes real-time audio level visualization and voice activity dete
 ## Review details
 
 - **Audio processing**: Uses FFmpeg for system audio capture
-- **Transcription**: Sends audio through Kilo Gateway with the selected transcription model, or straight to your own base URL when one is set
+- **Transcription**: Sends audio through Kappa Gateway with the selected transcription model, or straight to your own base URL when one is set
 
 ---
 
@@ -101,12 +101,12 @@ The feature includes real-time audio level visualization and voice activity dete
 
 **Microphone button not appearing:**
 
-- Enable and sign in to the Kilo provider, or set a custom transcription base URL
+- Enable and sign in to the Kappa provider, or set a custom transcription base URL
 - Confirm you are in a local VS Code window. Voice input is unavailable in remote windows such as Remote-SSH, WSL, and dev containers, because audio capture runs on the machine that hosts the extension
 
 **Transcription errors:**
 
-- Confirm the Kilo provider remains enabled and signed in, or that your custom base URL and API key are correct
+- Confirm the Kappa provider remains enabled and signed in, or that your custom base URL and API key are correct
 - For a custom base URL, confirm the service exposes `/models` and `/audio/transcriptions`
 - Verify FFmpeg is installed and in your PATH
 - Check your internet connection
@@ -120,5 +120,5 @@ Voice transcription has these requirements:
 
 - Requires an active internet connection, unless your custom base URL points at a local service
 - Requires a local VS Code window. In remote windows audio capture runs on the remote machine, which usually has no microphone
-- Requires Kilo Gateway access through your Kilo account, or a custom OpenAI-compatible base URL
+- Requires Kappa Gateway access through your Kappa account, or a custom OpenAI-compatible base URL
 - Transcription accuracy depends on audio quality and speech clarity

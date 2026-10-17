@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloConnectionService } from "../cli-backend"
+import type { KappaConnectionService } from "../cli-backend"
 
 export interface RetentionResult {
   at: number
@@ -50,7 +50,7 @@ export class RetentionService {
   }
 
   constructor(
-    private readonly connection: KiloConnectionService,
+    private readonly connection: KappaConnectionService,
     private readonly context: vscode.ExtensionContext,
   ) {}
 
@@ -78,7 +78,7 @@ export class RetentionService {
     try {
       await this.run(false)
     } catch (err) {
-      console.warn("[Kilo New] Scheduled retention pass failed:", err)
+      console.warn("[Kappa New] Scheduled retention pass failed:", err)
     } finally {
       if (!this.disposed) this.schedule(DAY_MS)
     }
@@ -101,7 +101,7 @@ export class RetentionService {
     try {
       const client = this.connection.getClient()
       const directory = this.directory()
-      const response = await client.kilocode.retention.run(
+      const response = await client.kappacode.retention.run(
         { ...(directory ? { directory } : {}), force },
         { throwOnError: true },
       )
@@ -115,7 +115,7 @@ export class RetentionService {
     const client = this.connection.getClient()
     const directory = this.directory()
     const signal = AbortSignal.timeout(10_000)
-    const response = await client.kilocode.retention
+    const response = await client.kappacode.retention
       .status(directory ? { directory } : {}, {
         throwOnError: true,
         signal,
@@ -131,7 +131,7 @@ export class RetentionService {
   async cancel(): Promise<boolean> {
     const client = this.connection.getClient()
     const directory = this.directory()
-    const response = await client.kilocode.retention.cancel(directory ? { directory } : {}, { throwOnError: true })
+    const response = await client.kappacode.retention.cancel(directory ? { directory } : {}, { throwOnError: true })
     return response.data.requested
   }
 
@@ -145,7 +145,7 @@ export class RetentionService {
 
 let shared: RetentionService | undefined
 
-/** One trigger per extension host, shared by every KiloProvider instance. */
-export function retention(connection: KiloConnectionService, context: vscode.ExtensionContext): RetentionService {
+/** One trigger per extension host, shared by every KappaProvider instance. */
+export function retention(connection: KappaConnectionService, context: vscode.ExtensionContext): RetentionService {
   return (shared ??= new RetentionService(connection, context))
 }

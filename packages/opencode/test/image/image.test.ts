@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Cause, Effect, Exit } from "effect"
 import { Image } from "@/image/image"
-import { KiloAttachment } from "@/kilocode/session/attachment" // kilocode_change - pin boundary/fallback agreement
+import { KappaAttachment } from "@/kappacode/session/attachment" // kappacode_change - pin boundary/fallback agreement
 import { Config } from "@/config/config"
 import { MessageID, PartID, SessionID } from "@/session/schema"
 import { TestConfig } from "../fixture/config"
@@ -56,7 +56,7 @@ describe("Image", () => {
     }),
   )
 
-  // kilocode_change start - cover Kilo's Photon-unavailable fallback
+  // kappacode_change start - cover Kappa's Photon-unavailable fallback
   test("preserves a valid in-limit image without Photon", () => {
     const data = "UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA"
     const input = part("image/webp", data)
@@ -79,7 +79,7 @@ describe("Image", () => {
     if (result instanceof Image.SizeError) expect(result.bytes).toBe(data.length)
   })
 
-  // The HTTP-boundary precheck (kilocode/session/attachment.ts) waves an attachment through
+  // The HTTP-boundary precheck (kappacode/session/attachment.ts) waves an attachment through
   // based on content. If this fallback disagreed, an attachment accepted at the boundary would
   // later die as a defect inside resolvePart -- and on prompt_async that surfaces only after the
   // route already returned 204, losing the typed message. These two pin the agreement.
@@ -89,7 +89,7 @@ describe("Image", () => {
     expect(wrapped).toContain("\n")
     const input = part("image/webp", wrapped)
 
-    expect(KiloAttachment.precheck({ mime: "image/webp", url: input.url })).toBeUndefined()
+    expect(KappaAttachment.precheck({ mime: "image/webp", url: input.url })).toBeUndefined()
     expect(Image.fallback(input, wrapped, { bytes: 1024, width: 2000, height: 2000 })).toEqual(input)
   })
 
@@ -99,7 +99,7 @@ describe("Image", () => {
     const data = "UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA"
     const input = part("image/png", data)
 
-    expect(KiloAttachment.precheck({ mime: "image/png", url: input.url })).toBeUndefined()
+    expect(KappaAttachment.precheck({ mime: "image/png", url: input.url })).toBeUndefined()
     expect(Image.fallback(input, data, { bytes: 1024, width: 2000, height: 2000 })).toEqual(input)
   })
 
@@ -107,7 +107,7 @@ describe("Image", () => {
     const bmp = Buffer.concat([Buffer.from([0x42, 0x4d]), Buffer.alloc(64, 1)]).toString("base64")
     const input = part("image/png", bmp)
 
-    expect(KiloAttachment.precheck({ mime: "image/png", url: input.url })).toBeDefined()
+    expect(KappaAttachment.precheck({ mime: "image/png", url: input.url })).toBeDefined()
     expect(Image.fallback(input, bmp, { bytes: 1024, width: 2000, height: 2000 })).toBeInstanceOf(Image.DecodeError)
   })
 
@@ -126,7 +126,7 @@ describe("Image", () => {
       expect(result.height).toBe(1)
     }
   })
-  // kilocode_change end
+  // kappacode_change end
 
   tiny.effect("fails with a typed size error when no resized candidate fits", () =>
     Effect.gen(function* () {

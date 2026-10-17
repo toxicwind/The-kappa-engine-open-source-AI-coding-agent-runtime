@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test"
 import { ConfigBindings, type ConfigBinding, type ConfigProject } from "../../src/kappa-provider/config-bindings"
 
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 
 const target = {
   scope: "project" as const,
@@ -42,7 +42,7 @@ describe("ConfigBindings", () => {
   })
 
   it("expires retained-panel bindings when the selected project changes", () => {
-    const provider = new KiloProvider({} as never, {} as never, undefined, { projectDirectory: "/repo/a" })
+    const provider = new KappaProvider({} as never, {} as never, undefined, { projectDirectory: "/repo/a" })
     const internal = provider as unknown as { configBindings: ConfigBindings; connectionGeneration: number }
     const binding = internal.configBindings.create({
       connection: internal.connectionGeneration,
@@ -73,7 +73,7 @@ describe("ConfigBindings", () => {
         },
       },
     }
-    const provider = new KiloProvider(
+    const provider = new KappaProvider(
       {} as never,
       { getClient: () => client, drainPendingPrompts: async () => {} } as never,
       undefined,

@@ -33,11 +33,11 @@ vi.mock("vscode", () => {
 
 import * as vscode from "vscode"
 import { registerCommitMessageService } from "../index"
-import type { KiloConnectionService } from "../../cli-backend/connection-service"
+import type { KappaConnectionService } from "../../cli-backend/connection-service"
 
 describe("commit-message service", () => {
   let mockContext: vscode.ExtensionContext
-  let mockConnectionService: KiloConnectionService
+  let mockConnectionService: KappaConnectionService
   let mockClient: { commitMessage: { generate: Mock } }
 
   beforeEach(() => {
@@ -130,7 +130,7 @@ describe("commit-message service", () => {
       await commandCallback()
 
       expect(vscode.window.showErrorMessage).toHaveBeenCalledWith(
-        "Failed to connect to Kilo backend. Please try again.",
+        "Failed to connect to Kappa backend. Please try again.",
       )
     })
 

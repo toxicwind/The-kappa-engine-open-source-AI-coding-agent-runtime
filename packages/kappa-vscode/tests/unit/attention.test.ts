@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test"
 import * as vscode from "vscode"
 import type { TuiAttentionSoundName } from "@kappacode/plugin/tui"
 import { AttentionService, type AttentionNotice } from "../../src/services/attention/service"
-import type { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 import type { SSEPayload } from "../../src/services/cli-backend/sdk-sse-adapter"
 import { CustomSoundIDs, resolveSoundID } from "../../src/services/attention/sound"
 
@@ -65,7 +65,7 @@ function setup(
       states.push(handler)
       return () => undefined
     },
-  } as unknown as KiloConnectionService
+  } as unknown as KappaConnectionService
   const service = new AttentionService(connection, {
     approve: opts.approve,
     details: opts.details,
@@ -173,11 +173,11 @@ describe("AttentionService", () => {
     test.service.dispose()
   })
 
-  it("shows a VS Code notification when input is needed and Kilo is hidden", () => {
+  it("shows a VS Code notification when input is needed and Kappa is hidden", () => {
     const test = setup({ notifications: true, capture: false })
     test.event(event({ type: "question.asked", properties: { id: "q1", sessionID: "s1" } }))
 
-    expect(test.messages).toEqual([{ message: "Kilo needs your input.", style: "info" }])
+    expect(test.messages).toEqual([{ message: "Kappa needs your input.", style: "info" }])
     test.service.dispose()
     test.restore()
   })
@@ -192,7 +192,7 @@ describe("AttentionService", () => {
     await Bun.sleep(0)
 
     expect(test.messages).toEqual([
-      { message: "Kilo needs your input. Workspace: kappa-vscode | Session: Add notifications", style: "info" },
+      { message: "Kappa needs your input. Workspace: kappa-vscode | Session: Add notifications", style: "info" },
     ])
     test.service.dispose()
     test.restore()
@@ -205,8 +205,8 @@ describe("AttentionService", () => {
     test.event(event({ type: "permission.asked", properties: { id: "p1", sessionID: "s1" } }))
 
     expect(test.messages).toEqual([
-      { message: "Kilo task completed.", style: "info" },
-      { message: "Kilo needs permission.", style: "warning" },
+      { message: "Kappa task completed.", style: "info" },
+      { message: "Kappa needs permission.", style: "warning" },
     ])
     test.service.dispose()
     test.restore()
@@ -228,10 +228,10 @@ describe("AttentionService", () => {
     // The OS toast is a transient, informational ping; the VS Code notification
     // persists as an actionable "Show" entry for when the user returns.
     expect(alerts).toEqual([
-      { message: "Kilo needs your input.", workspace: "kappa-vscode", session: "Add notifications" },
+      { message: "Kappa needs your input.", workspace: "kappa-vscode", session: "Add notifications" },
     ])
     expect(test.messages).toEqual([
-      { message: "Kilo needs your input. Workspace: kappa-vscode | Session: Add notifications", style: "info" },
+      { message: "Kappa needs your input. Workspace: kappa-vscode | Session: Add notifications", style: "info" },
     ])
     test.service.dispose()
     test.restore()
@@ -241,7 +241,7 @@ describe("AttentionService", () => {
     const test = setup({ notifications: true, osNotifications: true, focused: false, capture: false })
     test.event(event({ type: "question.asked", properties: { id: "q1", sessionID: "s1" } }))
 
-    expect(test.messages).toEqual([{ message: "Kilo needs your input.", style: "info" }])
+    expect(test.messages).toEqual([{ message: "Kappa needs your input.", style: "info" }])
     test.service.dispose()
     test.restore()
   })
@@ -284,13 +284,13 @@ describe("AttentionService", () => {
 
     expect(alerts).toEqual([])
     expect(test.messages).toEqual([
-      { message: "Kilo needs your input. Workspace: kappa-vscode | Session: Add notifications", style: "info" },
+      { message: "Kappa needs your input. Workspace: kappa-vscode | Session: Add notifications", style: "info" },
     ])
     test.service.dispose()
     test.restore()
   })
 
-  it("focuses Kilo when the notification action is selected", async () => {
+  it("focuses Kappa when the notification action is selected", async () => {
     const ids: string[] = []
     const test = setup({
       notifications: true,
@@ -306,7 +306,7 @@ describe("AttentionService", () => {
     test.restore()
   })
 
-  it("suppresses VS Code notifications while Kilo is visible", () => {
+  it("suppresses VS Code notifications while Kappa is visible", () => {
     const test = setup({ notifications: true, visible: true, capture: false })
     test.event(event({ type: "permission.asked", properties: { id: "p1", sessionID: "s1" } }))
 
@@ -315,12 +315,12 @@ describe("AttentionService", () => {
     test.restore()
   })
 
-  it("notifies when a different Kilo session is visible", () => {
+  it("notifies when a different Kappa session is visible", () => {
     const test = setup({ notifications: true, visible: (sessionID) => sessionID === "s2", capture: false })
     test.event(event({ type: "question.asked", properties: { id: "q1", sessionID: "s1" } }))
     test.event(event({ type: "question.asked", properties: { id: "q2", sessionID: "s2" } }))
 
-    expect(test.messages).toEqual([{ message: "Kilo needs your input.", style: "info" }])
+    expect(test.messages).toEqual([{ message: "Kappa needs your input.", style: "info" }])
     test.service.dispose()
     test.restore()
   })
@@ -373,7 +373,7 @@ describe("AttentionService", () => {
     expect(test.messages).toEqual([])
     test.event(event({ type: "session.turn.close", properties: { sessionID: "s1", reason: "interrupted" } }))
 
-    expect(test.messages).toEqual([{ message: "Kilo task stopped due to an error.", style: "error" }])
+    expect(test.messages).toEqual([{ message: "Kappa task stopped due to an error.", style: "error" }])
     test.service.dispose()
     test.restore()
   })
@@ -388,7 +388,7 @@ describe("AttentionService", () => {
     test.event(event({ type: "session.status", properties: { sessionID: "s1", status: { type: "retry" } } }))
     test.event(event({ type: "session.turn.close", properties: { sessionID: "s1", reason: "completed" } }))
 
-    expect(test.messages).toEqual([{ message: "Kilo task completed.", style: "info" }])
+    expect(test.messages).toEqual([{ message: "Kappa task completed.", style: "info" }])
     test.service.dispose()
     test.restore()
   })

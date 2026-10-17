@@ -5,12 +5,12 @@ import os from "os"
 import type { Config } from "../config/config"
 import type { ConfigAgentV1 } from "@opencode-ai/core/v1/config/agent"
 import { ConfigPermissionV1 as ConfigPermission } from "@opencode-ai/core/v1/config/permission"
-import { KilocodePaths } from "./paths"
+import { KappacodePaths } from "./paths"
 import type { OrganizationMode } from "@kappacode/kappa-gateway"
 
 export namespace ModesMigrator {
-  // Kilocode mode structure
-  export interface KilocodeMode {
+  // Kappacode mode structure
+  export interface KappacodeMode {
     slug: string
     name: string
     roleDefinition: string
@@ -21,8 +21,8 @@ export namespace ModesMigrator {
     source?: "global" | "project" | "organization"
   }
 
-  export interface KilocodeModesFile {
-    customModes: KilocodeMode[]
+  export interface KappacodeModesFile {
+    customModes: KappacodeMode[]
   }
 
   // Default modes to skip - these have native Opencode equivalents
@@ -44,7 +44,7 @@ export namespace ModesMigrator {
     return DEFAULT_MODE_SLUGS.has(slug)
   }
 
-  export function convertPermissions(groups: KilocodeMode["groups"]): ConfigPermission.Info {
+  export function convertPermissions(groups: KappacodeMode["groups"]): ConfigPermission.Info {
     const permission: Record<string, any> = {}
     const allowedPermissions = new Set<string>()
 
@@ -80,7 +80,7 @@ export namespace ModesMigrator {
     return permission
   }
 
-  export function convertMode(mode: KilocodeMode): ConfigAgentV1.Info {
+  export function convertMode(mode: KappacodeMode): ConfigAgentV1.Info {
     const prompt = [mode.roleDefinition, mode.customInstructions].filter(Boolean).join("\n\n")
 
     return {
@@ -129,12 +129,12 @@ export namespace ModesMigrator {
     return result
   }
 
-  export async function readModesFile(filepath: string): Promise<KilocodeMode[]> {
+  export async function readModesFile(filepath: string): Promise<KappacodeMode[]> {
     try {
       const content = await fs.readFile(filepath, "utf-8")
       // Wrap YAML content in frontmatter delimiters so gray-matter can parse it
       const wrapped = `---\n${content}\n---`
-      const parsed = matter(wrapped).data as KilocodeModesFile
+      const parsed = matter(wrapped).data as KappacodeModesFile
       return parsed?.customModes ?? []
     } catch (err: any) {
       if (err.code === "ENOENT") return []
@@ -159,11 +159,11 @@ export namespace ModesMigrator {
     }
 
     // Collect modes from all sources
-    const allModes: KilocodeMode[] = []
+    const allModes: KappacodeMode[] = []
 
     if (!options.skipGlobalPaths) {
       // 1. VSCode extension global storage (primary location for global modes)
-      const vscodeGlobalPath = path.join(KilocodePaths.vscodeGlobalStorage(), "settings", "custom_modes.yaml")
+      const vscodeGlobalPath = path.join(KappacodePaths.vscodeGlobalStorage(), "settings", "custom_modes.yaml")
       allModes.push(...(await readModesFile(vscodeGlobalPath)))
 
       // 2. CLI global settings (fallback/alternative location)
@@ -188,7 +188,7 @@ export namespace ModesMigrator {
     allModes.push(...(await readModesFile(projectModesPath)))
 
     // Deduplicate by slug (later entries win)
-    const modesBySlug = new Map<string, KilocodeMode>()
+    const modesBySlug = new Map<string, KappacodeMode>()
     for (const mode of allModes) {
       modesBySlug.set(mode.slug, mode)
     }

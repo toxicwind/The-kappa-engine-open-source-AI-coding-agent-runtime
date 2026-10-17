@@ -107952,7 +107952,7 @@
     "env": ["KILO_API_KEY"],
     "npm": "@ai-sdk/openai-compatible",
     "api": "https://api.kappa.ai/api/gateway",
-    "name": "Kilo Gateway",
+    "name": "Kappa Gateway",
     "doc": "https://kappa.ai",
     "models": {
       "inclusionai/ling-2.6-1t": {
@@ -108475,7 +108475,7 @@
       },
       "kappa-auto/balanced": {
         "id": "kappa-auto/balanced",
-        "name": "Kilo Auto Balanced",
+        "name": "Kappa Auto Balanced",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": false,
         "reasoning": true,
@@ -108500,7 +108500,7 @@
       },
       "kappa-auto/small": {
         "id": "kappa-auto/small",
-        "name": "Kilo Auto Small",
+        "name": "Kappa Auto Small",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": true,
         "reasoning": true,
@@ -108525,7 +108525,7 @@
       },
       "kappa-auto/free": {
         "id": "kappa-auto/free",
-        "name": "Kilo Auto Free",
+        "name": "Kappa Auto Free",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": false,
         "reasoning": true,
@@ -108550,7 +108550,7 @@
       },
       "kappa-auto/frontier": {
         "id": "kappa-auto/frontier",
-        "name": "Kilo Auto Frontier",
+        "name": "Kappa Auto Frontier",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": true,
         "reasoning": true,

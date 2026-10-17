@@ -1,9 +1,9 @@
 import { routeSuggestionWebviewMessage } from "./handlers/suggestion"
 import { routeInputToolMessage } from "../services/input-tools"
-import type { KiloConnectionService } from "../services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 import type { SpeechToTextSource } from "../speech-to-text/source"
 import type { SuggestionContext } from "./handlers/suggestion"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { buildChatSettingsMessage } from "./chat-settings"
 import { buildThroughputSettingMessage } from "./throughput-settings"
 import { buildAutoApprovalReasonSettingMessage } from "./auto-approval-reason-settings"
@@ -11,8 +11,8 @@ import type { ModelUsageMessage } from "./model-usage"
 
 type Ctx = {
   question: SuggestionContext
-  client: KiloClient | null
-  connection: KiloConnectionService
+  client: KappaClient | null
+  connection: KappaConnectionService
   dir: string
   post: (msg: unknown) => void
   browserSettings: () => void

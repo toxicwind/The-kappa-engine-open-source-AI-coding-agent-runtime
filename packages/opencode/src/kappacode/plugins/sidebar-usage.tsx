@@ -3,8 +3,8 @@ import { createEffect, createMemo, createResource, createSignal, For, onCleanup,
 import { useLocal } from "@tui/context/local"
 import * as Model from "@tui/util/model"
 import { Locale } from "@/util/locale"
-import { RoutedModelMeta } from "@/kilocode/cli/cmd/tui/routes/session/routed-model-meta"
-import { fmtAttemptCost, fmtScore } from "@/kilocode/components/model-info-panel-utils"
+import { RoutedModelMeta } from "@/kappacode/cli/cmd/tui/routes/session/routed-model-meta"
+import { fmtAttemptCost, fmtScore } from "@/kappacode/components/model-info-panel-utils"
 import {
   aggregateMetrics,
   failed,
@@ -19,8 +19,8 @@ import {
   throughputLabel,
   type StepMetrics,
   type UsageResult,
-} from "@/kilocode/plugins/model-usage"
-import { ModelRow, UsageRow } from "@/kilocode/plugins/sidebar-usage-row"
+} from "@/kappacode/plugins/model-usage"
+import { ModelRow, UsageRow } from "@/kappacode/plugins/sidebar-usage-row"
 
 const id = "internal:kappa-sidebar-usage"
 
@@ -43,7 +43,7 @@ function View(props: { api: TuiPluginApi; session_id: string }) {
   const [result, { refetch }] = createResource(
     () => props.session_id,
     (sessionID): Promise<UsageResult> =>
-      props.api.client.kilocode.sessionModelUsage({ sessionID }).then(
+      props.api.client.kappacode.sessionModelUsage({ sessionID }).then(
         (response) => ({ sessionID, data: response.data }),
         () => ({ sessionID }),
       ),

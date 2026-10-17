@@ -1,24 +1,24 @@
-// Kilo notification types (mirrored from kappa-gateway)
-export interface KilocodeNotificationAction {
+// Kappa notification types (mirrored from kappa-gateway)
+export interface KappacodeNotificationAction {
   actionText: string
   actionURL: string
 }
 
-export interface KilocodeNotification {
+export interface KappacodeNotification {
   id: string
   title: string
   message: string
-  action?: KilocodeNotificationAction
+  action?: KappacodeNotificationAction
   showIn?: string[]
   suggestModelId?: string
 }
 
 // Profile types from kappa-gateway
-export interface KilocodeBalance {
+export interface KappacodeBalance {
   balance: number
 }
 
-export interface KiloPassState {
+export interface KappaPassState {
   currentPeriodBaseCreditsUsd: number
   currentPeriodUsageUsd: number
   currentPeriodBonusCreditsUsd: number
@@ -33,7 +33,7 @@ export interface ProfileData {
     selectedOrganizationId?: string
     hasPersonalAccount?: boolean
   }
-  balance: KilocodeBalance | null
-  kiloPass: KiloPassState | null
+  balance: KappacodeBalance | null
+  kappaPass: KappaPassState | null
   currentOrgId: string | null
 }

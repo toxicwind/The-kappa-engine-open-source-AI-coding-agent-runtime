@@ -1,22 +1,22 @@
 ---
 title: "Installation"
-description: "Install Kilo Desktop and complete first-time setup, including optional dependencies for git and local model features."
+description: "Install Kappa Desktop and complete first-time setup, including optional dependencies for git and local model features."
 ---
 
 # Installation
 
-Kilo Desktop is distributed as a native installer for your operating system. Download the installer, run it, and launch the app.
+Kappa Desktop is distributed as a native installer for your operating system. Download the installer, run it, and launch the app.
 
 ## System requirements
 
 - **Operating system:** macOS (Apple Silicon), Windows (`x64`), or Linux (`x64`).
-- **Account:** a [Kilo account](/docs/desktop/settings/ai#ai-providers). Signing in is required to use the local model server and create Conda environments.
+- **Account:** a [Kappa account](/docs/desktop/settings/ai#ai-providers). Signing in is required to use the local model server and create Conda environments.
 
 ## Install the app
 
-1. Download the [Kilo Desktop installer](https://kappa.ai/install) for your platform.
+1. Download the [Kappa Desktop installer](https://kappa.ai/install) for your platform.
 2. Run the installer and follow the prompts.
-3. Launch Kilo Desktop.
+3. Launch Kappa Desktop.
 
 ## Optional dependencies
 

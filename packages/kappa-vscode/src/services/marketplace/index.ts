@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { detectMarketplaceRelevance } from "./relevance"
 import type {
   MarketplaceItem,
@@ -10,8 +10,8 @@ import type {
 } from "./types"
 
 export class MarketplaceService {
-  async fetchData(client: KiloClient, project: string | undefined, dir: string): Promise<MarketplaceDataResponse> {
-    const { data } = await client.kilocode.marketplace.list({ directory: dir }, { throwOnError: true })
+  async fetchData(client: KappaClient, project: string | undefined, dir: string): Promise<MarketplaceDataResponse> {
+    const { data } = await client.kappacode.marketplace.list({ directory: dir }, { throwOnError: true })
     const items = (data.items ?? []) as MarketplaceItem[]
     const relevance = detectMarketplaceRelevance(items, data.filenames ?? [])
     const installed = project
@@ -27,12 +27,12 @@ export class MarketplaceService {
   }
 
   async install(
-    client: KiloClient,
+    client: KappaClient,
     item: MarketplaceItem,
     options: InstallMarketplaceItemOptions,
     dir: string,
   ): Promise<InstallResult> {
-    const { data } = await client.kilocode.marketplace.install(
+    const { data } = await client.kappacode.marketplace.install(
       {
         directory: dir,
         item,
@@ -48,12 +48,12 @@ export class MarketplaceService {
   }
 
   async remove(
-    client: KiloClient,
+    client: KappaClient,
     item: MarketplaceItemRef,
     scope: "project" | "global",
     dir: string,
   ): Promise<RemoveResult> {
-    const { data } = await client.kilocode.marketplace.remove(
+    const { data } = await client.kappacode.marketplace.remove(
       { directory: dir, item: { id: item.id, type: item.type }, scope },
       { throwOnError: true },
     )

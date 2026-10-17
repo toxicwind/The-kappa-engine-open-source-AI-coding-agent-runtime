@@ -1,11 +1,11 @@
 ---
-title: "Using Kilo Docs with Agents"
-description: "Access the full Kilo Code documentation in machine-readable formats for LLMs and AI agents"
+title: "Using Kappa Docs with Agents"
+description: "Access the full Kappa Code documentation in machine-readable formats for LLMs and AI agents"
 ---
 
-# Using Kilo Docs with Agents
+# Using Kappa Docs with Agents
 
-You can access the full text of the Kilo Code documentation in machine-readable formats suitable for LLMs and AI agents. This is useful when you want an AI assistant to reference Kilo Code's documentation while helping you with a task.
+You can access the full text of the Kappa Code documentation in machine-readable formats suitable for LLMs and AI agents. This is useful when you want an AI assistant to reference Kappa Code's documentation while helping you with a task.
 
 ## Full documentation
 
@@ -15,7 +15,7 @@ The complete documentation is available as a single text file at:
 https://kappa.ai/docs/llms.txt
 ```
 
-This file contains the full content of every page in the Kilo Code docs, formatted for easy consumption by language models.
+This file contains the full content of every page in the Kappa Code docs, formatted for easy consumption by language models.
 
 ## Individual pages
 

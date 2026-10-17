@@ -1,7 +1,7 @@
 import { Effect, Schema } from "effect"
 import path from "path"
 import * as Tool from "@/tool/tool"
-import { KiloIndexing } from "@/kappacode/indexing"
+import { KappaIndexing } from "@/kappacode/indexing"
 import { Instance } from "@/kappacode/instance"
 import { empty, normalizePath, scope } from "./semantic-search-output"
 
@@ -30,7 +30,7 @@ type Meta = {
   /** Absolute root the index covers, so a caller can tell what was actually searched. */
   root: string
   /** Index state at query time; only resolved when nothing matched. */
-  state?: KiloIndexing.Status["state"]
+  state?: KappaIndexing.Status["state"]
 }
 
 export const SemanticSearchTool = Tool.define(
@@ -59,7 +59,7 @@ export const SemanticSearchTool = Tool.define(
 
         const prefix = normalizeSearchPath(params.path)
         const root = normalizePath(Instance.directory)
-        const matches = yield* Effect.promise(() => KiloIndexing.search(params.query, prefix))
+        const matches = yield* Effect.promise(() => KappaIndexing.search(params.query, prefix))
 
         const results = matches.flatMap<SearchResult>((item) => {
           const payload = item.payload
@@ -89,7 +89,7 @@ export const SemanticSearchTool = Tool.define(
           // building, or broken. Report which, so the caller does not read this
           // as proof that no matching code exists.
           const status = yield* Effect.promise(() =>
-            KiloIndexing.current().then(
+            KappaIndexing.current().then(
               (value) => value,
               () => undefined,
             ),

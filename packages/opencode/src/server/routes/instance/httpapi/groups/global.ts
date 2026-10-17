@@ -2,12 +2,12 @@ import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
 import { EventV2 } from "@opencode-ai/core/event"
 import { EventManifest } from "@/event-manifest"
 import { InstanceDisposed } from "@/server/event"
-import { BusEvent } from "@/bus/bus-event" // kilocode_change - include legacy Kilo events until they migrate to EventV2
+import { BusEvent } from "@/bus/bus-event" // kappacode_change - include legacy Kappa events until they migrate to EventV2
 import "@opencode-ai/core/account"
 import "@/server/event"
-import "@/kilocode/indexing-event" // kilocode_change - register indexing.status before HttpApi event schemas
+import "@/kappacode/indexing-event" // kappacode_change - register indexing.status before HttpApi event schemas
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi" // kilocode_change - HttpApiSchema for the bodyless upgrade payload
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi" // kappacode_change - HttpApiSchema for the bodyless upgrade payload
 import semver from "semver"
 import { described } from "./metadata"
 
@@ -40,7 +40,7 @@ const GlobalEventSchema = Schema.Struct({
   project: Schema.optional(Schema.String),
   workspace: Schema.optional(Schema.String),
   payload: Schema.Union([
-    ...BusEvent.effectPayloads(), // kilocode_change
+    ...BusEvent.effectPayloads(), // kappacode_change
     ...EventManifest.Latest.values()
       .map((definition) =>
         Schema.Struct({ id: EventV2.ID, type: Schema.Literal(definition.type), properties: definition.data }),
@@ -52,13 +52,13 @@ const GlobalEventSchema = Schema.Struct({
 }).annotate({ identifier: "GlobalEvent" })
 
 export const GlobalUpgradeInput = Schema.Struct({
-  // kilocode_change start - an omitted target upgrades to the latest version
+  // kappacode_change start - an omitted target upgrades to the latest version
   target: Schema.optional(
     Schema.String.check(
       Schema.makeFilter((value) => (semver.valid(value) === null ? "Expected a semantic version" : undefined)),
     ),
   ),
-  // kilocode_change end
+  // kappacode_change end
 })
 
 const GlobalUpgradeResult = Schema.Union([
@@ -89,7 +89,7 @@ export const GlobalApi = HttpApi.make("global").add(
         OpenApi.annotations({
           identifier: "global.health",
           summary: "Get health",
-          description: "Get health information about the Kilo server.", // kilocode_change
+          description: "Get health information about the Kappa server.", // kappacode_change
         }),
       ),
       HttpApiEndpoint.get("event", GlobalPaths.event, {
@@ -98,7 +98,7 @@ export const GlobalApi = HttpApi.make("global").add(
         OpenApi.annotations({
           identifier: "global.event",
           summary: "Get global events",
-          description: "Subscribe to global events from the Kilo system using server-sent events.", // kilocode_change
+          description: "Subscribe to global events from the Kappa system using server-sent events.", // kappacode_change
         }),
       ),
       HttpApiEndpoint.get("configGet", GlobalPaths.config, {
@@ -107,7 +107,7 @@ export const GlobalApi = HttpApi.make("global").add(
         OpenApi.annotations({
           identifier: "global.config.get",
           summary: "Get global configuration",
-          description: "Retrieve the current global Kilo configuration settings and preferences.", // kilocode_change
+          description: "Retrieve the current global Kappa configuration settings and preferences.", // kappacode_change
         }),
       ),
       HttpApiEndpoint.patch("configUpdate", GlobalPaths.config, {
@@ -118,7 +118,7 @@ export const GlobalApi = HttpApi.make("global").add(
         OpenApi.annotations({
           identifier: "global.config.update",
           summary: "Update global configuration",
-          description: "Update global Kilo configuration settings and preferences.", // kilocode_change
+          description: "Update global Kappa configuration settings and preferences.", // kappacode_change
         }),
       ),
       HttpApiEndpoint.post("dispose", GlobalPaths.dispose, {
@@ -127,20 +127,20 @@ export const GlobalApi = HttpApi.make("global").add(
         OpenApi.annotations({
           identifier: "global.dispose",
           summary: "Dispose instance",
-          description: "Clean up and dispose all Kilo instances, releasing all resources.", // kilocode_change
+          description: "Clean up and dispose all Kappa instances, releasing all resources.", // kappacode_change
         }),
       ),
       HttpApiEndpoint.post("upgrade", GlobalPaths.upgrade, {
-        // kilocode_change start - a bodyless request upgrades to the latest version
+        // kappacode_change start - a bodyless request upgrades to the latest version
         payload: [HttpApiSchema.NoContent, GlobalUpgradeInput],
-        // kilocode_change end
+        // kappacode_change end
         success: described(GlobalUpgradeResult, "Upgrade result"),
         error: HttpApiError.BadRequest,
       }).annotateMerge(
         OpenApi.annotations({
           identifier: "global.upgrade",
-          summary: "Upgrade kappa", // kilocode_change
-          description: "Upgrade kappa to the specified version or latest if not specified.", // kilocode_change
+          summary: "Upgrade kappa", // kappacode_change
+          description: "Upgrade kappa to the specified version or latest if not specified.", // kappacode_change
         }),
       ),
     )

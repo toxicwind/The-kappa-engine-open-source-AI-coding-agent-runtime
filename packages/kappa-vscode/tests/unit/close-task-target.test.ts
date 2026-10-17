@@ -10,7 +10,7 @@ describe("close-task command routing", () => {
     expect(closeTaskTarget({ ...surfaces, focused: "tab" })).toBe("tab")
   })
 
-  // WebviewPanel.active is tracked per editor group, so Agent Manager and a Kilo
+  // WebviewPanel.active is tracked per editor group, so Agent Manager and a Kappa
   // tab can both report active while the user is in the sidebar.
   it("keeps a focused sidebar even while both editor panels report active", () => {
     expect(closeTaskTarget({ ...surfaces, focused: "sidebar" })).toBe("sidebar")

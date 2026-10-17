@@ -47,7 +47,7 @@ function deps(overrides: Partial<ToolDeps> = {}): ToolDeps {
     hasScript: () => true,
     setup: mock(async () => calls.push("setup")),
     createSessionInWorktree: mock(async () => session("s-wt")),
-    sessionMetadata: mock(async () => ({ "kilocode.sandbox": { enabled: true, version: 0 } })),
+    sessionMetadata: mock(async () => ({ "kappacode.sandbox": { enabled: true, version: 0 } })),
     registerWorktreeSession: mock(() => calls.push("registerWorktreeSession")),
     notifyReady: mock(() => calls.push("notifyReady")),
     push: mock(() => calls.push("push")),
@@ -145,7 +145,7 @@ describe("agent manager tool start", () => {
       const owner = { id: "project" }
       handleToolEvent(
         normalize({
-          type: "kilocode.agent_manager.start",
+          type: "kappacode.agent_manager.start",
           properties: {
             requestID: `am-routed-${mode}`,
             sessionID: "ses_caller",
@@ -345,7 +345,7 @@ describe("agent manager tool start", () => {
       {
         directory: "/repo",
         platform: "agent-manager",
-        metadata: { "kilocode.sandbox": { enabled: true, version: 0 } },
+        metadata: { "kappacode.sandbox": { enabled: true, version: 0 } },
       },
       { throwOnError: true },
     )

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
 import * as SDK from "@kappacode/sdk/v2"
 import { RunCommand } from "@/cli/cmd/run"
-import { KiloRunDrain } from "@/kappacode/cli/run-drain"
+import { KappaRunDrain } from "@/kappacode/cli/run-drain"
 
 const actual = { ...SDK }
 
@@ -132,7 +132,7 @@ async function run(
     },
   }
   await mock.module("@kappacode/sdk/v2", () => ({
-    createKiloClient: (config: { fetch?: () => Promise<Response> }) => {
+    createKappaClient: (config: { fetch?: () => Promise<Response> }) => {
       config.fetch = async () =>
         Response.json({
           paths: {
@@ -148,8 +148,8 @@ async function run(
     value: terminal,
   })
 
-  const create = KiloRunDrain.create
-  const clock = spyOn(KiloRunDrain, "create").mockImplementation((id) => ({
+  const create = KappaRunDrain.create
+  const clock = spyOn(KappaRunDrain, "create").mockImplementation((id) => ({
     ...create(id),
     pause: async () => undefined,
   }))

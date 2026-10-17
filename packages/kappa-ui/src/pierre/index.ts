@@ -37,7 +37,7 @@ export function virtualize(diff: FileDiffMetadata | undefined) {
   return bytes(diff.additionLines) > MAX_EAGER_DIFF_BYTES || bytes(diff.deletionLines) > MAX_EAGER_DIFF_BYTES
 }
 
-// Keep Kilo semantic surfaces at the computed row level. Pierre's dedicated
+// Keep Kappa semantic surfaces at the computed row level. Pierre's dedicated
 // number override keeps deletion bars red without tinting line-number text.
 const css = `
 :host {

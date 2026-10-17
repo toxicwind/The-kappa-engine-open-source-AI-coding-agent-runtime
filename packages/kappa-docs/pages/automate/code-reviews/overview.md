@@ -5,7 +5,7 @@ description: "Automate code reviews with AI assistance"
 
 # Code Reviews
 
-Kilo's **Code Reviews** feature automatically analyzes your pull or merge requests using an AI model of your choice. It can review code the moment a PR/MR is opened or updated, surface issues, and provide structured feedback across performance, security, style, and test coverage.
+Kappa's **Code Reviews** feature automatically analyzes your pull or merge requests using an AI model of your choice. It can review code the moment a PR/MR is opened or updated, surface issues, and provide structured feedback across performance, security, style, and test coverage.
 
 ## What Code Reviews Enable
 
@@ -28,14 +28,14 @@ Kilo's **Code Reviews** feature automatically analyzes your pull or merge reques
 Before enabling Code Reviews:
 
 - **A platform integration must be configured:** Connect your GitHub or GitLab account via the [Integrations page](https://app.kappa.ai/integrations) so that the Review Agent can access your repositories. See the [Integration setup guide](/docs/automate/integrations) for detailed instructions.
-- **Kilo Code credits:** The AI model uses credits when analyzing your code.
+- **Kappa Code credits:** The AI model uses credits when analyzing your code.
 
 ## Cost
 
 - **Compute and review time are free during limited beta**
   - Feedback is welcome in the Code Reviews beta Discord channel:
-    - [Kilo Discord](https://discord.gg/hZnd57qN)
-- **Kilo Code credits are still used** when the agent performs model reasoning during a review.
+    - [Kappa Discord](https://discord.gg/hZnd57qN)
+- **Kappa Code credits are still used** when the agent performs model reasoning during a review.
 
 ## Getting Started
 
@@ -54,16 +54,16 @@ Once configured, the Review Agent runs automatically on PR/MR events. For platfo
 
 ## Repository Guidance with REVIEW.md
 
-Use `REVIEW.md` when review policy should live with the repository instead of only in the Kilo dashboard. This is the best place to document domain-specific rules, severity calibration, files to skip, verification expectations, summary style, and how Kilo should use sub-agents.
+Use `REVIEW.md` when review policy should live with the repository instead of only in the Kappa dashboard. This is the best place to document domain-specific rules, severity calibration, files to skip, verification expectations, summary style, and how Kappa should use sub-agents.
 
 To use it:
 
 1. Create `REVIEW.md` at the repository root.
 2. Commit it to the base branch used by pull requests or merge requests.
-3. Open Code Reviews settings in the [Kilo web app](https://app.kappa.ai/code-reviews) and enable **Use REVIEW.md**.
+3. Open Code Reviews settings in the [Kappa web app](https://app.kappa.ai/code-reviews) and enable **Use REVIEW.md**.
 4. Save the configuration and run a review.
 
-Kilo reads `REVIEW.md` from the PR/MR base branch, not the feature branch. That prevents an unreviewed change from rewriting the review policy used to evaluate itself. If the file is disabled, missing, empty, or unreadable, Kilo falls back to built-in guidance. If it is longer than 10,000 characters, Kilo truncates it and notes that in the review summary footer.
+Kappa reads `REVIEW.md` from the PR/MR base branch, not the feature branch. That prevents an unreviewed change from rewriting the review policy used to evaluate itself. If the file is disabled, missing, empty, or unreadable, Kappa falls back to built-in guidance. If it is longer than 10,000 characters, Kappa truncates it and notes that in the review summary footer.
 
 ### Default Sub-Agent Usage
 
@@ -79,7 +79,7 @@ The reviewer does not spawn sub-agents for a single-file or straightforward typo
 
 #### Changing Sub-Agent Behavior
 
-`REVIEW.md` can replace the default sub-agent guidance. Use it to change both how many sub-agents Kilo should use and what each one should inspect.
+`REVIEW.md` can replace the default sub-agent guidance. Use it to change both how many sub-agents Kappa should use and what each one should inspect.
 
 Good sub-agent guidance is explicit about:
 
@@ -110,7 +110,7 @@ Use the full 6 sub-agents only for large cross-cutting changes, security-sensiti
 Each sub-agent must stay read-only, must not post comments, and must return findings with path, line, severity, rationale, and confidence. The main reviewer must verify every finding before posting it.
 ```
 
-`REVIEW.md` can change review policy and sub-agent usage, but it cannot override Kilo's hard safety constraints, read-only mode, non-interactive execution, platform API instructions, diff-line rules, duplicate-comment rules, or output formatting requirements.
+`REVIEW.md` can change review policy and sub-agent usage, but it cannot override Kappa's hard safety constraints, read-only mode, non-interactive execution, platform API instructions, diff-line rules, duplicate-comment rules, or output formatting requirements.
 
 ## Local Code Reviews
 
@@ -159,7 +159,7 @@ When a pull request or merge request is opened or updated:
 Reviews are posted directly in your platform (GitHub or GitLab) as if coming from a team reviewer.
 
 {% callout type="info" title="Bot-generated PRs are ignored by default" %}
-Kilo does not automatically review pull or merge requests opened by bots, such as Dependabot, Renovate, or other automation accounts. This keeps review credits and notifications focused on human-authored changes.
+Kappa does not automatically review pull or merge requests opened by bots, such as Dependabot, Renovate, or other automation accounts. This keeps review credits and notifications focused on human-authored changes.
 {% /callout %}
 
 ## Review Styles

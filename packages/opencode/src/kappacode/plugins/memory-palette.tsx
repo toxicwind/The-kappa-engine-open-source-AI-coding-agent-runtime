@@ -1,6 +1,6 @@
 import type { TuiPlugin } from "@kappacode/plugin/tui"
 import type { InternalTuiPlugin } from "@/plugin/tui/internal"
-import { DialogMemoryHelp } from "@/kilocode/cli/cmd/tui/component/dialog-memory"
+import { DialogMemoryHelp } from "@/kappacode/cli/cmd/tui/component/dialog-memory"
 
 const id = "internal:kappa-memory-palette"
 

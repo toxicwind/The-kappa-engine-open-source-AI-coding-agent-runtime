@@ -15,7 +15,7 @@
 // The tick counter prevents stale idle events from resolving the wrong turn.
 // We also re-check live session status before resolving an idle event so a
 // delayed idle from an older turn cannot complete a newer busy turn.
-import type { Event, GlobalEvent, KiloClient } from "@kappacode/sdk/v2" // kilocode_change - revert to upstream native Event type
+import type { Event, GlobalEvent, KappaClient } from "@kappacode/sdk/v2" // kappacode_change - revert to upstream native Event type
 import { Context, Deferred, Effect, Exit, Layer, Scope, Stream } from "effect"
 import { makeRuntime } from "@/effect/run-service"
 import {
@@ -67,7 +67,7 @@ type Trace = {
 const StreamClosed = undefined as never
 
 type StreamInput = {
-  sdk: KiloClient
+  sdk: KappaClient
   directory?: string
   sessionID: string
   thinking: boolean
@@ -186,10 +186,10 @@ function globalPayloadEvent(value: unknown): Event | undefined {
     return undefined
   }
 
-  // kilocode_change start - revert to upstream: ignore sync compatibility copies
+  // kappacode_change start - revert to upstream: ignore sync compatibility copies
   if (value.payload.type === "sync") return undefined
   return isEvent(value.payload) ? value.payload : undefined
-  // kilocode_change end
+  // kappacode_change end
 }
 
 function isMatchingDisposeEvent(value: unknown, directory: string | undefined): boolean {
@@ -801,9 +801,9 @@ function createLayer(input: StreamInput) {
           Effect.promise(() => input.sdk.session.status()).pipe(
             Effect.map((out) => {
               const item = out.data?.[input.sessionID]
-              // kilocode_change start - a session asleep on a pending wakeup has finished its turn
+              // kappacode_change start - a session asleep on a pending wakeup has finished its turn
               return !item || item.type === "idle" || item.type === "scheduled"
-              // kilocode_change end
+              // kappacode_change end
             }),
             Effect.orElseSucceed(() => fallback),
           ),

@@ -1,17 +1,17 @@
 import * as vscode from "vscode"
 import { isMemoryOperation, type MemoryOperation } from "@kappacode/kappa-memory/commands"
 import { MemorySchema } from "@kappacode/kappa-memory/schema"
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import { retry } from "../services/cli-backend/retry"
 import { getErrorMessage } from "../kappa-provider-utils"
 
 type MemorySourceFile = MemorySchema.Source
-type MemoryApi = KiloClient["memory"]
+type MemoryApi = KappaClient["memory"]
 const CACHE_LIMIT = 8
 const STORED_LIMIT = 16
 const NO_PROJECT = "No active project for memory. Open a file in the target folder to manage its memory."
 
-export type KiloProviderMemoryMessage = {
+export type KappaProviderMemoryMessage = {
   operation: MemoryOperation
   sessionID?: string
   mode?: "status" | "on" | "off"
@@ -23,8 +23,8 @@ export type KiloProviderMemoryMessage = {
   section?: string
 }
 
-export type KiloProviderMemoryInput = {
-  client(): KiloClient | undefined
+export type KappaProviderMemoryInput = {
+  client(): KappaClient | undefined
   session(): Session | undefined
   /** Project directory for memory operations, or undefined when project scope is disabled. */
   dir(sessionID?: string): string | undefined
@@ -44,7 +44,7 @@ function mode(value: unknown) {
   return undefined
 }
 
-function memory(client: KiloClient | undefined): MemoryApi | undefined {
+function memory(client: KappaClient | undefined): MemoryApi | undefined {
   return (client as { memory?: MemoryApi } | undefined)?.memory
 }
 
@@ -62,7 +62,7 @@ function stored(text: string) {
     })
 }
 
-function request(input: Record<string, unknown>): { value: KiloProviderMemoryMessage } | { error: string } {
+function request(input: Record<string, unknown>): { value: KappaProviderMemoryMessage } | { error: string } {
   const op = operation(input.operation)
   if (!op) return { error: "Unknown memory operation" }
   const source = file(input.file)
@@ -82,11 +82,11 @@ function request(input: Record<string, unknown>): { value: KiloProviderMemoryMes
   }
 }
 
-export class KiloProviderMemory {
+export class KappaProviderMemory {
   private readonly cached = new Map<string, unknown>()
   private tail = Promise.resolve()
 
-  constructor(private readonly input: KiloProviderMemoryInput) {}
+  constructor(private readonly input: KappaProviderMemoryInput) {}
 
   private cache(dir: string, msg: unknown) {
     this.cached.delete(dir)
@@ -112,7 +112,7 @@ export class KiloProviderMemory {
   async handle(message: Record<string, unknown>): Promise<boolean> {
     if (message.type === "requestMemory") {
       this.fetch(typeof message.sessionID === "string" ? message.sessionID : undefined).catch((err: unknown) =>
-        console.error("[Kilo New] fetchAndSendMemory failed:", err),
+        console.error("[Kappa New] fetchAndSendMemory failed:", err),
       )
       return true
     }
@@ -181,7 +181,7 @@ export class KiloProviderMemory {
       this.cache(directory, msg)
       this.input.post(msg)
     } catch (err) {
-      console.error("[Kilo New] KiloProvider: Failed to fetch memory:", err)
+      console.error("[Kappa New] KappaProvider: Failed to fetch memory:", err)
       this.input.post({
         type: "memoryLoaded",
         sessionID,
@@ -236,7 +236,7 @@ export class KiloProviderMemory {
       const items = stored(show.items)
       if (mode === "show" && items.length === 0) {
         void vscode.window.showInformationMessage(
-          "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+          "This project doesn't have any memory yet. It will start showing after you use Kappa.",
         )
         return
       }
@@ -273,7 +273,7 @@ export class KiloProviderMemory {
         matchOnDetail: true,
       })
     } catch (err) {
-      console.error("[Kilo New] KiloProvider: Failed to show memory:", err)
+      console.error("[Kappa New] KappaProvider: Failed to show memory:", err)
       this.input.post({
         type: "memoryLoaded",
         sessionID,
@@ -282,7 +282,7 @@ export class KiloProviderMemory {
     }
   }
 
-  run(message: KiloProviderMemoryMessage): Promise<boolean> {
+  run(message: KappaProviderMemoryMessage): Promise<boolean> {
     return this.serial(() => this.execute(message))
   }
 
@@ -306,7 +306,7 @@ export class KiloProviderMemory {
     })
   }
 
-  private async execute(message: KiloProviderMemoryMessage): Promise<boolean> {
+  private async execute(message: KappaProviderMemoryMessage): Promise<boolean> {
     const client = this.input.client()
     if (!client) {
       this.input.post({
@@ -348,7 +348,7 @@ export class KiloProviderMemory {
         message.operation === "status"
           ? { data }
           : await retry(() => api.status({ directory }, { throwOnError: true })).catch((err: unknown) => {
-              console.warn("[Kilo New] Memory changed but refresh failed:", err)
+              console.warn("[Kappa New] Memory changed but refresh failed:", err)
               return undefined
             })
       const status = refreshed?.data
@@ -376,7 +376,7 @@ export class KiloProviderMemory {
       }
       return true
     } catch (err) {
-      console.error("[Kilo New] KiloProvider: Failed memory operation:", err)
+      console.error("[Kappa New] KappaProvider: Failed memory operation:", err)
       this.input.post({
         type: "memoryOperationResult",
         operation: message.operation,
@@ -388,7 +388,7 @@ export class KiloProviderMemory {
     }
   }
 
-  private async action(api: MemoryApi, directory: string, message: KiloProviderMemoryMessage) {
+  private async action(api: MemoryApi, directory: string, message: KappaProviderMemoryMessage) {
     const op = message.operation
     if (op === "enable") return (await api.enable({ directory }, { throwOnError: true })).data
     if (op === "status") return (await api.status({ directory }, { throwOnError: true })).data
@@ -402,7 +402,7 @@ export class KiloProviderMemory {
     return this.forget(api, directory, message)
   }
 
-  private async remember(api: MemoryApi, directory: string, message: KiloProviderMemoryMessage) {
+  private async remember(api: MemoryApi, directory: string, message: KappaProviderMemoryMessage) {
     const text = message.text?.trim()
     if (!text) throw new Error("Memory text is required")
     return (
@@ -420,7 +420,7 @@ export class KiloProviderMemory {
     ).data
   }
 
-  private async correct(api: MemoryApi, directory: string, message: KiloProviderMemoryMessage) {
+  private async correct(api: MemoryApi, directory: string, message: KappaProviderMemoryMessage) {
     const text = message.text?.trim()
     if (!text) throw new Error("Correction text is required")
     return (
@@ -436,7 +436,7 @@ export class KiloProviderMemory {
     ).data
   }
 
-  private async forget(api: MemoryApi, directory: string, message: KiloProviderMemoryMessage) {
+  private async forget(api: MemoryApi, directory: string, message: KappaProviderMemoryMessage) {
     const query = message.query?.trim()
     if (!query) throw new Error("Forget query is required")
     return (await api.forget({ directory, query, sessionID: message.sessionID }, { throwOnError: true })).data
@@ -449,12 +449,12 @@ export class KiloProviderMemory {
     return status
   }
 
-  private async purge(api: MemoryApi, directory: string, message: KiloProviderMemoryMessage) {
+  private async purge(api: MemoryApi, directory: string, message: KappaProviderMemoryMessage) {
     if (message.confirm !== true) throw new Error("Memory purge requires confirmation")
     return (await api.purge({ directory, confirm: true }, { throwOnError: true })).data
   }
 
-  private async auto(api: MemoryApi, directory: string, message: KiloProviderMemoryMessage) {
+  private async auto(api: MemoryApi, directory: string, message: KappaProviderMemoryMessage) {
     if (message.mode === "status") return (await retry(() => api.status({ directory }, { throwOnError: true }))).data
     if (message.mode === "on" || message.mode === "off") {
       return (await api.configure({ directory, autoConsolidate: message.mode === "on" }, { throwOnError: true })).data

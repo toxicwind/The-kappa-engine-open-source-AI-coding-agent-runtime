@@ -171,7 +171,7 @@ describe("memory marker metadata", () => {
   test("decodes legacy metadata that only carries sources", () => {
     expect(
       MemoryMarkerMeta.fromParts([
-        { type: "text", metadata: { kiloMemory: { type: "startup", tokens: 3, sources: ["project.md"] } } },
+        { type: "text", metadata: { kappaMemory: { type: "startup", tokens: 3, sources: ["project.md"] } } },
       ]),
     ).toEqual({
       type: "startup",
@@ -239,8 +239,8 @@ describe("memory marker metadata", () => {
       items: ["private memory"],
     }
 
-    expect(MemoryMarkerMeta.metadata(marker).kiloMemory).not.toHaveProperty("items")
-    expect(MemoryMarkerMeta.metadata(marker, true).kiloMemory).toHaveProperty("items", ["private memory"])
+    expect(MemoryMarkerMeta.metadata(marker).kappaMemory).not.toHaveProperty("items")
+    expect(MemoryMarkerMeta.metadata(marker, true).kappaMemory).toHaveProperty("items", ["private memory"])
   })
 
   test("bounds recall snippets without splitting surrogate pairs", () => {

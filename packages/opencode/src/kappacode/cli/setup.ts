@@ -2,7 +2,7 @@ import type { Argv } from "yargs"
 import type { Auth } from "@/auth"
 import * as Log from "@opencode-ai/core/util/log"
 import { InstallationBuildKind, InstallationVersion } from "@opencode-ai/core/installation/version"
-import { KiloShutdown } from "@/kappacode/cli/shutdown"
+import { KappaShutdown } from "@/kappacode/cli/shutdown"
 import { createHelpCommand } from "@/kappacode/help-command"
 import { hasLazyCommandSelection } from "@/kappacode/cli/lazy-commands"
 import {
@@ -11,7 +11,7 @@ import {
   DaemonCommand,
   DevAliasCommand,
   DevSetupCommand,
-  KiloConsoleCommand,
+  KappaConsoleCommand,
   ProfileCommand,
   PtySmokeCommand,
   RemoteCommand,
@@ -21,7 +21,7 @@ import {
 
 const log = Log.create({ service: "kappacode.cli" })
 
-// All Kilo-specific CLI customization lives here so the shared upstream entrypoint
+// All Kappa-specific CLI customization lives here so the shared upstream entrypoint
 // (src/index.ts) only needs a handful of thin call-sites behind kappacode_change markers.
 // This keeps index.ts close to upstream and reduces merge conflicts on every sync.
 //
@@ -31,7 +31,7 @@ const log = Log.create({ service: "kappacode.cli" })
 // inside the function that needs them, following the deferral pattern upstream applied
 // in opencode#30453. The registered command modules must follow the same rule: a light
 // top level, with implementation imports inside their handlers.
-export namespace KiloCli {
+export namespace KappaCli {
   let info = false
   let narrow = false
 
@@ -39,11 +39,11 @@ export namespace KiloCli {
     return !hasLazyCommandSelection() && opts.mini !== true && !opts.worktree
   }
 
-  // Register only the Kilo-specific commands. Upstream commands stay in index.ts's chain so
+  // Register only the Kappa-specific commands. Upstream commands stay in index.ts's chain so
   // upstream merges that add or remove commands keep working without touching this file.
   export function register<T>(cli: Argv<T>): Argv<T> {
     cli
-      .command(KiloConsoleCommand)
+      .command(KappaConsoleCommand)
       .command(CloudCommand)
       .command(RollCallCommand)
       .command(ProfileCommand)
@@ -72,8 +72,8 @@ export namespace KiloCli {
     if (info) return
     narrow = workerTui(opts)
 
-    const { KiloLog } = await import("@/kappacode/log")
-    await KiloLog.init()
+    const { KappaLog } = await import("@/kappacode/log")
+    await KappaLog.init()
 
     const gateway = await import("@kappacode/kappa-gateway")
     if (!process.env[gateway.ENV_FEATURE])
@@ -89,7 +89,7 @@ export namespace KiloCli {
     const runtime = narrow ? await import("@/kappacode/cli/bootstrap-runtime") : undefined
     const app = narrow ? undefined : await import("@/effect/app-runtime")
     const cfg = runtime
-      ? await runtime.KiloCliBootstrapRuntime.getGlobal()
+      ? await runtime.KappaCliBootstrapRuntime.getGlobal()
       : await app!.AppRuntime.runPromise((await import("@/config/config")).Config.Service.use((c) => c.getGlobal()))
 
     const { Global } = await import("@opencode-ai/core/global")
@@ -100,20 +100,20 @@ export namespace KiloCli {
       enabled: cfg.experimental?.openTelemetry !== false,
     })
 
-    const { migrateLegacyKiloAuth } = gateway
+    const { migrateLegacyKappaAuth } = gateway
     const getAuth = async () => {
-      if (runtime) return runtime.KiloCliBootstrapRuntime.getAuth()
+      if (runtime) return runtime.KappaCliBootstrapRuntime.getAuth()
       const { Auth } = await import("@/auth")
       return app!.AppRuntime.runPromise(Auth.Service.use((s) => s.get("kappa")))
     }
     const setAuth = async (auth: Auth.Info) => {
-      if (runtime) return runtime.KiloCliBootstrapRuntime.setAuth(auth)
+      if (runtime) return runtime.KappaCliBootstrapRuntime.setAuth(auth)
       const { Auth } = await import("@/auth")
       return app!.AppRuntime.runPromise(Auth.Service.use((s) => s.set("kappa", auth)))
     }
 
-    // Migrate legacy Kilo CLI auth (~/.kappacode/cli/config.json) into auth.json if present.
-    await migrateLegacyKiloAuth(
+    // Migrate legacy Kappa CLI auth (~/.kappacode/cli/config.json) into auth.json if present.
+    await migrateLegacyKappaAuth(
       async () => (await getAuth()) !== undefined,
       setAuth,
     )
@@ -149,10 +149,10 @@ export namespace KiloCli {
         log.warn("telemetry shutdown failed", { err })
       }
     } finally {
-      await KiloShutdown.run()
+      await KappaShutdown.run()
       if (narrow) {
-        const { KiloCliBootstrapRuntime } = await import("@/kappacode/cli/bootstrap-runtime")
-        await KiloCliBootstrapRuntime.dispose()
+        const { KappaCliBootstrapRuntime } = await import("@/kappacode/cli/bootstrap-runtime")
+        await KappaCliBootstrapRuntime.dispose()
         return
       }
       const { InstanceRuntime } = await import("@/project/instance-runtime")

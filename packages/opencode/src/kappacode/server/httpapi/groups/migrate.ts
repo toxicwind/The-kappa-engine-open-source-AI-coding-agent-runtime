@@ -8,9 +8,9 @@ import {
 } from "@/server/routes/instance/httpapi/middleware/workspace-routing"
 import { described } from "@/server/routes/instance/httpapi/groups/metadata"
 
-// Routes for migrating work into Kilo from another coding agent. Today that is
+// Routes for migrating work into Kappa from another coding agent. Today that is
 // Claude Code / OpenAI Codex session transcripts; the `migrate` group is the
-// home for any future "bring your existing X into Kilo" route.
+// home for any future "bring your existing X into Kappa" route.
 const root = "/kappacode/migrate/sessions"
 
 export const MigrateSessionsPayload = Schema.Struct({
@@ -31,7 +31,7 @@ export const MigrateSessionsPayload = Schema.Struct({
     description: "Model reference (providerID/modelID). Defaults to the agent or provider default.",
   }),
   force: Schema.optional(Schema.Boolean).annotate({
-    description: "Migrate sources again even if they already landed, creating additional Kilo sessions.",
+    description: "Migrate sources again even if they already landed, creating additional Kappa sessions.",
   }),
 })
 
@@ -39,7 +39,7 @@ const MigrateSessionsMigrated = Schema.Struct({
   id: Schema.String.annotate({ description: "Source session UUID." }),
   format: Schema.Literals(["claude", "codex"]).annotate({ description: "Source transcript format." }),
   sessionID: Schema.optional(Schema.String).annotate({
-    description: "Kilo session holding the transcript. Absent only when the migration failed.",
+    description: "Kappa session holding the transcript. Absent only when the migration failed.",
   }),
   messageID: Schema.optional(Schema.String).annotate({
     description: "Final assistant message written, when this call performed the migration.",
@@ -54,7 +54,7 @@ const MigrateSessionsMigrated = Schema.Struct({
   dropped: Schema.Array(Schema.String).annotate({
     description: "Human-readable reasons for content that could not be migrated.",
   }),
-}).annotate({ identifier: "KilocodeMigrateSessionsMigrated" })
+}).annotate({ identifier: "KappacodeMigrateSessionsMigrated" })
 
 const MigrateSessionsResult = Schema.Struct({
   sessions: Schema.Array(MigrateSessionsMigrated).annotate({
@@ -67,12 +67,12 @@ const MigrateSessionsResult = Schema.Struct({
   dropped: Schema.Array(Schema.String).annotate({
     description: "Reasons transcripts were found but could not be previewed or migrated.",
   }),
-}).annotate({ identifier: "KilocodeMigrateSessionsResult" })
+}).annotate({ identifier: "KappacodeMigrateSessionsResult" })
 
 const MigrateSessionsModel = Schema.Struct({
   providerID: Schema.String,
   modelID: Schema.String,
-}).annotate({ identifier: "KilocodeMigrateSessionsModel" })
+}).annotate({ identifier: "KappacodeMigrateSessionsModel" })
 
 export const MigrateSessionsDiscoverPayload = Schema.Struct({
   cwd: Schema.optional(Schema.String).annotate({
@@ -96,9 +96,9 @@ const MigrateSessionsDiscovered = Schema.Struct({
   }),
   sessionID: Schema.optional(Schema.String).annotate({
     description:
-      "Kilo session this transcript was already migrated into. Present means a migration would skip this source.",
+      "Kappa session this transcript was already migrated into. Present means a migration would skip this source.",
   }),
-}).annotate({ identifier: "KilocodeMigrateSessionsDiscovered" })
+}).annotate({ identifier: "KappacodeMigrateSessionsDiscovered" })
 
 const MigrateSessionsDiscoverResult = Schema.Struct({
   sessions: Schema.Array(MigrateSessionsDiscovered).annotate({
@@ -107,7 +107,7 @@ const MigrateSessionsDiscoverResult = Schema.Struct({
   dropped: Schema.Array(Schema.String).annotate({
     description: "Human-readable reasons for transcripts that were found but could not be previewed.",
   }),
-}).annotate({ identifier: "KilocodeMigrateSessionsDiscoverResult" })
+}).annotate({ identifier: "KappacodeMigrateSessionsDiscoverResult" })
 
 export class MigrateFailedError extends Schema.ErrorClass<MigrateFailedError>("MigrateFailedError")(
   { message: Schema.String },
@@ -125,9 +125,9 @@ export const MigrateApi = HttpApi.make("migrate").add(
       }).annotateMerge(
         OpenApi.annotations({
           identifier: "kappacode.migrate.sessions",
-          summary: "Migrate external sessions into Kilo",
+          summary: "Migrate external sessions into Kappa",
           description:
-            "Discover Claude Code and OpenAI Codex JSONL transcripts for a directory and migrate them into new Kilo sessions, one session per transcript. Sources that were already migrated are skipped, so calling this repeatedly is a no-op once everything has landed.",
+            "Discover Claude Code and OpenAI Codex JSONL transcripts for a directory and migrate them into new Kappa sessions, one session per transcript. Sources that were already migrated are skipped, so calling this repeatedly is a no-op once everything has landed.",
         }),
       ),
     )
@@ -149,7 +149,7 @@ export const MigrateApi = HttpApi.make("migrate").add(
     .annotateMerge(
       OpenApi.annotations({
         title: "migrate",
-        description: "Kilo routes for migrating sessions from other coding agents into Kilo.",
+        description: "Kappa routes for migrating sessions from other coding agents into Kappa.",
       }),
     )
     .middleware(InstanceContextMiddleware)

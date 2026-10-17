@@ -7,7 +7,7 @@ import { Schema } from "effect"
 // premature-stop warning for a deliberate queue handoff.
 const CloseReason = Schema.Literals(["completed", "error", "interrupted", "superseded"])
 
-export const KiloSessionEvent = {
+export const KappaSessionEvent = {
   TurnOpen: BusEvent.define(
     "session.turn.open",
     Schema.Struct({
@@ -34,4 +34,4 @@ export const KiloSessionEvent = {
   ),
 }
 
-export type KiloSessionCloseReason = Schema.Schema.Type<typeof CloseReason>
+export type KappaSessionCloseReason = Schema.Schema.Type<typeof CloseReason>

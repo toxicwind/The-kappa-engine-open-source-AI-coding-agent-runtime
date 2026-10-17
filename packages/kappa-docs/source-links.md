@@ -14,7 +14,7 @@
 - <https://api.x.ai/v1>
   <!-- packages/opencode/src/plugin/xai.ts -->
 - <https://app.kappa.ai>
-  <!-- packages/opencode/src/kilocode/kappa-commands.tsx -->
+  <!-- packages/opencode/src/kappacode/kappa-commands.tsx -->
 - <https://app.kappa.ai/config.json>
   <!-- packages/kappa-vscode/src/kappa-provider/config-file.ts -->
   <!-- packages/opencode/src/config/config.ts -->
@@ -26,7 +26,7 @@
 - <https://app.kappa.ai/tui.json>
   <!-- packages/opencode/src/config/tui-migrate.ts -->
 - <https://app.kappa.ai/usage>
-  <!-- packages/opencode/src/kilocode/components/dialog-kappa-profile.tsx -->
+  <!-- packages/opencode/src/kappacode/components/dialog-kappa-profile.tsx -->
 - <https://auth.x.ai>
   <!-- packages/opencode/src/plugin/xai.ts -->
 - <https://auth.x.ai/oauth2/authorize>
@@ -42,17 +42,17 @@
 - <https://cli.github.com/>
   <!-- packages/kappa-vscode/src/agent-manager/WorktreeManager.ts -->
 - <https://cloud-agent-next.kilosessions.ai>
-  <!-- packages/opencode/src/kilocode/cloud/origin.ts -->
+  <!-- packages/opencode/src/kappacode/cloud/origin.ts -->
 - <https://cloud.digitalocean.com/v1/oauth/authorize>
   <!-- packages/opencode/src/plugin/digitalocean.ts -->
 - <https://cloudflare.com/cdn-cgi/trace>
   <!-- packages/opencode/src/session/network.ts -->
 - <https://developers.google.com/identity/sign-in/web/devconsole-project>
-  <!-- packages/opencode/src/kilocode/provider/error.ts -->
+  <!-- packages/opencode/src/kappacode/provider/error.ts -->
 - <https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services>
   <!-- packages/opencode/src/cli/cmd/github.handler.ts -->
 - <https://docs.inceptionlabs.ai/capabilities/next-edit>
-  <!-- packages/opencode/src/kilocode/server/httpapi/groups/kappa-gateway.ts -->
+  <!-- packages/opencode/src/kappacode/server/httpapi/groups/kappa-gateway.ts -->
 - <https://docs.mistral.ai/studio-api/conversations/reasoning>
   <!-- packages/opencode/src/provider/transform.ts -->
 - <https://docs.venice.ai/overview/guides/reasoning-models#reasoning-effort>
@@ -62,7 +62,7 @@
 - <https://git-scm.com>
   <!-- packages/kappa-vscode/src/agent-manager/git-errors.ts -->
 - <https://github.com>
-  <!-- packages/opencode/src/kilocode/security/github.ts -->
+  <!-- packages/opencode/src/kappacode/security/github.ts -->
 - <https://github.com/anthropics/claude-code/issues/31375>
   <!-- packages/kappa-vscode/src/utils.ts -->
 - <https://github.com/apps/kiloconnect>
@@ -75,20 +75,20 @@
   <!-- packages/opencode/src/lsp/server.ts -->
 - <https://github.com/google-gemini/gemini-cli/blob/main/packages/core/src/utils/editCorrector.ts>
   <!-- packages/opencode/src/tool/edit.ts -->
-- <https://github.com/Kilo-Org/kappa-marketplace>
+- <https://github.com/Kappa-Org/kappa-marketplace>
   <!-- packages/kappa-vscode/webview-ui/src/components/marketplace/MarketplaceContribute.tsx -->
-- <https://github.com/Kilo-Org/kilocode>
-  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKiloCodeTab.tsx -->
-  <!-- packages/opencode/src/kilocode/cli/cmd/tui/component/dialog-about.tsx -->
-- <https://github.com/Kilo-Org/kilocode/issues>
-  <!-- packages/opencode/src/kilocode/cli/cmd/tui/component/dialog-about.tsx -->
-- <https://github.com/Kilo-Org/kilocode/issues/6986>
+- <https://github.com/Kappa-Org/kappacode>
+  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKappaCodeTab.tsx -->
+  <!-- packages/opencode/src/kappacode/cli/cmd/tui/component/dialog-about.tsx -->
+- <https://github.com/Kappa-Org/kappacode/issues>
+  <!-- packages/opencode/src/kappacode/cli/cmd/tui/component/dialog-about.tsx -->
+- <https://github.com/Kappa-Org/kappacode/issues/6986>
   <!-- packages/kappa-vscode/src/agent-manager/constants.ts -->
-- <https://github.com/Kilo-Org/kilocode/issues/9618>
-  <!-- packages/opencode/src/kilocode/encoding.ts -->
-- <https://github.com/Kilo-Org/kilocode/issues/9755>
-  <!-- packages/opencode/src/kilocode/encoding.ts -->
-- <https://github.com/Kilo-Org/kilocode/issues/new/choose>
+- <https://github.com/Kappa-Org/kappacode/issues/9618>
+  <!-- packages/opencode/src/kappacode/encoding.ts -->
+- <https://github.com/Kappa-Org/kappacode/issues/9755>
+  <!-- packages/opencode/src/kappacode/encoding.ts -->
+- <https://github.com/Kappa-Org/kappacode/issues/new/choose>
   <!-- packages/kappa-vscode/webview-ui/src/components/chat/FeedbackDialog.tsx -->
 - <https://github.com/microsoft/vscode-eslint/archive/refs/heads/main.zip>
   <!-- packages/opencode/src/lsp/server.ts -->
@@ -104,27 +104,27 @@
   <!-- packages/opencode/src/plugin/digitalocean.ts -->
 - <https://kappa.ai>
   <!-- packages/opencode/src/cli/cmd/github.handler.ts -->
-  <!-- packages/opencode/src/kilocode/cloud/origin.ts -->
+  <!-- packages/opencode/src/kappacode/cloud/origin.ts -->
   <!-- packages/opencode/src/mcp/oauth-provider.ts -->
   <!-- packages/opencode/src/session/network.ts -->
 - <https://kappa.ai/>
   <!-- packages/opencode/src/cli/cmd/generate.ts -->
-  <!-- packages/opencode/src/kilocode/server/httpapi/public.ts -->
+  <!-- packages/opencode/src/kappacode/server/httpapi/public.ts -->
   <!-- packages/opencode/src/provider/provider.ts -->
 - <https://kappa.ai/cli/install>
-  <!-- packages/opencode/src/kilocode/installation/index.ts -->
+  <!-- packages/opencode/src/kappacode/installation/index.ts -->
 - <https://kappa.ai/discord>
   <!-- packages/kappa-vscode/webview-ui/src/components/chat/FeedbackDialog.tsx -->
-  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKiloCodeTab.tsx -->
-  <!-- packages/opencode/src/kilocode/cli/cmd/tui/component/dialog-about.tsx -->
+  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKappaCodeTab.tsx -->
+  <!-- packages/opencode/src/kappacode/cli/cmd/tui/component/dialog-about.tsx -->
 - <https://kappa.ai/docs>
   <!-- packages/kappa-vscode/webview-ui/src/hooks/useSlashCommand.ts -->
-  <!-- packages/opencode/src/kilocode/cli/cmd/tui/app.tsx -->
-  <!-- packages/opencode/src/kilocode/cli/cmd/tui/component/dialog-about.tsx -->
+  <!-- packages/opencode/src/kappacode/cli/cmd/tui/app.tsx -->
+  <!-- packages/opencode/src/kappacode/cli/cmd/tui/component/dialog-about.tsx -->
 - <https://kappa.ai/docs/ai-providers/cloudflare>
   <!-- packages/opencode/src/cli/cmd/providers.ts -->
 - <https://kappa.ai/docs/ai-providers/gemini>
-  <!-- packages/opencode/src/kilocode/provider/error.ts -->
+  <!-- packages/opencode/src/kappacode/provider/error.ts -->
 - <https://kappa.ai/docs/ai-providers#custom-provider>
   <!-- packages/kappa-vscode/webview-ui/src/components/settings/CustomProviderDialog.tsx -->
 - <https://kappa.ai/docs/automate/agent-manager-workflows>
@@ -137,30 +137,30 @@
   <!-- packages/kappa-vscode/webview-ui/src/components/marketplace/InstallModal.tsx -->
   <!-- packages/kappa-vscode/webview-ui/src/components/marketplace/MarketplaceListView.tsx -->
 - <https://kappa.ai/docs/getting-started/settings>
-  <!-- packages/opencode/src/kilocode/config/claude-migration.ts -->
-  <!-- packages/opencode/src/kilocode/config/config.ts -->
+  <!-- packages/opencode/src/kappacode/config/claude-migration.ts -->
+  <!-- packages/opencode/src/kappacode/config/config.ts -->
 - <https://kappa.ai/docs/oauth/kappa/client.json>
-  <!-- packages/opencode/src/kilocode/mcp/client-metadata.ts -->
+  <!-- packages/opencode/src/kappacode/mcp/client-metadata.ts -->
 - <https://kappa.ai/gateway>
-  <!-- packages/opencode/src/kilocode/cli/cmd/tui/component/dialog-provider.tsx -->
+  <!-- packages/opencode/src/kappacode/cli/cmd/tui/component/dialog-provider.tsx -->
 - <https://kappa.ai/pricing/kappa-pass>
   <!-- packages/kappa-vscode/webview-ui/src/components/profile/ProfileView.tsx -->
 - <https://kappa.ai/support>
   <!-- packages/kappa-vscode/webview-ui/src/components/chat/FeedbackDialog.tsx -->
-  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKiloCodeTab.tsx -->
-- <https://kilocode.ai>
-  <!-- packages/opencode/src/kilocode/const.ts -->
+  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKappaCodeTab.tsx -->
+- <https://kappacode.ai>
+  <!-- packages/opencode/src/kappacode/const.ts -->
 - <https://opencode.ai/>
   <!-- packages/opencode/src/cli/cmd/generate.ts -->
-  <!-- packages/opencode/src/kilocode/server/httpapi/public.ts -->
+  <!-- packages/opencode/src/kappacode/server/httpapi/public.ts -->
 - <https://openrouter.ai/api/v1/chat/completions>
-  <!-- packages/opencode/src/kilocode/tool/generate-image.ts -->
+  <!-- packages/opencode/src/kappacode/tool/generate-image.ts -->
 - <https://openrouter.ai/docs/cookbook/administration/usage-accounting>
-  <!-- packages/opencode/src/kilocode/session/index.ts -->
+  <!-- packages/opencode/src/kappacode/session/index.ts -->
 - <https://opncd.ai>
   <!-- packages/opencode/src/share/share-next.ts -->
-- <https://reddit.com/r/kilocode>
-  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKiloCodeTab.tsx -->
+- <https://reddit.com/r/kappacode>
+  <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKappaCodeTab.tsx -->
 - <https://search.parallel.ai/mcp>
   <!-- packages/opencode/src/tool/mcp-websearch.ts -->
 - <https://v5.ai-sdk.dev/providers/ai-sdk-providers/amazon-bedrock>
@@ -196,7 +196,7 @@
 - <https://vercel.link/ai-gateway-token>
   <!-- packages/opencode/src/cli/cmd/providers.ts -->
 - <https://www.anaconda.com/products/desktop>
-  <!-- packages/opencode/src/kilocode/anaconda-desktop/domain.ts -->
+  <!-- packages/opencode/src/kappacode/anaconda-desktop/domain.ts -->
 - <https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz>
   <!-- packages/opencode/src/lsp/server.ts -->
 - <https://www.google.com/chrome/>
@@ -207,8 +207,8 @@
 - <https://www.rfc-editor.org/rfc/rfc8628.html#section-3.5>
   <!-- packages/opencode/src/plugin/github-copilot/copilot.ts -->
 - <https://x.com>
-  <!-- packages/opencode/src/kilocode/util/url.ts -->
+  <!-- packages/opencode/src/kappacode/util/url.ts -->
 - <https://xn--pitest-2nf.com/status>
-  <!-- packages/opencode/src/kilocode/util/url.ts -->
+  <!-- packages/opencode/src/kappacode/util/url.ts -->
 - <https://аpitest.com/status>
-  <!-- packages/opencode/src/kilocode/util/url.ts -->
+  <!-- packages/opencode/src/kappacode/util/url.ts -->

@@ -4,7 +4,7 @@ import type { ConfigV1 } from "@opencode-ai/core/v1/config/config"
 import { Effect } from "effect"
 import { Agent } from "../../src/agent/agent"
 import { Permission } from "../../src/permission"
-import { KiloTask } from "../../src/kappacode/tool/task"
+import { KappaTask } from "../../src/kappacode/tool/task"
 import { deriveSubagentSessionPermission } from "../../src/agent/subagent-permissions"
 import { provideTestInstance } from "../fixture/fixture"
 import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture"
@@ -408,7 +408,7 @@ test("plan agent keeps asking for subagents when the user configured task ask", 
 })
 
 // Guarding a tool on the agent is not enough: Plan may delegate, and a subagent builds its
-// own ruleset from the same global config. KiloTask.inherited has to carry the guarded set
+// own ruleset from the same global config. KappaTask.inherited has to carry the guarded set
 // into the child session or the boundary leaks through `explore`.
 test("plan carries guarded denies into delegated sessions under a global catch-all", async () => {
   await using tmp = await tmpdir({ config: { permission: { "*": { "*": "allow" } } } })
@@ -418,9 +418,9 @@ test("plan carries guarded denies into delegated sessions under a global catch-a
     fn: async () => {
       const plan = await load(tmp.path, (svc) => svc.get("plan"))
       const explore = await load(tmp.path, (svc) => svc.get("explore"))
-      const child = KiloTask.merge(
+      const child = KappaTask.merge(
         deriveSubagentSessionPermission({ parentSessionPermission: [], subagent: explore! }),
-        KiloTask.permissions(KiloTask.inherited({ caller: plan!, session: { permission: [] }, mcp: undefined })),
+        KappaTask.permissions(KappaTask.inherited({ caller: plan!, session: { permission: [] }, mcp: undefined })),
       )
       // A subagent session is evaluated as merge(agent, session), so session rules win.
       const runtime = Permission.merge(explore!.permission, child)

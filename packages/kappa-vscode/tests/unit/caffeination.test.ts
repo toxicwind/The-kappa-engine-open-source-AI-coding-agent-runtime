@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test"
 import { mkdir, mkdtemp, realpath, rm, symlink } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import type { KiloClient, SessionStatus } from "@kappacode/sdk/v2/client"
+import type { KappaClient, SessionStatus } from "@kappacode/sdk/v2/client"
 import type { ConnectionState } from "../../src/services/cli-backend/connection-service"
 import type { SSEPayload } from "../../src/services/cli-backend/sdk-sse-adapter"
 import { CaffeinationService } from "../../src/services/caffeination"
@@ -40,13 +40,13 @@ function setup(data: Record<string, Status> = {}, wake: Record<string, Wake> = {
             return { data: (await connection.load(directory)).status }
           },
         },
-        kilocode: {
+        kappacode: {
           wakeups: async ({ directory }: { directory: string }) => {
             const pending = (await connection.load(directory)).wake
             return { data: Object.entries(pending).map(([sessionID, count]) => ({ sessionID, pending: count })) }
           },
         },
-      }) as unknown as KiloClient,
+      }) as unknown as KappaClient,
   }
   const driver = {
     available: true,
@@ -172,7 +172,7 @@ describe("keep-awake", () => {
     const inner = test.connection.getClient
     test.connection.getClient = (() => ({
       ...inner(),
-      kilocode: { wakeups: () => Promise.reject(new Error("transient")) },
+      kappacode: { wakeups: () => Promise.reject(new Error("transient")) },
     })) as never
     await test.service.refresh()
     await Bun.sleep(0)

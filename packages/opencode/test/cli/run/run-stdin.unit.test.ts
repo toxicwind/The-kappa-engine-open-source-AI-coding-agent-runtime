@@ -1,8 +1,8 @@
-// kilocode_change - new file
+// kappacode_change - new file
 // Unit tests for readPipedStdin — the bounded piped-stdin read used by
 // `kappa run`'s loadInput(). The read is injected so the tests never touch the
 // real process stdin; the never-resolving read reproduces the held-open pipe
-// that hung the CLI (see script/kilocode/repro-run-stdin-hang.sh). The real
+// that hung the CLI (see script/kappacode/repro-run-stdin-hang.sh). The real
 // stdin behavior of the abort is covered by run-stdin.subprocess.test.ts.
 import { describe, expect, test } from "bun:test"
 import { readPipedStdin } from "@/cli/cmd/run-stdin"

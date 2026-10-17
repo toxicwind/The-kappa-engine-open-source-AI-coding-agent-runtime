@@ -1,9 +1,9 @@
 import { describe, expect, mock, spyOn, test } from "bun:test"
-import { fetchKiloPassState, parseKiloPassState } from "../../src/api/kappa-pass"
+import { fetchKappaPassState, parseKappaPassState } from "../../src/api/kappa-pass"
 
-describe("parseKiloPassState", () => {
+describe("parseKappaPassState", () => {
   test("parses batched tRPC subscription data", () => {
-    const state = parseKiloPassState([
+    const state = parseKappaPassState([
       {
         result: {
           data: {
@@ -30,7 +30,7 @@ describe("parseKiloPassState", () => {
   })
 
   test("parses plain subscription payload", () => {
-    const state = parseKiloPassState([
+    const state = parseKappaPassState([
       {
         result: {
           data: {
@@ -58,7 +58,7 @@ describe("parseKiloPassState", () => {
   })
 
   test("returns null without period amounts", () => {
-    expect(parseKiloPassState({ status: "none" })).toBeNull()
+    expect(parseKappaPassState({ status: "none" })).toBeNull()
   })
 
   test("hides canceled and expired subscriptions that still report period credits", () => {
@@ -80,9 +80,9 @@ describe("parseKiloPassState", () => {
       },
     ]
 
-    expect(parseKiloPassState(payload("canceled"))).toBeNull()
-    expect(parseKiloPassState(payload("expired"))).toBeNull()
-    expect(parseKiloPassState(payload("past_due"))).toMatchObject({ currentPeriodBaseCreditsUsd: 19 })
+    expect(parseKappaPassState(payload("canceled"))).toBeNull()
+    expect(parseKappaPassState(payload("expired"))).toBeNull()
+    expect(parseKappaPassState(payload("past_due"))).toMatchObject({ currentPeriodBaseCreditsUsd: 19 })
   })
 
   test("silently ignores transport failures", async () => {
@@ -91,7 +91,7 @@ describe("parseKiloPassState", () => {
     global.fetch = mock(() => Promise.reject(new DOMException("The operation timed out.", "TimeoutError")))
 
     try {
-      await expect(fetchKiloPassState("token")).resolves.toBeNull()
+      await expect(fetchKappaPassState("token")).resolves.toBeNull()
       expect(warn).not.toHaveBeenCalled()
     } finally {
       warn.mockRestore()
@@ -105,7 +105,7 @@ describe("parseKiloPassState", () => {
     global.fetch = mock(() => Promise.resolve(new Response(null, { status: 503 })))
 
     try {
-      await expect(fetchKiloPassState("token")).resolves.toBeNull()
+      await expect(fetchKappaPassState("token")).resolves.toBeNull()
       expect(warn).not.toHaveBeenCalled()
     } finally {
       warn.mockRestore()

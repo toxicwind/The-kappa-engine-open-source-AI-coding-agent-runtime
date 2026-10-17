@@ -3,7 +3,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Effect, Fiber, Queue, Schema } from "effect"
 import { EventV2Bridge } from "../../src/event-v2-bridge"
-import { KiloQuestion } from "../../src/kappacode/question"
+import { KappaQuestion } from "../../src/kappacode/question"
 import { Question } from "../../src/question"
 import { SessionID } from "../../src/session/schema"
 import { testEffect } from "../lib/effect"
@@ -24,7 +24,7 @@ for (const [name, input, line, text] of [
   ["mixed breaks", "Squash\rmerge\r\nnow\nplease", "Squash merge now please", "Squash merge\nnow\nplease"],
 ] as const) {
   test(`normalizes question ${name}`, () => {
-    const result = KiloQuestion.normalize({
+    const result = KappaQuestion.normalize({
       header: input,
       question: input,
       options: [{ label: input, description: input }],
@@ -34,14 +34,14 @@ for (const [name, input, line, text] of [
       question: text,
       options: [{ label: line, description: text }],
     })
-    expect(KiloQuestion.normalize(result)).toEqual(result)
+    expect(KappaQuestion.normalize(result)).toEqual(result)
   })
 }
 
 test("preserves long whitespace runs without breaks and collapses runs containing breaks", () => {
   const space = " \t".repeat(20_000)
   const label = `Squash${space}merge`
-  const result = KiloQuestion.normalize({
+  const result = KappaQuestion.normalize({
     header: label,
     question: "How should we merge?",
     options: [

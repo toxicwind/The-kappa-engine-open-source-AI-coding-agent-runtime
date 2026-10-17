@@ -30,12 +30,12 @@ type Input = {
 async function session(input: Input, daemon: DaemonClient.Connection) {
   if (!input.args.cloudFork || !input.args.session) return { ok: true as const, id: input.args.session }
 
-  const [{ createKiloClient }, { importCloudSession, reportCloudImportError }] = await Promise.all([
+  const [{ createKappaClient }, { importCloudSession, reportCloudImportError }] = await Promise.all([
     import("@kappacode/sdk/v2"),
     import("@/kappacode/cloud-session"),
   ])
   UI.println("Importing session from cloud...")
-  const client = createKiloClient({
+  const client = createKappaClient({
     baseUrl: daemon.url,
     directory: input.cwd,
     headers: daemon.headers,
@@ -50,7 +50,7 @@ async function session(input: Input, daemon: DaemonClient.Connection) {
   }
 }
 
-export namespace KiloTuiThreadDaemon {
+export namespace KappaTuiThreadDaemon {
   // Protect TUI-owned HTTP routes from unauthenticated local callers: derive
   // worker credentials once so the spawned worker server and the TUI's SDK
   // clients share the same Basic auth material.

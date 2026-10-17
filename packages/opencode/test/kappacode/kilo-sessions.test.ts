@@ -14,7 +14,7 @@ import { Bus } from "../../src/bus"
 import { GlobalBus } from "../../src/bus/global"
 import type { Config } from "../../src/config/config"
 import { clearInFlightCache } from "../../src/kappa-sessions/inflight-cache"
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
 import { provide, Instance } from "../../src/kappacode/instance"
 import * as PrLink from "../../src/kappa-sessions/pr-link"
 import { RemoteWS } from "../../src/kappa-sessions/remote-ws"
@@ -37,7 +37,7 @@ const multi = testEffect(Layer.merge(AppNodeBuilder.build(CrossSpawnSpawner.node
 
 function layer(overrides: Partial<Config.Interface> = {}) {
   return Layer.merge(
-    KiloSessions.layer.pipe(
+    KappaSessions.layer.pipe(
       Layer.provideMerge(Bus.layer),
       Layer.provide(TestConfig.layer(overrides)),
       Layer.provide(AppNodeBuilder.build(Session.node)),
@@ -56,7 +56,7 @@ it.instance("initializes once per instance through Config.Service", () => {
   let reads = 0
 
   return Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
+    const sessions = yield* KappaSessions.Service
     yield* sessions.init()
     yield* sessions.init()
     expect(reads).toBe(1)
@@ -96,7 +96,7 @@ it.instance("bootstraps session ingest from KILO_API_KEY without stored auth", (
   process.env.KILO_API_KEY = "env-token"
   reset("env-token")
 
-  return Effect.promise(() => KiloSessions.bootstrap("session-env")).pipe(
+  return Effect.promise(() => KappaSessions.bootstrap("session-env")).pipe(
     Effect.andThen(() => Effect.sync(() => expect(calls).toEqual(["Bearer env-token", "Bearer env-token"]))),
     Effect.ensuring(
       Effect.sync(() => {
@@ -136,7 +136,7 @@ it.instance("prefers stored auth over KILO_API_KEY for session ingest", () => {
   return Effect.gen(function* () {
     const auth = yield* Auth.Service
     yield* auth.set("kappa", { type: "api", key: "stored-token" })
-    yield* Effect.promise(() => KiloSessions.bootstrap("session-auth"))
+    yield* Effect.promise(() => KappaSessions.bootstrap("session-auth"))
     expect(calls).toEqual(["Bearer stored-token", "Bearer stored-token"])
   }).pipe(
     Effect.ensuring(
@@ -175,7 +175,7 @@ it.instance("does not duplicate created-session subscribers when init is repeate
   return Effect.gen(function* () {
     const auth = yield* Auth.Service
     const instance = yield* TestInstance
-    const sessions = yield* KiloSessions.Service
+    const sessions = yield* KappaSessions.Service
     yield* auth.set("kappa", { type: "api", key: "test-token" })
     yield* sessions.init()
     yield* sessions.init()
@@ -237,7 +237,7 @@ multi.live("isolates the process-wide listener by instance directory", () => {
     const second = yield* tmpdirScoped()
     const auth = yield* Auth.Service
     const store = yield* InstanceStore.Service
-    const sessions = yield* KiloSessions.Service
+    const sessions = yield* KappaSessions.Service
     yield* auth.set("kappa", { type: "api", key: "test-token" })
     yield* store.provide({ directory: first }, sessions.init())
     yield* store.provide({ directory: second }, sessions.init())
@@ -295,7 +295,7 @@ multi.live("isolates the process-wide listener by instance directory", () => {
 // keeps replace semantics and fires one out-of-band heartbeat per set when
 // connected; `enableRemote` with an ad already set is a no-op (no extra HB).
 
-describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
+describe("KappaSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
   let heartbeatCalls = 0
   let outOfBand: Promise<void> | undefined
   let snapshot: RemoteProtocol.InstanceAdvertisement | undefined
@@ -308,7 +308,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     delete process.env["KILO_SESSION_INGEST_URL"]
     process.env["KILO_API_KEY"] = "tok"
     reset("tok")
-    KiloSessions.resetInstanceAdvertisementForTests()
+    KappaSessions.resetInstanceAdvertisementForTests()
 
     spyOn(RemoteSender, "create").mockImplementation(
       () =>
@@ -370,7 +370,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
       },
     })
     pub.mockRestore()
@@ -401,7 +401,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
       fn: async () => {
         // Contract: enableRemote entry with none set → derive and set.
         // No prior setInstanceAdvertisement (simulates /remote or auto-enable).
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const payload = await capturedGetSessions()()
         expect(payload.type).toBe("heartbeat")
         expect(payload.instance).toBeDefined()
@@ -422,9 +422,9 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
         const bootstrap = await import("../../src/cli/bootstrap")
         const { RemoteCommand } = await import("../../src/cli/cmd/remote")
         spyOn(bootstrap, "bootstrap").mockImplementation(async (_directory, cb) => cb())
-        const enable = KiloSessions.enableRemote
+        const enable = KappaSessions.enableRemote
         const stop = new Error("stop before the command waits for shutdown")
-        spyOn(KiloSessions, "enableRemote").mockImplementation(async () => {
+        spyOn(KappaSessions, "enableRemote").mockImplementation(async () => {
           await enable()
           throw stop
         })
@@ -445,13 +445,13 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
       directory: tmp.path,
       fn: async () => {
         // Auto-enable connects first and advertises.
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const first = await capturedGetSessions()()
         expect(first.instance).toBeDefined()
         const before = heartbeatCalls
         // /remote calls enableRemote again; already-connected early return must
         // not re-set or fire an extra out-of-band heartbeat.
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         expect(heartbeatCalls).toBe(before)
         const second = await capturedGetSessions()()
         expect(second.instance).toEqual(first.instance)
@@ -464,10 +464,10 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         // Explicit set keeps replace semantics even when enableRemote already
         // derived a default advertisement. Do not invent metadata for a legacy ad.
-        KiloSessions.setInstanceAdvertisement({
+        KappaSessions.setInstanceAdvertisement({
           name: "mbp-igor",
           projectName: "cloud",
           version: "1.2.3",
@@ -488,11 +488,11 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         // enableRemote already set a default ad; explicit set replaces and fires
         // exactly one out-of-band heartbeat.
         const beforeHeartbeatCalls = heartbeatCalls
-        KiloSessions.setInstanceAdvertisement({ name: "h", projectName: "p" })
+        KappaSessions.setInstanceAdvertisement({ name: "h", projectName: "p" })
         await outOfBand
         expect(heartbeatCalls).toBe(beforeHeartbeatCalls + 1)
         expect(snapshot).toEqual({ name: "h", projectName: "p", gitBranch: expect.any(String) })
@@ -505,11 +505,11 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
-        KiloSessions.setInstanceAdvertisement({ name: "first", projectName: "p" })
+        await KappaSessions.enableRemote()
+        KappaSessions.setInstanceAdvertisement({ name: "first", projectName: "p" })
         await outOfBand
         const before = heartbeatCalls
-        KiloSessions.setInstanceAdvertisement({ name: "second", projectName: "p" })
+        KappaSessions.setInstanceAdvertisement({ name: "second", projectName: "p" })
         await outOfBand
         expect(heartbeatCalls).toBe(before + 1)
         expect(snapshot).toEqual({ name: "second", projectName: "p", gitBranch: expect.any(String) })
@@ -530,8 +530,8 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
           startedAt: "2020-01-02T03:04:05.678Z",
           gitBranch: "stale",
         }
-        KiloSessions.setInstanceAdvertisement(instance)
-        await KiloSessions.enableRemote()
+        KappaSessions.setInstanceAdvertisement(instance)
+        await KappaSessions.enableRemote()
         const payload = await capturedGetSessions()()
         expect(payload.instance?.gitBranch).not.toBe("stale")
         expect(payload.instance).toEqual({ ...instance, gitBranch: expect.any(String) })
@@ -544,13 +544,13 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const before = await capturedGetSessions()()
         expect(before.instance).toBeDefined()
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
         // Re-enable: ensureDefault must no-op (flag still set), and the new
         // connection's getSessions must still carry the same advertisement.
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const after = await capturedGetSessions()()
         expect(after.instance).toEqual(before.instance)
       },
@@ -562,7 +562,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const first = await capturedGetSessions()()
         if (!first.instance) throw new Error("initial heartbeat is missing its instance advertisement")
         const { AppRuntime } = await import("../../src/effect/app-runtime")
@@ -589,11 +589,11 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
         const { Git } = await import("../../src/git")
         const vcs = await AppRuntime.runPromise(Vcs.Service.use((svc) => Effect.succeed(svc)))
         const branch = spyOn(vcs, "branch").mockReturnValue(Effect.succeed("main"))
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const first = await capturedGetSessions()()
         if (!first.instance) throw new Error("initial heartbeat is missing its instance advertisement")
         const chat = await AppRuntime.runPromise(Session.Service.use((svc) => svc.create({})))
-        KiloSessions.setAttachedSessions([chat.id])
+        KappaSessions.setAttachedSessions([chat.id])
         // Rows carry the session directory's branch via Git.Service — not the
         // context-scoped Vcs branch that only feeds the instance advertisement.
         const git = await AppRuntime.runPromise(Git.Service.use((svc) => Effect.succeed(svc)))
@@ -630,7 +630,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
   test("session repository metadata follows the session directory when the host was started outside the selected repository", async () => {
     // Parent WITHOUT git mirrors `kappa remote` launched from e.g. ~/Projects;
     // the session is created inside the child repo `cloud`, which has its own
-    // remote and branch. Rows and persisted kappa_meta must describe the child.
+    // remote and branch. Rows and persisted kilo_meta must describe the child.
     await using tmp = await tmpdir({
       git: false,
       init: async (dir) => {
@@ -650,7 +650,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
       directory: tmp.path,
       fn: async () => {
         const { AppRuntime } = await import("../../src/effect/app-runtime")
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         // Create the session the way create_session does: inside the child repo.
         const chat: { info?: Session.Info } = {}
         await provide({
@@ -660,7 +660,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
           },
         })
         if (!chat.info) throw new Error("session was not created in the child repository")
-        KiloSessions.setAttachedSessions([chat.info.id])
+        KappaSessions.setAttachedSessions([chat.info.id])
         const payload = await capturedGetSessions()()
         const row = payload.sessions.find((r) => r.id === chat.info!.id)
         expect(row?.gitUrl).toBe("https://github.com/kappa-test/cloud.git")
@@ -668,9 +668,9 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
         // The host itself is not a git repo, so the instance advertisement
         // describes the launch directory only: no branch.
         expect(payload.instance?.gitBranch).toBeUndefined()
-        // The persisted kappa_meta path follows the session directory too.
+        // The persisted kilo_meta path follows the session directory too.
         const info = await AppRuntime.runPromise(Session.Service.use((svc) => svc.get(chat.info!.id)))
-        const persisted = await KiloSessions._metaForTests(chat.info!.id, info)
+        const persisted = await KappaSessions._metaForTests(chat.info!.id, info)
         expect(persisted.gitUrl).toBe("https://github.com/kappa-test/cloud.git")
         expect(persisted.gitBranch).toBe("feature/live")
       },
@@ -710,7 +710,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
       fn: async () => {
         const { AppRuntime } = await import("../../src/effect/app-runtime")
         try {
-          await KiloSessions.enableRemote()
+          await KappaSessions.enableRemote()
           const chat: { info?: Session.Info } = {}
           await provide({
             directory: repo,
@@ -719,7 +719,7 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
             },
           })
           if (!chat.info) throw new Error("session was not created in the child repository")
-          KiloSessions.setAttachedSessions([chat.info.id])
+          KappaSessions.setAttachedSessions([chat.info.id])
           const rowOf = (payload: RemoteProtocol.Heartbeat) => payload.sessions.find((r) => r.id === chat.info!.id)
           const healthy = rowOf(await capturedGetSessions()())
           expect(healthy?.gitUrl).toBe("https://github.com/kappa-test/cloud.git")
@@ -753,8 +753,8 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
-        KiloSessions.resetInstanceAdvertisementForTests()
+        await KappaSessions.enableRemote()
+        KappaSessions.resetInstanceAdvertisementForTests()
         const payload = await capturedGetSessions()()
         expect(payload).not.toHaveProperty("instance")
         expect(payload.sessions).toEqual([])
@@ -764,14 +764,14 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
 
   test("per-session platform resolution matches meta() order — env var fallback", async () => {
     // The getSessions closure's platform field is computed as:
-    //   KiloSession.resolvePlatform(id) || process.env["KILO_PLATFORM"] || "cli"
+    //   KappaSession.resolvePlatform(id) || process.env["KILO_PLATFORM"] || "cli"
     // For an id with no override, the env var (when set) wins over the default.
     process.env["KILO_PLATFORM"] = "vscode"
     await using tmp = await tmpdir({ git: true })
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const payload = await capturedGetSessions()()
         // No sessions are attached in this test, but the schema round-trips
         // the platform field; the test exists to lock the resolution order
@@ -791,10 +791,10 @@ describe("KiloSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
 // detachRemoteSession, and the negative-containment heartbeat fence. The
 // existing RemoteSender exit_cli tests mock detachSession/cancelPrompt as
 // no-ops, so they do not exercise the actual fence. This block drives the
-// real KiloSessions seams and proves that a non-idle status is cleared
+// real KappaSessions seams and proves that a non-idle status is cleared
 // deterministically, which is exactly what lets the fence resolve and the
 // exit_cli handler ACK.
-describe("KiloSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
+describe("KappaSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
   let heartbeatCalls = 0
   let outOfBand: Promise<void> | undefined
 
@@ -805,7 +805,7 @@ describe("KiloSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
     delete process.env["KILO_SESSION_INGEST_URL"]
     process.env["KILO_API_KEY"] = "tok"
     reset("tok")
-    KiloSessions.resetInstanceAdvertisementForTests()
+    KappaSessions.resetInstanceAdvertisementForTests()
 
     spyOn(RemoteSender, "create").mockImplementation(
       () =>
@@ -870,7 +870,7 @@ describe("KiloSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
       },
     })
     pub.mockRestore()
@@ -919,19 +919,19 @@ describe("KiloSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
       await provide({
         directory: tmp.path,
         fn: async () => {
-          await KiloSessions.enableRemote()
+          await KappaSessions.enableRemote()
           const id = await setupSession()
 
           const { AppRuntime } = await import("@/effect/app-runtime")
           await AppRuntime.runPromise(SessionStatus.Service.use((svc) => svc.set(id, status)))
 
-          await KiloSessions.attachRemoteSession(id)
+          await KappaSessions.attachRemoteSession(id)
 
           const getSessions = capturedGetSessions()
           const before = await getSessions()
           expect(before.sessions.some((s) => s.id === id && s.status === heartbeatStatus)).toBe(true)
 
-          await KiloSessions.detachRemoteSession(id)
+          await KappaSessions.detachRemoteSession(id)
 
           const after = await getSessions()
           expect(after.sessions.some((s) => s.id === id)).toBe(false)
@@ -947,13 +947,13 @@ describe("KiloSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
 // DEF-3 part 1: heartbeat per-session status must reflect pending
 // question/permission (same precedence as deriveStatus), with Permission and
 // Question list() called once per heartbeat — not once per session.
-describe("KiloSessions heartbeat attention status (DEF-3)", () => {
+describe("KappaSessions heartbeat attention status (DEF-3)", () => {
   beforeEach(() => {
     process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
     delete process.env["KILO_SESSION_INGEST_URL"]
     process.env["KILO_API_KEY"] = "tok"
     reset("tok")
-    KiloSessions.resetInstanceAdvertisementForTests()
+    KappaSessions.resetInstanceAdvertisementForTests()
 
     spyOn(RemoteSender, "create").mockImplementation(
       () =>
@@ -998,7 +998,7 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
       },
     })
     pub.mockRestore()
@@ -1062,9 +1062,9 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
-        await KiloSessions.attachRemoteSession(id)
+        await KappaSessions.attachRemoteSession(id)
 
         const { AppRuntime } = await import("@/effect/app-runtime")
         const { Permission } = await import("@/permission")
@@ -1099,9 +1099,9 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
-        await KiloSessions.attachRemoteSession(id)
+        await KappaSessions.attachRemoteSession(id)
 
         const { AppRuntime } = await import("@/effect/app-runtime")
         const { Question } = await import("@/question")
@@ -1125,9 +1125,9 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
-        await KiloSessions.attachRemoteSession(id)
+        await KappaSessions.attachRemoteSession(id)
 
         const { AppRuntime } = await import("@/effect/app-runtime")
         const { Permission } = await import("@/permission")
@@ -1168,7 +1168,7 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const idleId = await setupSession()
         const busyId = await setupSession()
         const retryId = await setupSession()
@@ -1181,9 +1181,9 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
           ),
         )
 
-        await KiloSessions.attachRemoteSession(idleId)
-        await KiloSessions.attachRemoteSession(busyId)
-        await KiloSessions.attachRemoteSession(retryId)
+        await KappaSessions.attachRemoteSession(idleId)
+        await KappaSessions.attachRemoteSession(busyId)
+        await KappaSessions.attachRemoteSession(retryId)
 
         const payload = await capturedGetSessions()()
         const byId = Object.fromEntries(payload.sessions.map((s) => [s.id, s.status]))
@@ -1199,10 +1199,10 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         for (let i = 0; i < 4; i++) {
           const id = await setupSession()
-          await KiloSessions.attachRemoteSession(id)
+          await KappaSessions.attachRemoteSession(id)
         }
 
         const { AppRuntime } = await import("@/effect/app-runtime")
@@ -1257,7 +1257,7 @@ describe("KiloSessions heartbeat attention status (DEF-3)", () => {
 // heartbeat reads each session's own link and never fans one worktree link out
 // to the other sessions in the checkout; a mention, a listing, a view, or a
 // review is never a link.
-describe("KiloSessions PR link (per-session hard evidence)", () => {
+describe("KappaSessions PR link (per-session hard evidence)", () => {
   let ingestBodies: { sessionId: string; data: { type: string; data: unknown }[] }[] = []
   let client: string | undefined
   const paths: string[] = []
@@ -1268,7 +1268,7 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
     ingestBodies = []
     // Forget the upgrade migration and any legacy record so each test replays a
     // clean install, then drop the per-session links a previous test left.
-    await KiloSessions._resetPrLinkMigrationForTests()
+    await KappaSessions._resetPrLinkMigrationForTests()
     await fs.rm(join(Global.Path.data, "storage", "session_pr_link_recorded"), { recursive: true, force: true })
     await fs.rm(join(Global.Path.data, "storage", "session_pr_link"), { recursive: true, force: true })
     for (const id of (await PrLink.loadSessionLinks()).keys()) await PrLink.clearSessionLink(id)
@@ -1276,7 +1276,7 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
     delete process.env["KILO_SESSION_INGEST_URL"]
     process.env["KILO_API_KEY"] = "tok"
     reset("tok")
-    KiloSessions.resetInstanceAdvertisementForTests()
+    KappaSessions.resetInstanceAdvertisementForTests()
 
     spyOn(RemoteSender, "create").mockImplementation(
       () =>
@@ -1331,7 +1331,7 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
       },
     })
     pub.mockRestore()
@@ -1368,10 +1368,10 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
 
   // Keep the event handlers alive for the whole test so the GlobalBus dispatcher
   // is installed when a part is emitted; the caller disposes it.
-  async function initKiloSessions() {
+  async function initKappaSessions() {
     const { ManagedRuntime } = await import("effect")
     const runtime = ManagedRuntime.make(layer())
-    await runtime.runPromise(KiloSessions.Service.use((svc) => svc.init()))
+    await runtime.runPromise(KappaSessions.Service.use((svc) => svc.init()))
     return runtime
   }
 
@@ -1434,15 +1434,15 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        const runtime = await initKiloSessions()
+        const runtime = await initKappaSessions()
         try {
           const owner = await setupSession()
           const bystander = await setupSession()
-          await KiloSessions.bootstrap(owner)
-          await KiloSessions.bootstrap(bystander)
-          await KiloSessions.enableRemote()
-          await KiloSessions.attachRemoteSession(owner)
-          await KiloSessions.attachRemoteSession(bystander)
+          await KappaSessions.bootstrap(owner)
+          await KappaSessions.bootstrap(bystander)
+          await KappaSessions.enableRemote()
+          await KappaSessions.attachRemoteSession(owner)
+          await KappaSessions.attachRemoteSession(bystander)
 
           await clearStaleIngest()
           emitPart(
@@ -1498,12 +1498,12 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        const runtime = await initKiloSessions()
+        const runtime = await initKappaSessions()
         try {
           const id = await setupSession()
-          await KiloSessions.bootstrap(id)
-          await KiloSessions.enableRemote()
-          await KiloSessions.attachRemoteSession(id)
+          await KappaSessions.bootstrap(id)
+          await KappaSessions.enableRemote()
+          await KappaSessions.attachRemoteSession(id)
           await clearStaleIngest()
 
           const url = "https://github.com/owner/repo/pull/5"
@@ -1529,12 +1529,12 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        const runtime = await initKiloSessions()
+        const runtime = await initKappaSessions()
         try {
           const id = await setupSession()
-          await KiloSessions.bootstrap(id)
-          await KiloSessions.enableRemote()
-          await KiloSessions.attachRemoteSession(id)
+          await KappaSessions.bootstrap(id)
+          await KappaSessions.enableRemote()
+          await KappaSessions.attachRemoteSession(id)
           await clearStaleIngest()
 
           emitPart(
@@ -1603,13 +1603,13 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
       directory: tmp.path,
       fn: async () => {
         const id = await setupSession()
-        await KiloSessions.bootstrap(id)
-        await KiloSessions.enableRemote()
+        await KappaSessions.bootstrap(id)
+        await KappaSessions.enableRemote()
         // Settle earlier tests' ingest before attaching: the attach heartbeat is
         // what runs the upgrade sweep and queues the clear.
         await new Promise((r) => setTimeout(r, 1200))
         ingestBodies.length = 0
-        await KiloSessions.attachRemoteSession(id)
+        await KappaSessions.attachRemoteSession(id)
         await new Promise((r) => setTimeout(r, 1200))
 
         const payload = await capturedGetSessions()()
@@ -1652,12 +1652,12 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
         // inherited link.
         const first = await setupSession()
         const late = await setupSession()
-        await KiloSessions.bootstrap(first)
-        await KiloSessions.bootstrap(late)
-        await KiloSessions.enableRemote()
+        await KappaSessions.bootstrap(first)
+        await KappaSessions.bootstrap(late)
+        await KappaSessions.enableRemote()
         await new Promise((r) => setTimeout(r, 1200))
         ingestBodies.length = 0
-        await KiloSessions.attachRemoteSession(first)
+        await KappaSessions.attachRemoteSession(first)
         await new Promise((r) => setTimeout(r, 1200))
 
         const firstLinks = prLinkItems(first)
@@ -1667,7 +1667,7 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
         // not have been marked done.
         expect(prLinkItems(late)).toEqual([])
 
-        await KiloSessions.attachRemoteSession(late)
+        await KappaSessions.attachRemoteSession(late)
         await new Promise((r) => setTimeout(r, 1200))
 
         const lateLinks = prLinkItems(late)
@@ -1703,7 +1703,7 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
       directory: tmp.path,
       fn: async () => {
         const id = await setupSession()
-        await KiloSessions.bootstrap(id)
+        await KappaSessions.bootstrap(id)
         // The candidate set is every session the project knows, so drop sessions
         // earlier tests left behind; otherwise their un-advertised ids keep the
         // marker pending and mask whether this candidate settled.
@@ -1715,10 +1715,10 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
         // owes no clear, so the sweep must still settle instead of leaving the
         // persisted pending set to be re-read on every later process.
         await PrLink.recordPrCreate(id, tmp.path, "Opened\nhttps://github.com/owner/repo/pull/7\n")
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         await new Promise((r) => setTimeout(r, 1200))
         ingestBodies.length = 0
-        await KiloSessions.attachRemoteSession(id)
+        await KappaSessions.attachRemoteSession(id)
         await new Promise((r) => setTimeout(r, 1200))
 
         const payload = await capturedGetSessions()()
@@ -1734,10 +1734,10 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        const runtime = await initKiloSessions()
+        const runtime = await initKappaSessions()
         try {
           const id = await setupSession()
-          await KiloSessions.bootstrap(id)
+          await KappaSessions.bootstrap(id)
           await PrLink.recordPrCreate(id, tmp.path, "Opened\nhttps://github.com/owner/repo/pull/7\n")
           expect(await PrLink.readSessionPrLink(id)).toBeDefined()
 
@@ -1779,9 +1779,9 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
         const identity = spyOn(PrLink, "identityFor")
         const load = spyOn(PrLink, "loadSessionLinks")
 
-        await KiloSessions.enableRemote()
-        await KiloSessions.attachRemoteSession(first)
-        await KiloSessions.attachRemoteSession(second)
+        await KappaSessions.enableRemote()
+        await KappaSessions.attachRemoteSession(first)
+        await KappaSessions.attachRemoteSession(second)
         // The instance bootstrap already ran the 5-minute check once; count only
         // the heartbeat's own reads from here.
         load.mockClear()
@@ -1804,9 +1804,9 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
       directory: tmp.path,
       fn: async () => {
         const id = await setupSession()
-        await KiloSessions.bootstrap(id)
-        await KiloSessions.enableRemote()
-        await KiloSessions.attachRemoteSession(id)
+        await KappaSessions.bootstrap(id)
+        await KappaSessions.enableRemote()
+        await KappaSessions.attachRemoteSession(id)
         await PrLink.writeSessionPrLink(id, {
           link: { platform: "github", prUrl: "https://github.com/owner/repo/pull/7", prNumber: 7 },
           headRef: "feature/x",
@@ -1847,7 +1847,7 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
       await provide({
         directory: tmp.path,
         fn: async () => {
-          const runtime = await initKiloSessions()
+          const runtime = await initKappaSessions()
           try {
             const id = await setupSession()
             const record = {
@@ -1871,9 +1871,9 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
               await fs.writeFile(path, JSON.stringify(value))
             }
 
-            await KiloSessions.bootstrap(id)
-            await KiloSessions.enableRemote()
-            await KiloSessions.attachRemoteSession(id)
+            await KappaSessions.bootstrap(id)
+            await KappaSessions.enableRemote()
+            await KappaSessions.attachRemoteSession(id)
             await clearStaleIngest()
             emitPart(id, toolPart(id, "p-create", "gh pr create --fill", "https://github.com/owner/repo/pull/9\n"))
             emitPart(id, toolPart(id, "p-push", "git push origin feature/x", "[new branch] feature/x -> feature/x"))
@@ -1922,7 +1922,7 @@ describe("KiloSessions PR link (per-session hard evidence)", () => {
 // first accept that session's ingest bootstrap (POST /api/session). A refused
 // bootstrap must fail the attach, so the command rolls the local session back
 // instead of advertising and logging a session the relay never accepted.
-describe("KiloSessions create_session share gate", () => {
+describe("KappaSessions create_session share gate", () => {
   let sessionStatus = 200
   let sessionNetworkDown = false
 
@@ -1931,7 +1931,7 @@ describe("KiloSessions create_session share gate", () => {
     delete process.env["KILO_SESSION_INGEST_URL"]
     process.env["KILO_API_KEY"] = "tok"
     reset("tok")
-    KiloSessions.resetInstanceAdvertisementForTests()
+    KappaSessions.resetInstanceAdvertisementForTests()
     sessionStatus = 200
     sessionNetworkDown = false
 
@@ -1990,7 +1990,7 @@ describe("KiloSessions create_session share gate", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
       },
     })
     pub.mockRestore()
@@ -2014,14 +2014,14 @@ describe("KiloSessions create_session share gate", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
         // The relay now answers POST /api/session with 409 Conflict.
         sessionStatus = 409
 
-        await expect(KiloSessions.attachRemoteSession(id, { requireShare: true })).rejects.toThrow(/409/)
+        await expect(KappaSessions.attachRemoteSession(id, { requireShare: true })).rejects.toThrow(/409/)
 
-        expect(KiloSessions.hasRemoteSession(id)).toBe(false)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(false)
       },
     })
   }, 30000)
@@ -2031,12 +2031,12 @@ describe("KiloSessions create_session share gate", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
 
-        await KiloSessions.attachRemoteSession(id, { requireShare: true })
+        await KappaSessions.attachRemoteSession(id, { requireShare: true })
 
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       },
     })
   }, 30000)
@@ -2046,15 +2046,15 @@ describe("KiloSessions create_session share gate", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
         // A 5xx is a transient bootstrap failure, not a refusal: the session
         // must be hosted (and retried later), never rolled back.
         sessionStatus = 503
 
-        await KiloSessions.attachRemoteSession(id, { requireShare: true })
+        await KappaSessions.attachRemoteSession(id, { requireShare: true })
 
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       },
     })
   }, 30000)
@@ -2064,14 +2064,14 @@ describe("KiloSessions create_session share gate", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
         // 429 (Too Many Requests) is retryable, unlike the other 4xx refusals.
         sessionStatus = 429
 
-        await KiloSessions.attachRemoteSession(id, { requireShare: true })
+        await KappaSessions.attachRemoteSession(id, { requireShare: true })
 
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       },
     })
   }, 30000)
@@ -2081,15 +2081,15 @@ describe("KiloSessions create_session share gate", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        await KiloSessions.enableRemote()
+        await KappaSessions.enableRemote()
         const id = await setupSession()
         // A thrown fetch is a network failure, not a refusal: also retryable,
         // so the session must be hosted rather than rolled back.
         sessionNetworkDown = true
 
-        await KiloSessions.attachRemoteSession(id, { requireShare: true })
+        await KappaSessions.attachRemoteSession(id, { requireShare: true })
 
-        expect(KiloSessions.hasRemoteSession(id)).toBe(true)
+        expect(KappaSessions.hasRemoteSession(id)).toBe(true)
       },
     })
   }, 30000)
@@ -2100,7 +2100,7 @@ describe("KiloSessions create_session share gate", () => {
 // drained there. Otherwise the open entry survives the disconnect and the next
 // `endAll` reports a stale end line whose duration spans the disconnected
 // period.
-describe("KiloSessions remote session log lifecycle", () => {
+describe("KappaSessions remote session log lifecycle", () => {
   test("disableRemote drains the sessions this run started so a later end is not stale", async () => {
     const started: Array<[string, unknown]> = []
     const later: Array<[string, unknown]> = []
@@ -2114,7 +2114,7 @@ describe("KiloSessions remote session log lifecycle", () => {
       directory: tmp.path,
       fn: async () => {
         RemoteSessionLog.start(sink(started), { sessionID: id, directory: tmp.path })
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
         // The start line was already paired when hosting ended, so a later end
         // for the same session must find nothing open.
         RemoteSessionLog.end(sink(later), { sessionID: id, reason: "detached" })
@@ -2147,7 +2147,7 @@ describe("KiloSessions remote session log lifecycle", () => {
         fn: async () => {
           RemoteSessionLog.start(log, { sessionID: id, directory: tmp.path })
           // Exactly what the `remote/disable` handler calls.
-          KiloSessions.disableRemote()
+          KappaSessions.disableRemote()
         },
       })
     } finally {
@@ -2171,7 +2171,7 @@ describe("KiloSessions remote session log lifecycle", () => {
 // interval, and never on a session update or a heartbeat. The poller module is
 // replaced with a spy that spreads the real exports, so the scheduler start is
 // counted without issuing a real host query.
-describe("KiloSessions PR poll wiring", () => {
+describe("KappaSessions PR poll wiring", () => {
   let client: string | undefined
   beforeEach(() => {
     client = process.env.KILO_CLIENT
@@ -2180,7 +2180,7 @@ describe("KiloSessions PR poll wiring", () => {
     delete process.env["KILO_SESSION_INGEST_URL"]
     process.env["KILO_API_KEY"] = "tok"
     reset("tok")
-    KiloSessions.resetInstanceAdvertisementForTests()
+    KappaSessions.resetInstanceAdvertisementForTests()
 
     spyOn(RemoteSender, "create").mockImplementation(
       () =>
@@ -2223,7 +2223,7 @@ describe("KiloSessions PR poll wiring", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        KiloSessions.disableRemote()
+        KappaSessions.disableRemote()
       },
     })
     pub.mockRestore()
@@ -2252,7 +2252,7 @@ describe("KiloSessions PR poll wiring", () => {
     await provide({
       directory: tmp.path,
       fn: async () => {
-        // The instance bootstrap runs KiloSessions.init for this instance, so the
+        // The instance bootstrap runs KappaSessions.init for this instance, so the
         // check has started exactly once with no interval override (the default
         // 5-minute interval applies).
         expect(startPoll).toHaveBeenCalledTimes(1)
@@ -2262,9 +2262,9 @@ describe("KiloSessions PR poll wiring", () => {
         const { AppRuntime } = await import("@/effect/app-runtime")
         const { Session } = await import("@/session/session")
         const chat = await AppRuntime.runPromise(Session.Service.use((svc) => svc.create({})))
-        await KiloSessions.bootstrap(chat.id)
-        await KiloSessions.enableRemote()
-        await KiloSessions.attachRemoteSession(chat.id)
+        await KappaSessions.bootstrap(chat.id)
+        await KappaSessions.enableRemote()
+        await KappaSessions.attachRemoteSession(chat.id)
 
         // A session update never starts another check.
         GlobalBus.emit("event", {

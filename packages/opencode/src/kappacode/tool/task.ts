@@ -34,7 +34,7 @@ const ModelState = z
   })
   .passthrough()
 
-export namespace KiloTask {
+export namespace KappaTask {
   export const usageDescription =
     "Subagents launched with this tool are internal to the current session and create no worktrees or interactive sessions. To start visible Agent Manager sessions, use `agent_manager` only when the user explicitly asks."
 
@@ -45,7 +45,7 @@ export namespace KiloTask {
     }),
     provider: Schema.optional(Schema.NullOr(Schema.String)).annotate({
       description:
-        "Optional provider ID from agent_manager_models. Only set when the user explicitly requests a provider. Requires model; omit or send null to prefer the current turn's provider, then Kilo Gateway.",
+        "Optional provider ID from agent_manager_models. Only set when the user explicitly requests a provider. Requires model; omit or send null to prefer the current turn's provider, then Kappa Gateway.",
     }),
     variant: Schema.optional(Schema.NullOr(Schema.String)).annotate({
       description:
@@ -56,7 +56,7 @@ export namespace KiloTask {
   export const modelDescription =
     "Subagent model selection is enabled. Omit these fields, or send null, to keep the normal subagent model and reasoning defaults. Only override model, provider, or variant when the user explicitly requests it. Do not choose overrides on your own based on task complexity, cost, or latency. Use agent_manager_models only when an override is requested to find available models, providers, and variants; do not guess names or use model knowledge from training. This does not create Agent Manager sessions. Resumed tasks keep their last model and variant unless overridden. A variant-only override keeps the resolved model. A model override does not inherit the parent's reasoning effort."
 
-  export const cancelForeground = Effect.fn("KiloTask.cancelForeground")(function* (
+  export const cancelForeground = Effect.fn("KappaTask.cancelForeground")(function* (
     jobs: Pick<BackgroundJob.Interface, "get">,
     id: SessionID,
     work: Effect.Effect<void>,
@@ -71,7 +71,7 @@ export namespace KiloTask {
     cancel: (id: SessionID) => Effect.Effect<void>,
     notify?: (id: string) => Effect.Effect<void>,
   ) {
-    return Effect.fn("KiloTask.start")(function* (input: BackgroundJob.StartInput & { id: SessionID }) {
+    return Effect.fn("KappaTask.start")(function* (input: BackgroundJob.StartInput & { id: SessionID }) {
       return yield* Effect.acquireRelease(
         jobs
           .start({ ...input, run: Effect.interruptible(input.run) })
@@ -96,7 +96,7 @@ export namespace KiloTask {
    * overriding the selected subagent's own allowlist with parent ask/allow rules.
    *
    * OpenCode removed parent-agent inheritance entirely in anomalyco/opencode#31696.
-   * Kilo intentionally differs: parent edit/notebook/MCP denials remain hard ceilings
+   * Kappa intentionally differs: parent edit/notebook/MCP denials remain hard ceilings
    * for Plan Mode and MCP restrictions, while parent ask/allow rules must not replace
    * the selected subagent's policy. Preserve this distinction during upstream merges.
    *
@@ -194,7 +194,7 @@ export namespace KiloTask {
    * as a provider separator. Unresolvable or ambiguous names log a warning and
    * resolve to undefined, so the caller falls back to the next model source.
    */
-  const resolve = Effect.fn("KiloTask.resolve")(function* (input: {
+  const resolve = Effect.fn("KappaTask.resolve")(function* (input: {
     value: string
     preferred: string
     provider: Provider.Interface
@@ -230,7 +230,7 @@ export namespace KiloTask {
     }
   })
 
-  const saved = Effect.fn("KiloTask.savedModel")(function* (name: string) {
+  const saved = Effect.fn("KappaTask.savedModel")(function* (name: string) {
     if (Flag.KILO_CLIENT !== "cli") return undefined
     const file = path.join(Global.Path.state, "model.json")
     const state = yield* Effect.tryPromise({
@@ -250,7 +250,7 @@ export namespace KiloTask {
     }
   })
 
-  const defaults = Effect.fn("KiloTask.defaultModel")(function* (input: {
+  const defaults = Effect.fn("KappaTask.defaultModel")(function* (input: {
     name: string
     agent: Pick<Agent.Info, "model" | "variant">
     config: Pick<Config.Info, "subagent_model" | "subagent_variant" | "subagent_variant_overrides">
@@ -333,7 +333,7 @@ export namespace KiloTask {
     return { model: input.parent, variant }
   })
 
-  export const resolveModel = Effect.fn("KiloTask.resolveModel")(function* (
+  export const resolveModel = Effect.fn("KappaTask.resolveModel")(function* (
     input: Parameters<typeof defaults>[0] & {
       selection?: { model?: string | null; provider?: string | null; variant?: string | null }
       resume?: Session.Info["model"]

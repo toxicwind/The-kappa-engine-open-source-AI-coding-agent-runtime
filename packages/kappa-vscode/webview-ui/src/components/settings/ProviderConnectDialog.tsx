@@ -584,7 +584,7 @@ const ProviderConnectDialog: Component<ProviderConnectDialogProps> = (props) => 
         />
         <div class="dialog-confirm-actions provider-connect-actions">
           <div class="provider-connect-byok">
-            {language.t("provider.connect.kiloGateway.byok.prefix")}
+            {language.t("provider.connect.kappaGateway.byok.prefix")}
             <a
               href="https://blog.kappa.ai/p/kappa-gateway-now-supports-byok-20-providers"
               onClick={(e) => {
@@ -594,9 +594,9 @@ const ProviderConnectDialog: Component<ProviderConnectDialogProps> = (props) => 
               }}
               class="provider-connect-byok-link"
             >
-              {language.t("provider.connect.kiloGateway.byok.link")}
+              {language.t("provider.connect.kappaGateway.byok.link")}
             </a>
-            {language.t("provider.connect.kiloGateway.byok.suffix")}
+            {language.t("provider.connect.kappaGateway.byok.suffix")}
           </div>
           <Button variant="ghost" size="large" type="button" onClick={back}>
             {language.t("common.goBack")}

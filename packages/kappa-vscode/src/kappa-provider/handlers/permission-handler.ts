@@ -1,11 +1,11 @@
 /**
- * Permission handlers — extracted from KiloProvider.
+ * Permission handlers — extracted from KappaProvider.
  *
  * Manages permission responses (once/always/reject) and recovery of
  * pending permissions after SSE reconnections. No vscode dependency.
  */
 
-import type { KiloClient, PermissionRequest } from "@kappacode/sdk/v2/client"
+import type { KappaClient, PermissionRequest } from "@kappacode/sdk/v2/client"
 import { permissionSettled, respondToPermission } from "@kappacode/sdk/permission"
 import { retry } from "../../services/cli-backend/retry"
 import { isNotFoundError } from "./not-found"
@@ -20,7 +20,7 @@ export type PermissionResponseResult =
 const CANCELLED = "permission reply cancelled"
 
 export interface PermissionContext {
-  readonly client: KiloClient | null
+  readonly client: KappaClient | null
   readonly currentSessionId: string | undefined
   readonly trackedSessionIds: Set<string>
   readonly sessionDirectories: ReadonlyMap<string, string>
@@ -54,7 +54,7 @@ export function recoveryDirs(workspace: string, dirs: ReadonlyMap<string, string
  * transient on purpose, so the retry helper stops instead of looping.
  */
 export async function replyOnce(
-  client: KiloClient,
+  client: KappaClient,
   requestID: string,
   directory: string,
   shouldContinue?: () => boolean,
@@ -67,7 +67,7 @@ export async function replyOnce(
     return true
   } catch (error) {
     if (!(error instanceof Error && error.message === CANCELLED)) {
-      console.error("[Kilo New] permission-handler: failed to reply once:", error)
+      console.error("[Kappa New] permission-handler: failed to reply once:", error)
     }
     return false
   }
@@ -110,7 +110,7 @@ export async function handlePermissionResponse(
   const dir = ctx.getPermissionDirectory(permissionId) ?? (target ? ctx.getWorkspaceDirectory(target) : undefined)
   const claimed = ctx.isPermissionResponseClaimed?.(permissionId) ?? false
   if (!target || (!dir && !claimed) || (ctx.getPermissionSession?.(permissionId) && target !== sessionID)) {
-    console.error("[Kilo New] KiloProvider: Unknown permission route")
+    console.error("[Kappa New] KappaProvider: Unknown permission route")
     ctx.postMessage({ type: "permissionError", permissionID: permissionId })
     return
   }
@@ -143,7 +143,7 @@ export async function handlePermissionResponse(
         void fetchAndSendPendingPermissions(ctx)
         return { kind: "stale" }
       }
-      console.error("[Kilo New] KiloProvider: Failed to respond to permission:", error)
+      console.error("[Kappa New] KappaProvider: Failed to respond to permission:", error)
       return { kind: "error" }
     }
     ctx.clearPermissionDirectory(permissionId)
@@ -151,7 +151,7 @@ export async function handlePermissionResponse(
   }
 
   const result = await run(permissionId, target, action).catch((error: unknown) => {
-    console.error("[Kilo New] KiloProvider: Failed to process permission response:", error)
+    console.error("[Kappa New] KappaProvider: Failed to process permission response:", error)
     return { kind: "error" } as const
   })
   if (result.kind === "error") {
@@ -195,7 +195,7 @@ export async function fetchAndSendPendingPermissions(ctx: PermissionContext): Pr
             (result) => result.data,
           )
         } catch (error) {
-          console.error(`[Kilo New] KiloProvider: Failed to fetch pending permissions for ${dir}:`, error)
+          console.error(`[Kappa New] KappaProvider: Failed to fetch pending permissions for ${dir}:`, error)
           continue
         }
         valid.add(dir)
@@ -229,6 +229,6 @@ export async function fetchAndSendPendingPermissions(ctx: PermissionContext): Pr
       return
     }
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to fetch pending permissions:", error)
+    console.error("[Kappa New] KappaProvider: Failed to fetch pending permissions:", error)
   }
 }

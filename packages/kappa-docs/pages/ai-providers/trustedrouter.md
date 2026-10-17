@@ -1,13 +1,13 @@
 ---
-title: "Using TrustedRouter with Kilo Code | Attested AI Router"
-description: "Configure TrustedRouter in Kilo Code through its OpenAI-compatible API for attested routing, zero-data-retention routing, and encrypted model routes."
+title: "Using TrustedRouter with Kappa Code | Attested AI Router"
+description: "Configure TrustedRouter in Kappa Code through its OpenAI-compatible API for attested routing, zero-data-retention routing, and encrypted model routes."
 sidebar_label: TrustedRouter
 ---
 
-# Using TrustedRouter With Kilo Code
+# Using TrustedRouter With Kappa Code
 
 TrustedRouter exposes an OpenAI-compatible API at `https://api.trustedrouter.com/v1`.
-You can use it from Kilo Code with the built-in TrustedRouter provider.
+You can use it from Kappa Code with the built-in TrustedRouter provider.
 
 **Website:** [https://trustedrouter.com/](https://trustedrouter.com/)
 
@@ -17,7 +17,7 @@ You can use it from Kilo Code with the built-in TrustedRouter provider.
 2. Open [API keys](https://trustedrouter.com/console/api-keys).
 3. Create a key and copy it.
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -35,7 +35,7 @@ Run `kappa`, then use the `/connect` command, select **TrustedRouter**, and past
 
 ```bash
 kappa
-# then, inside Kilo, run:
+# then, inside Kappa, run:
 /connect
 ```
 
@@ -84,4 +84,4 @@ Then configure the built-in TrustedRouter provider in your `kappa.json` file:
 
 - TrustedRouter uses the OpenAI-compatible chat completions API.
 - You can verify the hosted gateway and attestation story at [https://trust.trustedrouter.com/](https://trust.trustedrouter.com/).
-- To use a specific model instead of a router alias, add it under `provider.trustedrouter.models` and select it in Kilo Code.
+- To use a specific model instead of a router alias, add it under `provider.trustedrouter.models` and select it in Kappa Code.

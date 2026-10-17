@@ -1,11 +1,11 @@
 ---
 title: "Sessions & Sharing"
-description: "Share and collaborate on Kilo Code sessions"
+description: "Share and collaborate on Kappa Code sessions"
 ---
 
 # Sessions & Sharing
 
-A session is your platform-agnostic interaction with Kilo. It remembers your repository, your task, and the conversation so you can pause and resume work without losing context. Local sessions stay on the machine where Kilo runs. Account-backed cloud sessions are private to your account by default. You can optionally share a session link with others who can read or fork it.
+A session is your platform-agnostic interaction with Kappa. It remembers your repository, your task, and the conversation so you can pause and resume work without losing context. Local sessions stay on the machine where Kappa runs. Account-backed cloud sessions are private to your account by default. You can optionally share a session link with others who can read or fork it.
 
 ## What a session keeps for you
 
@@ -14,13 +14,13 @@ A session is your platform-agnostic interaction with Kilo. It remembers your rep
 - Task metadata (what the agent is doing for you)
 - Optional Git context (for example, the repo URL and a lightweight snapshot of state) so the agent can pick up where it left off
 
-This information lets Kilo show your recent sessions and continue right from the same context the next time you open it.
+This information lets Kappa show your recent sessions and continue right from the same context the next time you open it.
 
 ## Quick start: Create a session
 
 1. Choose the repository. Pick the GitHub repository you want the agent to work with.
 2. Describe the task. (e.g., “Add dark mode toggle and unit tests”).
-3. Interact with Kilo via any of our interfaces- the CLI, the Cloud Agent, or the Extensions in your favorite IDE.
+3. Interact with Kappa via any of our interfaces- the CLI, the Cloud Agent, or the Extensions in your favorite IDE.
 
 ## Continue where you left off
 
@@ -52,14 +52,14 @@ Note: Sharing creates a read‑only copy for the public link so your private ses
 If someone shares a session with you, you can fork it to create your own copy:
 
 - From the share page, choose “Open in Editor” (recommended), or run one of these commands:
-  - CLI: kilocode --fork SHARE_ID
+  - CLI: kappacode --fork SHARE_ID
   - In‑app command: /session fork SHARE_ID
 
 Forking creates a new session in your account, with its own ID, and copies over the relevant context so you can continue independently.
 
 ## Where your session data lives
 
-Kilo stores local session history and metadata in an SQLite database on the machine where Kilo runs. Cloud sessions and shared-session copies use Kilo's cloud services and are separate from the local database. If you share a session, Kilo keeps a public copy for the share link while the original session remains private.
+Kappa stores local session history and metadata in an SQLite database on the machine where Kappa runs. Cloud sessions and shared-session copies use Kappa's cloud services and are separate from the local database. If you share a session, Kappa keeps a public copy for the share link while the original session remains private.
 
 See [Session History and Search](/docs/code-with-ai/agents/session-history) to find the local database, search session titles or transcripts, and inspect sessions with the CLI or SQLite.
 

@@ -4,8 +4,8 @@ import os from "os"
 import type { ConfigCommandV1 } from "@opencode-ai/core/v1/config/command"
 import { InvalidError } from "@opencode-ai/core/v1/config/error"
 import { Filesystem } from "../util/filesystem"
-import { KilocodeMarkdown } from "./config/markdown"
-import { KilocodePaths } from "./paths"
+import { KappacodeMarkdown } from "./config/markdown"
+import { KappacodePaths } from "./paths"
 
 export namespace WorkflowsMigrator {
   const home = () => process.env.HOME || process.env.USERPROFILE || os.homedir()
@@ -17,7 +17,7 @@ export namespace WorkflowsMigrator {
     path.join(home(), ".kappa", "workflows"),
   ]
 
-  export interface KilocodeWorkflow {
+  export interface KappacodeWorkflow {
     name: string
     path: string
     content: string
@@ -60,17 +60,17 @@ export namespace WorkflowsMigrator {
     source: "global" | "project",
     root?: string,
     warnings: string[] = [],
-  ): Promise<KilocodeWorkflow[]> {
+  ): Promise<KappacodeWorkflow[]> {
     if (!(await Filesystem.isDir(dir))) return []
     const files = await findWorkflowFiles(dir)
-    const workflows: KilocodeWorkflow[] = []
+    const workflows: KappacodeWorkflow[] = []
     for (const file of files) {
       const options = {
         trusted: source === "global",
         fileScope: source === "project" && root ? { root, source: file } : undefined,
       }
-      const content = await KilocodeMarkdown.read(file, options)
-        .then((text) => KilocodeMarkdown.substitute(text, file, options))
+      const content = await KappacodeMarkdown.read(file, options)
+        .then((text) => KappacodeMarkdown.substitute(text, file, options))
         .catch((err) => {
           const message = InvalidError.isInstance(err) ? err.data.message : undefined
           warnings.push(
@@ -93,12 +93,12 @@ export namespace WorkflowsMigrator {
     projectDir: string,
     skipGlobalPaths?: boolean,
     warnings: string[] = [],
-  ): Promise<KilocodeWorkflow[]> {
-    const workflows: KilocodeWorkflow[] = []
+  ): Promise<KappacodeWorkflow[]> {
+    const workflows: KappacodeWorkflow[] = []
 
     if (!skipGlobalPaths) {
       // 1. VSCode extension global storage (primary location for global workflows)
-      const vscodeWorkflowsDir = path.join(KilocodePaths.vscodeGlobalStorage(), "workflows")
+      const vscodeWorkflowsDir = path.join(KappacodePaths.vscodeGlobalStorage(), "workflows")
       workflows.push(...(await loadWorkflowsFromDir(vscodeWorkflowsDir, "global", undefined, warnings)))
 
       // 2. Home directories ~/.kappacode/workflows and ~/.kappa/workflows
@@ -115,7 +115,7 @@ export namespace WorkflowsMigrator {
     return workflows
   }
 
-  export function convertToCommand(workflow: KilocodeWorkflow): ConfigCommandV1.Info {
+  export function convertToCommand(workflow: KappacodeWorkflow): ConfigCommandV1.Info {
     return {
       template: workflow.content,
       description: extractDescription(workflow.content) ?? `Workflow: ${workflow.name}`,
@@ -133,7 +133,7 @@ export namespace WorkflowsMigrator {
     const workflows = await discoverWorkflows(options.projectDir, options.skipGlobalPaths, warnings)
 
     // Deduplicate by name (project takes precedence over global)
-    const workflowsByName = new Map<string, KilocodeWorkflow>()
+    const workflowsByName = new Map<string, KappacodeWorkflow>()
 
     // Add global first
     for (const workflow of workflows.filter((w) => w.source === "global")) {

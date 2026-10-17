@@ -1,34 +1,34 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider"
 import type { Provider as SDK } from "ai"
-import type { KiloProviderOptions } from "./types.js"
+import type { KappaProviderOptions } from "./types.js"
 import { getApiKey } from "./auth/token.js"
-import { buildKiloHeaders, getDefaultHeaders } from "./headers.js"
+import { buildKappaHeaders, getDefaultHeaders } from "./headers.js"
 import { ANONYMOUS_API_KEY } from "./api/constants.js"
-import { resolveKiloOpenRouterBaseUrl } from "./api/url.js"
+import { resolveKappaOpenRouterBaseUrl } from "./api/url.js"
 import { buildRequestHeaders } from "./provider.js"
 
 /**
- * Debug version of createKilo with extensive logging
+ * Debug version of createKappa with extensive logging
  */
-export function createKiloDebug(options: KiloProviderOptions = {}): SDK {
-  console.log("\n🔍 [KILO DEBUG] Creating Kilo Provider")
+export function createKappaDebug(options: KappaProviderOptions = {}): SDK {
+  console.log("\n🔍 [KILO DEBUG] Creating Kappa Provider")
   console.log("📋 [KILO DEBUG] Options received:", JSON.stringify(options, null, 2))
 
   // Get API key from options or environment
   const apiKey = getApiKey(options)
   console.log("🔑 [KILO DEBUG] API Key extracted:")
-  console.log("  - Source:", options.kilocodeToken ? "kilocodeToken" : options.apiKey ? "apiKey" : "none")
+  console.log("  - Source:", options.kappacodeToken ? "kappacodeToken" : options.apiKey ? "apiKey" : "none")
   console.log("  - Value:", apiKey ? `${apiKey.substring(0, 8)}...${apiKey.substring(apiKey.length - 8)}` : "MISSING!")
 
-  const openRouterUrl = resolveKiloOpenRouterBaseUrl({ baseURL: options.baseURL, token: apiKey })
+  const openRouterUrl = resolveKappaOpenRouterBaseUrl({ baseURL: options.baseURL, token: apiKey })
   console.log("🔗 [KILO DEBUG] OpenRouter URL:", openRouterUrl)
 
   // Merge custom headers with defaults
   const customHeaders = {
     ...getDefaultHeaders(),
-    ...buildKiloHeaders(undefined, {
-      kilocodeOrganizationId: options.kilocodeOrganizationId,
-      kilocodeTesterWarningsDisabledUntil: undefined,
+    ...buildKappaHeaders(undefined, {
+      kappacodeOrganizationId: options.kappacodeOrganizationId,
+      kappacodeTesterWarningsDisabledUntil: undefined,
     }),
     ...options.headers,
   }
@@ -87,7 +87,7 @@ export function createKiloDebug(options: KiloProviderOptions = {}): SDK {
 
   console.log("✅ [KILO DEBUG] Creating OpenRouter provider with configuration\n")
 
-  // Create OpenRouter provider with KiloCode configuration
+  // Create OpenRouter provider with KappaCode configuration
   return createOpenRouter({
     baseURL: openRouterUrl,
     apiKey: apiKey ?? ANONYMOUS_API_KEY,

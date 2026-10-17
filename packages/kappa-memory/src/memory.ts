@@ -9,7 +9,7 @@ import { MemoryShared } from "./recall/shared"
 import { MemoryToken } from "./recall/token"
 import { MemorySlug } from "./slug"
 
-/** Root-bound package facade. External Kilo surfaces should derive root from workspace context first. */
+/** Root-bound package facade. External Kappa surfaces should derive root from workspace context first. */
 export namespace Memory {
   export type Block = {
     scope: "project"

@@ -6,7 +6,7 @@ import { Effect } from "effect"
 import { digestPrompt, typedPrompt } from "../src/capture/capture"
 import { MemoryCapture } from "../src/effect/capture"
 import { MemoryEvents } from "../src/effect/events"
-import { KiloMemory } from "../src/effect/index"
+import { KappaMemory } from "../src/effect/index"
 import { MemoryLog } from "../src/effect/log"
 import type { MemoryPorts } from "../src/effect/ports"
 import { MemoryService } from "../src/effect/service"
@@ -93,8 +93,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("turn-close typed LLM saves environment memory", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       const result = await run({
         root: t.root,
@@ -110,7 +110,7 @@ describe("MemoryCapture (fake ports)", () => {
       if (!("tokens" in result)) throw new Error("expected capture to save memory")
       expect(result.tokens).toBeGreaterThan(0)
 
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.environment).toContain("cli_memory_tests")
     } finally {
       await t.done()
@@ -122,8 +122,8 @@ describe("MemoryCapture (fake ports)", () => {
     const events: MemoryEvents.Status[] = []
     const logs: string[] = []
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
       MemoryLog.setWarn((message, meta) => logs.push(`${message}:${meta?.reason}:${meta?.detail}`))
       MemoryEvents.setSink((input) => {
         events.push(input.payload)
@@ -190,8 +190,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("fallback commit preserves metrics from the prior successful typed consolidation", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       const first = await run({
         root: t.root,
@@ -236,8 +236,8 @@ describe("MemoryCapture (fake ports)", () => {
     const t = await tmp()
     const events: MemoryEvents.Status[] = []
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
       MemoryEvents.setSink((input) => {
         events.push(input.payload)
       })
@@ -257,7 +257,7 @@ describe("MemoryCapture (fake ports)", () => {
       })
 
       expect(result).toMatchObject({ skipped: false, operationCount: 1 })
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.environment).toContain("cli_tests")
       expect(shown.sources.environment).not.toContain(secret)
       const detail = events.find((item) => item.detail?.type === "saved")?.detail
@@ -273,8 +273,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("turn-close redacts model digest text before truncating at the session boundary", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       const secret = "sk-" + "a".repeat(40)
       // Positioned so truncate-then-redact would leave only the first 20 chars, below the regex minimum.
@@ -303,8 +303,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("turn-close rejects self-referential content while applying safe operations", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       const result = await run({
         root: t.root,
@@ -320,7 +320,7 @@ describe("MemoryCapture (fake ports)", () => {
       })
 
       expect(result).toMatchObject({ skipped: false, operationCount: 1 })
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.project).not.toContain("gate_check")
     } finally {
       await t.done()
@@ -330,9 +330,9 @@ describe("MemoryCapture (fake ports)", () => {
   test("turn-close supersedes an existing fact via an exact-key upsert", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
-      await KiloMemory.apply({
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.apply({
         root: t.root,
         ops: [{ action: "add", file: "project.md", section: "Facts", key: "deploy_target", text: "Deploy to staging." }],
       })
@@ -348,7 +348,7 @@ describe("MemoryCapture (fake ports)", () => {
       })
 
       expect(result).toMatchObject({ skipped: false, operationCount: 1 })
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.project).toContain("Deploy to production now.")
       expect(shown.sources.project).not.toContain("Deploy to staging.")
     } finally {
@@ -359,9 +359,9 @@ describe("MemoryCapture (fake ports)", () => {
   test("turn-close defers auto-removes — hard removes stay explicit-only", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
-      await KiloMemory.apply({
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.apply({
         root: t.root,
         ops: [
           { action: "add", file: "project.md", section: "Facts", key: "wrong_fact", text: "The old API base is v1." },
@@ -382,7 +382,7 @@ describe("MemoryCapture (fake ports)", () => {
       })
 
       expect(result).toMatchObject({ operationCount: 0 })
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.project).toContain("wrong_fact")
       expect(shown.sources.project).toContain("keep_fact")
     } finally {
@@ -393,8 +393,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("recall echo still runs typed capture for a short lookup", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       let runs = 0
       const result = await run({
@@ -417,7 +417,7 @@ describe("MemoryCapture (fake ports)", () => {
 
       expect(result).toMatchObject({ skipped: false, operationCount: 1 })
       expect(runs).toBe(1) // typed ran; digest did not
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.environment).toContain("package_tests")
     } finally {
       await t.done()
@@ -427,8 +427,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("small file edit with recalled memory still records digest (edit defeats echo, any file type)", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       let runs = 0
       const result = await run({
@@ -461,8 +461,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("interrupted close records a non-LLM fallback digest", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       let runs = 0
       const result = await run({
@@ -487,8 +487,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("old fallback digest is replaced by a completed LLM digest inside the old interval", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       await run({
         root: t.root,
@@ -535,8 +535,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("fresh fallback digest waits before retrying the digest model", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       await run({
         root: t.root,
@@ -569,8 +569,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("template echo digest output falls back", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       await run({
         root: t.root,
@@ -591,8 +591,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("empty digest output falls back", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       await run({
         root: t.root,
@@ -614,8 +614,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("trivial non-durable turn skips without writing a session digest", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
       const state = await MemoryFiles.readState(t.root)
       await MemoryFiles.writeState(t.root, {
         ...state,
@@ -639,9 +639,9 @@ describe("MemoryCapture (fake ports)", () => {
   test("fallback prior is not blended into fallback text or digest evidence", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
-      await KiloMemory.recordSession({
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.recordSession({
         root: t.root,
         sessionID: "ses_effect",
         summary: "Prior fallback stub should not survive.",
@@ -683,8 +683,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("auto-consolidate off skips digest and typed model writes", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: false } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: false } })
 
       let runs = 0
       const result = await run({
@@ -699,7 +699,7 @@ describe("MemoryCapture (fake ports)", () => {
 
       expect(result).toMatchObject({ skipped: true })
       expect(runs).toBe(0)
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.environment).not.toContain("nope")
     } finally {
       await t.done()
@@ -709,8 +709,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("configured memory model fallback still captures memory", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       await run({
         root: t.root,
@@ -733,7 +733,7 @@ describe("MemoryCapture (fake ports)", () => {
   test("no turn to capture is skipped", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
+      await KappaMemory.enable({ root: t.root })
       const result = await run({
         root: t.root,
         session: session(undefined),
@@ -748,9 +748,9 @@ describe("MemoryCapture (fake ports)", () => {
   test("typed evidence leads with dedup context so tail truncation keeps it", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
-      await KiloMemory.apply({
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.apply({
         root: t.root,
         ops: [{ action: "add", file: "project.md", section: "Facts", key: "deploy_target", text: "Deploy to staging." }],
       })
@@ -787,8 +787,8 @@ describe("MemoryCapture (fake ports)", () => {
   test("provenance suppressor is skipped when the turn actually edits AGENTS.md", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
-      await KiloMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
+      await KappaMemory.enable({ root: t.root })
+      await KappaMemory.configure({ root: t.root, settings: { autoConsolidate: true } })
 
       // Assistant text names AGENTS.md 4+ times (would trip the provenance suppressor), but the diff
       // shows AGENTS.md was actually edited — real work on the file, so typed capture must still run.
@@ -810,7 +810,7 @@ describe("MemoryCapture (fake ports)", () => {
       })
 
       expect(result).toMatchObject({ skipped: false, operationCount: 1 })
-      const shown = await KiloMemory.show({ root: t.root })
+      const shown = await KappaMemory.show({ root: t.root })
       expect(shown.sources.project).toContain("agents_rule")
     } finally {
       await t.done()
@@ -822,7 +822,7 @@ describe("MemoryService digest-only commit", () => {
   test("a digest-only commit leaves the typed-interval clock untouched", async () => {
     const t = await tmp()
     try {
-      await KiloMemory.enable({ root: t.root })
+      await KappaMemory.enable({ root: t.root })
       const svc = MemoryService.make()
       const commit = (over: Partial<Parameters<typeof svc.commit>[0]>) =>
         Effect.runPromise(
@@ -861,7 +861,7 @@ describe("MemoryService recordRecall", () => {
     const t = await tmp()
     const events: MemoryEvents.Status[] = []
     try {
-      await KiloMemory.enable({ root: t.root })
+      await KappaMemory.enable({ root: t.root })
       MemoryEvents.setSink((input) => {
         events.push(input.payload)
       })

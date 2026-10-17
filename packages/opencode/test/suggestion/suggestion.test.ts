@@ -1,2 +1,2 @@
-// kilocode_change - new file
-// Moved to test/kilocode/suggestion/suggestion.test.ts.
+// kappacode_change - new file
+// Moved to test/kappacode/suggestion/suggestion.test.ts.

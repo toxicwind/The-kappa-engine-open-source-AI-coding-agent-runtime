@@ -3,7 +3,7 @@
 //   legacy single-byte, CJK).
 // - Plain UTF-8 files do not gain a spurious BOM.
 // - Moved files keep the original encoding at the new path.
-// These round-trip through the apply_patch tool so the Kilo encoding layer is
+// These round-trip through the apply_patch tool so the Kappa encoding layer is
 // exercised with the upstream patch parser.
 
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"

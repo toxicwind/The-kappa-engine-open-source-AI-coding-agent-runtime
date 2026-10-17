@@ -21,17 +21,17 @@ import { ENV_FEATURE } from "@kappacode/kappa-gateway"
 import { existsSync } from "fs"
 import path from "path"
 import { iife } from "@/util/iife"
-import { KiloSessionEvent, type KiloSessionCloseReason } from "./event"
+import { KappaSessionEvent, type KappaSessionCloseReason } from "./event"
 
-export namespace KiloSession {
+export namespace KappaSession {
   const log = Log.create({ service: "session.kappa" })
 
   // ---------------------------------------------------------------------------
   // Events
   // ---------------------------------------------------------------------------
 
-  export const Event = KiloSessionEvent
-  export type CloseReason = KiloSessionCloseReason
+  export const Event = KappaSessionEvent
+  export type CloseReason = KappaSessionCloseReason
 
   // Turn events stay on the legacy Bus (memory/turn.ts subscribes there), but the publish
   // lives here so the upstream-shaped session/prompt.ts does not take a legacy Bus dependency.
@@ -42,13 +42,13 @@ export namespace KiloSession {
     Effect.promise(() => Bus.publish(Instance.current, Event.TurnClose, input))
 
   // FIFO snapshot of the per-session waiting list.
-  // Emitted by KiloSessionPromptQueue on every transition that changes the set
+  // Emitted by KappaSessionPromptQueue on every transition that changes the set
   // of queued (not-yet-running) user messages.
   export const publishQueueChanged = (input: { sessionID: SessionID; queued: MessageID[] }) =>
     Effect.promise(() => Bus.publish(Instance.current, Event.QueueChanged, input))
 
   // Synchronous, fire-and-forget variant for callers that run outside an Effect
-  // context (e.g. KiloSessionPromptQueue transitions, which fire from inside
+  // context (e.g. KappaSessionPromptQueue transitions, which fire from inside
   // Effect.sync blocks). Swallows errors so a transient context loss never
   // breaks the queue.
   export function publishQueueChangedAsync(input: { sessionID: SessionID; queued: MessageID[] }) {
@@ -177,7 +177,7 @@ export namespace KiloSession {
   }
 
   // ---------------------------------------------------------------------------
-  // Provider-reported cost (Kilo / OpenRouter / Vercel AI Gateway)
+  // Provider-reported cost (Kappa / OpenRouter / Vercel AI Gateway)
   // ---------------------------------------------------------------------------
 
   /**
@@ -185,14 +185,14 @@ export namespace KiloSession {
    *
    * Supports the following internal transports:
    *   1. OpenRouter chat completions  -> `metadata.openrouter.usage.cost`
-   *                                      (`costDetails.upstreamInferenceCost` for Kilo
+   *                                      (`costDetails.upstreamInferenceCost` for Kappa
    *                                      and for BYOK-routed requests)
    *   2. Anthropic Messages or OpenAI Responses via OpenRouter
    *                                   -> `usage.providerMetadata.aiSdk.cost_details`
    *   3. Anthropic Messages or OpenAI Responses via Vercel AI Gateway
    *                                   -> `metadata.gateway.marketCost`
    *
-   * Kilo does not charge end users a per-request fee, so for the Kilo provider the
+   * Kappa does not charge end users a per-request fee, so for the Kappa provider the
    * top-level `cost` field (the gateway/marketplace fee) would understate the user's
    * actual upstream spend. Always prefer the upstream/market cost when present.
    *
@@ -213,7 +213,7 @@ export namespace KiloSession {
     provider?: Provider.Info
     providerID: string
   }): number | undefined {
-    const isKilo = (input.provider?.id ?? input.providerID) === "kappa"
+    const isKappa = (input.provider?.id ?? input.providerID) === "kappa"
 
     const num = (value: unknown): number | undefined => {
       if (value === undefined || value === null) return undefined
@@ -228,7 +228,7 @@ export namespace KiloSession {
     if (orUsage) {
       const upstream = num(orUsage.costDetails?.upstreamInferenceCost)
       const regular = num(orUsage.cost)
-      // Kilo doesn't charge a fee on top of the upstream inference cost, so for Kilo
+      // Kappa doesn't charge a fee on top of the upstream inference cost, so for Kappa
       // prefer the upstream cost (the user's true spend). For the OpenRouter provider
       // itself, the regular `cost` field is what the user is billed — except when the
       // request routes through a BYOK provider key: then OpenRouter bills the account
@@ -236,21 +236,21 @@ export namespace KiloSession {
       // inference cost. True spend is the sum. A non-BYOK response always bills at
       // least the upstream cost, so summing only when upstream exceeds the billed
       // amount never changes non-BYOK sessions.
-      if (isKilo && upstream !== undefined) return upstream
+      if (isKappa && upstream !== undefined) return upstream
       if (upstream !== undefined && upstream > (regular ?? -Infinity)) return upstream + (regular ?? 0)
       if (regular !== undefined) return regular
     }
 
-    // 2. Anthropic Messages or OpenAI Responses via OpenRouter. The Kilo Gateway wrapper
+    // 2. Anthropic Messages or OpenAI Responses via OpenRouter. The Kappa Gateway wrapper
     //    restores the verbatim usage payload under the AI SDK's raw usage escape hatch.
-    //    Kilo doesn't charge end users a per-request fee, so only upstream cost is relevant.
+    //    Kappa doesn't charge end users a per-request fee, so only upstream cost is relevant.
     const usage = input.usage?.providerMetadata
     const aiSdk = usage?.["aiSdk"]?.["cost_details"] as { upstream_inference_cost?: number } | undefined
     const upstream = num(aiSdk?.upstream_inference_cost)
     if (upstream !== undefined) return upstream
 
     // 3. Anthropic Messages or OpenAI Responses via Vercel AI Gateway. `cost` is the
-    //    gateway fee that Kilo would pass through, but Kilo doesn't charge end users a
+    //    gateway fee that Kappa would pass through, but Kappa doesn't charge end users a
     //    per-request fee, so always use `marketCost` (the upstream provider's price).
     //    Values are emitted as strings on the wire.
     const gateway = input.metadata?.["gateway"] as { marketCost?: string | number } | undefined
@@ -266,21 +266,21 @@ export namespace KiloSession {
 
   export function shareSession(id: SessionID) {
     return EffectBridge.fromPromise(async () => {
-      const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
-      return KiloSessions.share(id)
+      const { KappaSessions } = await import("@/kappa-sessions/kappa-sessions")
+      return KappaSessions.share(id)
     }).pipe(Effect.catchCause((cause) => Effect.fail(Cause.squash(cause))))
   }
 
   export function unshareSession(id: SessionID) {
     return EffectBridge.fromPromise(async () => {
-      const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
-      await KiloSessions.unshare(id)
+      const { KappaSessions } = await import("@/kappa-sessions/kappa-sessions")
+      await KappaSessions.unshare(id)
     }).pipe(Effect.catchCause((cause) => Effect.fail(Cause.squash(cause))))
   }
 
   export async function removeSession(id: string): Promise<void> {
-    const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
-    await KiloSessions.remove(id).catch(() => {})
+    const { KappaSessions } = await import("@/kappa-sessions/kappa-sessions")
+    await KappaSessions.remove(id).catch(() => {})
   }
 
   export async function cleanup(id: string): Promise<void> {

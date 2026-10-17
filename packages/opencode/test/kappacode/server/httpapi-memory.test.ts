@@ -3,7 +3,7 @@ import { ConfigProvider, Effect, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
 import * as Log from "@opencode-ai/core/util/log"
 import { MemoryPaths } from "../../../src/kappacode/server/httpapi/groups/memory"
-import { KiloToolRegistry } from "../../../src/kappacode/tool/registry"
+import { KappaToolRegistry } from "../../../src/kappacode/tool/registry"
 import * as HttpApiServer from "../../../src/server/routes/instance/httpapi/server"
 import { resetDatabase } from "../../fixture/db"
 import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
@@ -188,15 +188,15 @@ describe("HttpApi memory", () => {
         headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
       })
 
-    expect(await Effect.runPromise(KiloToolRegistry.memoryToolsEnabled({ ctx }))).toBe(false)
+    expect(await Effect.runPromise(KappaToolRegistry.memoryToolsEnabled({ ctx }))).toBe(false)
 
     const enabled = await send("POST", MemoryPaths.enable)
     expect(enabled.status).toBe(200)
-    expect(await Effect.runPromise(KiloToolRegistry.memoryToolsEnabled({ ctx }))).toBe(true)
+    expect(await Effect.runPromise(KappaToolRegistry.memoryToolsEnabled({ ctx }))).toBe(true)
 
     const disabled = await send("POST", MemoryPaths.disable)
     expect(disabled.status).toBe(200)
-    expect(await Effect.runPromise(KiloToolRegistry.memoryToolsEnabled({ ctx }))).toBe(false)
+    expect(await Effect.runPromise(KappaToolRegistry.memoryToolsEnabled({ ctx }))).toBe(false)
   })
 
   test("purge uses the routed workspace context, not an arbitrary root parameter", async () => {

@@ -15,7 +15,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
 import { formatTodos, generateHandover, PlanFollowup, PlanFollowupRuntime } from "../../src/kappacode/plan-followup"
 import { Instance } from "../../src/kappacode/instance"
-import * as KiloInstance from "../../src/kappacode/instance"
+import * as KappaInstance from "../../src/kappacode/instance"
 import { Provider } from "../../src/provider/provider"
 import { Question } from "../../src/question"
 import { Session } from "../../src/session/session"
@@ -107,7 +107,7 @@ const savedKey = `${saved.providerID}/${saved.modelID}`
 async function withInstance(fn: () => Promise<void>) {
   await using tmp = await tmpdir({ git: true })
   await fs.rm(statePath, { force: true }).catch(() => {})
-  const provide = spyOn(KiloInstance, "provide").mockImplementation((input) =>
+  const provide = spyOn(KappaInstance, "provide").mockImplementation((input) =>
     withTestInstance({ directory: input.directory, fn: input.fn }),
   )
   using _provide = {
@@ -572,12 +572,12 @@ describe("plan follow-up", () => {
 
   test("ask - retargets prompt queue so injected message is visible in scope", () =>
     withInstance(async () => {
-      const { KiloSessionPromptQueue } = await import("../../src/kappacode/session/prompt-queue")
+      const { KappaSessionPromptQueue } = await import("../../src/kappacode/session/prompt-queue")
       const seeded = await seed({ text: "1. Refactor\n2. Ship" })
 
       // Simulate the prompt queue having a target set (like during a running loop)
       const original = seeded.messages.find((m) => m.info.role === "user")!.info.id
-      KiloSessionPromptQueue.retarget(seeded.sessionID, original)
+      KappaSessionPromptQueue.retarget(seeded.sessionID, original)
 
       const pending = PlanFollowup.ask({
         question,
@@ -598,7 +598,7 @@ describe("plan follow-up", () => {
 
       // The injected user message must be visible when scoped
       const all = await store.messages({ sessionID: seeded.sessionID })
-      const scoped = KiloSessionPromptQueue.scope(seeded.sessionID, all)
+      const scoped = KappaSessionPromptQueue.scope(seeded.sessionID, all)
       const injected = scoped.findLast((m) => m.info.role === "user")
       expect(injected).toBeDefined()
       const part = injected!.parts.find((p) => p.type === "text")

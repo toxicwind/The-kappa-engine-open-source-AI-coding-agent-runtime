@@ -1,6 +1,6 @@
 import type { Argv } from "yargs"
 import type { Info as AuthInfo } from "../../../auth"
-import type { KilocodeBalance, KilocodeProfile } from "@kappacode/kappa-gateway"
+import type { KappacodeBalance, KappacodeProfile } from "@kappacode/kappa-gateway"
 import { cmd } from "../../../cli/cmd/cmd"
 import { UI } from "../../../cli/ui"
 
@@ -28,8 +28,8 @@ interface Info {
 }
 
 export function payload(input: {
-  profile: KilocodeProfile
-  balance: KilocodeBalance | null
+  profile: KappacodeProfile
+  balance: KappacodeBalance | null
   organizationId?: string | null
 }): Info {
   const org = input.profile.organizations?.find((item) => item.id === input.organizationId)
@@ -55,15 +55,15 @@ export function format(info: Info): string {
 interface Args {
   json: boolean
   getAuth?: (providerID: string) => Promise<AuthInfo | undefined>
-  getProfile?: (token: string) => Promise<KilocodeProfile>
-  getBalance?: (token: string, organizationId?: string) => Promise<KilocodeBalance | null>
+  getProfile?: (token: string) => Promise<KappacodeProfile>
+  getBalance?: (token: string, organizationId?: string) => Promise<KappacodeBalance | null>
   error?: (msg: string) => void
   exit?: (code: number) => void
 }
 
 export const ProfileCommand = cmd({
   command: "profile",
-  describe: "show Kilo account profile",
+  describe: "show Kappa account profile",
   builder: (yargs: Argv) =>
     yargs.option("json", {
       describe: "output profile as JSON",
@@ -82,7 +82,7 @@ export async function handle(args: Args) {
   const exit = args.exit ?? ((code: number) => (process.exitCode = code))
 
   if (!auth || auth.type !== "oauth") {
-    error("Not authenticated with Kilo Gateway")
+    error("Not authenticated with Kappa Gateway")
     exit(1)
     return
   }

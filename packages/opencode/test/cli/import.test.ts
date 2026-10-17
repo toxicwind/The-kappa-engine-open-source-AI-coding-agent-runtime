@@ -45,19 +45,19 @@ test("formats import file errors", () => {
 })
 
 // parseShareUrl tests
-test("parses valid Kilo share URLs", () => {
+test("parses valid Kappa share URLs", () => {
   expect(parseShareUrl("https://app.kappa.ai/s/7a755b04-b0fe-4e66-8b30-0ab52a181bd4")).toBe(
     "7a755b04-b0fe-4e66-8b30-0ab52a181bd4",
   )
   expect(parseShareUrl("https://app.kappa.ai/s/Jsj3hNIW")).toBe("Jsj3hNIW")
   expect(parseShareUrl("https://app.kappa.ai/s/test_id-123")).toBe("test_id-123")
-  // kilocode_change start
+  // kappacode_change start
   expect(
     parseShareUrl(
       "https://app.kappa.ai/s/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXNfMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMiJ9.signature",
     ),
   ).toBe("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXNfMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMiJ9.signature")
-  // kilocode_change end
+  // kappacode_change end
 })
 
 test("rejects invalid URLs", () => {

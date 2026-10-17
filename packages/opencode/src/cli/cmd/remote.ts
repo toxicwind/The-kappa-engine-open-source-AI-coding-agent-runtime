@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { cmd } from "./cmd"
 import { buildInstanceAdvertisement } from "@/kappa-sessions/instance-advertisement"
 
@@ -14,21 +14,21 @@ export const RemoteCommand = cmd({
   builder: (yargs) => yargs,
   handler: async () => {
     const { bootstrap } = await import("../bootstrap")
-    const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
+    const { KappaSessions } = await import("@/kappa-sessions/kappa-sessions")
     const { context } = await import("@/project/instance-context")
     const { InstanceRuntime } = await import("@/project/instance-runtime")
-    const { Instance } = await import("@/kilocode/instance")
+    const { Instance } = await import("@/kappacode/instance")
     await bootstrap(process.cwd(), async () => {
-      // kilocode_change - K1 W1: advertise this instance on the relay
+      // kappacode_change - K1 W1: advertise this instance on the relay
       // heartbeat so the cloud side can show it as a spawn-capable instance.
       // The process-wide `KILO_REMOTE_ATTACH_SESSION` guard was removed in K1
       // (in-process sessions only; no spawned children), so this is always
       // advertised for the explicit `kappa remote` command path.
       // enableRemote() also ensures a default advertisement; this explicit call
       // remains a legitimate replace (or no-op when identical) per the contract.
-      KiloSessions.setInstanceAdvertisement(buildInstanceAdvertisement(Instance.directory, "remote"))
+      KappaSessions.setInstanceAdvertisement(buildInstanceAdvertisement(Instance.directory, "remote"))
 
-      await KiloSessions.enableRemote()
+      await KappaSessions.enableRemote()
       console.log("Remote connection enabled.")
 
       const abort = new AbortController()
@@ -42,7 +42,7 @@ export const RemoteCommand = cmd({
       const shutdown = async () => {
         try {
           await context.provide(instance, async () => {
-            KiloSessions.disableRemote("shutdown")
+            KappaSessions.disableRemote("shutdown")
             await InstanceRuntime.disposeInstance(instance)
           })
         } catch (err) {

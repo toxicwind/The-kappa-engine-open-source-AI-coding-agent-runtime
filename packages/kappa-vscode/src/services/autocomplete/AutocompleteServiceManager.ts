@@ -10,7 +10,7 @@ import { NextEditInlineCompletionProvider } from "./next-edit/NextEditInlineComp
 import { disposeLog } from "./next-edit/log"
 import { NextEditSuggestionManager } from "./next-edit/NextEditSuggestionManager"
 import { toAllowedMercuryRecentSnippets } from "./next-edit/recentSnippetsAdapter"
-import type { KiloConnectionService } from "../cli-backend"
+import type { KappaConnectionService } from "../cli-backend"
 import { hasValidCredentials, fimModel as notebookModel } from "./fim"
 import { DEFAULT_AUTOCOMPLETE_MODEL, getAutocompleteModel } from "../../shared/autocomplete-models"
 
@@ -54,7 +54,7 @@ async function writeSettings(patch: Partial<AutocompleteServiceSettings>): Promi
 export class AutocompleteServiceManager {
   private static _instance: AutocompleteServiceManager | null = null
 
-  private readonly connectionService: KiloConnectionService
+  private readonly connectionService: KappaConnectionService
   private readonly context: vscode.ExtensionContext
   private settings: AutocompleteServiceSettings | null = null
 
@@ -83,7 +83,7 @@ export class AutocompleteServiceManager {
   // snippet filtering. Null until the async initialize() resolves.
   private ignoreControllerSync: { validateAccess(fsPath: string): boolean } | null = null
 
-  constructor(context: vscode.ExtensionContext, connectionService: KiloConnectionService) {
+  constructor(context: vscode.ExtensionContext, connectionService: KappaConnectionService) {
     if (AutocompleteServiceManager._instance) {
       throw new Error(
         "AutocompleteServiceManager is a singleton. Use AutocompleteServiceManager.getInstance() instead.",
@@ -373,7 +373,7 @@ export class AutocompleteServiceManager {
   private async updateGlobalContext() {
     await vscode.commands.executeCommand(
       "setContext",
-      "kilocode.autocomplete.enableSmartInlineTaskKeybinding",
+      "kappacode.autocomplete.enableSmartInlineTaskKeybinding",
       this.settings?.enableSmartInlineTaskKeybinding || false,
     )
   }
@@ -410,12 +410,12 @@ export class AutocompleteServiceManager {
   private handleFatalAutocompleteError(status: number | null): void {
     const msg =
       status === 402
-        ? t("kilocode:autocomplete.creditsExhausted.message")
-        : t("kilocode:autocomplete.authError.message")
+        ? t("kappacode:autocomplete.creditsExhausted.message")
+        : t("kappacode:autocomplete.authError.message")
 
     if (status === 402) {
-      vscode.window.showWarningMessage(msg, t("kilocode:autocomplete.creditsExhausted.addCredits")).then((choice) => {
-        if (choice === t("kilocode:autocomplete.creditsExhausted.addCredits")) {
+      vscode.window.showWarningMessage(msg, t("kappacode:autocomplete.creditsExhausted.addCredits")).then((choice) => {
+        if (choice === t("kappacode:autocomplete.creditsExhausted.addCredits")) {
           vscode.env.openExternal(vscode.Uri.parse("https://app.kappa.ai/credits"))
         }
       })
@@ -448,9 +448,9 @@ export class AutocompleteServiceManager {
   }
 
   public async showIncompatibilityExtensionPopup() {
-    const message = t("kilocode:autocomplete.incompatibilityExtensionPopup.message")
-    const disableCopilot = t("kilocode:autocomplete.incompatibilityExtensionPopup.disableCopilot")
-    const disableInlineAssist = t("kilocode:autocomplete.incompatibilityExtensionPopup.disableInlineAssist")
+    const message = t("kappacode:autocomplete.incompatibilityExtensionPopup.message")
+    const disableCopilot = t("kappacode:autocomplete.incompatibilityExtensionPopup.disableCopilot")
+    const disableInlineAssist = t("kappacode:autocomplete.incompatibilityExtensionPopup.disableInlineAssist")
     const response = await vscode.window.showErrorMessage(message, disableCopilot, disableInlineAssist)
 
     if (response === disableCopilot) {

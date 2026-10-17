@@ -3,8 +3,8 @@ import { $ } from "bun"
 import { join } from "node:path"
 import { existsSync } from "node:fs"
 import { Script } from "@opencode-ai/script"
-import { Manifest, Policy } from "../../../script/kilocode/sbom/index"
-import { upload } from "../../../script/kilocode/release"
+import { Manifest, Policy } from "../../../script/kappacode/sbom/index"
+import { upload } from "../../../script/kappacode/release"
 import { CHECKSUMS } from "./sbom"
 
 const prerelease = process.env.KILO_PRE_RELEASE === "true"
@@ -43,7 +43,7 @@ console.log(`\nFound ${vsixFiles.length} VSIX files`)
 
 // CRA evidence is checked before the first irreversible Marketplace upload, not
 // after. Marketplace and Open VSX still receive only the VSIX; the sidecars are
-// published to the GitHub release, which is Kilo's SBOM record.
+// published to the GitHub release, which is Kappa's SBOM record.
 const evidence = await verifyEvidence()
 
 const flag = prerelease ? ["--pre-release"] : []

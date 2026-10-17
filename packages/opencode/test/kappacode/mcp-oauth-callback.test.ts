@@ -1,6 +1,6 @@
 import { describe, expect, test, afterEach } from "bun:test"
 import { createServer, request, type Server } from "http"
-import * as KiloOAuthCallback from "../../src/kappacode/mcp-oauth-callback"
+import * as KappaOAuthCallback from "../../src/kappacode/mcp-oauth-callback"
 import { McpOAuthCallback } from "../../src/mcp/oauth-callback"
 import { parseRedirectUri } from "../../src/mcp/oauth-provider"
 
@@ -16,7 +16,7 @@ async function freePort(): Promise<number> {
 // A takeover request with the header but a spoofed `Host`, as a DNS-rebinding page sends it:
 // its own origin resolves to 127.0.0.1, so the browser treats the request as same-origin.
 function takeoverFrom(port: number, hostHeader: string): Promise<{ released: boolean; status: number | undefined }> {
-  const url = new URL(KiloOAuthCallback.takeoverUrl("127.0.0.1", port, "/mcp/oauth/callback"))
+  const url = new URL(KappaOAuthCallback.takeoverUrl("127.0.0.1", port, "/mcp/oauth/callback"))
   return new Promise((resolve) => {
     const req = request(
       {
@@ -24,10 +24,10 @@ function takeoverFrom(port: number, hostHeader: string): Promise<{ released: boo
         port,
         path: `${url.pathname}${url.search}`,
         method: "GET",
-        headers: { host: hostHeader, [KiloOAuthCallback.TAKEOVER_HEADER]: KiloOAuthCallback.TAKEOVER_VALUE },
+        headers: { host: hostHeader, [KappaOAuthCallback.TAKEOVER_HEADER]: KappaOAuthCallback.TAKEOVER_VALUE },
       },
       (res) => {
-        const released = res.headers[KiloOAuthCallback.TAKEOVER_HEADER] === KiloOAuthCallback.TAKEOVER_VALUE
+        const released = res.headers[KappaOAuthCallback.TAKEOVER_HEADER] === KappaOAuthCallback.TAKEOVER_VALUE
         res.resume()
         res.once("end", () => resolve({ released, status: res.statusCode }))
       },
@@ -39,7 +39,7 @@ function takeoverFrom(port: number, hostHeader: string): Promise<{ released: boo
 
 type Later = { server: Server | undefined; port: number; path: string }
 
-describe("Kilo MCP OAuth callback", () => {
+describe("Kappa MCP OAuth callback", () => {
   afterEach(async () => {
     await McpOAuthCallback.stop()
   })
@@ -82,7 +82,7 @@ describe("Kilo MCP OAuth callback", () => {
     let later: Later = { server: undefined, port: 0, path: "" }
     try {
       // A second process starts its own attempt: the port is taken and the earlier flow named.
-      await KiloOAuthCallback.ensureRunning({
+      await KappaOAuthCallback.ensureRunning({
         redirectUri: uri,
         parse: parseRedirectUri,
         state: () => later,
@@ -96,7 +96,7 @@ describe("Kilo MCP OAuth callback", () => {
       })
 
       const failure = await earlier
-      expect(KiloOAuthCallback.isReplaced(failure)).toBe(true)
+      expect(KappaOAuthCallback.isReplaced(failure)).toBe(true)
       expect(failure instanceof Error ? failure.message : String(failure)).toBe(
         "this request was replaced by another authorization attempt",
       )
@@ -121,8 +121,8 @@ describe("Kilo MCP OAuth callback", () => {
 
     // A web page can send this cross-origin "simple request" (no custom header, so the browser
     // sends no preflight): it must not be able to release a listener waiting for a callback.
-    const attack = await fetch(KiloOAuthCallback.takeoverUrl("127.0.0.1", port, "/mcp/oauth/callback"))
-    expect(attack.headers.get(KiloOAuthCallback.TAKEOVER_HEADER)).toBe(null)
+    const attack = await fetch(KappaOAuthCallback.takeoverUrl("127.0.0.1", port, "/mcp/oauth/callback"))
+    expect(attack.headers.get(KappaOAuthCallback.TAKEOVER_HEADER)).toBe(null)
     await attack.body?.cancel()
     expect(McpOAuthCallback.isRunning()).toBe(true)
 

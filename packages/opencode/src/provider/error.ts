@@ -1,7 +1,7 @@
 import { APICallError } from "ai"
 import { STATUS_CODES } from "http"
 import { iife } from "@/util/iife"
-import * as KiloError from "@/kilocode/provider/error" // kilocode_change
+import * as KappaError from "@/kappacode/provider/error" // kappacode_change
 import type { ProviderV2 } from "@opencode-ai/core/provider"
 import { isContextOverflow } from "@opencode-ai/llm"
 
@@ -32,13 +32,13 @@ function isOpenAiErrorRetryable(e: APICallError) {
 // - z.ai: can accept overflow silently (needs token-count/context-window checks)
 function message(providerID: ProviderV2.ID, e: APICallError) {
   return iife(() => {
-    const hint = KiloError.hint(providerID, e) // kilocode_change
-    if (hint) return hint // kilocode_change
-    // kilocode_change start - surface a branded reauth hint for expired Copilot tokens
+    const hint = KappaError.hint(providerID, e) // kappacode_change
+    if (hint) return hint // kappacode_change
+    // kappacode_change start - surface a branded reauth hint for expired Copilot tokens
     if (providerID.includes("github-copilot") && e.statusCode === 403) {
-      return "Please reauthenticate with the copilot provider to ensure your credentials work properly with Kilo."
+      return "Please reauthenticate with the copilot provider to ensure your credentials work properly with Kappa."
     }
-    // kilocode_change end
+    // kappacode_change end
     const msg = e.message
     if (msg === "") {
       if (e.responseBody) return e.responseBody
@@ -66,7 +66,7 @@ function message(providerID: ProviderV2.ID, e: APICallError) {
     // provide a human-readable message instead of dumping raw markup
     if (/^\s*<!doctype|^\s*<html/i.test(e.responseBody)) {
       if (e.statusCode === 401) {
-        return "Unauthorized: request was blocked by a gateway or proxy. Your authentication token may be missing or expired — try running `kappa auth login <your provider URL>` to re-authenticate." // kilocode_change
+        return "Unauthorized: request was blocked by a gateway or proxy. Your authentication token may be missing or expired — try running `kappa auth login <your provider URL>` to re-authenticate." // kappacode_change
       }
       if (e.statusCode === 403) {
         return "Forbidden: request was blocked by a gateway or proxy. You may not have permission to access this resource — check your account and provider settings."
@@ -109,23 +109,23 @@ export type ParsedStreamError =
 
 export function parseStreamError(input: unknown): ParsedStreamError | undefined {
   const raw = json(input)
-  // kilocode_change start - unwrap response.failed frames and bare provider error objects before the envelope gate
+  // kappacode_change start - unwrap response.failed frames and bare provider error objects before the envelope gate
   const original = typeof raw?.message === "string" ? (json(raw.message) ?? raw) : raw
   if (!original) return
 
   const responseBody = JSON.stringify(original)
-  const body = KiloError.frame(original)
-  // kilocode_change end
+  const body = KappaError.frame(original)
+  // kappacode_change end
   if (body.type !== "error") return
 
-  switch (body?.error?.code ?? body?.error?.type) { // kilocode_change
+  switch (body?.error?.code ?? body?.error?.type) { // kappacode_change
     case "context_length_exceeded":
       return {
         type: "context_overflow",
         message: "Input exceeds context window of this model",
         responseBody,
       }
-    // kilocode_change start - normalize empty provider rate-limit stream errors
+    // kappacode_change start - normalize empty provider rate-limit stream errors
     case "rate_limit_exceeded":
       return {
         type: "api_error",
@@ -136,7 +136,7 @@ export function parseStreamError(input: unknown): ParsedStreamError | undefined 
         isRetryable: true,
         responseBody,
       }
-    // kilocode_change end
+    // kappacode_change end
     case "insufficient_quota":
       return {
         type: "api_error",
@@ -167,7 +167,7 @@ export function parseStreamError(input: unknown): ParsedStreamError | undefined 
         responseBody,
       }
   }
-  return KiloError.fallback(body, responseBody) // kilocode_change - render unlisted provider error codes as clean messages
+  return KappaError.fallback(body, responseBody) // kappacode_change - render unlisted provider error codes as clean messages
 }
 
 export type ParsedAPICallError =
@@ -202,7 +202,7 @@ export function parseAPICallError(input: { providerID: ProviderV2.ID; error: API
     type: "api_error",
     message: m,
     statusCode: input.error.statusCode,
-    isRetryable: (input.providerID.startsWith("openai") ? isOpenAiErrorRetryable(input.error) : input.error.isRetryable) || KiloError.isOverloaded(input.error.statusCode, body, m), // kilocode_change
+    isRetryable: (input.providerID.startsWith("openai") ? isOpenAiErrorRetryable(input.error) : input.error.isRetryable) || KappaError.isOverloaded(input.error.statusCode, body, m), // kappacode_change
     responseHeaders: input.error.responseHeaders,
     responseBody: input.error.responseBody,
     metadata,

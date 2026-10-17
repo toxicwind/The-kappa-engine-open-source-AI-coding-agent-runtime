@@ -11,7 +11,7 @@ The CLI already solves this. It keeps a per-session subagent list with status (`
 Give the VS Code extension the same observability, without inventing a new viewer. Clicking an agent must keep landing in the surfaces users already have:
 
 - Agent Manager: the shared right-hand inspector (`SubagentPanel`), reached with the `agentManager.openSubagent` event.
-- Sidebar and Kilo tab: a dedicated editor tab, reached with the `openSubAgentViewer` message.
+- Sidebar and Kappa tab: a dedicated editor tab, reached with the `openSubAgentViewer` message.
 
 ## Placement
 
@@ -42,23 +42,23 @@ Why this slot:
 - The to-do strip already proves the pattern: conditional, collapsible, sticky, one line when collapsed, full width when open.
 - It costs zero vertical space when no agent runs.
 - It cannot scroll away, which is the actual defect.
-- `TaskHeader` is shared through `ChatView`, so the sidebar, the Kilo tab, and Agent Manager all get it.
+- `TaskHeader` is shared through `ChatView`, so the sidebar, the Kappa tab, and Agent Manager all get it.
 
 Rejected: the action row above the composer (`ChatView.renderActions`). It is already full in a narrow sidebar, its buttons appear and disappear with session status, and it is an actions row rather than a status row.
 
 ## State source
 
-The webview uses the Kilo-owned background-job API for authoritative lifecycle state. A task-part fallback keeps running agents visible while the first request is loading:
+The webview uses the Kappa-owned background-job API for authoritative lifecycle state. A task-part fallback keeps running agents visible while the first request is loading:
 
 | Need | Source |
 |---|---|
 | the current session's task parts | `session.getSessionToolParts(id)`, the per-session tool index |
 | child session id, description, `background` flag | background-job metadata and `task` tool part metadata |
-| lifecycle state | `GET /kilocode/background-jobs` |
-| per-agent cancellation | `POST /kilocode/background-jobs/:jobID/cancel`, resolved in the owning parent directory and cancelling the child session tree |
+| lifecycle state | `GET /kappacode/background-jobs` |
+| per-agent cancellation | `POST /kappacode/background-jobs/:jobID/cancel`, resolved in the owning parent directory and cancelling the child session tree |
 | foreground promotion | the existing `experimental.session.background` route |
 | child permission/question attention | scoped session permission and question state |
-| child sessions stay tracked while the card is closed | `KiloProvider` auto-adopts them from task parts |
+| child sessions stay tracked while the card is closed | `KappaProvider` auto-adopts them from task parts |
 
 The per-session tool index matters for correctness, not only cost. `allParts()` holds the parts of every loaded session, so deriving from it would make one session's strip list agents started by another session, which is wrong in Agent Manager where several sessions are loaded at once. The index is keyed by session, so the strip lists only agents this session started. Agents started by a sub-agent appear in that sub-agent's own header, not in the root strip.
 
@@ -66,8 +66,8 @@ An agent counts as running only when its child session status is `busy` or `retr
 
 ## Implementation
 
-1. `packages/opencode/src/kilocode/server/httpapi/`
-   Kilo-owned parent-scoped background-job list and cancellation routes.
+1. `packages/opencode/src/kappacode/server/httpapi/`
+   Kappa-owned parent-scoped background-job list and cancellation routes.
 2. `webview-ui/src/components/chat/open-subagent.ts`
    Shared helper holding the Agent Manager vs sidebar branch. Extracted from `TaskToolExpanded.openInTab` so the task card and the strip cannot drift apart.
 3. `webview-ui/src/components/chat/background-agents.ts`

@@ -163,6 +163,6 @@ export namespace MemoryError {
   }
 
   export function toToolOutput(err: unknown, action: string) {
-    return `Kilo memory ${action} failed: ${message(err)}`
+    return `Kappa memory ${action} failed: ${message(err)}`
   }
 }

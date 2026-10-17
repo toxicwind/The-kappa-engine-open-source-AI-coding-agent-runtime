@@ -1,7 +1,7 @@
 // kappacode_change - new file
-// When the injected Kilo models source returns a 401 error result, ModelCache surfaces
+// When the injected Kappa models source returns a 401 error result, ModelCache surfaces
 // the failure and caches empty models (allowing re-auth via /connect).
-// The real fetchKiloModels 401-fallback unit test lives in packages/kappa-gateway/test/api/models.test.ts.
+// The real fetchKappaModels 401-fallback unit test lives in packages/kappa-gateway/test/api/models.test.ts.
 
 import { expect } from "bun:test"
 import { Effect, Layer } from "effect"
@@ -20,8 +20,8 @@ const auth = Layer.mock(Auth.Service)({
 })
 
 const models = Layer.succeed(
-  ModelCache.KiloModelsService,
-  ModelCache.KiloModelsService.of({
+  ModelCache.KappaModelsService,
+  ModelCache.KappaModelsService.of({
     fetch: () => Effect.succeed({ models: {}, error: { kind: "unauthorized", status: 401 } }),
   }),
 )
@@ -35,7 +35,7 @@ const layer = Layer.fresh(ModelCache.layer).pipe(
 
 const it = testEffect(layer)
 
-it.live("401 from Kilo models sets provider as failed in ModelCache", () =>
+it.live("401 from Kappa models sets provider as failed in ModelCache", () =>
   Effect.gen(function* () {
     const cache = yield* ModelCache.Service
     yield* cache.fetch("kappa")
@@ -44,7 +44,7 @@ it.live("401 from Kilo models sets provider as failed in ModelCache", () =>
   }),
 )
 
-it.live("401 from Kilo models caches empty models (not undefined)", () =>
+it.live("401 from Kappa models caches empty models (not undefined)", () =>
   Effect.gen(function* () {
     const cache = yield* ModelCache.Service
     yield* cache.fetch("kappa")

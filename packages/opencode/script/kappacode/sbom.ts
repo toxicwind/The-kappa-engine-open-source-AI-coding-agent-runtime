@@ -1,5 +1,5 @@
 /**
- * SBOM generation for Kilo CLI artifacts.
+ * SBOM generation for Kappa CLI artifacts.
  *
  * The CLI is a Bun single-file executable plus a set of staged native and
  * static resources, so neither the lockfile nor a scan of the archive describes
@@ -84,7 +84,7 @@ function explicit(input: Target): Component[] {
       supplier: "Oven",
       licenses: ["MIT"],
       delivery: "contained",
-      description: "Bun runtime compiled into the Kilo CLI executable",
+      description: "Bun runtime compiled into the Kappa CLI executable",
     },
     ...(linux
       ? [
@@ -147,7 +147,7 @@ export async function graph(input: { target: Target; subject: string; lock?: Dep
   const constraint = { os: input.target.os, arch: input.target.arch, libc: input.target.abi ?? "glibc" }
 
   const cli = Deps.closure({ lock, workspace: "packages/opencode", platform: constraint, root: input.subject })
-  // The Kilo Console ships as static assets under bin/console and is not a
+  // The Kappa Console ships as static assets under bin/console and is not a
   // dependency of the CLI package, so its own closure has to be added.
   const console_ = Deps.closure({ lock, workspace: "packages/kappa-console", platform: constraint, root: input.subject })
 
@@ -215,7 +215,7 @@ export async function archive(input: { file: string; target: Target; release: Re
       version: input.release.version,
       type: "application",
       purl: Deps.purl(input.target.name, input.release.version),
-      description: `Kilo CLI for ${platform(input.target)}`,
+      description: `Kappa CLI for ${platform(input.target)}`,
     },
     target: {
       platform: platform(input.target),
@@ -323,7 +323,7 @@ export async function npmPackage(input: {
       version: input.release.version,
       type: "application",
       purl: Deps.purl(input.name, input.release.version),
-      description: binary ? `Kilo CLI npm package for ${platform(target(input.name))}` : "Kilo CLI launcher package",
+      description: binary ? `Kappa CLI npm package for ${platform(target(input.name))}` : "Kappa CLI launcher package",
     },
     ...(binary
       ? {
@@ -386,7 +386,7 @@ async function wrapper(input: { version: string; subject: string }): Promise<Gra
       name,
       version: input.version,
       purl: Deps.purl(name, input.version),
-      supplier: "Kilo Code",
+      supplier: "Kappa Code",
       delivery: "runtime",
       description: "Platform binary resolved through optionalDependencies at install time",
     })),
@@ -430,7 +430,7 @@ export async function ociImage(input: {
       version: input.release.version,
       type: "container",
       purl: `pkg:oci/kappacode@${input.digest}`,
-      description: `Kilo CLI container image (${input.platform ?? "multi-arch index"})`,
+      description: `Kappa CLI container image (${input.platform ?? "multi-arch index"})`,
     },
     ...(input.platform ? { target: { platform: input.platform } } : {}),
     build: { ...build(input.release), properties: { "oci:reference": input.reference, distribution: "oci" } },

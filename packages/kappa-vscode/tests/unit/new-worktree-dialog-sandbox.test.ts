@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
 const path = join(__dirname, "..", "..", "webview-ui", "agent-manager", "NewWorktreeDialog.tsx")
-const providerPath = join(__dirname, "..", "..", "src", "KiloProvider.ts")
+const providerPath = join(__dirname, "..", "..", "src", "KappaProvider.ts")
 const src = readFileSync(path, "utf8")
 const provider = readFileSync(providerPath, "utf8")
 
@@ -434,7 +434,7 @@ describe("NewWorktreeDialog models", () => {
     `)
   })
 
-  it("keeps external-only comparisons usable while a Kilo catalog refresh blocks mixed comparisons", () => {
+  it("keeps external-only comparisons usable while a Kappa catalog refresh blocks mixed comparisons", () => {
     check(`
       const { state, refresh } = scene(x, {
         providers: catalog(x, external, y), fallback: y, ready: true, connected: ["external"],

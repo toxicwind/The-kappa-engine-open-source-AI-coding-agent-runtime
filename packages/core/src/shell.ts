@@ -8,7 +8,7 @@ import { setTimeout as sleep } from "node:timers/promises"
 import { Flag } from "./flag/flag"
 import { FSUtil } from "./fs-util"
 import { which } from "./util/which"
-import { PowerShell } from "./kilocode/powershell" // kilocode_change
+import { PowerShell } from "./kappacode/powershell" // kappacode_change
 
 const SIGKILL_TIMEOUT_MS = 200
 const META: Record<string, { deny?: boolean; login?: boolean; posix?: boolean; ps?: boolean }> = {
@@ -177,7 +177,7 @@ export function args(file: string, command: string, cwd: string) {
         cd -- "$1"
         eval ${JSON.stringify(command)}
       `,
-      "kappa", // kilocode_change
+      "kappa", // kappacode_change
       cwd,
     ]
   }
@@ -191,12 +191,12 @@ export function args(file: string, command: string, cwd: string) {
         cd -- "$1"
         eval ${JSON.stringify(command)}
       `,
-      "kappa", // kilocode_change
+      "kappa", // kappacode_change
       cwd,
     ]
   }
   if (n === "cmd") return ["/c", command]
-  if (ps(file)) return PowerShell.args(command) // kilocode_change - preserve UTF-8 and script prologues
+  if (ps(file)) return PowerShell.args(command) // kappacode_change - preserve UTF-8 and script prologues
   return ["-c", command]
 }
 

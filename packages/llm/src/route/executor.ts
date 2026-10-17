@@ -364,8 +364,8 @@ const retryStatusFailures = <A, R>(
   })
 
 // kappacode_change start
-// Kilo browser-fingerprint transport marker header. A request carrying
-// `request.http.fingerprint` is tagged with this header by the Kilo fingerprint
+// Kappa browser-fingerprint transport marker header. A request carrying
+// `request.http.fingerprint` is tagged with this header by the Kappa fingerprint
 // transport; the executor then forwards it with a Chrome-aligned header set so
 // Cloudflare-guarded providers (freeinference error 1010) see a browser
 // signature. The marker header is stripped before the request reaches the wire.

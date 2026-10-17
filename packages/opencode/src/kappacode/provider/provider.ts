@@ -1,12 +1,12 @@
 // kappacode_change - new file
 //
-// Kilo-specific provider logic extracted from packages/opencode/src/provider/provider.ts
+// Kappa-specific provider logic extracted from packages/opencode/src/provider/provider.ts
 // to minimize merge conflicts with upstream opencode.
 //
 // This module exports patch functions and data that the upstream provider.ts
 // calls at well-defined injection points (each marked with kappacode_change).
 
-import { createKilo, type KiloProvider, AI_SDK_PROVIDERS, PROMPTS } from "@kappacode/kappa-gateway"
+import { createKappa, type KappaProvider, AI_SDK_PROVIDERS, PROMPTS } from "@kappacode/kappa-gateway"
 import { DEFAULT_HEADERS } from "@/kappacode/const"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -31,7 +31,7 @@ export const REQUEST_TIMEOUT_MS = 300_000 // 5 minutes
 type BundledSDK = { languageModel(modelId: string): LanguageModelV3 }
 
 export const KILO_BUNDLED_PROVIDERS: Record<string, () => Promise<(options: any) => BundledSDK>> = {
-  "@kappacode/kappa-gateway": async () => createKilo as unknown as (options: any) => BundledSDK,
+  "@kappacode/kappa-gateway": async () => createKappa as unknown as (options: any) => BundledSDK,
 }
 
 // ---------------------------------------------------------------------------
@@ -165,12 +165,12 @@ function useLanguageModel(sdk: any) {
   return sdk.responses === undefined && sdk.chat === undefined
 }
 
-export function patchKiloProviderPrivacy(provider: { options?: Record<string, any> } | undefined, config: any) {
+export function patchKappaProviderPrivacy(provider: { options?: Record<string, any> } | undefined, config: any) {
   if (!provider || config.hide_prompt_training_models !== true) return
   provider.options = { ...provider.options, dataCollection: "deny" }
 }
 
-export function patchKiloProviderAuth(
+export function patchKappaProviderAuth(
   provider: Provider.Info | undefined,
   config: Config.Info,
   info: Auth.Info | undefined,
@@ -183,7 +183,7 @@ export function patchKiloProviderAuth(
   if (org !== undefined) provider.options.kappacodeOrganizationId = org
 }
 
-export function publicKiloProvider(provider: Provider.Info): Provider.Info {
+export function publicKappaProvider(provider: Provider.Info): Provider.Info {
   if (provider.id !== "kappa") return provider
   return { ...provider, key: undefined, options: omit(provider.options, ["apiKey", "kappacodeToken"]) }
 }
@@ -224,7 +224,7 @@ export function kappaCustomLoaders(dep: CustomDep): Record<string, CustomLoader>
       return {
         autoload: Object.keys(input.models).length > 0,
         options,
-        async getModel(sdk: KiloProvider, modelID: string) {
+        async getModel(sdk: KappaProvider, modelID: string) {
           const provider = input.models[modelID]?.ai_sdk_provider
           if (provider === "anthropic") return sdk.anthropic(modelID)
           if (provider === "openai") return sdk.openai(modelID)
@@ -306,7 +306,7 @@ export function kappaSmallModelPriority(providerID: string): string[] | undefine
  * anonymous key even without credentials, so this gates the cloud
  * kappa-auto/small fallback to users who can actually reach it.
  */
-export function hasKiloCredentials(
+export function hasKappaCredentials(
   cfg: { provider?: Record<string, { options?: { apiKey?: string } } | null> },
   auth: unknown,
   env: Record<string, string | undefined>,

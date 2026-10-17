@@ -20,7 +20,7 @@ afterEach(async () => {
 })
 
 describe("worktree pool home", () => {
-  it("lives next to the Kilo CLI data and honors XDG_DATA_HOME", () => {
+  it("lives next to the Kappa CLI data and honors XDG_DATA_HOME", () => {
     process.env.XDG_DATA_HOME = path.join(os.tmpdir(), "data")
     expect(poolHome()).toBe(path.join(os.tmpdir(), "data", "kappa", "worktree-pool"))
     delete process.env.XDG_DATA_HOME

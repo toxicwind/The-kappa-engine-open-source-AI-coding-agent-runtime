@@ -1,4 +1,4 @@
-import type { KilocodeSessionImportPartData as Part } from "@kappacode/sdk/v2"
+import type { KappacodeSessionImportPartData as Part } from "@kappacode/sdk/v2"
 import type { LegacyApiMessage } from "../legacy-types"
 import { getText, getToolUse, isToolResult, record } from "./parts-util"
 

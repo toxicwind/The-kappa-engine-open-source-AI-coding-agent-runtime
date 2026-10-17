@@ -2,11 +2,11 @@ import * as path from "path"
 import os from "os"
 import { Filesystem } from "../util/filesystem"
 
-export namespace KilocodePaths {
+export namespace KappacodePaths {
   const home = () => process.env.HOME || process.env.USERPROFILE || os.homedir()
 
   /**
-   * Get the platform-specific VSCode global storage path for Kilocode extension.
+   * Get the platform-specific VSCode global storage path for Kappacode extension.
    * - macOS: ~/Library/Application Support/Code/User/globalStorage/kappacode.kappa-code
    * - Windows: %APPDATA%/Code/User/globalStorage/kappacode.kappa-code
    * - Linux: ~/.config/Code/User/globalStorage/kappacode.kappa-code
@@ -29,13 +29,13 @@ export namespace KilocodePaths {
     }
   }
 
-  /** Global Kilo directories in user home: ~/.kappacode and ~/.kappa (legacy first, .kappa wins later) */
+  /** Global Kappa directories in user home: ~/.kappacode and ~/.kappa (legacy first, .kappa wins later) */
   export function globalDirs(): string[] {
     return [path.join(home(), ".kappacode"), path.join(home(), ".kappa")]
   }
 
   /**
-   * Discover Kilo directories containing skills.
+   * Discover Kappa directories containing skills.
    * Returns parent directories (.kappacode/ and .kappa/) for glob pattern "skills/[*]/SKILL.md".
    *
    * - Walks up from projectDir to worktreeRoot for .kappacode/ and .kappa/
@@ -44,7 +44,7 @@ export namespace KilocodePaths {
    *
    * Does NOT copy/migrate skills - just provides paths for discovery.
    * Skills remain in their original locations and can be managed independently
-   * by the Kilo VSCode extension.
+   * by the Kappa VSCode extension.
    */
   export async function skillDirectories(opts: {
     projectDir: string

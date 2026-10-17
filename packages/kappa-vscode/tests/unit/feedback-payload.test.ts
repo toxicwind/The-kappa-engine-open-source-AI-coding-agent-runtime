@@ -9,7 +9,7 @@ const baseInput = {
   variant: undefined as string | undefined,
 }
 
-describe("buildFeedbackProperties — non-Kilo providers", () => {
+describe("buildFeedbackProperties — non-Kappa providers", () => {
   it("includes only provider/model/rating (no session or message IDs)", () => {
     const props = buildFeedbackProperties({ ...baseInput, providerID: "anthropic", next: "up" })
     expect(props).toEqual({
@@ -39,7 +39,7 @@ describe("buildFeedbackProperties — non-Kilo providers", () => {
   })
 })
 
-describe("buildFeedbackProperties — Kilo Gateway", () => {
+describe("buildFeedbackProperties — Kappa Gateway", () => {
   it("includes sessionID, messageID, parentMessageID", () => {
     const props = buildFeedbackProperties({ ...baseInput, providerID: "kappa", next: "up" })
     expect(props).toEqual({

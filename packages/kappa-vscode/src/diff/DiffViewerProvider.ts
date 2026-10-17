@@ -2,7 +2,7 @@ import * as vscode from "vscode"
 import { randomUUID } from "node:crypto"
 import { isHttpsUrl, type PRReviewCommentData } from "../shared/review-comments"
 import { thread } from "../shared/pr-review"
-import type { KiloConnectionService } from "../services/cli-backend"
+import type { KappaConnectionService } from "../services/cli-backend"
 import { appendOutput, getWorkspaceRoot, openRelativeFile } from "../review-utils"
 import { getDiffMarkdownRender, getUserDiffStyle, setDiffMarkdownRender, setUserDiffStyle } from "../review-settings"
 import { buildWebviewHtml, getWebviewFontSize } from "../utils"
@@ -141,13 +141,13 @@ export class DiffViewerProvider implements vscode.Disposable {
 
   constructor(
     private readonly extensionUri: vscode.Uri,
-    private readonly connection: KiloConnectionService,
+    private readonly connection: KappaConnectionService,
     private readonly catalog: DiffSourceCatalog,
     opts: DiffViewerProviderOptions = {},
   ) {
     this.sessionIdProvider = opts.sessionIdProvider ?? (() => undefined)
     this.sessionDirectoryProvider = opts.sessionDirectoryProvider ?? (() => undefined)
-    this.output = vscode.window.createOutputChannel("Kilo Diff Panel")
+    this.output = vscode.window.createOutputChannel("Kappa Diff Panel")
     this.prPolling = createDiffPRPolling({
       createPoller: opts.createPRPoller,
       onStatus: () => this.sendComments(),

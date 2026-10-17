@@ -310,7 +310,7 @@ export const StreamViewport: Component<{
       host.dataset.ready = "true"
       host.setAttribute("aria-busy", "false")
     } catch (error) {
-      if (!disposed && !job.done) console.warn("[Kilo New] Browser frame decode failed", error)
+      if (!disposed && !job.done) console.warn("[Kappa New] Browser frame decode failed", error)
     } finally {
       image.removeAttribute("src")
       job.image = undefined

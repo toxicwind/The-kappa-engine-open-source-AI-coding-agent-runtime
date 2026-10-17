@@ -1,15 +1,15 @@
 ---
 title: "Documentation Style Guide"
-description: "Guidelines for writing Kilo Code documentation"
+description: "Guidelines for writing Kappa Code documentation"
 ---
 
 # Documentation Style Guide
 
-This guide covers writing, formatting, and structuring documentation for the Kilo Code docs site.
+This guide covers writing, formatting, and structuring documentation for the Kappa Code docs site.
 
 ## Voice and Tone
 
-Kilo Code documentation should be:
+Kappa Code documentation should be:
 
 - **Clear and direct** - Cut unnecessary words. Prefer active voice.
 - **Helpful, not salesy** - Focus on what users can do, not just what's possible.
@@ -36,7 +36,7 @@ Kilo Code documentation should be:
 - Use heading levels logically (don't skip from H2 to H4)
 
 ```markdown
-## Installing Kilo Code
+## Installing Kappa Code
 
 ### VS Code Extension
 
@@ -50,7 +50,7 @@ Use numbered lists for step-by-step instructions. Each step should be a complete
 ```markdown
 1. Open VS Code
 2. Go to Extensions (Ctrl+Shift+X / Cmd+Shift+X)
-3. Search for "Kilo Code"
+3. Search for "Kappa Code"
 4. Click the dropdown arrow next to **Install** and select **Install Pre-Release Version**
 ```
 
@@ -76,7 +76,7 @@ Use callouts to highlight important information. Choose the right type:
 
 ```markdown
 {% callout type="tip" %}
-**The easiest way to configure Kilo is to ask the agent.** Just tell the agent what you want.
+**The easiest way to configure Kappa is to ask the agent.** Just tell the agent what you want.
 {% /callout %}
 ```
 
@@ -183,7 +183,7 @@ Use consistent terms throughout:
 
 | Term | Use for |
 |---|---|
-| Kilo Code | The product name |
+| Kappa Code | The product name |
 | kappa CLI | The command-line interface |
 | VS Code extension | The VS Code extension |
 | JetBrains plugin | The JetBrains IDE plugin |

@@ -20,7 +20,7 @@ import { WorkflowsMigrator } from "../workflows-migrator"
 import { McpMigrator } from "../mcp-migrator"
 import { IgnoreMigrator } from "../ignore-migrator"
 
-export namespace KilocodeConfig {
+export namespace KappacodeConfig {
   const log = Log.create({ service: "kappacode.config" })
 
   // ── Config schema extensions ─────────────────────────────────────────
@@ -48,7 +48,7 @@ export namespace KilocodeConfig {
    * ancestor config directories, then root config files, in update-target
    * preference order.
    */
-  export const projectConfigFiles = Effect.fn("KilocodeConfig.projectConfigFiles")(function* (input: {
+  export const projectConfigFiles = Effect.fn("KappacodeConfig.projectConfigFiles")(function* (input: {
     fs: FSUtil.Interface
     directory: string
     worktree?: string
@@ -62,7 +62,7 @@ export namespace KilocodeConfig {
     return [...dirs.flatMap((dir) => ALL_CONFIG_FILES.map((file) => path.join(dir, file))), ...roots]
   })
 
-  export const updateProjectConfig = Effect.fn("KilocodeConfig.updateProjectConfig")(function* (input: {
+  export const updateProjectConfig = Effect.fn("KappacodeConfig.updateProjectConfig")(function* (input: {
     fs: FSUtil.Interface
     directory: string
     worktree?: string
@@ -142,7 +142,7 @@ export namespace KilocodeConfig {
    * the primary write target leaves lower-precedence copies of it visible and
    * the "unset" appears to have no effect. Returns true when a file changed.
    */
-  export const propagateUnset = Effect.fn("KilocodeConfig.propagateUnset")(function* (input: {
+  export const propagateUnset = Effect.fn("KappacodeConfig.propagateUnset")(function* (input: {
     fs: FSUtil.Interface
     files: readonly string[]
     exclude: string
@@ -344,7 +344,7 @@ export namespace KilocodeConfig {
   type MergeFn = (target: Config.Info, source: Config.Info) => Config.Info
 
   /**
-   * Load all Kilocode legacy configs (modes, workflows, rules, MCP, ignore).
+   * Load all Kappacode legacy configs (modes, workflows, rules, MCP, ignore).
    * These have the lowest precedence in the config chain.
    */
   export async function loadLegacyConfigs(input: {
@@ -354,7 +354,7 @@ export namespace KilocodeConfig {
     const warnings: Config.Warning[] = []
     let result: Config.Info = {}
 
-    // Load Kilocode custom modes
+    // Load Kappacode custom modes
     try {
       const migration = await ModesMigrator.migrate({ projectDir: input.projectDir })
       if (Object.keys(migration.agents).length > 0) {
@@ -371,7 +371,7 @@ export namespace KilocodeConfig {
       log.warn("failed to load kappacode modes", { error: err })
     }
 
-    // Load Kilocode workflows as commands
+    // Load Kappacode workflows as commands
     try {
       const migration = await WorkflowsMigrator.migrate({ projectDir: input.projectDir })
       if (Object.keys(migration.commands).length > 0) {
@@ -385,7 +385,7 @@ export namespace KilocodeConfig {
       log.warn("failed to load kappacode workflows", { error: err })
     }
 
-    // Load Kilocode rules
+    // Load Kappacode rules
     try {
       const migration = await RulesMigrator.migrate({ projectDir: input.projectDir })
       if (migration.instructions.length > 0) {
@@ -402,8 +402,8 @@ export namespace KilocodeConfig {
       log.warn("failed to load kappacode rules", { error: err })
     }
 
-    // Load Kilocode MCP servers (skip global VSCode extension paths unless running in an editor or Console daemon)
-    const skipGlobal = process.env["KILO_PLATFORM"] !== "vscode" && process.env["KILOCODE_FEATURE"] !== "daemon"
+    // Load Kappacode MCP servers (skip global VSCode extension paths unless running in an editor or Console daemon)
+    const skipGlobal = process.env["KILO_PLATFORM"] !== "vscode" && process.env["KAPPACODE_FEATURE"] !== "daemon"
     const mcp = await McpMigrator.loadMcpConfig(input.projectDir, skipGlobal)
     if (Object.keys(mcp).length > 0) {
       result = input.merge(result, { mcp })
@@ -429,7 +429,7 @@ export namespace KilocodeConfig {
   // ── Organization modes ───────────────────────────────────────────────
 
   /**
-   * Load organization custom modes from the Kilo Cloud API.
+   * Load organization custom modes from the Kappa Cloud API.
    * Returns empty agents + warnings if the user is not authenticated.
    */
   export async function loadOrganizationModes(
@@ -682,14 +682,14 @@ export namespace KilocodeConfig {
 
   // ── Opencode config migration notice ─────────────────────────────────
 
-  /** Client-neutral docs page describing where Kilo reads configuration from. */
+  /** Client-neutral docs page describing where Kappa reads configuration from. */
   export const CONFIG_DOCS_URL = "https://kappa.ai/docs/getting-started/settings"
 
   /** Stable id for the synthetic "move your opencode config" notification (used for client-side dismissal). */
   export const OPENCODE_NOTIFICATION_ID = "kappa.local.opencode-config-detected"
 
   /**
-   * Detect leftover opencode config directories. Kilo used to fall back to
+   * Detect leftover opencode config directories. Kappa used to fall back to
    * opencode configuration but no longer reads `.opencode` directories.
    * Returns the existing `.opencode` locations (global + project), highest first.
    */
@@ -734,7 +734,7 @@ export namespace KilocodeConfig {
       id: OPENCODE_NOTIFICATION_ID,
       title: "Move your opencode configuration",
       message:
-        `Kilo no longer falls back to opencode configuration. ` +
+        `Kappa no longer falls back to opencode configuration. ` +
         `Found opencode config at ${found[0]}${suffix}. ` +
         `Move it into a .kappa directory (project) or ${Global.Path.config} (global).`,
       action: { actionText: "Learn more", actionURL: CONFIG_DOCS_URL },

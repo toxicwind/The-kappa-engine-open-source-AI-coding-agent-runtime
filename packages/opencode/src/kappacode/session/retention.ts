@@ -17,7 +17,7 @@ import path from "path"
  * read the last-run state. Deletion is fail-closed: a pass does nothing unless
  * the policy is explicitly enabled.
  */
-export namespace KiloSessionRetention {
+export namespace KappaSessionRetention {
   const log = Log.create({ service: "session.retention" })
 
   export const DAY_MS = 86_400_000
@@ -96,7 +96,7 @@ export namespace KiloSessionRetention {
 
   // Sample only outstanding candidate IDs when polled, not the entire database
   // after each removal. This also observes children during a long root cascade.
-  export const readProgress = Effect.fn("KiloSessionRetention.readProgress")(function* () {
+  export const readProgress = Effect.fn("KappaSessionRetention.readProgress")(function* () {
     const state = current
     if (!state) return undefined
     // Refresh during cancelling too, so a cancelled pass's final counts
@@ -254,7 +254,7 @@ export namespace KiloSessionRetention {
    * Candidate sessions with recent writes from any client on the machine.
    * Probe session-leading indexes instead of scanning all message/part history.
    */
-  export const busySessions = Effect.fn("KiloSessionRetention.busySessions")(function* (
+  export const busySessions = Effect.fn("KappaSessionRetention.busySessions")(function* (
     now: number,
     ids: Iterable<string>,
   ) {
@@ -298,7 +298,7 @@ export namespace KiloSessionRetention {
    * file, and never for in-memory databases. Best effort: a busy database
    * only skips or delays the rebuild, it must never fail the pass.
    */
-  export const reclaim = Effect.fn("KiloSessionRetention.reclaim")(function* () {
+  export const reclaim = Effect.fn("KappaSessionRetention.reclaim")(function* () {
     const { db } = yield* Database.Service
     const page = yield* db
       .get<{
@@ -325,7 +325,7 @@ export namespace KiloSessionRetention {
 
   const statePath = path.join(Global.Path.data, "retention", "state.json")
 
-  export const readState = Effect.fn("KiloSessionRetention.readState")(function* () {
+  export const readState = Effect.fn("KappaSessionRetention.readState")(function* () {
     const file = Bun.file(statePath)
     if (!(yield* Effect.promise(() => file.exists()))) return null
     return yield* Effect.promise(() => file.json()).pipe(
@@ -334,13 +334,13 @@ export namespace KiloSessionRetention {
     )
   })
 
-  const writeState = Effect.fn("KiloSessionRetention.writeState")(function* (state: State) {
+  const writeState = Effect.fn("KappaSessionRetention.writeState")(function* (state: State) {
     yield* Effect.promise(async () => {
       await Bun.write(statePath, JSON.stringify(state, null, 2))
     })
   })
 
-  export const run = Effect.fn("KiloSessionRetention.run")(
+  export const run = Effect.fn("KappaSessionRetention.run")(
     function* (input: { force?: boolean } = {}) {
       const started = Date.now()
       halting = false
@@ -391,7 +391,7 @@ export namespace KiloSessionRetention {
       if (!halting) progress.phase = "deleting"
 
       const sessions = yield* Session.Service
-      const remove = Effect.fn("KiloSessionRetention.remove")(function* (id: SessionID) {
+      const remove = Effect.fn("KappaSessionRetention.remove")(function* (id: SessionID) {
         yield* sessions.remove(id).pipe(
           Effect.catchCause((cause) => {
             if (Cause.hasInterrupts(cause)) return Effect.interrupt

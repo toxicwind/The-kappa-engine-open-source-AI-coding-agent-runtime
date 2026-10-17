@@ -1,4 +1,4 @@
-import type { KiloConnectionService } from "./cli-backend/connection-service"
+import type { KappaConnectionService } from "./cli-backend/connection-service"
 import { routeAutocompleteMessage } from "./autocomplete/settings"
 import { handleSpeechToTextCancel, handleSpeechToTextStart, handleSpeechToTextStop } from "../speech-to-text/handler"
 import { prewarmSpeechCapture } from "../speech-to-text/capture"
@@ -12,7 +12,7 @@ type Msg = {
 }
 
 type Ctx = {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   dir: string
   post: (msg: unknown) => void
   speechSource?: () => SpeechToTextSource | undefined
@@ -22,7 +22,7 @@ export async function routeInputToolMessage(message: Msg, ctx: Ctx): Promise<boo
   if (await routeAutocompleteMessage(message, ctx.post)) return true
 
   if (message.type === "speechToTextPrewarm") {
-    void prewarmSpeechCapture().catch((err: unknown) => console.warn("[Kilo New] Speech capture prewarm failed:", err))
+    void prewarmSpeechCapture().catch((err: unknown) => console.warn("[Kappa New] Speech capture prewarm failed:", err))
     return true
   }
 

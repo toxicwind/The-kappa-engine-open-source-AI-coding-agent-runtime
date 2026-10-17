@@ -43,7 +43,7 @@ export interface ProjectSessionListing {
 /**
  * Register the project root, every worktree directory, and every persisted
  * managed session with the shared route service. Registered routes let the
- * KiloProvider resolve project-qualified session refs to exact directories
+ * KappaProvider resolve project-qualified session refs to exact directories
  * and detect ambiguous raw session ids across projects. Safe to call when the
  * listing has no route methods: registration is simply skipped.
  */
@@ -241,7 +241,7 @@ export async function collectProjectSessions(
   const byDir = await Promise.all(
     dirs.map(async (entry) => {
       const items = await list(entry.dir).catch((err) => {
-        console.warn(`[Kilo New] Agent Manager: listing sessions for ${entry.dir} failed:`, err)
+        console.warn(`[Kappa New] Agent Manager: listing sessions for ${entry.dir} failed:`, err)
         return [] as Session[]
       })
       return { ...entry, items }

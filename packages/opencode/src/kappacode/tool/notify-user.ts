@@ -1,5 +1,5 @@
 import { Tool } from "@/tool/tool"
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions"
 import { Effect, Schema } from "effect"
 import DESCRIPTION from "./notify-user.txt"
 
@@ -12,11 +12,11 @@ const Params = Schema.Struct({
 type Meta = { notificationId: string; ok: boolean; reason?: string }
 
 const FAILURE_TEXT =
-  "Push notifications are unavailable: this session is not connected to Kilo cloud. " +
+  "Push notifications are unavailable: this session is not connected to Kappa cloud. " +
   "Sign in with `kappa auth login` and ensure the session is sharing before retrying."
 
 const SUCCESS_TEXT =
-  "Notification sent to the user's Kilo app. Delivery may be suppressed by the user's " +
+  "Notification sent to the user's Kappa app. Delivery may be suppressed by the user's " +
   "Agent notifications preference, an active rate limit, or because the user is currently " +
   "viewing this session; the tool receives no delivery feedback."
 
@@ -24,10 +24,10 @@ function title(ok: boolean) {
   return ok ? "Notification sent" : "Notification unavailable"
 }
 
-export const NotifyUserTool = Tool.define<typeof Params, Meta, KiloSessions.Service, "notify_user">(
+export const NotifyUserTool = Tool.define<typeof Params, Meta, KappaSessions.Service, "notify_user">(
   "notify_user",
   Effect.gen(function* () {
-    const sessions = yield* KiloSessions.Service
+    const sessions = yield* KappaSessions.Service
     return {
       description: DESCRIPTION,
       parameters: Params,
@@ -35,7 +35,7 @@ export const NotifyUserTool = Tool.define<typeof Params, Meta, KiloSessions.Serv
         Effect.gen(function* () {
           const id = crypto.randomUUID()
           const message = params.message
-          if (!KiloSessions.remoteStatus().enabled) {
+          if (!KappaSessions.remoteStatus().enabled) {
             return {
               title: title(false),
               output: FAILURE_TEXT,

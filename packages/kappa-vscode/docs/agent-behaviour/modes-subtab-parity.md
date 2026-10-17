@@ -29,7 +29,7 @@ The legacy "Modes" sub-tab was a 1794-line component with comprehensive mode man
 | Description | `<TextField>` + reset button | Editable text field in edit view |
 | When to Use | `<TextArea>` (4 rows) + reset button | Not available |
 | Tools (tool groups) | Checkbox grid per group, file regex restrictions | Not applicable (CLI uses permission-based tool control) |
-| Custom Instructions (per-mode) | `<TextArea>` (10 rows) + link to `.kilocode/rules-{slug}/rules.md` | Not available as separate field (merged into system prompt) |
+| Custom Instructions (per-mode) | `<TextArea>` (10 rows) + link to `.kappacode/rules-{slug}/rules.md` | Not available as separate field (merged into system prompt) |
 | Temperature | Not in legacy Modes sub-tab (was in provider profile) | `<TextField>` per agent |
 | Top P | Not in legacy Modes sub-tab | `<TextField>` per agent |
 | Max Steps | Not in legacy Modes sub-tab | `<TextField>` per agent |
@@ -41,20 +41,20 @@ The legacy "Modes" sub-tab was a 1794-line component with comprehensive mode man
 |---|---|---|
 | Preview System Prompt | Button to view full rendered prompt in slide-out panel | Not available |
 | Copy System Prompt | Clipboard button | Not available |
-| Override System Prompt | Advanced disclosure with link to `.kilocode/system-prompt-{slug}` | Not available |
+| Override System Prompt | Advanced disclosure with link to `.kappacode/system-prompt-{slug}` | Not available |
 
 ### Global Custom Instructions
 
 | Feature | Legacy | New |
 |---|---|---|
 | Global Custom Instructions field | `<TextArea>` (4 rows) inside Modes sub-tab | Not available in Agents sub-tab (Rules sub-tab has instruction file paths instead) |
-| Link to global rules file | Link to `.kilocode/rules/rules.md` | Not available |
+| Link to global rules file | Link to `.kappacode/rules/rules.md` | Not available |
 
 ### Organization Features
 
 | Feature | Legacy | New |
 |---|---|---|
-| Share modes banner | `KiloShareModesBanner` component | Not available |
+| Share modes banner | `KappaShareModesBanner` component | Not available |
 | Organization mode warning | Warning when mode has `source === "organization"` | Not available |
 
 ### CLI Agent Fields Not Exposed

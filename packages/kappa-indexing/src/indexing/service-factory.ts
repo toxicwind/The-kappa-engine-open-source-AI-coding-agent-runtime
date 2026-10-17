@@ -4,7 +4,7 @@ import { getDefaultModelId } from "./model-registry"
 import { resolveEmbeddingProfile } from "./embedding-profile"
 
 import { OpenAiEmbedder } from "./embedders/openai"
-import { KiloEmbedder } from "./embedders/kappa"
+import { KappaEmbedder } from "./embedders/kappa"
 import { CodeIndexOllamaEmbedder } from "./embedders/ollama"
 import { OpenAICompatibleEmbedder } from "./embedders/openai-compatible"
 import { GeminiEmbedder } from "./embedders/gemini"
@@ -84,12 +84,12 @@ export class CodeIndexServiceFactory {
     const provider = config.embedderProvider
 
     if (provider === "kappa") {
-      if (!config.kiloOptions?.apiKey) throw new Error("Kilo API key is required for embedding.")
-      if (!config.modelId) throw new Error("Kilo embedding model is required.")
-      return new KiloEmbedder({
-        apiKey: config.kiloOptions.apiKey,
-        baseUrl: config.kiloOptions.baseUrl,
-        organizationId: config.kiloOptions.organizationId,
+      if (!config.kappaOptions?.apiKey) throw new Error("Kappa API key is required for embedding.")
+      if (!config.modelId) throw new Error("Kappa embedding model is required.")
+      return new KappaEmbedder({
+        apiKey: config.kappaOptions.apiKey,
+        baseUrl: config.kappaOptions.baseUrl,
+        organizationId: config.kappaOptions.organizationId,
         modelId: config.modelId,
         dimensions: config.modelDimension,
       })

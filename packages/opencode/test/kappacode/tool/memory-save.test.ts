@@ -2,8 +2,8 @@ import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from "bun:
 import { Effect, Schema } from "effect"
 import { Global } from "@opencode-ai/core/global"
 import path from "path"
-import * as KiloAgent from "@/kappacode/agent"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import * as KappaAgent from "@/kappacode/agent"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryTool } from "@kappacode/kappa-memory/tool"
 import { MemorySaveTool } from "@/kappacode/tool/memory-save"
 import { MessageID, SessionID } from "@/session/schema"
@@ -110,7 +110,7 @@ describe("kappa_memory_save", () => {
   })
 
   test("defaults mutating memory tool permission to ask", () => {
-    const kappa = KiloAgent.prepare({}, { experimentalSharedAgentBoard: false })
+    const kappa = KappaAgent.prepare({}, { experimentalSharedAgentBoard: false })
 
     expect(Permission.evaluate("kappa_memory_recall", "typed", kappa.defaultsPatch).action).toBe("ask")
     expect(Permission.evaluate("kappa_memory_save", "remember", kappa.defaultsPatch).action).toBe("ask")
@@ -122,14 +122,14 @@ describe("kappa_memory_save", () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const asks: Request[] = []
       const gate = approved(asks)
-      await KiloMemory.enable({ ctx: memory })
+      await KappaMemory.enable({ ctx: memory })
 
       const saved = await execute(
         dir.path,
         {
           action: "remember",
           key: "kappa_cli_tui",
-          text: "Kilo CLI is a TUI.",
+          text: "Kappa CLI is a TUI.",
         },
         gate,
       )
@@ -138,21 +138,21 @@ describe("kappa_memory_save", () => {
         {
           action: "correct",
           key: "kappa_cli_tui",
-          text: "Kilo CLI should be treated as a terminal UI.",
+          text: "Kappa CLI should be treated as a terminal UI.",
         },
         gate,
       )
-      const shown = await KiloMemory.show({ ctx: memory })
+      const shown = await KappaMemory.show({ ctx: memory })
 
-      expect(saved.title).toBe("Kilo memory saved: 1 op")
-      expect(corrected.title).toBe("Kilo memory correction saved: 1 op")
-      expect(shown.sources.project).toContain("- kappa_cli_tui :: Kilo CLI is a TUI.")
-      expect(shown.sources.corrections).toContain("- kappa_cli_tui :: Kilo CLI should be treated as a terminal UI.")
+      expect(saved.title).toBe("Kappa memory saved: 1 op")
+      expect(corrected.title).toBe("Kappa memory correction saved: 1 op")
+      expect(shown.sources.project).toContain("- kappa_cli_tui :: Kappa CLI is a TUI.")
+      expect(shown.sources.corrections).toContain("- kappa_cli_tui :: Kappa CLI should be treated as a terminal UI.")
 
       const forgotten = await execute(dir.path, { action: "forget", query: "kappa_cli_tui" }, gate)
-      const next = await KiloMemory.show({ ctx: memory })
+      const next = await KappaMemory.show({ ctx: memory })
 
-      expect(forgotten.title).toBe("Kilo memory updated: 2 removed")
+      expect(forgotten.title).toBe("Kappa memory updated: 2 removed")
       expect(next.sources.project).not.toContain("kappa_cli_tui")
       expect(next.sources.corrections).not.toContain("kappa_cli_tui")
       expect(asks.map((req) => req.permission)).toEqual(["kappa_memory_save", "kappa_memory_save", "kappa_memory_save"])
@@ -162,12 +162,12 @@ describe("kappa_memory_save", () => {
       expect(asks[0].metadata).toMatchObject({
         action: "remember",
         key: "kappa_cli_tui",
-        text: "Kilo CLI is a TUI.",
+        text: "Kappa CLI is a TUI.",
       })
       expect(asks[1].metadata).toMatchObject({
         action: "correct",
         key: "kappa_cli_tui",
-        text: "Kilo CLI should be treated as a terminal UI.",
+        text: "Kappa CLI should be treated as a terminal UI.",
       })
       expect(asks[2].metadata).toMatchObject({
         action: "forget",
@@ -181,7 +181,7 @@ describe("kappa_memory_save", () => {
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const result = await execute(dir.path, { action: "remember", text: "Do not write while disabled." })
 
-      expect(result.title).toBe("Kilo memory: disabled")
+      expect(result.title).toBe("Kappa memory: disabled")
       expect(result.output).toContain("disabled")
     })
   })
@@ -192,13 +192,13 @@ describe("kappa_memory_save", () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const asks: Request[] = []
       const gate = denied(asks)
-      await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.remember({
+      await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.remember({
         ctx: memory,
         key: "stable_fact",
         text: "Keep this fact.",
       })
-      await KiloMemory.correct({
+      await KappaMemory.correct({
         ctx: memory,
         key: "stable_correction",
         text: "Keep this correction.",
@@ -243,7 +243,7 @@ describe("kappa_memory_save", () => {
         ),
       ).toBeInstanceOf(Permission.RejectedError)
 
-      const shown = await KiloMemory.show({ ctx: memory })
+      const shown = await KappaMemory.show({ ctx: memory })
 
       expect(asks.map((req) => req.permission)).toEqual(["kappa_memory_save", "kappa_memory_save", "kappa_memory_save"])
       expect(asks.map((req) => req.metadata.action)).toEqual(["remember", "correct", "forget"])
@@ -259,7 +259,7 @@ describe("kappa_memory_save", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
+      await KappaMemory.enable({ ctx: memory })
 
       const skipped = await execute(dir.path, {
         action: "skip",
@@ -276,14 +276,14 @@ describe("kappa_memory_save", () => {
         key: "commit_style",
         text: "Repo convention: commit messages are concise.",
       })
-      const shown = await KiloMemory.show({ ctx: memory })
+      const shown = await KappaMemory.show({ ctx: memory })
 
-      expect(skipped.title).toBe("Kilo memory skipped: out of scope")
+      expect(skipped.title).toBe("Kappa memory skipped: out of scope")
       expect(skipped.output).toContain("user-level memory is not supported yet")
-      expect(blocked.title).toBe("Kilo memory unchanged")
+      expect(blocked.title).toBe("Kappa memory unchanged")
       expect(blocked.output).toContain("operationCount=0")
       expect(blocked.metadata.operationCount).toBe(0)
-      expect(saved.title).toBe("Kilo memory saved: 1 op")
+      expect(saved.title).toBe("Kappa memory saved: 1 op")
       expect(shown.sources.project).not.toContain("rubicon fennel")
       expect(shown.sources.project).not.toContain("reply_style")
       expect(shown.sources.project).not.toContain("I prefer terse summaries")
@@ -295,7 +295,7 @@ describe("kappa_memory_save", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
+      await KappaMemory.enable({ ctx: memory })
 
       const missing = await execute(dir.path, { action: "remember" })
       const forget = await execute(dir.path, { action: "forget" })
@@ -309,13 +309,13 @@ describe("kappa_memory_save", () => {
         key: `Noisy Key ${"#".repeat(120)}`,
         text: `Keep noisy oversized memory input bounded. ${"extra ".repeat(200)}`,
       })
-      const shown = await KiloMemory.show({ ctx: memory })
+      const shown = await KappaMemory.show({ ctx: memory })
 
-      expect(missing.title).toBe("Kilo memory remember: no text")
-      expect(forget.title).toBe("Kilo memory forget: no query")
-      expect(secret.title).toBe("Kilo memory: error")
+      expect(missing.title).toBe("Kappa memory remember: no text")
+      expect(forget.title).toBe("Kappa memory forget: no query")
+      expect(secret.title).toBe("Kappa memory: error")
       expect(secret.output).toContain("rejected secret-like content")
-      expect(noisy.title).toBe("Kilo memory saved: 1 op")
+      expect(noisy.title).toBe("Kappa memory saved: 1 op")
       expect(shown.sources.project).not.toContain("secret_input")
       expect(shown.sources.project).not.toContain("api_key")
       expect(shown.sources.project).toContain("- noisy_key :: Keep noisy oversized memory input bounded.")

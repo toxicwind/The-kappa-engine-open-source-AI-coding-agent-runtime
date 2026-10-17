@@ -6,7 +6,7 @@ import { Bus } from "@/bus"
 import { Session as SessionNs } from "@/session/session"
 import { SessionPrompt } from "@/session/prompt"
 import { AppRuntime, type AppServices } from "../../../src/effect/app-runtime"
-import { KiloSession } from "../../../src/kappacode/session"
+import { KappaSession } from "../../../src/kappacode/session"
 import { provideTestInstance } from "../../fixture/fixture"
 import { MessageID, type SessionID } from "../../../src/session/schema"
 import { ProviderV2 } from "@opencode-ai/core/provider"
@@ -65,11 +65,11 @@ describe("session platform attribution", () => {
       fn: async () => {
         const root = await create({ platform: "agent-manager" })
         const child = await create({ parentID: root.id, title: "child" })
-        const attr = KiloSession.attribution(child.id)
+        const attr = KappaSession.attribution(child.id)
 
-        expect(KiloSession.getPlatformOverride(root.id)).toBe("agent-manager")
-        expect(KiloSession.getPlatformOverride(child.id)).toBe("agent-manager")
-        expect(KiloSession.resolvePlatform(child.id)).toBe("agent-manager")
+        expect(KappaSession.getPlatformOverride(root.id)).toBe("agent-manager")
+        expect(KappaSession.getPlatformOverride(child.id)).toBe("agent-manager")
+        expect(KappaSession.resolvePlatform(child.id)).toBe("agent-manager")
         expect(attr.rootID).toBe(root.id)
         expect(attr.feature).toBe("agent-manager")
 
@@ -86,10 +86,10 @@ describe("session platform attribution", () => {
         const child = await create({ parentID: root.id, title: "child" })
         const leaf = await create({ parentID: child.id, title: "leaf" })
 
-        expect(KiloSession.resolveParent(root.id)).toBeUndefined()
-        expect(KiloSession.resolveParent(child.id)).toBe(root.id)
-        expect(KiloSession.resolveParent(leaf.id)).toBe(child.id)
-        expect(KiloSession.resolveRoot(leaf.id)).toBe(root.id)
+        expect(KappaSession.resolveParent(root.id)).toBeUndefined()
+        expect(KappaSession.resolveParent(child.id)).toBe(root.id)
+        expect(KappaSession.resolveParent(leaf.id)).toBe(child.id)
+        expect(KappaSession.resolveRoot(leaf.id)).toBe(root.id)
 
         await remove(root.id)
       },
@@ -103,11 +103,11 @@ describe("session platform attribution", () => {
         const root = await create({})
         const child = await create({ parentID: root.id, title: "child" })
         await seed(child.id)
-        KiloSession.clearPlatformOverride(child.id)
-        expect(KiloSession.resolveParent(child.id)).toBeUndefined()
+        KappaSession.clearPlatformOverride(child.id)
+        expect(KappaSession.resolveParent(child.id)).toBeUndefined()
 
         const closed = Promise.withResolvers<SessionID | undefined>()
-        const unsubscribe = Bus.subscribe(KiloSession.Event.TurnClose, (event) => {
+        const unsubscribe = Bus.subscribe(KappaSession.Event.TurnClose, (event) => {
           if (event.properties.sessionID === child.id) closed.resolve(event.properties.parentID)
         })
 

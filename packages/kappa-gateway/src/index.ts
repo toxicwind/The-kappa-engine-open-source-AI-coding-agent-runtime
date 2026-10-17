@@ -1,24 +1,24 @@
 // ============================================================================
 // Plugin
 // ============================================================================
-export { KiloAuthPlugin, default } from "./plugin.js"
+export { KappaAuthPlugin, default } from "./plugin.js"
 
 // ============================================================================
 // Provider
 // ============================================================================
-export { createKilo } from "./provider.js"
-export { createKiloDebug } from "./provider-debug.js"
-export { kiloCustomLoader } from "./loader.js"
-export { buildKiloHeaders, getEditorNameHeader, getFeatureHeader, getDefaultHeaders, getUserAgent } from "./headers.js"
+export { createKappa } from "./provider.js"
+export { createKappaDebug } from "./provider-debug.js"
+export { kappaCustomLoader } from "./loader.js"
+export { buildKappaHeaders, getEditorNameHeader, getFeatureHeader, getDefaultHeaders, getUserAgent } from "./headers.js"
 
 // ============================================================================
 // Auth
 // ============================================================================
 export { authenticateWithDeviceAuth } from "./auth/device-auth.js"
 export { authenticateWithDeviceAuthTUI } from "./auth/device-auth-tui.js"
-export { getKiloUrlFromToken, isValidKilocodeToken, getApiKey } from "./auth/token.js"
+export { getKappaUrlFromToken, isValidKappacodeToken, getApiKey } from "./auth/token.js"
 export { poll, formatTimeRemaining } from "./auth/polling.js"
-export { migrateLegacyKiloAuth, LEGACY_CONFIG_PATH } from "./auth/legacy-migration.js"
+export { migrateLegacyKappaAuth, LEGACY_CONFIG_PATH } from "./auth/legacy-migration.js"
 
 // ============================================================================
 // API
@@ -28,32 +28,32 @@ export {
   fetchBalance,
   fetchProfileWithBalance,
   fetchDefaultModel,
-  getKiloProfile,
+  getKappaProfile,
   defaultOrganizationId,
-  getKiloBalance,
-  getKiloDefaultModel,
+  getKappaBalance,
+  getKappaDefaultModel,
   promptOrganizationSelection,
 } from "./api/profile.js"
-export { fetchKiloPassState } from "./api/kappa-pass.js"
+export { fetchKappaPassState } from "./api/kappa-pass.js"
 export {
-  fetchKiloModels,
-  type KiloModelsResult,
-  fetchKiloImageModels,
-  type KiloImageModel,
-  type KiloImageModelsResult,
-  fetchKiloTranscriptionModels,
-  type KiloTranscriptionModel,
-  type KiloTranscriptionModelsResult,
+  fetchKappaModels,
+  type KappaModelsResult,
+  fetchKappaImageModels,
+  type KappaImageModel,
+  type KappaImageModelsResult,
+  fetchKappaTranscriptionModels,
+  type KappaTranscriptionModel,
+  type KappaTranscriptionModelsResult,
   supportsTools,
 } from "./api/models.js"
 export {
   EMPTY_KILO_EMBEDDING_MODEL_CATALOG,
-  fetchKiloEmbeddingModelCatalog,
-  type KiloEmbeddingModel,
-  type KiloEmbeddingModelCatalog,
-  type KiloEmbeddingModelCatalogIssue,
+  fetchKappaEmbeddingModelCatalog,
+  type KappaEmbeddingModel,
+  type KappaEmbeddingModelCatalog,
+  type KappaEmbeddingModelCatalogIssue,
 } from "./api/embedding-models.js"
-export { resolveKiloGatewayBaseUrl, resolveKiloOpenRouterBaseUrl } from "./api/url.js"
+export { resolveKappaGatewayBaseUrl, resolveKappaOpenRouterBaseUrl } from "./api/url.js"
 export {
   AUTOCOMPLETE_MODELS,
   DEFAULT_AUTOCOMPLETE_MODEL,
@@ -70,7 +70,7 @@ export {
   type OrganizationMode,
   type OrganizationModeConfig,
 } from "./api/modes.js"
-export { fetchKilocodeNotifications, type KilocodeNotification } from "./api/notifications.js"
+export { fetchKappacodeNotifications, type KappacodeNotification } from "./api/notifications.js"
 export {
   fetchByokEntries,
   fetchCodingPlanSubscriptions,
@@ -90,7 +90,7 @@ export {
 // ============================================================================
 // Server Routes (optional - requires hono and OpenCode dependencies)
 // ============================================================================
-export { createKiloRoutes } from "./server/routes.js"
+export { createKappaRoutes } from "./server/routes.js"
 export {
   GatewayError,
   UnauthorizedError,
@@ -116,15 +116,15 @@ export type {
   DeviceAuthInitiateResponse,
   DeviceAuthPollResponse,
   Organization,
-  KilocodeProfile,
-  KilocodeBalance,
-  KiloPassState,
+  KappacodeProfile,
+  KappacodeBalance,
+  KappaPassState,
   PollOptions,
   PollResult,
   // Provider types
-  KiloProvider,
-  KiloProviderOptions,
-  KiloMetadata,
+  KappaProvider,
+  KappaProviderOptions,
+  KappaMetadata,
   CustomLoaderResult,
   ProviderInfo,
   LanguageModelV3,

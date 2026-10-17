@@ -1,4 +1,4 @@
-import type { KiloClient, SessionStatus } from "@kappacode/sdk/v2/client"
+import type { KappaClient, SessionStatus } from "@kappacode/sdk/v2/client"
 
 /**
  * The CLI derives `scheduled` for a session asleep on a pending wakeup. It is
@@ -26,7 +26,7 @@ export function isRunningStatus(
  * without waiting for the next session.status SSE event.
  */
 export async function seedSessionStatuses(
-  client: KiloClient,
+  client: KappaClient,
   dir: string,
   map: Map<string, SessionStatus["type"]>,
   post: (msg: unknown) => void,
@@ -63,7 +63,7 @@ export async function seedSessionStatuses(
       }
     }
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to seed session statuses:", error)
+    console.error("[Kappa New] KappaProvider: Failed to seed session statuses:", error)
   }
 }
 
@@ -76,7 +76,7 @@ export async function seedSessionStatuses(
  * previous seed to zero only when the result is complete.
  */
 export async function seedSessionWakeups(
-  client: KiloClient,
+  client: KappaClient,
   dirs: string[],
   post: (msg: unknown) => void,
   accept?: (sessionID: string) => boolean,
@@ -86,7 +86,7 @@ export async function seedSessionWakeups(
   await Promise.all(
     dirs.map(async (dir) => {
       try {
-        const result = await client.kilocode.wakeups({ directory: dir }, { throwOnError: true })
+        const result = await client.kappacode.wakeups({ directory: dir }, { throwOnError: true })
         for (const item of result.data ?? []) {
           if (accept && !accept(item.sessionID)) continue
           seen.add(item.sessionID)
@@ -94,7 +94,7 @@ export async function seedSessionWakeups(
         }
       } catch (error) {
         complete = false
-        console.error(`[Kilo New] KiloProvider: Failed to seed session wakeups for ${dir}:`, error)
+        console.error(`[Kappa New] KappaProvider: Failed to seed session wakeups for ${dir}:`, error)
       }
     }),
   )

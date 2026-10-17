@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import type { KiloPassState } from "@kappacode/kappa-gateway"
+import type { KappaPassState } from "@kappacode/kappa-gateway"
 import type { Message } from "@kappacode/sdk/v2"
 
 import { billable, creditLabel, format, passLine, resetLabel, scope } from "../../src/kappacode/plugins/sidebar-footer"
@@ -9,7 +9,7 @@ const kappaPass = {
   currentPeriodUsageUsd: 73.27,
   currentPeriodBonusCreditsUsd: 99.5,
   nextBillingAt: "2026-07-01T00:00:00.000Z",
-} satisfies KiloPassState
+} satisfies KappaPassState
 
 const message = {
   id: "msg_1",
@@ -26,7 +26,7 @@ const message = {
   tokens: { input: 1, output: 1, reasoning: 0, cache: { read: 0, write: 0 } },
 } satisfies Message
 
-describe("Kilo sidebar footer", () => {
+describe("Kappa sidebar footer", () => {
   test("formats money", () => {
     expect(format(12.345)).toBe("$12.35")
     expect(format(0)).toBe("$0.00")
@@ -46,7 +46,7 @@ describe("Kilo sidebar footer", () => {
     expect(resetLabel("not-a-date")).toBeUndefined()
   })
 
-  test("refreshes only after completed billed Kilo turns", () => {
+  test("refreshes only after completed billed Kappa turns", () => {
     expect(billable(message)).toBeTrue()
     expect(billable({ ...message, providerID: "anthropic" })).toBeFalse()
     expect(billable({ ...message, cost: 0 })).toBeFalse()

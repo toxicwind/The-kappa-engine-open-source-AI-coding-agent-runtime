@@ -1,15 +1,15 @@
 /**
- * Authentication handlers — extracted from KiloProvider.
+ * Authentication handlers — extracted from KappaProvider.
  *
  * Manages login (device auth flow), logout, organization switching,
  * and profile refresh. No vscode dependency.
  */
 
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { getErrorMessage } from "../../kappa-provider-utils"
 
 export interface AuthContext {
-  readonly client: KiloClient | null
+  readonly client: KappaClient | null
   postMessage(msg: unknown): void
   getWorkspaceDirectory(): string
   disposeGlobal(): Promise<void>
@@ -30,7 +30,7 @@ export interface AuthContext {
 export async function handleLogin(ctx: AuthContext, attempt: number, getAttempt: () => number): Promise<void> {
   if (!ctx.client) return
 
-  console.log("[Kilo New] KiloProvider: 🔐 Starting login flow...")
+  console.log("[Kappa New] KappaProvider: 🔐 Starting login flow...")
 
   try {
     const dir = ctx.getWorkspaceDirectory()
@@ -40,7 +40,7 @@ export async function handleLogin(ctx: AuthContext, attempt: number, getAttempt:
       { providerID: "kappa", method: 0, directory: dir },
       { throwOnError: true },
     )
-    console.log("[Kilo New] KiloProvider: 🔐 Got auth URL:", auth.url)
+    console.log("[Kappa New] KappaProvider: 🔐 Got auth URL:", auth.url)
 
     // Parse code from instructions (format: "Open URL and enter code: ABCD-1234")
     const match = auth.instructions?.match(/code:\s*(\S+)/i)
@@ -60,7 +60,7 @@ export async function handleLogin(ctx: AuthContext, attempt: number, getAttempt:
     // Check if this attempt was cancelled
     if (attempt !== getAttempt()) return
 
-    console.log("[Kilo New] KiloProvider: 🔐 Login successful")
+    console.log("[Kappa New] KappaProvider: 🔐 Login successful")
 
     ctx.invalidateProviderUsage()
     ctx.invalidateProviders()
@@ -84,9 +84,9 @@ export async function handleLogout(ctx: AuthContext): Promise<void> {
   if (!ctx.client) return
 
   try {
-    console.log("[Kilo New] KiloProvider: 🚪 Logging out...")
+    console.log("[Kappa New] KappaProvider: 🚪 Logging out...")
     await ctx.client.auth.remove({ providerID: "kappa" }, { throwOnError: true })
-    console.log("[Kilo New] KiloProvider: 🚪 Logged out successfully")
+    console.log("[Kappa New] KappaProvider: 🚪 Logged out successfully")
     ctx.postMessage({ type: "profileData", data: null })
 
     ctx.invalidateProviderUsage()
@@ -95,7 +95,7 @@ export async function handleLogout(ctx: AuthContext): Promise<void> {
 
     await ctx.fetchAndSendProviders()
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: ❌ Logout failed:", error)
+    console.error("[Kappa New] KappaProvider: ❌ Logout failed:", error)
     ctx.postMessage({
       type: "error",
       message: getErrorMessage(error) || "Failed to logout",
@@ -110,17 +110,17 @@ export async function handleLogout(ctx: AuthContext): Promise<void> {
 export async function handleSetOrganization(ctx: AuthContext, organizationId: string | null): Promise<void> {
   if (!ctx.client) return
 
-  console.log("[Kilo New] KiloProvider: Switching organization:", organizationId ?? "personal")
+  console.log("[Kappa New] KappaProvider: Switching organization:", organizationId ?? "personal")
   try {
     await ctx.client.kappa.organization.set({ organizationId }, { throwOnError: true })
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to switch organization:", error)
+    console.error("[Kappa New] KappaProvider: Failed to switch organization:", error)
     // Re-fetch current profile to reset webview state — best-effort
     try {
       const result = await ctx.client.kappa.profile()
       ctx.postMessage({ type: "profileData", data: result.data ?? null })
     } catch (profileError) {
-      console.error("[Kilo New] KiloProvider: Failed to refresh profile after org switch error:", profileError)
+      console.error("[Kappa New] KappaProvider: Failed to refresh profile after org switch error:", profileError)
     }
     return
   }
@@ -134,22 +134,22 @@ export async function handleSetOrganization(ctx: AuthContext, organizationId: st
     const result = await ctx.client.kappa.profile()
     ctx.postMessage({ type: "profileData", data: result.data ?? null })
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to refresh profile after org switch:", error)
+    console.error("[Kappa New] KappaProvider: Failed to refresh profile after org switch:", error)
   }
   try {
     await ctx.fetchAndSendProviders()
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to refresh providers after org switch:", error)
+    console.error("[Kappa New] KappaProvider: Failed to refresh providers after org switch:", error)
   }
   try {
     await ctx.fetchAndSendAgents()
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to refresh agents after org switch:", error)
+    console.error("[Kappa New] KappaProvider: Failed to refresh agents after org switch:", error)
   }
   try {
     await ctx.fetchAndSendSpeechToTextModels()
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to refresh speech-to-text models after org switch:", error)
+    console.error("[Kappa New] KappaProvider: Failed to refresh speech-to-text models after org switch:", error)
   }
 }
 
@@ -157,7 +157,7 @@ export async function handleSetOrganization(ctx: AuthContext, organizationId: st
 export async function handleRefreshProfile(ctx: AuthContext): Promise<void> {
   if (!ctx.client) return
 
-  console.log("[Kilo New] KiloProvider: 🔄 Refreshing profile...")
+  console.log("[Kappa New] KappaProvider: 🔄 Refreshing profile...")
   const result = await ctx.client.kappa.profile().catch(() => ({ data: null }))
   ctx.postMessage({ type: "profileData", data: result.data ?? null })
 }

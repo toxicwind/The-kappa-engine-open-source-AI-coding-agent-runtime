@@ -72,4 +72,4 @@ export function prompt(session: Target) {
   }
 }
 
-export * as KiloSteer from "./steer"
+export * as KappaSteer from "./steer"

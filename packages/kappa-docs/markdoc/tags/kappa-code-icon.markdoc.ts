@@ -1,7 +1,7 @@
-import { KiloCodeIcon } from "../../components"
+import { KappaCodeIcon } from "../../components"
 
-export const kiloCodeIcon = {
-  render: KiloCodeIcon,
+export const kappaCodeIcon = {
+  render: KappaCodeIcon,
   selfClosing: true,
   attributes: {
     size: {

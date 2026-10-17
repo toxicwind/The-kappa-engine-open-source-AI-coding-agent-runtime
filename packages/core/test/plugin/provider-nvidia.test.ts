@@ -40,8 +40,8 @@ describe("NvidiaPlugin", () => {
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
         Existing: "value",
         "HTTP-Referer": "https://kappa.ai/",
-        "X-Title": "Kilo Code",
-        "X-BILLING-INVOKE-ORIGIN": "KiloCode",
+        "X-Title": "Kappa Code",
+        "X-BILLING-INVOKE-ORIGIN": "KappaCode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter))?.request.headers).toEqual({})
     }),
@@ -63,8 +63,8 @@ describe("NvidiaPlugin", () => {
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
         "HTTP-Referer": "https://kappa.ai/",
-        "X-Title": "Kilo Code",
-        "X-BILLING-INVOKE-ORIGIN": "KiloCode",
+        "X-Title": "Kappa Code",
+        "X-BILLING-INVOKE-ORIGIN": "KappaCode",
       })
     }),
   )
@@ -89,7 +89,7 @@ describe("NvidiaPlugin", () => {
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
         "HTTP-Referer": "https://kappa.ai/",
-        "X-Title": "Kilo Code",
+        "X-Title": "Kappa Code",
         "X-BILLING-INVOKE-ORIGIN": "CustomOrigin",
       })
     }),

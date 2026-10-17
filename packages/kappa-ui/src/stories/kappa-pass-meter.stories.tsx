@@ -1,10 +1,10 @@
 /** @jsxImportSource solid-js */
 import type { Meta, StoryObj } from "storybook-solidjs-vite"
-import { KiloPassMeter } from "../components/kappa-pass-meter"
+import { KappaPassMeter } from "../components/kappa-pass-meter"
 
-const meta: Meta<typeof KiloPassMeter> = {
-  title: "Components/Kilo Pass Meter",
-  component: KiloPassMeter,
+const meta: Meta<typeof KappaPassMeter> = {
+  title: "Components/Kappa Pass Meter",
+  component: KappaPassMeter,
   decorators: [
     (Story) => (
       <div style={{ padding: "16px", width: "320px" }}>
@@ -16,11 +16,11 @@ const meta: Meta<typeof KiloPassMeter> = {
 }
 
 export default meta
-type Story = StoryObj<typeof KiloPassMeter>
+type Story = StoryObj<typeof KappaPassMeter>
 
 const format = (value: number) => `$${value.toFixed(2)}`
 const render = (used: number, paid: number, bonus: number) => (
-  <KiloPassMeter
+  <KappaPassMeter
     used={used}
     paid={paid}
     bonus={bonus}
@@ -28,7 +28,7 @@ const render = (used: number, paid: number, bonus: number) => (
     paidLabel="Paid"
     bonusLabel="Bonus"
     format={format}
-    aria-label="Kilo Pass monthly usage"
+    aria-label="Kappa Pass monthly usage"
   />
 )
 

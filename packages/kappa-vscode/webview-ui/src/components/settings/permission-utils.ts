@@ -4,7 +4,7 @@ export type PermissionPatch = PermissionConfig
 
 const RESTRICTION_ORDER: Record<PermissionLevel, number> = { allow: 0, ask: 1, deny: 2 }
 
-// Keep wildcard defaults aligned with the CLI's base rules and Kilo Bash policy.
+// Keep wildcard defaults aligned with the CLI's base rules and Kappa Bash policy.
 export const DEFAULT_RULES: PermissionRuleItem[] = [
   { permission: "*", pattern: "*", action: "allow" },
   { permission: "external_directory", pattern: "*", action: "ask" },

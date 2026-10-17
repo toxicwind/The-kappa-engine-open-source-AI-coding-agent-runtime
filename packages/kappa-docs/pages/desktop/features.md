@@ -1,11 +1,11 @@
 ---
 title: "Features"
-description: "Explore Kilo Desktop's capabilities: notebooks, an in-app browser, terminal, git, local inference, environments, and files."
+description: "Explore Kappa Desktop's capabilities: notebooks, an in-app browser, terminal, git, local inference, environments, and files."
 ---
 
 # Features
 
-Kilo Desktop's capabilities appear alongside your chat, scoped to the workspace you're working in. Explore each one:
+Kappa Desktop's capabilities appear alongside your chat, scoped to the workspace you're working in. Explore each one:
 
 - [Notebooks](/docs/desktop/features/notebooks) — analyze data in interactive Python notebooks.
 - [In-app browser](/docs/desktop/features/browser) — browse the web or review changes to your app next to your chat.

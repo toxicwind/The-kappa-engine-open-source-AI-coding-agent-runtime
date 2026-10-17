@@ -11,10 +11,10 @@ import {
 
 export { AbsolutePath, DateTimeUtcFromMillis, NonNegativeInt, optional, PositiveInt, RelativePath, statics }
 
-// kilocode_change start - compatibility aliases for Kilo-owned schemas
+// kappacode_change start - compatibility aliases for Kappa-owned schemas
 export const optionalOmitUndefined = optional
 export const withStatics = statics
-// kilocode_change end
+// kappacode_change end
 
 /**
  * Strip `readonly` from a nested type. Stand-in for `effect`'s `Types.DeepMutable`

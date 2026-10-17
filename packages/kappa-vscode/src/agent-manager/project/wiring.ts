@@ -18,7 +18,7 @@ import { poolHome } from "../pool/home"
 export interface ProjectWiring {
   registry: ProjectRegistry
   contexts: ProjectContexts
-  /** Project-scoped settings handler shared with the Kilo Settings editor. */
+  /** Project-scoped settings handler shared with the Kappa Settings editor. */
   settings: SettingsHandler
   messages: ProjectMessageDeps
   /** Payload for the agentManager.projects webview message. */

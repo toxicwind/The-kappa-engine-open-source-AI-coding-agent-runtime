@@ -7,7 +7,7 @@ import type {
   WorkspaceAdapter as PluginWorkspaceAdapter,
 } from "@kappacode/plugin"
 import { Config } from "@/config/config"
-import { createKiloClient } from "@kappacode/sdk"
+import { createKappaClient } from "@kappacode/sdk"
 import { ServerAuth } from "@/server/auth"
 import { CodexAuthPlugin } from "./openai/codex"
 import { Session } from "@/session/session"
@@ -28,9 +28,9 @@ import { InstanceState } from "@/effect/instance-state"
 import { errorMessage } from "@/util/error"
 import { PluginLoader } from "./loader"
 import { parsePluginSpecifier, readPluginId, readV1Plugin, resolvePluginId } from "./shared"
-import { KiloAuthPlugin } from "@kappacode/kappa-gateway" // kilocode_change
-import { AtomicChatPlugin } from "@kappacode/plugin-atomic-chat" // kilocode_change
-import { AnacondaDesktopPlugin } from "@/kilocode/anaconda-desktop/provider" // kilocode_change
+import { KappaAuthPlugin } from "@kappacode/kappa-gateway" // kappacode_change
+import { AtomicChatPlugin } from "@kappacode/plugin-atomic-chat" // kappacode_change
+import { AnacondaDesktopPlugin } from "@/kappacode/anaconda-desktop/provider" // kappacode_change
 import { registerAdapter } from "@/control-plane/adapters"
 import type { WorkspaceAdapter } from "@/control-plane/types"
 import { RuntimeFlags } from "@/effect/runtime-flags"
@@ -69,9 +69,9 @@ export function experimentalWebSocketsEnabled(input: { enabled: boolean; channel
 // Built-in plugins that are directly imported (not installed from npm)
 function internalPlugins(flags: RuntimeFlags.Info): PluginInstance[] {
   return [
-    KiloAuthPlugin, // kilocode_change
-    AtomicChatPlugin, // kilocode_change
-    AnacondaDesktopPlugin, // kilocode_change
+    KappaAuthPlugin, // kappacode_change
+    AtomicChatPlugin, // kappacode_change
+    AnacondaDesktopPlugin, // kappacode_change
     // Temporary rollout: pre-release builds use WebSockets by default; releases require explicit opt-in.
     (input) =>
       CodexAuthPlugin(input, {
@@ -79,11 +79,11 @@ function internalPlugins(flags: RuntimeFlags.Info): PluginInstance[] {
       }),
     CopilotAuthPlugin,
     ModalPlugin,
-    // kilocode_change start
-    // kilocode_change - external auth plugins ship against @opencode-ai/plugin; bridge to our @kappacode/plugin types
+    // kappacode_change start
+    // kappacode_change - external auth plugins ship against @opencode-ai/plugin; bridge to our @kappacode/plugin types
     GitlabAuthPlugin as unknown as PluginInstance,
     PoeAuthPlugin as unknown as PluginInstance,
-    // kilocode_change end
+    // kappacode_change end
     CloudflareWorkersAuthPlugin,
     CloudflareAIGatewayAuthPlugin,
     AzureAuthPlugin,
@@ -113,8 +113,8 @@ function getLegacyPlugins(mod: Record<string, unknown>) {
     if (seen.has(entry)) continue
     seen.add(entry)
     const plugin = getServerPlugin(entry)
-    // kilocode_change: skip named exports (e.g. constants from @kappacode/plugin-atomic-chat)
-    if (!plugin) continue // kilocode_change
+    // kappacode_change: skip named exports (e.g. constants from @kappacode/plugin-atomic-chat)
+    if (!plugin) continue // kappacode_change
     result.push(plugin)
   }
 
@@ -153,7 +153,7 @@ const layer = Layer.effect(
         const { Server } = yield* Effect.promise(() => import("../server/server"))
 
         const serverUrl = Server.url
-        const client = createKiloClient({
+        const client = createKappaClient({
           baseUrl: serverUrl?.toString() ?? "http://localhost:4096",
           directory: ctx.directory,
           headers: ServerAuth.headers(),

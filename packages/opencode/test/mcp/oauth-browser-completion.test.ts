@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { expect } from "bun:test"
 import { createServer } from "http"
 import { Server } from "@modelcontextprotocol/sdk/server/index.js"
@@ -8,7 +8,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Cause, Deferred, Effect, Exit, Layer } from "effect"
 import { Config } from "../../src/config/config"
 import { EventV2Bridge } from "../../src/event-v2-bridge"
-import * as KiloOAuthCallback from "../../src/kilocode/mcp-oauth-callback"
+import * as KappaOAuthCallback from "../../src/kappacode/mcp-oauth-callback"
 import { McpAuth } from "../../src/mcp/auth"
 import { McpBrowser } from "../../src/mcp/browser"
 import { MCP } from "../../src/mcp/index"
@@ -38,7 +38,7 @@ interface TokenAttempt {
 
 // The browser stub drives the authorization URL the same way a real browser does:
 // it follows the authorization server's redirect back to the local callback listener.
-// `onOpen` lets a test act while the browser tab is open, which is when another Kilo
+// `onOpen` lets a test act while the browser tab is open, which is when another Kappa
 // process touches the same server.
 let onOpen: ((url: string) => Effect.Effect<void>) | undefined
 
@@ -209,7 +209,7 @@ mcpTest.instance("completion redeems the flow's own PKCE verifier when another p
     const name = "test-oauth-clobber"
     const mcp = yield* addServer(name, server.url)
 
-    // While the browser tab is open, another Kilo process (the VS Code backend, or
+    // While the browser tab is open, another Kappa process (the VS Code backend, or
     // `kappa mcp list` in a second terminal) connects the same server and saves its own
     // PKCE verifier for that server name, exactly as the SDK does while starting an
     // authorization flow. It must not be able to make this flow redeem its verifier.
@@ -335,7 +335,7 @@ mcpTest.instance("a superseded authorization attempt is rejected by name", () =>
   }),
 )
 
-mcpTest.instance("a callback listener taken over by another Kilo process is reported as replaced", () =>
+mcpTest.instance("a callback listener taken over by another Kappa process is reported as replaced", () =>
   Effect.gen(function* () {
     yield* withCallbackStop
     const server = yield* serveOAuthMcp()
@@ -352,8 +352,8 @@ mcpTest.instance("a callback listener taken over by another Kilo process is repo
     let taken = false
     yield* withBrowserHook(() =>
       Effect.promise(async () => {
-        const res = await fetch(KiloOAuthCallback.takeoverUrl("127.0.0.1", port, path), {
-          headers: { [KiloOAuthCallback.TAKEOVER_HEADER]: KiloOAuthCallback.TAKEOVER_VALUE },
+        const res = await fetch(KappaOAuthCallback.takeoverUrl("127.0.0.1", port, path), {
+          headers: { [KappaOAuthCallback.TAKEOVER_HEADER]: KappaOAuthCallback.TAKEOVER_VALUE },
         })
         taken = res.ok
         await res.body?.cancel()

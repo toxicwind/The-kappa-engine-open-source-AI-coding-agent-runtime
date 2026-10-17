@@ -57,10 +57,10 @@ import type {
   ConfigCollections,
   FeatureFlags,
   IndexingStatus,
-  KiloEmbeddingModelCatalog,
+  KappaEmbeddingModelCatalog,
 } from "./config"
 import type { WorkStyle, WorkStyleState } from "../../../../src/shared/work-style-presets"
-import type { KilocodeNotification, ProfileData } from "./profile"
+import type { KappacodeNotification, ProfileData } from "./profile"
 import type { ProviderUsageLoadedMessage } from "./provider-usage"
 import type {
   AgentManagerApplyWorktreeDiffConflict,
@@ -341,8 +341,8 @@ export interface OpenSessionMessage {
   sessionID: string
 }
 
-export interface SelectKiloModelMessage {
-  type: "selectKiloModel"
+export interface SelectKappaModelMessage {
+  type: "selectKappaModel"
   modelID?: string
   agent?: string
 }
@@ -432,7 +432,7 @@ export interface AppendReviewCommentsToTerminalMessage {
 export interface TriggerTaskMessage {
   type: "triggerTask"
   text: string
-  /** Label for a prompt Kilo composed, such as an editor code action. */
+  /** Label for a prompt Kappa composed, such as an editor code action. */
   injectedTitle?: string
 }
 
@@ -525,9 +525,9 @@ export interface ChatSettingsLoadedMessage {
   }
 }
 
-export interface KiloEmbeddingModelsLoadedMessage {
-  type: "kiloEmbeddingModelsLoaded"
-  catalog: KiloEmbeddingModelCatalog
+export interface KappaEmbeddingModelsLoadedMessage {
+  type: "kappaEmbeddingModelsLoaded"
+  catalog: KappaEmbeddingModelCatalog
 }
 
 export interface ImageModelsLoadedMessage {
@@ -554,8 +554,8 @@ export interface ProvidersLoadedMessage {
   defaultSelection: ModelSelection
   authMethods: Record<string, ProviderAuthMethod[]>
   authStates: Record<string, ProviderAuthState>
-  /** The organization's Kilo catalog failed to load, so Kilo has no models to pick. */
-  kiloUnavailable?: boolean
+  /** The organization's Kappa catalog failed to load, so Kappa has no models to pick. */
+  kappaUnavailable?: boolean
 }
 
 export interface AgentsLoadedMessage {
@@ -901,7 +901,7 @@ export interface WorkStyleApplyFailedMessage {
 
 export interface NotificationsLoadedMessage {
   type: "notificationsLoaded"
-  notifications: KilocodeNotification[]
+  notifications: KappacodeNotification[]
   dismissedIds: string[]
 }
 
@@ -1850,7 +1850,7 @@ export type ExtensionMessage =
   | IndexingStatusLoadedMessage
   | IndexingSettingsLoadedMessage
   | ChatSettingsLoadedMessage
-  | KiloEmbeddingModelsLoadedMessage
+  | KappaEmbeddingModelsLoadedMessage
   | ImageModelsLoadedMessage
   | SpeechToTextModelsLoadedMessage
   | ProvidersLoadedMessage
@@ -1934,7 +1934,7 @@ export type ExtensionMessage =
   | CloudSessionImportFailedMessage
   | OpenCloudSessionMessage
   | OpenSessionMessage
-  | SelectKiloModelMessage
+  | SelectKappaModelMessage
   | AgentManagerBranchesMessage
   | AgentManagerImportResultMessage
   | WorkspaceDirectoryChangedMessage

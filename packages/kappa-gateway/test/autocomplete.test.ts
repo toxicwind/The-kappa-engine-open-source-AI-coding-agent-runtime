@@ -7,7 +7,7 @@ import {
 } from "../src/autocomplete"
 
 describe("DEFAULT_AUTOCOMPLETE_MODEL", () => {
-  test("resolves to Mercury Next Edit through Kilo Gateway", () => {
+  test("resolves to Mercury Next Edit through Kappa Gateway", () => {
     const match = AUTOCOMPLETE_MODELS.find(
       (m) => m.providerID === DEFAULT_AUTOCOMPLETE_PROVIDER_ID && m.modelID === DEFAULT_AUTOCOMPLETE_MODEL_ID,
     )

@@ -12,7 +12,7 @@ type ZodIssue = {
   errors?: Array<ZodIssue | ZodIssue[]>
 }
 
-export namespace KiloMessageDiagnostics {
+export namespace KappaMessageDiagnostics {
   export type MessageShape = {
     index: number
     role: string

@@ -7,7 +7,7 @@ import { Global } from "@opencode-ai/core/global"
 import { ConfigParse } from "@/config/parse"
 import { CurrentWorkingDirectory } from "@/config/tui-cwd"
 import { TuiConfig } from "@/config/tui"
-import { KilocodeKeybinds } from "./keybinds"
+import { KappacodeKeybinds } from "./keybinds"
 import { Filesystem } from "@/util/filesystem"
 import { isRecord } from "@/util/record"
 import { GlobalBus } from "@/bus/global"
@@ -15,7 +15,7 @@ import { Event } from "@/server/event"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { AppRuntime } from "@/effect/app-runtime"
 
-export namespace KilocodeTuiConfig {
+export namespace KappacodeTuiConfig {
   export const Scope = z.enum(["project", "global"])
   export type Scope = z.infer<typeof Scope>
 
@@ -122,7 +122,7 @@ export namespace KilocodeTuiConfig {
     delete result.skill_path_origins
     delete result.permission_origins
     const keybinds: Record<string, string> = defaults
-      ? Object.fromEntries(KilocodeKeybinds.list().map((item) => [item.id, item.default]))
+      ? Object.fromEntries(KappacodeKeybinds.list().map((item) => [item.id, item.default]))
       : {}
     for (const [key, value] of Object.entries(config.keybinds ?? {})) {
       if (typeof value === "string") keybinds[key] = value

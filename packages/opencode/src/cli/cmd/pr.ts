@@ -6,19 +6,19 @@ import { effectCmd, fail } from "../effect-cmd"
 import { Git } from "@/git"
 import { InstanceRef } from "@/effect/instance-ref"
 import { Process } from "@/util/process"
-import { existsSync } from "node:fs" // kilocode_change
+import { existsSync } from "node:fs" // kappacode_change
 import {
   clearSessionLink,
   linkMatchesWorktree,
   parsePrUrl,
   readSessionPrLink,
   recordSessionLink,
-} from "@/kappa-sessions/pr-link" // kilocode_change
-import { refreshPrLink } from "@/kappa-sessions/pr-link-poller" // kilocode_change
+} from "@/kappa-sessions/pr-link" // kappacode_change
+import { refreshPrLink } from "@/kappa-sessions/pr-link-poller" // kappacode_change
 
-const subcommand = "pr" // kilocode_change
+const subcommand = "pr" // kappacode_change
 
-// kilocode_change start - resolve the currently running CLI instead of hardcoding opencode
+// kappacode_change start - resolve the currently running CLI instead of hardcoding opencode
 export function cliCommand(
   input = {
     execPath: process.execPath,
@@ -28,17 +28,17 @@ export function cliCommand(
 ) {
   const script = input.argv[1]
   if (!script) return [input.execPath]
-  if (script === subcommand) return [input.execPath] // kilocode_change
+  if (script === subcommand) return [input.execPath] // kappacode_change
   if (script.startsWith("/$bunfs/root/")) return [input.execPath]
   if (script.startsWith("B:/~BUN/root/")) return [input.execPath]
   if (input.exists(script)) return [input.execPath, script]
   return [input.execPath]
 }
-// kilocode_change end
+// kappacode_change end
 
 export const PrCommand = cmd({
   command: subcommand,
-  describe: "manage pull requests", // kilocode_change
+  describe: "manage pull requests", // kappacode_change
   builder: (yargs: Argv) =>
     yargs
       .command(PrCheckoutCommand)
@@ -51,7 +51,7 @@ export const PrCommand = cmd({
 
 export const PrCheckoutCommand = effectCmd({
   command: "checkout <number>",
-  describe: "fetch and checkout a GitHub PR branch, then run kappa", // kilocode_change
+  describe: "fetch and checkout a GitHub PR branch, then run kappa", // kappacode_change
   builder: (yargs) =>
     yargs.positional("number", {
       type: "number",
@@ -70,7 +70,7 @@ export const PrCheckoutCommand = effectCmd({
 
     const prNumber = args.number
     const localBranchName = `pr/${prNumber}`
-    const cli = cliCommand() // kilocode_change
+    const cli = cliCommand() // kappacode_change
     UI.println(`Fetching and checking out PR #${prNumber}...`)
 
     const checkout = yield* Effect.promise(() =>
@@ -118,17 +118,17 @@ export const PrCheckoutCommand = effectCmd({
       }
 
       if (prInfo?.body) {
-        const sessionMatch = prInfo.body.match(/https:\/\/app\.kappa\.ai\/s\/([a-zA-Z0-9_-]+)/) // kilocode_change
+        const sessionMatch = prInfo.body.match(/https:\/\/app\.kappa\.ai\/s\/([a-zA-Z0-9_-]+)/) // kappacode_change
         if (sessionMatch) {
           const sessionUrl = sessionMatch[0]
-          // kilocode_change start
+          // kappacode_change start
           UI.println(`Found session: ${sessionUrl}`)
           UI.println(`Importing session...`)
 
           const importResult = yield* Effect.promise(() =>
             Process.text([...cli, "import", sessionUrl], { nothrow: true }),
           )
-          // kilocode_change end
+          // kappacode_change end
           if (importResult.code === 0) {
             const sessionIdMatch = importResult.text.trim().match(/Imported session: ([a-zA-Z0-9_-]+)/)
             if (sessionIdMatch) {
@@ -142,10 +142,10 @@ export const PrCheckoutCommand = effectCmd({
 
     UI.println(`Successfully checked out PR #${prNumber} as branch '${localBranchName}'`)
     UI.println()
-    UI.println("Starting kappa...") // kilocode_change
+    UI.println("Starting kappa...") // kappacode_change
     UI.println()
 
-    const run = sessionId ? [...cli, "-s", sessionId] : cli // kilocode_change
+    const run = sessionId ? [...cli, "-s", sessionId] : cli // kappacode_change
     const code = yield* Effect.promise(
       () =>
         Process.spawn(run, {
@@ -157,11 +157,11 @@ export const PrCheckoutCommand = effectCmd({
     )
     // Match legacy throw semantics — propagate as a defect so the top-level
     // index.ts catch handles it identically (exit 1, "Unexpected error" banner).
-    if (code !== 0) return yield* Effect.die(new Error(`kappa exited with code ${code}`)) // kilocode_change
+    if (code !== 0) return yield* Effect.die(new Error(`kappa exited with code ${code}`)) // kappacode_change
   }),
 })
 
-// kilocode_change start - link/unlink/status act on one explicit session
+// kappacode_change start - link/unlink/status act on one explicit session
 //
 // A PR belongs to a session, never to a worktree or a branch name, so these
 // commands require a session id: `--session <id>`, else the KILO_SESSION_ID /
@@ -281,4 +281,4 @@ export const PrStatusCommand = effectCmd({
     }),
   handler: prStatusHandler,
 })
-// kilocode_change end
+// kappacode_change end

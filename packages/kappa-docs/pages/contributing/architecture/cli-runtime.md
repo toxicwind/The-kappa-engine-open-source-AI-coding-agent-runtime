@@ -1,11 +1,11 @@
 ---
 title: "CLI Runtime Architecture"
-description: "Architecture of the Kilo CLI runtime, daemon, server, persistence, SDK, and indexing"
+description: "Architecture of the Kappa CLI runtime, daemon, server, persistence, SDK, and indexing"
 ---
 
 # CLI Runtime Architecture
 
-The CLI (`packages/opencode/`) is Kilo Code's local agent engine. It owns agent execution, tools, sessions, provider integration, configuration, local persistence, directory routing, and HTTP surfaces used by editor clients and Kilo Console.
+The CLI (`packages/opencode/`) is Kappa Code's local agent engine. It owns agent execution, tools, sessions, provider integration, configuration, local persistence, directory routing, and HTTP surfaces used by editor clients and Kappa Console.
 
 {% callout type="info" title="Scope" %}
 This page describes repository-defined local runtime behavior. It is not an endpoint catalog or a statement about cloud deployment configuration.
@@ -17,14 +17,14 @@ These terms describe local execution. They are separate from hosted Cloud Agent 
 
 | Term | Meaning |
 |---|---|
-| Kilo CLI runtime | Local agent engine in `packages/opencode/` |
-| `kappa serve` server | Local HTTP and SSE process used by editor clients and Kilo Console; selected browser-oriented paths also use WebSocket |
+| Kappa CLI runtime | Local agent engine in `packages/opencode/` |
+| `kappa serve` server | Local HTTP and SSE process used by editor clients and Kappa Console; selected browser-oriented paths also use WebSocket |
 | Local daemon | Detached reusable `kappa serve` server managed by `kappa daemon` commands |
 | Directory context | Normalized local filesystem directory used to select local runtime state |
-| Local runtime instance | Directory-keyed runtime context inside one Kilo CLI process |
+| Local runtime instance | Directory-keyed runtime context inside one Kappa CLI process |
 | Local routing workspace | Optional routing context that can resolve to a local directory or remote target |
 | Worktree directory | Alternate git worktree path used as directory context for isolated concurrent work |
-| Process-shared state | Runtime service state shared by every directory context in one Kilo CLI process |
+| Process-shared state | Runtime service state shared by every directory context in one Kappa CLI process |
 | Agents | Configurable presets for tools, prompts, restrictions, and behavior |
 | MCP | Protocol for extending agent tools |
 
@@ -32,7 +32,7 @@ One `kappa serve` process can host several local runtime instances. Directory-ke
 
 ## Command entry points
 
-{% callout type="warning" title="Kilo Console is deprecated" %}
+{% callout type="warning" title="Kappa Console is deprecated" %}
 The `kappa console` command and the browser interface described on this page are deprecated and will be removed in an upcoming release.
 {% /callout %}
 
@@ -57,7 +57,7 @@ flowchart LR
   serve["Explicit kappa serve"]
   editors["VS Code or JetBrains"]
   editorServer["Editor-owned kappa serve --port 0"]
-  runtime["Kilo CLI runtime"]
+  runtime["Kappa CLI runtime"]
 
   run -->|"default first choice"| daemon
   run -->|"fallback"| embedded
@@ -109,9 +109,9 @@ Three credential boundaries coexist. Keep them separate when tracing request pat
 
 | Boundary | Protects | Owner |
 |---|---|---|
-| Local `kappa serve` access | HTTP, SSE, and selected WebSocket access to local server | Kilo CLI server and spawning local client |
-| Outbound provider authentication | Model provider, Kilo Gateway, catalog, and indexing access | Kilo CLI provider router and auth stores |
-| Remote MCP OAuth | Browser authorization and credentials for remote MCP server | Kilo CLI MCP runtime |
+| Local `kappa serve` access | HTTP, SSE, and selected WebSocket access to local server | Kappa CLI server and spawning local client |
+| Outbound provider authentication | Model provider, Kappa Gateway, catalog, and indexing access | Kappa CLI provider router and auth stores |
+| Remote MCP OAuth | Browser authorization and credentials for remote MCP server | Kappa CLI MCP runtime |
 
 ### Local `kappa serve` access
 
@@ -135,12 +135,12 @@ Provider auth records use `api`, `oauth`, or `wellknown` variants in `${Global.P
 | Path | Behavior |
 |---|---|
 | Direct providers | Use provider-specific keys, OAuth records, environment values, and configured endpoints |
-| Kilo Gateway | Resolves Kilo model access and model catalog through gateway client |
-| Anonymous Kilo | If no Kilo key exists, provider loader sets API key value `anonymous`; gateway model catalog can fall back to public unauthenticated endpoint |
-| Organization catalog | Kilo model fetch includes organization ID when resolved from config, auth, or environment |
+| Kappa Gateway | Resolves Kappa model access and model catalog through gateway client |
+| Anonymous Kappa | If no Kappa key exists, provider loader sets API key value `anonymous`; gateway model catalog can fall back to public unauthenticated endpoint |
+| Organization catalog | Kappa model fetch includes organization ID when resolved from config, auth, or environment |
 | Model cache | Caches provider model results for five minutes; failed loads invalidate cache for retry |
 | Custom endpoints | Provider config can override endpoint and credential options |
-| Indexing auth | Resolves indexing-specific Kilo config first, then provider config, auth record, provider options, and `KILO_API_KEY` / `KILO_ORG_ID` environment values |
+| Indexing auth | Resolves indexing-specific Kappa config first, then provider config, auth record, provider options, and `KILO_API_KEY` / `KILO_ORG_ID` environment values |
 
 ### Remote MCP OAuth
 
@@ -170,13 +170,13 @@ Remote HTTP proxy responses can include sync fence metadata. Router waits for ma
 | Subsystem | Purpose |
 |---|---|
 | Agent runtime | Orchestrates messages, model calls, permissions, questions, and multi-step execution |
-| Tool registry | Loads built-in, Kilo-specific, MCP, and readiness-gated semantic search tools |
+| Tool registry | Loads built-in, Kappa-specific, MCP, and readiness-gated semantic search tools |
 | LSP client | Provides diagnostics and language intelligence |
 | Config service | Merges global, project, organization, managed, and runtime inputs |
 | Instance store | Caches normalized directory-scoped runtime contexts |
 | SQLite and storage services | Persist structured records and remaining JSON-owned data |
 | Snapshot service | Tracks git-backed file baselines for diffs and revert flows |
-| Provider router | Resolves direct providers, Kilo Gateway, custom endpoints, and credentials |
+| Provider router | Resolves direct providers, Kappa Gateway, custom endpoints, and credentials |
 | HTTP server | Publishes REST, WebSocket, and SSE surfaces |
 
 ## Daemon lifecycle
@@ -239,9 +239,9 @@ CLI server contract flows through generated and handwritten layers:
 
 1. Effect `HttpApi` groups under `packages/opencode/src/server/routes/instance/httpapi/` define routes.
 2. `packages/opencode/src/server/routes/instance/httpapi/public.ts` normalizes public OpenAPI to legacy-compatible request and response shapes.
-3. Kilo-specific API groups and handlers live under `packages/opencode/src/kilocode/server/httpapi/` and enter shared API through narrow injection seams.
+3. Kappa-specific API groups and handlers live under `packages/opencode/src/kappacode/server/httpapi/` and enter shared API through narrow injection seams.
 4. `packages/sdk/js/script/build.ts` generates TypeScript v2 client from CLI OpenAPI.
-5. `packages/sdk/js/src/v2/client.ts` adds `createKiloClient()` wrapper for directory and workspace routing, Electron and Node fetch compatibility, and clearer empty-response errors.
+5. `packages/sdk/js/src/v2/client.ts` adds `createKappaClient()` wrapper for directory and workspace routing, Electron and Node fetch compatibility, and clearer empty-response errors.
 6. Root `./script/generate.ts` runs SDK generation, emits tracked OpenAPI artifact, updates CLI docs, and formats outputs.
 7. JetBrains Gradle build generates build-local OpenAPI, normalizes it, and generates Kotlin OkHttp client.
 
@@ -253,7 +253,7 @@ Later sources override earlier values during instance config load:
 
 | Order | Source |
 |---|---|
-| 1 | Legacy Kilo migrations |
+| 1 | Legacy Kappa migrations |
 | 2 | Organization modes |
 | 3 | Auth-record `.well-known/opencode` remote config |
 | 4 | Global config files |
@@ -261,12 +261,12 @@ Later sources override earlier values during instance config load:
 | 6 | Project `kappa.json[c]` and `opencode.json[c]` files plus discovered config directories |
 | 7 | `KILO_CONFIG_DIR` directory |
 | 8 | `KILO_CONFIG_CONTENT` |
-| 9 | Active Kilo Cloud organization config |
+| 9 | Active Kappa Cloud organization config |
 | 10 | Managed config directory |
 | 11 | macOS managed preferences |
 | 12 | Runtime flag-derived permission, tool, compaction, and plugin behavior |
 
-Global config files load from `${Global.Path.config}`. Project updates prefer existing config files found in ancestor `.kappa` or legacy `.kilocode` directories, then existing project root config files, then create `.kappa/kappa.json`. Global indexing settings can carry provider and storage defaults, but global `indexing.enabled` is stripped so project enablement remains local in effective instance config.
+Global config files load from `${Global.Path.config}`. Project updates prefer existing config files found in ancestor `.kappa` or legacy `.kappacode` directories, then existing project root config files, then create `.kappa/kappa.json`. Global indexing settings can carry provider and storage defaults, but global `indexing.enabled` is stripped so project enablement remains local in effective instance config.
 
 Signed-in organization modes become normal agent configuration during load. They override migrated legacy modes and remain overridable by later config sources in table.
 
@@ -281,9 +281,9 @@ Runtime config loading is separate from editor-facing JSON Schema publication. C
 
 Both streams send initial `server.connected` event and heartbeat every 10 seconds. VS Code and JetBrains consume `/global/event` so one server connection can route events for multiple directories.
 
-## Kilo Console
+## Kappa Console
 
-**Deprecated.** The Kilo Console browser interface and its `kappa console` launcher will be removed in a future release.
+**Deprecated.** The Kappa Console browser interface and its `kappa console` launcher will be removed in a future release.
 
 `kappa console` starts or reuses daemon, opens `/console`, and prints Console launch URL. Browser launch URL embeds daemon Basic credentials so initial request authenticates.
 
@@ -292,7 +292,7 @@ Both streams send initial `server.connected` event and heartbeat every 10 second
 | Frontend | Solid/Vite app in `packages/kappa-console/` |
 | Server route | `/console` assets resolved by CLI UI handler |
 | Release build | CLI executable build copies Console assets beside binary under `bin/console` |
-| SDK | Console calls generated JavaScript SDK through `createKiloClient()` |
+| SDK | Console calls generated JavaScript SDK through `createKappaClient()` |
 | Discovery | Console scans `4097..4116` loopback daemon URLs, ranks healthy hits, then tries cached URL fallback |
 
 Source development can serve built Console assets from package output or build them on demand. This is development behavior, not production deployment claim.
@@ -303,31 +303,31 @@ Source development can serve built Console assets from package output or build t
 
 | Area | Behavior |
 |---|---|
-| Bootstrap | `KilocodeBootstrap` forks indexing initialization so instance startup is not blocked |
+| Bootstrap | `KappacodeBootstrap` forks indexing initialization so instance startup is not blocked |
 | Worker | Dedicated indexing worker owns `CodeIndexManager` and search calls |
 | Cache | CLI bridge caches worker entry by directory and disposes it with instance |
 | Status | `GET /indexing/status` and `indexing.status` bus event expose progress |
 | Tool | `semantic_search` is registered only after indexing reports readiness |
-| Worktrees | Agent Manager `.kappa/worktrees/` and legacy `.kilocode/worktrees/` paths return disabled status |
+| Worktrees | Agent Manager `.kappa/worktrees/` and legacy `.kappacode/worktrees/` paths return disabled status |
 | Empty VS Code window | Extension sets `KILO_DISABLE_CODEBASE_INDEXING=vscode-no-workspace`; bridge reports disabled status |
-| Embeddings | Supports Kilo, OpenAI, Ollama, OpenAI-compatible, Gemini, Mistral, Vercel AI Gateway, Bedrock, OpenRouter, and Voyage configuration |
+| Embeddings | Supports Kappa, OpenAI, Ollama, OpenAI-compatible, Gemini, Mistral, Vercel AI Gateway, Bedrock, OpenRouter, and Voyage configuration |
 | Vector stores | Supports Qdrant and LanceDB |
 
 ## Source map
 
-Paths below are relative to [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode).
+Paths below are relative to [`Kappa-Org/kappacode`](https://github.com/Kappa-Org/kappacode).
 
 | Concern | Source paths |
 |---|---|
 | CLI entry points | `packages/opencode/src/cli/cmd/` |
-| Daemon | `packages/opencode/src/kilocode/daemon/` |
+| Daemon | `packages/opencode/src/kappacode/daemon/` |
 | HTTP server | `packages/opencode/src/server/` |
 | Directory and workspace routing | `packages/opencode/src/server/routes/instance/httpapi/middleware/workspace-routing.ts` |
 | SQLite | `packages/opencode/src/storage/db.ts` |
-| Snapshots | `packages/opencode/src/snapshot/index.ts`{% linebreak /%}`packages/opencode/src/kilocode/snapshot/track.ts` |
+| Snapshots | `packages/opencode/src/snapshot/index.ts`{% linebreak /%}`packages/opencode/src/kappacode/snapshot/track.ts` |
 | SDK | `packages/sdk/js/`{% linebreak /%}`script/generate.ts` |
-| Console | `packages/kappa-console/`{% linebreak /%}`packages/opencode/src/kilocode/console/` |
-| Indexing | `packages/kappa-indexing/`{% linebreak /%}`packages/opencode/src/kilocode/indexing.ts` |
+| Console | `packages/kappa-console/`{% linebreak /%}`packages/opencode/src/kappacode/console/` |
+| Indexing | `packages/kappa-indexing/`{% linebreak /%}`packages/opencode/src/kappacode/indexing.ts` |
 
 ## Related pages
 

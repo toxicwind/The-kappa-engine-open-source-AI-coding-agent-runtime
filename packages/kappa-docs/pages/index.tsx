@@ -6,9 +6,9 @@ import Link from "next/link"
 const terminalContent = {
   installation: (
     <>
-      <span className="terminal-comment"># Install Kilo Code VS Code Extension</span>
+      <span className="terminal-comment"># Install Kappa Code VS Code Extension</span>
       {"\n"}
-      <span className="terminal-prompt">$</span> code --install-extension kilocode.kappa-code
+      <span className="terminal-prompt">$</span> code --install-extension kappacode.kappa-code
       {"\n"}
       {"\n"}
       <span className="terminal-comment"># Or install via CLI</span>
@@ -18,25 +18,25 @@ const terminalContent = {
   ),
   gateway: (
     <>
-      <span className="terminal-comment"># Call Kilo Gateway with a quick curl script</span>
+      <span className="terminal-comment"># Call Kappa Gateway with a quick curl script</span>
       {"\n"}
       <span className="terminal-prompt">$</span> export KILO_API_KEY="YOUR_API_KEY"
       {"\n"}
       <span className="terminal-prompt">$</span> curl https://api.kappa.ai/api/gateway/chat/completions \{"\n"}
       -H "Authorization: Bearer $KILO_API_KEY" \{"\n"}
       -H "Content-Type: application/json" \{"\n"}
-      {`  -d '{"model":"anthropic/claude-sonnet-4.5","messages":[{"role":"user","content":"Say hi from Kilo Gateway"}]}'`}
+      {`  -d '{"model":"anthropic/claude-sonnet-4.5","messages":[{"role":"user","content":"Say hi from Kappa Gateway"}]}'`}
     </>
   ),
   firstTask: (
     <>
-      <span className="terminal-comment"># Start a new task with Kilo Code</span>
+      <span className="terminal-comment"># Start a new task with Kappa Code</span>
       {"\n"}
       <span className="terminal-prompt">$</span> kappa "Create a React component for a user profile"
       {"\n"}
       {"\n"}
       <span className="terminal-comment">
-        # Or for interactive sessions, just run the Kilo CLI in your project folder
+        # Or for interactive sessions, just run the Kappa CLI in your project folder
       </span>
       {"\n"}
       <span className="terminal-prompt">$</span> kappa
@@ -72,7 +72,7 @@ const terminalContent = {
 const categories = [
   {
     title: "Get Started",
-    description: "Install Kilo Code and get up and running in minutes",
+    description: "Install Kappa Code and get up and running in minutes",
     href: "/getting-started",
     icon: (
       <svg className="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -87,7 +87,7 @@ const categories = [
   },
   {
     title: "Code with AI",
-    description: "Learn how to use Kilo Code to write, edit, and understand code",
+    description: "Learn how to use Kappa Code to write, edit, and understand code",
     href: "/code-with-ai",
     icon: (
       <svg className="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -115,7 +115,7 @@ const categories = [
     ),
     links: [
       { title: "Sessions & Sharing", href: "/collaborate" },
-      { title: "Kilo for Teams", href: "/collaborate" },
+      { title: "Kappa for Teams", href: "/collaborate" },
       { title: "Enterprise", href: "/collaborate" },
     ],
   },
@@ -154,7 +154,7 @@ const categories = [
     ],
   },
   {
-    title: "Kilo Gateway",
+    title: "Kappa Gateway",
     description:
       "A unified API to access hundreds of AI models through a single endpoint with streaming, BYOK, and usage tracking.",
     href: "/gateway",
@@ -173,7 +173,7 @@ const categories = [
   },
   {
     title: "Contributing",
-    description: "Help improve Kilo Code and learn about its architecture",
+    description: "Help improve Kappa Code and learn about its architecture",
     href: "/contributing",
     icon: (
       <svg className="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -198,7 +198,7 @@ export default function HomePage() {
   return (
     <div className="homepage">
       <Head>
-        <title>Kilo Code Docs: Setup, Models, MCP, Custom Modes & CLI</title>
+        <title>Kappa Code Docs: Setup, Models, MCP, Custom Modes & CLI</title>
       </Head>
       {/* Dotted background pattern */}
       <div className="dot-pattern" />
@@ -206,17 +206,17 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <h1 className="hero-title">Kilo Documentation</h1>
+          <h1 className="hero-title">Kappa Documentation</h1>
           <p className="hero-subtitle">
-            Explore guides and examples for the Kilo platform — from coding agents and AI-powered development to
+            Explore guides and examples for the Kappa platform — from coding agents and AI-powered development to
             automation and hosted agentic infrastructure.
           </p>
           <div className="hero-buttons">
             <Link href="/getting-started" className="btn btn-primary">
-              Get started with Kilo Code →
+              Get started with Kappa Code →
             </Link>
             <Link href="/gateway" className="btn btn-secondary">
-              Explore Kilo Gateway
+              Explore Kappa Gateway
             </Link>
           </div>
         </div>
@@ -295,7 +295,7 @@ export default function HomePage() {
       <section className="terminal-section">
         <div className="terminal-intro">
           <h2 className="section-title">Try it out</h2>
-          <p className="terminal-description">Get started quickly with Kilo Code and Kilo Gateway</p>
+          <p className="terminal-description">Get started quickly with Kappa Code and Kappa Gateway</p>
         </div>
         <div className="terminal-container">
           <div className="terminal-tabs">
@@ -321,7 +321,7 @@ export default function HomePage() {
               className={`terminal-tab ${activeTab === "gateway" ? "active" : ""}`}
               onClick={() => setActiveTab("gateway")}
             >
-              Kilo Gateway
+              Kappa Gateway
             </button>
           </div>
           <div className="terminal-window">
@@ -358,7 +358,7 @@ export default function HomePage() {
             <span className="footer-icon">📝</span>
             <div>
               <strong>Check out our</strong>
-              <Link href="https://github.com/Kilo-Org/kilocode/releases" className="footer-link">
+              <Link href="https://github.com/Kappa-Org/kappacode/releases" className="footer-link">
                 Changelog
               </Link>
             </div>
@@ -367,7 +367,7 @@ export default function HomePage() {
             <span className="footer-icon">🐛</span>
             <div>
               <strong>Found a bug?</strong>
-              <Link href="https://github.com/Kilo-Org/kilocode/issues" className="footer-link">
+              <Link href="https://github.com/Kappa-Org/kappacode/issues" className="footer-link">
                 Report an issue
               </Link>
             </div>
@@ -375,7 +375,7 @@ export default function HomePage() {
           <div className="footer-item">
             <span className="footer-icon">🐍</span>
             <div>
-              <strong>Kilo has been acquired by Anaconda</strong>
+              <strong>Kappa has been acquired by Anaconda</strong>
               <Link
                 href="https://www.anaconda.com/blog/anaconda-acquires-kappa-code"
                 className="footer-link"

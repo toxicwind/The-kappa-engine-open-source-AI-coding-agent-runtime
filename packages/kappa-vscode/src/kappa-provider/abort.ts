@@ -1,4 +1,4 @@
-import type { KiloClient, SessionStatus } from "@kappacode/sdk/v2/client"
+import type { KappaClient, SessionStatus } from "@kappacode/sdk/v2/client"
 import { sameDirectory } from "../kappa-provider-utils"
 
 export class SessionAbort {
@@ -28,7 +28,7 @@ export class SessionAbort {
   }
 
   async stop(
-    client: KiloClient,
+    client: KappaClient,
     sessionID: string,
     fallback: string,
     run?: (dir: string, action: () => Promise<void>) => Promise<void>,
@@ -47,7 +47,7 @@ export class SessionAbort {
       result.status === "rejected" ? [{ dir: dirs[index], error: result.reason }] : [],
     )
     if (failures.length > 0) {
-      console.error("[Kilo New] KiloProvider: Failed to abort session in one or more directories:", failures)
+      console.error("[Kappa New] KappaProvider: Failed to abort session in one or more directories:", failures)
       return false
     }
     if (known) this.active.delete(sessionID)
@@ -77,7 +77,7 @@ export class SessionAbort {
 }
 
 export async function abortSession(input: {
-  client: KiloClient
+  client: KappaClient
   sessionID: string
   dir: string
   scope?: "session" | "tree"

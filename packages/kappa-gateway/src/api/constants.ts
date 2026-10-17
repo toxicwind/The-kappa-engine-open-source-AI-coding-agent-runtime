@@ -1,15 +1,15 @@
 /**
- * Kilo Gateway Configuration Constants
+ * Kappa Gateway Configuration Constants
  * Centralized configuration for all API endpoints, headers, and settings
  */
 
-/** Environment variable for custom Kilo API URL */
+/** Environment variable for custom Kappa API URL */
 export const ENV_KILO_API_URL = "KILO_API_URL"
 
-/** Default Kilo API URL */
+/** Default Kappa API URL */
 export const DEFAULT_KILO_API_URL = "https://api.kappa.ai"
 
-/** Base URL for Kilo API - can be overridden by KILO_API_URL env var */
+/** Base URL for Kappa API - can be overridden by KILO_API_URL env var */
 export const KILO_API_BASE = process.env[ENV_KILO_API_URL] || DEFAULT_KILO_API_URL
 
 /** Environment variable for custom Event Service URL */
@@ -52,33 +52,33 @@ export const ANONYMOUS_API_KEY = "anonymous"
 export const MODELS_FETCH_TIMEOUT_MS = 10 * 1000
 
 /**
- * Header constants for KiloCode API requests
+ * Header constants for KappaCode API requests
  */
-export const HEADER_ORGANIZATIONID = "X-KILOCODE-ORGANIZATIONID"
-export const HEADER_TASKID = "X-KILOCODE-TASKID"
-export const HEADER_PARENT_TASKID = "X-KILOCODE-PARENT-TASKID"
-export const HEADER_PROJECTID = "X-KILOCODE-PROJECTID"
-export const HEADER_TESTER = "X-KILOCODE-TESTER"
-export const HEADER_EDITORNAME = "X-KILOCODE-EDITORNAME"
-export const HEADER_MACHINEID = "X-KILOCODE-MACHINEID"
+export const HEADER_ORGANIZATIONID = "X-KAPPACODE-ORGANIZATIONID"
+export const HEADER_TASKID = "X-KAPPACODE-TASKID"
+export const HEADER_PARENT_TASKID = "X-KAPPACODE-PARENT-TASKID"
+export const HEADER_PROJECTID = "X-KAPPACODE-PROJECTID"
+export const HEADER_TESTER = "X-KAPPACODE-TESTER"
+export const HEADER_EDITORNAME = "X-KAPPACODE-EDITORNAME"
+export const HEADER_MACHINEID = "X-KAPPACODE-MACHINEID"
 
 /** Default editor name value */
-export const DEFAULT_EDITOR_NAME = "Kilo CLI"
+export const DEFAULT_EDITOR_NAME = "Kappa CLI"
 
 /** Environment variable name for custom editor name */
-export const ENV_EDITOR_NAME = "KILOCODE_EDITOR_NAME"
+export const ENV_EDITOR_NAME = "KAPPACODE_EDITOR_NAME"
 
 /** Environment variable name for version (set by CLI at startup) */
-export const ENV_VERSION = "KILOCODE_VERSION"
+export const ENV_VERSION = "KAPPACODE_VERSION"
 
 /** Tester header value for suppressing warnings */
 export const TESTER_SUPPRESS_VALUE = "SUPPRESS"
 
 /** Header name for feature tracking */
-export const HEADER_FEATURE = "X-KILOCODE-FEATURE"
+export const HEADER_FEATURE = "X-KAPPACODE-FEATURE"
 
 /** Environment variable name for feature override */
-export const ENV_FEATURE = "KILOCODE_FEATURE"
+export const ENV_FEATURE = "KAPPACODE_FEATURE"
 
 export const PROMPTS = [
   "codex",

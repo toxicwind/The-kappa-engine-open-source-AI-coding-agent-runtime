@@ -1,9 +1,9 @@
 import {
-  buildKiloHeaders,
+  buildKappaHeaders,
   DEFAULT_KILO_API_URL,
   getDefaultHeaders,
-  getKiloUrlFromToken,
-  resolveKiloOpenRouterBaseUrl,
+  getKappaUrlFromToken,
+  resolveKappaOpenRouterBaseUrl,
   supportsTools,
 } from "@kappacode/kappa-gateway"
 import { Context, Effect, Layer, Redacted, Schema } from "effect"
@@ -65,11 +65,11 @@ export namespace CloudCatalog {
           new Request(url, {
             headers: {
               ...getDefaultHeaders(),
-              ...buildKiloHeaders(
+              ...buildKappaHeaders(
                 undefined,
                 input.organizationID ? { kappacodeOrganizationId: input.organizationID } : undefined,
               ),
-              "X-KILOCODE-FEATURE": "kappa-cli",
+              "X-KAPPACODE-FEATURE": "kappa-cli",
               Authorization: `Bearer ${Redacted.value(input.token)}`,
             },
             redirect: "error",
@@ -78,7 +78,7 @@ export namespace CloudCatalog {
         catch: () =>
           new CatalogError({
             kind: "schema",
-            message: "Kilo catalog URL is invalid",
+            message: "Kappa catalog URL is invalid",
           }),
       })
       const response = yield* Effect.tryPromise({
@@ -86,7 +86,7 @@ export namespace CloudCatalog {
         catch: () =>
           new CatalogError({
             kind: "network",
-            message: "Unable to reach the Kilo model catalog",
+            message: "Unable to reach the Kappa model catalog",
           }),
       })
       if (!response.ok) {
@@ -97,8 +97,8 @@ export namespace CloudCatalog {
             status: response.status,
             message:
               kind === "auth"
-                ? "Kilo credentials or organization were rejected by the model catalog"
-                : "The Kilo model catalog is unavailable",
+                ? "Kappa credentials or organization were rejected by the model catalog"
+                : "The Kappa model catalog is unavailable",
           }),
         )
       }
@@ -108,7 +108,7 @@ export namespace CloudCatalog {
         catch: () =>
           new CatalogError({
             kind: "schema",
-            message: "The Kilo model catalog returned an invalid response",
+            message: "The Kappa model catalog returned an invalid response",
           }),
       })
       const parsed = schema.safeParse(body)
@@ -116,7 +116,7 @@ export namespace CloudCatalog {
         return yield* Effect.fail(
           new CatalogError({
             kind: "schema",
-            message: "The Kilo model catalog returned an invalid response",
+            message: "The Kappa model catalog returned an invalid response",
           }),
         )
       }
@@ -126,10 +126,10 @@ export namespace CloudCatalog {
     const base = Effect.fn("CloudCatalog.base")(function* (input: Input) {
       const raw = env.KILO_API_URL?.trim()
       const fallback = raw || DEFAULT_KILO_API_URL
-      const value = getKiloUrlFromToken(fallback, Redacted.value(input.token))
+      const value = getKappaUrlFromToken(fallback, Redacted.value(input.token))
       return yield* Effect.try({
         try: () => {
-          const url = new URL(resolveKiloOpenRouterBaseUrl({ baseURL: value }))
+          const url = new URL(resolveKappaOpenRouterBaseUrl({ baseURL: value }))
           parseServiceOrigin(url.origin, { allowHttpLoopback: !!raw || value !== fallback })
           if (url.username !== "" || url.password !== "") throw new Error("Catalog URL credentials are not allowed")
           return url
@@ -137,7 +137,7 @@ export namespace CloudCatalog {
         catch: () =>
           new CatalogError({
             kind: "schema",
-            message: "Kilo catalog URL must be secure",
+            message: "Kappa catalog URL must be secure",
           }),
       })
     })

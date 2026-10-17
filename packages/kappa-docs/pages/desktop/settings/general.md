@@ -1,6 +1,6 @@
 ---
 title: "General settings"
-description: "Manage your account, appearance, conda environments, notebooks, and privacy in Kilo Desktop."
+description: "Manage your account, appearance, conda environments, notebooks, and privacy in Kappa Desktop."
 ---
 
 # General settings
@@ -18,14 +18,14 @@ When an update is ready, select **Restart to update** to relaunch and apply it.
 
 ## Account
 
-The **Account** section manages your **Kilo** account. When you're signed in, it shows your account email, your **Available balance** (with a refresh), an **Organization** selector, and **Top up** and **Kilo Dashboard** links. See [Usage & Billing](/docs/gateway/usage-and-billing) for how organizations and balances work.
+The **Account** section manages your **Kappa** account. When you're signed in, it shows your account email, your **Available balance** (with a refresh), an **Organization** selector, and **Top up** and **Kappa Dashboard** links. See [Usage & Billing](/docs/gateway/usage-and-billing) for how organizations and balances work.
 
 ## Appearance
 
 The **Appearance** section controls how the app looks:
 
 - **Theme** — switch between **Light**, **Dark**, or **System**.
-- **Color theme** — choose the app's color theme from the dropdown, such as **Kilo**.
+- **Color theme** — choose the app's color theme from the dropdown, such as **Kappa**.
 - **Accent color** — use the theme's accent (the **Theme** option) or pick your own from the color swatches.
 - **Sidebar vibrancy** — toggle a translucent sidebar background on or off.
 - **Interface text size** — adjust the text size in the sidebar, menus, and settings.
@@ -33,7 +33,7 @@ The **Appearance** section controls how the app looks:
 
 ## Conda Environments
 
-Create and manage conda environments and their packages. See [Conda environments](/docs/desktop/features/environments) for what you can do here. Requires a Kilo account.
+Create and manage conda environments and their packages. See [Conda environments](/docs/desktop/features/environments) for what you can do here. Requires a Kappa account.
 
 ## Notebooks
 
@@ -46,6 +46,6 @@ See [Notebooks](/docs/desktop/features/notebooks) for working with notebooks in 
 
 ## Privacy
 
-The **Privacy** section has a single **Share usage analytics and crash reports** toggle. When on, it shares usage analytics and crash reports with Kilo — including from the embedded Kilo service and conda environment manager. 
+The **Privacy** section has a single **Share usage analytics and crash reports** toggle. When on, it shares usage analytics and crash reports with Kappa — including from the embedded Kappa service and conda environment manager. 
 
-It also explains data handling for **free models**: because they may route your requests to providers that log prompts and outputs, don't submit personal or confidential data when using them. See [Using Kilo for Free](/docs/getting-started/using-kappa-for-free) for details, and use the chat model picker's filter to exclude free models.
+It also explains data handling for **free models**: because they may route your requests to providers that log prompts and outputs, don't submit personal or confidential data when using them. See [Using Kappa for Free](/docs/getting-started/using-kappa-for-free) for details, and use the chat model picker's filter to exclude free models.

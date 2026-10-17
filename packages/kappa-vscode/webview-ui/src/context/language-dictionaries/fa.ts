@@ -4,6 +4,6 @@ import { dict as english } from "../../../agent-manager/i18n/en"
 import { dict as am } from "../../../agent-manager/i18n/fa"
 
 export default function dictionary(base: Record<string, string>): Record<string, string> {
-  // Persian has no localized Kilo override layer, so it inherits the English base.
+  // Persian has no localized Kappa override layer, so it inherits the English base.
   return { ...base, ...app, ...ui, ...english, ...am }
 }

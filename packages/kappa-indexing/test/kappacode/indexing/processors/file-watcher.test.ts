@@ -615,7 +615,7 @@ describe("FileWatcher subscription", () => {
 
       const { watcher } = await makeWatcher(backend.subscribe, ignore, root)
       await watcher.initialize()
-      // Both Kilo's infra dirs and the per-repo gitignore dirs reach the native watcher.
+      // Both Kappa's infra dirs and the per-repo gitignore dirs reach the native watcher.
       expect(backend.lastIgnore).toEqual(expect.arrayContaining(["**/node_modules", "**/.venv", "pkg/**/build"]))
       await watcher.shutdown()
     } finally {

@@ -5,7 +5,7 @@ import { Permission } from "@/permission"
 import { PartID } from "@/session/schema"
 import { Session } from "@/session/session"
 import AGENT_SWITCH from "./agent-switch.txt"
-import { KiloSessionPrompt } from "./prompt"
+import { KappaSessionPrompt } from "./prompt"
 
 /**
  * Single policy for the mode reminders sent to the model.
@@ -19,7 +19,7 @@ import { KiloSessionPrompt } from "./prompt"
  * agents get a neutral line, because scoped allowlists (for example
  * `docs/**`) cannot be summarised safely from a catch-all check.
  */
-export namespace KiloModeReminders {
+export namespace KappaModeReminders {
   export type Target = Pick<Agent.Info, "name" | "displayName" | "permission" | "native">
 
   export const READONLY =
@@ -47,7 +47,7 @@ export namespace KiloModeReminders {
     return `\n\n${text}`
   }
 
-  export const apply = Effect.fn("KiloModeReminders.apply")(function* (input: {
+  export const apply = Effect.fn("KappaModeReminders.apply")(function* (input: {
     messages: SessionV1.WithParts[]
     agent: Agent.Info
     session: Session.Info
@@ -57,7 +57,7 @@ export namespace KiloModeReminders {
     if (!user) return input.messages
 
     yield* Effect.promise(() =>
-      KiloSessionPrompt.insertPlanReminders({
+      KappaSessionPrompt.insertPlanReminders({
         agent: input.agent,
         session: input.session,
         userMessage: user,

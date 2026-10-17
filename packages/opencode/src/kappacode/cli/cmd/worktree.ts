@@ -13,7 +13,7 @@ import { slugify } from "@/kappacode/cli/cmd/tui-worktree"
 const wrapErr = (message: string) => <A, E, R>(effect: Effect.Effect<A, E, R>) =>
   effect.pipe(Effect.mapError((error) => new CliError({ message: `${message}: ${errorMessage(error)}` })))
 
-// Lazy: this module is imported eagerly by KiloCli.register (see setup.ts), so
+// Lazy: this module is imported eagerly by KappaCli.register (see setup.ts), so
 // `@/worktree`'s heavier transitive graph (Project, Provider, ...) must not
 // load until a handler actually runs, matching tui-worktree.ts's own imports.
 // `tryPromise` (not `promise`): a failed dynamic import must flow through each

@@ -29,7 +29,7 @@ const mainNavItems = [
   { label: "Automate", href: "/automate", sectionKey: "automate" },
   { label: "Deploy & Secure", href: "/deploy-secure", sectionKey: "deploy-secure" },
   { label: "AI Gateway", href: "/gateway", sectionKey: "gateway" },
-  { label: "Kilo Desktop", href: "/desktop", sectionKey: "desktop" },
+  { label: "Kappa Desktop", href: "/desktop", sectionKey: "desktop" },
   { label: "Contributing", href: "/contributing", sectionKey: "contributing" },
 ]
 

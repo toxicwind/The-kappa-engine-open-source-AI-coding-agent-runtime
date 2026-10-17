@@ -123,7 +123,7 @@ function ready(status: Extract<AnacondaDesktopStatus, { type: "ready" }>): Setup
   if (status.toolcall === "supported") {
     return {
       title: "Anaconda Desktop is ready",
-      lines: [...base, "Tool calling: supported. Connect to import this server into Kilo."],
+      lines: [...base, "Tool calling: supported. Connect to import this server into Kappa."],
       actions: [{ key: "c", label: "connect / refresh now", type: "connect" }, desktop, refresh],
     }
   }

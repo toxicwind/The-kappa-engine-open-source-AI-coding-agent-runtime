@@ -4,7 +4,7 @@ import { indexingConsentStore, type IndexingProject } from "../../src/indexing-c
 import { fetchSnapshot } from "../../src/kappa-provider/config-snapshot"
 
 // vscode mock is provided by the shared preload (tests/setup/vscode-mock.ts)
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 
 type Internals = {
   connectionState: "connecting" | "connected" | "disconnected" | "error"
@@ -142,7 +142,7 @@ function indexing(dir = "/repo", root = dir) {
     getConnectionError: () => null,
     resolveEventSessionId: () => undefined,
   }
-  const provider = new KiloProvider({} as never, service as never, context as never)
+  const provider = new KappaProvider({} as never, service as never, context as never)
   const internal = provider as unknown as Internals
   const messages: Array<Record<string, unknown>> = []
   provider.postMessage = (message) => void messages.push(message as Record<string, unknown>)
@@ -151,7 +151,7 @@ function indexing(dir = "/repo", root = dir) {
   return { internal, client, service, messages, store }
 }
 
-describe("KiloProvider indexing refresh", () => {
+describe("KappaProvider indexing refresh", () => {
   it("shares snapshot payloads across load, SSE refresh, and post-save refresh", async () => {
     const conn = createConnection()
     const settings = () => ({
@@ -163,7 +163,7 @@ describe("KiloProvider indexing refresh", () => {
       "agentManager.branchPrefix": "",
     })
     const snapshot = await fetchSnapshot(conn.client as never, "/repo", settings)
-    const provider = new KiloProvider({} as never, conn.service as never)
+    const provider = new KappaProvider({} as never, conn.service as never)
     const internal = provider as unknown as Internals
     const sent: Array<Record<string, unknown>> = []
     provider.postMessage = (message) => void sent.push(message as Record<string, unknown>)
@@ -197,7 +197,7 @@ describe("KiloProvider indexing refresh", () => {
   })
 
   it("reloadAfterAuthChange refreshes providers immediately but waits for config before indexing", async () => {
-    const provider = new KiloProvider({} as never, {} as never)
+    const provider = new KappaProvider({} as never, {} as never)
     const internal = provider as unknown as Internals
     const calls: string[] = []
     const config = Promise.withResolvers<void>()
@@ -241,7 +241,7 @@ describe("KiloProvider indexing refresh", () => {
 
   it("handleUpdateConfig no longer eagerly fetches indexing status", async () => {
     const conn = createConnection()
-    const provider = new KiloProvider({} as never, conn.service as never)
+    const provider = new KappaProvider({} as never, conn.service as never)
     const internal = provider as unknown as Internals
 
     let indexing = 0
@@ -258,7 +258,7 @@ describe("KiloProvider indexing refresh", () => {
 
   it("refreshes providers when prompt-training model visibility changes", async () => {
     const conn = createConnection()
-    const provider = new KiloProvider({} as never, conn.service as never)
+    const provider = new KappaProvider({} as never, conn.service as never)
     const internal = provider as unknown as Internals
     let calls = 0
     internal.connectionState = "connected"
@@ -274,7 +274,7 @@ describe("KiloProvider indexing refresh", () => {
 
   it("passes scoped unset paths to the config overlay endpoint", async () => {
     const conn = createConnection()
-    const provider = new KiloProvider({} as never, conn.service as never)
+    const provider = new KappaProvider({} as never, conn.service as never)
     const internal = provider as unknown as Internals
     internal.connectionState = "connected"
     const global = binding(internal, "global")
@@ -326,7 +326,7 @@ describe("KiloProvider indexing refresh", () => {
         },
       },
     }
-    const provider = new KiloProvider(
+    const provider = new KappaProvider(
       {} as never,
       { drainPendingPrompts: async () => {}, getClient: () => client } as never,
     )
@@ -353,7 +353,7 @@ describe("KiloProvider indexing refresh", () => {
     })
   })
 
-  it.each(["/repo/.kappa/.kilocode/worktrees/feature", "/home/user/桌面/project", "/repo/100%/%2F/project"])(
+  it.each(["/repo/.kappa/.kappacode/worktrees/feature", "/home/user/桌面/project", "/repo/100%/%2F/project"])(
     "fetchAndSendIndexingStatus writes consent with an encoded directory header: %s",
     async (dir) => {
       const calls: { input: RequestInfo | URL; init?: RequestInit }[] = []
@@ -556,7 +556,7 @@ describe("KiloProvider indexing refresh", () => {
   })
 
   it("forwards indexing.status when directory only differs by Windows drive casing", () => {
-    const provider = new KiloProvider(
+    const provider = new KappaProvider(
       {} as never,
       {
         resolveEventSessionId: () => undefined,

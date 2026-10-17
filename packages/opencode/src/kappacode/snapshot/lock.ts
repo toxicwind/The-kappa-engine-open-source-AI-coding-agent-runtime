@@ -4,7 +4,7 @@
 import { Effect } from "effect"
 import type { EffectFlock } from "@opencode-ai/core/util/effect-flock"
 
-export namespace KiloSnapshotLock {
+export namespace KappaSnapshotLock {
   /**
    * Treat a failure to take the cross-process snapshot lock as a defect, while leaving the body's
    * own errors in the error channel for callers that report them.

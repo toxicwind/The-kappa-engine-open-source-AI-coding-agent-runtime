@@ -2,7 +2,7 @@ import fs from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 
-export namespace KiloSandboxWorker {
+export namespace KappaSandboxWorker {
   export const filename = "kappa-sandbox-mutation-worker.js"
 
   export async function bundle() {
@@ -12,14 +12,14 @@ export namespace KiloSandboxWorker {
       format: "esm",
       minify: true,
     })
-    if (!result.success || result.outputs.length !== 1) throw new Error("Could not bundle Kilo sandbox mutation worker")
+    if (!result.success || result.outputs.length !== 1) throw new Error("Could not bundle Kappa sandbox mutation worker")
     return result.outputs[0]
   }
 
   export async function copy(worker: Blob, dir: string) {
     const target = path.join(dir, filename)
     await Bun.write(target, worker)
-    console.log(`copied Kilo sandbox mutation worker to ${target}`)
+    console.log(`copied Kappa sandbox mutation worker to ${target}`)
   }
 
   export async function smoke(binary: string) {
@@ -49,7 +49,7 @@ export namespace KiloSandboxWorker {
         new Response(proc.stderr).text(),
         proc.exited,
       ])
-      if (code !== 0) throw new Error(stderr || `Kilo sandbox mutation worker exited ${code}`)
+      if (code !== 0) throw new Error(stderr || `Kappa sandbox mutation worker exited ${code}`)
       const response: unknown = JSON.parse(stdout)
       if (
         typeof response !== "object" ||
@@ -58,12 +58,12 @@ export namespace KiloSandboxWorker {
         response.ok !== true ||
         (await Bun.file(target).text()) !== "worker"
       ) {
-        throw new Error("Packaged Kilo sandbox mutation worker did not write the expected content")
+        throw new Error("Packaged Kappa sandbox mutation worker did not write the expected content")
       }
     } finally {
       await fs
         .rm(root, { recursive: true, force: true })
-        .catch((err) => console.warn(`Failed to remove Kilo sandbox worker smoke test directory ${root}`, err))
+        .catch((err) => console.warn(`Failed to remove Kappa sandbox worker smoke test directory ${root}`, err))
     }
   }
 }

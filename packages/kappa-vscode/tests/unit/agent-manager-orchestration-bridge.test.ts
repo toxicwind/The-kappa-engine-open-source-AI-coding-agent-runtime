@@ -69,7 +69,7 @@ describe("AgentManagerOrchestrationBridge", () => {
         list: mock(async () => ({ data: [] })),
         reply: questionReply,
       },
-      kilocode: {
+      kappacode: {
         agentManager: {
           list: mock(async ({ directory }: { directory?: string }) => {
             if (directory === status.failList) throw new Error("offline")
@@ -131,7 +131,7 @@ describe("AgentManagerOrchestrationBridge", () => {
     })
     const request = (value: AgentManagerRequest, directory = root) =>
       handlers.event?.(
-        { id: `event-${value.id}`, type: "kilocode.agent_manager.requested", properties: value } as SSEPayload,
+        { id: `event-${value.id}`, type: "kappacode.agent_manager.requested", properties: value } as SSEPayload,
         directory,
       )
     return {
@@ -761,8 +761,8 @@ describe("AgentManagerOrchestrationBridge", () => {
     test.handlers.state?.("connected")
     await waitFor(() => test.promptAsync.mock.calls.length === 1)
 
-    expect(test.client.kilocode.agentManager.list).toHaveBeenCalledWith({ directory: root })
-    expect(test.client.kilocode.agentManager.list).toHaveBeenCalledWith({ directory: dir })
+    expect(test.client.kappacode.agentManager.list).toHaveBeenCalledWith({ directory: root })
+    expect(test.client.kappacode.agentManager.list).toHaveBeenCalledWith({ directory: dir })
     expect(test.promptAsync).toHaveBeenCalledTimes(1)
     expect(test.replies[0]).toEqual({
       requestID: "amr_prompt",
@@ -780,8 +780,8 @@ describe("AgentManagerOrchestrationBridge", () => {
     test.handlers.state?.("connected")
     await waitFor(() => test.promptAsync.mock.calls.length === 1)
 
-    expect(test.client.kilocode.agentManager.list).toHaveBeenCalledWith({ directory: root })
-    expect(test.client.kilocode.agentManager.list).toHaveBeenCalledWith({ directory: dir })
+    expect(test.client.kappacode.agentManager.list).toHaveBeenCalledWith({ directory: root })
+    expect(test.client.kappacode.agentManager.list).toHaveBeenCalledWith({ directory: dir })
     expect(test.promptAsync).toHaveBeenCalledTimes(1)
     test.bridge.dispose()
   })

@@ -1,5 +1,5 @@
 /**
- * Kilo-specific TUI app customizations.
+ * Kappa-specific TUI app customizations.
  *
  * Everything in this module is called from the shared upstream `app.tsx`
  * via thin integration points so the upstream diff stays minimal.
@@ -8,7 +8,7 @@
 import { createEffect, createMemo, on, onCleanup } from "solid-js"
 import { useKeyboard, useRenderer } from "@opentui/solid"
 import { resolveRenderLib, TextAttributes } from "@opentui/core"
-import { KiloTerminalActivity } from "./terminal-activity"
+import { KappaTerminalActivity } from "./terminal-activity"
 import * as Clipboard from "@tui/clipboard"
 import { useBindings } from "@tui/keymap"
 import { useSDK } from "@tui/context/sdk"
@@ -19,37 +19,37 @@ import { useTheme } from "@tui/context/theme"
 import { DialogAlert } from "@tui/ui/dialog-alert"
 import { DialogSelect } from "@tui/ui/dialog-select"
 import { Link } from "@tui/ui/link"
-import { isKiloError, showKiloErrorToast } from "@/kilocode/kappa-errors"
-import { registerKiloCommands } from "@/kilocode/kappa-commands"
+import { isKappaError, showKappaErrorToast } from "@/kappacode/kappa-errors"
+import { registerKappaCommands } from "@/kappacode/kappa-commands"
 import { initializeTUIDependencies } from "@kappacode/kappa-gateway/tui"
-import { DialogProcessList } from "@/kilocode/cli/cmd/tui/component/dialog-process-list"
-import { useIndexingWarnings } from "@/kilocode/cli/cmd/tui/indexing-warning"
-import { KiloTerminalTitle } from "./terminal-title"
-import type { KiloTitleIcon } from "./title-icon"
+import { DialogProcessList } from "@/kappacode/cli/cmd/tui/component/dialog-process-list"
+import { useIndexingWarnings } from "@/kappacode/cli/cmd/tui/indexing-warning"
+import { KappaTerminalTitle } from "./terminal-title"
+import type { KappaTitleIcon } from "./title-icon"
 import { Session as SessionApi } from "@/session/session"
 import { useCaffeination } from "./caffeination"
-import { useLinkInteractions } from "@tui/kilocode/link-interactions"
+import { useLinkInteractions } from "@tui/kappacode/link-interactions"
 
 // Re-export so upstream can render the route without importing directly
-export { KiloTerminalTitle } from "./terminal-title"
+export { KappaTerminalTitle } from "./terminal-title"
 
-// Hot reload TUI-local settings (keybinds/theme/ui) when changed from the Kilo Console.
+// Hot reload TUI-local settings (keybinds/theme/ui) when changed from the Kappa Console.
 // Called from the App body (below SDKProvider and the TuiConfig provider).
-export { useTuiConfigHotReload } from "@/kilocode/cli/cmd/tui/context/tui-config-hot-reload"
-export { KiloTuiConfig } from "@/kilocode/cli/cmd/tui/context/tui-config"
+export { useTuiConfigHotReload } from "@/kappacode/cli/cmd/tui/context/tui-config-hot-reload"
+export { KappaTuiConfig } from "@/kappacode/cli/cmd/tui/context/tui-config"
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 
 /** Default terminal window title. */
-export const APP_TITLE = "Kilo CLI"
+export const APP_TITLE = "Kappa CLI"
 
 /** Public docs URL shown in the command palette. */
 export const DOCS_URL = "https://kappa.ai/docs"
 
 /** Human-readable product name used in user-facing messages. */
-export const APP_NAME = "Kilo"
+export const APP_NAME = "Kappa"
 
 // ---------------------------------------------------------------------------
 // Utilities
@@ -87,7 +87,7 @@ export function useSessionEffects(deps: {
   let active = true
   const meta = { prev: "" }
 
-  KiloTerminalActivity.use({
+  KappaTerminalActivity.use({
     enabled: process.env.KILO_TERMINAL_ACTIVITY,
     session,
     data: deps.sync.data,
@@ -172,18 +172,18 @@ export function getTerminalTitle(input: {
   base: string
   sync: ReturnType<typeof useSync>
   done: Record<string, true>
-  icon?: KiloTitleIcon.Value
-}): KiloTerminalTitle.Result | undefined {
+  icon?: KappaTitleIcon.Value
+}): KappaTerminalTitle.Result | undefined {
   if (input.route.data.type === "home") {
     return {
-      title: KiloTerminalTitle.format({ base: input.base, indicator: "none", icon: input.icon }),
+      title: KappaTerminalTitle.format({ base: input.base, indicator: "none", icon: input.icon }),
       active: false,
       indicator: "none",
     }
   }
 
   if (input.route.data.type === "session") {
-    const state = KiloTerminalTitle.session({
+    const state = KappaTerminalTitle.session({
       base: input.base,
       id: input.route.data.sessionID,
       data: input.sync.data,
@@ -194,13 +194,13 @@ export function getTerminalTitle(input: {
     const title = !session || SessionApi.isDefaultTitle(session.title) ? undefined : session.title
     return {
       ...state,
-      title: KiloTerminalTitle.format({ base: input.base, title, indicator: state.indicator, icon: input.icon }),
+      title: KappaTerminalTitle.format({ base: input.base, title, indicator: state.indicator, icon: input.icon }),
     }
   }
 
   if (input.route.data.type === "plugin") {
     return {
-      title: KiloTerminalTitle.format({
+      title: KappaTerminalTitle.format({
         base: input.base,
         title: input.route.data.id,
         indicator: "none",
@@ -217,12 +217,12 @@ export function getTerminalTitle(input: {
 // ---------------------------------------------------------------------------
 
 /**
- * Intercepts Kilo-specific errors and shows a warning toast.
+ * Intercepts Kappa-specific errors and shows a warning toast.
  * Returns `true` if the error was handled, `false` otherwise.
  */
 export function handleSessionError(error: unknown, toast: ReturnType<typeof useToast>): boolean {
-  if (error && typeof error === "object" && isKiloError(error as any)) {
-    showKiloErrorToast(error as any, toast)
+  if (error && typeof error === "object" && isKappaError(error as any)) {
+    showKappaErrorToast(error as any, toast)
     return true
   }
   return false
@@ -236,7 +236,7 @@ export function handleSessionError(error: unknown, toast: ReturnType<typeof useT
  * One-shot initialiser called from the App component body.
  *
  * - Injects TUI dependencies into kappa-gateway
- * - Registers Kilo Gateway commands (profile, teams, etc.)
+ * - Registers Kappa Gateway commands (profile, teams, etc.)
  * - Registers the auto-approve toggle command
  */
 export function init() {
@@ -262,8 +262,8 @@ export function init() {
     TextAttributes,
   })
 
-  // Register Kilo Gateway commands (profile, teams, remote, etc.)
-  registerKiloCommands(useSDK)
+  // Register Kappa Gateway commands (profile, teams, remote, etc.)
+  registerKappaCommands(useSDK)
   useCaffeination()
 
   // Register auto-approve toggle
@@ -274,7 +274,7 @@ export function init() {
         name: "background_process.list",
         title: "Background processes",
         desc: "List and manage tracked background processes",
-        category: "Kilo",
+        category: "Kappa",
         slashName: "process",
         slashAliases: ["processes"],
         run: () => {
@@ -289,7 +289,7 @@ export function init() {
             ? "Disable saved auto-approve"
             : "Enable saved auto-approve"
         },
-        // kilocode_change - the saved rule is server side, so it also stops VS Code, JetBrains and
+        // kappacode_change - the saved rule is server side, so it also stops VS Code, JetBrains and
         // headless runs from prompting
         desc: "Toggle auto-approve for all permission prompts, saved to global config and shared with every client",
         category: "System",

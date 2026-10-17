@@ -5,7 +5,7 @@ import * as path from "path"
 
 const dir = "tree-sitter"
 const runtime = "tree-sitter.wasm"
-const kiloSandboxWorker = "kappa-sandbox-mutation-worker.js"
+const kappaSandboxWorker = "kappa-sandbox-mutation-worker.js"
 const bwrap = "bwrap"
 const bwrapLicense = path.join("licenses", "bubblewrap")
 const bwrapLicenseFiles = ["NOTICE", "COPYING", "MUSL-COPYRIGHT", "build.ts"]
@@ -34,13 +34,13 @@ export function hasTreeSitterResources(file: string): boolean {
   return fs.existsSync(path.join(treeSitterDirForBinary(file), runtime))
 }
 
-export function kiloSandboxWorkerForBinary(file: string): string {
+export function kappaSandboxWorkerForBinary(file: string): string {
   const p = paths(file)
-  return p.join(p.dirname(file), kiloSandboxWorker)
+  return p.join(p.dirname(file), kappaSandboxWorker)
 }
 
-export function hasKiloSandboxWorker(file: string): boolean {
-  return fs.existsSync(kiloSandboxWorkerForBinary(file))
+export function hasKappaSandboxWorker(file: string): boolean {
+  return fs.existsSync(kappaSandboxWorkerForBinary(file))
 }
 
 export async function copyTreeSitterResources(source: string, target: string): Promise<void> {
@@ -87,10 +87,10 @@ export async function copySandboxResources(source: string, target: string): Prom
   await fs.promises.cp(licenses, destination, { recursive: true })
 }
 
-export async function copyKiloSandboxWorker(source: string, target: string): Promise<void> {
-  const from = kiloSandboxWorkerForBinary(source)
-  const to = kiloSandboxWorkerForBinary(target)
-  if (!fs.existsSync(from)) throw new Error(`Kilo sandbox mutation worker not found at ${from}`)
+export async function copyKappaSandboxWorker(source: string, target: string): Promise<void> {
+  const from = kappaSandboxWorkerForBinary(source)
+  const to = kappaSandboxWorkerForBinary(target)
+  if (!fs.existsSync(from)) throw new Error(`Kappa sandbox mutation worker not found at ${from}`)
   await fs.promises.copyFile(from, to)
 }
 

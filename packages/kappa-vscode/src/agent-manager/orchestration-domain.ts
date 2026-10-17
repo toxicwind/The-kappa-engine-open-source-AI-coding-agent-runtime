@@ -1,5 +1,5 @@
 import * as fs from "fs"
-import type { KiloClient, SessionStatus } from "@kappacode/sdk/v2/client"
+import type { KappaClient, SessionStatus } from "@kappacode/sdk/v2/client"
 import { sameDirectory } from "../kappa-provider-utils"
 import { isRunningStatus } from "../session-status"
 import type { LocalStats, WorktreeStats } from "./GitStatsPoller"
@@ -80,7 +80,7 @@ export async function sameManagedDirectory(a: string, b: string): Promise<boolea
 }
 
 export interface OverviewInput {
-  client: KiloClient
+  client: KappaClient
   root: string
   state: WorktreeStateManager
   titles: Map<string, string>
@@ -313,7 +313,7 @@ export async function overview(input: OverviewInput): Promise<Overview> {
 }
 
 interface Target {
-  client: KiloClient
+  client: KappaClient
   root: string
   state: WorktreeStateManager
   sessionID: string
@@ -391,7 +391,7 @@ async function blocked(input: Target, dir: string, name: string, questions?: "di
 }
 
 export async function prompt(input: {
-  client: KiloClient
+  client: KappaClient
   root: string
   state: WorktreeStateManager
   sessionID: string
@@ -425,7 +425,7 @@ export async function prompt(input: {
 }
 
 export async function answer(input: {
-  client: KiloClient
+  client: KappaClient
   root: string
   state: WorktreeStateManager
   sessionID: string

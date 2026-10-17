@@ -1,20 +1,20 @@
 #!/usr/bin/env bun
 
 /**
- * SBOM generation for Kilo VS Code artifacts.
+ * SBOM generation for Kappa VS Code artifacts.
  *
  * A VSIX is not one product: it is the extension host bundle, the webview
  * bundles, an externally copied Playwright runtime, a platform FFmpeg helper,
- * and a full Kilo CLI for one target. The CLI component graph is imported from
+ * and a full Kappa CLI for one target. The CLI component graph is imported from
  * the CLI generator rather than recomputed, so a VSIX and the CLI archive that
  * contain the same binary cannot describe it differently.
  */
 
 import fs from "node:fs"
 import path from "node:path"
-import { Artifact, Deps, Manifest, Policy, Scan, compose, serialize } from "../../../script/kilocode/sbom/index"
-import type { Component, Manifest as ManifestType } from "../../../script/kilocode/sbom/index"
-import * as Cli from "../../opencode/script/kilocode/sbom"
+import { Artifact, Deps, Manifest, Policy, Scan, compose, serialize } from "../../../script/kappacode/sbom/index"
+import type { Component, Manifest as ManifestType } from "../../../script/kappacode/sbom/index"
+import * as Cli from "../../opencode/script/kappacode/sbom"
 import { packages as ffmpeg } from "./ffmpeg-helper"
 
 const repo = path.resolve(import.meta.dir, "../../..")
@@ -74,7 +74,7 @@ export async function vsix(input: { file: string; target: string; release: Relea
 
   const lock = input.lock ?? (await Deps.load(path.join(repo, "bun.lock")))
   const subject = await Artifact.subject(input.file)
-  const rootRef = `kilocode:artifact:${subject.name}`
+  const rootRef = `kappacode:artifact:${subject.name}`
 
   const extension = Deps.closure({
     lock,
@@ -97,7 +97,7 @@ export async function vsix(input: { file: string; target: string; release: Relea
       name: "kappa-code",
       version: input.release.version,
       type: "application",
-      description: `Kilo Code VS Code extension for ${input.target}`,
+      description: `Kappa Code VS Code extension for ${input.target}`,
     },
     target: { platform: input.target, ...constraint(input.target) },
     build: {

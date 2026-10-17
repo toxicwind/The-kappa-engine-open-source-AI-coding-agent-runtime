@@ -39,17 +39,17 @@ import { SessionCompaction } from "../../src/session/compaction"
 import { SessionSummary } from "../../src/session/summary"
 import { Instruction } from "../../src/session/instruction"
 import { SessionProcessor } from "../../src/session/processor"
-import { SessionProjector } from "@opencode-ai/core/session/projector" // kilocode_change
+import { SessionProjector } from "@opencode-ai/core/session/projector" // kappacode_change
 import { SessionPrompt } from "../../src/session/prompt"
 import { SessionRevert } from "../../src/session/revert"
 import { SessionRunState } from "../../src/session/run-state"
-import { KiloSession } from "../../src/kilocode/session"
-// kilocode_change start - Item 14 cancel→reprompt proof helpers
-import { KiloSessionPrompt } from "../../src/kilocode/session/prompt"
-import { KiloSessionPromptQueue } from "../../src/kilocode/session/prompt-queue"
-// kilocode_change end
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
-import { Suggestion } from "../../src/kilocode/suggestion"
+import { KappaSession } from "../../src/kappacode/session"
+// kappacode_change start - Item 14 cancel→reprompt proof helpers
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessionPromptQueue } from "../../src/kappacode/session/prompt-queue"
+// kappacode_change end
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { Suggestion } from "../../src/kappacode/suggestion"
 import { MessageID, PartID, SessionID } from "../../src/session/schema"
 import { SessionStatus } from "../../src/session/status"
 import { SessionV2 } from "@opencode-ai/core/session"
@@ -138,14 +138,14 @@ function makeMcp(instructions: MCP.ServerInstructions[] = []) {
       add: () => Effect.succeed({ status: { status: "disabled" as const } }),
       connect: () => Effect.void,
       disconnect: () => Effect.void,
-    remove: () => Effect.void, // kilocode_change
+    remove: () => Effect.void, // kappacode_change
       getPrompt: () => Effect.succeed(undefined),
       readResource: () => Effect.succeed(undefined),
       startAuth: () => Effect.die("unexpected MCP auth in prompt-effect tests"),
       authenticate: () => Effect.die("unexpected MCP auth in prompt-effect tests"),
       finishAuth: () => Effect.die("unexpected MCP auth in prompt-effect tests"),
       removeAuth: () => Effect.void,
-      cancelAuth: () => Effect.void, // kilocode_change
+      cancelAuth: () => Effect.void, // kappacode_change
       supportsOAuth: () => Effect.succeed(false),
       hasStoredTokens: () => Effect.succeed(false),
       getAuthStatus: () => Effect.succeed("not_authenticated" as const),
@@ -173,10 +173,10 @@ const lsp = Layer.succeed(
   }),
 )
 
-// kilocode_change start - one compiled graph per env. Effect v4 does not memoize nested layers, so
+// kappacode_change start - one compiled graph per env. Effect v4 does not memoize nested layers, so
 // LayerNode.compile's cache is the only dedupe; building services with separate AppNodeBuilder.build
 // calls gave this file three Database instances and every prompt died with "Session not found".
-// Mirrors upstream's harness, with Kilo's KiloSessions/MemoryService/fastAgents deltas.
+// Mirrors upstream's harness, with Kappa's KappaSessions/MemoryService/fastAgents deltas.
 const agent: AgentSvc.Info = {
   name: "build",
   mode: "primary",
@@ -257,7 +257,7 @@ function makePrompt(input?: { mcpInstructions?: MCP.ServerInstructions[]; proces
     [LSP.node, lsp],
     [MCP.node, makeMcp(input?.mcpInstructions)],
     [RuntimeFlags.node, runtimeFlags],
-    [KiloSessions.node, KiloSessions.testLayer],
+    [KappaSessions.node, KappaSessions.testLayer],
   ] as const
   if (input?.processor === "blocking") {
     return LayerNode.compile(promptRoot, [
@@ -276,7 +276,7 @@ function makeHttp(input?: { mcpInstructions?: MCP.ServerInstructions[]; processo
     [LSP.node, lsp],
     [MCP.node, makeMcp(input?.mcpInstructions)],
     [RuntimeFlags.node, runtimeFlags],
-    [KiloSessions.node, KiloSessions.testLayer],
+    [KappaSessions.node, KappaSessions.testLayer],
   ] as const
   if (input?.processor === "blocking") {
     return LayerNode.compile(root, [
@@ -291,7 +291,7 @@ function makeHttp(input?: { mcpInstructions?: MCP.ServerInstructions[]; processo
 function makeHttpNoLLMServer(input?: { mcpInstructions?: MCP.ServerInstructions[]; processor?: "blocking" }) {
   return makePrompt(input)
 }
-// kilocode_change end
+// kappacode_change end
 
 const it = testEffect(makeHttp())
 const noLLMServer = testEffect(makeHttpNoLLMServer())
@@ -628,7 +628,7 @@ withMcpInstructions.instance(
   15_000,
 )
 
-// kilocode_change start - guard provider-compatible max-step request shape
+// kappacode_change start - guard provider-compatible max-step request shape
 it.instance(
   "loop sends max steps instruction as a user message",
   () =>
@@ -660,7 +660,7 @@ it.instance(
     }),
   30_000,
 )
-// kilocode_change end
+// kappacode_change end
 
 noLLMServer.instance(
   "new prompt dismisses a pending question",
@@ -815,7 +815,7 @@ noLLMServer.instance(
   { config: cfg },
 )
 
-// kilocode_change start - SVG "images" are markup, not rasters Photon can decode; they must not die the prompt
+// kappacode_change start - SVG "images" are markup, not rasters Photon can decode; they must not die the prompt
 noLLMServer.instance(
   "decodes a user SVG data image into readable source instead of normalizing it",
   () =>
@@ -884,7 +884,7 @@ noLLMServer.instance(
     }),
   { config: cfg },
 )
-// kilocode_change end
+// kappacode_change end
 
 it.instance("loop surfaces content-filter finishes as session errors", () =>
   Effect.gen(function* () {
@@ -985,7 +985,7 @@ noLLMServer.instance.skip(
         ],
       })
 
-      // kilocode_change start - compile the v2 reader against this test's database graph
+      // kappacode_change start - compile the v2 reader against this test's database graph
       const messages = yield* SessionV2.Service.use((session) => session.messages({ sessionID: chat.id })).pipe(
         Effect.provide(
           LayerNode.compile(SessionV2.node, [
@@ -994,7 +994,7 @@ noLLMServer.instance.skip(
           ]),
         ),
       )
-      // kilocode_change end
+      // kappacode_change end
       const { db } = yield* Database.Service
       const row = yield* db
         .select()
@@ -1129,11 +1129,11 @@ it.instance("loop continues when finish is unknown", () =>
     yield* llm.text("second")
 
     const result = yield* prompt.loop({ sessionID: session.id })
-    // kilocode_change start - Kilo settles a finish-less response instead of
-    // continuing the prompt loop. Kilo preserves the AI SDK's unexpected
+    // kappacode_change start - Kappa settles a finish-less response instead of
+    // continuing the prompt loop. Kappa preserves the AI SDK's unexpected
     // provider finish reason as "other" (packages/llm/src/schema/ids.ts), which
     // is a terminal finish for the loop-exit check in session/prompt.ts, and
-    // src/kilocode/session/processor.ts only retries genuinely incomplete
+    // src/kappacode/session/processor.ts only retries genuinely incomplete
     // responses through its bounded recover budget. The second queued reply is
     // therefore never consumed and only one model call is made.
     expect(yield* llm.calls).toBe(1)
@@ -1143,7 +1143,7 @@ it.instance("loop continues when finish is unknown", () =>
       expect(result.parts.some((part) => part.type === "text" && part.text === "second")).toBe(false)
       expect(result.info.finish).toBe("other")
     }
-    // kilocode_change end
+    // kappacode_change end
   }),
 )
 
@@ -1438,7 +1438,7 @@ it.instance(
   10_000,
 )
 
-// kilocode_change start - TUI subagent-view Esc and the VS Code task-card Stop both abort the child as a tree
+// kappacode_change start - TUI subagent-view Esc and the VS Code task-card Stop both abort the child as a tree
 it.instance(
   "tree abort of a running subagent leaves the parent running and reports the task as cancelled",
   () =>
@@ -1494,7 +1494,7 @@ it.instance(
     }),
   30_000,
 )
-// kilocode_change end
+// kappacode_change end
 
 it.instance(
   "loop sets status to busy then idle",
@@ -1549,7 +1549,7 @@ it.instance(
   10_000,
 )
 
-// kilocode_change start - Item 14 CLI prove-it: cancel settles to Idle promptly,
+// kappacode_change start - Item 14 CLI prove-it: cancel settles to Idle promptly,
 // then the same session accepts a new prompt to completion. Covers idle,
 // mid-stream, mid-tool, queued follow-up, and intake-abort paths that mobile
 // stop→send depends on.
@@ -1705,7 +1705,7 @@ it.instance(
       // Wait until the follow-up is actually on the queue (past intake) so cancel
       // proves the queued-drop path, not abortIntakes of a still-intaking prompt.
       yield* pollWithTimeout(
-        Effect.sync(() => (KiloSessionPromptQueue.hasFollowup(chat.id) ? (true as const) : undefined)),
+        Effect.sync(() => (KappaSessionPromptQueue.hasFollowup(chat.id) ? (true as const) : undefined)),
         "follow-up prompt never queued behind the in-flight turn",
         "3 seconds",
       )
@@ -1716,7 +1716,7 @@ it.instance(
       )
       // Only the first (interrupted) turn may have hit the LLM; the queued one must not.
       expect(yield* llm.inputs.pipe(Effect.map((items) => items.length))).toBe(1)
-      expect(KiloSessionPromptQueue.hasFollowup(chat.id)).toBe(false)
+      expect(KappaSessionPromptQueue.hasFollowup(chat.id)).toBe(false)
       expect((yield* status.get(chat.id)).type).toBe("idle")
       const free = yield* run.assertNotBusy(chat.id).pipe(Effect.exit)
       expect(Exit.isSuccess(free)).toBe(true)
@@ -1751,7 +1751,7 @@ it.instance(
       // abort it via abortIntakes so the session is free for the next prompt.
       const started = yield* Deferred.make<void>()
       const finished = yield* Deferred.make<void>()
-      const intake = yield* KiloSessionPrompt.intake(
+      const intake = yield* KappaSessionPrompt.intake(
         sessionID,
         Effect.gen(function* () {
           yield* Deferred.succeed(started, undefined)
@@ -1781,7 +1781,7 @@ it.instance(
     }),
   20_000,
 )
-// kilocode_change end
+// kappacode_change end
 
 unix(
   "cancel records MessageAbortedError on interrupted process",
@@ -2065,7 +2065,7 @@ it.instance(
       }
     }),
   { git: true },
-  30_000, // kilocode_change - isolated suite load can delay queued live-loop cancellation
+  30_000, // kappacode_change - isolated suite load can delay queued live-loop cancellation
 )
 
 // Queue semantics
@@ -2178,12 +2178,12 @@ it.instance("prompt submitted during an active run is included in the next LLM i
     expect(inputs).toHaveLength(2)
     const messages = inputs.at(-1)?.messages
     if (!Array.isArray(messages)) throw new Error("expected LLM messages")
-    // kilocode_change start - Kilo appends environment details to queued user prompts
+    // kappacode_change start - Kappa appends environment details to queued user prompts
     expect(messages.at(-1)).toMatchObject({
       role: "user",
       content: expect.arrayContaining([{ type: "text", text: "second" }]),
     })
-    // kilocode_change end
+    // kappacode_change end
   }),
   10_000,
 )
@@ -2368,7 +2368,7 @@ unixNoLLMServer(
       const tool = completedTool(result.parts)
       if (!tool) return
 
-      // kilocode_change start - bind v2 execution and location services in the consolidated test graph
+      // kappacode_change start - bind v2 execution and location services in the consolidated test graph
       const messages = yield* SessionV2.Service.use((session) => session.messages({ sessionID: chat.id })).pipe(
         Effect.provide(
           LayerNode.compile(SessionV2.node, [
@@ -2377,7 +2377,7 @@ unixNoLLMServer(
           ]),
         ),
       )
-      // kilocode_change end
+      // kappacode_change end
       const shell = messages.find((message) => message.type === "shell")
 
       expect(shell).toMatchObject({
@@ -2746,7 +2746,7 @@ unixNoLLMServer(
       const opened = yield* Deferred.make<void>()
       yield* Effect.acquireRelease(
         Effect.sync(() =>
-          Bus.subscribe(KiloSession.Event.TurnOpen, (event) => {
+          Bus.subscribe(KappaSession.Event.TurnOpen, (event) => {
             if (event.properties.sessionID !== chat.id) return
             Effect.runFork(Deferred.succeed(opened, undefined))
           }),

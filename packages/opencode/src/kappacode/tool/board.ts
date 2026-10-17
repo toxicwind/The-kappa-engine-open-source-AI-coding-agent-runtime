@@ -100,7 +100,7 @@ export const BoardReadTool = Tool.define<
           const cfg = yield* config.get()
           if (!BoardEnabled.on(cfg, flags)) {
             return yield* Effect.fail(
-              new Error("The shared agent board is disabled. Enable Kilo Swarm in Agent Behaviour settings."),
+              new Error("The shared agent board is disabled. Enable Kappa Swarm in Agent Behaviour settings."),
             )
           }
           yield* ctx.ask({ permission: "board_read", patterns: ["*"], always: ["*"], metadata: {} })
@@ -165,7 +165,7 @@ export const BoardPostTool = Tool.define<
           const cfg = yield* config.get()
           if (!BoardEnabled.on(cfg, flags)) {
             return yield* Effect.fail(
-              new Error("The shared agent board is disabled. Enable Kilo Swarm in Agent Behaviour settings."),
+              new Error("The shared agent board is disabled. Enable Kappa Swarm in Agent Behaviour settings."),
             )
           }
           yield* ctx.ask({

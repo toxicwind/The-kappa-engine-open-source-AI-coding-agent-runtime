@@ -2,11 +2,11 @@
 
 **Priority:** P2
 **Status:** ❌ Not started
-**Issue:** [#6230](https://github.com/Kilo-Org/kilocode/issues/6230)
+**Issue:** [#6230](https://github.com/Kappa-Org/kappacode/issues/6230)
 
 ## Problem
 
-The old Kilo Code extension had an "Architect mode" that would write the resulting plan as a `.md` file into a `/plans` directory in the project root. Users adopted this workflow and now miss it.
+The old Kappa Code extension had an "Architect mode" that would write the resulting plan as a `.md` file into a `/plans` directory in the project root. Users adopted this workflow and now miss it.
 
 The new extension has Plan mode, but plans are stored only inside `.opencode/` — not as human-readable `.md` files in the project. Users can't see or reference their plans easily.
 

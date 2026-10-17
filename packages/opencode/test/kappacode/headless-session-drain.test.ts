@@ -1,6 +1,6 @@
 import { expect } from "bun:test"
 import { Effect, Fiber } from "effect"
-import { createKiloClient, type Event, type KiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient, type Event, type KappaClient } from "@kappacode/sdk/v2"
 import path from "node:path"
 import { mkdir } from "node:fs/promises"
 import { pathToFileURL } from "node:url"
@@ -72,23 +72,23 @@ function environment(home: string, url: string, opts: { plugin?: string; resume?
   }
 }
 
-function drain(client: KiloClient, id: string, timeout = 30_000) {
+function drain(client: KappaClient, id: string, timeout = 30_000) {
   return client.kappacode.drainSession(
     { sessionID: id, token: crypto.randomUUID() },
     { throwOnError: true, signal: AbortSignal.timeout(timeout) },
   )
 }
 
-function pending(client: KiloClient, id: string) {
+function pending(client: KappaClient, id: string) {
   return Effect.promise(() => drain(client, id, 1_000).catch((err: unknown) => err))
 }
 
 function observer(url: string, busy: boolean) {
   const sdk = pathToFileURL(path.resolve(import.meta.dir, "../../../sdk/js/src/v2/index.ts")).href
-  return `import { createKiloClient } from ${JSON.stringify(sdk)}
+  return `import { createKappaClient } from ${JSON.stringify(sdk)}
   export default async ({ client: legacy }) => {
     const cfg = legacy._client.getConfig()
-    const client = createKiloClient({ ...cfg, headers: Object.fromEntries(new Headers(cfg.headers)) })
+    const client = createKappaClient({ ...cfg, headers: Object.fromEntries(new Headers(cfg.headers)) })
     const abort = new AbortController()
     const ready = Promise.withResolvers()
     let root
@@ -229,7 +229,7 @@ function scenario(
     const session =
       (opts.resume || opts.abort) && server
         ? yield* Effect.promise(() =>
-            createKiloClient({ baseUrl: server.url, directory }).session.create({}, { throwOnError: true }),
+            createKappaClient({ baseUrl: server.url, directory }).session.create({}, { throwOnError: true }),
           )
         : undefined
     if (opts.daemon) {
@@ -280,7 +280,7 @@ function scenario(
     }
     if (opts.abort) {
       if (!server || !session) throw new Error("Abort scenario requires an attached session")
-      const client = createKiloClient({ baseUrl: server.url, directory })
+      const client = createKappaClient({ baseUrl: server.url, directory })
       const controller = new AbortController()
       yield* Effect.addFinalizer(() => Effect.sync(() => controller.abort()))
       const ready = gate()
@@ -383,7 +383,7 @@ for (const [name, mode] of [
           env: environment(home, llm.url, { plugin: tap?.plugin }),
           readyTimeoutMs: 30_000,
         })
-        const client = createKiloClient({ baseUrl: server.url, directory: home })
+        const client = createKappaClient({ baseUrl: server.url, directory: home })
         const session = yield* Effect.promise(() => client.session.create({}, { throwOnError: true }))
         const id = session.data.id
         const text = mode === "intake" ? "INTAKE_WORK_FINISHED" : "SUMMARY_AFTER_DISCONNECT"
@@ -453,7 +453,7 @@ cliIt.live(
         env: { KILO_SERVER_PASSWORD: "", KILO_SERVER_USERNAME: "kappa" },
         readyTimeoutMs: 30_000,
       })
-      const sdk = createKiloClient({ baseUrl: server.url, directory: home })
+      const sdk = createKappaClient({ baseUrl: server.url, directory: home })
       const session = yield* Effect.promise(() => sdk.session.create({}))
       if (!session.data) throw new Error("Session creation failed")
       const id = session.data.id

@@ -22,9 +22,9 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Format } from "../../src/format"
 import { Git } from "../../src/git"
 import { Image } from "../../src/image/image"
-import { KiloSession } from "../../src/kappacode/session"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { KappaSession } from "../../src/kappacode/session"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
 import { LSP } from "../../src/lsp/lsp"
 import { MCP } from "../../src/mcp"
 import { Permission } from "../../src/permission"
@@ -182,7 +182,7 @@ function makeHttp() {
     [LSP.node, lsp],
     [MCP.node, mcp],
     [RuntimeFlags.node, RuntimeFlags.layer()],
-    [KiloSessions.node, KiloSessions.testLayer],
+    [KappaSessions.node, KappaSessions.testLayer],
   ])
 }
 
@@ -328,8 +328,8 @@ describe("session compaction cap", () => {
               return Effect.void
             })
             yield* Effect.addFinalizer(() => off)
-            const closed = yield* Deferred.make<KiloSession.CloseReason>()
-            const unsub = Bus.subscribe(KiloSession.Event.TurnClose, (evt) => {
+            const closed = yield* Deferred.make<KappaSession.CloseReason>()
+            const unsub = Bus.subscribe(KappaSession.Event.TurnClose, (evt) => {
               if (evt.properties.sessionID === chat.id)
                 Deferred.doneUnsafe(closed, Effect.succeed(evt.properties.reason))
             })
@@ -413,8 +413,8 @@ describe("session compaction cap", () => {
           })
           yield* Effect.addFinalizer(() => off)
 
-          const turnClose = yield* Deferred.make<KiloSession.CloseReason>()
-          const unsub = Bus.subscribe(KiloSession.Event.TurnClose, (evt) => {
+          const turnClose = yield* Deferred.make<KappaSession.CloseReason>()
+          const unsub = Bus.subscribe(KappaSession.Event.TurnClose, (evt) => {
             if (evt.properties.sessionID === chat.id)
               Deferred.doneUnsafe(turnClose, Effect.succeed(evt.properties.reason))
           })
@@ -431,7 +431,7 @@ describe("session compaction cap", () => {
 
           // Each compaction round costs 2 LLM calls in this replay-mode path (one
           // top-level overflow + one summary) plus 1 final overflow that trips the cap.
-          expect(yield* llm.calls).toBe(KiloSessionPrompt.MAX_COMPACTION_ATTEMPTS * 2 + 1)
+          expect(yield* llm.calls).toBe(KappaSessionPrompt.MAX_COMPACTION_ATTEMPTS * 2 + 1)
           expect(reason).toBe("error")
           expect(result.info.role).toBe("assistant")
           if (result.info.role !== "assistant") return
@@ -463,8 +463,8 @@ describe("session compaction cap", () => {
           yield* llm.text("summary ok") // 2 — summary succeeds
           yield* llm.text("final answer") // 3 — replayed turn completes
 
-          const turnClose = yield* Deferred.make<KiloSession.CloseReason>()
-          const unsub = Bus.subscribe(KiloSession.Event.TurnClose, (evt) => {
+          const turnClose = yield* Deferred.make<KappaSession.CloseReason>()
+          const unsub = Bus.subscribe(KappaSession.Event.TurnClose, (evt) => {
             if (evt.properties.sessionID === chat.id)
               Deferred.doneUnsafe(turnClose, Effect.succeed(evt.properties.reason))
           })
@@ -510,14 +510,14 @@ function makeAssistantStub(sessionID: string): MessageV2.Assistant {
   }
 }
 
-describe("KiloSessionPrompt.guardCompactionAttempt", () => {
+describe("KappaSessionPrompt.guardCompactionAttempt", () => {
   it.effect("returns { exhausted: false } and does not mutate state below the cap", () =>
     Effect.sync(() => {
-      const closeReasons = new Map<string, KiloSession.CloseReason>()
+      const closeReasons = new Map<string, KappaSession.CloseReason>()
       const msg = makeAssistantStub("ses_under")
-      const result = KiloSessionPrompt.guardCompactionAttempt({
+      const result = KappaSessionPrompt.guardCompactionAttempt({
         sessionID: "ses_under",
-        attempts: KiloSessionPrompt.MAX_COMPACTION_ATTEMPTS - 1,
+        attempts: KappaSessionPrompt.MAX_COMPACTION_ATTEMPTS - 1,
         closeReasons,
         message: msg,
       })
@@ -530,11 +530,11 @@ describe("KiloSessionPrompt.guardCompactionAttempt", () => {
 
   it.effect("sets close reason and attaches error once attempts reach the cap", () =>
     Effect.sync(() => {
-      const closeReasons = new Map<string, KiloSession.CloseReason>()
+      const closeReasons = new Map<string, KappaSession.CloseReason>()
       const msg = makeAssistantStub("ses_cap")
-      const result = KiloSessionPrompt.guardCompactionAttempt({
+      const result = KappaSessionPrompt.guardCompactionAttempt({
         sessionID: "ses_cap",
-        attempts: KiloSessionPrompt.MAX_COMPACTION_ATTEMPTS,
+        attempts: KappaSessionPrompt.MAX_COMPACTION_ATTEMPTS,
         closeReasons,
         message: msg,
       })
@@ -551,10 +551,10 @@ describe("KiloSessionPrompt.guardCompactionAttempt", () => {
 
   it.effect("works without a message and still sets the close reason", () =>
     Effect.sync(() => {
-      const closeReasons = new Map<string, KiloSession.CloseReason>()
-      const result = KiloSessionPrompt.guardCompactionAttempt({
+      const closeReasons = new Map<string, KappaSession.CloseReason>()
+      const result = KappaSessionPrompt.guardCompactionAttempt({
         sessionID: "ses_no_msg",
-        attempts: KiloSessionPrompt.MAX_COMPACTION_ATTEMPTS,
+        attempts: KappaSessionPrompt.MAX_COMPACTION_ATTEMPTS,
         closeReasons,
       })
       expect(result.exhausted).toBe(true)

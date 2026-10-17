@@ -16,8 +16,8 @@ Access settings from your town dashboard → **Settings**.
 The primary model used by all agents (polecats, refinery, mayor). This affects quality, speed, and cost.
 
 Popular choices:
-- **Kilo Auto Frontier** — highest quality models, best results (recommended)
-- **Kilo Auto Efficient** — cheapest model proven accurate enough for each task, with capability matched to difficulty
+- **Kappa Auto Frontier** — highest quality models, best results (recommended)
+- **Kappa Auto Efficient** — cheapest model proven accurate enough for each task, with capability matched to difficulty
 
 ### Role-Specific Models
 
@@ -25,14 +25,14 @@ Override the default model for specific agent roles — **mayor**, **refinery**,
 
 ### Small Model
 
-Used for session title generation and the `explore` subagent inside your town's containers — not general classification, routing, or summarization. This is a lighter-weight model than your default, and it's independent of the `small_model` config used elsewhere in Kilo Code (see [Model Routing and Configuration](/docs/code-with-ai/agents/model-selection#model-routing-and-configuration)). If left unset, it defaults to Claude Haiku.
+Used for session title generation and the `explore` subagent inside your town's containers — not general classification, routing, or summarization. This is a lighter-weight model than your default, and it's independent of the `small_model` config used elsewhere in Kappa Code (see [Model Routing and Configuration](/docs/code-with-ai/agents/model-selection#model-routing-and-configuration)). If left unset, it defaults to Claude Haiku.
 
 ## Git & Authentication
 
 ### GitHub Personal Access Token
 
 {% callout type="tip" title="Strongly Recommended" %}
-Adding a GitHub PAT ensures that all commits, branches, and PRs created by your agents appear as **you** in git history. Without it, activity shows up under the Kilo GitHub App bot account.
+Adding a GitHub PAT ensures that all commits, branches, and PRs created by your agents appear as **you** in git history. Without it, activity shows up under the Kappa GitHub App bot account.
 {% /callout %}
 
 **To add a PAT:**
@@ -54,12 +54,12 @@ Use a fine-grained token limited to only the repository your town is connected t
 
 **Without a PAT:**
 - The GitHub App installation token is used (functional but less personal)
-- PRs show as created by the Kilo bot
+- PRs show as created by the Kappa bot
 - Some `gh` CLI operations may not work
 
 ### GitHub App Installation
 
-The [Kilo GitHub App](https://github.com/apps/kappa-code) provides base-level repository access. It's installed per-organization or per-repository and gives agents read/write access to code, PRs, and issues.
+The [Kappa GitHub App](https://github.com/apps/kappa-code) provides base-level repository access. It's installed per-organization or per-repository and gives agents read/write access to code, PRs, and issues.
 
 The GitHub App is **required** — it's how Gastown gets installation tokens for cloning and pushing. The PAT is **optional but recommended** — it provides user-level attribution.
 

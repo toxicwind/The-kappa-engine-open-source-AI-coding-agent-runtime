@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { getMigrationErrorMessage } from "../errors/migration-error"
 import type { MigrationSessionProgress, MigrationSessionSelection } from "../legacy-types"
 import { createSessionID } from "./lib/ids"
@@ -30,7 +30,7 @@ function trimError(input: string) {
 export async function migrate(
   input: MigrationSessionSelection,
   context: vscode.ExtensionContext,
-  client: KiloClient,
+  client: KappaClient,
   onProgress?: ProgressCallback,
   resolved?: SessionSource,
 ): Promise<Result> {
@@ -76,9 +76,9 @@ export async function migrate(
     progress({ phase: "preparing" })
     const payload = await parseSession(source.id, source.dir, source.item, undefined, key)
     progress({ phase: "storing" })
-    const project = await client.kilocode.sessionImport.project(payload.project, { throwOnError: true })
+    const project = await client.kappacode.sessionImport.project(payload.project, { throwOnError: true })
     const projectID = project.data?.id ?? payload.project.id
-    const session = await client.kilocode.sessionImport.session(
+    const session = await client.kappacode.sessionImport.session(
       {
         ...payload.session,
         projectID,
@@ -99,11 +99,11 @@ export async function migrate(
     }
 
     for (const msg of payload.messages) {
-      await client.kilocode.sessionImport.message(msg, { throwOnError: true })
+      await client.kappacode.sessionImport.message(msg, { throwOnError: true })
     }
 
     for (const part of payload.parts) {
-      await client.kilocode.sessionImport.part(part, { throwOnError: true })
+      await client.kappacode.sessionImport.part(part, { throwOnError: true })
     }
 
     progress({ phase: "done" })

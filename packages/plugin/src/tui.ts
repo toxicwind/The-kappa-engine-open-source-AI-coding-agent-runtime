@@ -1,6 +1,6 @@
 import type {
   AgentPart,
-  KiloClient,
+  KappaClient,
   Event,
   FilePart,
   LspStatus,
@@ -619,7 +619,7 @@ export type TuiPluginApi = {
   kv: TuiKV
   state: TuiState
   theme: TuiTheme
-  client: KiloClient
+  client: KappaClient
   event: TuiEventBus
   renderer: CliRenderer
   slots: TuiSlots

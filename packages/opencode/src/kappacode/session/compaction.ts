@@ -3,9 +3,9 @@ import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import type { MessageV2 } from "@/session/message-v2"
 import { MessageID, PartID, type SessionID } from "@/session/schema"
-import { KiloSessionPromptQueue } from "./prompt-queue"
+import { KappaSessionPromptQueue } from "./prompt-queue"
 
-export namespace KiloSessionCompaction {
+export namespace KappaSessionCompaction {
   type Store = {
     updateMessage: <T extends MessageV2.Info>(msg: T) => Effect.Effect<T>
     updatePart: <T extends MessageV2.Part>(part: T) => Effect.Effect<T>
@@ -36,7 +36,7 @@ export namespace KiloSessionCompaction {
         auto: input.auto,
         overflow: input.overflow,
       })
-      KiloSessionPromptQueue.retarget(input.sessionID, msg.id)
+      KappaSessionPromptQueue.retarget(input.sessionID, msg.id)
       return msg
     })
   }

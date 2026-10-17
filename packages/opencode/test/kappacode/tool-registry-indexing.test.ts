@@ -5,15 +5,15 @@ import * as Log from "@opencode-ai/core/util/log"
 import { Agent } from "../../src/agent/agent"
 import { Bus } from "../../src/bus"
 import { Config } from "../../src/config/config"
-import { KiloIndexing } from "../../src/kappacode/indexing"
-import { KilocodeBootstrap } from "../../src/kappacode/bootstrap"
+import { KappaIndexing } from "../../src/kappacode/indexing"
+import { KappacodeBootstrap } from "../../src/kappacode/bootstrap"
 import { Wakeup } from "../../src/kappacode/wakeup"
-import { KilocodeWatcher } from "../../src/kappacode/watcher"
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { KappacodeWatcher } from "../../src/kappacode/watcher"
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { InstanceState } from "../../src/effect/instance-state"
-import { KiloToolRegistry } from "../../src/kappacode/tool/registry"
+import { KappaToolRegistry } from "../../src/kappacode/tool/registry"
 import { Provider } from "../../src/provider/provider"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -43,7 +43,7 @@ describe("kappacode tool registry indexing", () => {
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
-          const avail = spyOn(KiloIndexing, "available").mockImplementation(() => new Promise<boolean>(() => {}))
+          const avail = spyOn(KappaIndexing, "available").mockImplementation(() => new Promise<boolean>(() => {}))
 
           try {
             const registry = yield* ToolRegistry.Service
@@ -68,7 +68,7 @@ describe("kappacode tool registry indexing", () => {
       () =>
         Effect.gen(function* () {
           const err = new Error("ready failed")
-          const ready = spyOn(KiloIndexing, "ready").mockImplementation(() => {
+          const ready = spyOn(KappaIndexing, "ready").mockImplementation(() => {
             throw err
           })
           const warn = spyOn(logger, "warn").mockImplementation(() => {})
@@ -96,7 +96,7 @@ describe("kappacode tool registry indexing", () => {
       () =>
         Effect.gen(function* () {
           const err = new Error("ready rejected")
-          const ready = spyOn(KiloIndexing, "ready").mockImplementation(() => Promise.reject(err) as unknown as boolean)
+          const ready = spyOn(KappaIndexing, "ready").mockImplementation(() => Promise.reject(err) as unknown as boolean)
           const warn = spyOn(logger, "warn").mockImplementation(() => {})
 
           try {
@@ -121,7 +121,7 @@ describe("kappacode tool registry indexing", () => {
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
-          const ready = spyOn(KiloIndexing, "ready").mockReturnValue(true)
+          const ready = spyOn(KappaIndexing, "ready").mockReturnValue(true)
 
           try {
             const registry = yield* ToolRegistry.Service
@@ -140,7 +140,7 @@ describe("kappacode tool registry indexing", () => {
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
-          const ready = spyOn(KiloIndexing, "ready").mockReturnValue(false)
+          const ready = spyOn(KappaIndexing, "ready").mockReturnValue(false)
 
           try {
             const agent = yield* Agent.Service
@@ -164,7 +164,7 @@ describe("kappacode tool registry indexing", () => {
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
-          const ready = spyOn(KiloIndexing, "ready").mockReturnValue(true)
+          const ready = spyOn(KappaIndexing, "ready").mockReturnValue(true)
 
           try {
             const agent = yield* Agent.Service
@@ -209,9 +209,9 @@ describe("kappacode tool registry indexing", () => {
               })
 
               yield* check(false)
-              yield* Effect.promise(() => KiloIndexing.setConsent(true))
+              yield* Effect.promise(() => KappaIndexing.setConsent(true))
               yield* check(true)
-              yield* Effect.promise(() => KiloIndexing.setConsent(false))
+              yield* Effect.promise(() => KappaIndexing.setConsent(false))
               yield* check(false)
             }),
           { git: true },
@@ -261,19 +261,19 @@ describe("kappacode tool registry indexing", () => {
 
   test("enables semantic search from indexing configuration before the index is ready", () => {
     expect(
-      KiloToolRegistry.indexing({
+      KappaToolRegistry.indexing({
         indexing: { enabled: true },
       }),
     ).toBe(true)
     expect(
-      KiloToolRegistry.indexing({
+      KappaToolRegistry.indexing({
         indexing: { enabled: false },
       }),
     ).toBe(false)
-    expect(KiloToolRegistry.indexing({}, { indexing: { enabled: true } })).toBe(true)
+    expect(KappaToolRegistry.indexing({}, { indexing: { enabled: true } })).toBe(true)
   })
 
-  it.live("omits memory tools when project memory is disabled but keeps kappa_local_recall", () =>
+  it.live("omits memory tools when project memory is disabled but keeps kilo_local_recall", () =>
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
@@ -283,11 +283,11 @@ describe("kappacode tool registry indexing", () => {
           const tools = yield* registry.tools({ ...ref, agent: build })
           const ids = tools.map((tool) => tool.id)
 
-          expect(ids).not.toContain("kappa_memory_recall")
-          expect(ids).not.toContain("kappa_memory_save")
-          // kappa_local_recall is a transcript-recall tool gated by `recall: "ask"` in agent
+          expect(ids).not.toContain("kilo_memory_recall")
+          expect(ids).not.toContain("kilo_memory_save")
+          // kilo_local_recall is a transcript-recall tool gated by `recall: "ask"` in agent
           // permissions; it must NOT be coupled to project-memory enablement.
-          expect(ids).toContain("kappa_local_recall")
+          expect(ids).toContain("kilo_local_recall")
         }),
       { git: true },
     ),
@@ -298,15 +298,15 @@ describe("kappacode tool registry indexing", () => {
       () =>
         Effect.gen(function* () {
           const ctx = yield* InstanceState.context
-          const probe = spyOn(KiloMemory, "toolEnabled")
+          const probe = spyOn(KappaMemory, "toolEnabled")
 
           try {
-            const a = yield* KiloToolRegistry.memoryToolsEnabled({ ctx })
-            const b = yield* KiloToolRegistry.memoryToolsEnabled({ ctx })
-            const c = yield* KiloToolRegistry.memoryToolsEnabled({ ctx })
+            const a = yield* KappaToolRegistry.memoryToolsEnabled({ ctx })
+            const b = yield* KappaToolRegistry.memoryToolsEnabled({ ctx })
+            const c = yield* KappaToolRegistry.memoryToolsEnabled({ ctx })
 
             expect([a, b, c]).toEqual([false, false, false])
-            // Cache hit: only the first call should reach KiloMemory.toolEnabled.
+            // Cache hit: only the first call should reach KappaMemory.toolEnabled.
             expect(probe).toHaveBeenCalledTimes(1)
           } finally {
             probe.mockRestore()
@@ -321,22 +321,22 @@ describe("kappacode tool registry indexing", () => {
       () =>
         Effect.gen(function* () {
           const ctx = yield* InstanceState.context
-          const root = (yield* Effect.promise(() => KiloMemory.prepare({ ctx }))).toString()
+          const root = (yield* Effect.promise(() => KappaMemory.prepare({ ctx }))).toString()
 
-          const first = yield* KiloToolRegistry.memoryToolsEnabled({ ctx })
+          const first = yield* KappaToolRegistry.memoryToolsEnabled({ ctx })
           expect(first).toBe(false)
 
-          yield* Effect.promise(() => KiloMemory.enable({ ctx }))
+          yield* Effect.promise(() => KappaMemory.enable({ ctx }))
 
           // The bootstrap MemoryEvents subscriber invalidates on mutation; call it directly here.
-          KiloToolRegistry.invalidateMemoryEnabled(root)
-          const afterEnable = yield* KiloToolRegistry.memoryToolsEnabled({ ctx })
+          KappaToolRegistry.invalidateMemoryEnabled(root)
+          const afterEnable = yield* KappaToolRegistry.memoryToolsEnabled({ ctx })
           expect(afterEnable).toBe(true)
 
-          yield* Effect.promise(() => KiloMemory.disable({ ctx }))
+          yield* Effect.promise(() => KappaMemory.disable({ ctx }))
 
-          KiloToolRegistry.invalidateMemoryEnabled(root)
-          const afterDisable = yield* KiloToolRegistry.memoryToolsEnabled({ ctx })
+          KappaToolRegistry.invalidateMemoryEnabled(root)
+          const afterDisable = yield* KappaToolRegistry.memoryToolsEnabled({ ctx })
           expect(afterDisable).toBe(false)
         }),
       { git: true },
@@ -348,7 +348,7 @@ describe("kappacode tool registry indexing", () => {
       () =>
         Effect.gen(function* () {
           const ctx = yield* InstanceState.context
-          yield* Effect.promise(() => KiloMemory.enable({ ctx }))
+          yield* Effect.promise(() => KappaMemory.enable({ ctx }))
 
           const agent = yield* Agent.Service
           const build = yield* agent.get("build")
@@ -356,15 +356,15 @@ describe("kappacode tool registry indexing", () => {
           const tools = yield* registry.tools({ ...ref, agent: build })
           const ids = tools.map((tool) => tool.id)
 
-          expect(ids).toContain("kappa_memory_recall")
-          expect(ids).toContain("kappa_memory_save")
-          expect(ids).toContain("kappa_local_recall")
+          expect(ids).toContain("kilo_memory_recall")
+          expect(ids).toContain("kilo_memory_save")
+          expect(ids).toContain("kilo_local_recall")
         }),
       { git: true },
     ),
   )
 
-  test("conditionally includes Kilo registry extras", () => {
+  test("conditionally includes Kappa registry extras", () => {
     const prev = process.env["KILO_CLIENT"]
     const def = (id: string): Tool.Def => ({
       id,
@@ -376,8 +376,8 @@ describe("kappacode tool registry indexing", () => {
       semantic: def("semantic_search"),
       recall: def("recall"),
       managerModels: def("agent_manager_models"),
-      memory: def("kappa_memory_recall"),
-      save: def("kappa_memory_save"),
+      memory: def("kilo_memory_recall"),
+      save: def("kilo_memory_save"),
       manager: def("agent_manager"),
       process: def("background_process"),
       browser: def("browser_open"),
@@ -396,10 +396,10 @@ describe("kappacode tool registry indexing", () => {
 
     try {
       process.env["KILO_CLIENT"] = "cli"
-      expect(KiloToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
+      expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
-        "kappa_memory_recall",
-        "kappa_memory_save",
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "background_process",
         "agent_manager_models",
@@ -408,12 +408,12 @@ describe("kappacode tool registry indexing", () => {
         "link_pr",
       ])
       expect(
-        KiloToolRegistry.extra(tools, { experimental: { image_generation: true } }, flags).map((tool) => tool.id),
+        KappaToolRegistry.extra(tools, { experimental: { image_generation: true } }, flags).map((tool) => tool.id),
       ).toEqual([
         "generate_image",
         "semantic_search",
-        "kappa_memory_recall",
-        "kappa_memory_save",
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "background_process",
         "agent_manager_models",
@@ -423,10 +423,10 @@ describe("kappacode tool registry indexing", () => {
       ])
 
       process.env["KILO_CLIENT"] = "vscode"
-      expect(KiloToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
+      expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
-        "kappa_memory_recall",
-        "kappa_memory_save",
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "chart",
         "background_process",
@@ -437,7 +437,7 @@ describe("kappacode tool registry indexing", () => {
         "send_file",
       ])
       expect(
-        KiloToolRegistry.extra(
+        KappaToolRegistry.extra(
           tools,
           {
             experimental: { native_notebook_tools: true },
@@ -446,8 +446,8 @@ describe("kappacode tool registry indexing", () => {
         ).map((tool) => tool.id),
       ).toEqual([
         "semantic_search",
-        "kappa_memory_recall",
-        "kappa_memory_save",
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "chart",
         "background_process",
@@ -460,9 +460,9 @@ describe("kappacode tool registry indexing", () => {
         "notify_user",
         "send_file",
       ])
-      expect(KiloToolRegistry.extra({ ...tools, semantic: undefined }, {}, flags).map((tool) => tool.id)).toEqual([
-        "kappa_memory_recall",
-        "kappa_memory_save",
+      expect(KappaToolRegistry.extra({ ...tools, semantic: undefined }, {}, flags).map((tool) => tool.id)).toEqual([
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "chart",
         "background_process",
@@ -474,10 +474,10 @@ describe("kappacode tool registry indexing", () => {
       ])
 
       process.env["KILO_CLIENT"] = "desktop"
-      expect(KiloToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
+      expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
-        "kappa_memory_recall",
-        "kappa_memory_save",
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "agent_manager_models",
         "notify_user",
@@ -485,10 +485,10 @@ describe("kappacode tool registry indexing", () => {
       ])
 
       process.env["KILO_CLIENT"] = "run"
-      expect(KiloToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
+      expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
-        "kappa_memory_recall",
-        "kappa_memory_save",
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "agent_manager_models",
         "notify_user",
@@ -496,10 +496,10 @@ describe("kappacode tool registry indexing", () => {
       ])
 
       process.env["KILO_CLIENT"] = "acp"
-      expect(KiloToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
+      expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
-        "kappa_memory_recall",
-        "kappa_memory_save",
+        "kilo_memory_recall",
+        "kilo_memory_save",
         "recall",
         "agent_manager_models",
         "notify_user",
@@ -508,7 +508,7 @@ describe("kappacode tool registry indexing", () => {
       for (const client of ["cli", "vscode", "jetbrains", "desktop", "run", "acp"]) {
         process.env["KILO_CLIENT"] = client
         for (const enabled of [false, true]) {
-          const ids = KiloToolRegistry.extra(
+          const ids = KappaToolRegistry.extra(
             tools,
             { shared_agent_board: enabled },
             { experimentalSharedAgentBoard: enabled },
@@ -518,7 +518,7 @@ describe("kappacode tool registry indexing", () => {
           expect(ids).toEqual(enabled ? ["board_read", "board_post"] : [])
         }
       }
-      const flagged = KiloToolRegistry.extra(tools, {}, { experimentalSharedAgentBoard: true })
+      const flagged = KappaToolRegistry.extra(tools, {}, { experimentalSharedAgentBoard: true })
         .map((tool) => tool.id)
         .filter((id) => id.startsWith("board_"))
       expect(flagged).toEqual(["board_read", "board_post"])
@@ -535,8 +535,8 @@ describe("kappacode tool registry indexing", () => {
     const err = new Error("indexing init failed")
     const calls: string[] = []
     const sessions = Layer.succeed(
-      KiloSessions.Service,
-      KiloSessions.Service.of({
+      KappaSessions.Service,
+      KappaSessions.Service.of({
         init: () => Effect.sync(() => calls.push("sessions")),
         sendAgentNotification: () => Effect.succeed({ ok: false as const, reason: "not_connected" }),
         reportSessionTitle: () => Effect.succeed({ ok: false as const, reason: "not_connected" }),
@@ -557,7 +557,7 @@ describe("kappacode tool registry indexing", () => {
     const summary = Layer.succeed(SessionSummary.Service, {} as SessionSummary.Interface)
     const provider = Layer.succeed(Provider.Service, {} as Provider.Interface)
     const config = Layer.succeed(Config.Service, {} as Config.Interface)
-    const watcher = Layer.succeed(KilocodeWatcher.Service, KilocodeWatcher.Service.of({ init: () => Effect.void }))
+    const watcher = Layer.succeed(KappacodeWatcher.Service, KappacodeWatcher.Service.of({ init: () => Effect.void }))
     const wakeup = Layer.succeed(
       Wakeup.Service,
       Wakeup.Service.of({
@@ -573,14 +573,14 @@ describe("kappacode tool registry indexing", () => {
         cronCancel: () => Effect.succeed(undefined),
       }),
     )
-    const indexing = spyOn(KiloIndexing, "init").mockRejectedValue(err)
+    const indexing = spyOn(KappaIndexing, "init").mockRejectedValue(err)
     const warn = spyOn(logger, "warn").mockImplementation(() => {})
 
     try {
       await Effect.runPromise(
-        KilocodeBootstrap.Service.use((svc) => svc.init()).pipe(
+        KappacodeBootstrap.Service.use((svc) => svc.init()).pipe(
           Effect.provide(
-            KilocodeBootstrap.layer.pipe(
+            KappacodeBootstrap.layer.pipe(
               Layer.provide([sessions, bus, memory, session, summary, provider, config, watcher, wakeup]),
             ),
           ),

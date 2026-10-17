@@ -9,7 +9,7 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { AppRuntime } from "@/effect/app-runtime"
 import { InstanceRef } from "@/effect/instance-ref"
-import { KiloSession } from "@/kappacode/session"
+import { KappaSession } from "@/kappacode/session"
 import { GoalLink } from "@/kappacode/session/goal/link"
 import { GoalState } from "@/kappacode/session/goal/state"
 import { Wakeup } from "@/kappacode/wakeup"
@@ -1001,7 +1001,7 @@ describe("wakeup resume", () => {
       GoalState.pause(session.id)
 
       const cancel = await AppRuntime.runPromise(
-        KiloSession.cancelWakeups(session.id).pipe(Effect.provideService(InstanceRef, ctx)),
+        KappaSession.cancelWakeups(session.id).pipe(Effect.provideService(InstanceRef, ctx)),
       )
 
       await AppRuntime.runPromise(

@@ -1,7 +1,7 @@
 /**
- * Kilo Gateway Commands for TUI
+ * Kappa Gateway Commands for TUI
  *
- * Provides /profile and /teams commands that are only visible when connected to Kilo Gateway.
+ * Provides /profile and /teams commands that are only visible when connected to Kappa Gateway.
  */
 
 import { createMemo } from "solid-js"
@@ -13,8 +13,8 @@ import { DialogAlert } from "@tui/ui/dialog-alert"
 import { DialogConfirm } from "@tui/ui/dialog-confirm"
 import { reconcile } from "solid-js/store"
 import type { Organization } from "@kappacode/kappa-gateway"
-import { DialogKiloTeamSelect } from "./components/dialog-kappa-team-select.js"
-import { DialogKiloProfile } from "./components/dialog-kappa-profile.js"
+import { DialogKappaTeamSelect } from "./components/dialog-kappa-team-select.js"
+import { DialogKappaProfile } from "./components/dialog-kappa-profile.js"
 import { DialogIndexing } from "./components/dialog-indexing.js"
 import { DialogProviderUsage } from "./components/dialog-provider-usage.js"
 import { indexingEnabled } from "./indexing-feature"
@@ -26,19 +26,19 @@ type UseSDK = any
 type SDK = any
 
 /**
- * Register all Kilo Gateway commands
+ * Register all Kappa Gateway commands
  * Call this from a component inside the TUI app
  *
  * @param useSDK - OpenCode's useSDK hook (passed from TUI context)
  */
-export function registerKiloCommands(useSDK: () => UseSDK) {
+export function registerKappaCommands(useSDK: () => UseSDK) {
   const sync = useSync()
   const dialog = useDialog()
   const sdk = useSDK()
   const toast = useToast()
 
-  // Only show Kilo commands when connected to Kilo Gateway
-  const isKiloConnected = createMemo(() => {
+  // Only show Kappa commands when connected to Kappa Gateway
+  const isKappaConnected = createMemo(() => {
     return sync.data.provider_next.connected.includes("kappa")
   })
   const indexing = createMemo(() => indexingEnabled(sync.data.config))
@@ -50,10 +50,10 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
         name: "remote.toggle",
         title: "Toggle remote",
         desc: "Enable or disable remote session relay",
-        category: "Kilo",
+        category: "Kappa",
         slashName: "remote",
-        enabled: isKiloConnected(),
-        hidden: !isKiloConnected(),
+        enabled: isKappaConnected(),
+        hidden: !isKappaConnected(),
         run: async () => {
           try {
             const current = await sdk.client.remote.status()
@@ -88,7 +88,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
         name: "kappa.usage",
         title: "Plans & usage",
         desc: "View provider plans and quota",
-        category: "Kilo",
+        category: "Kappa",
         slashName: "usage",
         slashAliases: ["plans", "quota"],
         run: () => {
@@ -100,12 +100,12 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
       {
         name: "kappa.profile",
         title: "Profile",
-        desc: "View your Kilo Gateway profile",
-        category: "Kilo",
+        desc: "View your Kappa Gateway profile",
+        category: "Kappa",
         slashName: "profile",
         slashAliases: ["me", "whoami"],
-        enabled: isKiloConnected(),
-        hidden: !isKiloConnected(),
+        enabled: isKappaConnected(),
+        hidden: !isKappaConnected(),
         run: async () => {
           try {
             if (sync.data.config.privacy_mode === true || sync.data.globalConfig.privacy_mode === true) {
@@ -124,7 +124,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
               dialog.replace(() => (
                 <DialogAlert
                   title="Error"
-                  message="Failed to fetch profile. Please ensure you're authenticated with Kilo Gateway."
+                  message="Failed to fetch profile. Please ensure you're authenticated with Kappa Gateway."
                 />
               ))
               return
@@ -133,7 +133,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
             const { profile, balance, currentOrgId } = response.data
 
             // Show profile dialog with clickable usage link
-            dialog.replace(() => <DialogKiloProfile profile={profile} balance={balance} currentOrgId={currentOrgId} />)
+            dialog.replace(() => <DialogKappaProfile profile={profile} balance={balance} currentOrgId={currentOrgId} />)
           } catch (error) {
             dialog.replace(() => <DialogAlert title="Error" message={`Failed to fetch profile: ${error}`} />)
           }
@@ -146,7 +146,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
               name: "kappa.indexing",
               title: "Indexing",
               desc: "Configure codebase indexing",
-              category: "Kilo",
+              category: "Kappa",
               slashName: "indexing",
               slashAliases: ["index", "embedding"],
               run: () => {
@@ -164,7 +164,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
           return active ? "Disable privacy mode" : "Enable privacy mode"
         },
         desc: "Blur PII (balance, email, etc.) and confirm before showing profile",
-        category: "Kilo",
+        category: "Kappa",
         slashName: "privacy",
         run: async () => {
           const active = sync.data.config.privacy_mode === true || sync.data.globalConfig.privacy_mode === true
@@ -207,12 +207,12 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
       {
         name: "kappa.teams",
         title: "Teams",
-        desc: "Switch between Kilo Gateway teams",
-        category: "Kilo",
+        desc: "Switch between Kappa Gateway teams",
+        category: "Kappa",
         slashName: "teams",
         slashAliases: ["team", "org", "orgs"],
-        enabled: isKiloConnected(),
-        hidden: !isKiloConnected(),
+        enabled: isKappaConnected(),
+        hidden: !isKappaConnected(),
         run: async () => {
           try {
             // Fetch profile to get organizations
@@ -222,7 +222,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
               dialog.replace(() => (
                 <DialogAlert
                   title="Error"
-                  message="Failed to fetch teams. Please ensure you're authenticated with Kilo Gateway."
+                  message="Failed to fetch teams. Please ensure you're authenticated with Kappa Gateway."
                 />
               ))
               return
@@ -242,7 +242,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
 
             // Show team selection dialog
             dialog.replace(() => (
-              <DialogKiloTeamSelect
+              <DialogKappaTeamSelect
                 organizations={profile.organizations!}
                 currentOrgId={currentOrgId}
                 hasPersonalAccount={profile.hasPersonalAccount !== false}
@@ -302,7 +302,7 @@ export function registerKiloCommands(useSDK: () => UseSDK) {
         name: "kappa.about",
         title: "About",
         desc: "Show version, environment, and diagnostic info",
-        category: "Kilo",
+        category: "Kappa",
         slashName: "about",
         run: () => {
           showAboutDialog(dialog)

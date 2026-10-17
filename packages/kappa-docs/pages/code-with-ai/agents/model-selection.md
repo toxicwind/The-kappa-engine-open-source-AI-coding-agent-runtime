@@ -7,7 +7,7 @@ description: "Guide to choosing the right AI model for your tasks"
 
 Here's the honest truth about AI model recommendations: by the time I write them down, they're probably already outdated. New models drop every few weeks, existing ones get updated, prices shift, and yesterday's champion becomes today's budget option.
 
-Instead of maintaining a static list that's perpetually behind, we built something better — a real-time leaderboard showing which models Kilo Code users are actually having success with right now.
+Instead of maintaining a static list that's perpetually behind, we built something better — a real-time leaderboard showing which models Kappa Code users are actually having success with right now.
 
 ## Model Routing and Configuration
 
@@ -16,10 +16,10 @@ You can configure models separately for different tasks in the VS Code extension
 - **Main model** — the primary model your agent uses for coding tasks, chat, and reasoning. This is what you pick with the model selector, `/models`, or the `model` key in `kappa.jsonc`. See [How to Select and Switch Models](#how-to-select-and-switch-models) for the full precedence order and per-agent config.
   - The main model is also used for todo-list generation, and for context compaction when no compaction model is set.
 - **Small model** — a lightweight model used for session title generation, commit message generation, and prompt enhancement. Configured with the `small_model` key in `kappa.jsonc`, or the **Small Model** field on the **Settings → Models** tab.
-  - If left unset, Kilo resolves it according to the following logic: 
+  - If left unset, Kappa resolves it according to the following logic: 
     1. Find a small/cheap variant on your current provider (e.g. Haiku on Anthropic, Flash on Gemini).
-    2. Fall back to [`kappa-auto/small`](/docs/gateway/models-and-providers#kappa-autosmall) if the Kilo Gateway provider is authenticated in your session.
-    3. Reuse your main model if you're not authenticated to the Kilo Gateway.
+    2. Fall back to [`kappa-auto/small`](/docs/gateway/models-and-providers#kappa-autosmall) if the Kappa Gateway provider is authenticated in your session.
+    3. Reuse your main model if you're not authenticated to the Kappa Gateway.
 - **Subagent model** — the default model for subagents launched by the `task` tool. Configured with the `subagent_model` key in `kappa.jsonc`, or the **Subagent Model** field on the **Settings → Models** tab.
   - If left unset, inherits whichever model the parent agent session is currently using.
 - **Autocomplete model** — the model used for inline code completions as you type. See [Autocomplete: Provider and Model](/docs/code-with-ai/features/autocomplete#provider-and-model) for how to configure it.
@@ -32,12 +32,12 @@ You can configure models separately for different tasks in the VS Code extension
 If you want to use a private/local inference source, you can:
 
 1. Set your **main model** to a non-`kappa-auto` provider — a local model (Ollama, LM Studio) or a direct BYOK provider key.
-2. Explicitly set **`small_model`** to a model on that same provider. If you leave it unset while signed in to Kilo Gateway, it falls back to [`kappa-auto/small`](/docs/gateway/models-and-providers#kappa-autosmall) rather than reusing your main model.
-3. Leave **`subagent_model`** unset — it always inherits your main model rather than defaulting to Kilo Gateway, whether or not you're signed in.
+2. Explicitly set **`small_model`** to a model on that same provider. If you leave it unset while signed in to Kappa Gateway, it falls back to [`kappa-auto/small`](/docs/gateway/models-and-providers#kappa-autosmall) rather than reusing your main model.
+3. Leave **`subagent_model`** unset — it always inherits your main model rather than defaulting to Kappa Gateway, whether or not you're signed in.
 4. For **autocomplete**, switch the provider to a direct Mistral or Inception BYOK key or disable autocomplete.
 
 {% callout type="note" %}
-You can ensure no inference will go through the Kilo Gateway by logging out of the Kilo Gateway in the IDE extension or TUI.
+You can ensure no inference will go through the Kappa Gateway by logging out of the Kappa Gateway in the IDE extension or TUI.
 {% /callout %}
 
 ## Check the Live Models List
@@ -59,7 +59,7 @@ While the specifics change constantly, some principles stay consistent:
 - When the selected model supports variants, type `/variant` to open the reasoning effort selector.
 - Press `Shift+Tab` in the prompt input to cycle to the next reasoning effort variant, wrapping after the last one. This works in the sidebar chat, the Agent Manager prompt, and the New Worktree dialog, and the variant selector tooltip shows the shortcut on hover. To keep `Shift+Tab` for keyboard focus navigation instead, disable the `kappa-code.new.chat.shiftTabCyclesVariant` setting (also available under **Settings → Display**).
 - Set per-agent defaults and a global default in the **Settings** panel (Models tab), or directly in the `kappa.jsonc` config file.
-- **Model precedence:** Pick for the current session or draft and agent → Per-agent config → Global config → Organization recommendation (then the first available Kilo model), or the most recently used available model for individual users → [Auto Free](/docs/code-with-ai/agents/auto-model#tiers) (note: Auto Free may route to providers that log prompts — see the Auto Model page for details).
+- **Model precedence:** Pick for the current session or draft and agent → Per-agent config → Global config → Organization recommendation (then the first available Kappa model), or the most recently used available model for individual users → [Auto Free](/docs/code-with-ai/agents/auto-model#tiers) (note: Auto Free may route to providers that log prompts — see the Auto Model page for details).
 - The model selector remembers the model you picked for each agent within a session or draft, so switching agents and back restores your choice. New sessions start from config or the default; existing sessions recover each agent's model and reasoning effort from its latest user message. A manual pick beats config only within the session or draft and agent where it was made.
 
 {% /tab %}
@@ -85,7 +85,7 @@ While the specifics change constantly, some principles stay consistent:
 
 ## Free and Budget Model Picks
 
-You don't need a paid API key to use Kilo Code productively. For the lowest cost on paid work, [Auto Efficient](/docs/code-with-ai/agents/auto-model#tiers) (`kappa-auto/efficient`) routes each request to the cheapest model proven accurate enough for that task. The fastest way to start for free is [Auto Model Free](/docs/code-with-ai/agents/auto-model) (`kappa-auto/free`), which routes to the best available free models automatically. See [Using Kilo for Free](/docs/getting-started/using-kappa-for-free) for the full zero-cost setup.
+You don't need a paid API key to use Kappa Code productively. For the lowest cost on paid work, [Auto Efficient](/docs/code-with-ai/agents/auto-model#tiers) (`kappa-auto/efficient`) routes each request to the cheapest model proven accurate enough for that task. The fastest way to start for free is [Auto Model Free](/docs/code-with-ai/agents/auto-model) (`kappa-auto/free`), which routes to the best available free models automatically. See [Using Kappa for Free](/docs/getting-started/using-kappa-for-free) for the full zero-cost setup.
 
 If you prefer to pick models yourself, type `free` in the model picker to filter by free models, or browse the full list at [kappa.ai/models](https://kappa.ai/models).
 
@@ -131,7 +131,7 @@ When an agent delegates work to a subagent (via the `task` tool), the subagent *
 
 This sets the `explore` subagent to always use Haiku regardless of the parent's model. Any subagent without a `model` override uses whatever model the invoking agent is running.
 
-A bare model name without a provider prefix also works — for example `"model": "codestral (latest)"`. Kilo resolves the name against your configured providers and prefers the provider of the parent session when several providers offer a model with the same name. This applies to `agent.<name>.model` and `subagent_model`.
+A bare model name without a provider prefix also works — for example `"model": "codestral (latest)"`. Kappa resolves the name against your configured providers and prefers the provider of the parent session when several providers offer a model with the same name. This applies to `agent.<name>.model` and `subagent_model`.
 
 {% /tab %}
 {% tab label="VSCode" %}
@@ -173,31 +173,31 @@ The VS Code extension supports a `vscode://` protocol handler that lets you open
 Include at least one of the `model` or `agent` parameters:
 
 ```
-vscode://kilocode.kappa-code/kilocode/switch?model=<modelID>
-vscode://kilocode.kappa-code/kilocode/switch?agent=<agentName>
-vscode://kilocode.kappa-code/kilocode/switch?model=<modelID>&agent=<agentName>
+vscode://kappacode.kappa-code/kappacode/switch?model=<modelID>
+vscode://kappacode.kappa-code/kappacode/switch?agent=<agentName>
+vscode://kappacode.kappa-code/kappacode/switch?model=<modelID>&agent=<agentName>
 ```
 
-Replace `<modelID>` with a Kilo Gateway model ID such as `kappa-auto/free`. Replace `<agentName>` with a visible primary agent ID such as `code` or `plan`, rather than its display name.
+Replace `<modelID>` with a Kappa Gateway model ID such as `kappa-auto/free`. Replace `<agentName>` with a visible primary agent ID such as `code` or `plan`, rather than its display name.
 
 ### Example: Auto Free
 
-To open Kilo Code and switch to the [Auto Free](/docs/code-with-ai/agents/auto-model) tier (`kappa-auto/free`), use:
+To open Kappa Code and switch to the [Auto Free](/docs/code-with-ai/agents/auto-model) tier (`kappa-auto/free`), use:
 
 ```
-vscode://kilocode.kappa-code/kilocode/switch?model=kappa-auto%2Ffree
+vscode://kappacode.kappa-code/kappacode/switch?model=kappa-auto%2Ffree
 ```
 
 To switch only to Plan and use its normal model selection, specify the agent without a model:
 
 ```
-vscode://kilocode.kappa-code/kilocode/switch?agent=plan
+vscode://kappacode.kappa-code/kappacode/switch?agent=plan
 ```
 
 To select both at the same time, include both parameters:
 
 ```
-vscode://kilocode.kappa-code/kilocode/switch?model=kappa-auto%2Ffree&agent=plan
+vscode://kappacode.kappa-code/kappacode/switch?model=kappa-auto%2Ffree&agent=plan
 ```
 
 {% callout type="tip" %}
@@ -206,9 +206,9 @@ URL-encode the `/` in model IDs as `%2F` when embedding this URL in HTML links o
 
 ### How It Works
 
-- **VS Code open**: the Kilo sidebar is focused and the linked selection is applied to the active session immediately.
+- **VS Code open**: the Kappa sidebar is focused and the linked selection is applied to the active session immediately.
 - **VS Code closed**: VS Code launches, then applies the selection once the extension is ready.
-- When `model` is provided, it must identify a model in the current Kilo Gateway catalog. Invalid or unavailable models cause the deep link to be ignored.
+- When `model` is provided, it must identify a model in the current Kappa Gateway catalog. Invalid or unavailable models cause the deep link to be ignored.
 - When `agent` is provided, it must identify a visible primary agent. Invalid or unavailable agents cause the deep link to be ignored.
 - An agent-only link uses the model that would normally be selected for that agent. When both parameters are present, the agent is selected first so the linked model applies to it.
 - The selection follows the same precedence as using the pickers: it updates the active session, or the next session when no session is active. It does **not** change your configured defaults in settings.
@@ -218,8 +218,8 @@ URL-encode the `/` in model IDs as `%2F` when embedding this URL in HTML links o
 You can embed these links in a web page:
 
 ```html
-<a href="vscode://kilocode.kappa-code/kilocode/switch?model=kappa-auto%2Ffree&amp;agent=plan">
-  Open Kilo Code with Auto Free in Plan
+<a href="vscode://kappacode.kappa-code/kappacode/switch?model=kappa-auto%2Ffree&amp;agent=plan">
+  Open Kappa Code with Auto Free in Plan
 </a>
 ```
 

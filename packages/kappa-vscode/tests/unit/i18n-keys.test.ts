@@ -67,26 +67,26 @@ import { dict as uiUk } from "../../../ui/src/i18n/uk"
 import { dict as uiIt } from "../../../ui/src/i18n/it"
 
 // Layer 3: kappa-i18n overrides
-import { dict as kiloEn } from "../../../kappa-i18n/src/en"
-import { dict as kiloZh } from "../../../kappa-i18n/src/zh"
-import { dict as kiloZht } from "../../../kappa-i18n/src/zht"
-import { dict as kiloKo } from "../../../kappa-i18n/src/ko"
-import { dict as kiloDe } from "../../../kappa-i18n/src/de"
-import { dict as kiloEs } from "../../../kappa-i18n/src/es"
-import { dict as kiloFr } from "../../../kappa-i18n/src/fr"
-import { dict as kiloDa } from "../../../kappa-i18n/src/da"
-import { dict as kiloJa } from "../../../kappa-i18n/src/ja"
-import { dict as kiloPl } from "../../../kappa-i18n/src/pl"
-import { dict as kiloRu } from "../../../kappa-i18n/src/ru"
-import { dict as kiloAr } from "../../../kappa-i18n/src/ar"
-import { dict as kiloNo } from "../../../kappa-i18n/src/no"
-import { dict as kiloBr } from "../../../kappa-i18n/src/br"
-import { dict as kiloTh } from "../../../kappa-i18n/src/th"
-import { dict as kiloBs } from "../../../kappa-i18n/src/bs"
-import { dict as kiloTr } from "../../../kappa-i18n/src/tr"
-import { dict as kiloNl } from "../../../kappa-i18n/src/nl"
-import { dict as kiloUk } from "../../../kappa-i18n/src/uk"
-import { dict as kiloIt } from "../../../kappa-i18n/src/it"
+import { dict as kappaEn } from "../../../kappa-i18n/src/en"
+import { dict as kappaZh } from "../../../kappa-i18n/src/zh"
+import { dict as kappaZht } from "../../../kappa-i18n/src/zht"
+import { dict as kappaKo } from "../../../kappa-i18n/src/ko"
+import { dict as kappaDe } from "../../../kappa-i18n/src/de"
+import { dict as kappaEs } from "../../../kappa-i18n/src/es"
+import { dict as kappaFr } from "../../../kappa-i18n/src/fr"
+import { dict as kappaDa } from "../../../kappa-i18n/src/da"
+import { dict as kappaJa } from "../../../kappa-i18n/src/ja"
+import { dict as kappaPl } from "../../../kappa-i18n/src/pl"
+import { dict as kappaRu } from "../../../kappa-i18n/src/ru"
+import { dict as kappaAr } from "../../../kappa-i18n/src/ar"
+import { dict as kappaNo } from "../../../kappa-i18n/src/no"
+import { dict as kappaBr } from "../../../kappa-i18n/src/br"
+import { dict as kappaTh } from "../../../kappa-i18n/src/th"
+import { dict as kappaBs } from "../../../kappa-i18n/src/bs"
+import { dict as kappaTr } from "../../../kappa-i18n/src/tr"
+import { dict as kappaNl } from "../../../kappa-i18n/src/nl"
+import { dict as kappaUk } from "../../../kappa-i18n/src/uk"
+import { dict as kappaIt } from "../../../kappa-i18n/src/it"
 
 // Layer 4: agent manager (locale alignment already tested in agent-manager-i18n-split.test.ts)
 import { dict as amEn } from "../../webview-ui/agent-manager/i18n/en"
@@ -168,27 +168,27 @@ const appLocales: Record<string, Record<string, string>> = {
   fa: appFa,
 }
 
-const kiloLocales: Record<string, Record<string, string>> = {
-  en: kiloEn,
-  zh: kiloZh,
-  zht: kiloZht,
-  ko: kiloKo,
-  de: kiloDe,
-  es: kiloEs,
-  fr: kiloFr,
-  da: kiloDa,
-  ja: kiloJa,
-  pl: kiloPl,
-  ru: kiloRu,
-  ar: kiloAr,
-  no: kiloNo,
-  br: kiloBr,
-  th: kiloTh,
-  bs: kiloBs,
-  tr: kiloTr,
-  nl: kiloNl,
-  uk: kiloUk,
-  it: kiloIt,
+const kappaLocales: Record<string, Record<string, string>> = {
+  en: kappaEn,
+  zh: kappaZh,
+  zht: kappaZht,
+  ko: kappaKo,
+  de: kappaDe,
+  es: kappaEs,
+  fr: kappaFr,
+  da: kappaDa,
+  ja: kappaJa,
+  pl: kappaPl,
+  ru: kappaRu,
+  ar: kappaAr,
+  no: kappaNo,
+  br: kappaBr,
+  th: kappaTh,
+  bs: kappaBs,
+  tr: kappaTr,
+  nl: kappaNl,
+  uk: kappaUk,
+  it: kappaIt,
 }
 
 const uiLocales: Record<string, Record<string, string>> = {
@@ -263,7 +263,7 @@ const hostLocales: Record<string, Record<string, string>> = {
 }
 
 // Merge webview dictionaries in the same priority order as language.tsx
-const webviewKeys = new Set(Object.keys({ ...appEn, ...uiEn, ...kiloEn, ...amEn }))
+const webviewKeys = new Set(Object.keys({ ...appEn, ...uiEn, ...kappaEn, ...amEn }))
 const cliKeys = new Set(Object.keys(cliEn))
 const hostKeys = new Set(Object.keys(hostEn))
 
@@ -459,11 +459,11 @@ describe("i18n locale completeness — every English key exists in all locales",
       "marketplace.remove.mcp.skills",
       "marketplace.badge.skills",
     ] as const
-    for (const [locale, dict] of Object.entries(kiloLocales)) {
+    for (const [locale, dict] of Object.entries(kappaLocales)) {
       if (locale === "en") continue
       for (const key of keys) {
         expect(dict[key]?.trim(), `${locale}: ${key}`).toBeTruthy()
-        expect(dict[key], `${locale}: ${key}`).not.toBe(kiloEn[key])
+        expect(dict[key], `${locale}: ${key}`).not.toBe(kappaEn[key])
       }
     }
   })
@@ -491,7 +491,7 @@ describe("i18n locale completeness — every English key exists in all locales",
   })
 
   it("kappa-i18n: every English key has a translation in all locales", () => {
-    const missing = findMissingLocaleKeys(kiloEn, kiloLocales)
+    const missing = findMissingLocaleKeys(kappaEn, kappaLocales)
     if (missing.length > 0) {
       expect(
         missing,

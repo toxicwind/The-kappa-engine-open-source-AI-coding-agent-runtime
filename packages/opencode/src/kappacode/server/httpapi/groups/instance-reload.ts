@@ -33,7 +33,7 @@ export const InstanceReloadApi = HttpApi.make("instance-reload")
       .annotateMerge(
         OpenApi.annotations({
           title: "instance-reload",
-          description: "Kilo instance reload route.",
+          description: "Kappa instance reload route.",
         }),
       )
       .middleware(InstanceContextMiddleware)
@@ -44,6 +44,6 @@ export const InstanceReloadApi = HttpApi.make("instance-reload")
     OpenApi.annotations({
       title: "kappa HttpApi",
       version: "0.0.1",
-      description: "Kilo HttpApi surface.",
+      description: "Kappa HttpApi surface.",
     }),
   )

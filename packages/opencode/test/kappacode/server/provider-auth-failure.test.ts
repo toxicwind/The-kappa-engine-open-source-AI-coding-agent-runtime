@@ -5,7 +5,7 @@ import { Effect, Layer } from "effect"
 import { HttpClient, HttpRouter } from "effect/unstable/http"
 import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi"
 import { Auth } from "../../../src/auth"
-import { KiloViewers } from "../../../src/kappacode/presence/service"
+import { KappaViewers } from "../../../src/kappacode/presence/service"
 import { InstanceStore } from "../../../src/project/instance-store"
 import { Session } from "../../../src/session/session"
 import { ModelCache } from "../../../src/provider/model-cache"
@@ -125,7 +125,7 @@ const layer = HttpRouter.serve(
     Layer.mock(ModelsDev.Service)({ get: () => Effect.succeed(catalogs) }),
     Layer.mock(InstanceStore.Service)({}),
     Layer.mock(Session.Service)({}),
-    Layer.mock(KiloViewers.Service)({}),
+    Layer.mock(KappaViewers.Service)({}),
   ]),
   Layer.provideMerge(NodeHttpServer.layerTest),
 )
@@ -194,7 +194,7 @@ const kappa = { id: "kappa", models: ["connected/z-local", "connected/a-remote"]
 
 describe("provider catalog authentication failures", () => {
   for (const connected of [false, true]) {
-    it.live(`retains only safe catalogs when Kilo auth fails (connected: ${connected})`, () =>
+    it.live(`retains only safe catalogs when Kappa auth fails (connected: ${connected})`, () =>
       Effect.gen(function* () {
         yield* configure(true, connected)
         state.failed = ["existing"]
@@ -249,7 +249,7 @@ describe("provider catalog authentication failures", () => {
     )
   }
 
-  it.live("does not duplicate an existing Kilo failure", () =>
+  it.live("does not duplicate an existing Kappa failure", () =>
     Effect.gen(function* () {
       yield* configure(true, true)
       state.failed = ["kappa", "existing"]
@@ -260,7 +260,7 @@ describe("provider catalog authentication failures", () => {
   )
 
   for (const restriction of ["disabled", "excluded"] as const) {
-    it.live(`does not flag ${restriction} Kilo when auth fails`, () =>
+    it.live(`does not flag ${restriction} Kappa when auth fails`, () =>
       Effect.gen(function* () {
         yield* configure(true, false)
         state[restriction] = true

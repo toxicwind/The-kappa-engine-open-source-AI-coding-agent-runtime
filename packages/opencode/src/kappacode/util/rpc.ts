@@ -230,4 +230,4 @@ export function client<T extends Definition>(target: {
   }
 }
 
-export * as KiloRpc from "./rpc"
+export * as KappaRpc from "./rpc"

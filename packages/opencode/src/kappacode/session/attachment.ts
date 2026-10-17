@@ -1,7 +1,7 @@
 import { isImageAttachment } from "@/util/media"
 import { Image } from "@/image/image"
 
-export namespace KiloAttachment {
+export namespace KappaAttachment {
   /**
    * Attachments with an `image/*` mime that Photon (our raster decoder) cannot
    * decode must never reach `Image.normalize` -- doing so turns a harmless
@@ -46,7 +46,7 @@ export namespace KiloAttachment {
    * Only `data:` parts are checked, which is everything that can be validated
    * without touching the filesystem. A `file://` attachment is deliberately
    * left to the prompt pipeline: reading it here would bypass the
-   * `permission: "read"` prompt and the `KiloReadObject` binding that
+   * `permission: "read"` prompt and the `KappaReadObject` binding that
    * `prompt.ts` performs, so it cannot be pre-validated at the HTTP boundary.
    *
    * That leaves one known residual: a `file://` part carrying a raster mime

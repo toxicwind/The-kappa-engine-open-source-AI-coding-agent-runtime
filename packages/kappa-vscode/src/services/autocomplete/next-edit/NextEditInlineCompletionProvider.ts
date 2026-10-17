@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloConnectionService } from "../../cli-backend"
+import type { KappaConnectionService } from "../../cli-backend"
 import { computeEditableRegion } from "./editableRegion"
 import { EditHistoryTracker } from "./editHistoryTracker"
 import { nesLog } from "./log"
@@ -11,9 +11,9 @@ const INLINE_COMPLETION_ACCEPTED_COMMAND = "kappa-code.new.autocomplete.nextEdit
 const DEFAULT_DEBOUNCE_MS = 250
 
 export interface NextEditProviderDeps {
-  /** Routes Mercury calls through the local Kilo gateway (handles auth + BYOK). */
-  connectionService: KiloConnectionService
-  /** Optional source of recently-viewed snippets (kilocode's VisibleCodeTracker can adapt to this). */
+  /** Routes Mercury calls through the local Kappa gateway (handles auth + BYOK). */
+  connectionService: KappaConnectionService
+  /** Optional source of recently-viewed snippets (kappacode's VisibleCodeTracker can adapt to this). */
   getRecentlyViewedSnippets?: (document: vscode.TextDocument) => MercuryRecentSnippet[]
   /** Returns false for files that must not be sent to a server (.env etc). */
   isFileAllowed: (fsPath: string) => Promise<boolean>

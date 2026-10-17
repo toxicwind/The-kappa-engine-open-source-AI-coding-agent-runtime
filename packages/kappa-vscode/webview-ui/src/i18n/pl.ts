@@ -12,14 +12,14 @@ export const anacondaDesktopDict = {
   "provider.anaconda.status.unavailable": "Niedostępny",
   "provider.anaconda.state.unsupported": "Anaconda Desktop nie jest obsługiwana w systemie {{platform}}.",
   "provider.anaconda.state.notInstalled":
-    "Zainstaluj Anaconda Desktop na tym komputerze, a następnie wróć tutaj. Kilo nie uruchamia instalatora za Ciebie.",
+    "Zainstaluj Anaconda Desktop na tym komputerze, a następnie wróć tutaj. Kappa nie uruchamia instalatora za Ciebie.",
   "provider.anaconda.state.notRunning":
     "Otwórz Anaconda Desktop, dokończ konfigurację i zaloguj się, a następnie wybierz Sprawdź ponownie.",
   "provider.anaconda.state.invalidConfig":
     "Konfiguracja Anaconda Desktop jest niekompletna. Otwórz Desktop, dokończ konfigurację i w razie potrzeby uruchom ją ponownie.",
-  "provider.anaconda.state.signedOut": "Otwórz Anaconda Desktop i zaloguj się przed połączeniem Kilo.",
+  "provider.anaconda.state.signedOut": "Otwórz Anaconda Desktop i zaloguj się przed połączeniem Kappa.",
   "provider.anaconda.state.unauthorized":
-    "Kilo nie mógł uzyskać dostępu do Anaconda Desktop. Otwórz Desktop, zaloguj się ponownie i w razie potrzeby uruchom ją ponownie.",
+    "Kappa nie mógł uzyskać dostępu do Anaconda Desktop. Otwórz Desktop, zaloguj się ponownie i w razie potrzeby uruchom ją ponownie.",
   "provider.anaconda.state.unavailable":
     "Anaconda Desktop jeszcze nie odpowiada. Otwórz ją i poczekaj, aż aplikacja zakończy uruchamianie.",
   "provider.anaconda.state.noModel":
@@ -31,7 +31,7 @@ export const anacondaDesktopDict = {
   "provider.anaconda.state.unhealthy":
     "Aktywny serwer wnioskowania nie jest jeszcze sprawny. Sprawdź go w Anaconda Desktop i w razie potrzeby uruchom serwer ponownie.",
   "provider.anaconda.state.ready":
-    "Kilo znalazł sprawny lokalny serwer generowania tekstu i może zaimportować jego bieżące ustawienia połączenia.",
+    "Kappa znalazł sprawny lokalny serwer generowania tekstu i może zaimportować jego bieżące ustawienia połączenia.",
   "provider.anaconda.server": "Aktywny serwer wnioskowania",
   "provider.anaconda.context": "Okno kontekstu",
   "provider.anaconda.contextValue": "{{count}} tokenów",
@@ -48,7 +48,7 @@ export const anacondaDesktopDict = {
   "provider.anaconda.action.continue": "Kontynuuj mimo to",
   "provider.anaconda.action.manage": "Zarządzaj / Odśwież",
   "provider.anaconda.toast.refreshed.title": "Odświeżono Anaconda Desktop",
-  "provider.anaconda.toast.refreshed.description": "Aktywny serwer lokalny i modele są aktualne w Kilo.",
+  "provider.anaconda.toast.refreshed.description": "Aktywny serwer lokalny i modele są aktualne w Kappa.",
   "settings.providers.note.anacondaDesktop": "Uruchom model serwowany lokalnie przez Anaconda Desktop.",
   "settings.providers.tag.local": "Lokalny",
 } as const
@@ -98,7 +98,7 @@ export const dict = {
   "revert.banner.workspace.enableSnapshots": "Włącz migawki",
   "revert.disabled.agentBusy": "Poczekaj aż agent zakończy",
   "revert.error.body":
-    "Repozytorium może być w użyciu. Spróbuj ponownie lub sprawdź dzienniki Kilo, aby poznać szczegóły.",
+    "Repozytorium może być w użyciu. Spróbuj ponownie lub sprawdź dzienniki Kappa, aby poznać szczegóły.",
   "command.session.compact": "Kompaktuj sesję",
   "command.session.export": "Eksportuj transkrypcję sesji",
 
@@ -123,7 +123,7 @@ export const dict = {
   "provider.connect.status.waiting": "Oczekiwanie na autoryzację...",
   "provider.connect.status.failed": "Autoryzacja nie powiodła się: {{error}}",
   "provider.connect.apiKey.description":
-    "Wprowadź swój klucz API {{provider}}, aby połączyć konto i używać modeli {{provider}} w Kilo.",
+    "Wprowadź swój klucz API {{provider}}, aby połączyć konto i używać modeli {{provider}} w Kappa.",
   "provider.connect.apiKey.description.local":
     "Connect to your local {{provider}} server. Leave the API key empty if the server does not require one (default for localhost).",
   "provider.connect.atomicChat.description":
@@ -146,14 +146,14 @@ export const dict = {
   "provider.connect.oauth.code.visit.prefix": "Odwiedź ",
   "provider.connect.oauth.code.visit.link": "ten link",
   "provider.connect.oauth.code.visit.suffix":
-    ", aby odebrać kod autoryzacyjny, połączyć konto i używać modeli {{provider}} w Kilo.",
+    ", aby odebrać kod autoryzacyjny, połączyć konto i używać modeli {{provider}} w Kappa.",
   "provider.connect.oauth.code.label": "Kod autoryzacyjny {{method}}",
   "provider.connect.oauth.code.placeholder": "Kod autoryzacyjny",
   "provider.connect.oauth.code.required": "Kod autoryzacyjny jest wymagany",
   "provider.connect.oauth.auto.visit.prefix": "Odwiedź ",
   "provider.connect.oauth.auto.visit.link": "ten link",
   "provider.connect.oauth.auto.visit.suffix":
-    " i wprowadź poniższy kod, aby połączyć konto i używać modeli {{provider}} w Kilo.",
+    " i wprowadź poniższy kod, aby połączyć konto i używać modeli {{provider}} w Kappa.",
   "provider.connect.oauth.auto.confirmationCode": "Kod potwierdzający",
   "provider.connect.toast.connected.title": "Połączono {{provider}}",
   "provider.connect.toast.connected.description": "Modele {{provider}} są teraz dostępne do użycia.",
@@ -236,9 +236,9 @@ export const dict = {
   "prompt.action.sandbox.enable": "Włącz sandbox",
   "prompt.action.sandbox.disable": "Wyłącz sandbox",
   "prompt.action.sandbox.enabled":
-    "Sandbox jest włączony. Polecenia shell agenta są ograniczone do katalogów projektu i Kilo.",
+    "Sandbox jest włączony. Polecenia shell agenta są ograniczone do katalogów projektu i Kappa.",
   "prompt.action.sandbox.disabled":
-    "Sandbox jest wyłączony. Kliknij, aby ograniczyć zapisy poleceń shell agenta do katalogów projektu i Kilo.",
+    "Sandbox jest wyłączony. Kliknij, aby ograniczyć zapisy poleceń shell agenta do katalogów projektu i Kappa.",
   "prompt.action.sandbox.status.enabled": "Sandbox włączony",
   "prompt.action.sandbox.status.disabled": "Sandbox wyłączony",
   "prompt.action.sandbox.filesystem": "System plików",
@@ -247,7 +247,7 @@ export const dict = {
   "prompt.action.sandbox.network.blocked": "Zablokowana",
   "prompt.action.sandbox.network.allowed": "Dozwolona",
   "prompt.action.sandbox.unrestricted": "Nieograniczony",
-  "prompt.action.sandbox.description.enabled": "Zapisy są ograniczone do katalogów projektu i Kilo.",
+  "prompt.action.sandbox.description.enabled": "Zapisy są ograniczone do katalogów projektu i Kappa.",
   "prompt.action.sandbox.description.escalation":
     "Reguły uprawnień i automatyczne zatwierdzanie obowiązują wewnątrz sandboxa. Polecenia, które muszą go opuścić, zawsze pytają.",
   "prompt.action.sandbox.description.disabled": "Kliknij, aby ograniczyć zapisy w systemie plików i dostęp do sieci.",
@@ -262,7 +262,7 @@ export const dict = {
   "speechToText.tooltip.transcribing": "Transkrybowanie... Kliknij, aby anulować.",
   "speechToText.tooltip.error": "Wprowadzanie głosowe nie powiodło się. Kliknij, aby wyczyścić.",
   "speechToText.error.title": "Wprowadzanie głosowe nie powiodło się",
-  "speechToText.error.loginRequired": "Zaloguj się do Kilo, aby korzystać z wprowadzania głosowego.",
+  "speechToText.error.loginRequired": "Zaloguj się do Kappa, aby korzystać z wprowadzania głosowego.",
   "speechToText.error.emptyTranscript": "Nie wykryto mowy.",
 
   "prompt.toast.promptSendFailed.title": "Nie udało się wysłać zapytania",
@@ -299,7 +299,7 @@ export const dict = {
     "Spowoduje to uruchomienie całego polecenia bez ograniczeń systemu plików i sieci, tylko dla tego polecenia. Git musi zapisywać w .git, który jest tylko do odczytu w sandboxie i znajduje się poza drzewem roboczym w połączonym worktree. Reguły zezwoleń Bash i automatyczne zatwierdzanie nigdy nie zatwierdzają tego żądania automatycznie.",
   "ui.permission.manageAutoApprove": "Zarządzaj regułami automatycznego zatwierdzania",
   "ui.permission.reject": "Odrzuć",
-  "ui.permission.feedbackPlaceholder": "Powiedz Kilo, co zrobić inaczej",
+  "ui.permission.feedbackPlaceholder": "Powiedz Kappa, co zrobić inaczej",
   "ui.permission.feedbackHint": "Enter, aby odrzucić, Esc, aby anulować",
   "ui.permission.doomLoop.prompt": "Wykryto potencjalną pętlę dla narzędzia {{tool}}. Kontynuować działanie?",
   "ui.permission.doomLoop.rule": "Kontynuuj wywołania {{tool}}",
@@ -345,7 +345,7 @@ export const dict = {
   "session.messages.loadEarlier": "Załaduj wcześniejsze wiadomości",
   "session.messages.loading": "Ładowanie wiadomości...",
 
-  "sidebar.topBar.label": "Nawigacja Kilo Code",
+  "sidebar.topBar.label": "Nawigacja Kappa Code",
   "sidebar.topBar.newTask": "Nowe Zadanie",
   "sidebar.topBar.history": "Historia",
   "sidebar.topBar.agentManager": "Agent Manager",
@@ -455,7 +455,7 @@ export const dict = {
     "Domyślny model i wysiłek wnioskowania dla podagentów task-tool. Pozostaw puste, aby odziedziczyć model agenta wywołującego.",
   "settings.models.hidePromptTraining.title": "Ukryj modele trenujące na promptach",
   "settings.models.hidePromptTraining.description":
-    "Ukryj modele Kilo Gateway, których dostawcy mogą używać Twoich promptów do trenowania.",
+    "Ukryj modele Kappa Gateway, których dostawcy mogą używać Twoich promptów do trenowania.",
   "settings.providers.modeModels": "Model na tryb",
   "settings.providers.modeModels.description":
     "Zastąp domyślny model dla określonych trybów. Jeśli nie ustawiono, używany jest globalny domyślny model.",
@@ -526,21 +526,21 @@ export const dict = {
   "settings.config.status.loadedLegacy": "wczytano przestarzałą konfigurację",
   "settings.config.status.notLoaded": "nie wczytano",
   "settings.config.status.create": "nie znaleziono - utwórz ten plik",
-  "settings.config.title": "Otwórz plik konfiguracyjny Kilo ({{scope}})",
+  "settings.config.title": "Otwórz plik konfiguracyjny Kappa ({{scope}})",
   "settings.config.placeholder":
     "Pliki konfiguracyjne są scalane po kolei; pliki oznaczone jako wczytane mają obecnie wpływ na ustawienia.",
-  "settings.config.noWorkspace": "Otwórz folder obszaru roboczego, aby edytować lokalny plik konfiguracyjny Kilo.",
-  "settings.config.openFailed": "Nie udało się otworzyć pliku konfiguracyjnego Kilo ({{scope}}): {{message}}",
+  "settings.config.noWorkspace": "Otwórz folder obszaru roboczego, aby edytować lokalny plik konfiguracyjny Kappa.",
+  "settings.config.openFailed": "Nie udało się otworzyć pliku konfiguracyjnego Kappa ({{scope}}): {{message}}",
   "settings.config.source.xdg": "Globalna konfiguracja XDG",
-  "settings.config.source.homeKilo": "Konfiguracja .kappa (Home)",
-  "settings.config.source.homeKilocode": "Konfiguracja .kilocode (Home)",
+  "settings.config.source.homeKappa": "Konfiguracja .kappa (Home)",
+  "settings.config.source.homeKappacode": "Konfiguracja .kappacode (Home)",
   "settings.config.source.homeOpencode": "Konfiguracja .opencode (Home)",
   "settings.config.source.envFile": "Plik środowiskowy KILO_CONFIG",
   "settings.config.source.envDir": "KILO_CONFIG_DIR",
   "settings.config.source.envContent": "Wbudowana konfiguracja środowiska",
-  "settings.config.source.projectKilo": "Konfiguracja .kappa projektu",
+  "settings.config.source.projectKappa": "Konfiguracja .kappa projektu",
   "settings.config.source.projectRoot": "Konfiguracja główna projektu",
-  "settings.config.source.projectKilocode": "Przestarzała konfiguracja .kilocode",
+  "settings.config.source.projectKappacode": "Przestarzała konfiguracja .kappacode",
   "settings.config.source.projectOpencode": "Przestarzała konfiguracja .opencode",
   "settings.models.title": "Modele",
 
@@ -590,7 +590,7 @@ export const dict = {
   "feedback.dialog.github": "Zgłoś problem na GitHubie",
   "feedback.dialog.discord": "Dołącz do naszej społeczności Discord",
   "feedback.dialog.support": "Wsparcie klienta",
-  "workStyle.onboarding.welcome": "Witamy w Kilo",
+  "workStyle.onboarding.welcome": "Witamy w Kappa",
   "workStyle.onboarding.title": "Wybierz sposób pracy",
   "workStyle.onboarding.settingsNote": "Te opcje możesz zmienić w dowolnym momencie w",
   "workStyle.onboarding.settings": "Ustawieniach.",
@@ -600,7 +600,7 @@ export const dict = {
   "workStyle.choice.visibility": "Widoczność",
   "workStyle.choice.human-in-the-loop.eyebrow": "Człowiek w pętli",
   "workStyle.choice.human-in-the-loop.title": "Najpierw przejrzyj",
-  "workStyle.choice.human-in-the-loop.description": "Kilo wstrzymuje pracę i pokazuje swój plan w trakcie działania.",
+  "workStyle.choice.human-in-the-loop.description": "Kappa wstrzymuje pracę i pokazuje swój plan w trakcie działania.",
   "workStyle.choice.human-in-the-loop.permissions": "Prosi o zgodę przed edycją plików lub uruchomieniem poleceń.",
   "workStyle.choice.human-in-the-loop.bash": "Prosi o pozwolenie na każde polecenie terminala.",
   "workStyle.choice.human-in-the-loop.visibility": "Rozwija rozumowanie, polecenia i zmiany do przeglądu.",
@@ -622,7 +622,7 @@ export const dict = {
   "deviceAuth.toast.codeCopied": "Kod skopiowany do schowka",
   "deviceAuth.toast.errorCopied": "Błąd skopiowany do schowka",
   "deviceAuth.status.initiating": "Rozpoczynanie logowania...",
-  "deviceAuth.title": "Zaloguj się do Kilo Code",
+  "deviceAuth.title": "Zaloguj się do Kappa Code",
   "deviceAuth.step1": "Krok 1: Otwórz ten URL",
   "deviceAuth.action.copyUrl": "Kopiuj URL",
   "deviceAuth.action.openBrowser": "Otwórz przeglądarkę",
@@ -645,7 +645,7 @@ export const dict = {
 
   "profile.title": "Profil",
   "profile.notLoggedIn": "Nie zalogowano",
-  "profile.action.login": "Zaloguj się przez Kilo Code",
+  "profile.action.login": "Zaloguj się przez Kappa Code",
   "profile.balance.title": "Saldo",
   "profile.balance.refresh": "Odśwież saldo",
   "profile.usage.title": "Plany i wykorzystanie",
@@ -661,7 +661,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Plan: Status nieznany",
   "profile.usage.action.manage": "Zarządzaj",
   "profile.usage.action.managePlan": "Zarządzaj {{plan}}",
-  "profile.usage.routing": "Rozliczanie planu jest aktywne. Routing przez Kilo Gateway jest {{state}}.",
+  "profile.usage.routing": "Rozliczanie planu jest aktywne. Routing przez Kappa Gateway jest {{state}}.",
   "profile.usage.routingState.disabled": "wyłączony",
   "profile.usage.routingState.missing": "brakujący",
   "profile.usage.routingState.replaced": "zastąpiony",
@@ -687,11 +687,11 @@ export const dict = {
   "profile.usage.status.exhausted": "Wyczerpano",
   "profile.action.dashboard": "Panel",
   "profile.action.topUp": "Doładuj",
-  "profile.pass.subscribe": "Zdobądź Kilo Pass, aby dodać środki i zdobywać bonusy",
+  "profile.pass.subscribe": "Zdobądź Kappa Pass, aby dodać środki i zdobywać bonusy",
   "profile.pass.bonus": "Bonus",
   "profile.pass.usage": "Zużycie w tym miesiącu",
   "profile.pass.paid": "Opłacone",
-  "profile.pass.meter": "Miesięczne zużycie Kilo Pass",
+  "profile.pass.meter": "Miesięczne zużycie Kappa Pass",
   "profile.pass.renews": "Odnawia się",
   "profile.action.logout": "Wyloguj się",
 
@@ -713,10 +713,10 @@ export const dict = {
 
   "settings.experimental.title": "Eksperymentalne",
   "settings.language.title": "Język",
-  "settings.aboutKiloCode.title": "O Kilo Code",
+  "settings.aboutKappaCode.title": "O Kappa Code",
 
   "session.messages.welcome":
-    "Kilo Code to asystent programowania AI. Poproś go o tworzenie funkcji, naprawę błędów lub wyjaśnienie bazy kodu.",
+    "Kappa Code to asystent programowania AI. Poproś go o tworzenie funkcji, naprawę błędów lub wyjaśnienie bazy kodu.",
   "session.messages.scrollToBottom": "Przewiń na dół",
   "session.messages.initializing": "Inicjalizacja...",
   "session.messages.taskStarting": "Uruchamianie...",
@@ -759,7 +759,7 @@ export const dict = {
   "ui.sessionTurn.status.consideringNextSteps": "Rozważam następne kroki...",
 
   "dialog.model.noProviders": "Brak dostawców",
-  "dialog.model.unavailable": "Modele Kilo niedostępne",
+  "dialog.model.unavailable": "Modele Kappa niedostępne",
 
   "prompt.placeholder.connecting": "Łączenie z serwerem...",
   "prompt.placeholder.error": "Połączenie nie powiodło się. Sprawdź panel wyjściowy lub uruchom ponownie rozszerzenie.",
@@ -777,42 +777,42 @@ export const dict = {
   "time.thisMonth": "Ten miesiąc",
   "time.older": "Starsze",
 
-  "settings.aboutKiloCode.status.connected": "Połączono",
-  "settings.aboutKiloCode.status.connecting": "Łączenie...",
-  "settings.aboutKiloCode.status.disconnected": "Rozłączono",
-  "settings.aboutKiloCode.status.error": "Błąd",
-  "settings.aboutKiloCode.cliServer": "Serwer CLI",
-  "settings.aboutKiloCode.status.label": "Status:",
-  "settings.aboutKiloCode.port.label": "Port:",
-  "settings.aboutKiloCode.versionInfo": "Informacje o wersji",
-  "settings.aboutKiloCode.version.label": "Wersja:",
-  "settings.aboutKiloCode.community": "Społeczność i wsparcie",
-  "settings.aboutKiloCode.feedback.prefix": "Jeśli masz pytania lub uwagi, śmiało otwórz zgłoszenie na",
-  "settings.aboutKiloCode.feedback.or": "lub",
-  "settings.aboutKiloCode.support.prefix":
+  "settings.aboutKappaCode.status.connected": "Połączono",
+  "settings.aboutKappaCode.status.connecting": "Łączenie...",
+  "settings.aboutKappaCode.status.disconnected": "Rozłączono",
+  "settings.aboutKappaCode.status.error": "Błąd",
+  "settings.aboutKappaCode.cliServer": "Serwer CLI",
+  "settings.aboutKappaCode.status.label": "Status:",
+  "settings.aboutKappaCode.port.label": "Port:",
+  "settings.aboutKappaCode.versionInfo": "Informacje o wersji",
+  "settings.aboutKappaCode.version.label": "Wersja:",
+  "settings.aboutKappaCode.community": "Społeczność i wsparcie",
+  "settings.aboutKappaCode.feedback.prefix": "Jeśli masz pytania lub uwagi, śmiało otwórz zgłoszenie na",
+  "settings.aboutKappaCode.feedback.or": "lub",
+  "settings.aboutKappaCode.support.prefix":
     "W sprawach rozliczeń lub konta skontaktuj się z obsługą klienta pod adresem",
-  "settings.aboutKiloCode.resetSettings.title": "Resetuj ustawienia",
-  "settings.aboutKiloCode.resetSettings.description":
+  "settings.aboutKappaCode.resetSettings.title": "Resetuj ustawienia",
+  "settings.aboutKappaCode.resetSettings.description":
     "To resetuje tylko ustawienia specyficzne dla rozszerzenia VS Code do ich domyślnych wartości. Ustawienia współdzielone z CLI, takie jak tryby i reguły automatycznego zatwierdzania, są przechowywane w konfiguracji CLI i nie zostaną zresetowane.",
-  "settings.aboutKiloCode.resetSettings.button": "Resetuj wszystkie ustawienia",
-  "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Przenoszenie ustawień",
-  "settings.aboutKiloCode.settingsTransfer.description":
+  "settings.aboutKappaCode.resetSettings.button": "Resetuj wszystkie ustawienia",
+  "settings.aboutKappaCode.resetSettings.notificationsButton": "Reset Read Notifications",
+  "settings.aboutKappaCode.settingsTransfer.title": "Przenoszenie ustawień",
+  "settings.aboutKappaCode.settingsTransfer.description":
     "Eksportuj lub importuj ustawienia, aby przenosić je między instancjami VS Code.",
-  "settings.aboutKiloCode.exportSettings": "Eksportuj",
-  "settings.aboutKiloCode.importSettings": "Importuj",
-  "settings.aboutKiloCode.importSettings.invalidJson": "Nieprawidłowy plik JSON. Wybierz prawidłowy plik ustawień.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "Plik nie zawiera prawidłowych ustawień Kilo.",
-  "settings.aboutKiloCode.importSettings.tooLarge": "Plik jest za duży. Pliki ustawień muszą mieć mniej niż 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Ten plik został wyeksportowany z nowszej wersji Kilo. Niektóre ustawienia mogą zostać zignorowane.",
-  "settings.aboutKiloCode.importSettings.success":
+  "settings.aboutKappaCode.exportSettings": "Eksportuj",
+  "settings.aboutKappaCode.importSettings": "Importuj",
+  "settings.aboutKappaCode.importSettings.invalidJson": "Nieprawidłowy plik JSON. Wybierz prawidłowy plik ustawień.",
+  "settings.aboutKappaCode.importSettings.invalidConfig": "Plik nie zawiera prawidłowych ustawień Kappa.",
+  "settings.aboutKappaCode.importSettings.tooLarge": "Plik jest za duży. Pliki ustawień muszą mieć mniej niż 1 MB.",
+  "settings.aboutKappaCode.importSettings.newerVersion":
+    "Ten plik został wyeksportowany z nowszej wersji Kappa. Niektóre ustawienia mogą zostać zignorowane.",
+  "settings.aboutKappaCode.importSettings.success":
     "Ustawienia zaimportowane. Przejrzyj powyższe zmiany, a następnie kliknij Zapisz.",
 
-  "settings.aboutKiloCode.telemetry.title": "Telemetria",
-  "settings.aboutKiloCode.telemetry.description":
+  "settings.aboutKappaCode.telemetry.title": "Telemetria",
+  "settings.aboutKappaCode.telemetry.description":
     'Telemetria jest kontrolowana przez wbudowane ustawienie telemetrii VS Code. Aby ją wyłączyć, przejdź do Ustawienia > Telemetria > Poziom telemetrii i ustaw na "off". Uruchom ponownie VS Code, aby zastosować zmianę.',
-  "settings.aboutKiloCode.telemetry.openSettings": "Otwórz ustawienia telemetrii",
+  "settings.aboutKappaCode.telemetry.openSettings": "Otwórz ustawienia telemetrii",
 
   "settings.agentBehaviour.subtab.agents": "Agenci",
   "settings.agentBehaviour.subtab.mcpServers": "Serwery MCP",
@@ -821,7 +821,7 @@ export const dict = {
   "settings.agentBehaviour.subtab.skills": "Umiejętności",
 
   "settings.browser.description":
-    "Skonfiguruj wbudowaną automatyzację przeglądarki opartą na Playwright. Kilo może nawigować po stronach internetowych, wchodzić z nimi w interakcję i robić zrzuty ekranu w Twoich sesjach.",
+    "Skonfiguruj wbudowaną automatyzację przeglądarki opartą na Playwright. Kappa może nawigować po stronach internetowych, wchodzić z nimi w interakcję i robić zrzuty ekranu w Twoich sesjach.",
   "settings.browser.enable.title": "Włącz automatyzację przeglądarki",
   "settings.browser.enable.description":
     "Włącz przeglądarkę Agent Manager przypisaną do sesji dla lokalnych aplikacji i publicznych stron HTTPS.",
@@ -831,7 +831,7 @@ export const dict = {
   "settings.browser.headless.title": "Tryb headless",
   "settings.browser.headless.description": "Uruchom w trybie headless (bez widocznego okna przeglądarki).",
 
-  "settings.language.description": 'Wybierz język interfejsu Kilo Code. „Auto" używa języka wyświetlania VS Code.',
+  "settings.language.description": 'Wybierz język interfejsu Kappa Code. „Auto" używa języka wyświetlania VS Code.',
   "settings.language.auto": "Auto (język VS Code)",
   "settings.language.current": "Bieżący:",
 
@@ -850,10 +850,10 @@ export const dict = {
     "Odtwarzaj dźwięki, gdy sesje się zakończą, wystąpi błąd lub będzie potrzebna Twoja reakcja",
   "settings.notifications.workbench.title": "Włącz powiadomienia VS Code",
   "settings.notifications.workbench.description":
-    "Pokazuj powiadomienia VS Code, gdy Kilo ukończy zadanie lub będzie potrzebna Twoja reakcja",
+    "Pokazuj powiadomienia VS Code, gdy Kappa ukończy zadanie lub będzie potrzebna Twoja reakcja",
   "settings.notifications.os.title": "Włącz powiadomienia systemu operacyjnego",
   "settings.notifications.os.description":
-    "Pokazuj natywne alerty powiadomień systemu operacyjnego, gdy Kilo ukończy zadanie lub będzie potrzebna Twoja reakcja, a VS Code nie jest aktywny.",
+    "Pokazuj natywne alerty powiadomień systemu operacyjnego, gdy Kappa ukończy zadanie lub będzie potrzebna Twoja reakcja, a VS Code nie jest aktywny.",
   "settings.notifications.testSound": "Testuj",
   "settings.notifications.testOS": "Testuj",
   "settings.notifications.testOS.testing": "Wysyłanie powiadomienia testowego…",
@@ -876,7 +876,7 @@ export const dict = {
   "settings.experimental.batch.description": "Włącz przetwarzanie wsadowe wywołań narzędzi",
   "settings.experimental.imageGeneration.title": "Generowanie obrazów",
   "settings.experimental.imageGeneration.description": "Włącz generowanie obrazów przez AI",
-  "settings.agentBehaviour.sharedAgentBoard.title": "Kilo Swarm",
+  "settings.agentBehaviour.sharedAgentBoard.title": "Kappa Swarm",
   "settings.agentBehaviour.sharedAgentBoard.description":
     "Współdziel tablicę między główną sesją a jej podagentami wykonującymi zadania, w tym zagnieżdżonymi podagentami. Używaj jej do równoległych prób rozwiązania problemu lub wzajemnie uzupełniających się prac, a nie do każdego zadania.",
   "settings.experimental.imageGenerationModel.title": "Model obrazu",
@@ -888,19 +888,19 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Bazowy adres URL mowy na tekst",
   "settings.models.speechToTextBaseUrl.description":
-    "Użyj API transkrypcji zgodnego z OpenAI zamiast Kilo Gateway. Modele są odczytywane z /models, a dźwięk jest wysyłany do /audio/transcriptions. Pozostaw puste, aby używać Kilo Gateway.",
+    "Użyj API transkrypcji zgodnego z OpenAI zamiast Kappa Gateway. Modele są odczytywane z /models, a dźwięk jest wysyłany do /audio/transcriptions. Pozostaw puste, aby używać Kappa Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Klucz API mowy na tekst",
   "settings.models.speechToTextApiKey.description":
-    "Token bearer wysyłany na własny bazowy adres URL transkrypcji. Przechowywany w pliku konfiguracyjnym Kilo.",
+    "Token bearer wysyłany na własny bazowy adres URL transkrypcji. Przechowywany w pliku konfiguracyjnym Kappa.",
   "settings.models.speechToTextApiKey.placeholder": "sk-...",
   "settings.models.speechToText.disabledDescription":
-    "Włącz i zaloguj się do dostawcy Kilo, aby korzystać ze Speech to Text, albo ustaw poniżej własny bazowy adres URL transkrypcji.",
+    "Włącz i zaloguj się do dostawcy Kappa, aby korzystać ze Speech to Text, albo ustaw poniżej własny bazowy adres URL transkrypcji.",
   "settings.models.speechToText.remoteDescription":
-    "Wprowadzanie głosowe nie jest dostępne w zdalnych oknach. Otwórz Kilo w lokalnym oknie, aby użyć mikrofonu.",
+    "Wprowadzanie głosowe nie jest dostępne w zdalnych oknach. Otwórz Kappa w lokalnym oknie, aby użyć mikrofonu.",
   "settings.models.speechToTextModel.title": "Model mowy na tekst",
   "settings.models.speechToTextModel.description":
-    "Wybierz model transkrypcji Kilo Gateway dla wprowadzania głosowego.",
+    "Wybierz model transkrypcji Kappa Gateway dla wprowadzania głosowego.",
   "settings.experimental.nativeNotebookTools.title": "Natywne narzędzia notatników",
   "settings.experimental.nativeNotebookTools.description":
     "Włącz eksperymentalne narzędzia do odczytu, edycji i uruchamiania notatników VS Code",
@@ -930,7 +930,7 @@ export const dict = {
   "settings.experimental.mcpTimeout.description": "Limit czasu żądań serwera MCP w milisekundach",
   "settings.experimental.remote.title": "Sterowanie Remote",
   "settings.experimental.remote.description":
-    "Włącz sterowanie Remote sesjami za pośrednictwem Kilo Cloud. Wpłynie to również na CLI na tej maszynie.",
+    "Włącz sterowanie Remote sesjami za pośrednictwem Kappa Cloud. Wpłynie to również na CLI na tej maszynie.",
   "settings.experimental.remote.current": "Aktualny stan:",
   "settings.experimental.remote.startup": "Automatyczne włączanie przy starcie:",
   "settings.experimental.remote.active": "Aktywny",
@@ -958,10 +958,10 @@ export const dict = {
   "settings.indexing.model.title": "Model osadzania",
   "settings.indexing.provider.description":
     "Wybierz dostawcę używanego do generowania osadzeń dla wyszukiwania semantycznego.",
-  "settings.indexing.kiloModel.title": "Preset modelu Kilo",
-  "settings.indexing.kiloModel.description": "Wybierz obsługiwany model osadzania hostowany przez Kilo.",
-  "settings.indexing.kiloSignIn.title": "Wymagane logowanie do Kilo",
-  "settings.indexing.kiloSignIn.description": "Zaloguj się do Kilo, aby używać hostowanych osadzeń.",
+  "settings.indexing.kappaModel.title": "Preset modelu Kappa",
+  "settings.indexing.kappaModel.description": "Wybierz obsługiwany model osadzania hostowany przez Kappa.",
+  "settings.indexing.kappaSignIn.title": "Wymagane logowanie do Kappa",
+  "settings.indexing.kappaSignIn.description": "Zaloguj się do Kappa, aby używać hostowanych osadzeń.",
   "settings.indexing.provider.title": "Dostawca osadzania",
   "settings.indexing.providerField.description": "Ustawienie połączenia specyficzne dla dostawcy.",
   "settings.indexing.qdrantApiKey.description": "Opcjonalny klucz API dla instancji Qdrant.",
@@ -1065,7 +1065,7 @@ export const dict = {
   "settings.agentBehaviour.editMcp.env.help": "Zmienne przekazywane do procesu serwera MCP.",
   "settings.agentBehaviour.editMcp.oauth": "OAuth",
   "settings.agentBehaviour.editMcp.oauth.help":
-    "Pozostaw na Automatycznie, jeśli serwer nie wymaga wcześniej zarejestrowanego klienta. Sekret klienta jest przechowywany w pliku konfiguracyjnym Kilo.",
+    "Pozostaw na Automatycznie, jeśli serwer nie wymaga wcześniej zarejestrowanego klienta. Sekret klienta jest przechowywany w pliku konfiguracyjnym Kappa.",
   "settings.agentBehaviour.editMcp.oauth.mode": "Tryb",
   "settings.agentBehaviour.editMcp.oauth.mode.automatic": "Automatyczny",
   "settings.agentBehaviour.editMcp.oauth.mode.disabled": "Wyłączony",
@@ -1106,7 +1106,7 @@ export const dict = {
   "settings.agentBehaviour.claudeCompat.heading": "Kompatybilność z Claude Code",
   "settings.agentBehaviour.claudeCompat.title": "Wczytuj pliki Claude Code",
   "settings.agentBehaviour.claudeCompat.description":
-    "Wczytuje instrukcje CLAUDE.md oraz umiejętności z katalogu konfiguracyjnego Claude Code do sesji. Włącz tę opcję, jeśli chcesz, aby Kilo korzystał z Twoich instrukcji i umiejętności Claude Code. Wymaga ponownego uruchomienia.",
+    "Wczytuje instrukcje CLAUDE.md oraz umiejętności z katalogu konfiguracyjnego Claude Code do sesji. Włącz tę opcję, jeśli chcesz, aby Kappa korzystał z Twoich instrukcji i umiejętności Claude Code. Wymaga ponownego uruchomienia.",
   "settings.agentBehaviour.mcpDetail.command": "Polecenie",
   "settings.agentBehaviour.mcpDetail.args": "Argumenty",
   "settings.agentBehaviour.mcpDetail.env": "Środowisko",
@@ -1133,7 +1133,7 @@ export const dict = {
     "Kieruje wywołania narzędzi MCP przez odizolowane środowisko uruchomieniowe JavaScript z wykrywaniem narzędzi na żądanie, zamiast udostępniać każde narzędzie MCP bezpośrednio. Oszczędza kontekst, gdy podłączonych jest wiele narzędzi MCP.",
   "settings.sandboxing.enabled.title": "Sandbox",
   "settings.sandboxing.enabled.description":
-    "Uruchamiaj polecenia shell agenta w sandboxie na poziomie systemu operacyjnego, który ogranicza zapisy do katalogów stanu projektu i Kilo",
+    "Uruchamiaj polecenia shell agenta w sandboxie na poziomie systemu operacyjnego, który ogranicza zapisy do katalogów stanu projektu i Kappa",
 
   "settings.autoApprove.description":
     "Zdefiniuj, jak narzędzia mogą być uruchamiane. Większość narzędzi domyślnie ma ustawienie Zezwalaj. doom_loop i external_directory domyślnie mają ustawienie Pytaj.",
@@ -1181,7 +1181,7 @@ export const dict = {
   "settings.checkpoints.enable.description": "Twórz punkty kontrolne przed edycją plików",
   "settings.autoCleanup.enable.title": "Włącz automatyczne czyszczenie sesji",
   "settings.autoCleanup.enable.description":
-    "Automatycznie usuwa starą historię sesji po określonej liczbie dni, we wszystkich projektach i we wszystkich klientach Kilo na tym komputerze, nie tylko w tym oknie. Uruchomione sesje i sesje z niedawnym forkiem nigdy nie są usuwane. Usunięcie jest trwałe.",
+    "Automatycznie usuwa starą historię sesji po określonej liczbie dni, we wszystkich projektach i we wszystkich klientach Kappa na tym komputerze, nie tylko w tym oknie. Uruchomione sesje i sesje z niedawnym forkiem nigdy nie są usuwane. Usunięcie jest trwałe.",
   "settings.autoCleanup.defaultRetention.title": "Przechowuj sesje (dni)",
   "settings.autoCleanup.defaultRetention.description":
     "Jak długo przechowywana jest historia sesji, zanim automatyczne czyszczenie ją usunie.",
@@ -1200,7 +1200,7 @@ export const dict = {
     "Usuwanie sesji: przetworzono {{processed}}/{{total}} (usunięto {{deleted}}, nie powiodło się {{failed}})",
   "settings.autoCleanup.runNow": "Uruchom czyszczenie teraz",
   "settings.autoCleanup.runNow.confirm":
-    "Trwale usunąć wygasłe sesje we wszystkich projektach i we wszystkich klientach Kilo na tym komputerze?",
+    "Trwale usunąć wygasłe sesje we wszystkich projektach i we wszystkich klientach Kappa na tym komputerze?",
   "settings.autoCleanup.stop": "Zatrzymaj czyszczenie",
   "settings.autoCleanup.progress.cancelling": "Zatrzymywanie czyszczenia sesji...",
   "settings.autoCleanup.lastRun.cancelled": "przerwane",
@@ -1233,7 +1233,7 @@ export const dict = {
   "settings.context.memory.storage.enable": "Enable memory to create project memory files.",
   "settings.context.memory.inspect": "Sprawdź",
   "chat.memory.project.disabled": "Pamięć projektu wyłączona",
-  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kappa.",
   "chat.memory.command.failed": "Polecenie pamięci nie powiodło się",
   "chat.memory.updated": "Memory updated",
   "chat.memory.rebuild": "Memory index rebuilt",
@@ -1269,7 +1269,7 @@ export const dict = {
   "settings.display.username.title": "Nazwa użytkownika",
   "settings.display.username.description": "Niestandardowa nazwa użytkownika w rozmowach",
   "settings.display.fontSize.title": "Rozmiar czcionki",
-  "settings.display.fontSize.description": "Dostosuj rozmiar czcionki webview UI Kilo niezależnie od VS Code.",
+  "settings.display.fontSize.description": "Dostosuj rozmiar czcionki webview UI Kappa niezależnie od VS Code.",
   "settings.display.reasoningDisplay.title": "Bloki rozumowania",
   "settings.display.reasoningDisplay.description":
     "Wybierz, jak zaczynają się bloki rozumowania. Rozwinięte pokazuje pełny tekst, Podgląd ogranicza go do krótkiego przewijanego podglądu, a Nagłówek pokazuje tylko tytuł i wskaźnik strumieniowania, dopóki go nie otworzysz.",
@@ -1326,8 +1326,8 @@ export const dict = {
   "question.summary": "{{n}} z {{total}} pytań",
   "common.review": "Przejrzyj",
 
-  "settings.aboutKiloCode.rooImport.description": "Importuj historię rozmów z instalacji Roo Code.",
-  "settings.aboutKiloCode.rooImport.button": "Importuj sesje z Roo Code",
+  "settings.aboutKappaCode.rooImport.description": "Importuj historię rozmów z instalacji Roo Code.",
+  "settings.aboutKappaCode.rooImport.button": "Importuj sesje z Roo Code",
 
   "migration.roo.button": "Importuj sesje",
   "migration.roo.empty": "Nie znaleziono sesji Roo Code.",
@@ -1420,7 +1420,7 @@ export const dict = {
     "Pliki zmodyfikowane w drzewie roboczym, ale jeszcze nieprzygotowane, plus nieśledzone (nowe) pliki.",
   "diffViewer.source.session.label": "Sesja",
   "diffViewer.source.session.tooltip":
-    "Pliki zmienione przez Kilo w trakcie bieżącej sesji, na podstawie snapshotów na turę. Resetowane przy rozpoczęciu nowej sesji.",
+    "Pliki zmienione przez Kappa w trakcie bieżącej sesji, na podstawie snapshotów na turę. Resetowane przy rozpoczęciu nowej sesji.",
   "diffViewer.group.session": "Sesja",
   "diffViewer.group.git": "Git",
   "diffViewer.comment.postToGithub": "Opublikuj na GitHubie",
@@ -1430,7 +1430,7 @@ export const dict = {
   "diffViewer.comment.openPR": "Otwórz pull request",
   "diffViewer.comment.localChanges": "Zmiany lokalne",
   "diffViewer.comment.prChanges": "Zmiany PR",
-  "diffViewer.comment.sendToKilo": "Wyślij do Kilo",
+  "diffViewer.comment.sendToKappa": "Wyślij do Kappa",
   "diffViewer.comment.sendToGithub": "Wyślij do GitHub #{{number}}",
   "diffViewer.comment.chooseDestination": "Wybierz miejsce docelowe",
   "diffViewer.notice.snapshotsDisabled":
@@ -1462,11 +1462,11 @@ export const dict = {
     "Użyj zainstalowanej przeglądarki Google Chrome dla zintegrowanej przeglądarki. Wyłącz tylko wtedy, gdy zgodna przeglądarka Playwright Chromium jest już zainstalowana.",
   "settings.experimental.browserLinks.title": "Otwieraj linki w",
   "settings.experimental.browserLinks.description":
-    "Wybierz, gdzie otwierają się linki internetowe z czatów Kilo. Wymaga zintegrowanej przeglądarki.",
+    "Wybierz, gdzie otwierają się linki internetowe z czatów Kappa. Wymaga zintegrowanej przeglądarki.",
   "settings.experimental.browserLinks.external": "Przeglądarka systemowa",
   "settings.experimental.browserLinks.integrated": "Zintegrowana przeglądarka",
   "chat.search.searchingHistory": "Wyszukiwanie we wcześniejszych wiadomościach…",
   "browserTab.noSession":
     "Otwórz przeglądarkę z sesji, aby wyświetlić podgląd lokalnej aplikacji lub publicznej strony HTTPS.",
-  "browserTab.disabled": "Zintegrowana przeglądarka jest wyłączona. Włącz ją w Ustawieniach Kilo > Eksperymentalne.",
+  "browserTab.disabled": "Zintegrowana przeglądarka jest wyłączona. Włącz ją w Ustawieniach Kappa > Eksperymentalne.",
 }

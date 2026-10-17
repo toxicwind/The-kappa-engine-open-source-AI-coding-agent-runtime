@@ -101,7 +101,7 @@ describe("speech-to-text source switching", () => {
     expect(canUseSpeechToText(noModel, {})).toBe(false)
     expect(selectedSpeechToTextModel(noModel)).toBe("")
 
-    // A custom endpoint does not need Kilo sign-in, only its own model ID.
+    // A custom endpoint does not need Kappa sign-in, only its own model ID.
     expect(canUseSpeechToText(withModel, {})).toBe(true)
     expect(selectedSpeechToTextModel(withModel)).toBe("small")
   })

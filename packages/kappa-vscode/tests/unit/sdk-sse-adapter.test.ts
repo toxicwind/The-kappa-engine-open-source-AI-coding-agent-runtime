@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
-import { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
+import { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 import { SdkSSEAdapter, type SSEPayload } from "../../src/services/cli-backend/sdk-sse-adapter"
 
 type Opts = {
@@ -11,12 +11,12 @@ type Opts = {
 
 type Stream = AsyncGenerator<unknown, void, unknown>
 
-function client(open: (opts: Opts) => Stream): KiloClient {
+function client(open: (opts: Opts) => Stream): KappaClient {
   return {
     global: {
       event: async (opts: Opts) => ({ stream: open(opts) }),
     },
-  } as unknown as KiloClient
+  } as unknown as KappaClient
 }
 
 function event() {
@@ -181,9 +181,9 @@ describe("SdkSSEAdapter", () => {
   })
 })
 
-describe("KiloConnectionService backend crash", () => {
+describe("KappaConnectionService backend crash", () => {
   it("invalidates the stale SDK client and reports a retryable error", () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const states: Array<{ state: string; error?: string }> = []
     ;(service as any).client = {}
     ;(service as any).config = { baseUrl: "http://127.0.0.1:52512", password: "secret" }
@@ -204,7 +204,7 @@ describe("KiloConnectionService backend crash", () => {
   })
 
   it("does not expose an SDK client while a replacement server is connecting", () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     ;(service as any).client = {}
     ;(service as any).state = "connecting"
 
@@ -213,7 +213,7 @@ describe("KiloConnectionService backend crash", () => {
   })
 })
 
-describe("KiloConnectionService SSE startup", () => {
+describe("KappaConnectionService SSE startup", () => {
   it("waits through an initial SSE fetch failure until the stream opens", async () => {
     const original = globalThis.fetch
     const chunk = new TextEncoder().encode(
@@ -236,7 +236,7 @@ describe("KiloConnectionService SSE startup", () => {
       )
     }) as typeof fetch
 
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     ;(service as any).serverManager.getServer = async () => ({ port: 52512, password: "secret", process: {} })
 
     try {

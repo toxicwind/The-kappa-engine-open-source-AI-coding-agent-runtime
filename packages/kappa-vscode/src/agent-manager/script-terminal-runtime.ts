@@ -1,4 +1,4 @@
-import type { KiloConnectionService } from "../services/cli-backend"
+import type { KappaConnectionService } from "../services/cli-backend"
 import type { OutputHandle } from "./host"
 import { ScriptTerminalManager } from "./ScriptTerminalManager"
 import { buildScriptTerminalWsUrl } from "./script-terminal-url"
@@ -10,7 +10,7 @@ import { pickRunStart } from "./run/destination"
 import { startVscodeRunTask } from "./run/task"
 
 interface Input {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   output: OutputHandle
   post(message: AgentManagerOutMessage): void
 }

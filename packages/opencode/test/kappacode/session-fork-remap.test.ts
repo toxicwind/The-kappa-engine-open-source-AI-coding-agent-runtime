@@ -4,7 +4,7 @@ import { SessionProjector } from "@opencode-ai/core/session/projector"
 import { afterAll, afterEach, beforeAll, describe, expect, test } from "bun:test"
 import { Effect } from "effect"
 import { HttpRouter } from "effect/unstable/http"
-import { createKiloClient } from "@kappacode/sdk/v2/client"
+import { createKappaClient } from "@kappacode/sdk/v2/client"
 import { provideTestInstance } from "../fixture/fixture"
 import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
 import { Session } from "../../src/session/session"
@@ -15,7 +15,7 @@ import { disposeAllInstances, disposeTestRuntime, tmpdir } from "../fixture/fixt
 import { eq } from "drizzle-orm"
 import { EventSequenceTable, EventTable } from "@opencode-ai/core/event/sql"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { KiloPartLifecycle } from "../../src/kappacode/session/part-lifecycle"
+import { KappaPartLifecycle } from "../../src/kappacode/session/part-lifecycle"
 import { Database as CoreDatabase } from "@opencode-ai/core/database/database"
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { ProjectTable } from "@opencode-ai/core/project/sql"
@@ -219,7 +219,7 @@ describe("Session.fork task children", () => {
           const before = await sessions.list()
 
           const server = HttpRouter.toWebHandler(HttpApiApp.routes, { disableLogger: true })
-          const client = createKiloClient({
+          const client = createKappaClient({
             baseUrl: "http://localhost",
             directory: tmp.path,
             fetch: ((request: Request) => server.handler(request, HttpApiApp.context)) as unknown as typeof fetch,
@@ -524,7 +524,7 @@ describe("Session.fork task children", () => {
             {
               text: "arbitrary live status",
               synthetic: true,
-              metadata: { [KiloPartLifecycle.key]: "transient" },
+              metadata: { [KappaPartLifecycle.key]: "transient" },
             },
           ]
           for (const part of parts) {

@@ -16,7 +16,7 @@ export namespace MemoryMarkerMeta {
   export type Part = {
     type: string
     metadata?: Record<string, unknown> & {
-      kiloMemory?: unknown
+      kappaMemory?: unknown
     }
   }
 
@@ -30,7 +30,7 @@ export namespace MemoryMarkerMeta {
 
   export function metadata(marker: Info, verbose = false) {
     return {
-      kiloMemory: {
+      kappaMemory: {
         type: marker.type,
         bytes: marker.bytes,
         tokens: marker.tokens,
@@ -116,7 +116,7 @@ export namespace MemoryMarkerMeta {
   export function fromParts(parts: readonly Part[]): Decoded | undefined {
     for (const part of parts) {
       if (part.type !== "text") continue
-      const meta = part.metadata?.kiloMemory
+      const meta = part.metadata?.kappaMemory
       if (!meta || typeof meta !== "object") continue
       const value = meta as {
         type?: unknown

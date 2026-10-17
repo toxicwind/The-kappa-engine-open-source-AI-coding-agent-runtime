@@ -46,7 +46,7 @@ export function body(value: string) {
  * parent learns that a human redirected its child. Failures are logged and
  * never fail prompt admission.
  */
-export const notify = Effect.fn("KiloSessionSteering.notify")(function* (input: {
+export const notify = Effect.fn("KappaSessionSteering.notify")(function* (input: {
   session: { id: SessionID; parentID?: SessionID }
   parts: ReadonlyArray<Part>
   messageID: string
@@ -73,4 +73,4 @@ export const notify = Effect.fn("KiloSessionSteering.notify")(function* (input: 
   )
 })
 
-export * as KiloSessionSteering from "./steering"
+export * as KappaSessionSteering from "./steering"

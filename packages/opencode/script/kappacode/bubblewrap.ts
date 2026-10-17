@@ -39,7 +39,7 @@ static inline int cap_from_name(const char *name, cap_value_t *cap) {
 `
 
 const config = `#pragma once
-#define PACKAGE_STRING "bubblewrap ${version} for Kilo"
+#define PACKAGE_STRING "bubblewrap ${version} for Kappa"
 #define PACKAGE_VERSION "${version}"
 `
 
@@ -48,7 +48,7 @@ const notice = `Bubblewrap ${version}
 SPDX-License-Identifier: LGPL-2.0-or-later
 Source: https://github.com/containers/bubblewrap/tree/${commit}
 
-Kilo distributes Bubblewrap as a separate executable. The complete license text is
+Kappa distributes Bubblewrap as a separate executable. The complete license text is
 in COPYING. The exact corresponding source is in bubblewrap-${commit}.tar.gz, and
 the build recipe and generated compatibility headers are in build.ts.
 

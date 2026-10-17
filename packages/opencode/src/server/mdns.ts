@@ -8,8 +8,8 @@ export function publish(port: number, domain?: string) {
   if (bonjour) unpublish()
 
   try {
-    const host = domain ?? "kappa.local" // kilocode_change
-    const name = `kappa-${port}` // kilocode_change
+    const host = domain ?? "kappa.local" // kappacode_change
+    const name = `kappa-${port}` // kappacode_change
     bonjour = new Bonjour()
     const service = bonjour.publish({
       name,

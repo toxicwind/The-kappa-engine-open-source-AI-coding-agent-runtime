@@ -1,7 +1,7 @@
 import type { Event, EventSessionTurnClose } from "@kappacode/sdk/v2"
 import { createEffect, createMemo, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
-import { KiloTerminalTitle } from "./terminal-title"
+import { KappaTerminalTitle } from "./terminal-title"
 
 type Outcome = EventSessionTurnClose["properties"]["reason"]
 
@@ -12,18 +12,18 @@ type Message = {
   finish?: string
 }
 
-export namespace KiloTerminalActivity {
+export namespace KappaTerminalActivity {
   export type State = "idle" | "busy" | "retry" | "waiting" | "error" | "done"
 
-  export type Data = Omit<KiloTerminalTitle.Data, "message"> & {
+  export type Data = Omit<KappaTerminalTitle.Data, "message"> & {
     message: Record<string, readonly Message[] | undefined>
   }
 
   export function classify(input: { id?: string; data: Data; outcomes?: Record<string, Outcome | undefined> }): State {
     if (!input.id) return "idle"
-    const root = KiloTerminalTitle.root(input.data.session, input.id)
-    const ids = [...new Set([root, ...KiloTerminalTitle.family(input.data.session, root)])]
-    if (ids.some((id) => KiloTerminalTitle.attention(input.data, id))) return "waiting"
+    const root = KappaTerminalTitle.root(input.data.session, input.id)
+    const ids = [...new Set([root, ...KappaTerminalTitle.family(input.data.session, root)])]
+    if (ids.some((id) => KappaTerminalTitle.attention(input.data, id))) return "waiting"
     if (ids.some((id) => input.data.session_status[id]?.type === "retry")) return "retry"
     if (ids.some((id) => input.data.session_status[id]?.type === "busy")) return "busy"
 

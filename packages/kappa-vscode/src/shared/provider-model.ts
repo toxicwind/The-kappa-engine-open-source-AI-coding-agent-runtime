@@ -32,10 +32,10 @@ export function providerOrderIndex(providerID: string, order = PROVIDER_PRIORITY
   return index >= 0 ? index : order.length
 }
 
-export function createKiloFallbackProvider() {
+export function createKappaFallbackProvider() {
   return {
     id: KILO_PROVIDER_ID,
-    name: "Kilo Gateway",
+    name: "Kappa Gateway",
     source: "custom" as const,
     env: ["KILO_API_KEY"],
     metadata: {

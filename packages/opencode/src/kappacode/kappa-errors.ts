@@ -6,22 +6,22 @@ export const KILO_ERROR_CODES = {
   PROMOTION_MODEL_LIMIT_REACHED: "PROMOTION_MODEL_LIMIT_REACHED",
 } as const
 
-export type KiloErrorCode = (typeof KILO_ERROR_CODES)[keyof typeof KILO_ERROR_CODES]
+export type KappaErrorCode = (typeof KILO_ERROR_CODES)[keyof typeof KILO_ERROR_CODES]
 
 const KILO_ERROR_CODE_VALUES = Object.values(KILO_ERROR_CODES) as string[]
 
 /**
- * Check if an error is a Kilo-specific error (has a known Kilo error code in responseBody).
- * Currently all Kilo errors are non-retryable, but this may change in the future.
+ * Check if an error is a Kappa-specific error (has a known Kappa error code in responseBody).
+ * Currently all Kappa errors are non-retryable, but this may change in the future.
  */
-export function isKiloError(error: ReturnType<NamedError["toObject"]>): boolean {
-  return parseKiloErrorCode(error) !== undefined
+export function isKappaError(error: ReturnType<NamedError["toObject"]>): boolean {
+  return parseKappaErrorCode(error) !== undefined
 }
 
 /**
- * Get a user-friendly title for a Kilo error code.
+ * Get a user-friendly title for a Kappa error code.
  */
-export function kappaErrorTitle(code: KiloErrorCode): string {
+export function kappaErrorTitle(code: KappaErrorCode): string {
   switch (code) {
     case KILO_ERROR_CODES.PAID_MODEL_AUTH_REQUIRED:
       return "You need to sign in to use this model"
@@ -31,9 +31,9 @@ export function kappaErrorTitle(code: KiloErrorCode): string {
 }
 
 /**
- * Get a user-friendly description for a Kilo error code.
+ * Get a user-friendly description for a Kappa error code.
  */
-export function kappaErrorDescription(code: KiloErrorCode): string {
+export function kappaErrorDescription(code: KappaErrorCode): string {
   switch (code) {
     case KILO_ERROR_CODES.PAID_MODEL_AUTH_REQUIRED:
       return "Sign in or create an account to access over 500 models, use credits at cost, or bring your own key."
@@ -43,14 +43,14 @@ export function kappaErrorDescription(code: KiloErrorCode): string {
 }
 
 /**
- * Show a warning toast with the appropriate Kilo error title/description.
- * Caller should check isKiloError() first.
+ * Show a warning toast with the appropriate Kappa error title/description.
+ * Caller should check isKappaError() first.
  */
-export function showKiloErrorToast(
+export function showKappaErrorToast(
   error: ReturnType<NamedError["toObject"]>,
   toast: { show: (opts: { variant: "warning"; title: string; message: string; duration: number }) => void },
 ): void {
-  const code = parseKiloErrorCode(error)
+  const code = parseKappaErrorCode(error)
   if (!code) return
   toast.show({
     variant: "warning",
@@ -61,14 +61,14 @@ export function showKiloErrorToast(
 }
 
 /**
- * Extract the specific Kilo error code from an APIError's responseBody.
+ * Extract the specific Kappa error code from an APIError's responseBody.
  * Returns the code string if found, undefined otherwise.
  *
  * Note: We check error.name === "APIError" directly instead of using
  * MessageV2.APIError.isInstance() to avoid a circular dependency
  * (message-v2.ts re-exports from this file).
  */
-export function parseKiloErrorCode(error: ReturnType<NamedError["toObject"]>): KiloErrorCode | undefined {
+export function parseKappaErrorCode(error: ReturnType<NamedError["toObject"]>): KappaErrorCode | undefined {
   if (error.name !== "APIError") return undefined
   const responseBody = isRecord(error.data) ? error.data.responseBody : undefined
   if (typeof responseBody !== "string") return undefined
@@ -78,7 +78,7 @@ export function parseKiloErrorCode(error: ReturnType<NamedError["toObject"]>): K
     // or: { code: "PROMOTION_MODEL_LIMIT_REACHED" }
     const code = body?.error?.code ?? body?.code
     if (typeof code === "string" && KILO_ERROR_CODE_VALUES.includes(code)) {
-      return code as KiloErrorCode
+      return code as KappaErrorCode
     }
   } catch {}
   return undefined

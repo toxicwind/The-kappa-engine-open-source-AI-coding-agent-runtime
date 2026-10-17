@@ -54,7 +54,7 @@ export function clearModesCache() {
 }
 
 /**
- * Fetch custom modes for an organization from the Kilo Cloud API.
+ * Fetch custom modes for an organization from the Kappa Cloud API.
  *
  * @param token - Bearer authentication token
  * @param organizationId - Organization UUID
@@ -91,7 +91,7 @@ export async function fetchOrganizationModes(token: string, organizationId: stri
     cache.set(organizationId, { modes, timestamp: Date.now() })
     return modes
   } catch (err) {
-    console.warn("[Kilo Gateway] Error fetching organization modes:", err)
+    console.warn("[Kappa Gateway] Error fetching organization modes:", err)
     return []
   }
 }

@@ -1,4 +1,4 @@
-import type { KiloClient } from "../v2/client.js"
+import type { KappaClient } from "../v2/client.js"
 
 type Decision = {
   requestID: string
@@ -60,7 +60,7 @@ async function send<T>(fn: () => Promise<T>, budget: () => number): Promise<T> {
  * Rules are saved first so a failed save never continues to the reply.
  */
 export async function respondToPermission(
-  client: KiloClient,
+  client: KappaClient,
   input: Decision,
   timeout = 15_000,
 ): Promise<{ error?: unknown; saved?: boolean }> {
@@ -109,7 +109,7 @@ export async function respondToPermission(
  * persist a conflicting rule. Returns false when the outcome stays unknown.
  */
 export async function permissionSettled(
-  client: KiloClient,
+  client: KappaClient,
   directory: string,
   requestID: string,
   timeout = 5_000,

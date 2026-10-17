@@ -303,7 +303,7 @@ describe("V2 configuration loading", () => {
         ),
       )
 
-      // kilocode_change - Kilo injects its built-in plugins during load, so the
+      // kappacode_change - Kappa injects its built-in plugins during load, so the
       // unsupported native "plugins" entry is omitted but the projection is not empty.
       expect(config.plugin).toEqual(["@kappacode/kappa-indexing", "@kappacode/plugin-atomic-chat"])
       expect(config.plugin).not.toContain("native-only")

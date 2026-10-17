@@ -1,4 +1,4 @@
-// Kilo-specific replacement for the shared `@opencode-ai/ui/pierre/worker`
+// Kappa-specific replacement for the shared `@opencode-ai/ui/pierre/worker`
 // module (wired up by the pierre-worker-alias plugin in esbuild.js).
 //
 // The upstream module loads Pierre's Shiki worker through a Vite-only
@@ -14,14 +14,14 @@
 // which is why review surfaces pass hunk-bounded patches instead of full files.
 import { LINE_DIFF_TYPE } from "@kappacode/kappa-ui/pierre"
 import { WorkerPoolManager } from "@pierre/diffs/worker"
-import { ensureKiloDiffTheme, KILO_DIFF_THEME } from "@opencode-ai/ui/pierre/kappa-diff-theme"
+import { ensureKappaDiffTheme, KILO_DIFF_THEME } from "@opencode-ai/ui/pierre/kappa-diff-theme"
 
-// Register the "Kilo" theme before any pool initializes. resolveThemes([theme])
+// Register the "Kappa" theme before any pool initializes. resolveThemes([theme])
 // runs on the main thread during initialize() and throws "resolveTheme: No valid
-// loader for Kilo" if the theme name was never registered. Registering here makes
+// loader for Kappa" if the theme name was never registered. Registering here makes
 // the worker self-sufficient rather than depending on the markdown context module
 // having been imported first.
-ensureKiloDiffTheme()
+ensureKappaDiffTheme()
 
 export type WorkerPoolStyle = "unified" | "split"
 
@@ -47,7 +47,7 @@ function createPool() {
     { workerFactory, poolSize: 2 },
     { theme: KILO_DIFF_THEME, lineDiffType: LINE_DIFF_TYPE, preferredHighlighter: ENGINE },
   )
-  void pool.initialize().catch((err) => console.warn("[Kilo New] Failed to initialize Pierre worker pool", err))
+  void pool.initialize().catch((err) => console.warn("[Kappa New] Failed to initialize Pierre worker pool", err))
   return pool
 }
 

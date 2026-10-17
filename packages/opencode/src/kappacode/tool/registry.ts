@@ -23,7 +23,7 @@ import { Effect } from "effect"
 import * as Network from "@/kappacode/sandbox/network"
 import { Notebook } from "@/kappacode/notebook/service"
 import { AgentManager, HostError } from "@/kappacode/agent-manager/service"
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions"
 import { enabled as prEnabled } from "@/kappa-sessions/pr-link"
 import * as Log from "@opencode-ai/core/util/log"
 import type { Config } from "@/config/config"
@@ -32,17 +32,17 @@ import { BoardEnabled } from "@/kappacode/board/enabled"
 import { Agent } from "@/agent/agent"
 import * as Truncate from "@/tool/truncate"
 import { InstanceState } from "@/effect/instance-state"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 
 const log = Log.create({ service: "kappacode-tool-registry" })
 type Deps = { agent: Agent.Interface; truncate: Truncate.Interface; indexing?: boolean }
 type Loaders = {
-  indexing?: () => Promise<{ KiloIndexing: { ready: () => boolean } }>
+  indexing?: () => Promise<{ KappaIndexing: { ready: () => boolean } }>
   semantic?: () => Promise<Pick<typeof import("@/kappacode/tool/semantic-search"), "SemanticSearchTool">>
 }
 
-export namespace KiloToolRegistry {
+export namespace KappaToolRegistry {
   const hint =
     "- When you are doing an open-ended search where you do not know the exact symbol name, use the `semantic_search` tool first to narrow down the search scope, then follow up with `Grep` and/or `Read`"
 
@@ -61,7 +61,7 @@ export namespace KiloToolRegistry {
    * indexing.ts imports AppRuntime, which imports the tool registry, and indexing load failures must not break tools.
    */
   function consented(dir: string) {
-    return Effect.tryPromise(() => import("@/kappacode/indexing").then((mod) => mod.KiloIndexing.consented(dir))).pipe(
+    return Effect.tryPromise(() => import("@/kappacode/indexing").then((mod) => mod.KappaIndexing.consented(dir))).pipe(
       Effect.catch((err) =>
         Effect.sync(() => {
           log.warn("semantic search consent unavailable", { err })
@@ -82,7 +82,7 @@ export namespace KiloToolRegistry {
     return family?.startsWith("gpt") ?? false
   }
 
-  /** Resolve Kilo-specific tool Infos outside any InstanceState, so their Truncate/Agent deps are
+  /** Resolve Kappa-specific tool Infos outside any InstanceState, so their Truncate/Agent deps are
    * satisfied at the outer registry scope instead of leaking into InstanceState's Effect. */
   const unavailable = AgentManager.Service.of({
     request: () =>
@@ -105,11 +105,11 @@ export namespace KiloToolRegistry {
       const browser = Flag.KILO_CLIENT === "vscode" ? yield* BrowserOpenTool : undefined
       const chart = yield* ChartTool
       const image = yield* GenerateImageTool
-      // The notify_user tool depends on KiloSessions.Service, which the tool-registry layer provides
-      // via KiloSessions.defaultLayer (see src/tool/registry.ts). Grabs the service from the surrounding
+      // The notify_user tool depends on KappaSessions.Service, which the tool-registry layer provides
+      // via KappaSessions.defaultLayer (see src/tool/registry.ts). Grabs the service from the surrounding
       // context here and injects it into the tool's init Effect.
-      const sessions = yield* KiloSessions.Service
-      const notify = yield* NotifyUserTool.pipe(Effect.provideService(KiloSessions.Service, sessions))
+      const sessions = yield* KappaSessions.Service
+      const notify = yield* NotifyUserTool.pipe(Effect.provideService(KappaSessions.Service, sessions))
       const openPlan = yield* OpenPlanTool
       const send = yield* SendFileTool
       const linkPr = yield* LinkPrTool
@@ -177,7 +177,7 @@ export namespace KiloToolRegistry {
     })
   }
 
-  /** Finalize Kilo-specific tools into Tool.Defs. Call this inside the InstanceState state Effect —
+  /** Finalize Kappa-specific tools into Tool.Defs. Call this inside the InstanceState state Effect —
    * it has no Service deps beyond what Tool.init itself needs. */
   export function build(
     tools: {
@@ -271,7 +271,7 @@ export namespace KiloToolRegistry {
       const ready = yield* deps.indexing === undefined
         ? (() => {
             const indexing = loaders.indexing ?? (() => import("@/kappacode/indexing"))
-            return Effect.tryPromise(() => indexing().then((mod) => mod.KiloIndexing.ready())).pipe(
+            return Effect.tryPromise(() => indexing().then((mod) => mod.KappaIndexing.ready())).pipe(
               Effect.catch((err) =>
                 Effect.sync(() => {
                   log.warn("semantic search unavailable", { err })
@@ -304,12 +304,12 @@ export namespace KiloToolRegistry {
   }
 
   export function available(tool: Tool.Def) {
-    if (tool.id === "notify_user") return KiloSessions.remoteStatus().enabled
-    if (tool.id === "send_file") return KiloSessions.remoteStatus().connected
+    if (tool.id === "notify_user") return KappaSessions.remoteStatus().enabled
+    if (tool.id === "send_file") return KappaSessions.remoteStatus().connected
     return true
   }
 
-  /** Kilo-specific tools to append to the builtin list */
+  /** Kappa-specific tools to append to the builtin list */
   export function extra(
     tools: {
       semantic?: Tool.Def
@@ -393,7 +393,7 @@ export namespace KiloToolRegistry {
     memoryEnabledCache.delete(root)
   }
 
-  /** Per-turn cache of `KiloMemory.toolEnabled` keyed by root string, with a short TTL so the
+  /** Per-turn cache of `KappaMemory.toolEnabled` keyed by root string, with a short TTL so the
    * step-loop coalesces probes inside a single turn. Cache is invalidated immediately on enable /
    * disable / purge / rebuild via the MemoryEvents bus (subscribed in kappacode/bootstrap.ts). */
   export function memoryToolsEnabled(input: { ctx: MemoryPaths.Ctx }) {
@@ -402,7 +402,7 @@ export namespace KiloToolRegistry {
       const cached = memoryEnabledCache.get(root)
       if (cached && cached.deadline > Date.now()) return cached.enabled
       const enabled = yield* Effect.tryPromise({
-        try: () => KiloMemory.toolEnabled({ ctx: input.ctx }),
+        try: () => KappaMemory.toolEnabled({ ctx: input.ctx }),
         catch: (err) => err,
       }).pipe(
         Effect.catch((err) =>
@@ -420,8 +420,8 @@ export namespace KiloToolRegistry {
       return enabled
     })
   }
-  /** Hide Kilo memory tools from the model when project memory is disabled. */
-  export const applyVisibility = Effect.fn("KiloToolRegistry.applyVisibility")(function* (tools: Tool.Def[]) {
+  /** Hide Kappa memory tools from the model when project memory is disabled. */
+  export const applyVisibility = Effect.fn("KappaToolRegistry.applyVisibility")(function* (tools: Tool.Def[]) {
     const ctx = yield* InstanceState.context
     const memoryEnabled = yield* memoryToolsEnabled({ ctx })
     const browser = tools.some((tool) => tool.id === "browser_open")

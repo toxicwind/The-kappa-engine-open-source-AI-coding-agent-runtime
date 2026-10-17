@@ -20,7 +20,7 @@ describe("terminal title done tracking", () => {
   test("app.tsx untracks the done guard before setDone", () => {
     const content = fs.readFileSync(APP_FILE, "utf-8")
 
-    expect(content).toContain("const title = KiloApp.getTerminalTitle")
+    expect(content).toContain("const title = KappaApp.getTerminalTitle")
     expect(content).toContain("untrack(() => done()[title.id!]) !== true")
   })
 })

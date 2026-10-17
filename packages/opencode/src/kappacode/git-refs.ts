@@ -17,7 +17,7 @@ const kind = (code: string): Git.Kind => {
 
 const nuls = (text: string) => text.split("\0").filter(Boolean)
 
-export const diffRefs = Effect.fn("KiloGit.diffRefs")(function* (
+export const diffRefs = Effect.fn("KappaGit.diffRefs")(function* (
   git: Git.Interface,
   cwd: string,
   from: string,
@@ -37,7 +37,7 @@ export const diffRefs = Effect.fn("KiloGit.diffRefs")(function* (
   })
 })
 
-export const statsRefs = Effect.fn("KiloGit.statsRefs")(function* (
+export const statsRefs = Effect.fn("KappaGit.statsRefs")(function* (
   git: Git.Interface,
   cwd: string,
   from: string,
@@ -68,7 +68,7 @@ export const statsRefs = Effect.fn("KiloGit.statsRefs")(function* (
   })
 })
 
-export const patchAllRefs = Effect.fn("KiloGit.patchAllRefs")(function* (
+export const patchAllRefs = Effect.fn("KappaGit.patchAllRefs")(function* (
   git: Git.Interface,
   cwd: string,
   from: string,

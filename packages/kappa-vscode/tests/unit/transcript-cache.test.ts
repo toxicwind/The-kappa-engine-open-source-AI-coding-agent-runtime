@@ -12,7 +12,7 @@ import {
 } from "../../webview-ui/src/components/chat/transcript-cache"
 
 const snapshot = (id: number) => ({ id }) as unknown as CacheSnapshot
-const layout = layoutFingerprint({ width: 800, ratio: 2, font: "Kilo Sans", size: "13px", line: "20px" })
+const layout = layoutFingerprint({ width: 800, ratio: 2, font: "Kappa Sans", size: "13px", line: "20px" })
 
 describe("transcript measurement cache", () => {
   beforeEach(resetTranscriptCaches)
@@ -30,7 +30,7 @@ describe("transcript measurement cache", () => {
   it("invalidates a measurement when layout changes", () => {
     const keys = rowFingerprint(["row"])
     setMeasurement("session", keys, layout, snapshot(1))
-    const changed = layoutFingerprint({ width: 801, ratio: 2, font: "Kilo Sans", size: "13px", line: "20px" })
+    const changed = layoutFingerprint({ width: 801, ratio: 2, font: "Kappa Sans", size: "13px", line: "20px" })
 
     expect(getMeasurement("session", keys, changed)).toBeUndefined()
     expect(getMeasurement("session", keys, layout)).toBeUndefined()

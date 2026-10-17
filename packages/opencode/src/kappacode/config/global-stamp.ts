@@ -2,7 +2,7 @@ import path from "path"
 import type { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect } from "effect"
 
-export namespace KilocodeGlobalConfigStamp {
+export namespace KappacodeGlobalConfigStamp {
   const files = ["config.json", "kappa.json", "kappa.jsonc", "opencode.json", "opencode.jsonc", "config"]
 
   export const read = Effect.fnUntraced(function* (

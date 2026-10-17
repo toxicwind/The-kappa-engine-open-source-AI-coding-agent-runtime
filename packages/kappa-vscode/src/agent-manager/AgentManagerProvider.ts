@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
-import type { KiloConnectionService } from "../services/cli-backend"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaConnectionService } from "../services/cli-backend"
 import { getErrorMessage } from "../kappa-provider-utils"
 import { resolveLocalDiffTarget } from "../diff/shared/target"
 import { DiffSourceCatalog } from "../diff/sources/catalog"
@@ -154,7 +154,7 @@ export class AgentManagerProvider implements Disposable {
   )
   constructor(
     private readonly host: Host,
-    private readonly connectionService: KiloConnectionService,
+    private readonly connectionService: KappaConnectionService,
     binary: GitExecutable | string = "git",
     browser?: BrowserBroker,
   ) {
@@ -166,7 +166,7 @@ export class AgentManagerProvider implements Disposable {
       openPanel: () => this.openPanel(true),
       log: (...args) => this.log(...args),
     })
-    this.outputChannel = host.createOutput("Kilo Agent Manager")
+    this.outputChannel = host.createOutput("Kappa Agent Manager")
     this.terminalManager = new SessionTerminalManager(
       (msg) => this.outputChannel.appendLine(`[SessionTerminal] ${msg}`),
       createTerminalHost(),
@@ -322,7 +322,7 @@ export class AgentManagerProvider implements Disposable {
       log: (...args) => this.log(...args),
     })
     this.unsubTool = this.connectionService.onEventFiltered(
-      (event) => (event as { type?: string }).type === "kilocode.agent_manager.start",
+      (event) => (event as { type?: string }).type === "kappacode.agent_manager.start",
       (event, directory) => this.onToolEvent(event, directory),
     )
     this.activity = createWorktreeActivity({
@@ -478,7 +478,7 @@ export class AgentManagerProvider implements Disposable {
     }
     // Counts only — no paths, no branch names.
     if (init.health) this.host.capture("Agent Manager Worktree Health", healthMetrics(init.health))
-    // When the .kilocode → .kappa migration rewrote git worktree refs, nudge
+    // When the .kappacode → .kappa migration rewrote git worktree refs, nudge
     // VS Code's git extension to re-discover them and avoid stale Source Control.
     if (init.refsFixed > 0) {
       this.log(`Migration fixed ${init.refsFixed} git worktree ref(s), refreshing git`)
@@ -987,7 +987,7 @@ export class AgentManagerProvider implements Disposable {
     boot?: { at: number; metadata: () => Promise<Record<string, unknown>> },
     timing?: Timing,
   ): Promise<Session | null> {
-    let client: KiloClient
+    let client: KappaClient
     try {
       client = this.connectionService.getClient()
     } catch (err) {
@@ -1768,7 +1768,7 @@ export class AgentManagerProvider implements Disposable {
   /**
    * Continue a sidebar session in a new worktree.
    * Captures git state, creates worktree, applies state, forks session.
-   * Called from KiloProvider when the sidebar sends "continueInWorktree".
+   * Called from KappaProvider when the sidebar sends "continueInWorktree".
    */
   public async continueFromSidebar(
     sessionId: string,

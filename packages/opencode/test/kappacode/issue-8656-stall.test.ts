@@ -5,7 +5,7 @@ import { provideTestInstance, tmpdir } from "../fixture/fixture"
 import { readStallState } from "./fixture/stall-transport"
 import { Server } from "../../src/server/server"
 
-// Regression coverage for https://github.com/Kilo-Org/kappacode/issues/8656
+// Regression coverage for https://github.com/Kappa-Org/kappacode/issues/8656
 //
 // Reported symptom: after a tool call finished, `step-finish:tool-calls` was
 // recorded and the next `step-start` never arrived, leaving the session busy
@@ -17,7 +17,7 @@ import { Server } from "../../src/server/server"
 // before the fix nothing bounded that wait.
 //
 // The simulated socket is injected as the provider's `fetch` through the plugin
-// `config` hook (see ../fixture/stall-plugin.ts), so the SDK, Kilo's fetch
+// `config` hook (see ../fixture/stall-plugin.ts), so the SDK, Kappa's fetch
 // wrapper, SSE parsing, the processor and the agent loop stay production code
 // and nothing global is patched.
 

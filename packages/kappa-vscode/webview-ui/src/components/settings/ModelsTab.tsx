@@ -53,7 +53,7 @@ const ModelsTab: Component = () => {
   const speechModel = createMemo(() => selectedSpeechToTextModel(config(), speechModels.models()))
   const speechOptions = createMemo(() => speechToTextModelOptions(speechModels.models()))
   const speechOption = createMemo(() => speechOptions().find((item) => item.value === speechModel()))
-  const kiloReady = createMemo(() => hasSpeechToTextAccess(config(), provider.authStates()))
+  const kappaReady = createMemo(() => hasSpeechToTextAccess(config(), provider.authStates()))
   const customSpeech = createMemo(() => hasCustomSpeechToTextSource(config()))
 
   function updateSpeech(patch: Record<string, string | null>) {
@@ -250,7 +250,7 @@ const ModelsTab: Component = () => {
               ? language.t("settings.models.speechToText.remoteDescription")
               : customSpeech()
                 ? language.t("settings.models.speechToTextModel.customDescription")
-                : kiloReady()
+                : kappaReady()
                   ? language.t("settings.models.speechToTextModel.description")
                   : language.t("settings.models.speechToText.disabledDescription")
           }
@@ -268,7 +268,7 @@ const ModelsTab: Component = () => {
             <Tooltip
               value={language.t("settings.models.speechToText.disabledDescription")}
               placement="top"
-              inactive={kiloReady()}
+              inactive={kappaReady()}
             >
               <Select
                 options={speechOptions()}
@@ -284,7 +284,7 @@ const ModelsTab: Component = () => {
                 triggerProps={{
                   "aria-label": `${language.t("settings.models.speechToTextModel.title")}: ${speechOption()?.label}`,
                 }}
-                disabled={!kiloReady()}
+                disabled={!kappaReady()}
                 placeholder={DEFAULT_SPEECH_TO_TEXT_MODEL.label}
               />
             </Tooltip>

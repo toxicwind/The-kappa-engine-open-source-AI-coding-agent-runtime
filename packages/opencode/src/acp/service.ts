@@ -31,7 +31,7 @@ import {
 } from "@agentclientprotocol/sdk"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import type { AssistantMessage, Message, KiloClient, SessionMessageResponse } from "@kappacode/sdk/v2"
+import type { AssistantMessage, Message, KappaClient, SessionMessageResponse } from "@kappacode/sdk/v2"
 import { Context, Effect, Layer, ManagedRuntime } from "effect"
 import * as ACPError from "./error"
 import { buildConfigOptions, parseModelSelection } from "./config-option"
@@ -46,7 +46,7 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { Provider } from "@/provider/provider"
 import type { Command } from "@/command"
 
-export const AuthMethodID = "kappa-login" // kilocode_change
+export const AuthMethodID = "kappa-login" // kappacode_change
 
 export type Error = ACPError.Error
 type ServiceConnection = Pick<AgentSideConnection, "sessionUpdate"> &
@@ -73,7 +73,7 @@ export type Interface = {
 export class Service extends Context.Service<Service, Interface>()("@opencode/ACP/Service") {}
 
 export function make(input: {
-  sdk: KiloClient
+  sdk: KappaClient
   connection?: ServiceConnection
   directory?: Directory.Interface
   session?: ACPSession.Interface
@@ -93,20 +93,20 @@ export function make(input: {
 
   const initialize = Effect.fn("ACP.initialize")(function* (params: InitializeRequest) {
     const started = performance.now()
-    // kilocode_change start
+    // kappacode_change start
     const authMethod: AuthMethod = {
       description: "Run `kappa auth login` in the terminal",
-      name: "Login with Kilo",
+      name: "Login with Kappa",
       id: AuthMethodID,
     }
-    // kilocode_change end
+    // kappacode_change end
 
     if (params.clientCapabilities?._meta?.["terminal-auth"] === true) {
       authMethod._meta = {
         "terminal-auth": {
           command: "opencode",
           args: ["auth", "login"],
-          label: "Kilo Login",
+          label: "Kappa Login",
         },
       }
     }
@@ -132,7 +132,7 @@ export function make(input: {
       },
       authMethods: [authMethod],
       agentInfo: {
-        name: "Kilo",
+        name: "Kappa",
         version: InstallationVersion,
       },
     }
@@ -585,7 +585,7 @@ function makeSessionService() {
   )
 }
 
-function makeDirectoryService(sdk: KiloClient) {
+function makeDirectoryService(sdk: KappaClient) {
   return ManagedRuntime.make(
     AppNodeBuilder.build(Directory.node, [
       [
@@ -601,7 +601,7 @@ function makeDirectoryService(sdk: KiloClient) {
   ).runSync(Directory.Service.use((service) => Effect.succeed(service)))
 }
 
-function makeUsageService(sdk: KiloClient) {
+function makeUsageService(sdk: KappaClient) {
   const limits = new Map<string, Promise<number | undefined>>()
   const contextLimit: UsageService.Interface["contextLimit"] = Effect.fn("ACP.promptUsage.contextLimit")(
     function* (params) {
@@ -727,7 +727,7 @@ function profiledRequest<T>(name: string, fn: () => Promise<T | SdkResponse<T>>,
   return request(() => ACPProfile.measure(name, fn), service)
 }
 
-async function loadDirectorySnapshot(sdk: KiloClient, directory: string) {
+async function loadDirectorySnapshot(sdk: KappaClient, directory: string) {
   return ACPProfile.measure("acp.directory.load", async () => {
     const [providersResponse, agentsResponse, commandsResponse, skillsResponse, configResponse] = await Promise.all([
       ACPProfile.measure("acp.directory.provider.list", () =>
@@ -794,9 +794,9 @@ function defaultModelFromConfig(
   // First-session ACP startup must not scan historical sessions just to infer
   // a default. Configured model, opencode provider, then sorted best model keep
   // the protocol response deterministic without extra session/message reads.
-  const kiloProvider = providers[ProviderV2.ID.make("kappa")] // kilocode_change
-  const kiloModel = kiloProvider ? Provider.sort(Object.values(kiloProvider.models))[0] : undefined // kilocode_change
-  if (kiloProvider && kiloModel) return { providerID: kiloProvider.id, modelID: kiloModel.id } // kilocode_change
+  const kappaProvider = providers[ProviderV2.ID.make("kappa")] // kappacode_change
+  const kappaModel = kappaProvider ? Provider.sort(Object.values(kappaProvider.models))[0] : undefined // kappacode_change
+  if (kappaProvider && kappaModel) return { providerID: kappaProvider.id, modelID: kappaModel.id } // kappacode_change
 
   const best = Provider.sort(Object.values(providers).flatMap((provider) => Object.values(provider.models)))[0]
   if (best) return { providerID: best.providerID, modelID: best.id }
@@ -876,12 +876,12 @@ const promptResponse = Effect.fn("ACP.promptResponse")(function* (
 
 function promptErrorMessage(error: AssistantError) {
   if ("message" in error.data && typeof error.data.message === "string") return error.data.message
-  return "Kilo prompt failed" // kilocode_change - user-visible ACP error
+  return "Kappa prompt failed" // kappacode_change - user-visible ACP error
 }
 
 function sendUsageUpdate(
   usage: UsageService.Interface | undefined,
-  sdk: KiloClient,
+  sdk: KappaClient,
   connection: ServiceConnection | undefined,
   sessionID: string,
   directory: string,
@@ -958,7 +958,7 @@ function sendAvailableCommands(
 }
 
 function registerMcpServers(
-  sdk: KiloClient,
+  sdk: KappaClient,
   registered: Map<string, Set<string>>,
   directory: string,
   sessionId: string,

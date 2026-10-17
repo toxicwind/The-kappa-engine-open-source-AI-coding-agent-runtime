@@ -1,37 +1,37 @@
-// kilocode_change - new file
-import { fetchKiloModels, type KiloModelsResult } from "@kappacode/kappa-gateway"
+// kappacode_change - new file
+import { fetchKappaModels, type KappaModelsResult } from "@kappacode/kappa-gateway"
 import { Context, Deferred, Duration, Effect, Exit, Fiber, Layer, Schema, Scope } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http"
 import { Config } from "../config/config"
 import { Auth } from "../auth"
-import { compatible, organization, token } from "@/kilocode/provider/catalog"
-import { delay, retryable } from "@/kilocode/provider/catalog-recovery"
-import * as ModelsRefresh from "@opencode-ai/core/kilocode/models-refresh"
+import { compatible, organization, token } from "@/kappacode/provider/catalog"
+import { delay, retryable } from "@/kappacode/provider/catalog-recovery"
+import * as ModelsRefresh from "@opencode-ai/core/kappacode/models-refresh"
 import type { Provider } from "@opencode-ai/core/models-dev"
 import * as Log from "@opencode-ai/core/util/log"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kilocode_change
-import { httpClient } from "@opencode-ai/core/effect/app-node-platform" // kilocode_change
+import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
+import { httpClient } from "@opencode-ai/core/effect/app-node-platform" // kappacode_change
 
 type Models = Provider["models"]
-type KiloOptions = NonNullable<Parameters<typeof fetchKiloModels>[0]>
-type Options = { -readonly [K in keyof KiloOptions]?: KiloOptions[K] } & { apiKey?: string }
-type Failure = NonNullable<KiloModelsResult["error"]>
+type KappaOptions = NonNullable<Parameters<typeof fetchKappaModels>[0]>
+type Options = { -readonly [K in keyof KappaOptions]?: KappaOptions[K] } & { apiKey?: string }
+type Failure = NonNullable<KappaModelsResult["error"]>
 type Result = { readonly models: Models; readonly error?: Failure }
 type View = { models?: Models; timestamp?: number; empty?: boolean }
 type Flight = { readonly done: Deferred.Deferred<Result, unknown>; version: number }
 
-export interface KiloModels {
-  readonly fetch: (options: KiloOptions) => Effect.Effect<KiloModelsResult, unknown>
+export interface KappaModels {
+  readonly fetch: (options: KappaOptions) => Effect.Effect<KappaModelsResult, unknown>
 }
 
-export class KiloModelsService extends Context.Service<KiloModelsService, KiloModels>()(
-  "@kappacode/ModelCache/KiloModels",
+export class KappaModelsService extends Context.Service<KappaModelsService, KappaModels>()(
+  "@kappacode/ModelCache/KappaModels",
 ) {}
 
-export const kiloModelsLayer = Layer.succeed(
-  KiloModelsService,
-  KiloModelsService.of({ fetch: (options) => Effect.tryPromise(() => fetchKiloModels(options)) }),
+export const kappaModelsLayer = Layer.succeed(
+  KappaModelsService,
+  KappaModelsService.of({ fetch: (options) => Effect.tryPromise(() => fetchKappaModels(options)) }),
 )
 type Cell = {
   readonly providerID: string
@@ -63,13 +63,13 @@ type ApertisItem = Schema.Schema.Type<typeof ApertisItem>
 export const layer: Layer.Layer<
   Service,
   never,
-  Auth.Service | Config.Service | KiloModelsService | HttpClient.HttpClient
+  Auth.Service | Config.Service | KappaModelsService | HttpClient.HttpClient
 > = Layer.effect(
   Service,
   Effect.gen(function* () {
     const auth = yield* Auth.Service
     const cfg = yield* Config.Service
-    const kappa = yield* KiloModelsService
+    const kappa = yield* KappaModelsService
     const http = yield* HttpClient.HttpClient
     const scope = yield* Scope.Scope
     const cells = new Map<string, Cell>()
@@ -131,12 +131,12 @@ export const layer: Layer.Layer<
       if (providerID === "kappa") {
         const item = config.provider?.[providerID]
         const info = yield* auth.get(providerID)
-        options.kilocodeOrganizationId = organization(item?.options, info)
-        options.kilocodeToken = token(item?.options, info)
+        options.kappacodeOrganizationId = organization(item?.options, info)
+        options.kappacodeToken = token(item?.options, info)
         log.debug("auth options resolved", {
           providerID,
-          hasToken: !!options.kilocodeToken,
-          hasOrganizationId: !!options.kilocodeOrganizationId,
+          hasToken: !!options.kappacodeToken,
+          hasOrganizationId: !!options.kappacodeOrganizationId,
         })
       }
 
@@ -185,7 +185,7 @@ export const layer: Layer.Layer<
 
     const key = (providerID: string, options?: Options) => {
       if (providerID === "kappa") {
-        return JSON.stringify([providerID, options?.baseURL, options?.kilocodeOrganizationId, options?.kilocodeToken])
+        return JSON.stringify([providerID, options?.baseURL, options?.kappacodeOrganizationId, options?.kappacodeToken])
       }
       if (providerID === "apertis") return JSON.stringify([providerID, options?.baseURL, options?.apiKey])
       return providerID
@@ -380,13 +380,13 @@ export const layer: Layer.Layer<
   }),
 )
 
-export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kilocode_change - build from the LayerNode graph
+export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kappacode_change - build from the LayerNode graph
 
-const kiloModels = LayerNode.make({ name: "kappa-models", layer: kiloModelsLayer, deps: [] })
+const kappaModels = LayerNode.make({ name: "kappa-models", layer: kappaModelsLayer, deps: [] })
 export const node = LayerNode.make({
   service: Service,
   layer,
-  deps: [Auth.node, Config.node, kiloModels, httpClient],
+  deps: [Auth.node, Config.node, kappaModels, httpClient],
 })
 
 export * as ModelCache from "./model-cache"

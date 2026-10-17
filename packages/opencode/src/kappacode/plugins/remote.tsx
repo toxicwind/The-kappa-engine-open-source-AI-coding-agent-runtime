@@ -1,5 +1,5 @@
 import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
-import { RemoteIndicator } from "@/kilocode/remote-tui"
+import { RemoteIndicator } from "@/kappacode/remote-tui"
 
 const id = "internal:remote"
 

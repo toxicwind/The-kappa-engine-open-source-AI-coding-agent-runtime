@@ -86,7 +86,7 @@ const run = (pattern: string, dir?: string) =>
 
 const config = (entries: string[]) => ({ git: true, config: { experimental: { glob_include_ignored: entries } } })
 
-describe("Kilo glob include ignored", () => {
+describe("Kappa glob include ignored", () => {
   test("parse drops negations, parent escapes, and match-everything patterns", () => {
     expect(["!dist", "../x", "*", "**", "**/*", "*/*", "dist/**/**", ""].map(parse)).toEqual([
       undefined,

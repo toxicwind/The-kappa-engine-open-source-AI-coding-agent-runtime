@@ -16,14 +16,14 @@ describe("tui thread", () => {
     expect(source).not.toContain('import("./app")')
   })
 
-  // kilocode_change start - preserve the sanitized Kilo worker environment
+  // kappacode_change start - preserve the sanitized Kappa worker environment
   test("forwards the sanitized CLI environment to the TUI worker", async () => {
     const source = await Bun.file(new URL("../../../src/cli/cmd/tui.ts", import.meta.url)).text()
 
     expect(source).toMatch(/const env = sanitizedProcessEnv\(/)
     expect(source).toMatch(/new Worker\(file, \{[\s\S]*env,/)
   })
-  // kilocode_change end
+  // kappacode_change end
 
   async function check(project?: string) {
     await using tmp = await tmpdir({ git: true })
@@ -46,11 +46,11 @@ describe("tui thread", () => {
     await check(".")
   })
 
-  test("ignores stale PWD when resolving a relative mini project", async () => { // kilocode_change
+  test("ignores stale PWD when resolving a relative mini project", async () => { // kappacode_change
     await using pwd = await tmpdir({ git: true })
     await using cwd = await tmpdir({ git: true })
 
-    expect(resolveThreadDirectory(".", pwd.path, cwd.path)).toBe(cwd.path) // kilocode_change
+    expect(resolveThreadDirectory(".", pwd.path, cwd.path)).toBe(cwd.path) // kappacode_change
     expect(resolveThreadDirectory(undefined, pwd.path, cwd.path)).toBe(cwd.path)
   })
 

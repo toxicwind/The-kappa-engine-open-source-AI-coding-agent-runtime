@@ -10,7 +10,7 @@ import { Auth } from "../../../src/auth"
 import { Config } from "../../../src/config/config"
 import type { ConfigPlugin } from "../../../src/config/plugin"
 import type { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
-import { KilocodeDefaultPlugins } from "../../../src/kappacode/config/default-plugins"
+import { KappacodeDefaultPlugins } from "../../../src/kappacode/config/default-plugins"
 import { INDEXING_PLUGIN } from "../../../src/kappacode/indexing-feature"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
 import { Env } from "../../../src/env"
@@ -58,7 +58,7 @@ describe("kappacode default indexing plugin", () => {
   test("injects indexing without registering an external plugin origin", () => {
     const config: { plugin?: ConfigPluginV1.Spec[]; plugin_origins?: ConfigPlugin.Origin[] } = {}
 
-    KilocodeDefaultPlugins.apply(config, { disabled: false })
+    KappacodeDefaultPlugins.apply(config, { disabled: false })
 
     expect(hasIndexingPlugin(config.plugin ?? [])).toBe(true)
     expect(config.plugin_origins).toBeUndefined()
@@ -71,7 +71,7 @@ describe("kappacode default indexing plugin", () => {
       plugin_origins: [{ spec: INDEXING_PLUGIN, source: "global", scope: "global" as const }, external],
     }
 
-    KilocodeDefaultPlugins.apply(config, { disabled: true })
+    KappacodeDefaultPlugins.apply(config, { disabled: true })
 
     expect(config.plugin).toEqual([INDEXING_PLUGIN, external.spec])
     expect(config.plugin_origins).toEqual([external])

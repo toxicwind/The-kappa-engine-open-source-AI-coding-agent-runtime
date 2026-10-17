@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { Context, Effect, Layer, Schema, Types } from "effect"
 import { connect } from "node:net"
 import { Bus } from "../bus"
@@ -8,11 +8,11 @@ import { SessionID } from "../session/schema"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { InstanceState } from "@/effect/instance-state"
 import { InstanceRef } from "@/effect/instance-ref"
-import { capture } from "@/kilocode/instance"
+import { capture } from "@/kappacode/instance"
 import type { InstanceContext } from "@/project/instance-context"
 import { makeRuntime } from "@/effect/run-service"
 import * as Log from "@opencode-ai/core/util/log"
-import { fn } from "@/kilocode/fn"
+import { fn } from "@/kappacode/fn"
 import { MCP } from "../mcp"
 import { zod } from "@opencode-ai/core/effect-zod"
 import { withStatics } from "@opencode-ai/core/schema"
@@ -157,7 +157,7 @@ export namespace SessionNetwork {
       const match = (item as { code?: unknown })?.code
       if (typeof match === "string" && codes.has(match)) return true
     }
-    // kilocode_change - recognize AbortSignal.timeout() errors
+    // kappacode_change - recognize AbortSignal.timeout() errors
     for (const item of chain(err)) {
       if (item instanceof DOMException && item.name === "TimeoutError") return true
     }
@@ -182,7 +182,7 @@ export namespace SessionNetwork {
   const resetMessage = "Connection reset by server"
 
   export function message(err: unknown) {
-    // kilocode_change - check for timeout first
+    // kappacode_change - check for timeout first
     for (const item of chain(err)) {
       if (item instanceof DOMException && item.name === "TimeoutError") return "Request timed out"
     }
@@ -406,7 +406,7 @@ export namespace SessionNetwork {
         return
       }
       s.pending.delete(requestID)
-      // kilocode_change start - reconnect failed remote MCP servers after network recovery
+      // kappacode_change start - reconnect failed remote MCP servers after network recovery
       void import("@/effect/app-runtime")
         .then(({ AppRuntime }) =>
           AppRuntime.runPromise(
@@ -433,7 +433,7 @@ export namespace SessionNetwork {
         .catch((err) => {
           log.error("failed to get MCP status for reconnect", { err })
         })
-      // kilocode_change end
+      // kappacode_change end
       await Bus.publish(s.context, Event.Replied, {
         sessionID: req.info.sessionID,
         requestID: req.info.id,

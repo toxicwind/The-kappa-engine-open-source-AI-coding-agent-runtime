@@ -77,7 +77,7 @@ describe("QdrantVectorStore", () => {
       port: 6333,
       apiKey: mockApiKey,
       headers: {
-        "User-Agent": "Kilo-Code",
+        "User-Agent": "Kappa-Code",
       },
     })
     expect((vectorStore as any).collectionName).toBe(expectedCollectionName)
@@ -93,7 +93,7 @@ describe("QdrantVectorStore", () => {
       port: 6333,
       apiKey: undefined,
       headers: {
-        "User-Agent": "Kilo-Code",
+        "User-Agent": "Kappa-Code",
       },
     })
   })
@@ -107,7 +107,7 @@ describe("QdrantVectorStore", () => {
       port: 6333,
       apiKey: undefined,
       headers: {
-        "User-Agent": "Kilo-Code",
+        "User-Agent": "Kappa-Code",
       },
     })
   })
@@ -123,7 +123,7 @@ describe("QdrantVectorStore", () => {
           prefix: undefined,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("https://qdrant.ashbyfam.com")
@@ -138,7 +138,7 @@ describe("QdrantVectorStore", () => {
           prefix: undefined,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("https://example.com:9000")
@@ -157,7 +157,7 @@ describe("QdrantVectorStore", () => {
           prefix: "/api/v1",
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("https://example.com/api/v1?key=value")
@@ -174,7 +174,7 @@ describe("QdrantVectorStore", () => {
           prefix: undefined,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://example.com")
@@ -189,7 +189,7 @@ describe("QdrantVectorStore", () => {
           prefix: undefined,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://localhost:8080")
@@ -208,7 +208,7 @@ describe("QdrantVectorStore", () => {
           prefix: "/api/v1",
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://example.com/api/v1?key=value")
@@ -224,7 +224,7 @@ describe("QdrantVectorStore", () => {
           port: 80,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://qdrant.example.com")
@@ -238,7 +238,7 @@ describe("QdrantVectorStore", () => {
           port: 6333,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://localhost:6333")
@@ -252,7 +252,7 @@ describe("QdrantVectorStore", () => {
           port: 9000,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://localhost:9000")
@@ -268,7 +268,7 @@ describe("QdrantVectorStore", () => {
           port: 80,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://192.168.1.100")
@@ -282,7 +282,7 @@ describe("QdrantVectorStore", () => {
           port: 6333,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://192.168.1.100:6333")
@@ -298,7 +298,7 @@ describe("QdrantVectorStore", () => {
           port: 6333,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://localhost:6333")
@@ -312,7 +312,7 @@ describe("QdrantVectorStore", () => {
           port: 6333,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://localhost:6333")
@@ -326,7 +326,7 @@ describe("QdrantVectorStore", () => {
           port: 6333,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://localhost:6333")
@@ -342,7 +342,7 @@ describe("QdrantVectorStore", () => {
           port: 80,
           apiKey: undefined,
           headers: {
-            "User-Agent": "Kilo-Code",
+            "User-Agent": "Kappa-Code",
           },
         })
         expect((vectorStore as any).qdrantUrl).toBe("http://invalid-url-format")
@@ -364,7 +364,7 @@ describe("QdrantVectorStore", () => {
         prefix: "/some/path",
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreWithPrefix as any).qdrantUrl).toBe("http://localhost:6333/some/path")
@@ -383,7 +383,7 @@ describe("QdrantVectorStore", () => {
         prefix: undefined,
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreWithoutPrefix as any).qdrantUrl).toBe("http://localhost:6333/")
@@ -402,7 +402,7 @@ describe("QdrantVectorStore", () => {
         prefix: "/api",
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreWithHttpsPrefix as any).qdrantUrl).toBe("https://qdrant.ashbyfam.com/api")
@@ -421,7 +421,7 @@ describe("QdrantVectorStore", () => {
         prefix: "/api",
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreWithTrailingSlash as any).qdrantUrl).toBe("http://localhost:6333/api/")
@@ -440,7 +440,7 @@ describe("QdrantVectorStore", () => {
         prefix: "/api",
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreWithMultipleTrailingSlashes as any).qdrantUrl).toBe("http://localhost:6333/api///")
@@ -459,7 +459,7 @@ describe("QdrantVectorStore", () => {
         prefix: "/api/v1/qdrant",
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreWithMultiSegment as any).qdrantUrl).toBe("http://localhost:6333/api/v1/qdrant")
@@ -475,7 +475,7 @@ describe("QdrantVectorStore", () => {
         prefix: "/ollama/api/v1",
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreComplex as any).qdrantUrl).toBe(complexUrl)
@@ -494,7 +494,7 @@ describe("QdrantVectorStore", () => {
         prefix: "/api/path",
         apiKey: undefined,
         headers: {
-          "User-Agent": "Kilo-Code",
+          "User-Agent": "Kappa-Code",
         },
       })
       expect((vectorStoreWithQueryParams as any).qdrantUrl).toBe("http://localhost:6333/api/path?key=value#fragment")

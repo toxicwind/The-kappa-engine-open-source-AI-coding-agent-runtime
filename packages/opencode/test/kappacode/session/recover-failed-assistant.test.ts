@@ -5,7 +5,7 @@ import { Effect } from "effect"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { MessageV2 } from "@/session/message-v2"
-import { KiloSessionPrompt } from "@/kappacode/session/prompt"
+import { KappaSessionPrompt } from "@/kappacode/session/prompt"
 import { MessageID, PartID } from "@/session/schema"
 import { Session } from "@/session/session"
 import { SessionStatus } from "@/session/status"
@@ -98,14 +98,14 @@ const seed = Effect.fnUntraced(function* (input: {
 const run = Effect.fnUntraced(function* (sessionID: Session.Info["id"]) {
   const sessions = yield* Session.Service
   const status = yield* SessionStatus.Service
-  yield* KiloSessionPrompt.recoverFailedAssistant({ sessionID, status, sessions })
+  yield* KappaSessionPrompt.recoverFailedAssistant({ sessionID, status, sessions })
   const msgs = yield* sessions.messages({ sessionID })
   return msgs.map((m) => m.info.id)
 })
 
 const apiError = new MessageV2.APIError({ message: "provider overloaded", isRetryable: true }).toObject()
 
-describe("KiloSessionPrompt.recoverFailedAssistant", () => {
+describe("KappaSessionPrompt.recoverFailedAssistant", () => {
   it.instance("removes an errored tail that only emitted turn scaffolding", () =>
     Effect.gen(function* () {
       const seeded = yield* seed({ error: apiError, parts: ["step-start", "step-finish"] })

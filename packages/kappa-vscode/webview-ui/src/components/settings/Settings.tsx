@@ -44,7 +44,7 @@ const ContextTab = lazy(() => import("./ContextTab"))
 const CommitMessageTab = lazy(() => import("./CommitMessageTab"))
 const ExperimentalTab = lazy(() => import("./ExperimentalTab"))
 const LanguageTab = lazy(() => import("./LanguageTab"))
-const AboutKiloCodeTab = lazy(() => import("./AboutKiloCodeTab"))
+const AboutKappaCodeTab = lazy(() => import("./AboutKappaCodeTab"))
 const IndexingTab = lazy(() => import("./IndexingTab"))
 const SandboxingTab = lazy(() => import("./SandboxingTab"))
 
@@ -475,9 +475,9 @@ const Settings: Component<SettingsProps> = (props) => {
             <Icon name="speech-bubble" />
             <span class="label">{language.t("settings.language.title")}</span>
           </Tabs.Trigger>
-          <Tabs.Trigger value="aboutKiloCode" aria-label={language.t("settings.aboutKiloCode.title")}>
+          <Tabs.Trigger value="aboutKappaCode" aria-label={language.t("settings.aboutKappaCode.title")}>
             <Icon name="help" />
-            <span class="label">{language.t("settings.aboutKiloCode.title")}</span>
+            <span class="label">{language.t("settings.aboutKappaCode.title")}</span>
           </Tabs.Trigger>
         </Tabs.List>
 
@@ -556,9 +556,9 @@ const Settings: Component<SettingsProps> = (props) => {
           <h3>{language.t("settings.language.title")}</h3>
           <LanguageTab />
         </Tabs.Content>
-        <Tabs.Content value="aboutKiloCode">
-          <h3>{language.t("settings.aboutKiloCode.title")}</h3>
-          <AboutKiloCodeTab
+        <Tabs.Content value="aboutKappaCode">
+          <h3>{language.t("settings.aboutKappaCode.title")}</h3>
+          <AboutKappaCodeTab
             port={server.serverInfo()?.port ?? null}
             connectionState={server.connectionState()}
             extensionVersion={server.extensionVersion()}

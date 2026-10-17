@@ -87,9 +87,9 @@ describe("opencode read-only commands (smoke)", () => {
     60_000,
   )
 
-  // kilocode_change start
+  // kappacode_change start
   // `session list --all` lists sessions across all projects via the global
-  // listing path (KiloSession.listGlobal). Regression: the handler used to
+  // listing path (KappaSession.listGlobal). Regression: the handler used to
   // spread the Effect returned by Session.listGlobal instead of yielding it,
   // crashing the formatter with "undefined is not an object".
   cliIt.live(
@@ -101,7 +101,7 @@ describe("opencode read-only commands (smoke)", () => {
       }),
     60_000,
   )
-  // kilocode_change end
+  // kappacode_change end
 
   // `stats` aggregates token usage from the session DB. Empty DB → all zeros.
   cliIt.live(

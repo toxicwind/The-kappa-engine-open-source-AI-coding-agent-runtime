@@ -12,15 +12,15 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Global } from "@opencode-ai/core/global"
 import { Hash } from "@opencode-ai/core/util/hash"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
-import { createKiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient } from "@kappacode/sdk/v2"
 import { Snapshot } from "../../src/snapshot"
 import { Session } from "../../src/session/session"
 import { Server } from "../../src/server/server"
 import { InstanceState } from "../../src/effect/instance-state"
 import { InstanceStore } from "../../src/project/instance-store"
-import { KiloSnapshotCleanup } from "../../src/kappacode/snapshot/cleanup"
-import { KiloSnapshotPrepare } from "../../src/kappacode/snapshot/prepare"
-import { KiloSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize"
+import { KappaSnapshotCleanup } from "../../src/kappacode/snapshot/cleanup"
+import { KappaSnapshotPrepare } from "../../src/kappacode/snapshot/prepare"
+import { KappaSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize"
 import {
   disposeAllInstances,
   provideInstance,
@@ -50,8 +50,8 @@ test("removing a prepared worktree that was never tracked releases only its seed
   await $`git worktree add --detach ${dir} HEAD`.cwd(source.path).quiet()
   const ctx = await reloadTestInstance({ directory: dir })
   const gitdir = path.join(Global.Path.data, "snapshot", ctx.project.id, Hash.fast(ctx.worktree))
-  const pin = KiloSnapshotMaterialize.ref(gitdir)
-  const other = KiloSnapshotMaterialize.ref(path.join(gitdir, "other"))
+  const pin = KappaSnapshotMaterialize.ref(gitdir)
+  const other = KappaSnapshotMaterialize.ref(path.join(gitdir, "other"))
   const app = Server.Default().app
 
   const prepared = await app.request("/kappacode/snapshot/prepare", {
@@ -69,7 +69,7 @@ test("removing a prepared worktree that was never tracked releases only its seed
       Effect.gen(function* () {
         const fs = yield* FSUtil.Service
         const flock = yield* EffectFlock.Service
-        return yield* KiloSnapshotCleanup.remove({
+        return yield* KappaSnapshotCleanup.remove({
           root: path.join(Global.Path.data, "snapshot"),
           project: ctx.project.id,
           directory: source.path,
@@ -146,7 +146,7 @@ test("prepares a routed worktree once without tracking, then tracks current cont
   await reloadTestInstance({ directory: dir })
   const listener = await Server.listen({ hostname: "127.0.0.1", port: 0 })
   try {
-    const client = createKiloClient({ baseUrl: listener.url.toString() })
+    const client = createKappaClient({ baseUrl: listener.url.toString() })
     const third = await client.kappacode.snapshot.prepare({ directory: dir }, { throwOnError: true })
     expect(third.response.status).toBe(200)
     expect(third.data).toEqual({ prepared: false, durationMs: expect.any(Number) })
@@ -205,7 +205,7 @@ it.live(
       const gitdir = path.join(root, "snapshot")
 
       const result = yield* FSUtil.Service.use((fs) =>
-        KiloSnapshotPrepare.initialize(
+        KappaSnapshotPrepare.initialize(
           {
             dir: worktree,
             worktree,
@@ -245,12 +245,12 @@ it.live(
         const ctx = yield* InstanceState.context
         const gitdir = path.join(Global.Path.data, "snapshot", ctx.project.id, Hash.fast(ctx.worktree))
         const common = (yield* git(["rev-parse", "--path-format=absolute", "--git-common-dir"])).trim()
-        const ref = KiloSnapshotMaterialize.ref(gitdir)
+        const ref = KappaSnapshotMaterialize.ref(gitdir)
         const alt = path.join(gitdir, "objects", "info", "alternates")
         const staging = path.join(gitdir, "seed-objects")
         const staged = (yield* git(["rev-parse", ":staged.txt"])).trim()
 
-        expect(yield* KiloSnapshotPrepare.run(snapshot)).toBe(true)
+        expect(yield* KappaSnapshotPrepare.run(snapshot)).toBe(true)
         expect((yield* git(["--git-dir", gitdir, "for-each-ref"])).trim()).toBe("")
         const seed = (yield* git(["rev-parse", ref])).trim()
 
@@ -277,7 +277,7 @@ it.live(
 
         yield* (yield* InstanceStore.Service).dispose(ctx)
         yield* snapshot.init().pipe(provideInstance(dir))
-        expect(yield* KiloSnapshotPrepare.run(snapshot).pipe(provideInstance(dir))).toBe(false)
+        expect(yield* KappaSnapshotPrepare.run(snapshot).pipe(provideInstance(dir))).toBe(false)
         expect((yield* git(["--git-dir", gitdir, "for-each-ref"])).trim()).toBe("")
         expect(yield* git(["--git-dir", gitdir, "cat-file", "blob", privateHash])).toBe("quarantined content\n")
 

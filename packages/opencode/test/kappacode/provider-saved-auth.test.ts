@@ -264,7 +264,7 @@ const scenarios: {
 ]
 
 for (const scenario of scenarios) {
-  inference.instance(`Kilo inference uses ${scenario.name}`, () =>
+  inference.instance(`Kappa inference uses ${scenario.name}`, () =>
     Effect.gen(function* () {
       yield* environment({
         KILO_API_KEY: scenario.env,
@@ -321,7 +321,7 @@ for (const scenario of scenarios) {
   )
 }
 
-inference.instance("non-Kilo inference keeps OAuth over environment and configured API keys", () =>
+inference.instance("non-Kappa inference keeps OAuth over environment and configured API keys", () =>
   Effect.gen(function* () {
     yield* environment({
       KILO_API_KEY: "kappa-env-token",

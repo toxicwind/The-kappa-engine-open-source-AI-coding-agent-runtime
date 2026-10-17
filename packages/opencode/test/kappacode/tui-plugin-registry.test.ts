@@ -19,7 +19,7 @@ const kappa = [
   "internal:reload",
 ]
 
-test("internal TUI registry preserves every Kilo plugin before upstream builtins", () => {
+test("internal TUI registry preserves every Kappa plugin before upstream builtins", () => {
   const ids = internalTuiPlugins({ experimentalEventSystem: false, experimentalSessionSwitcher: false }).map(
     (plugin) => plugin.id,
   )
@@ -30,7 +30,7 @@ test("internal TUI registry preserves every Kilo plugin before upstream builtins
   expect(ids).toContain("diff-viewer")
 })
 
-test("experimental Kilo TUI plugins remain wired", () => {
+test("experimental Kappa TUI plugins remain wired", () => {
   const ids = internalTuiPlugins({ experimentalEventSystem: true, experimentalSessionSwitcher: true }).map(
     (plugin) => plugin.id,
   )

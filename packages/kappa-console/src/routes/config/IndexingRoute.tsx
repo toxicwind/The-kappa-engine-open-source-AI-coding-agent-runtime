@@ -26,7 +26,7 @@ type Field = { key: string; label: string; placeholder: string; secret?: boolean
 
 const providers = [
   { value: "", label: "Automatic" },
-  { value: "kappa", label: "Kilo" },
+  { value: "kappa", label: "Kappa" },
   { value: "openai", label: "OpenAI" },
   { value: "ollama", label: "Ollama (local)" },
   { value: "openai-compatible", label: "OpenAI-compatible" },
@@ -136,15 +136,15 @@ export function IndexingRoute() {
   const provider = createMemo(() => view().provider)
   const store = createMemo<Store>(() => view().vectorStore ?? "lancedb")
   const [catalog] = createResource(ctx.query, loadEmbeddingModels)
-  const kiloModels = createMemo<SelectOption<string>[]>(() => {
+  const kappaModels = createMemo<SelectOption<string>[]>(() => {
     const models = catalog()?.models ?? []
-    if (models.length === 0) return [{ value: "", label: "No Kilo embedding models available", disabled: true }]
+    if (models.length === 0) return [{ value: "", label: "No Kappa embedding models available", disabled: true }]
     return models.map((model) => ({
       value: model.id,
       label: `${model.name} (${model.note ? `${model.note}, ` : ""}${model.dimension}d)`,
     }))
   })
-  const kiloModel = createMemo(() => {
+  const kappaModel = createMemo(() => {
     const data = catalog()
     if (!data) return ""
     const model = view().model ?? data.defaultModel
@@ -266,7 +266,7 @@ export function IndexingRoute() {
             <div class="ui-form agent-builder-form">
               <FieldCard
                 label="Provider"
-                description="Automatic uses Kilo when signed in, otherwise the provider runtime default."
+                description="Automatic uses Kappa when signed in, otherwise the provider runtime default."
                 actions={
                   <SourceBadge
                     source={field("provider")?.source}
@@ -289,7 +289,7 @@ export function IndexingRoute() {
                 label="Model"
                 description={
                   provider() === "kappa"
-                    ? "Select a Kilo-hosted embedding model."
+                    ? "Select a Kappa-hosted embedding model."
                     : "Leave empty to use the provider's default embedding model."
                 }
                 actions={
@@ -313,9 +313,9 @@ export function IndexingRoute() {
                 >
                   <CustomSelect
                     class="indexing-select"
-                    label="Kilo embedding model"
-                    value={kiloModel()}
-                    options={kiloModels()}
+                    label="Kappa embedding model"
+                    value={kappaModel()}
+                    options={kappaModels()}
                     disabled={Boolean(ctx.saving()) || !catalog()?.models.length}
                     onSelect={(value) => update({ model: value, dimension: undefined })}
                   />
@@ -346,7 +346,7 @@ export function IndexingRoute() {
 
               <Show when={provider() === "kappa"}>
                 <div class="indexing-note">
-                  Kilo embeddings use the account currently signed in to this Kilo server. Model dimensions are supplied
+                  Kappa embeddings use the account currently signed in to this Kappa server. Model dimensions are supplied
                   by the catalog.
                 </div>
               </Show>
@@ -430,7 +430,7 @@ export function IndexingRoute() {
                   >
                     <input
                       value={view().lancedb?.directory ?? ""}
-                      placeholder="Default Kilo state directory"
+                      placeholder="Default Kappa state directory"
                       disabled={Boolean(ctx.saving())}
                       onInput={(event) =>
                         update({ lancedb: { ...draft().lancedb, directory: event.currentTarget.value || undefined } })

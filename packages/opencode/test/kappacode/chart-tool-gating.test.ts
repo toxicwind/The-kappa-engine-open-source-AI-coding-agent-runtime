@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { KiloToolRegistry } from "@/kappacode/tool/registry"
+import { KappaToolRegistry } from "@/kappacode/tool/registry"
 import type * as Tool from "@/tool/tool"
 
 // Minimal stub — select() only reads .id from each Tool.Def
@@ -25,7 +25,7 @@ function ids(client: string) {
   const prev = process.env.KILO_CLIENT
   try {
     process.env.KILO_CLIENT = client
-    return KiloToolRegistry.extra(tools, {}, { experimentalSharedAgentBoard: false }).map((t) => t.id)
+    return KappaToolRegistry.extra(tools, {}, { experimentalSharedAgentBoard: false }).map((t) => t.id)
   } finally {
     if (prev === undefined) delete process.env.KILO_CLIENT
     else process.env.KILO_CLIENT = prev

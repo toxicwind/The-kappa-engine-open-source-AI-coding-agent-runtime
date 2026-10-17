@@ -1,15 +1,15 @@
 import { test, expect, describe } from "bun:test"
-import { KilocodeConfigInjector } from "../../src/kappacode/config-injector"
+import { KappacodeConfigInjector } from "../../src/kappacode/config-injector"
 import { tmpdir } from "../fixture/fixture"
 import path from "path"
 import fs from "fs/promises"
 
-describe("KilocodeConfigInjector", () => {
+describe("KappacodeConfigInjector", () => {
   describe("buildConfig", () => {
     test("returns empty config when no modes exist", async () => {
       await using tmp = await tmpdir()
 
-      const result = await KilocodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
+      const result = await KappacodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
 
       expect(result.configJson).toBe("{}")
       expect(result.warnings).toHaveLength(0)
@@ -31,7 +31,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
+      const result = await KappacodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
       const config = JSON.parse(result.configJson)
 
       expect(config.agent).toBeDefined()
@@ -54,7 +54,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
+      const result = await KappacodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
 
       expect(result.warnings).toHaveLength(1)
       expect(result.warnings[0]).toContain("code")
@@ -72,7 +72,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
+      const result = await KappacodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
       const config = JSON.parse(result.configJson)
 
       expect(config.command).toBeDefined()
@@ -100,7 +100,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
+      const result = await KappacodeConfigInjector.buildConfig({ projectDir: tmp.path, skipGlobalPaths: true })
       const config = JSON.parse(result.configJson)
 
       expect(config.agent).toBeDefined()
@@ -117,7 +117,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
       })
@@ -136,7 +136,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
         includeRules: false,
@@ -168,7 +168,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
       })
@@ -189,7 +189,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
       })
@@ -204,7 +204,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
       })
@@ -224,7 +224,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
         includeIgnore: false,
@@ -252,7 +252,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
       })
@@ -271,7 +271,7 @@ describe("KilocodeConfigInjector", () => {
         },
       })
 
-      const result = await KilocodeConfigInjector.buildConfig({
+      const result = await KappacodeConfigInjector.buildConfig({
         projectDir: tmp.path,
         skipGlobalPaths: true,
       })
@@ -284,18 +284,18 @@ describe("KilocodeConfigInjector", () => {
 
   describe("getEnvVars", () => {
     test("returns empty object for empty config", () => {
-      const envVars = KilocodeConfigInjector.getEnvVars("{}")
+      const envVars = KappacodeConfigInjector.getEnvVars("{}")
       expect(envVars).toEqual({})
     })
 
     test("returns empty object for empty string", () => {
-      const envVars = KilocodeConfigInjector.getEnvVars("")
+      const envVars = KappacodeConfigInjector.getEnvVars("")
       expect(envVars).toEqual({})
     })
 
     test("returns KILO_CONFIG_CONTENT for non-empty config", () => {
       const config = JSON.stringify({ agent: { test: {} } })
-      const envVars = KilocodeConfigInjector.getEnvVars(config)
+      const envVars = KappacodeConfigInjector.getEnvVars(config)
 
       expect(envVars).toEqual({
         KILO_CONFIG_CONTENT: config,

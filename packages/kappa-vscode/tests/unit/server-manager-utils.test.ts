@@ -8,11 +8,11 @@ import {
   toErrorMessage,
 } from "../../src/services/cli-backend/server-manager"
 import {
-  copyKiloSandboxWorker,
+  copyKappaSandboxWorker,
   copySandboxResources,
   copyTreeSitterResources,
   resolveTreeSitterEnv,
-  kiloSandboxWorkerForBinary,
+  kappaSandboxWorkerForBinary,
   treeSitterDirForBinary,
   treeSitterDirForExtension,
 } from "../../src/services/cli-backend/cli-resources"
@@ -111,39 +111,39 @@ describe("scanServerPort", () => {
 
 describe("cli tree-sitter resources", () => {
   it("resolves resources next to the VS Code bundled CLI", () => {
-    const root = "/Users/test/.vscode/extensions/kilocode.kappa-code-7.2.50-darwin-arm64"
+    const root = "/Users/test/.vscode/extensions/kappacode.kappa-code-7.2.50-darwin-arm64"
     const bin = `${root}/bin/kappa`
 
     expect(treeSitterDirForBinary(bin)).toBe(`${root}/bin/tree-sitter`)
     expect(treeSitterDirForExtension(root)).toBe(`${root}/bin/tree-sitter`)
-    expect(kiloSandboxWorkerForBinary(bin)).toBe(`${root}/bin/kappa-sandbox-mutation-worker.js`)
+    expect(kappaSandboxWorkerForBinary(bin)).toBe(`${root}/bin/kappa-sandbox-mutation-worker.js`)
     expect(resolveTreeSitterEnv(root)).toEqual({ KILO_TREE_SITTER_WASM_DIR: `${root}/bin/tree-sitter` })
   })
 
   it("resolves resources next to a Windows packaged CLI", () => {
-    const root = String.raw`C:\Users\test\.vscode\extensions\kilocode.kappa-code-7.2.50-win32-x64`
+    const root = String.raw`C:\Users\test\.vscode\extensions\kappacode.kappa-code-7.2.50-win32-x64`
     const bin = String.raw`${root}\bin\kappa.exe`
 
     expect(treeSitterDirForBinary(bin)).toBe(String.raw`${root}\bin\tree-sitter`)
     expect(treeSitterDirForExtension(root)).toBe(String.raw`${root}\bin\tree-sitter`)
-    expect(kiloSandboxWorkerForBinary(bin)).toBe(String.raw`${root}\bin\kappa-sandbox-mutation-worker.js`)
+    expect(kappaSandboxWorkerForBinary(bin)).toBe(String.raw`${root}\bin\kappa-sandbox-mutation-worker.js`)
     expect(resolveTreeSitterEnv(root)).toEqual({
       KILO_TREE_SITTER_WASM_DIR: String.raw`${root}\bin\tree-sitter`,
     })
   })
 
-  it("copies the Kilo sandbox worker with the packaged CLI binary", async () => {
+  it("copies the Kappa sandbox worker with the packaged CLI binary", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-vscode-sandbox-worker-"))
     try {
       const source = path.join(root, "dist", "@kappacode", "cli-darwin-arm64", "bin", "kappa")
       const target = path.join(root, "extension", "bin", "kappa")
       await fs.mkdir(path.dirname(source), { recursive: true })
       await fs.mkdir(path.dirname(target), { recursive: true })
-      await fs.writeFile(kiloSandboxWorkerForBinary(source), "worker")
+      await fs.writeFile(kappaSandboxWorkerForBinary(source), "worker")
 
-      await copyKiloSandboxWorker(source, target)
+      await copyKappaSandboxWorker(source, target)
 
-      expect(await fs.readFile(kiloSandboxWorkerForBinary(target), "utf8")).toBe("worker")
+      expect(await fs.readFile(kappaSandboxWorkerForBinary(target), "utf8")).toBe("worker")
     } finally {
       await fs.rm(root, { recursive: true, force: true })
     }

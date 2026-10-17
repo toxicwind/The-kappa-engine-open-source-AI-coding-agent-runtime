@@ -6,7 +6,7 @@ import { watchFontSizeConfig } from "./kappa-provider/font-size"
 import { mapSSEEventToWebviewMessage, sameDirectory } from "./kappa-provider-utils"
 import { resolvePanelProjectDirectory } from "./project-directory"
 import { seedSessionStatuses } from "./session-status"
-import { type KiloConnectionService, ServerStartupError } from "./services/cli-backend"
+import { type KappaConnectionService, ServerStartupError } from "./services/cli-backend"
 import { MarketplaceService } from "./services/marketplace"
 import {
   fetchMarketplaceData,
@@ -47,11 +47,11 @@ export class MarketplacePanelProvider implements vscode.Disposable {
   private subscriptions: Array<() => void> = []
   private readonly marketplace = new MarketplaceService()
   private readonly extensionVersion =
-    vscode.extensions.getExtension("kilocode.kappa-code")?.packageJSON?.version ?? "unknown"
+    vscode.extensions.getExtension("kappacode.kappa-code")?.packageJSON?.version ?? "unknown"
 
   constructor(
     private readonly extensionUri: vscode.Uri,
-    private readonly connection: KiloConnectionService,
+    private readonly connection: KappaConnectionService,
     private readonly context: vscode.ExtensionContext,
   ) {}
 
@@ -76,7 +76,7 @@ export class MarketplacePanelProvider implements vscode.Disposable {
 
     const panel = vscode.window.createWebviewPanel(
       MarketplacePanelProvider.viewType,
-      "Kilo Marketplace",
+      "Kappa Marketplace",
       vscode.ViewColumn.One,
       {
         enableScripts: true,
@@ -218,7 +218,7 @@ export class MarketplacePanelProvider implements vscode.Disposable {
       const client = this.connection.getClient()
       await seedSessionStatuses(client, this.directory(), this.statuses, (msg) => this.post(msg), reconcile)
     } catch (err) {
-      console.warn("[Kilo New] Marketplace session status sync failed:", err)
+      console.warn("[Kappa New] Marketplace session status sync failed:", err)
     }
   }
 
@@ -325,7 +325,7 @@ export class MarketplacePanelProvider implements vscode.Disposable {
     } catch (err) {
       if (generation !== this.generation) return
       const error = err instanceof Error ? err.message : String(err)
-      console.warn("[Kilo New] Marketplace data fetch failed:", err)
+      console.warn("[Kappa New] Marketplace data fetch failed:", err)
       this.post({
         type: "marketplaceData",
         marketplaceItems: [],
@@ -413,7 +413,7 @@ export class MarketplacePanelProvider implements vscode.Disposable {
   private post(msg: unknown): void {
     if (!this.panel || !this.ready) return
     void this.panel.webview.postMessage(msg).then(undefined, (err) => {
-      console.warn("[Kilo New] Marketplace panel postMessage failed:", err)
+      console.warn("[Kappa New] Marketplace panel postMessage failed:", err)
     })
   }
 
@@ -423,7 +423,7 @@ export class MarketplacePanelProvider implements vscode.Disposable {
       styleUri: webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, "dist", "marketplace.css")),
       iconsBaseUri: webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, "assets", "icons")),
       workerUri: webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, "dist", "shiki-worker.js")),
-      title: "Kilo Marketplace",
+      title: "Kappa Marketplace",
       port: this.connection.getServerInfo()?.port,
     })
   }

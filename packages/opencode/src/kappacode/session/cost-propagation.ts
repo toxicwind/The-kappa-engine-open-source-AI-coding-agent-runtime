@@ -4,7 +4,7 @@ import { Session } from "@/session/session"
 import { MessageV2 } from "@/session/message-v2"
 import { SessionID, MessageID } from "@/session/schema"
 
-export namespace KiloCostPropagation {
+export namespace KappaCostPropagation {
   /**
    * Per-key promise chain that serializes concurrent `propagate` calls against
    * the same parent message. Prevents lost updates when the LLM launches
@@ -32,7 +32,7 @@ export namespace KiloCostPropagation {
    * its own total into the parent assistant message when it finishes, this sum
    * already reflects descendant sessions recursively — no tree walk needed.
    */
-  export const childCost = Effect.fn("KiloCostPropagation.childCost")(function* (
+  export const childCost = Effect.fn("KappaCostPropagation.childCost")(function* (
     sessions: Session.Interface,
     id: SessionID,
   ) {
@@ -47,7 +47,7 @@ export namespace KiloCostPropagation {
    * Concurrent calls against the same parent are serialized internally so the
    * read-modify-write cannot lose updates when subagents complete in parallel.
    */
-  export const propagate = Effect.fn("KiloCostPropagation.propagate")(function* (
+  export const propagate = Effect.fn("KappaCostPropagation.propagate")(function* (
     sessions: Session.Interface,
     sid: SessionID,
     mid: MessageID,

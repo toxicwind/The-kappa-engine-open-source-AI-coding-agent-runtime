@@ -60,7 +60,7 @@ export const RemoteApi = HttpApi.make("remote")
       .annotateMerge(
         OpenApi.annotations({
           title: "remote",
-          description: "Kilo remote connection routes.",
+          description: "Kappa remote connection routes.",
         }),
       )
       .middleware(InstanceContextMiddleware)
@@ -71,6 +71,6 @@ export const RemoteApi = HttpApi.make("remote")
     OpenApi.annotations({
       title: "kappa HttpApi",
       version: "0.0.1",
-      description: "Kilo HttpApi surface.",
+      description: "Kappa HttpApi surface.",
     }),
   )

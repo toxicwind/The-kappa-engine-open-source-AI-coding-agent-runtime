@@ -85,12 +85,12 @@ Convoys add an additional review layer beyond per-bead review:
 | Landing | Combined feature coherence | Refinery agent |
 | Human (optional) | Business logic, architecture | Your team |
 
-## Combining with Kilo Code Review
+## Combining with Kappa Code Review
 
-Gas Town's refinery works independently, but combining it with [Kilo Code Review](/docs/code-with-ai/platforms/cloud-agent) creates an even stronger pipeline:
+Gas Town's refinery works independently, but combining it with [Kappa Code Review](/docs/code-with-ai/platforms/cloud-agent) creates an even stronger pipeline:
 
 1. **Agent writes** → agent-level refinery reviews (fast, automated)
-2. **Code lands as PR** → Kilo Code Review provides human-readable review (deeper, contextual)
+2. **Code lands as PR** → Kappa Code Review provides human-readable review (deeper, contextual)
 3. **Human approves** → code ships
 
 This gives you automated adversarial review for speed **plus** AI-assisted human review for judgment — the best of both approaches.

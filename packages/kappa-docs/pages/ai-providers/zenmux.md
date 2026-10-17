@@ -1,10 +1,10 @@
 ---
-title: "Using ZenMux with Kilo Code | Unified AI Gateway"
-description: "Access OpenAI, Anthropic, Google, and other AI models through ZenMux in Kilo Code with automatic routing and cost optimization."
+title: "Using ZenMux with Kappa Code | Unified AI Gateway"
+description: "Access OpenAI, Anthropic, Google, and other AI models through ZenMux in Kappa Code with automatic routing and cost optimization."
 sidebar_label: ZenMux
 ---
 
-# Using ZenMux With Kilo Code
+# Using ZenMux With Kappa Code
 
 [ZenMux](https://zenmux.ai) provides a unified API gateway to access multiple AI models from different providers through a single endpoint. It supports OpenAI, Anthropic, Google, and other major AI providers, automatically handling routing, fallbacks, and cost optimization.
 
@@ -12,9 +12,9 @@ sidebar_label: ZenMux
 
 1. **Sign up for ZenMux:** Visit [zenmux.ai](https://zenmux.ai) to create an account.
 2. **Get your API key:** After signing up, navigate to your dashboard to generate an API key.
-3. **Configure in Kilo Code:** Add your API key to Kilo Code settings.
+3. **Configure in Kappa Code:** Add your API key to Kappa Code settings.
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -229,4 +229,4 @@ For additional support:
 
 - Visit the [ZenMux documentation](https://zenmux.ai/docs)
 - Contact ZenMux support through their dashboard
-- Check the [Kilo Code GitHub repository](https://github.com/Kilo-Org/kilocode) for integration-specific issues
+- Check the [Kappa Code GitHub repository](https://github.com/Kappa-Org/kappacode) for integration-specific issues

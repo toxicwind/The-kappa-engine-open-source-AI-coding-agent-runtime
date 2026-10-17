@@ -6,9 +6,9 @@ const session = (title: string | null) => ({ title }) as Session
 
 describe("nativeTitle", () => {
   it("uses the default title without a useful session title", () => {
-    expect(nativeTitle(null)).toBe("Kilo Code")
-    expect(nativeTitle(session(""))).toBe("Kilo Code")
-    expect(nativeTitle(session("New session - 2026-05-06T10:39:00.000Z"))).toBe("Kilo Code")
+    expect(nativeTitle(null)).toBe("Kappa Code")
+    expect(nativeTitle(session(""))).toBe("Kappa Code")
+    expect(nativeTitle(session("New session - 2026-05-06T10:39:00.000Z"))).toBe("Kappa Code")
   })
 
   it("keeps short session titles", () => {
@@ -16,14 +16,14 @@ describe("nativeTitle", () => {
   })
 
   it("truncates long session titles", () => {
-    expect(nativeTitle(session("Dynamic VS Code tab titles for Kilo sessions"))).toBe("Dynamic VS Code tab...")
+    expect(nativeTitle(session("Dynamic VS Code tab titles for Kappa sessions"))).toBe("Dynamic VS Code tab...")
   })
 
   it("updates the native panel only from valid webview activity reports", async () => {
-    const { KiloProvider } = await import("../../src/KiloProvider")
+    const { KappaProvider } = await import("../../src/KappaProvider")
     const titles: string[] = []
     const listener: { current?: (message: { type: string; state: unknown }) => Promise<void> } = {}
-    const provider = new KiloProvider(
+    const provider = new KappaProvider(
       { fsPath: "/extension" } as never,
       {
         unregisterVisible: () => {},
@@ -43,7 +43,7 @@ describe("nativeTitle", () => {
     for (const state of ["busy", "waiting", "done", "scheduled", "error", "idle", "idle", "invalid", null]) {
       await listener.current?.({ type: "sessionActivity", state })
     }
-    expect(titles).toEqual(["◔ Kilo Code", "⚠ Kilo Code", "✓ Kilo Code", "◷ Kilo Code", "⚠ Kilo Code", "Kilo Code"])
+    expect(titles).toEqual(["◔ Kappa Code", "⚠ Kappa Code", "✓ Kappa Code", "◷ Kappa Code", "⚠ Kappa Code", "Kappa Code"])
     provider.dispose()
   })
 

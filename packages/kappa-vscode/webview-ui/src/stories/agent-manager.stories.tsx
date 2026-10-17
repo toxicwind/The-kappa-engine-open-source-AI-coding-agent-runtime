@@ -1612,7 +1612,7 @@ export const NewWorktreeVariantDropdown1280: Story = {
 const projectPickerProjects: AgentProjectSnapshot[] = [
   {
     id: "project-main",
-    root: "/workspace/kilocode",
+    root: "/workspace/kappacode",
     label: "kappacode",
     pinned: true,
     active: true,
@@ -1667,7 +1667,7 @@ export const NewWorktreeProjectDropdown: Story = {
                           <button class="am-selector-trigger" type="button" aria-label="Select project">
                             <span class="am-selector-left">
                               <Icon name="folder" size="small" />
-                              <span class="am-selector-value">kilocode</span>
+                              <span class="am-selector-value">kappacode</span>
                             </span>
                             <span class="am-selector-right">
                               <Icon name="selector" size="small" />
@@ -1832,7 +1832,7 @@ import type { AgentManagerStateMessage, LocalGitStats, ProjectSessionInfo } from
 
 const projectA: AgentProjectSnapshot = {
   id: "prj-aaaa1111aaaa",
-  root: "/repos/kilocode",
+  root: "/repos/kappacode",
   label: "kappacode",
   pinned: true,
   active: true,
@@ -2103,7 +2103,7 @@ const prComments: NonNullable<PRStatus["comments"]> = {
 }
 
 const prReviewers: PRReviewer[] = [
-  { login: "marius-kilocode", state: "approved" },
+  { login: "marius-kappacode", state: "approved" },
   { login: "reviewer-changes", state: "changes_requested" },
   { login: "reviewer-comment", state: "commented" },
   { login: "reviewer-pending", state: "pending" },
@@ -2171,7 +2171,7 @@ const prPanelStatus: PRStatus = {
     failed: 0,
     pending: 0,
     checks: [
-      { name: "Kilo Code Review", status: "success", duration: "2m 41s" },
+      { name: "Kappa Code Review", status: "success", duration: "2m 41s" },
       { name: "build", status: "success", duration: "1m 12s" },
       { name: "test", status: "success", duration: "4m 03s" },
     ],
@@ -2428,7 +2428,7 @@ const orgAvatar = `data:image/svg+xml,${encodeURIComponent(
 )}`
 
 const storyProjects = [
-  { id: "p1", root: "/repo/kilocode", label: "kappacode", avatar: orgAvatar, expanded: true, active: true },
+  { id: "p1", root: "/repo/kappacode", label: "kappacode", avatar: orgAvatar, expanded: true, active: true },
   { id: "p2", root: "/repo/internal-tools", label: "internal-tools", expanded: false, active: false },
   {
     id: "p3",

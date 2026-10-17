@@ -89,7 +89,7 @@ describe("memory recall lexical fixtures", () => {
         file: "environment.md",
         section: "Commands",
         key: "opencode_memory_tests",
-        text: "Run bun test ./test/kilocode/memory from packages/opencode.",
+        text: "Run bun test ./test/kappacode/memory from packages/opencode.",
       })
 
       const result = await MemoryRecall.search({ root: t.root, query: "bun packages/opencode memory" })

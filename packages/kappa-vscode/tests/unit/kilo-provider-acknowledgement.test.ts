@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it } from "bun:test"
 import type { EventSessionTurnClose, Session } from "@kappacode/sdk/v2/client"
-import { KiloProvider } from "../../src/KiloProvider"
+import { KappaProvider } from "../../src/KappaProvider"
 import type { GitOps } from "../../src/agent-manager/GitOps"
 import type { GitStatsPoller } from "../../src/agent-manager/GitStatsPoller"
-import { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 import type { SSEPayload } from "../../src/services/cli-backend/sdk-sse-adapter"
 
 const resources: { dispose(): void }[] = []
@@ -13,12 +13,12 @@ afterEach(() => {
 })
 
 function create() {
-  const connection = new KiloConnectionService({} as never)
+  const connection = new KappaConnectionService({} as never)
   resources.push(connection)
   return connection
 }
 
-function emit(connection: KiloConnectionService, event: SSEPayload) {
+function emit(connection: KappaConnectionService, event: SSEPayload) {
   const internal = connection as unknown as { broadcast(event: SSEPayload): void }
   internal.broadcast(event)
 }
@@ -28,11 +28,11 @@ function completion(id = "evt-001"): EventSessionTurnClose {
 }
 
 function attach(
-  connection: KiloConnectionService,
+  connection: KappaConnectionService,
   blocked = true,
-  opts: ConstructorParameters<typeof KiloProvider>[3] = {},
+  opts: ConstructorParameters<typeof KappaProvider>[3] = {},
 ) {
-  const provider = new KiloProvider({} as never, connection, undefined, opts)
+  const provider = new KappaProvider({} as never, connection, undefined, opts)
   resources.push(provider)
   const internal = provider as unknown as {
     initConnectionPromise: Promise<void>

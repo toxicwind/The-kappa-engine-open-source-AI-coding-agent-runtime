@@ -1,7 +1,7 @@
 import path from "path"
 import { existsSync, realpathSync } from "fs"
 import { Global } from "@opencode-ai/core/global"
-import { KilocodePaths } from "@/kappacode/paths"
+import { KappacodePaths } from "@/kappacode/paths"
 
 export namespace ConfigProtection {
   /**
@@ -98,7 +98,7 @@ export namespace ConfigProtection {
     const target = physical(dir)
     if (!target) return
 
-    const roots = [...configs(), ...KilocodePaths.globalDirs()]
+    const roots = [...configs(), ...KappacodePaths.globalDirs()]
     for (const root of roots) {
       for (const name of ["skill", "skills"]) {
         const skills = physical(path.join(root, name))
@@ -143,7 +143,7 @@ export namespace ConfigProtection {
     }
 
     // ~/.kappa/ and ~/.kappacode/ (legacy global dirs)
-    for (const dir of KilocodePaths.globalDirs()) {
+    for (const dir of KappacodePaths.globalDirs()) {
       const root = physical(dir)
       if (within(filepath, dir) || (target && root && within(target, root))) return true
     }

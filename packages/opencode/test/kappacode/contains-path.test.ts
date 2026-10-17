@@ -3,7 +3,7 @@ import path from "path"
 import { containsPath, type InstanceContext } from "../../src/project/instance-context"
 
 // Restores the boundary coverage lost with test/file/path-traversal.test.ts. The
-// "inside directory OR worktree, except worktree === '/'" policy is Kilo-facing: it
+// "inside directory OR worktree, except worktree === '/'" policy is Kappa-facing: it
 // gates plan files, background processes, shell permissions, config classification,
 // and LSP filtering, where a worktree path outside the working directory must not
 // trigger the external_directory permission.

@@ -4,13 +4,13 @@ import { xdgData, xdgCache, xdgConfig, xdgState } from "xdg-basedir"
 import os from "os"
 import { Context, Effect, Layer } from "effect"
 import { Flock } from "./util/flock"
-import { markNoIndex } from "./kilocode/spotlight" // kilocode_change
-import { ensureRealDir, resolveState } from "./kilocode/global" // kilocode_change
+import { markNoIndex } from "./kappacode/spotlight" // kappacode_change
+import { ensureRealDir, resolveState } from "./kappacode/global" // kappacode_change
 import { Flag } from "./flag/flag"
 import { makeGlobalNode } from "./effect/app-node"
 
-const app = "kappa" // kilocode_change
-// kilocode_change start
+const app = "kappa" // kappacode_change
+// kappacode_change start
 // Defensively strip newline characters from the resolved XDG paths.
 // If `$HOME` (or any `$XDG_*_HOME` override) has a trailing newline in
 // the user's shell — e.g. because a shell snippet did `export HOME=$(cmd)`
@@ -24,12 +24,12 @@ const cache = path.join(clean(xdgCache)!, app)
 const config = path.join(clean(xdgConfig)!, app)
 const preferred = path.join(clean(xdgState)!, app)
 const state = await resolveState(preferred, process.env.XDG_STATE_HOME ? undefined : path.join(data, "state"))
-// kilocode_change end
+// kappacode_change end
 const tmp = path.join(os.tmpdir(), app)
 
 const paths = {
   get home() {
-    return (process.env.KILO_TEST_HOME ?? os.homedir()).trim() // kilocode_change — defensive trim, see above
+    return (process.env.KILO_TEST_HOME ?? os.homedir()).trim() // kappacode_change — defensive trim, see above
   },
   data,
   bin: path.join(cache, "bin"),
@@ -46,17 +46,17 @@ export const Path = paths
 Flock.setGlobal({ state })
 
 await Promise.all([
-  ensureRealDir(Path.data), // kilocode_change
-  ensureRealDir(Path.config), // kilocode_change
-  ensureRealDir(Path.tmp), // kilocode_change
-  ensureRealDir(Path.log), // kilocode_change
-  ensureRealDir(Path.bin), // kilocode_change
-  ensureRealDir(Path.repos), // kilocode_change
+  ensureRealDir(Path.data), // kappacode_change
+  ensureRealDir(Path.config), // kappacode_change
+  ensureRealDir(Path.tmp), // kappacode_change
+  ensureRealDir(Path.log), // kappacode_change
+  ensureRealDir(Path.bin), // kappacode_change
+  ensureRealDir(Path.repos), // kappacode_change
 ])
 
-// kilocode_change start - keep generated Kilo data out of macOS Spotlight
+// kappacode_change start - keep generated Kappa data out of macOS Spotlight
 await Promise.all([Path.data, Path.cache, Path.state].map(markNoIndex))
-// kilocode_change end
+// kappacode_change end
 
 export class Service extends Context.Service<Service, Interface>()("@opencode/Global") {}
 

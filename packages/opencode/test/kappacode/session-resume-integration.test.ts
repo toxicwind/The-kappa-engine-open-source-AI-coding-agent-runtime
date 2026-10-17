@@ -42,7 +42,7 @@ import { Skill } from "../../src/skill"
 import { Snapshot } from "../../src/snapshot"
 import { ToolRegistry } from "../../src/tool/registry"
 import { Truncate } from "../../src/tool/truncate"
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
 import { SessionResume } from "../../src/kappacode/session-resume"
 import { SessionResumeImport } from "../../src/kappacode/session-resume/import"
 import { SessionID, MessageID, PartID } from "../../src/session/schema"
@@ -227,7 +227,7 @@ const base = [
   [LSP.node, lsp],
   [MCP.node, mcp],
   [RuntimeFlags.node, RuntimeFlags.layer({ experimentalEventSystem: true })],
-  [KiloSessions.node, KiloSessions.testLayer],
+  [KappaSessions.node, KappaSessions.testLayer],
 ] as const
 
 const replacements = [...base, [AgentSvc.node, fastAgents]] as const
@@ -540,7 +540,7 @@ it.instance(
       expect(Exit.isFailure(exit)).toBe(true)
       if (Exit.isFailure(exit)) {
         const msg = JSON.stringify(exit.cause)
-        expect(msg).toContain("new Kilo session")
+        expect(msg).toContain("new Kappa session")
       }
     }),
   { config: cfg },
@@ -1149,7 +1149,7 @@ it.instance(
       const exit = yield* Effect.exit(SessionResumeImport.fromContent({ sessionID: chat.id, content, agent: "build" }))
       expect(Exit.isFailure(exit)).toBe(true)
       if (Exit.isFailure(exit)) {
-        expect(JSON.stringify(exit.cause)).toContain("new Kilo session")
+        expect(JSON.stringify(exit.cause)).toContain("new Kappa session")
       }
 
       const msgs = yield* sessions.messages({ sessionID: chat.id })
@@ -1397,7 +1397,7 @@ it.instance(
 // ── SessionResumeImport.migrate (migration endpoint logic) ────────────────
 //
 // The HTTP endpoint (POST /kappacode/migrate/sessions) delegates to
-// SessionResumeImport.migrate, which re-discovers server-side, creates one Kilo
+// SessionResumeImport.migrate, which re-discovers server-side, creates one Kappa
 // session per transcript, and records the source on the created session so a
 // second call skips it. These tests drive it through the ResumeRoots seam.
 

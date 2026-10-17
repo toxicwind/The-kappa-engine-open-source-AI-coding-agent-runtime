@@ -2,7 +2,7 @@
  * Indexing-local embedding model metadata registry.
  *
  * RATIONALE: This registry only contains provider-local defaults and static
- * metadata. Kilo-hosted embedding catalog metadata is fetched from Cloud so the
+ * metadata. Kappa-hosted embedding catalog metadata is fetched from Cloud so the
  * model list is defined in one place.
  */
 
@@ -85,7 +85,7 @@ export function getModelQueryPrefix(provider: EmbedderProvider, modelId: string)
   return profiles[provider]?.[modelId]?.queryPrefix
 }
 
-export function normalizeKiloModelId(modelId: string | undefined): string | undefined {
+export function normalizeKappaModelId(modelId: string | undefined): string | undefined {
   return modelId
 }
 

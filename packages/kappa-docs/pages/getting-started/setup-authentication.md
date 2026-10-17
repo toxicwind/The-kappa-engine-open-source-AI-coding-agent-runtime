@@ -1,18 +1,18 @@
 ---
 title: "Authentication"
-description: "Configure Kilo Code and connect to your AI providers"
+description: "Configure Kappa Code and connect to your AI providers"
 ---
 
 # Authentication
 
-When you install Kilo Code, you'll be prompted to sign in or create a free account. This automatically configures everything you need to get started. You can sign in with your email address, ChatGPT, Google, Apple, GitHub, GitLab, Discord, LinkedIn, or Anaconda, or through your organization's single sign-on.
+When you install Kappa Code, you'll be prompted to sign in or create a free account. This automatically configures everything you need to get started. You can sign in with your email address, ChatGPT, Google, Apple, GitHub, GitLab, Discord, LinkedIn, or Anaconda, or through your organization's single sign-on.
 
-## Quick Start with Kilo Account
+## Quick Start with Kappa Account
 
 {% tabs %}
 {% tab label="VS Code" %}
 
-The extension prompts you to sign in when you first open Kilo Code in VS Code. Click **Sign In** and complete the browser-based flow. Sign-in applies across extension surfaces, including the sidebar and Agent Manager.
+The extension prompts you to sign in when you first open Kappa Code in VS Code. Click **Sign In** and complete the browser-based flow. Sign-in applies across extension surfaces, including the sidebar and Agent Manager.
 
 {% /tab %}
 {% tab label="CLI" %}
@@ -36,15 +36,15 @@ kappa auth list
 
 ### Sign in with ChatGPT
 
-You can use ChatGPT to sign in to Kilo, connect your subscription for model requests, or both. These are separate options and neither requires an OpenAI API key. See [using ChatGPT with Kilo](/docs/ai-providers/openai-chatgpt-plus-pro) for setup and billing details.
+You can use ChatGPT to sign in to Kappa, connect your subscription for model requests, or both. These are separate options and neither requires an OpenAI API key. See [using ChatGPT with Kappa](/docs/ai-providers/openai-chatgpt-plus-pro) for setup and billing details.
 
 {% callout type="tip" title="Add Credits" %}
-[Add credits to your account](https://app.kappa.ai/profile), or sign up for [Kilo Pass](https://kappa.ai/pricing/kappa-pass).
+[Add credits to your account](https://app.kappa.ai/profile), or sign up for [Kappa Pass](https://kappa.ai/pricing/kappa-pass).
 {% /callout %}
 
-## Kilo Gateway API Key
+## Kappa Gateway API Key
 
-If you're using the [Kilo AI Gateway](/docs/gateway/) outside of the Kilo Code extension (for example, with the Vercel AI SDK or OpenAI SDK), you'll need an API key:
+If you're using the [Kappa AI Gateway](/docs/gateway/) outside of the Kappa Code extension (for example, with the Vercel AI SDK or OpenAI SDK), you'll need an API key:
 
 1. Go to [app.kappa.ai](https://app.kappa.ai)
 2. Go to **Your Profile** on your **personal account** (not in an organization)
@@ -53,7 +53,7 @@ If you're using the [Kilo AI Gateway](/docs/gateway/) outside of the Kilo Code e
 
 ## Using Another API Provider
 
-If you prefer to use your own API key or existing subscription, Kilo Code supports **over 30 providers**. Here are some popular options to get started:
+If you prefer to use your own API key or existing subscription, Kappa Code supports **over 30 providers**. Here are some popular options to get started:
 
 | Provider | Best For | API Key Required |
 |---|---|---|
@@ -63,7 +63,7 @@ If you prefer to use your own API key or existing subscription, Kilo Code suppor
 | [OpenAI](/docs/ai-providers/openai) | Access to GPT models | Yes |
 
 {% callout type="info" title="Many More Providers Available" %}
-These are just a few examples! Kilo Code supports many more providers including Google Gemini, DeepSeek, Mistral, Ollama (for local models), AWS Bedrock, Google Vertex, and more. See the complete list at [AI Providers](/docs/ai-providers/).
+These are just a few examples! Kappa Code supports many more providers including Google Gemini, DeepSeek, Mistral, Ollama (for local models), AWS Bedrock, Google Vertex, and more. See the complete list at [AI Providers](/docs/ai-providers/).
 {% /callout %}
 
 ### OpenRouter
@@ -95,13 +95,13 @@ These are just a few examples! Kilo Code supports many more providers including 
 {% tabs %}
 {% tab label="VS Code" %}
 
-1. Open Kilo Code in VS Code
+1. Open Kappa Code in VS Code
 2. Click the gear icon ({% codicon name="gear" /%}) in the extension UI to open **Settings**
 3. Go to the **Providers** tab
 4. Select your provider and enter your API key
 5. Choose your model
 
-These settings apply across the extension, including the sidebar and Agent Manager. Agent Manager does not need separate provider or Kilo CLI authentication setup.
+These settings apply across the extension, including the sidebar and Agent Manager. Agent Manager does not need separate provider or Kappa CLI authentication setup.
 
 {% /tab %}
 {% tab label="CLI" %}

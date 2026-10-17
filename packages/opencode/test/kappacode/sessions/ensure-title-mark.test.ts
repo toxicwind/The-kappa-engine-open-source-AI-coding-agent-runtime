@@ -28,8 +28,8 @@ import {
   consumeAutoTitle,
   markAutoTitle,
 } from "../../../src/kappa-sessions/rename-adoptions"
-import { KiloSessions } from "../../../src/kappa-sessions/kappa-sessions"
-import { KiloSessionTitle } from "../../../src/kappacode/session/title"
+import { KappaSessions } from "../../../src/kappa-sessions/kappa-sessions"
+import { KappaSessionTitle } from "../../../src/kappacode/session/title"
 import { LSP } from "../../../src/lsp/lsp"
 import { MCP } from "../../../src/mcp"
 import { Permission } from "../../../src/permission"
@@ -180,7 +180,7 @@ const env = LayerNode.compile(root, [
   [LSP.node, lsp],
   [MCP.node, mcp],
   [RuntimeFlags.node, RuntimeFlags.layer({ experimentalEventSystem: true })],
-  [KiloSessions.node, KiloSessions.testLayer],
+  [KappaSessions.node, KappaSessions.testLayer],
 ])
 const it = testEffect(env)
 
@@ -276,7 +276,7 @@ function resetHooks() {
   hooks.failSetTitle = false
   hooks.setTitleCalls = []
   clearRenameMarks()
-  KiloSessionTitle.clearAll()
+  KappaSessionTitle.clearAll()
 }
 
 it.instance(

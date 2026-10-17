@@ -1,4 +1,4 @@
-import type { KilocodeSessionImportProjectData as Project } from "@kappacode/sdk/v2"
+import type { KappacodeSessionImportProjectData as Project } from "@kappacode/sdk/v2"
 import type { LegacyHistoryItem } from "./legacy-types"
 import { createProjectID } from "./ids"
 

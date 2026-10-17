@@ -1,13 +1,13 @@
 export const dict = {
-  "kilocode:attention.done": "Kilo завершил задачу.",
-  "kilocode:attention.question": "Kilo ждёт вашего ответа.",
-  "kilocode:attention.permission": "Kilo требуется разрешение.",
-  "kilocode:attention.error": "Kilo остановил задачу из-за ошибки.",
-  "kilocode:attention.show": "Показать",
-  "kilocode:attention.workspace": "Рабочая область",
-  "kilocode:attention.session": "Сессия",
-  "kilocode:attention.test": "Это тестовое уведомление от Kilo Code.",
-  "kilocode:attention.unsupported": "Уведомления операционной системы не поддерживаются на этой платформе.",
-  "kilocode:attention.identity":
+  "kappacode:attention.done": "Kappa завершил задачу.",
+  "kappacode:attention.question": "Kappa ждёт вашего ответа.",
+  "kappacode:attention.permission": "Kappa требуется разрешение.",
+  "kappacode:attention.error": "Kappa остановил задачу из-за ошибки.",
+  "kappacode:attention.show": "Показать",
+  "kappacode:attention.workspace": "Рабочая область",
+  "kappacode:attention.session": "Сессия",
+  "kappacode:attention.test": "Это тестовое уведомление от Kappa Code.",
+  "kappacode:attention.unsupported": "Уведомления операционной системы не поддерживаются на этой платформе.",
+  "kappacode:attention.identity":
     "Не удалось определить идентификатор уведомлений этого редактора, поэтому нативные уведомления недоступны. Уведомления VS Code продолжают работать.",
 }

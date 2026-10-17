@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "bun:test"
 import { ConfigProvider, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
 import path from "path"
-import { KilocodePaths } from "../../src/kappacode/server/httpapi/groups/kappacode"
+import { KappacodePaths } from "../../src/kappacode/server/httpapi/groups/kappacode"
 import * as HttpApiServer from "../../src/server/routes/instance/httpapi/server"
 import { resetDatabase } from "../fixture/db"
 import { disposeAllInstances, tmpdir } from "../fixture/fixture"
@@ -34,7 +34,7 @@ test("refreshes cached config after failed plugin install and partial removal", 
     expect((await request("/config")).username).toBe("before")
     const file = path.join(tmp.path, "opencode.json")
     await Bun.write(file, JSON.stringify({ formatter: false, lsp: false, username: "after-install" }))
-    const installed = await request(KilocodePaths.marketplaceInstall, {
+    const installed = await request(KappacodePaths.marketplaceInstall, {
       item: { type: "plugin", id: "wrong-id", content: "some-package" },
       target: "project",
     })
@@ -47,7 +47,7 @@ test("refreshes cached config after failed plugin install and partial removal", 
     )
     const tui = path.join(tmp.path, ".kappa", "tui.json")
     await Bun.write(tui, "{ malformed")
-    const removed = await request(KilocodePaths.marketplaceRemove, {
+    const removed = await request(KappacodePaths.marketplaceRemove, {
       item: { type: "plugin", id: "some-package" },
       scope: "project",
     })
@@ -61,7 +61,7 @@ test("refreshes cached config after failed plugin install and partial removal", 
     await Bun.write(tui, "{}")
     expect(
       (
-        await request(KilocodePaths.marketplaceRemove, {
+        await request(KappacodePaths.marketplaceRemove, {
           item: { type: "plugin", id: "some-package" },
           scope: "project",
         })

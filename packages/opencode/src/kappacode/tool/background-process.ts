@@ -3,7 +3,7 @@ import { Tool } from "@/tool/tool"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { containsPath } from "@/project/instance-context"
 import { InstanceState } from "@/effect/instance-state"
-import { KiloSession } from "@/kappacode/session"
+import { KappaSession } from "@/kappacode/session"
 import { SessionID } from "@/session/schema"
 import { PositiveInt } from "@opencode-ai/core/schema"
 import { Effect, Schema } from "effect"
@@ -47,7 +47,7 @@ export const Params = Schema.Struct({
     description: "For subagents only: transfer the process to the parent session when this session ends",
   }),
   persistent: Schema.optional(Schema.Boolean).annotate({
-    description: "Keep the process running and manageable after the session or Kilo exits",
+    description: "Keep the process running and manageable after the session or Kappa exits",
   }),
 }).check(
   Schema.makeFilter(
@@ -276,7 +276,7 @@ export const BackgroundProcessTool = Tool.define<typeof Params, Meta, never, "ba
 
         const command = params.command?.trim()
         if (!command) return invalid(params.action, "Missing command")
-        const parent = params.inherit ? KiloSession.resolveParent(ctx.sessionID) : undefined
+        const parent = params.inherit ? KappaSession.resolveParent(ctx.sessionID) : undefined
         const parentID = parent ? SessionID.make(parent) : undefined
         if (params.inherit && !parentID) return invalid(params.action, "inherit requires a subagent session")
         const err = pattern(params.ready)

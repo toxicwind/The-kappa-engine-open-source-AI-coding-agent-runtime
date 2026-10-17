@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2"
+import type { KappaClient } from "@kappacode/sdk/v2"
 import open from "open"
 import type { DialogContext } from "@tui/ui/dialog"
 import type { ToastContext } from "@tui/ui/toast"
@@ -6,13 +6,13 @@ import {
   showMemoryDialog,
   showMemoryHelpDialog,
   showMemoryStatusDialog,
-} from "@/kilocode/cli/cmd/tui/component/dialog-memory"
-import { runMemoryCommand } from "@/kilocode/cli/cmd/tui/memory-command"
+} from "@/kappacode/cli/cmd/tui/component/dialog-memory"
+import { runMemoryCommand } from "@/kappacode/cli/cmd/tui/memory-command"
 
 export namespace MemoryPrompt {
   export async function run(input: {
     text: string
-    client: KiloClient
+    client: KappaClient
     workspace?: string
     directory?: string
     sessionID?: string

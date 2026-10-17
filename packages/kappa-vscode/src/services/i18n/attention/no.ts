@@ -1,13 +1,13 @@
 export const dict = {
-  "kilocode:attention.done": "Kilo har fullført oppgaven.",
-  "kilocode:attention.question": "Kilo trenger innspill fra deg.",
-  "kilocode:attention.permission": "Kilo trenger tillatelse.",
-  "kilocode:attention.error": "Kilo stoppet oppgaven på grunn av en feil.",
-  "kilocode:attention.show": "Vis",
-  "kilocode:attention.workspace": "Arbeidsområde",
-  "kilocode:attention.session": "Økt",
-  "kilocode:attention.test": "Dette er et testvarsel fra Kilo Code.",
-  "kilocode:attention.unsupported": "Operativsystemvarsler støttes ikke på denne plattformen.",
-  "kilocode:attention.identity":
+  "kappacode:attention.done": "Kappa har fullført oppgaven.",
+  "kappacode:attention.question": "Kappa trenger innspill fra deg.",
+  "kappacode:attention.permission": "Kappa trenger tillatelse.",
+  "kappacode:attention.error": "Kappa stoppet oppgaven på grunn av en feil.",
+  "kappacode:attention.show": "Vis",
+  "kappacode:attention.workspace": "Arbeidsområde",
+  "kappacode:attention.session": "Økt",
+  "kappacode:attention.test": "Dette er et testvarsel fra Kappa Code.",
+  "kappacode:attention.unsupported": "Operativsystemvarsler støttes ikke på denne plattformen.",
+  "kappacode:attention.identity":
     "Klarte ikke å fastslå varslingsidentiteten til denne editoren, så native varsler er utilgjengelige. VS Code-varsler fungerer fortsatt.",
 }

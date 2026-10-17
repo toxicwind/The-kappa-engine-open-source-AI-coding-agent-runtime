@@ -6,12 +6,12 @@ import {
 import { DEFAULT_SPEECH_TO_TEXT_MODEL } from "../../src/speech-to-text/models"
 
 describe("speech-to-text availability", () => {
-  it("shows speech input for stored Kilo credentials", () => {
+  it("shows speech input for stored Kappa credentials", () => {
     expect(canUseSpeechToText({}, { kappa: "oauth" })).toBe(true)
     expect(canUseSpeechToText({}, { kappa: "api" })).toBe(true)
   })
 
-  it("hides speech input without usable Kilo credentials", () => {
+  it("hides speech input without usable Kappa credentials", () => {
     expect(canUseSpeechToText({}, {})).toBe(false)
     expect(canUseSpeechToText({}, { kappa: "wellknown" })).toBe(false)
   })

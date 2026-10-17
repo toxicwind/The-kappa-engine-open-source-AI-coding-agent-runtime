@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { buildKiloHeaders } from "./headers.js"
+import { buildKappaHeaders } from "./headers.js"
 
 export const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -191,7 +191,7 @@ export async function fetchCloudSession(token: string, sessionId: string): Promi
     signal: AbortSignal.timeout(TIMEOUT),
     headers: {
       Authorization: `Bearer ${token}`,
-      ...buildKiloHeaders(),
+      ...buildKappaHeaders(),
     },
   })
 
@@ -212,7 +212,7 @@ export async function fetchCloudSessionForImport(
     signal: AbortSignal.timeout(TIMEOUT),
     headers: {
       Authorization: `Bearer ${token}`,
-      ...buildKiloHeaders(),
+      ...buildKappaHeaders(),
     },
   })
 
@@ -222,7 +222,7 @@ export async function fetchCloudSessionForImport(
   }
   if (!response.ok) {
     const text = await response.text()
-    console.error("[Kilo Gateway] cloud/session/import: export failed", {
+    console.error("[Kappa Gateway] cloud/session/import: export failed", {
       status: response.status,
       body: text.slice(0, 500),
     })

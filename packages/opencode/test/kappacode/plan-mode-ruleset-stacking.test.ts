@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { Permission } from "../../src/permission"
 import { PermissionProvenance } from "../../src/kappacode/permission/provenance"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
 
 /** Plan agent permission in the shape patchAgents produces: the edit guard appears several times. */
 function planAgentPermission() {
@@ -25,7 +25,7 @@ const sessionPermission = [
   { permission: "bash", pattern: "*", action: "deny" as const },
 ]
 
-describe("KiloSessionPrompt.dedupeRuleset", () => {
+describe("KappaSessionPrompt.dedupeRuleset", () => {
   test("keeps the last occurrence of each distinct rule", () => {
     const rules = [
       { permission: "edit", pattern: "*", action: "deny" as const },
@@ -33,7 +33,7 @@ describe("KiloSessionPrompt.dedupeRuleset", () => {
       { permission: "edit", pattern: "*", action: "deny" as const },
       { permission: "edit", pattern: "plans/*.md", action: "allow" as const },
     ]
-    const deduped = KiloSessionPrompt.dedupeRuleset(rules)
+    const deduped = KappaSessionPrompt.dedupeRuleset(rules)
     expect(deduped).toEqual([
       { permission: "edit", pattern: "*", action: "deny" },
       { permission: "edit", pattern: "plans/*.md", action: "allow" },
@@ -47,7 +47,7 @@ describe("KiloSessionPrompt.dedupeRuleset", () => {
       { permission: "edit", pattern: "*", action: "deny" as const },
       { permission: "edit", pattern: "*.md", action: "allow" as const },
     ]
-    const deduped = KiloSessionPrompt.dedupeRuleset(rules)
+    const deduped = KappaSessionPrompt.dedupeRuleset(rules)
     expect(Permission.evaluate("edit", "plan.md", rules).action).toBe("allow")
     expect(Permission.evaluate("edit", "plan.md", deduped).action).toBe("allow")
     expect(Permission.evaluate("edit", "src/x.ts", rules).action).toBe("deny")
@@ -60,7 +60,7 @@ describe("KiloSessionPrompt.dedupeRuleset", () => {
       undefined,
     )
     const session = PermissionProvenance.tagSession([{ permission: "bash", pattern: "git status", action: "allow" }])
-    const deduped = KiloSessionPrompt.dedupeRuleset([...tagged, ...session])
+    const deduped = KappaSessionPrompt.dedupeRuleset([...tagged, ...session])
     expect(deduped).toHaveLength(2)
     expect(PermissionProvenance.classify({ rule: deduped[0], agent: "plan", origins: undefined })).toEqual({
       source: "agent",
@@ -74,10 +74,10 @@ describe("KiloSessionPrompt.dedupeRuleset", () => {
   })
 })
 
-describe("KiloSessionPrompt.buildAskRuleset", () => {
+describe("KappaSessionPrompt.buildAskRuleset", () => {
   test("plan mode ruleset has no stacked duplicate rule blocks", () => {
     const agent = { name: "plan", permission: planAgentPermission() }
-    const { ruleset } = KiloSessionPrompt.buildAskRuleset({
+    const { ruleset } = KappaSessionPrompt.buildAskRuleset({
       agent,
       session: { permission: sessionPermission },
     })
@@ -97,7 +97,7 @@ describe("KiloSessionPrompt.buildAskRuleset", () => {
 
   test("plan mode still allows plan edits and denies source edits", () => {
     const agent = { name: "plan", permission: planAgentPermission() }
-    const { ruleset } = KiloSessionPrompt.buildAskRuleset({
+    const { ruleset } = KappaSessionPrompt.buildAskRuleset({
       agent,
       session: { permission: sessionPermission },
     })
@@ -113,7 +113,7 @@ describe("KiloSessionPrompt.buildAskRuleset", () => {
       name: "plan",
       permission: [{ permission: "*", pattern: "*", action: "allow" as const }],
     }
-    const { ruleset } = KiloSessionPrompt.buildAskRuleset({
+    const { ruleset } = KappaSessionPrompt.buildAskRuleset({
       agent,
       session: { permission: [{ permission: "*", pattern: "*", action: "allow" as const }] },
     })
@@ -127,7 +127,7 @@ describe("KiloSessionPrompt.buildAskRuleset", () => {
 
   test("hard ruleset is deduped too", () => {
     const agent = { name: "plan", permission: planAgentPermission() }
-    const { hardRuleset } = KiloSessionPrompt.buildAskRuleset({
+    const { hardRuleset } = KappaSessionPrompt.buildAskRuleset({
       agent,
       session: { permission: [] },
     })
@@ -141,7 +141,7 @@ describe("KiloSessionPrompt.buildAskRuleset", () => {
 
   test("code mode is left untouched", () => {
     const agent = { name: "code", permission: [{ permission: "*", pattern: "*", action: "allow" as const }] }
-    const { ruleset, hardRuleset } = KiloSessionPrompt.buildAskRuleset({
+    const { ruleset, hardRuleset } = KappaSessionPrompt.buildAskRuleset({
       agent,
       session: { permission: sessionPermission },
     })

@@ -1,10 +1,10 @@
 # Setting Up Mistral for Free Autocomplete
 
-This guide walks you through setting up Mistral's Codestral model for free autocomplete in Kilo Code. Mistral offers a free tier that's perfect for getting started with AI-powered code completions.
+This guide walks you through setting up Mistral's Codestral model for free autocomplete in Kappa Code. Mistral offers a free tier that's perfect for getting started with AI-powered code completions.
 
 ## Prerequisites
 
-- A [Kilo Code account](https://app.kappa.ai) (free to create)
+- A [Kappa Code account](https://app.kappa.ai) (free to create)
 - A Mistral AI account with a Codestral API key
 
 ## Step 1: Navigate to Codestral in Mistral AI Studio
@@ -29,9 +29,9 @@ Once generated, click the **copy** button next to your API key to copy it to you
 The Codestral API key is separate from the standard Mistral La Plateforme API key. Make sure you generate a key specifically from the **Codestral** section of the Mistral console.
 {% /callout %}
 
-## Step 4: Add Your Key via BYOK in Kilo
+## Step 4: Add Your Key via BYOK in Kappa
 
-1. Log into the [Kilo platform](https://app.kappa.ai).
+1. Log into the [Kappa platform](https://app.kappa.ai).
 2. Navigate to the [Bring Your Own Key (BYOK) page](https://app.kappa.ai/byok), available in the sidebar under **Account**.
 3. Click **Add Your First Key** (or **Add Key** if you already have keys configured).
 4. Select **Codestral** as the provider.
@@ -44,31 +44,31 @@ For more details on BYOK, see the [Bring Your Own Key documentation](/docs/getti
 
 ## Step 5: Verify Autocomplete is Working
 
-Once your BYOK key is saved, Kilo Code's autocomplete will automatically use your Codestral key through the Kilo Gateway. No additional configuration is needed in the extension.
+Once your BYOK key is saved, Kappa Code's autocomplete will automatically use your Codestral key through the Kappa Gateway. No additional configuration is needed in the extension.
 
-1. Open VS Code with the Kilo Code extension installed.
+1. Open VS Code with the Kappa Code extension installed.
 2. Start typing in any code file — you should see inline ghost-text suggestions powered by Codestral.
 3. Press `Tab` to accept a suggestion.
 
-The autocomplete status bar in VS Code shows the current provider ("Kilo Gateway") and tracks cumulative cost. With BYOK, requests are billed directly by Mistral at their rates (Codestral has a free tier) and show as $0.00 on your Kilo balance.
+The autocomplete status bar in VS Code shows the current provider ("Kappa Gateway") and tracks cumulative cost. With BYOK, requests are billed directly by Mistral at their rates (Codestral has a free tier) and show as $0.00 on your Kappa balance.
 
 ## How It Works
 
 When you add a Codestral BYOK key, the request flow is:
 
 ```
-Your Editor → Kilo Gateway (with your key) → Mistral
+Your Editor → Kappa Gateway (with your key) → Mistral
 ```
 
-- The Kilo Gateway detects your BYOK key and routes autocomplete requests using it.
-- You are billed directly by Mistral — Kilo does not add any markup.
-- If your BYOK key is invalid, the request will fail (it does not fall back to Kilo's keys).
+- The Kappa Gateway detects your BYOK key and routes autocomplete requests using it.
+- You are billed directly by Mistral — Kappa does not add any markup.
+- If your BYOK key is invalid, the request will fail (it does not fall back to Kappa's keys).
 
 ## Troubleshooting
 
-- **Autocomplete not appearing?** Check that autocomplete is enabled in Kilo Code settings (it is on by default). Also verify you are signed into Kilo Code in the extension.
+- **Autocomplete not appearing?** Check that autocomplete is enabled in Kappa Code settings (it is on by default). Also verify you are signed into Kappa Code in the extension.
 - **Key not working?** Ensure you copied the **Codestral** API key (not the standard La Plateforme key). You can verify your key at [console.mistral.ai/codestral](https://console.mistral.ai/codestral).
-- **Seeing charges on your Kilo balance?** If you haven't configured BYOK, autocomplete defaults to using your Kilo credits. Add your Codestral key via BYOK to route requests through your own Mistral account.
+- **Seeing charges on your Kappa balance?** If you haven't configured BYOK, autocomplete defaults to using your Kappa credits. Add your Codestral key via BYOK to route requests through your own Mistral account.
 
 ## Next Steps
 

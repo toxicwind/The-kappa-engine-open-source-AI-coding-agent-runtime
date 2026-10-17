@@ -4,15 +4,15 @@ These tests are designed so that the source files contain **no hints** about wha
 
 ## One-time setup
 
-1. **`bun run watch`** is already running for the kilocode extension.
-2. In the kilocode VSCode window, press **F5** → opens the **Extension Development Host**.
+1. **`bun run watch`** is already running for the kappacode extension.
+2. In the kappacode VSCode window, press **F5** → opens the **Extension Development Host**.
 3. In the Dev Host: `File → Open Folder…` → `packages/kappa-vscode/docs/nes-examples/` inside this repo.
 4. Open Settings (`Cmd+,`), confirm:
    - `kappa-code.new.autocomplete.enableAutoTrigger` → ✓ (default true)
    - `kappa-code.new.autocomplete.model` → **Mercury Next Edit (Inception)** ← *NOT* "Mercury Edit 2", which is the classic FIM option
    - `kappa-code.new.autocomplete.nextEdit.apiKey` → your `sk_...` key
    - VSCode global `editor.inlineSuggest.enabled` → ✓
-5. To watch the pipeline live: `View → Output` → pick the **"Kilo Code · Next Edit"** channel.
+5. To watch the pipeline live: `View → Output` → pick the **"Kappa Code · Next Edit"** channel.
 
 ## Conventions used below
 
@@ -195,7 +195,7 @@ After each test, **don't accept** if you want to re-run it — the suggestion wi
 
 ## Troubleshooting
 
-- **No log lines appearing**: confirm the output channel is "Kilo Code · Next Edit". Also confirm you reloaded the Dev Host after rebuilding.
+- **No log lines appearing**: confirm the output channel is "Kappa Code · Next Edit". Also confirm you reloaded the Dev Host after rebuilding.
 - **`[NES] skip — no API key resolved`**: setting wasn't saved. Re-paste the key, hit Enter, reload.
 - **`[NES] <- 400`**: regression on prompt shape — capture the body in the channel and ping the integration owner.
 - **Visible suggestion that's not in this doc**: write it down. Unexpected wins (or false positives) are the most useful signal.

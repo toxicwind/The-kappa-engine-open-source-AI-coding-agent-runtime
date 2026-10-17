@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { streamText } from "ai"
-import { createKilo } from "../src/provider"
+import { createKappa } from "../src/provider"
 
 const meta = {
   routing: {
@@ -45,10 +45,10 @@ async function finish(result: ReturnType<typeof streamText>) {
   throw new Error("missing finish-step")
 }
 
-describe("Kilo Gateway response metadata", () => {
+describe("Kappa Gateway response metadata", () => {
   test("surfaces Anthropic terminal cost and routed model", async () => {
-    const sdk = createKilo({
-      kilocodeToken: "test",
+    const sdk = createKappa({
+      kappacodeToken: "test",
       fetch: async () =>
         response([
           {
@@ -79,8 +79,8 @@ describe("Kilo Gateway response metadata", () => {
   })
 
   test("surfaces OpenAI Responses terminal cost and routed model", async () => {
-    const sdk = createKilo({
-      kilocodeToken: "test",
+    const sdk = createKappa({
+      kappacodeToken: "test",
       fetch: async () =>
         response([
           {
@@ -110,8 +110,8 @@ describe("Kilo Gateway response metadata", () => {
   })
 
   test("surfaces OpenRouter Responses model and upstream cost", async () => {
-    const sdk = createKilo({
-      kilocodeToken: "test",
+    const sdk = createKappa({
+      kappacodeToken: "test",
       fetch: async () =>
         response([
           {
@@ -156,8 +156,8 @@ describe("Kilo Gateway response metadata", () => {
   })
 
   test("preserves OpenRouter Messages model and upstream cost", async () => {
-    const sdk = createKilo({
-      kilocodeToken: "test",
+    const sdk = createKappa({
+      kappacodeToken: "test",
       fetch: async () =>
         response([
           {
@@ -201,8 +201,8 @@ describe("Kilo Gateway response metadata", () => {
   })
 
   test("exposes raw chunks only when requested", async () => {
-    const sdk = createKilo({
-      kilocodeToken: "test",
+    const sdk = createKappa({
+      kappacodeToken: "test",
       fetch: async () =>
         response([
           {

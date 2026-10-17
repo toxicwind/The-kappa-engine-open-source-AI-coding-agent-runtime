@@ -1,5 +1,5 @@
 import { createEffect, createMemo, createSignal, onCleanup } from "solid-js"
-import { createCaffeinationDriver } from "@opencode-ai/core/kilocode/caffeination"
+import { createCaffeinationDriver } from "@opencode-ai/core/kappacode/caffeination"
 import { useEvent } from "@tui/context/event"
 import { useKV } from "@tui/context/kv"
 import { useProject } from "@tui/context/project"
@@ -40,12 +40,12 @@ export function useCaffeination() {
       return next
     })
   const refreshWakeups = () => {
-    void sdk.client.kilocode
+    void sdk.client.kappacode
       .wakeups({ workspace: project.workspace.current() }, { throwOnError: true })
       .then((result) => {
         setWaking(new Set((result.data ?? []).filter((item) => item.pending > 0).map((item) => item.sessionID)))
       })
-      .catch((value) => console.warn("[Kilo New] Keep Awake wakeup refresh failed:", value))
+      .catch((value) => console.warn("[Kappa New] Keep Awake wakeup refresh failed:", value))
   }
   onCleanup(event.on("session.wakeup", (evt) => mark(evt.properties.sessionID, evt.properties.pending)))
   // Re-read pending wakeups on mount and when the workspace changes.
@@ -133,8 +133,8 @@ export function useCaffeination() {
       if (kv.get("caffeination_confirmed", false) !== true) {
         const result = await DialogConfirm.show(
           dialog,
-          "Keep this computer awake while Kilo agents work?",
-          "Keep Awake prevents system sleep while Kilo sessions are running. It does not keep the display on or disable screen locking. Agents may continue to access files, network services, and available credentials while the computer is locked.",
+          "Keep this computer awake while Kappa agents work?",
+          "Keep Awake prevents system sleep while Kappa sessions are running. It does not keep the display on or disable screen locking. Agents may continue to access files, network services, and available credentials while the computer is locked.",
           "cancel",
         )
         if (result !== true) return
@@ -160,7 +160,7 @@ export function useCaffeination() {
     disposed = true
     epoch++
     setEnabled(false)
-    void work.then(stop).catch((value) => console.warn("[Kilo New] Keep Awake cleanup failed:", value))
+    void work.then(stop).catch((value) => console.warn("[Kappa New] Keep Awake cleanup failed:", value))
   })
 
   useBindings(() => ({
@@ -173,7 +173,7 @@ export function useCaffeination() {
           if (!enabled()) return "Enable Keep Awake"
           return active() ? "Disable Keep Awake (active)" : "Disable Keep Awake"
         },
-        desc: "Prevent system sleep while Kilo agents work",
+        desc: "Prevent system sleep while Kappa agents work",
         category: "System",
         slashName: "caffeinate",
         slashAliases: ["caffenate"],

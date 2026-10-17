@@ -5,8 +5,8 @@ import { HttpBody, HttpClient, HttpClientResponse } from "effect/unstable/http"
 import {
   KILO_EXA_URL,
   MAX_KILO_EXA_RESULTS,
-  type KiloExaParams,
-  callKiloExa,
+  type KappaExaParams,
+  callKappaExa,
 } from "../../../src/kappacode/tool/websearch-kappa-exa"
 
 type Recorded = {
@@ -51,7 +51,7 @@ const fakeHttp = (respond: (status: number) => Response, recorded?: Recorded): H
   )
 
 const runCall = async (
-  params: KiloExaParams,
+  params: KappaExaParams,
   respond: (status: number) => Response,
   recorded?: Recorded,
   kappaToken = "kappa-test-token",
@@ -59,11 +59,11 @@ const runCall = async (
   Effect.runPromiseExit(
     Effect.gen(function* () {
       const http = fakeHttp(respond, recorded)
-      return yield* callKiloExa(http, params, kappaToken)
+      return yield* callKappaExa(http, params, kappaToken)
     }),
   )
 
-describe("callKiloExa request shape", () => {
+describe("callKappaExa request shape", () => {
   test("posts to KILO_EXA_URL with bearer token and highlights-only contents", async () => {
     const recorded: Recorded = {}
     const exit = await runCall({ query: "drone" }, () => okJson({ results: [] }), recorded)
@@ -101,7 +101,7 @@ describe("callKiloExa request shape", () => {
   })
 })
 
-describe("callKiloExa response formatting", () => {
+describe("callKappaExa response formatting", () => {
   const okValue = <E>(exit: Exit.Exit<string, E>): string => {
     if (Exit.isFailure(exit)) throw new Error("expected success")
     return (exit as Extract<typeof exit, { _tag: "Success" }>).value as string
@@ -150,7 +150,7 @@ describe("callKiloExa response formatting", () => {
   })
 })
 
-describe("callKiloExa error handling", () => {
+describe("callKappaExa error handling", () => {
   test("dies with auth-required message on 401", async () => {
     const exit = await runCall({ query: "x" }, () => jsonResponse(401, {}))
     expect(Exit.isFailure(exit)).toBe(true)

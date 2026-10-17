@@ -141,7 +141,7 @@ const run = (input: Omit<Ripgrep.GlobInput, "limit"> & { limit?: number }) =>
     return { ...result, paths: result.items.map((item) => String(item.path)).sort() }
   })
 
-describe("Kilo ripgrep glob", () => {
+describe("Kappa ripgrep glob", () => {
   it.live("matches exactly what ripgrep matched before, minus ignored files", () =>
     Effect.acquireUseRelease(
       Effect.promise(() => tmpdir()),

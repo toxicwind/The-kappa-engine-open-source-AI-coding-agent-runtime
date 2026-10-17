@@ -15,10 +15,10 @@ export async function interceptMessage(
   ctx: Context,
 ): Promise<Record<string, unknown> | null> {
   const next = ctx.before
-    ? await ctx.before(msg).catch((e) => (console.error("[Kilo New] interceptor error:", e), null))
+    ? await ctx.before(msg).catch((e) => (console.error("[Kappa New] interceptor error:", e), null))
     : msg
   if (next === null) {
-    // Permission messages are handled by KiloProvider, never by an interceptor.
+    // Permission messages are handled by KappaProvider, never by an interceptor.
     // A failed project route must release the webview's submitting state.
     if (msg.type === "permissionResponse" && typeof msg.permissionId === "string") {
       ctx.post({ type: "permissionError", permissionID: msg.permissionId })
@@ -35,6 +35,6 @@ export async function interceptMessage(
     base: typeof resolved.gitChangesBase === "string" ? resolved.gitChangesBase : undefined,
     post: ctx.post,
     error: ctx.error,
-  }).catch((e) => console.error("[Kilo New] git changes error:", e))
+  }).catch((e) => console.error("[Kappa New] git changes error:", e))
   return null
 }

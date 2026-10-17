@@ -1,11 +1,11 @@
 # @kappacode/kappa-gateway
 
-Unified Kilo Gateway package for OpenCode providing authentication, AI provider integration, and API access.
+Unified Kappa Gateway package for OpenCode providing authentication, AI provider integration, and API access.
 
 ## Features
 
-- **Authentication**: Device authorization flow for Kilo Gateway
-- **AI Provider**: OpenRouter-based provider with Kilo Gateway integration
+- **Authentication**: Device authorization flow for Kappa Gateway
+- **AI Provider**: OpenRouter-based provider with Kappa Gateway integration
 - **API Integration**: Profile, balance, and model management
 - **TUI Helpers**: Utilities for terminal UI components
 
@@ -20,20 +20,20 @@ bun add @kappacode/kappa-gateway
 ### Plugin Registration
 
 ```typescript
-import { KiloAuthPlugin } from "@kappacode/kappa-gateway"
+import { KappaAuthPlugin } from "@kappacode/kappa-gateway"
 
 // Register with OpenCode
-const plugins = [KiloAuthPlugin]
+const plugins = [KappaAuthPlugin]
 ```
 
 ### Provider Usage
 
 ```typescript
-import { createKilo } from "@kappacode/kappa-gateway"
+import { createKappa } from "@kappacode/kappa-gateway"
 
-const provider = createKilo({
-  kilocodeToken: process.env.KILOCODE_API_KEY,
-  kilocodeOrganizationId: "org-123",
+const provider = createKappa({
+  kappacodeToken: process.env.KAPPACODE_API_KEY,
+  kappacodeOrganizationId: "org-123",
 })
 
 const model = provider.languageModel("anthropic/claude-sonnet-4")

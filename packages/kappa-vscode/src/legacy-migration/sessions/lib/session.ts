@@ -1,4 +1,4 @@
-import type { KilocodeSessionImportSessionData as Session } from "@kappacode/sdk/v2"
+import type { KappacodeSessionImportSessionData as Session } from "@kappacode/sdk/v2"
 import type { LegacyHistoryItem } from "./legacy-types"
 import { createSessionID } from "./ids"
 

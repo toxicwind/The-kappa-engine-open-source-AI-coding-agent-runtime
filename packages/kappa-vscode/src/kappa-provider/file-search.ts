@@ -1,6 +1,6 @@
 import * as path from "path"
 import * as vscode from "vscode"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { braceExpand, minimatch } from "minimatch"
 import { mergeFileSearchResults } from "./file-search-results"
 import { mergeFileSearchItems, type FileSearchItem } from "./file-search-items"
@@ -29,7 +29,7 @@ type Message = {
 }
 
 type Input = {
-  client: KiloClient | null
+  client: KappaClient | null
   message: Message
   current?: string
   context?: string
@@ -70,7 +70,7 @@ export function splitRoots(
   return { primary, secondary: roots.filter((root) => root.path && !same(root.path, dir)) }
 }
 
-async function fetchBackend(client: KiloClient, dir: string, query: string): Promise<[string[], string[]]> {
+async function fetchBackend(client: KappaClient, dir: string, query: string): Promise<[string[], string[]]> {
   if (!client?.find?.files) return [[], []]
   const [fileRes, folderRes] = await Promise.allSettled([
     client.find.files({ query, directory: dir, type: "file", limit: 50 }, { throwOnError: true }),
@@ -108,10 +108,10 @@ const empty = (): Gathered => ({ files: [], folders: [], open: new Set(), relati
  * match in another.
  *
  * A root that cannot be read yields nothing rather than throwing, so one
- * unreadable `.kilocodeignore` cannot empty the whole mention list.
+ * unreadable `.kappacodeignore` cannot empty the whole mention list.
  */
 async function gather(
-  client: KiloClient,
+  client: KappaClient,
   root: string,
   query: string,
   open: (dir: string) => Promise<Set<string>>,
@@ -127,7 +127,7 @@ async function gather(
       relative: new Map(),
     }
   } catch (err) {
-    console.error(`[Kilo New] File search failed for ${root}:`, err)
+    console.error(`[Kappa New] File search failed for ${root}:`, err)
     return empty()
   }
 }
@@ -214,7 +214,7 @@ async function gatherExternal(
       return full
     }
 
-    // Apply editor exclusions to open tabs too, then this folder's Kilo ignore rules.
+    // Apply editor exclusions to open tabs too, then this folder's Kappa ignore rules.
     const active = activeIn(root.path)
     const opened = [...(await open(root.path))].map(record)
     const candidates = [...new Set([...hits.map(record), ...opened, ...(active ? [record(active)] : [])])]
@@ -272,7 +272,7 @@ async function gatherExternal(
       relative,
     }
   } catch (err) {
-    console.error(`[Kilo New] File search failed for ${root.path}:`, err)
+    console.error(`[Kappa New] File search failed for ${root.path}:`, err)
     return empty()
   }
 }
@@ -293,7 +293,7 @@ export async function handleFileSearch(input: Input): Promise<void> {
     try {
       return splitRoots(input.roots?.() ?? [], dir)
     } catch (err) {
-      console.error("[Kilo New] Failed to read workspace folders:", err)
+      console.error("[Kappa New] Failed to read workspace folders:", err)
       return { secondary: [] as SearchRoot[] }
     }
   })()
@@ -376,6 +376,6 @@ function capFolders(items: FileSearchItem[], limit: number): FileSearchItem[] {
 
 function settled(result: PromiseSettledResult<{ data: string[] }>, kind: "file" | "folder"): string[] {
   if (result.status === "fulfilled") return result.value.data
-  console.error(`[Kilo New] File search (${kind}) failed:`, result.reason)
+  console.error(`[Kappa New] File search (${kind}) failed:`, result.reason)
   return []
 }

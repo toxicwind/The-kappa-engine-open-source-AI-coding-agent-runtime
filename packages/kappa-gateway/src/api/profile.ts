@@ -1,11 +1,11 @@
 import { select } from "@clack/prompts"
-import type { KilocodeProfile, Organization, KilocodeBalance } from "../types.js"
+import type { KappacodeProfile, Organization, KappacodeBalance } from "../types.js"
 import { KILO_API_BASE, DEFAULT_MODEL, DEFAULT_FREE_MODEL } from "./constants.js"
 
 /**
- * Fetch user profile from Kilo API
+ * Fetch user profile from Kappa API
  */
-export async function fetchProfile(token: string): Promise<KilocodeProfile> {
+export async function fetchProfile(token: string): Promise<KappacodeProfile> {
   const response = await fetch(`${KILO_API_BASE}/api/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ export async function fetchProfile(token: string): Promise<KilocodeProfile> {
     hasPersonalAccount?: boolean | null
   }
   // Backend returns { user: { email, name, ... }, organizations }
-  // Transform to flat KilocodeProfile structure
+  // Transform to flat KappacodeProfile structure
   return {
     email: data.user?.email ?? data.email ?? "",
     name: data.user?.name ?? data.name,
@@ -42,7 +42,7 @@ export async function fetchProfile(token: string): Promise<KilocodeProfile> {
 /**
  * Alias for compatibility with existing code
  */
-export const getKiloProfile = fetchProfile
+export const getKappaProfile = fetchProfile
 
 /**
  * Resolve the organization a fresh login should default to.
@@ -52,7 +52,7 @@ export const getKiloProfile = fetchProfile
  * when the account has no personal account to sit on. Returns `undefined` to
  * mean "personal account".
  */
-export function defaultOrganizationId(profile: KilocodeProfile): string | undefined {
+export function defaultOrganizationId(profile: KappacodeProfile): string | undefined {
   const orgs = profile.organizations ?? []
   const selected = profile.selectedOrganizationId
   const valid = selected && orgs.some((org) => org.id === selected) ? selected : undefined
@@ -60,7 +60,7 @@ export function defaultOrganizationId(profile: KilocodeProfile): string | undefi
 }
 
 /**
- * Fetch user balance from Kilo API
+ * Fetch user balance from Kappa API
  * @param token - Authentication token
  * @param organizationId - Optional organization ID for team balance
  */
@@ -68,14 +68,14 @@ export async function fetchBalance(
   token: string,
   organizationId?: string,
   log: { warn(message: string, extra?: Record<string, unknown>): void } = console,
-): Promise<KilocodeBalance | null> {
+): Promise<KappacodeBalance | null> {
   try {
     const headers: Record<string, string> = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     }
     if (organizationId) {
-      headers["x-kilocode-organizationid"] = organizationId
+      headers["x-kappacode-organizationid"] = organizationId
     }
 
     const response = await fetch(`${KILO_API_BASE}/api/profile/balance`, { headers })
@@ -96,7 +96,7 @@ export async function fetchBalance(
 /**
  * Alias for compatibility with existing code
  */
-export const getKiloBalance = fetchBalance
+export const getKappaBalance = fetchBalance
 
 /**
  * Fetch default model for a given organization context
@@ -138,14 +138,14 @@ export async function fetchDefaultModel(
 /**
  * Alias for compatibility with existing code
  */
-export const getKiloDefaultModel = fetchDefaultModel
+export const getKappaDefaultModel = fetchDefaultModel
 
 /**
  * Fetch both profile and balance in parallel
  */
 export async function fetchProfileWithBalance(token: string): Promise<{
-  profile: KilocodeProfile
-  balance: KilocodeBalance | null
+  profile: KappacodeProfile
+  balance: KappacodeBalance | null
 }> {
   const [profile, balance] = await Promise.all([fetchProfile(token), fetchBalance(token)])
   return { profile, balance }

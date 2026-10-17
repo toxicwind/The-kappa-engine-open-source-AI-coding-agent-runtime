@@ -1,19 +1,19 @@
 ---
-title: "Using Ollama with Kilo Code | Run Local Models"
-description: "Run local AI models with Ollama in Kilo Code for offline, private coding. Setup guide for VS Code and the CLI."
+title: "Using Ollama with Kappa Code | Run Local Models"
+description: "Run local AI models with Ollama in Kappa Code for offline, private coding. Setup guide for VS Code and the CLI."
 sidebar_label: Ollama
 ---
 
-# Using Ollama With Kilo Code
+# Using Ollama With Kappa Code
 
-Kilo Code supports running models locally using Ollama. This provides privacy, offline access, and potentially lower costs, but requires more setup and a powerful computer.
+Kappa Code supports running models locally using Ollama. This provides privacy, offline access, and potentially lower costs, but requires more setup and a powerful computer.
 
 **Website:** [https://ollama.com/](https://ollama.com/)
 
 {% callout type="info" title="Local Ollama vs. Ollama Cloud" %}
 Use the **Ollama** provider for a local Ollama daemon started with `ollama serve`. Local models use the `ollama/<model_name>` format, for example `ollama/qwen3-coder:30b`, and connect to your local base URL.
 
-**Ollama Cloud** appears in Kilo Gateway and BYOK flows. It is a hosted provider path and does not connect to `http://localhost:11434`.
+**Ollama Cloud** appears in Kappa Gateway and BYOK flows. It is a hosted provider path and does not connect to `http://localhost:11434`.
 {% /callout %}
 
 <!-- <image src="/docs/img/providers/ollama-devstral-snake.png" alt="Vibe coding a Snake game using devstral" width="500" />
@@ -36,13 +36,13 @@ You will need a GPU with a large amount of VRAM (24GB or more) or a MacBook with
 Ollama supports many different models.
 You can find a list of available models on the [Ollama website](https://ollama.com/library).
 
-For the Kilo Code agent the current recommendation is `qwen3-coder:30b`. `qwen3-coder:30b` sometimes fails to call tools correctly (it is much more likely to have this problem than the full `qwen3-coder:480b` model). As a mixture-of-experts model, this could be because it activated the wrong experts. Whenever this happens, try changing your prompt or use the Enhance Prompt button.
+For the Kappa Code agent the current recommendation is `qwen3-coder:30b`. `qwen3-coder:30b` sometimes fails to call tools correctly (it is much more likely to have this problem than the full `qwen3-coder:480b` model). As a mixture-of-experts model, this could be because it activated the wrong experts. Whenever this happens, try changing your prompt or use the Enhance Prompt button.
 
-An alternative to `qwen3-coder:30b` is `devstral:24b`. For other features of Kilo Code such as Enhance Prompt or Commit Message Generation smaller models may suffice.
+An alternative to `qwen3-coder:30b` is `devstral:24b`. For other features of Kappa Code such as Enhance Prompt or Commit Message Generation smaller models may suffice.
 
 ## Setting up Ollama
 
-To set up Ollama for use with Kilo Code, follow the instructions below.
+To set up Ollama for use with Kappa Code, follow the instructions below.
 
 ### Download and Install Ollama
 
@@ -76,9 +76,9 @@ To configure the context window, set "Context Window Size (num_ctx)" in the API 
 
 ### Configure the Timeout
 
-By default, API requests time out after 10 minutes. Local models can be slow, if you hit this timeout you can consider increasing it here: VS Code Extensions panel > Kilo Code gear menu > Settings > API Request Timeout.
+By default, API requests time out after 10 minutes. Local models can be slow, if you hit this timeout you can consider increasing it here: VS Code Extensions panel > Kappa Code gear menu > Settings > API Request Timeout.
 
-### Configure Kilo Code
+### Configure Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -92,7 +92,7 @@ The extension stores this in your `kappa.json` config file. You can also edit th
 
 Ollama runs locally, so no API key is needed. Configure the base URL if Ollama is running on a different host:
 
-Use `ollama/<model_name>` for the selected model. If you see `ollama-cloud/...`, you are using the hosted Kilo Gateway/BYOK provider instead of your local Ollama server.
+Use `ollama/<model_name>` for the selected model. If you see `ollama-cloud/...`, you are using the hosted Kappa Gateway/BYOK provider instead of your local Ollama server.
 
 **Config file** (`~/.config/kappa/kappa.json` or `./kappa.json`):
 
@@ -119,7 +119,7 @@ Then set your default model:
 
 ## Using Custom or Unlisted Models
 
-If your Ollama model doesn't appear in the Kilo model picker, register it as a custom model in your config file:
+If your Ollama model doesn't appear in the Kappa model picker, register it as a custom model in your config file:
 
 ```jsonc
 {

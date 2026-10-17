@@ -1,34 +1,34 @@
 import { createMemo, Match, Switch, type JSX } from "solid-js"
 import { SplitBorder } from "@tui/ui/border"
 import { useTheme } from "@tui/context/theme"
-import { parseKiloErrorCode, kiloErrorTitle, kiloErrorDescription } from "@/kilocode/kappa-errors"
+import { parseKappaErrorCode, kappaErrorTitle, kappaErrorDescription } from "@/kappacode/kappa-errors"
 import type { AssistantMessage } from "@kappacode/sdk/v2"
 
-interface KiloErrorBlockProps {
+interface KappaErrorBlockProps {
   error: NonNullable<AssistantMessage["error"]>
   fallback: JSX.Element
 }
 
-export function KiloErrorBlock(props: KiloErrorBlockProps) {
+export function KappaErrorBlock(props: KappaErrorBlockProps) {
   const { theme } = useTheme()
 
-  const kiloErrorCode = createMemo(() => {
-    return parseKiloErrorCode(props.error)
+  const kappaErrorCode = createMemo(() => {
+    return parseKappaErrorCode(props.error)
   })
 
   const title = createMemo(() => {
-    const code = kiloErrorCode()
-    return code ? kiloErrorTitle(code) : undefined
+    const code = kappaErrorCode()
+    return code ? kappaErrorTitle(code) : undefined
   })
 
   const description = createMemo(() => {
-    const code = kiloErrorCode()
-    return code ? kiloErrorDescription(code) : undefined
+    const code = kappaErrorCode()
+    return code ? kappaErrorDescription(code) : undefined
   })
 
   return (
     <Switch fallback={props.fallback}>
-      <Match when={kiloErrorCode()}>
+      <Match when={kappaErrorCode()}>
         <box
           border={["left"]}
           paddingTop={1}
@@ -41,7 +41,7 @@ export function KiloErrorBlock(props: KiloErrorBlockProps) {
         >
           <text fg={theme.text}>{title()}</text>
           <text fg={theme.textMuted}>{description()}</text>
-          <text fg={theme.primary}>{"Run /connect or `kappa auth login` to connect to Kilo Gateway"}</text>
+          <text fg={theme.primary}>{"Run /connect or `kappa auth login` to connect to Kappa Gateway"}</text>
         </box>
       </Match>
     </Switch>

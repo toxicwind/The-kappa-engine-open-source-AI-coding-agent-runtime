@@ -70,7 +70,7 @@ export namespace Client {
       event,
       properties: {
         ...properties,
-        ...(orgId && { kilocodeOrganizationId: orgId }),
+        ...(orgId && { kappacodeOrganizationId: orgId }),
       },
     })
   }

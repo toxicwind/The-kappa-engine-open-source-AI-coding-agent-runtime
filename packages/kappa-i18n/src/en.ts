@@ -1,10 +1,10 @@
-// Kilo-specific translations and overrides
+// Kappa-specific translations and overrides
 // Keys here will override any matching keys from upstream translations
 export const dict = {
-  // Kilo Gateway provider translations
-  "provider.connect.kiloGateway.byok.prefix": "For more usage stats, ",
-  "provider.connect.kiloGateway.byok.link": "BYOK via Kilo's Gateway",
-  "provider.connect.kiloGateway.byok.suffix": ".",
+  // Kappa Gateway provider translations
+  "provider.connect.kappaGateway.byok.prefix": "For more usage stats, ",
+  "provider.connect.kappaGateway.byok.link": "BYOK via Kappa's Gateway",
+  "provider.connect.kappaGateway.byok.suffix": ".",
 
   // Provider settings translations
   "settings.providers.group.recommended": "Recommended",
@@ -38,14 +38,14 @@ export const dict = {
   "marketplace.install.destination": "Installation destination",
   "marketplace.install.includedSkills": "Included skills",
   "marketplace.install.about.mcp":
-    "An MCP server gives Kilo additional tools for working with external services or local programs.",
+    "An MCP server gives Kappa additional tools for working with external services or local programs.",
   "marketplace.install.about.agent": "An agent adds a reusable role with its own instructions and permissions.",
   "marketplace.install.about.skill":
-    "A skill adds task-specific instructions and resources that Kilo can load when needed.",
+    "A skill adds task-specific instructions and resources that Kappa can load when needed.",
   "marketplace.install.about.plugin":
-    "A plugin adds custom tools and integrations to Kilo. Plugins run with full permissions.",
+    "A plugin adds custom tools and integrations to Kappa. Plugins run with full permissions.",
   "marketplace.install.mcp.warning":
-    "MCP servers can run local commands or connect to external services. Kilo will ask for permission before using their tools unless your permissions allow them automatically.",
+    "MCP servers can run local commands or connect to external services. Kappa will ask for permission before using their tools unless your permissions allow them automatically.",
   "marketplace.install.plugin.warning":
     "Plugins run code with full permissions. They can read and change your files, run commands, and access your credentials and network. Only install plugins you trust.",
   "marketplace.install.project.warning":
@@ -108,7 +108,7 @@ export const dict = {
 
   // Plan follow-up question shown after plan_exit. The English strings here must match
   // the canonical `label`/`header`/`question` sent by the backend — those canonical labels
-  // are still what the backend matches on (see packages/opencode/src/kilocode/plan-followup.ts).
+  // are still what the backend matches on (see packages/opencode/src/kappacode/plan-followup.ts).
   "plan.followup.header": "Implement",
   "plan.followup.question": "Ready to implement?",
   "plan.followup.answer.newSession": "Start new session",
@@ -120,7 +120,7 @@ export const dict = {
 
   // Slow-repo snapshot prompt. The English strings here are the canonical
   // labels sent by the backend and must stay in sync with
-  // packages/opencode/src/kilocode/snapshot/track.ts.
+  // packages/opencode/src/kappacode/snapshot/track.ts.
   "snapshot.slowRepo.header": "Snapshot is slow",
   "snapshot.slowRepo.question":
     "It is taking a long time to initialize the snapshot system, likely due to the size of the repository.\n\nDo you want to disable Snapshots for this repository?",
@@ -129,7 +129,7 @@ export const dict = {
     "Keep waiting for the snapshot to complete. Subsequent turns are fast once the initial snapshot is built.",
   "snapshot.slowRepo.answer.disable": "Disable for this project",
   "snapshot.slowRepo.answer.disable.description":
-    "Turn off Kilo's snapshots for this project. You will lose undo/redo of Kilo file changes, but git still tracks everything.",
+    "Turn off Kappa's snapshots for this project. You will lose undo/redo of Kappa file changes, but git still tracks everything.",
 
   // Edit-tool header: hover-revealed action opening the diff in a full tab.
   "ui.messagePart.openInDiffViewer": "Open in Diff Viewer",

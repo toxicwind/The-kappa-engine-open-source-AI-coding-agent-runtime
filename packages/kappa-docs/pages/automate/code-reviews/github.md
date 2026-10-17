@@ -5,13 +5,13 @@ description: "Set up automated AI code reviews on GitHub pull requests"
 
 # GitHub Code Reviews
 
-Kilo's Code Reviews integrate with GitHub via a **GitHub App** to automatically review pull requests with AI. When a PR is opened, updated, or marked ready for review, the Review Agent analyzes the changes and posts feedback directly on the pull request.
+Kappa's Code Reviews integrate with GitHub via a **GitHub App** to automatically review pull requests with AI. When a PR is opened, updated, or marked ready for review, the Review Agent analyzes the changes and posts feedback directly on the pull request.
 
 ## Prerequisites
 
-- A Kilo Code account at [app.kappa.ai](https://app.kappa.ai)
+- A Kappa Code account at [app.kappa.ai](https://app.kappa.ai)
 - A GitHub account with access to the repositories you want to review
-- Kilo Code credits for AI model usage
+- Kappa Code credits for AI model usage
 
 ## Setup
 
@@ -59,7 +59,7 @@ Once configured, the Review Agent automatically runs when:
 
 When a review triggers:
 
-1. A 👀 reaction appears on the PR — this means Kilo is reviewing
+1. A 👀 reaction appears on the PR — this means Kappa is reviewing
 2. The AI model analyzes the diff and changed files
 3. The agent posts:
    - A **summary comment** with overall findings
@@ -96,12 +96,12 @@ Turn automated reviews on or off for an individual repository to override the in
 ### Reviews are failing
 
 - Check the Code Reviews page for error details on specific reviews
-- Ensure you have sufficient Kilo Code credits
+- Ensure you have sufficient Kappa Code credits
 - Very large PRs may time out — consider splitting the change into smaller PRs
 
 ### The GitHub App is missing permissions
 
-1. Go to your GitHub Settings → Applications → KiloConnect → Configure
+1. Go to your GitHub Settings → Applications → KappaConnect → Configure
 2. Verify the app has the required permissions listed above
 3. If permissions were changed, you may need to re-authorize
 

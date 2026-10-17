@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
-import { KiloSessionPromptQueue } from "../../../src/kappacode/session/prompt-queue"
+import { KappaSessionPromptQueue } from "../../../src/kappacode/session/prompt-queue"
 import { Suggestion } from "../../../src/kappacode/suggestion"
 import { provideTestInstance } from "../../fixture/fixture"
 import { MessageID, SessionID } from "../../../src/session/schema"
@@ -22,7 +22,7 @@ describe("Suggestion.show auto-dismiss on queued followup", () => {
 
         // Slot 1 stays running so activeSince is pinned to its seq.
         const first = Effect.runPromise(
-          KiloSessionPromptQueue.enqueue(
+          KappaSessionPromptQueue.enqueue(
             sessionID,
             MessageID.make("msg_show_1"),
             Effect.gen(function* () {
@@ -37,7 +37,7 @@ describe("Suggestion.show auto-dismiss on queued followup", () => {
 
         // Slot 2 arrives while slot 1 is active — latest > activeSince.
         const second = Effect.runPromise(
-          KiloSessionPromptQueue.enqueue(
+          KappaSessionPromptQueue.enqueue(
             sessionID,
             MessageID.make("msg_show_2"),
             Effect.succeed("second" as const),
@@ -45,7 +45,7 @@ describe("Suggestion.show auto-dismiss on queued followup", () => {
           ),
         )
         await Bun.sleep(10)
-        expect(KiloSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
+        expect(KappaSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
 
         await expect(
           Suggestion.show({

@@ -1,13 +1,13 @@
 // kappacode_change - new file
 //
 // Pure option builder for the TUI model picker, extracted from
-// `component/dialog-model.tsx` so the Kilo Gateway grouping/search rules are
+// `component/dialog-model.tsx` so the Kappa Gateway grouping/search rules are
 // testable without mounting the dialog.
 //
-// Two rules here exist because the TUI used to hide live Kilo Gateway models:
+// Two rules here exist because the TUI used to hide live Kappa Gateway models:
 //   1. Recently used models are no longer stripped from their provider section.
-//      Selecting a Kilo sonnet once used to remove it from "Recommended" /
-//      "Kilo Gateway" entirely, leaving those sections looking empty. This
+//      Selecting a Kappa sonnet once used to remove it from "Recommended" /
+//      "Kappa Gateway" entirely, leaving those sections looking empty. This
 //      matches the VS Code selector, which also keeps recents in place.
 //   2. Search matches the provider name and the provider/model ids, not just
 //      the title and the section header, so typing `kappa` finds

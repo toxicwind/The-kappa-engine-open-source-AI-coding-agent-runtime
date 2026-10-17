@@ -6,7 +6,7 @@ import {
   type QuestionStep,
 } from "@/cli/cmd/run/question.shared"
 
-// Enter advances a multiple-choice question to the next tab. Lives in the Kilo
+// Enter advances a multiple-choice question to the next tab. Lives in the Kappa
 // mirror tree so the shared upstream state machine stays untouched; Space
 // toggles an option (handled in footer.question.tsx).
 export function questionAdvance(state: QuestionBodyState, request: QuestionRequest): QuestionStep {

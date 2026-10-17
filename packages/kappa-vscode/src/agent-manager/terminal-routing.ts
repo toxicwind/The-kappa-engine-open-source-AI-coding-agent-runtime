@@ -14,7 +14,7 @@
  * callbacks so this module is trivially unit-testable with fakes.
  */
 
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import type { AgentManagerInMessage, AgentManagerOutMessage, TerminalFont, TerminalPlacement } from "./types"
 import { TerminalManager } from "./terminal-manager"
 
@@ -25,9 +25,9 @@ interface ServerConfig {
 
 export interface TerminalRoutingDeps {
   /** Shared SDK client. Throws when the CLI backend is not connected. */
-  getClient(): KiloClient
+  getClient(): KappaClient
   /** Shared SDK client, connecting the CLI backend when needed. */
-  getClientAsync(): Promise<KiloClient>
+  getClientAsync(): Promise<KappaClient>
   /** Loopback URL + basic-auth password for the running `kappa serve`. */
   getServerConfig(): ServerConfig | undefined
   /** Workspace root — used as cwd fallback when no worktree is selected (LOCAL). */
@@ -175,7 +175,7 @@ export class TerminalRouter {
     const title = `Terminal ${ordinal}`
     try {
       // Join the shared backend connection instead of racing its synchronous
-      // client accessor when this is the first Kilo action in the window.
+      // client accessor when this is the first Kappa action in the window.
       await this.deps.getClientAsync()
       const created = await manager.create({ terminalId: createId, worktreeId, cwd, title, cols, rows })
       if (generation !== this.generation) {

@@ -1,4 +1,4 @@
-import type { KilocodeSessionImportPartData as Part } from "@kappacode/sdk/v2"
+import type { KappacodeSessionImportPartData as Part } from "@kappacode/sdk/v2"
 import type { LegacyApiMessage, LegacyHistoryItem } from "../legacy-types"
 import { createExtraPartID, createMessageID, createPartID, createSessionID } from "../ids"
 import { toReasoning, toText, toTool } from "./parts-builder"

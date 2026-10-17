@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test"
 import { defaultOrganizationId, fetchDefaultModel } from "../../src/api/profile.js"
 import { DEFAULT_FREE_MODEL, DEFAULT_MODEL, KILO_API_BASE } from "../../src/api/constants.js"
-import type { KilocodeProfile } from "../../src/types.js"
+import type { KappacodeProfile } from "../../src/types.js"
 
 describe("fetchDefaultModel", () => {
   const failures: [string, () => Promise<Response>][] = [
@@ -52,7 +52,7 @@ describe("fetchDefaultModel", () => {
   })
 })
 
-const profile = (input: Partial<KilocodeProfile> = {}): KilocodeProfile => ({
+const profile = (input: Partial<KappacodeProfile> = {}): KappacodeProfile => ({
   email: "user@example.com",
   organizations: [{ id: "org_1", name: "Acme", role: "MEMBER" }],
   ...input,

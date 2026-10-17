@@ -18,8 +18,8 @@ import { ConfigMarkdown } from "../../../src/config/markdown"
 import { ConfigParse } from "../../../src/config/parse"
 import { Env } from "../../../src/env"
 import { Git } from "../../../src/git"
-import { KiloIndexing } from "../../../src/kappacode/indexing"
-import { KilocodeConfig } from "../../../src/kappacode/config/config"
+import { KappaIndexing } from "../../../src/kappacode/indexing"
+import { KappacodeConfig } from "../../../src/kappacode/config/config"
 import { provideTestInstance } from "../../fixture/fixture"
 import { Filesystem } from "../../../src/util/filesystem"
 import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
@@ -727,7 +727,7 @@ describe("kappacode indexing config", () => {
             Config.Service.use((svc) => svc.getGlobal()).pipe(Effect.scoped, Effect.provide(layer)),
           )
           const config = await load()
-          const input = KiloIndexing.input(config.indexing, global.indexing)
+          const input = KappaIndexing.input(config.indexing, global.indexing)
           expect(input.enabled).toBe(true)
         },
       })
@@ -739,10 +739,10 @@ describe("kappacode indexing config", () => {
   })
 
   test("project indexing enabled overrides global enablement", async () => {
-    const input = KiloIndexing.input({ enabled: false }, { enabled: true })
+    const input = KappaIndexing.input({ enabled: false }, { enabled: true })
     expect(input.enabled).toBe(false)
-    expect(KiloIndexing.input(undefined, { enabled: true }).enabled).toBe(true)
-    expect(KiloIndexing.input({ enabled: true }, { enabled: false }).enabled).toBe(true)
+    expect(KappaIndexing.input(undefined, { enabled: true }).enabled).toBe(true)
+    expect(KappaIndexing.input({ enabled: true }, { enabled: false }).enabled).toBe(true)
   })
 
   test("creates missing project config as .kappa/kappa.jsonc", async () => {
@@ -761,7 +761,7 @@ describe("kappacode indexing config", () => {
 
   test("accepts delete sentinels for indexing model overrides", () => {
     const patch = decode({ indexing: { model: null, dimension: null } })
-    const merged = KilocodeConfig.mergeConfig(
+    const merged = KappacodeConfig.mergeConfig(
       {
         indexing: {
           provider: "openai",
@@ -771,7 +771,7 @@ describe("kappacode indexing config", () => {
       },
       patch,
     )
-    const input = KiloIndexing.input(patch.indexing)
+    const input = KappaIndexing.input(patch.indexing)
 
     expect(merged.indexing).toEqual({ provider: "openai" })
     expect(input.modelId).toBeUndefined()
@@ -936,7 +936,7 @@ describe("subagent variant overrides", () => {
         "anthropic/claude-sonnet-4-6": null,
       },
     })
-    const merged = KilocodeConfig.mergeConfig(
+    const merged = KappacodeConfig.mergeConfig(
       {
         subagent_variant_overrides: {
           "anthropic/claude-sonnet-4-6": "high",
@@ -952,7 +952,7 @@ describe("subagent variant overrides", () => {
 
   test("accepts a delete sentinel for the complete override map", () => {
     const patch = decode({ subagent_variant_overrides: null })
-    const merged = KilocodeConfig.mergeConfig(
+    const merged = KappacodeConfig.mergeConfig(
       {
         subagent_variant_overrides: {
           "anthropic/claude-sonnet-4-6": "high",
@@ -1096,7 +1096,7 @@ describe("unset propagation across layered config files", () => {
 
   test("collects null sentinel paths from nested patches", () => {
     expect(
-      KilocodeConfig.unsetPaths({
+      KappacodeConfig.unsetPaths({
         subagent_model: null,
         agent: { explore: { model: null, variant: "high" } },
         username: "marius",
@@ -1281,7 +1281,7 @@ describe("project plugin dependencies", () => {
 describe("agent config", () => {
   test("accepts delete sentinels for agent model and variant overrides", () => {
     const patch = decode({ agent: { explore: { model: null, variant: null } } })
-    const merged = KilocodeConfig.mergeConfig(
+    const merged = KappacodeConfig.mergeConfig(
       {
         agent: {
           explore: {
@@ -1300,7 +1300,7 @@ describe("agent config", () => {
 
   test("removes an agent variant override without removing its model", () => {
     const patch = decode({ agent: { explore: { variant: null } } })
-    const merged = KilocodeConfig.mergeConfig(
+    const merged = KappacodeConfig.mergeConfig(
       {
         agent: {
           explore: {
@@ -1543,7 +1543,7 @@ describe("opencode config migration notice", () => {
 
     // Isolate the global config dir so a real ~/.config/opencode on the host cannot interfere.
     await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
-      const found = KilocodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: true })
+      const found = KappacodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: true })
       expect(found).toEqual([path.join(tmp.path, ".opencode")])
     })
   })
@@ -1555,7 +1555,7 @@ describe("opencode config migration notice", () => {
     await Filesystem.write(path.join(opencodeDir, "opencode.json"), JSON.stringify({ model: "test/legacy" }))
 
     await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
-      const found = KilocodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: true })
+      const found = KappacodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: true })
       expect(found).toEqual([opencodeDir])
     })
   })
@@ -1566,7 +1566,7 @@ describe("opencode config migration notice", () => {
     await Filesystem.write(path.join(tmp.path, ".opencode", "opencode.json"), JSON.stringify({ model: "test/legacy" }))
 
     await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
-      const found = KilocodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: false })
+      const found = KappacodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: false })
       expect(found).toEqual([])
     })
   })
@@ -1577,10 +1577,10 @@ describe("opencode config migration notice", () => {
     await Filesystem.write(path.join(tmp.path, ".opencode", "opencode.json"), JSON.stringify({ model: "test/legacy" }))
 
     await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
-      const notice = KilocodeConfig.opencodeConfigNotification({ directory: tmp.path, scanProject: true })
-      expect(notice?.id).toBe(KilocodeConfig.OPENCODE_NOTIFICATION_ID)
+      const notice = KappacodeConfig.opencodeConfigNotification({ directory: tmp.path, scanProject: true })
+      expect(notice?.id).toBe(KappacodeConfig.OPENCODE_NOTIFICATION_ID)
       expect(notice?.message).toContain(path.join(tmp.path, ".opencode"))
-      expect(notice?.action?.actionURL).toBe(KilocodeConfig.CONFIG_DOCS_URL)
+      expect(notice?.action?.actionURL).toBe(KappacodeConfig.CONFIG_DOCS_URL)
       expect(notice?.showIn).toEqual(["cli", "extension"])
     })
   })
@@ -1590,7 +1590,7 @@ describe("opencode config migration notice", () => {
     await using tmp = await tmpdir()
 
     await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
-      const notice = KilocodeConfig.opencodeConfigNotification({ directory: tmp.path, scanProject: true })
+      const notice = KappacodeConfig.opencodeConfigNotification({ directory: tmp.path, scanProject: true })
       expect(notice).toBeUndefined()
     })
   })
@@ -1615,7 +1615,7 @@ describe("bash permission migration", () => {
       await disposeAllInstances()
 
       try {
-        await KilocodeConfig.migrateBashPermission()
+        await KappacodeConfig.migrateBashPermission()
 
         const file = path.join(tmp.path, "kappa.jsonc")
         const text = await Filesystem.readText(file)
@@ -1647,7 +1647,7 @@ describe("bash permission migration", () => {
       await disposeAllInstances()
 
       try {
-        await KilocodeConfig.migrateBashPermission()
+        await KappacodeConfig.migrateBashPermission()
 
         const file = path.join(tmp.path, "kappa.json")
         const text = await Filesystem.readText(file)
@@ -1684,7 +1684,7 @@ describe("bash permission migration", () => {
     await disposeAllInstances()
 
     try {
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
 
       const file = path.join(tmp.path, "kappa.jsonc")
       const text = await Filesystem.readText(file)
@@ -1712,11 +1712,11 @@ describe("bash permission migration", () => {
 
     try {
       const file = path.join(tmp.path, "kappa.jsonc")
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
       expect(JSON.parse(await Filesystem.readText(file)).permission.bash).toBe("allow")
 
       await writeConfig(tmp.path, { permission: { read: "allow" } }, "kappa.jsonc")
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
 
       expect(JSON.parse(await Filesystem.readText(file)).permission).toEqual({ read: "allow" })
     } finally {
@@ -1735,9 +1735,9 @@ describe("bash permission migration", () => {
     await disposeAllInstances()
 
     try {
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
       await writeConfig(tmp.path, { model: "test/model" }, "kappa.jsonc")
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
 
       expect(JSON.parse(await Filesystem.readText(path.join(tmp.path, "kappa.jsonc")))).toEqual({
         model: "test/model",
@@ -1760,11 +1760,11 @@ describe("bash permission migration", () => {
       const file = path.join(tmp.path, "kappa.jsonc")
       const marker = path.join(tmp.path, ".bash-permission-migrated")
       await Filesystem.write(file, "{ not valid json")
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
       expect(await Bun.file(marker).exists()).toBe(false)
       expect(await Filesystem.readText(file)).toBe("{ not valid json")
       await Filesystem.write(file, JSON.stringify({ permission: { read: "allow" } }))
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
       expect(await Bun.file(marker).exists()).toBe(true)
       expect(JSON.parse(await Filesystem.readText(file)).permission.bash).toBe("allow")
     } finally {
@@ -1787,11 +1787,11 @@ describe("bash permission migration", () => {
       await Filesystem.write(file, JSON.stringify({ permission: { read: "allow" } }))
       await $`rm ${file}`.quiet().nothrow()
       await $`mkdir -p ${file}`.quiet()
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
       expect(await Bun.file(marker).exists()).toBe(false)
       await $`rm -rf ${file}`.quiet()
       await Filesystem.write(file, JSON.stringify({ permission: { read: "allow" } }))
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
       expect(await Bun.file(marker).exists()).toBe(true)
       expect(JSON.parse(await Filesystem.readText(file)).permission.bash).toBe("allow")
     } finally {
@@ -1820,7 +1820,7 @@ describe("bash permission migration", () => {
   },
 }`,
       )
-      await KilocodeConfig.migrateBashPermission()
+      await KappacodeConfig.migrateBashPermission()
       expect(await Bun.file(marker).exists()).toBe(true)
       const text = await Filesystem.readText(file)
       const parsed = ConfigParse.jsonc(text, file) as Record<string, any>

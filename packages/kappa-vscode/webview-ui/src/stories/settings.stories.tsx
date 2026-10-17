@@ -7,7 +7,7 @@ import { onMount, createSignal } from "solid-js"
 import type { Meta, StoryObj } from "storybook-solidjs-vite"
 import { StoryProviders, mockSessionValue, t } from "./StoryProviders"
 import { SessionContext } from "../context/session"
-import { KiloEmbeddingModelsContext } from "../context/kappa-embedding-models"
+import { KappaEmbeddingModelsContext } from "../context/kappa-embedding-models"
 import Settings from "../components/settings/Settings"
 import ProvidersTab from "../components/settings/ProvidersTab"
 import ModelsTab from "../components/settings/ModelsTab"
@@ -175,7 +175,7 @@ export const ModelsAccessibleLabels: Story = {
 export const ModelsSpeechToText: Story = {
   name: "ModelsTab — speech-to-text model",
   render: () => (
-    <StoryProviders kiloAuth config={{ experimental: { speech_to_text_model: "google/chirp-3" } } as any}>
+    <StoryProviders kappaAuth config={{ experimental: { speech_to_text_model: "google/chirp-3" } } as any}>
       <ScrollToSpeechModels />
     </StoryProviders>
   ),
@@ -711,8 +711,8 @@ export const IndexingScopeSwitch: Story = {
   },
 }
 
-export const IndexingKiloModelPreset: Story = {
-  name: "IndexingTab - Kilo stale custom model fallback",
+export const IndexingKappaModelPreset: Story = {
+  name: "IndexingTab - Kappa stale custom model fallback",
   render: () => {
     const cfg: Config = {
       indexing: {
@@ -731,18 +731,18 @@ export const IndexingKiloModelPreset: Story = {
     }
     return (
       <StoryProviders config={cfg}>
-        <KiloEmbeddingModelsContext.Provider value={{ catalog: () => catalog }}>
+        <KappaEmbeddingModelsContext.Provider value={{ catalog: () => catalog }}>
           <div style={{ "max-height": "700px", overflow: "auto" }}>
             <IndexingTab />
           </div>
-        </KiloEmbeddingModelsContext.Provider>
+        </KappaEmbeddingModelsContext.Provider>
       </StoryProviders>
     )
   },
 }
 
-export const IndexingKiloCatalogLoading: Story = {
-  name: "IndexingTab - Kilo catalog loading",
+export const IndexingKappaCatalogLoading: Story = {
+  name: "IndexingTab - Kappa catalog loading",
   render: () => {
     const [saved, setSaved] = createSignal<Record<string, unknown>>({})
     const cfg: Config = {
@@ -752,7 +752,7 @@ export const IndexingKiloCatalogLoading: Story = {
       <>
         <StoryProviders
           config={cfg}
-          kiloAuth
+          kappaAuth
           onConfigChange={(next: Config) => setSaved((next.indexing ?? {}) as Record<string, unknown>)}
         >
           <div style={{ "max-height": "700px", overflow: "auto" }}>

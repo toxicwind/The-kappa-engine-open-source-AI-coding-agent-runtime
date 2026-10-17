@@ -19,8 +19,8 @@ import { disposeTestRuntime, provideTestInstance } from "../fixture/fixture"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { Snapshot } from "../../src/snapshot"
-import { KiloCompactionChunks } from "../../src/kappacode/session/compaction-chunks"
-import { KiloSessionCompaction } from "../../src/kappacode/session/compaction"
+import { KappaCompactionChunks } from "../../src/kappacode/session/compaction-chunks"
+import { KappaSessionCompaction } from "../../src/kappacode/session/compaction"
 import { LLM } from "../../src/session/llm"
 import { MessageV2 } from "../../src/session/message-v2"
 import { SessionCompaction } from "../../src/session/compaction"
@@ -262,7 +262,7 @@ async function failure(error?: MessageV2.Assistant["error"], empty = false) {
       const session = await svc.create({})
       await user(session.id, "oversized " + "x".repeat(80_000))
       await Effect.runPromise(
-        KiloSessionCompaction.create({
+        KappaSessionCompaction.create({
           session: store,
           sessionID: session.id,
           agent: "build",
@@ -341,7 +341,7 @@ afterEach(() => {
   mock.restore()
 })
 
-describe("KiloCompactionChunks", () => {
+describe("KappaCompactionChunks", () => {
   test("splits oversized history into chronological chunks", async () => {
     const model = ProviderTest.model({ providerID, id: modelID, limit: { context: 7_000, output: 1_000 } })
     const sessionID = SessionID.make("ses_chunks_split")
@@ -365,7 +365,7 @@ describe("KiloCompactionChunks", () => {
       ],
     }))
 
-    const chunks = await Effect.runPromise(KiloCompactionChunks.split({ messages, model, size: 2_000 }))
+    const chunks = await Effect.runPromise(KappaCompactionChunks.split({ messages, model, size: 2_000 }))
 
     expect(chunks.length).toBeGreaterThan(1)
     expect(chunks.flatMap((chunk) => chunk.messages.map((msg) => msg.info.id))).toEqual(
@@ -378,8 +378,8 @@ describe("KiloCompactionChunks", () => {
     const cfg = {} as Config.Info
     const outputTokenMax = 512
 
-    expect(KiloCompactionChunks.needed({ cfg, model, tokens: 5_000, outputTokenMax })).toBe(false)
-    expect(KiloCompactionChunks.budget({ cfg, model, outputTokenMax })).toBe(5_692)
+    expect(KappaCompactionChunks.needed({ cfg, model, tokens: 5_000, outputTokenMax })).toBe(false)
+    expect(KappaCompactionChunks.budget({ cfg, model, outputTokenMax })).toBe(5_692)
   })
 
   test("preserves gateway errors from chunk workers", async () => {
@@ -399,7 +399,7 @@ describe("KiloCompactionChunks", () => {
     expect(result.summary.info.error).toEqual(error)
     expect(
       result.summary.parts.some(
-        (part) => part.type === "text" && part.text.includes(KiloCompactionChunks.EMPTY_SUMMARY),
+        (part) => part.type === "text" && part.text.includes(KappaCompactionChunks.EMPTY_SUMMARY),
       ),
     ).toBe(false)
   })
@@ -432,11 +432,11 @@ describe("KiloCompactionChunks", () => {
     expect(result.summary.info.finish).toBe("error")
     expect(result.summary.info.error?.name).toBe("APIError")
     if (result.summary.info.error?.name !== "APIError") return
-    expect(result.summary.info.error.data.message).toBe(KiloCompactionChunks.EMPTY_SUMMARY)
+    expect(result.summary.info.error.data.message).toBe(KappaCompactionChunks.EMPTY_SUMMARY)
     expect(result.summary.info.error.data.isRetryable).toBe(true)
     expect(
       result.summary.parts.some(
-        (part) => part.type === "text" && part.text.includes(KiloCompactionChunks.EMPTY_SUMMARY),
+        (part) => part.type === "text" && part.text.includes(KappaCompactionChunks.EMPTY_SUMMARY),
       ),
     ).toBe(true)
   })
@@ -452,7 +452,7 @@ describe("KiloCompactionChunks", () => {
         const second = await user(session.id, "second " + "c".repeat(10_000))
         await assistant(session.id, second.id, tmp.path, "reply " + "d".repeat(10_000))
         await Effect.runPromise(
-          KiloSessionCompaction.create({
+          KappaSessionCompaction.create({
             session: store,
             sessionID: session.id,
             agent: "build",
@@ -508,7 +508,7 @@ describe("KiloCompactionChunks", () => {
         const second = await user(session.id, "second " + "c".repeat(10_000))
         await assistant(session.id, second.id, tmp.path, "reply " + "d".repeat(10_000))
         await Effect.runPromise(
-          KiloSessionCompaction.create({
+          KappaSessionCompaction.create({
             session: store,
             sessionID: session.id,
             agent: "build",
@@ -552,7 +552,7 @@ describe("KiloCompactionChunks", () => {
         const first = await user(session.id, "first " + "a".repeat(20_000))
         await assistant(session.id, first.id, tmp.path, "reply " + "b".repeat(20_000))
         await Effect.runPromise(
-          KiloSessionCompaction.create({
+          KappaSessionCompaction.create({
             session: store,
             sessionID: session.id,
             agent: "build",
@@ -603,7 +603,7 @@ describe("KiloCompactionChunks", () => {
         const session = await svc.create({})
         const first = await user(session.id, "single huge request " + "a".repeat(80_000))
         await Effect.runPromise(
-          KiloSessionCompaction.create({
+          KappaSessionCompaction.create({
             session: store,
             sessionID: session.id,
             agent: "build",
@@ -649,7 +649,7 @@ describe("KiloCompactionChunks", () => {
         const first = await user(session.id, "first " + "a".repeat(80_000))
         await assistant(session.id, first.id, tmp.path, "reply " + "b".repeat(80_000))
         await Effect.runPromise(
-          KiloSessionCompaction.create({
+          KappaSessionCompaction.create({
             session: store,
             sessionID: session.id,
             agent: "build",
@@ -698,7 +698,7 @@ describe("KiloCompactionChunks", () => {
         await assistant(session.id, old.id, tmp.path, "old reply")
         const large = await user(session.id, "large replay " + "x".repeat(40_000))
         await Effect.runPromise(
-          KiloSessionCompaction.create({
+          KappaSessionCompaction.create({
             session: store,
             sessionID: session.id,
             agent: "build",
@@ -752,7 +752,7 @@ describe("KiloCompactionChunks", () => {
         const second = await user(session.id, "second " + "c".repeat(20_000))
         await assistant(session.id, second.id, tmp.path, "reply " + "d".repeat(20_000))
         await Effect.runPromise(
-          KiloSessionCompaction.create({
+          KappaSessionCompaction.create({
             session: store,
             sessionID: session.id,
             agent: "build",

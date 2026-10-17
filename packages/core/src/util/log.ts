@@ -1,13 +1,13 @@
 export * as Log from "./log"
 
 import path from "path"
-import { existsSync, writeFileSync } from "fs" // kilocode_change
+import { existsSync, writeFileSync } from "fs" // kappacode_change
 import fs from "fs/promises"
 import * as Global from "../global"
 import { Schema } from "effect"
 import { Glob } from "./glob"
-import { createStream } from "rotating-file-stream" // kilocode_change
-import { KILO_RUN_ID } from "./opencode-process" // kilocode_change
+import { createStream } from "rotating-file-stream" // kappacode_change
+import { KILO_RUN_ID } from "./opencode-process" // kappacode_change
 
 export const Level = Schema.Literals(["DEBUG", "INFO", "WARN", "ERROR"]).annotate({
   identifier: "LogLevel",
@@ -65,12 +65,12 @@ const stderr = (msg: any) => {
   return msg.length
 }
 let write = stderr
-let stream: ReturnType<typeof createStream> | undefined // kilocode_change
+let stream: ReturnType<typeof createStream> | undefined // kappacode_change
 
 export async function init(options: Options) {
   if (options.level) level = options.level
   void cleanup(Global.Path.log)
-  // kilocode_change start - initialize one rotating stream and truncate dev.log once per Kilo run
+  // kappacode_change start - initialize one rotating stream and truncate dev.log once per Kappa run
   if (stream) {
     const active = stream
     stream = undefined
@@ -121,7 +121,7 @@ export async function init(options: Options) {
     active.write(msg)
     return msg.length
   }
-  // kilocode_change end
+  // kappacode_change end
 }
 
 async function cleanup(dir: string) {

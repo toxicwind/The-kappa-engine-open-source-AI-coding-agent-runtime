@@ -29,20 +29,20 @@ const patterns = [
   /model_context_window_exceeded/i,
   /too many tokens/i,
   /token limit exceeded/i,
-  // kilocode_change start - providers/gateways report over-long requests as
+  // kappacode_change start - providers/gateways report over-long requests as
   // "<N> tokens long and exceeds this model's context length"
   /exceeds (?:this|the) model'?s (?:(?:maximum|max) )?context length/i,
-  // kilocode_change end
+  // kappacode_change end
 ]
 
-// kilocode_change start - keep transient token throttles retryable
+// kappacode_change start - keep transient token throttles retryable
 const exclusions = [
   /^(throttling error|service unavailable):/i,
   /rate limit/i,
   /too many requests/i,
   /(?:too many tokens|token limit exceeded).*(?:wait|try again|retry after)/i,
 ]
-// kilocode_change end
+// kappacode_change end
 
 export const isContextOverflow = (message: string) =>
   !exclusions.some((pattern) => pattern.test(message)) &&

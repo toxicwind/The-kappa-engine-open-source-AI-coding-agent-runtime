@@ -16,7 +16,7 @@ import { testInstanceStoreLayer, tmpdir } from "../fixture/fixture"
 
 function remote() {
   const item = Reference.resolveAll({
-    references: { docs: "Kilo-Org/kappacode" },
+    references: { docs: "Kappa-Org/kappacode" },
     directory: "/workspace",
     worktree: "/workspace",
   })[0]

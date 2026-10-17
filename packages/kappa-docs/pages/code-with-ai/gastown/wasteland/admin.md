@@ -26,7 +26,7 @@ Running your own wasteland means creating a new DoltHub database and configuring
 1. Navigate to your town's **Settings** → **Wasteland** tab
 2. Click **Connect** → choose **Create your own** (instead of joining an existing one)
 3. Enter your wasteland name and upstream (e.g., `my-org/wl-internal`)
-4. Authorize DoltHub — OAuth through Kilo Integrations is the default. The advanced API token option is also supported, but it must have write access to the upstream repo.
+4. Authorize DoltHub — OAuth through Kappa Integrations is the default. The advanced API token option is also supported, but it must have write access to the upstream repo.
 5. Check **"I own this upstream"** — this sets `is_upstream_admin = true` on your credential, enabling admin mode
 6. Click **Connect**
 
@@ -44,11 +44,11 @@ wl create my-org/wl-internal --name "My Team Wasteland"
 
 This creates the DoltHub repo and initializes the schema. You'd then connect your town to it through the dashboard.
 
-### Kilo Cloud hosted option
+### Kappa Cloud hosted option
 
-<!-- TODO: verify — confirm whether Kilo Cloud offers a hosted wasteland creation flow or if self-serve is CLI/dashboard only -->
+<!-- TODO: verify — confirm whether Kappa Cloud offers a hosted wasteland creation flow or if self-serve is CLI/dashboard only -->
 
-Kilo Cloud provides the managed infrastructure (Cloudflare containers, encryption, billing) but the upstream DoltHub database is always user-owned. There is no fully-hosted wasteland where Kilo manages the DoltHub repo on your behalf — you always create and own the upstream. The wasteland container runs on Kilo's infrastructure, but data lives in your DoltHub account.
+Kappa Cloud provides the managed infrastructure (Cloudflare containers, encryption, billing) but the upstream DoltHub database is always user-owned. There is no fully-hosted wasteland where Kappa manages the DoltHub repo on your behalf — you always create and own the upstream. The wasteland container runs on Kappa's infrastructure, but data lives in your DoltHub account.
 
 ## Posting Wanted Items
 
@@ -202,7 +202,7 @@ The API enforces two permission tiers: **any member** (who can browse, claim, po
 Owners can add members through the Members tab:
 
 1. Click **Add member**
-2. Enter the user's Kilo user ID
+2. Enter the user's Kappa user ID
 3. Select their role (`contributor`, `maintainer`, `owner`)
 4. Set their trust level (1–3)
 
@@ -297,9 +297,9 @@ The wasteland settings page exposes additional controls when your credential has
 
 ### Test admin access
 
-The **Test admin access** button checks whether Kilo can write to a scratch branch on the upstream. If it works, you see a green "Admin access verified" badge. If it fails, DoltHub OAuth may be disconnected, the API token may be invalid, the wrong org may be connected, or write access may be missing.
+The **Test admin access** button checks whether Kappa can write to a scratch branch on the upstream. If it works, you see a green "Admin access verified" badge. If it fails, DoltHub OAuth may be disconnected, the API token may be invalid, the wrong org may be connected, or write access may be missing.
 
-Use this after reconnecting DoltHub OAuth, updating an API token, or toggling the admin checkbox. It confirms Kilo can push before you run admin actions.
+Use this after reconnecting DoltHub OAuth, updating an API token, or toggling the admin checkbox. It confirms Kappa can push before you run admin actions.
 
 ### Pending PRs
 

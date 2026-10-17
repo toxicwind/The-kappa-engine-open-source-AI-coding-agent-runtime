@@ -3,15 +3,15 @@ import { mockEmbeddingsCreate, openAIMockFactory, setOpenAIConstructorHook } fro
 
 mock.module("openai", openAIMockFactory)
 
-import { KiloEmbedder, KILO_INDEXING_FEATURE } from "../../../../src/indexing/embedders/kappa"
+import { KappaEmbedder, KILO_INDEXING_FEATURE } from "../../../../src/indexing/embedders/kappa"
 
-describe("KiloEmbedder", () => {
+describe("KappaEmbedder", () => {
   beforeEach(() => {
     mockEmbeddingsCreate.mockReset()
     setOpenAIConstructorHook(undefined)
   })
 
-  test("uses Kilo Gateway headers and configured embedding model", async () => {
+  test("uses Kappa Gateway headers and configured embedding model", async () => {
     const seen: unknown[] = []
     setOpenAIConstructorHook((cfg) => seen.push(cfg))
     mockEmbeddingsCreate.mockResolvedValue({
@@ -19,7 +19,7 @@ describe("KiloEmbedder", () => {
       usage: { prompt_tokens: 1, total_tokens: 1 },
     })
 
-    const embedder = new KiloEmbedder({
+    const embedder = new KappaEmbedder({
       apiKey: "kappa-token",
       organizationId: "org_123",
       modelId: "mistralai/mistral-embed-2312",
@@ -31,8 +31,8 @@ describe("KiloEmbedder", () => {
       baseURL: "https://api.kappa.ai/api/gateway/",
       apiKey: "kappa-token",
       defaultHeaders: {
-        "X-KILOCODE-FEATURE": KILO_INDEXING_FEATURE,
-        "X-KILOCODE-ORGANIZATIONID": "org_123",
+        "X-KAPPACODE-FEATURE": KILO_INDEXING_FEATURE,
+        "X-KAPPACODE-ORGANIZATIONID": "org_123",
       },
     })
     expect(mockEmbeddingsCreate).toHaveBeenCalledWith({
@@ -46,7 +46,7 @@ describe("KiloEmbedder", () => {
     const seen: unknown[] = []
     setOpenAIConstructorHook((cfg) => seen.push(cfg))
 
-    new KiloEmbedder({
+    new KappaEmbedder({
       apiKey: "kappa-token",
       baseUrl: "https://example.test/api/openrouter/",
       modelId: "mistralai/mistral-embed-2312",

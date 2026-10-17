@@ -1,9 +1,9 @@
 import { Component, For, Show } from "solid-js"
-import type { KiloPassState, ProviderUsageData } from "../../types/messages"
+import type { KappaPassState, ProviderUsageData } from "../../types/messages"
 import type { ProviderUsageSnapshot } from "@kappacode/sdk/v2/client"
 import { Button } from "@kappacode/kappa-ui/button"
 import { Card, CardActions, CardDescription, CardHeader, CardTitle } from "@kappacode/kappa-ui/card"
-import { KiloPassMeter } from "@kappacode/kappa-ui/kappa-pass-meter"
+import { KappaPassMeter } from "@kappacode/kappa-ui/kappa-pass-meter"
 import { Progress } from "@kappacode/kappa-ui/progress"
 import { Spinner } from "@kappacode/kappa-ui/spinner"
 import { Tag } from "@kappacode/kappa-ui/tag"
@@ -15,17 +15,17 @@ export interface ProviderUsageCardsProps {
   data: ProviderUsageData | undefined
   loading: boolean
   error?: string
-  kiloPass?: KiloPassState | null
-  showKiloPass: boolean
+  kappaPass?: KappaPassState | null
+  showKappaPass: boolean
   onRefresh: () => void
   onOpen: (url: string) => void
-  onGetKiloPass: () => void
+  onGetKappaPass: () => void
 }
 
 type Language = ReturnType<typeof useLanguage>
 
 const source = (item: ProviderUsageSnapshot, language: Language) => {
-  if (item.sourceKind === "kilo_managed") return "Kilo Gateway"
+  if (item.sourceKind === "kilo_managed") return "Kappa Gateway"
   return language.t("profile.usage.source.direct")
 }
 
@@ -182,8 +182,8 @@ const UsageCard: Component<{
 
 const money = (value: number) => `$${value.toFixed(2)}`
 
-const KiloPassCard: Component<{
-  pass?: KiloPassState | null
+const KappaPassCard: Component<{
+  pass?: KappaPassState | null
   onGet: () => void
   language: Language
 }> = (props) => {
@@ -203,11 +203,11 @@ const KiloPassCard: Component<{
       <CardHeader>
         <div>
           <CardTitle icon={false} role="heading" aria-level={4}>
-            Kilo
+            Kappa
           </CardTitle>
-          <CardDescription>Kilo Pass</CardDescription>
+          <CardDescription>Kappa Pass</CardDescription>
         </div>
-        <Tag>Kilo Gateway</Tag>
+        <Tag>Kappa Gateway</Tag>
       </CardHeader>
       <Show
         when={props.pass}
@@ -221,7 +221,7 @@ const KiloPassCard: Component<{
       >
         {(pass) => (
           <div class="provider-usage-resources">
-            <KiloPassMeter
+            <KappaPassMeter
               used={pass().currentPeriodUsageUsd}
               paid={pass().currentPeriodBaseCreditsUsd}
               bonus={pass().currentPeriodBonusCreditsUsd}
@@ -272,8 +272,8 @@ export const ProviderUsageCards: Component<ProviderUsageCardsProps> = (props) =>
             {props.error}
           </p>
         </Show>
-        <Show when={props.showKiloPass}>
-          <KiloPassCard pass={props.kiloPass} onGet={props.onGetKiloPass} language={language} />
+        <Show when={props.showKappaPass}>
+          <KappaPassCard pass={props.kappaPass} onGet={props.onGetKappaPass} language={language} />
         </Show>
         <Show
           when={props.data}
@@ -299,7 +299,7 @@ export const ProviderUsageCards: Component<ProviderUsageCardsProps> = (props) =>
               <Show
                 when={data().items.length > 0}
                 fallback={
-                  <Show when={!props.showKiloPass}>
+                  <Show when={!props.showKappaPass}>
                     <Card>
                       <CardDescription>{language.t("profile.usage.empty")}</CardDescription>
                     </Card>

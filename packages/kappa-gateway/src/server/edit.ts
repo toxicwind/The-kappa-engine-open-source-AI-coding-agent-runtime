@@ -8,7 +8,7 @@ import {
 } from "../edit.js"
 import { buildMercuryEditPrompt, type MercuryEditContext } from "../edit-prompt.js"
 import type { DirectAutocompleteProviderID } from "../autocomplete.js"
-import { buildKiloHeaders } from "../headers.js"
+import { buildKappaHeaders } from "../headers.js"
 import type { AuthStore } from "./handlers.js"
 
 type Auth = Pick<AuthStore, "get">
@@ -48,7 +48,7 @@ export function createEditHandler(Auth: Auth) {
         : await getProviderKey(Auth, target.provider as DirectAutocompleteProviderID)
 
     if (target.provider === "kappa" && !proxy?.auth) {
-      return c.json({ error: "Not authenticated with Kilo Gateway" }, 401 as any)
+      return c.json({ error: "Not authenticated with Kappa Gateway" }, 401 as any)
     }
 
     if (!token) {
@@ -68,7 +68,7 @@ export function createEditHandler(Auth: Auth) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
           ...(target.provider === "kappa"
-            ? buildKiloHeaders(undefined, { kilocodeOrganizationId: proxy?.organizationId })
+            ? buildKappaHeaders(undefined, { kappacodeOrganizationId: proxy?.organizationId })
             : {}),
           ...(target.provider === "kappa" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
         },

@@ -16,11 +16,11 @@ Paths below are relative to this package. Start with the relevant implementation
 
 ## Product Context
 
-Kilo Code is an open source AI coding agent platform. It ships as a CLI and editor clients that all build on the same backend. This package (`packages/kappa-vscode/`) is the **VS Code extension**.
+Kappa Code is an open source AI coding agent platform. It ships as a CLI and editor clients that all build on the same backend. This package (`packages/kappa-vscode/`) is the **VS Code extension**.
 
 ### Products and How They Relate
 
-All products are thin clients over the **CLI** (`packages/opencode/`, published as `@kappacode/cli`). The CLI is a fork of upstream [OpenCode](https://github.com/anomalyco/opencode) with Kilo-specific additions (gateway auth, telemetry, migration, code review, branding). It contains the full AI agent runtime, tool execution, session management, provider integrations (500+ models), and an HTTP API server.
+All products are thin clients over the **CLI** (`packages/opencode/`, published as `@kappacode/cli`). The CLI is a fork of upstream [OpenCode](https://github.com/anomalyco/opencode) with Kappa-specific additions (gateway auth, telemetry, migration, code review, branding). It contains the full AI agent runtime, tool execution, session management, provider integrations (500+ models), and an HTTP API server.
 
 The VS Code extension spawns or connects to a `kappa serve` process and communicates via HTTP REST + SSE using the auto-generated `@kappacode/sdk`. CLI clients can also use in-process transports, as shown below.
 
@@ -40,22 +40,22 @@ The VS Code extension spawns or connects to a `kappa serve` process and communic
 
 | Product | Package | What it is | How it uses the CLI |
 |---|---|---|---|
-| Kilo CLI (TUI) | `packages/opencode/` | Interactive terminal UI (SolidJS + OpenTUI) | In-process — TUI and server run together |
-| Kilo CLI (`kappa run`) | `packages/opencode/` | Non-interactive headless mode for scripting | In-process — no network socket |
-| **Kilo VS Code Extension** | **`packages/kappa-vscode/`** | VS Code extension with sidebar chat + Agent Manager | Bundles CLI binary, spawns `kappa serve --port 0` as child process |
+| Kappa CLI (TUI) | `packages/opencode/` | Interactive terminal UI (SolidJS + OpenTUI) | In-process — TUI and server run together |
+| Kappa CLI (`kappa run`) | `packages/opencode/` | Non-interactive headless mode for scripting | In-process — no network socket |
+| **Kappa VS Code Extension** | **`packages/kappa-vscode/`** | VS Code extension with sidebar chat + Agent Manager | Bundles CLI binary, spawns `kappa serve --port 0` as child process |
 
-### Kilo-Domain Packages
+### Kappa-Domain Packages
 
 | Package | Name | Role |
 |---|---|---|
 | `packages/kappa-vscode/` | `kappa-code` | **This package.** VS Code extension. |
-| `packages/kappa-gateway/` | `@kappacode/kappa-gateway` | Auth (device flow), AI provider routing (OpenRouter), Kilo API integration (profile, balance, teams) |
+| `packages/kappa-gateway/` | `@kappacode/kappa-gateway` | Auth (device flow), AI provider routing (OpenRouter), Kappa API integration (profile, balance, teams) |
 | `packages/kappa-ui/` | `@kappacode/kappa-ui` | SolidJS component library (40+ components, built on `@kobalte/core`). Shared by this extension's webview and docs screenshot stories |
 | `packages/kappa-telemetry/` | `@kappacode/kappa-telemetry` | PostHog analytics + OpenTelemetry tracing for the CLI |
 | `packages/kappa-i18n/` | `@kappacode/kappa-i18n` | Translation strings (16 languages) |
 | `packages/kappa-docs/` | `@kappacode/kappa-docs` | Documentation site (Next.js + Markdoc) |
 
-### Upstream OpenCode Packages (not Kilo-specific)
+### Upstream OpenCode Packages (not Kappa-specific)
 
 | Package | Name | Role |
 |---|---|---|
@@ -69,7 +69,7 @@ The VS Code extension spawns or connects to a `kappa serve` process and communic
 
 ```bash
 bun run extension                  # Build + launch VS Code with the extension in dev mode
-bun run extension:isolated         # Build + launch with persistent isolated IDE + Kilo state
+bun run extension:isolated         # Build + launch with persistent isolated IDE + Kappa state
 bun run extension:isolated:clean   # Clear isolated state, then build + launch
 bun run compile                    # Type-check + lint + build
 bun run watch                      # Watch mode (esbuild + tsc)
@@ -78,7 +78,7 @@ bun run lint                       # ESLint on src/
 bun run format                     # Run formatter (do this before committing to avoid styling-only changes in commits)
 ```
 
-The `extension` commands also work from the repo root. When a user asks to run an isolated VS Code/Kilo environment, prefer the CLI scripts: `bun run extension:isolated` reuses `.kappa-dev/`, while `bun run extension:isolated:clean` clears `.kappa-dev/` before launching. Pass an optional workspace path after `--`, for example `bun run extension:isolated -- ../sample-project`. Pass `--insiders` to prefer VS Code Insiders, `--workspace PATH` to open a different folder, `--clean` to wipe cached state, or `--wait` to block until VS Code closes. VS Code is auto-detected on macOS, Linux, and Windows; override with `--app-path` or `VSCODE_EXEC_PATH`.
+The `extension` commands also work from the repo root. When a user asks to run an isolated VS Code/Kappa environment, prefer the CLI scripts: `bun run extension:isolated` reuses `.kappa-dev/`, while `bun run extension:isolated:clean` clears `.kappa-dev/` before launching. Pass an optional workspace path after `--`, for example `bun run extension:isolated -- ../sample-project`. Pass `--insiders` to prefer VS Code Insiders, `--workspace PATH` to open a different folder, `--clean` to wipe cached state, or `--wait` to block until VS Code closes. VS Code is auto-detected on macOS, Linux, and Windows; override with `--app-path` or `VSCODE_EXEC_PATH`.
 
 From this package: `bun run typecheck` checks host and webview types; `bun run test:unit` runs Bun unit tests. For a focused Agent Manager example, use `bun test tests/unit/agent-manager-arch.test.ts`.
 
@@ -104,25 +104,25 @@ The script checks for a prebuilt binary in `packages/opencode/dist/`, builds the
 
 ### Extension ↔ CLI Backend
 
-The extension is a client of the CLI. Activation creates one shared `KiloConnectionService`; on its first connection, which autocomplete may prewarm, `ServerManager` spawns `bin/kappa serve --port 0`, captures the dynamically assigned port from stdout, and communicates over HTTP + SSE. The current child process is reused unless it exits. A random password is generated and passed via `KILO_SERVER_PASSWORD` env var for basic auth.
+The extension is a client of the CLI. Activation creates one shared `KappaConnectionService`; on its first connection, which autocomplete may prewarm, `ServerManager` spawns `bin/kappa serve --port 0`, captures the dynamically assigned port from stdout, and communicates over HTTP + SSE. The current child process is reused unless it exits. A random password is generated and passed via `KILO_SERVER_PASSWORD` env var for basic auth.
 
 ```
 Extension (Node.js)                          CLI Backend (child process)
 ┌──────────────────────────┐                ┌──────────────────────┐
-│ KiloConnectionService    │── HTTP/SSE ──> │ kappa serve --port 0  │
+│ KappaConnectionService    │── HTTP/SSE ──> │ kappa serve --port 0  │
 │   ├── ServerManager      │                │   HTTP REST API      │
 │   ├── HttpClient         │                │   SSE event stream   │
 │   └── SSEClient          │                │   Session management │
 │                          │                │   AI agent runtime   │
-│ KiloProvider (sidebar)   │                └──────────────────────┘
-│ KiloProvider (agent mgr) │
-│ KiloProvider (open tabs) │
+│ KappaProvider (sidebar)   │                └──────────────────────┘
+│ KappaProvider (agent mgr) │
+│ KappaProvider (open tabs) │
 └──────────────────────────┘
 ```
 
-- **`KiloConnectionService`** (`src/services/cli-backend/connection-service.ts`) is created once during extension activation and shared across the sidebar, Kilo editor tabs, and Agent Manager. It owns the current server process, HTTP client, and SSE connection.
+- **`KappaConnectionService`** (`src/services/cli-backend/connection-service.ts`) is created once during extension activation and shared across the sidebar, Kappa editor tabs, and Agent Manager. It owns the current server process, HTTP client, and SSE connection.
 - **`ServerManager`** (`src/services/cli-backend/server-manager.ts`) lazily spawns the CLI binary, reuses its current process, and can start a replacement if that process exits.
-- The sidebar, every **Open in Tab** Kilo panel, and the Agent Manager chat provider reuse this connection. Multiple **`KiloProvider`** instances subscribe to it, with SSE events filtered per-webview via a `trackedSessionIds` Set. Agent Manager terminals may use additional PTY/WebSocket channels to the same backend, not separate `kappa serve` processes.
+- The sidebar, every **Open in Tab** Kappa panel, and the Agent Manager chat provider reuse this connection. Multiple **`KappaProvider`** instances subscribe to it, with SSE events filtered per-webview via a `trackedSessionIds` Set. Agent Manager terminals may use additional PTY/WebSocket channels to the same backend, not separate `kappa serve` processes.
 - Backend state follows where it is allocated, not the worktree shown in a panel. Snapshot repository state uses directory-keyed `InstanceState`, while `trackState` is created once in the active Snapshot service closure. For these shared VS Code session paths, its slow-track `asked` guard spans worktree requests; choosing **Continue with snapshots** resets `asked` only when continued tracking returns a snapshot hash.
 
 ### Builds
@@ -137,7 +137,7 @@ Two separate esbuild builds in [`esbuild.js`](esbuild.js):
 - Webview uses **Solid.js** (not React) — JSX compiles via `esbuild-plugin-solid`
 - Extension code in `src/`, webview code in `webview-ui/src/` with separate tsconfig
 - Tests compile to `out/` via `compile-tests`, not `dist/`
-- CSP requires nonce for scripts and `font-src` for bundled fonts — see [`KiloProvider.ts`](src/KiloProvider.ts)
+- CSP requires nonce for scripts and `font-src` for bundled fonts — see [`KappaProvider.ts`](src/KappaProvider.ts)
 - HTML root has `data-theme="kappa-vscode"` to activate kappa-ui's VS Code theme bridge
 - Extension and webview have no shared state — communicate via `vscode.Webview.postMessage()`
 - For editor panels, use [`AgentManagerProvider`](src/agent-manager/AgentManagerProvider.ts) pattern with `retainContextWhenHidden: true`
@@ -150,14 +150,14 @@ When adding a new feature that requires data from the CLI backend to be displaye
 
 1. **Types** (`src/services/cli-backend/types.ts`): Add response types for the backend data
 2. **SDK Client** (`src/services/cli-backend/connection-service.ts`): Use the existing SDK client to retrieve the data
-3. **Host Handler** (`src/kappa-provider/` or the existing handler in `src/KiloProvider.ts`): Handle the corresponding webview request using the existing cached message pattern
+3. **Host Handler** (`src/kappa-provider/` or the existing handler in `src/KappaProvider.ts`): Handle the corresponding webview request using the existing cached message pattern
 4. **Message Types** (`webview-ui/src/types/messages/`): Add `*LoadedMessage` (extension→webview) and `Request*Message` (webview→extension) types to the `ExtensionMessage` / `WebviewMessage` unions
 5. **Context** (`webview-ui/src/context/`): Subscribe to the loaded message **outside** `onMount` (to catch early pushes before mount), add retry logic for the request message, expose state via context
 6. **Component** (`webview-ui/src/components/`): Consume context, render UI
 
 Key patterns:
 
-- **Cached messages** (e.g. `cachedProvidersMessage`, `cachedAgentsMessage` in KiloProvider): Ensures webview refreshes get data immediately without waiting for a new HTTP round-trip
+- **Cached messages** (e.g. `cachedProvidersMessage`, `cachedAgentsMessage` in KappaProvider): Ensures webview refreshes get data immediately without waiting for a new HTTP round-trip
 - **Retry timers** (e.g. `agentRetryTimer` in session context): Handles race conditions where the extension's HTTP client isn't ready when the webview first requests data
 
 ## Agent Manager
@@ -178,7 +178,7 @@ The Agent Manager is a feature within this extension (not a separate product). I
 
 ### Architecture
 
-Agent Manager local worktree sessions use the current shared `kappa serve` process owned by `KiloConnectionService`; no session starts its own backend. Their CLI requests pass the worktree path as `directory`, which resolves directory-scoped backend state. Setup scripts, terminal PTYs, git subprocesses, and a separately opened VS Code window are separate process or extension-host boundaries, not per-worktree `kappa serve` instances.
+Agent Manager local worktree sessions use the current shared `kappa serve` process owned by `KappaConnectionService`; no session starts its own backend. Their CLI requests pass the worktree path as `directory`, which resolves directory-scoped backend state. Setup scripts, terminal PTYs, git subprocesses, and a separately opened VS Code window are separate process or extension-host boundaries, not per-worktree `kappa serve` instances.
 
 Extension-side code lives in `src/agent-manager/`, webview code in `webview-ui/agent-manager/`. The webview reuses the sidebar's provider chain and `ChatView` component, adding a `WorktreeModeProvider` and a split layout.
 
@@ -201,7 +201,7 @@ New webview features must use **`@kappacode/kappa-ui`** components instead of ra
 - **Check existing webview usages first**: `webview-ui/src/` and `packages/kappa-ui/src/stories/` show how kappa-ui components are composed. Do not rely only on the component API in isolation.
 - **`data-component` and `data-slot` attributes carry CSS styling** — kappa-ui uses `[data-component]` and `[data-slot]` attribute selectors, not class names. Reuse existing component slots where available so shared styles apply consistently.
 - **Prefer kappa-ui styles**: Reuse existing kappa-ui CSS variables, tokens, and component styles. Add missing reusable styles there; keep extension-specific rules in their owning feature stylesheet rather than inlining or duplicating styles.
-- **Icons**: Kilo-only icons are in [kappa-ui's registry](../kappa-ui/src/components/icon.tsx), which falls back to [the upstream registry](../ui/src/components/icon.tsx). To list upstream icon names: `node -e "const c=require('fs').readFileSync('../../packages/ui/src/components/icon.tsx','utf8');[...c.matchAll(/^\\s{2}[\"']?([\\w-]+)[\"']?:\\s*\x60/gm)].map(m=>m[1]).sort().forEach(n=>console.log(n))"`. Icon names use both hyphenated (`arrow-left`) and bare-word (`brain`, `console`, `providers`) keys.
+- **Icons**: Kappa-only icons are in [kappa-ui's registry](../kappa-ui/src/components/icon.tsx), which falls back to [the upstream registry](../ui/src/components/icon.tsx). To list upstream icon names: `node -e "const c=require('fs').readFileSync('../../packages/ui/src/components/icon.tsx','utf8');[...c.matchAll(/^\\s{2}[\"']?([\\w-]+)[\"']?:\\s*\x60/gm)].map(m=>m[1]).sort().forEach(n=>console.log(n))"`. Icon names use both hyphenated (`arrow-left`) and bare-word (`brain`, `console`, `providers`) keys.
 
 ### Diff Rendering Performance
 
@@ -220,16 +220,16 @@ Generated screenshot baselines live under `packages/kappa-docs/public/img/screen
 - Extension logs: "Extension Host" output channel (not Debug Console)
 - Webview logs: Command Palette → "Developer: Open Webview Developer Tools"
 - In Chrome/VS Code performance traces, associate CPU `ProfileChunk` events to their `Profile.id` target before attributing work to a thread. `v8:ProfEvntProc` is a profile delivery thread, not evidence that application work ran off the webview main thread.
-- All debug output must be prepended with `[Kilo New]` for easy filtering
+- All debug output must be prepended with `[Kappa New]` for easy filtering
 
 ## Naming Conventions
 
 - All VSCode commands must use `kappa-code.new.` prefix (not `kappa-code.`)
 - All view IDs must use `kappa-code.new.` prefix, **except** the sidebar view which uses `kappa-code.SidebarProvider` to preserve user sidebar position when upgrading from the legacy extension
 
-## Kilocode Change Markers
+## Kappacode Change Markers
 
-This package is entirely Kilo-specific — `kilocode_change` markers are NOT needed in any files under `packages/kappa-vscode/`. The markers are only necessary when modifying shared upstream opencode files.
+This package is entirely Kappa-specific — `kappacode_change` markers are NOT needed in any files under `packages/kappa-vscode/`. The markers are only necessary when modifying shared upstream opencode files.
 
 ## Process Spawning (Windows)
 

@@ -59,7 +59,7 @@ it.instance(
 )
 
 it.instance(
-  "getSmallModel falls back to Kilo auto when the kappa provider is configured",
+  "getSmallModel falls back to Kappa auto when the kappa provider is configured",
   Effect.gen(function* () {
     const model = yield* Provider.use.getSmallModel(ProviderV2.ID.make("test-provider"))
     expect(model).toMatchObject({ providerID: "kappa", id: "kappa-auto/small" })

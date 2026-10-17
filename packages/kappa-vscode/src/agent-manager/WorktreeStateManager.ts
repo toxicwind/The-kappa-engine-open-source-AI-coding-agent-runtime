@@ -735,7 +735,7 @@ export class WorktreeStateManager {
   // ---------------------------------------------------------------------------
 
   async load(): Promise<StateLoadResult> {
-    // Migrate Agent Manager data from .kilocode → .kappa before first read
+    // Migrate Agent Manager data from .kappacode → .kappa before first read
     let migration: MigrationResult = { refsFixed: 0 }
     if (!this.migrated) {
       this.migrated = true
@@ -787,9 +787,9 @@ export class WorktreeStateManager {
     this.reviewDiffStyle = "unified"
 
     for (const [id, wt] of Object.entries(data.worktrees ?? {})) {
-      // Rewrite stale .kilocode paths while preserving the separator style already stored.
+      // Rewrite stale .kappacode paths while preserving the separator style already stored.
       const fixed =
-        wt.path?.replace(/([/\\])\.kilocode([/\\])/g, (_match, leadingSep, trailingSep) => {
+        wt.path?.replace(/([/\\])\.kappacode([/\\])/g, (_match, leadingSep, trailingSep) => {
           return `${leadingSep}.kappa${trailingSep}`
         }) ?? wt.path
       this.worktrees.set(id, { id, ...wt, path: fixed })

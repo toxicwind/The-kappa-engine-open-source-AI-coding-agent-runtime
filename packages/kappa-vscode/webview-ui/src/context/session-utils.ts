@@ -496,7 +496,7 @@ export function formatTG(value: number | undefined, locale: string) {
  *
  * The CLI backend already propagates each subagent's total up into its
  * parent assistant message when the subagent finishes (see
- * `packages/opencode/src/kilocode/session/cost-propagation.ts`), so a
+ * `packages/opencode/src/kappacode/session/cost-propagation.ts`), so a
  * session's `message.info.cost` sum is actually the whole sub-tree rooted
  * at that session, not its own LLM usage. Summing every session in the
  * family would double-count the propagated amounts.

@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=kilocode.Kilo-Code"><img src="https://raster.shields.io/badge/VS_Code_Marketplace-007ACC?style=flat&logo=visualstudiocode&logoColor=white" alt="VS Code Marketplace" height="20"></a>
-  <a href="https://x.com/kilocode"><img src="https://raster.shields.io/badge/kilocode-000000?style=flat&logo=x&logoColor=white" alt="X (Twitter)" height="20"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=kappacode.Kappa-Code"><img src="https://raster.shields.io/badge/VS_Code_Marketplace-007ACC?style=flat&logo=visualstudiocode&logoColor=white" alt="VS Code Marketplace" height="20"></a>
+  <a href="https://x.com/kappacode"><img src="https://raster.shields.io/badge/kappacode-000000?style=flat&logo=x&logoColor=white" alt="X (Twitter)" height="20"></a>
   <a href="https://blog.kappa.ai"><img src="https://raster.shields.io/badge/Blog-555?style=flat&logo=substack&logoColor=white" alt="Substack Blog" height="20"></a>
   <a href="https://kappa.ai/discord"><img src="https://raster.shields.io/badge/Join%20Discord-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord" height="20"></a>
-  <a href="https://www.reddit.com/r/kilocode/"><img src="https://raster.shields.io/badge/Join%20r%2Fkilocode-D84315?style=flat&logo=reddit&logoColor=white" alt="Reddit" height="20"></a>
+  <a href="https://www.reddit.com/r/kappacode/"><img src="https://raster.shields.io/badge/Join%20r%2Fkappacode-D84315?style=flat&logo=reddit&logoColor=white" alt="Reddit" height="20"></a>
 </p>
 
 <p align="center">
@@ -11,12 +11,12 @@
 </p>
 
 <p align="center">
-  <strong>Kilo is the all-in-one agentic engineering platform.</strong><br>
+  <strong>Kappa is the all-in-one agentic engineering platform.</strong><br>
   Build, ship, and iterate faster with the most popular open source coding agent.
 </p>
 
 <p align="center">
-  <img width="100%" alt="Kilo Code running inside VS Code" src="https://kappa.ai/_next/image?url=%2Fscreenshots%2Fvs-code%2Fvs-code-home-page-screenshot.png&w=3840&q=75">
+  <img width="100%" alt="Kappa Code running inside VS Code" src="https://kappa.ai/_next/image?url=%2Fscreenshots%2Fvs-code%2Fvs-code-home-page-screenshot.png&w=3840&q=75">
 </p>
 
 <p align="center">
@@ -28,29 +28,29 @@
   <a href="https://kappa.ai/leaderboard">Models</a> ·
   <a href="https://kappa.ai/gateway">Gateway</a> ·
   <a href="https://kappa.ai/pricing">Pricing</a> ·
-  <a href="https://kappa.ai/pricing/kappa-pass">Kilo Pass</a>
+  <a href="https://kappa.ai/pricing/kappa-pass">Kappa Pass</a>
 </p>
 
 <p align="center">
   500+ models. One open source agent in <a href="https://kappa.ai/install">VS Code</a>, <a href="https://kappa.ai/features/jetbrains-native">JetBrains</a>, <a href="https://kappa.ai/cli">CLI</a>, <a href="https://kappa.ai/slack">Slack</a>, and <a href="https://kappa.ai/cloud">Cloud</a>.
 </p>
 
-> 🚀 **Coming from Roo Code?** Switch to Kilo and check out our [migration guide](https://kappa.ai/articles/roo-to-kappa-migration-guide)!
+> 🚀 **Coming from Roo Code?** Switch to Kappa and check out our [migration guide](https://kappa.ai/articles/roo-to-kappa-migration-guide)!
 
 ## Key Features
 
-- **Code Generation:** Kilo can generate code using natural language.
+- **Code Generation:** Kappa can generate code using natural language.
 - **Inline Autocomplete:** Get intelligent code completions as you type, powered by AI.
-- **Task Automation:** Kilo can automate repetitive coding tasks to save time..
-- **Automated Refactoring:** Kilo can refactor and improve existing code efficiently.
-- **MCP Server Marketplace**: Kilo can easily find, and use MCP servers to extend the agent capabilities.
+- **Task Automation:** Kappa can automate repetitive coding tasks to save time..
+- **Automated Refactoring:** Kappa can refactor and improve existing code efficiently.
+- **MCP Server Marketplace**: Kappa can easily find, and use MCP servers to extend the agent capabilities.
 - **Multi Mode**: Plan with Architect, Code with Coder, and Debug with Debugger, and make your own custom modes.
 
 ## Get Started
 
-1. Install the Kilo Code extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=kilocode.Kilo-Code).
+1. Install the Kappa Code extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=kappacode.Kappa-Code).
 2. Create your account to access 500+ cutting-edge AI models including GPT-5.5, Claude Opus 4.7, Claude Sonnet 4.6, and Gemini 3.1 Pro Preview, with transparent pricing that matches provider rates exactly.
-3. Start coding with AI that adapts to your workflow. Watch our quick-start guide to see Kilo in action:
+3. Start coding with AI that adapts to your workflow. Watch our quick-start guide to see Kappa in action:
 
 <a href="https://youtu.be/pqGfYXgrhig"><img src="https://img.youtube.com/vi/pqGfYXgrhig/maxresdefault.jpg" alt="Watch the video" width="640" height="360"></a>
 
@@ -92,7 +92,7 @@ You’re free to use, modify, and distribute this code, including for commercial
 
 Contributions are welcome, and they are greatly appreciated! Get started by reading our [Contributing Guide](CONTRIBUTING.md). Or join our [Discord](https://kappa.ai/discord) to chat with the team and community.
 
-Thanks to all the contributors who help make Kilo better!
+Thanks to all the contributors who help make Kappa better!
 
 <table>
   <tr>
@@ -144,7 +144,7 @@ Thanks to all the contributors who help make Kilo better!
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/Kilo-Org/kilocode/graphs/contributors">
+      <a href="https://github.com/Kappa-Org/kappacode/graphs/contributors">
         <b>more ...</b>
       </a>
     </td>

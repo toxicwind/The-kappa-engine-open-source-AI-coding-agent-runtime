@@ -9,10 +9,10 @@ import { EOL } from "os"
 import path from "path"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect, Schema } from "effect"
-import * as Log from "@opencode-ai/core/util/log" // kilocode_change
+import * as Log from "@opencode-ai/core/util/log" // kappacode_change
 import type { InstanceContext } from "@/project/instance-context"
 
-const log = Log.create({ service: "import" }) // kilocode_change
+const log = Log.create({ service: "import" }) // kappacode_change
 
 const decodeMessageInfo = Schema.decodeUnknownSync(SessionV1.Info)
 const decodePart = Schema.decodeUnknownSync(SessionV1.Part)
@@ -25,13 +25,13 @@ export type ShareData =
   | { type: "session_diff"; data: unknown }
   | { type: "model"; data: unknown }
 
-// kilocode_change start
-/** Extract share token from a Kilo share URL like https://app.kappa.ai/s/<jwt> */
+// kappacode_change start
+/** Extract share token from a Kappa share URL like https://app.kappa.ai/s/<jwt> */
 export function parseShareUrl(url: string): string | null {
   const match = url.match(/^https?:\/\/app\.kappa\.ai\/s\/([A-Za-z0-9_.-]+)$/)
   return match ? match[1] : null
 }
-// kilocode_change end
+// kappacode_change end
 
 export function shouldAttachShareAuthHeaders(shareUrl: string, accountBaseUrl: string): boolean {
   try {
@@ -92,15 +92,15 @@ export function transformShareData(shareData: ShareData[]): {
   }
 }
 
-// kilocode_change start
+// kappacode_change start
 export function ingestBootstrapWarning(sessionId: string, error: unknown) {
   const details = error instanceof Error ? error.message : String(error)
   return `Warning: imported session ${sessionId} locally, but ingest bootstrap failed: ${details}`
 }
 
 async function ingestBootstrap(sessionId: string) {
-  const { KiloSessions } = await import("../../kappa-sessions/kappa-sessions")
-  return KiloSessions.bootstrap(sessionId)
+  const { KappaSessions } = await import("../../kappa-sessions/kappa-sessions")
+  return KappaSessions.bootstrap(sessionId)
 }
 
 export async function bootstrapImportedSessionIngest(
@@ -128,7 +128,7 @@ export async function bootstrapImportedSessionIngest(
       warn(ingestBootstrapWarning(sessionId, error))
     })
 }
-// kilocode_change end
+// kappacode_change end
 
 type ExportData = { info: SDKSession; messages: Array<{ info: Message; parts: Part[] }> }
 
@@ -157,7 +157,7 @@ const runImport = Effect.fn("Cli.import.body")(function* (file: string, ctx: Ins
   const isUrl = file.startsWith("http://") || file.startsWith("https://")
 
   if (isUrl) {
-    // kilocode_change start - Migrate to upstream ShareNext architecture #10281
+    // kappacode_change start - Migrate to upstream ShareNext architecture #10281
     const slug = parseShareUrl(file)
     if (!slug) {
       process.stdout.write(`Invalid URL format. Expected: https://app.kappa.ai/s/<id>`)
@@ -192,7 +192,7 @@ const runImport = Effect.fn("Cli.import.body")(function* (file: string, ctx: Ins
     }
 
     exportData = data
-    // kilocode_change end
+    // kappacode_change end
   } else {
     exportData = (yield* fs
       .readJson(file)
@@ -254,9 +254,9 @@ const runImport = Effect.fn("Cli.import.body")(function* (file: string, ctx: Ins
     }
   }
 
-  // kilocode_change start
+  // kappacode_change start
   yield* Effect.promise(() => bootstrapImportedSessionIngest(exportData!.info.id))
-  // kilocode_change end
+  // kappacode_change end
 
   process.stdout.write(`Imported session: ${exportData.info.id}`)
   process.stdout.write(EOL)

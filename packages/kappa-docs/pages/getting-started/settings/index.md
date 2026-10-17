@@ -1,15 +1,15 @@
 ---
 title: "Settings"
-description: "Configure Kilo Code settings and preferences"
+description: "Configure Kappa Code settings and preferences"
 ---
 
 # Settings
 
-The VS Code extension can be configured through the Settings window, opened by pressing the gear icon in Kilo Code. Changes apply across extension surfaces, including the sidebar and Agent Manager. The CLI can also use the same JSONC config files when you use it directly.
+The VS Code extension can be configured through the Settings window, opened by pressing the gear icon in Kappa Code. Changes apply across extension surfaces, including the sidebar and Agent Manager. The CLI can also use the same JSONC config files when you use it directly.
 
 ## Configuring with the Agent
 
-The fastest way to change your Kilo configuration is to ask the agent to do it for you. The agent has a built-in skill that understands the full `kappa.jsonc` schema and can read, create, and update your config files directly.
+The fastest way to change your Kappa configuration is to ask the agent to do it for you. The agent has a built-in skill that understands the full `kappa.jsonc` schema and can read, create, and update your config files directly.
 
 **Examples of things you can ask:**
 
@@ -27,18 +27,18 @@ This is especially useful for complex configuration like custom model definition
 
 ## Managing Settings
 
-Kilo reads JSONC config from a **global** location (`~/.config/kappa/kappa.jsonc`) and from your **project** (`kappa.jsonc`, or `.kappa/kappa.jsonc`). All clients — CLI, VS Code, and JetBrains — read the same files.
+Kappa reads JSONC config from a **global** location (`~/.config/kappa/kappa.jsonc`) and from your **project** (`kappa.jsonc`, or `.kappa/kappa.jsonc`). All clients — CLI, VS Code, and JetBrains — read the same files.
 
-If `kappa.json` or the legacy `opencode.json`, `opencode.jsonc`, or `config.json` files exist in the same locations, Kilo reads and deep-merges them as well. Clearing a setting in the Settings UI (for example, setting a model back to "Not set") removes it from every config file that contains it.
+If `kappa.json` or the legacy `opencode.json`, `opencode.jsonc`, or `config.json` files exist in the same locations, Kappa reads and deep-merges them as well. Clearing a setting in the Settings UI (for example, setting a model back to "Not set") removes it from every config file that contains it.
 
 {% callout type="warning" %}
-**Migrating from opencode?** Kilo no longer falls back to opencode configuration stored in `.opencode` directories (such as `~/.config/opencode` or a project `./.opencode/`). To keep using it, move your global config into `~/.config/kappa/` and any project config into `./.kappa/`.
+**Migrating from opencode?** Kappa no longer falls back to opencode configuration stored in `.opencode` directories (such as `~/.config/opencode` or a project `./.opencode/`). To keep using it, move your global config into `~/.config/kappa/` and any project config into `./.kappa/`.
 {% /callout %}
 
 {% tabs %}
 {% tab label="VSCode" %}
 
-The VS Code extension provides a **Settings webview UI** accessible from Kilo Code by clicking the gear icon ({% codicon name="gear" /%}). The UI is organized into tabs including Providers, Auto-Approve, Models, and more.
+The VS Code extension provides a **Settings webview UI** accessible from Kappa Code by clicking the gear icon ({% codicon name="gear" /%}). The UI is organized into tabs including Providers, Auto-Approve, Models, and more.
 
 This UI reads and writes to the same underlying JSONC config files used across extension surfaces. Changes apply to the sidebar, Agent Manager, and the CLI when used directly.
 
@@ -49,7 +49,7 @@ There are two primary config files:
 - **Global config:** `~/.config/kappa/kappa.jsonc` — applies to all projects. On Windows, this is `C:\Users\<username>\.config\kappa\kappa.jsonc`.
 - **Project config:** `kappa.jsonc` in your project root, or `.kappa/kappa.jsonc` for a cleaner setup. The `.kappa/` version takes priority if both exist.
 
-Use **Local Config** or **Global Config** in the Settings header to open the matching config file from VS Code. If multiple config files are available, choose the exact file from the picker. If the recommended file does not exist yet, Kilo creates it before opening it.
+Use **Local Config** or **Global Config** in the Settings header to open the matching config file from VS Code. If multiple config files are available, choose the exact file from the picker. If the recommended file does not exist yet, Kappa creates it before opening it.
 
 {% callout type="warning" %}
 If you check config files into version control, make sure they do not contain API keys or other secrets (e.g., `provider.*.options.apiKey`). Use environment variables for credentials instead.
@@ -57,7 +57,7 @@ If you check config files into version control, make sure they do not contain AP
 
 ### Voice Transcription Model
 
-When the Kilo provider is enabled and you are signed in, choose the transcription model under **Models** > **Speech to Text Model**. This stores `experimental.speech_to_text_model` in your global Kilo CLI config:
+When the Kappa provider is enabled and you are signed in, choose the transcription model under **Models** > **Speech to Text Model**. This stores `experimental.speech_to_text_model` in your global Kappa CLI config:
 
 ```json
 {
@@ -69,7 +69,7 @@ When the Kilo provider is enabled and you are signed in, choose the transcriptio
 
 ### Voice Transcription Source
 
-By default both the model list and the audio go to Kilo Gateway. Set **Models** > **Speech to Text Base URL** to send them to any OpenAI-compatible transcription API instead, with an optional bearer token:
+By default both the model list and the audio go to Kappa Gateway. Set **Models** > **Speech to Text Base URL** to send them to any OpenAI-compatible transcription API instead, with an optional bearer token:
 
 ```json
 {
@@ -81,11 +81,11 @@ By default both the model list and the audio go to Kilo Gateway. Set **Models** 
 }
 ```
 
-Models are read from `{base_url}/models` and audio is posted to `{base_url}/audio/transcriptions`. Leave the base URL empty to use Kilo Gateway. See [Voice Transcription](/docs/code-with-ai/features/speech-to-text) for details.
+Models are read from `{base_url}/models` and audio is posted to `{base_url}/audio/transcriptions`. Leave the base URL empty to use Kappa Gateway. See [Voice Transcription](/docs/code-with-ai/features/speech-to-text) for details.
 
 ### Prompt-Training Model Visibility
 
-Enable **Hide Prompt-Training Models** under **Models** to remove Kilo Gateway models whose providers may use your prompts for training from model lists. Models from other providers and models without explicit prompt-training metadata remain visible. The setting is disabled by default.
+Enable **Hide Prompt-Training Models** under **Models** to remove Kappa Gateway models whose providers may use your prompts for training from model lists. Models from other providers and models without explicit prompt-training metadata remain visible. The setting is disabled by default.
 
 You can also enable it in `kappa.jsonc`:
 
@@ -172,7 +172,7 @@ Display changes apply as a draft. Click **Save** to keep them or **Discard** to 
 
 ### Markdown Diff Rendering
 
-Markdown files in Kilo diff viewers can be shown as rendered Markdown instead of a raw text diff. Use the eye/code toggle in a Markdown file header, or set `kappa-code.new.diff.renderMarkdown` to `true` to render Markdown files by default.
+Markdown files in Kappa diff viewers can be shown as rendered Markdown instead of a raw text diff. Use the eye/code toggle in a Markdown file header, or set `kappa-code.new.diff.renderMarkdown` to `true` to render Markdown files by default.
 
 ### Web Search
 
@@ -180,7 +180,7 @@ See [Web Search Availability](/docs/automate/tools#web-search-availability) for 
 
 ### Export and Import
 
-You can export and import settings from the **About Kilo Code** tab in the Settings UI:
+You can export and import settings from the **About Kappa Code** tab in the Settings UI:
 
 - **Export**: Saves your global config as a `kappa-settings.json` file. Review it before sharing, because config values are exported as-is.
 - **Import**: Loads a previously exported JSON file into the settings draft. Changes are not applied immediately — you can review them and click Save or Discard, just like any manual edit.
@@ -209,7 +209,7 @@ Both files use the [JSONC](https://code.visualstudio.com/docs/languages/json#_js
 
 Settings are resolved through an 8-level precedence system (lowest to highest priority):
 
-1. **Legacy Kilocode** -- migrated settings from the VSCode extension
+1. **Legacy Kappacode** -- migrated settings from the VSCode extension
 2. **Remote well-known** -- remotely fetched defaults
 3. **Global** -- `~/.config/kappa/kappa.jsonc`
 4. **Custom** -- additional custom config paths
@@ -242,11 +242,11 @@ On macOS and Linux, the VS Code extension includes a dedicated **Sandboxing** se
 
 See [Sandboxing](/docs/getting-started/settings/sandboxing) for setup instructions, the exact filesystem and network boundaries, and platform limitations.
 
-## Kilo Swarm
+## Kappa Swarm
 
-Kilo Swarm lets a main session and its task descendants, including nested subagents, exchange messages on a shared board. It uses the existing Task tool, not a separate agent runtime. The board is not shared with unrelated sessions, even in the same repository or worktree.
+Kappa Swarm lets a main session and its task descendants, including nested subagents, exchange messages on a shared board. It uses the existing Task tool, not a separate agent runtime. The board is not shared with unrelated sessions, even in the same repository or worktree.
 
-Kilo Swarm is on by default. Turn it off in the VS Code or JetBrains **Agent Behaviour** settings, or set `shared_agent_board` to `false` in `kappa.jsonc`.
+Kappa Swarm is on by default. Turn it off in the VS Code or JetBrains **Agent Behaviour** settings, or set `shared_agent_board` to `false` in `kappa.jsonc`.
 
 Use it when agents can benefit from discoveries during work:
 
@@ -259,7 +259,7 @@ Straightforward tasks can stay solo. Enabling the board does not mean agents are
 
 All participants can read the board history, including messages addressed to others. Recipient selection is not a privacy boundary. Peer messages do not grant user approval or change permissions; `HOLD` and `VETO` are advisory, not controls that pause or cancel work.
 
-When a main session has board messages, open the **Board** icon in its task header (VS Code) or session header (JetBrains, which also offers a **View Kilo Swarm** session menu action) to read them, refresh them, or reset the board. Only the owning top-level session can view or reset its board; child sessions and cloud sessions cannot. Reset clears visible messages only and does not stop agents or clear conversations. See [Kilo Swarm communication](/docs/automate/agent-manager#kappa-swarm-communication) for the board dialog, ownership rules, and recipient-state warnings.
+When a main session has board messages, open the **Board** icon in its task header (VS Code) or session header (JetBrains, which also offers a **View Kappa Swarm** session menu action) to read them, refresh them, or reset the board. Only the owning top-level session can view or reset its board; child sessions and cloud sessions cannot. Reset clears visible messages only and does not stop agents or clear conversations. See [Kappa Swarm communication](/docs/automate/agent-manager#kappa-swarm-communication) for the board dialog, ownership rules, and recipient-state warnings.
 
 ## Experimental Features
 
@@ -276,7 +276,7 @@ Available experimental settings include:
 - **Batch tool** - allow the agent to batch multiple tool calls in one step
 - **Search Ignored Paths** - list folders or files the agent's `glob` tool should search even when `.gitignore` or other ignore files exclude them, such as `packages/*/dist` (`experimental.glob_include_ignored`, empty by default). Patterns are gitignore-style and relative to the workspace: a pattern without a slash matches folders at any depth, and a single file inside an ignored folder is listed by its path (for example `build/report.json`). Ignored or hidden folders inside a listed folder stay skipped, and `.git` is never searched
 - **Claude Code Migration** - import supported global Claude Code configuration once (off by default)
-- **OpenTelemetry** - enable Kilo telemetry and optional OTLP export when configured
+- **OpenTelemetry** - enable Kappa telemetry and optional OTLP export when configured
 
 Advanced options not exposed in the UI can be configured via the `experimental` key in `kappa.jsonc`:
 
@@ -313,8 +313,8 @@ Enable **Claude Code Migration** in **Settings → Experimental** to import supp
 
 The migration imports:
 
-- Global instructions from `~/.claude/CLAUDE.md` into Kilo's global `AGENTS.md`.
+- Global instructions from `~/.claude/CLAUDE.md` into Kappa's global `AGENTS.md`.
 - Standalone skills from `~/.claude/skills/` that contain only a `SKILL.md`.
 - Top-level MCP server definitions from `~/.claude.json`, disabled until you enable them.
 
-Existing Kilo content takes precedence; conflicts and unsupported items are skipped. Your original Claude files are not changed or deleted. After the attempt, Kilo stops loading global Claude instructions and skills as a fallback, but project-level compatibility such as a repository's `CLAUDE.md` is unaffected. A notification reports the outcome and points to a receipt with imported, skipped, and failed items.
+Existing Kappa content takes precedence; conflicts and unsupported items are skipped. Your original Claude files are not changed or deleted. After the attempt, Kappa stops loading global Claude instructions and skills as a fallback, but project-level compatibility such as a repository's `CLAUDE.md` is unaffected. A notification reports the outcome and points to a receipt with imported, skipped, and failed items.

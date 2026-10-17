@@ -81,7 +81,7 @@ describe("findModel", () => {
 
 describe("isModelValid", () => {
   const providers = {
-    kappa: makeProvider("kappa", "Kilo Gateway", ["kappa-auto/free"]),
+    kappa: makeProvider("kappa", "Kappa Gateway", ["kappa-auto/free"]),
     openai: makeProvider("openai", "OpenAI", ["gpt-4o"]),
   }
 

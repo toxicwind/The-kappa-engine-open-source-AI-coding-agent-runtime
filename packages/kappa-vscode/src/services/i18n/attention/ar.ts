@@ -1,13 +1,13 @@
 export const dict = {
-  "kilocode:attention.done": "أكمل Kilo المهمة.",
-  "kilocode:attention.question": "يحتاج Kilo إلى ردك.",
-  "kilocode:attention.permission": "يحتاج Kilo إلى إذن.",
-  "kilocode:attention.error": "أوقف Kilo المهمة بسبب خطأ.",
-  "kilocode:attention.show": "عرض",
-  "kilocode:attention.workspace": "مساحة العمل",
-  "kilocode:attention.session": "الجلسة",
-  "kilocode:attention.test": "هذا إشعار تجريبي من Kilo Code.",
-  "kilocode:attention.unsupported": "إشعارات نظام التشغيل غير مدعومة على هذه المنصة.",
-  "kilocode:attention.identity":
+  "kappacode:attention.done": "أكمل Kappa المهمة.",
+  "kappacode:attention.question": "يحتاج Kappa إلى ردك.",
+  "kappacode:attention.permission": "يحتاج Kappa إلى إذن.",
+  "kappacode:attention.error": "أوقف Kappa المهمة بسبب خطأ.",
+  "kappacode:attention.show": "عرض",
+  "kappacode:attention.workspace": "مساحة العمل",
+  "kappacode:attention.session": "الجلسة",
+  "kappacode:attention.test": "هذا إشعار تجريبي من Kappa Code.",
+  "kappacode:attention.unsupported": "إشعارات نظام التشغيل غير مدعومة على هذه المنصة.",
+  "kappacode:attention.identity":
     "تعذّر تحديد هوية الإشعارات لهذا المحرر، لذا فإن الإشعارات الأصلية غير متاحة. لا تزال إشعارات VS Code تعمل.",
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { TerminalRouter } from "../../src/agent-manager/terminal-routing"
 import type { AgentManagerOutMessage } from "../../src/agent-manager/types"
 
@@ -22,7 +22,7 @@ describe("Agent Manager terminal routing", () => {
         remove: async () => ({ data: true }),
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,
@@ -89,7 +89,7 @@ describe("Agent Manager terminal routing", () => {
         },
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,
@@ -139,7 +139,7 @@ describe("Agent Manager terminal routing", () => {
         remove: async () => ({ data: true }),
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,
@@ -184,7 +184,7 @@ describe("Agent Manager terminal routing", () => {
         },
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,
@@ -227,7 +227,7 @@ describe("Agent Manager terminal routing", () => {
         remove: async () => ({ data: true }),
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,
@@ -267,7 +267,7 @@ describe("Agent Manager terminal routing", () => {
         remove: async () => ({ data: true }),
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,
@@ -305,7 +305,7 @@ describe("Agent Manager terminal routing", () => {
         remove: async () => ({ data: true }),
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const messages: AgentManagerOutMessage[] = []
     const router = new TerminalRouter({
       getClient: () => {
@@ -352,7 +352,7 @@ describe("Agent Manager terminal routing", () => {
         remove: async () => ({ data: true }),
         update: async () => ({ data: true }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,
@@ -402,7 +402,7 @@ describe("Agent Manager terminal routing", () => {
           return { data: true }
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const router = new TerminalRouter({
       getClient: () => client,
       getClientAsync: async () => client,

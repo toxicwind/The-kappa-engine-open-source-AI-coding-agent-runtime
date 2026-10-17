@@ -4,7 +4,7 @@ import { Effect, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import path from "path"
 import { Skill } from "../../src/skill"
-import * as KiloSkill from "../../src/kappacode/skill-remove"
+import * as KappaSkill from "../../src/kappacode/skill-remove"
 import { BUILTIN_SKILLS } from "../../src/kappacode/skills/builtin"
 import { TestInstance } from "../fixture/fixture"
 import { testEffect } from "../lib/effect"
@@ -49,7 +49,7 @@ it.instance(
       const skill = yield* Skill.Service
       const item = yield* skill.get("kappa-config")
       expect(item).toBeDefined()
-      expect(KiloSkill.builtin(item!.location)).toBe(true)
+      expect(KappaSkill.builtin(item!.location)).toBe(true)
     }),
   { git: true },
 )

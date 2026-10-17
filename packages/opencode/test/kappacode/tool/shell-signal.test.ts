@@ -1,4 +1,4 @@
-// Regression tests for Kilo-Org/kappacode#12677.
+// Regression tests for Kappa-Org/kappacode#12677.
 //
 // A shell terminated by a signal (for example `bash -c` exec'ing a binary that
 // then segfaults) produces no numeric exit code. The spawner used to fail the

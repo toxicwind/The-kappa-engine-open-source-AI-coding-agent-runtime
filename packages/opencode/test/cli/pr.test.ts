@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { expect, test } from "bun:test"
 import { cliCommand } from "../../src/cli/cmd/pr"
 

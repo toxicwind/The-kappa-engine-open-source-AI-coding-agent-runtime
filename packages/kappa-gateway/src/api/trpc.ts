@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { buildKiloHeaders } from "../headers.js"
+import { buildKappaHeaders } from "../headers.js"
 import { KILO_API_BASE } from "./constants.js"
 
 const timeout = 5_000
@@ -115,7 +115,7 @@ export class CloudTrpcError extends Error {
     readonly kind: "network" | "http" | "protocol" | "procedure" | "schema",
     readonly status?: number,
   ) {
-    super("Kilo Cloud data is temporarily unavailable.")
+    super("Kappa Cloud data is temporarily unavailable.")
     this.name = "CloudTrpcError"
   }
 }
@@ -129,7 +129,7 @@ async function query<T>(procedure: string, token: string, schema: z.ZodType<T>, 
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...buildKiloHeaders(),
+      ...buildKappaHeaders(),
     },
     redirect: "error",
     signal: AbortSignal.timeout(timeout),

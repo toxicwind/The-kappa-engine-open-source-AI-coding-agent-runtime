@@ -23,15 +23,15 @@ import { TestConfig } from "../../fixture/config"
 import { pollWithTimeout, testEffect } from "../../lib/effect"
 import { TestInstance } from "../../fixture/fixture"
 
-const KiloSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KiloSessions
+const KappaSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KappaSessions
 
 // Session must be provideMerged so yield* Session.Service and the
-// KiloSessions Updated handler share one store (otherwise get() misses creates).
+// KappaSessions Updated handler share one store (otherwise get() misses creates).
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(CrossSpawnSpawner.node), AppNodeBuilder.build(Auth.node)))
 
 function layer(overrides: Partial<Config.Interface> = {}) {
   return AppNodeBuilder.build(
-    LayerNode.group([KiloSessions.node, Session.node, SessionProjector.node]),
+    LayerNode.group([KappaSessions.node, Session.node, SessionProjector.node]),
     [[Config.node, TestConfig.layer(overrides)]],
   )
 }
@@ -205,7 +205,7 @@ function holdTitlePosts(requests: Req[], n: number) {
 /** Drain ingest after debounce; used when waiting on meta items. */
 const drainIngest = Effect.gen(function* () {
   yield* Effect.sleep(1200)
-  yield* Effect.promise(() => KiloSessions.drainIngestForShutdown())
+  yield* Effect.promise(() => KappaSessions.drainIngestForShutdown())
 })
 
 it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountId", () => {
@@ -220,7 +220,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
 
   return Effect.gen(function* () {
     const auth = yield* Auth.Service
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     const instance = yield* TestInstance
     yield* auth.set("kappa", {
@@ -237,7 +237,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
 
       // 1) metadata wins over env
       const withMeta = yield* sessions.create({ metadata: { orgId: ORG_META } })
-      yield* Effect.promise(() => KiloSessions.bootstrap(withMeta.id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(withMeta.id))
       requests.length = 0
       emitUpdated(instance.directory, withMeta.id, withMeta.title)
       yield* drainIngest
@@ -246,7 +246,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
       // 2) env wins when metadata absent
       requests.length = 0
       const plain = yield* sessions.create({})
-      yield* Effect.promise(() => KiloSessions.bootstrap(plain.id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(plain.id))
       requests.length = 0
       emitUpdated(instance.directory, plain.id, plain.title)
       yield* drainIngest
@@ -257,7 +257,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
       clearInFlightCache("kappa-sessions:org")
       requests.length = 0
       const authOnly = yield* sessions.create({})
-      yield* Effect.promise(() => KiloSessions.bootstrap(authOnly.id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(authOnly.id))
       requests.length = 0
       emitUpdated(instance.directory, authOnly.id, authOnly.title)
       yield* drainIngest
@@ -277,13 +277,13 @@ it.instance("meta falls through invalid metadata orgId to env", () => {
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     const instance = yield* TestInstance
     yield* kappa.init()
 
     const bad = yield* sessions.create({ metadata: { orgId: "not-a-uuid" } })
-    yield* Effect.promise(() => KiloSessions.bootstrap(bad.id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(bad.id))
     requests.length = 0
     emitUpdated(instance.directory, bad.id, bad.title)
     yield* drainIngest
@@ -304,13 +304,13 @@ it.instance("meta falls back to env when session row has no resolvable org", () 
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     const instance = yield* TestInstance
     yield* kappa.init()
 
     const plain = yield* sessions.create({})
-    yield* Effect.promise(() => KiloSessions.bootstrap(plain.id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(plain.id))
     yield* drainIngest
     requests.length = 0
     emitUpdated(instance.directory, plain.id, plain.title)
@@ -329,7 +329,7 @@ it.instance("meta falls back to env when Session.Service.get fails", () => {
   clearInFlightCache("kappa-sessions:org")
 
   return Effect.gen(function* () {
-    const result = yield* Effect.promise(() => KiloSessions._metaForTests("ses_missing_for_meta_get_fail"))
+    const result = yield* Effect.promise(() => KappaSessions._metaForTests("ses_missing_for_meta_get_fail"))
     expect(result.orgId).toBe(ORG_ENV)
   }).pipe(Effect.provide(layer()))
 })
@@ -346,13 +346,13 @@ it.instance("title broadcast: auto-title posts generated true; custom posts gene
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
-    yield* Effect.promise(() => KiloSessions.bootstrap(id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(id))
     yield* Effect.sleep(50)
     requests.length = 0
 
@@ -409,13 +409,13 @@ it.instance(
     reset("test-token")
 
     return Effect.gen(function* () {
-      const kappa = yield* KiloSessions.Service
+      const kappa = yield* KappaSessions.Service
       const sessions = yield* Session.Service
       yield* kappa.init()
 
       const created = yield* sessions.create({})
       const id = created.id
-      yield* Effect.promise(() => KiloSessions.bootstrap(id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(id))
       yield* Effect.sleep(50)
       requests.length = 0
 
@@ -451,13 +451,13 @@ it.instance("title broadcast: first rename after create (rename-before-prompt) P
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
-    yield* Effect.promise(() => KiloSessions.bootstrap(id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(id))
     yield* Effect.sleep(50)
     requests.length = 0
 
@@ -483,9 +483,9 @@ it.instance("title broadcast: first rename after restart seeds from list and POS
     const id = existing.id
     const priorTitle = existing.title
 
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     yield* kappa.init()
-    yield* Effect.promise(() => KiloSessions.bootstrap(id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(id))
     yield* Effect.sleep(50)
     requests.length = 0
 
@@ -525,10 +525,10 @@ it.instance("reportSessionTitle goes through readiness and tolerates POST failur
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     const created = yield* sessions.create({})
-    yield* Effect.promise(() => KiloSessions.bootstrap(created.id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(created.id))
 
     const failed = yield* kappa.reportSessionTitle(created.id, "X", { generated: false })
     expect(failed).toEqual({ ok: false, reason: "http_500" })
@@ -546,7 +546,7 @@ it.instance("reportSessionTitle reports not_connected when unauthenticated", () 
   reset()
 
   return Effect.gen(function* () {
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const result = yield* kappa.reportSessionTitle("ses_x", "T", { generated: false })
     expect(result).toEqual({ ok: false, reason: "not_connected" })
   }).pipe(Effect.provide(layer()))
@@ -565,13 +565,13 @@ it.instance("title report: permanent 4xx failure preserves title so same-title U
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
-    yield* Effect.promise(() => KiloSessions.bootstrap(id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(id))
     yield* Effect.sleep(50)
     requests.length = 0
 
@@ -609,13 +609,13 @@ it.instance("title report: transient 5xx failure restores title so same-title Up
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
-    yield* Effect.promise(() => KiloSessions.bootstrap(id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(id))
     yield* Effect.sleep(50)
     requests.length = 0
 
@@ -654,13 +654,13 @@ it.instance("title report: transient 408/429 restores title so same-title Update
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kappa = yield* KiloSessions.Service
+    const kappa = yield* KappaSessions.Service
     const sessions = yield* Session.Service
     yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
-    yield* Effect.promise(() => KiloSessions.bootstrap(id))
+    yield* Effect.promise(() => KappaSessions.bootstrap(id))
     yield* Effect.sleep(50)
     requests.length = 0
 
@@ -735,13 +735,13 @@ it.instance(
 
     return Effect.gen(function* () {
       const instance = yield* TestInstance
-      const kappa = yield* KiloSessions.Service
+      const kappa = yield* KappaSessions.Service
       const sessions = yield* Session.Service
       yield* kappa.init()
 
       const created = yield* sessions.create({})
       const id = created.id
-      yield* Effect.promise(() => KiloSessions.bootstrap(id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(id))
       yield* Effect.sleep(50)
       requests.length = 0
 
@@ -792,7 +792,7 @@ it.instance(
     reset("test-token")
 
     const mockSessionLayer = unseededMockSessionLayer("Renamed Title", "ses_unseeded_rename")
-    const customLayer = KiloSessions.layer.pipe(
+    const customLayer = KappaSessions.layer.pipe(
       Layer.provideMerge(Bus.layer),
       Layer.provideMerge(mockSessionLayer),
       Layer.provide(TestConfig.layer({})),
@@ -801,13 +801,13 @@ it.instance(
     return Effect.gen(function* () {
       const instance = yield* TestInstance
       const sessions = yield* Session.Service
-      const kappa = yield* KiloSessions.Service
+      const kappa = yield* KappaSessions.Service
       yield* kappa.init()
 
       // Mock create() does not fire Session.Event.Created, so knownTitles is
       // never seeded for this session. list() returns empty as well.
       const created = yield* sessions.create({})
-      yield* Effect.promise(() => KiloSessions.bootstrap(created.id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(created.id))
       yield* Effect.sleep(50)
       requests.length = 0
 
@@ -867,7 +867,7 @@ it.instance(
 
     const title = "Cloud Rename"
     const mockSessionLayer = unseededMockSessionLayer(title, "ses_unseeded_adopt")
-    const customLayer = KiloSessions.layer.pipe(
+    const customLayer = KappaSessions.layer.pipe(
       Layer.provideMerge(Bus.layer),
       Layer.provideMerge(mockSessionLayer),
       Layer.provide(TestConfig.layer({})),
@@ -876,11 +876,11 @@ it.instance(
     return Effect.gen(function* () {
       const instance = yield* TestInstance
       const sessions = yield* Session.Service
-      const kappa = yield* KiloSessions.Service
+      const kappa = yield* KappaSessions.Service
       yield* kappa.init()
 
       const created = yield* sessions.create({})
-      yield* Effect.promise(() => KiloSessions.bootstrap(created.id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(created.id))
       yield* Effect.sleep(50)
       requests.length = 0
 
@@ -910,7 +910,7 @@ it.instance(
 
     const title = "Auto Title"
     const mockSessionLayer = unseededMockSessionLayer(title, "ses_unseeded_auto")
-    const customLayer = KiloSessions.layer.pipe(
+    const customLayer = KappaSessions.layer.pipe(
       Layer.provideMerge(Bus.layer),
       Layer.provideMerge(mockSessionLayer),
       Layer.provide(TestConfig.layer({})),
@@ -919,11 +919,11 @@ it.instance(
     return Effect.gen(function* () {
       const instance = yield* TestInstance
       const sessions = yield* Session.Service
-      const kappa = yield* KiloSessions.Service
+      const kappa = yield* KappaSessions.Service
       yield* kappa.init()
 
       const created = yield* sessions.create({})
-      yield* Effect.promise(() => KiloSessions.bootstrap(created.id))
+      yield* Effect.promise(() => KappaSessions.bootstrap(created.id))
       yield* Effect.sleep(50)
       requests.length = 0
 

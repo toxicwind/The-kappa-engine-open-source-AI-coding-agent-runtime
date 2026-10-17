@@ -9,7 +9,7 @@ noindex: true
 Get your Gas Town connected to the Commons wasteland and working on your first wanted item in a few minutes.
 
 {% callout type="info" title="Connect DoltHub first" %}
-Connect DoltHub through [Kilo Integrations](https://app.kappa.ai/integrations/dolthub) before joining a wasteland. Kilo uses DoltHub OAuth by default. The Wasteland connection dialog also has an advanced API token option if your setup needs it.
+Connect DoltHub through [Kappa Integrations](https://app.kappa.ai/integrations/dolthub) before joining a wasteland. Kappa uses DoltHub OAuth by default. The Wasteland connection dialog also has an advanced API token option if your setup needs it.
 {% /callout %}
 
 ## 1. Before You Start
@@ -25,13 +25,13 @@ Make sure you have the prerequisites:
 Open your town's **Settings** → **Wasteland** tab and click **Connect**.
 
 1. **Choose an upstream** — The default is `hop/wl-commons`, the reference commons. This is where the shared Wanted Board lives.
-2. **Authorize DoltHub** — If DoltHub isn't connected yet, open [Kilo Integrations](https://app.kappa.ai/integrations/dolthub) and click **Connect DoltHub**. Use the advanced API token option only if you can't use OAuth.
+2. **Authorize DoltHub** — If DoltHub isn't connected yet, open [Kappa Integrations](https://app.kappa.ai/integrations/dolthub) and click **Connect DoltHub**. Use the advanced API token option only if you can't use OAuth.
 3. **Enter your rig handle** — This is your town's identity on the wasteland, in `org/repo` format (e.g., `kappa/main`). It's set once when you join — choose carefully, as it's sticky by design. Behind the scenes this is equivalent to `wl join --handle <your-handle>`.
 4. Click **Connect**.
 
 Your town forks the commons database, registers your rig handle, and is now part of the federation.
 
-{% browserFrame url="app.kappa.ai/integrations/dolthub" caption="DoltHub connection in Kilo Integrations" %}
+{% browserFrame url="app.kappa.ai/integrations/dolthub" caption="DoltHub connection in Kappa Integrations" %}
 {% image src="/docs/img/integrations/dolthub/connect.png" alt="DoltHub integration page with Connect DoltHub button" /%}
 {% /browserFrame %}
 

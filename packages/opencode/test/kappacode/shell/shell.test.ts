@@ -20,7 +20,7 @@ describe("PowerShell arguments", () => {
     expect(value).not.toContain("FromBase64String")
   })
 
-  test.each(["powershell", "pwsh"])("routes %s through the Kilo argument builder", (shell) => {
+  test.each(["powershell", "pwsh"])("routes %s through the Kappa argument builder", (shell) => {
     expect(Shell.args(shell, command, "/tmp")).toEqual(PowerShell.args(command))
   })
 

@@ -1,6 +1,6 @@
 import { describe, expect, it, mock } from "bun:test"
 import * as vscode from "vscode"
-import type { KiloConnectionService } from "../../src/services/cli-backend"
+import type { KappaConnectionService } from "../../src/services/cli-backend"
 import {
   NextEditInlineCompletionProvider,
   type NextEditProviderDeps,
@@ -55,7 +55,7 @@ describe("NextEditInlineCompletionProvider", () => {
   it("does not send a document when the access policy fails", async () => {
     const connection = { getClientAsync: mock() }
     const provider = new NextEditInlineCompletionProvider({
-      connectionService: connection as unknown as KiloConnectionService,
+      connectionService: connection as unknown as KappaConnectionService,
       isFileAllowed: async () => Promise.reject(new Error("unavailable")),
     })
 
@@ -74,7 +74,7 @@ describe("NextEditInlineCompletionProvider", () => {
   it("stashes same-line rewrites before the cursor for decorated acceptance", () => {
     const mgr = { clear: mock(), setPending: mock() }
     const provider = new NextEditInlineCompletionProvider({
-      connectionService: {} as KiloConnectionService,
+      connectionService: {} as KappaConnectionService,
       isFileAllowed: async () => true,
       suggestionManager: mgr as unknown as NextEditSuggestionManager,
     })
@@ -102,7 +102,7 @@ describe("NextEditInlineCompletionProvider", () => {
   it("stashes complete-line deletion intent for acceptance", () => {
     const mgr = { clear: mock(), setPending: mock() }
     const provider = new NextEditInlineCompletionProvider({
-      connectionService: {} as KiloConnectionService,
+      connectionService: {} as KappaConnectionService,
       isFileAllowed: async () => true,
       suggestionManager: mgr as unknown as NextEditSuggestionManager,
     })
@@ -128,7 +128,7 @@ describe("NextEditInlineCompletionProvider", () => {
   it("does not classify a blank-line rewrite as deletion", () => {
     const mgr = { clear: mock(), setPending: mock() }
     const provider = new NextEditInlineCompletionProvider({
-      connectionService: {} as KiloConnectionService,
+      connectionService: {} as KappaConnectionService,
       isFileAllowed: async () => true,
       suggestionManager: mgr as unknown as NextEditSuggestionManager,
     })

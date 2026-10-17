@@ -23,12 +23,12 @@ describe("ServerAuth", () => {
   })
 
   test("defaults to the kappa username", () => {
-    // kilocode_change
+    // kappacode_change
     Flag.KILO_SERVER_PASSWORD = "secret"
     Flag.KILO_SERVER_USERNAME = undefined
 
     expect(ServerAuth.headers()).toEqual({
-      Authorization: `Basic ${Buffer.from("kappa:secret").toString("base64")}`, // kilocode_change
+      Authorization: `Basic ${Buffer.from("kappa:secret").toString("base64")}`, // kappacode_change
     })
   })
 
@@ -55,6 +55,6 @@ describe("ServerAuth", () => {
 
     expect(ServerAuth.required(config)).toBe(true)
     expect(ServerAuth.authorized({ username: "alice", password: Redacted.make("secret") }, config)).toBe(true)
-    expect(ServerAuth.authorized({ username: "kappa", password: Redacted.make("secret") }, config)).toBe(false) // kilocode_change
+    expect(ServerAuth.authorized({ username: "kappa", password: Redacted.make("secret") }, config)).toBe(false) // kappacode_change
   })
 })

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { abortSession, SessionAbort } from "../../src/kappa-provider/abort"
 
 function client(calls: unknown[], fail = false) {
@@ -11,7 +11,7 @@ function client(calls: unknown[], fail = false) {
         return { data: true }
       },
     },
-  } as unknown as KiloClient
+  } as unknown as KappaClient
 }
 
 describe("SessionAbort", () => {

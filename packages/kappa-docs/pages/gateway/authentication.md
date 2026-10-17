@@ -1,11 +1,11 @@
 ---
 title: "Authentication"
-description: "Learn how to authenticate with the Kilo AI Gateway using API keys, session tokens, and Bring Your Own Key (BYOK)."
+description: "Learn how to authenticate with the Kappa AI Gateway using API keys, session tokens, and Bring Your Own Key (BYOK)."
 ---
 
 # Authentication
 
-The Kilo AI Gateway supports multiple authentication methods depending on your use case.
+The Kappa AI Gateway supports multiple authentication methods depending on your use case.
 
 ## API key authentication
 
@@ -15,7 +15,7 @@ The primary authentication method is a Bearer token passed in the `Authorization
 Authorization: Bearer <your_api_key>
 ```
 
-API keys are JWT tokens tied to your Kilo account. See [how to get your API key](/docs/getting-started/setup-authentication#kappa-gateway-api-key) for step-by-step instructions.
+API keys are JWT tokens tied to your Kappa account. See [how to get your API key](/docs/getting-started/setup-authentication#kappa-gateway-api-key) for step-by-step instructions.
 
 ### Using your API key
 
@@ -61,7 +61,7 @@ curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
 When making requests on behalf of an organization, include the organization ID in the request header:
 
 ```
-X-KiloCode-OrganizationId: your_org_id
+X-KappaCode-OrganizationId: your_org_id
 ```
 
 Organization tokens are scoped with a 15-minute expiry and enforce the organization's policies, including model allow lists, provider restrictions, and per-user spending limits.
@@ -74,7 +74,7 @@ Free models include models tagged with `:free` in their model ID, such as `minim
 
 ## Bring Your Own Key (BYOK)
 
-BYOK lets you use your own provider API keys with the Kilo AI Gateway. When a BYOK key is configured, requests are sent to the provider using your key. You are billed directly by the provider -- Kilo does not add any markup.
+BYOK lets you use your own provider API keys with the Kappa AI Gateway. When a BYOK key is configured, requests are sent to the provider using your key. You are billed directly by the provider -- Kappa does not add any markup.
 
 ### Supported BYOK providers
 
@@ -107,11 +107,11 @@ BYOK lets you use your own provider API keys with the Kilo AI Gateway. When a BY
 
 ### How BYOK works
 
-1. Add your provider API key in the [Kilo dashboard](https://app.kappa.ai) or through your Kilo Code extension settings
+1. Add your provider API key in the [Kappa dashboard](https://app.kappa.ai) or through your Kappa Code extension settings
 2. Keys are encrypted at rest using AES-256 encryption
 3. When you make a request for a model from that provider, the gateway automatically uses your key
-4. Usage is tracked but not billed to your Kilo balance (cost is set to $0)
-5. If your BYOK key fails, the request will not automatically fall back to Kilo's keys
+4. Usage is tracked but not billed to your Kappa balance (cost is set to $0)
+5. If your BYOK key fails, the request will not automatically fall back to Kappa's keys
 
 BYOK keys can be configured at the personal level or at the organization level. Organization-level keys apply to all members of the organization and require owner or billing manager access to manage.
 
@@ -123,7 +123,7 @@ The gateway accepts the following headers:
 |---|---|---|
 | `Authorization` | Yes (unless free model) | `Bearer <api_key>` |
 | `Content-Type` | Yes | `application/json` |
-| `X-KiloCode-OrganizationId` | No | Organization context for org-scoped requests |
-| `X-KiloCode-TaskId` | No | Task identifier for prompt cache keying |
-| `X-KiloCode-Version` | No | Client version string |
-| `x-kilocode-mode` | No | Mode hint for `kappa-auto` model routing |
+| `X-KappaCode-OrganizationId` | No | Organization context for org-scoped requests |
+| `X-KappaCode-TaskId` | No | Task identifier for prompt cache keying |
+| `X-KappaCode-Version` | No | Client version string |
+| `x-kappacode-mode` | No | Mode hint for `kappa-auto` model routing |

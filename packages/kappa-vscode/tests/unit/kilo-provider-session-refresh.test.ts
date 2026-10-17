@@ -8,7 +8,7 @@ import {
 import { createSessionPageState } from "../../src/kappa-provider/session-page"
 
 // vscode mock is provided by the shared preload (tests/setup/vscode-mock.ts)
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 
 type State = "connecting" | "connected" | "disconnected" | "error"
 
@@ -91,7 +91,7 @@ function createClient() {
       notifications: async () => ({ data: [] }),
       profile: async () => ({ data: {} }),
     },
-    kilocode: {
+    kappacode: {
       wakeups: async (_params: {
         directory: string
       }): Promise<{ data: Array<{ sessionID: string; pending: number }> }> => ({
@@ -133,14 +133,14 @@ function createConnection(client: ReturnType<typeof createClient>) {
   }
 }
 
-describe("KiloProvider pending session refresh", () => {
+describe("KappaProvider pending session refresh", () => {
   it("syncs startup state without reading legacy credentials or exposing legacy actions", async () => {
     const client = createClient()
     const connection = createConnection(client)
     await connection.connect()
     const reads: string[] = []
     const ctx = {
-      globalStorageUri: { fsPath: "/storage/kilocode.kappa-code" },
+      globalStorageUri: { fsPath: "/storage/kappacode.kappa-code" },
       globalState: { get: (_key: string, fallback?: unknown) => fallback },
       secrets: {
         get: async (key: string) => {
@@ -149,7 +149,7 @@ describe("KiloProvider pending session refresh", () => {
         },
       },
     }
-    const provider = new KiloProvider({} as never, connection as never, ctx as never)
+    const provider = new KappaProvider({} as never, connection as never, ctx as never)
     const internal = provider as unknown as ProviderInternals
     const sent: unknown[] = []
     internal.connectionState = "connected"
@@ -179,7 +179,7 @@ describe("KiloProvider pending session refresh", () => {
     const connection = createConnection(client)
     await connection.connect()
     let active = "a"
-    const provider = new KiloProvider({} as never, connection as never, undefined, {
+    const provider = new KappaProvider({} as never, connection as never, undefined, {
       rootDirectory: () => `/repo/${active}`,
       projectQualifier: () => ({ projectId: active }),
     })
@@ -211,7 +211,7 @@ describe("KiloProvider pending session refresh", () => {
     const connection = createConnection(client)
     await connection.connect()
     let active = "a"
-    const provider = new KiloProvider({} as never, connection as never, undefined, {
+    const provider = new KappaProvider({} as never, connection as never, undefined, {
       rootDirectory: () => `/repo/${active}`,
       projectQualifier: () => ({ projectId: active }),
     })
@@ -480,7 +480,7 @@ describe("KiloProvider pending session refresh", () => {
   it("flushes deferred refresh in initializeConnection without relying on connected event callback", async () => {
     const client = createClient()
     const connection = createConnection(client)
-    const provider = new KiloProvider({} as never, connection as never)
+    const provider = new KappaProvider({} as never, connection as never)
     const internal = provider as unknown as ProviderInternals
 
     provider.setSessionDirectory("ses_1", "/worktree")
@@ -497,7 +497,7 @@ describe("KiloProvider pending session refresh", () => {
   it("does not post not-connected errors while still connecting", async () => {
     const client = createClient()
     const connection = createConnection(client)
-    const provider = new KiloProvider({} as never, connection as never)
+    const provider = new KappaProvider({} as never, connection as never)
     const internal = provider as unknown as ProviderInternals
     const sent: unknown[] = []
 
@@ -523,10 +523,10 @@ describe("KiloProvider pending session refresh", () => {
 
   it("reconciles a cancelled wakeup to zero after a complete seed", async () => {
     const client = createClient()
-    client.kilocode.wakeups = async () => ({ data: [{ sessionID: "s1", pending: 2 }] })
+    client.kappacode.wakeups = async () => ({ data: [{ sessionID: "s1", pending: 2 }] })
     const connection = createConnection(client)
     await connection.connect()
-    const provider = new KiloProvider({} as never, connection as never)
+    const provider = new KappaProvider({} as never, connection as never)
     const internal = provider as unknown as ProviderInternals
     const sent: unknown[] = []
     internal.connectionState = "connected"
@@ -535,7 +535,7 @@ describe("KiloProvider pending session refresh", () => {
     await internal.seedSessionWakeups()
     expect(sent).toContainEqual({ type: "sessionWakeup", sessionID: "s1", pending: 2 })
 
-    client.kilocode.wakeups = async () => ({ data: [] })
+    client.kappacode.wakeups = async () => ({ data: [] })
     await internal.seedSessionWakeups()
 
     expect(sent).toContainEqual({ type: "sessionWakeup", sessionID: "s1", pending: 0 })
@@ -544,11 +544,11 @@ describe("KiloProvider pending session refresh", () => {
 
   it("keeps tracked wakeups when one directory fails", async () => {
     const client = createClient()
-    client.kilocode.wakeups = async () => ({ data: [{ sessionID: "s1", pending: 2 }] })
+    client.kappacode.wakeups = async () => ({ data: [{ sessionID: "s1", pending: 2 }] })
     const connection = createConnection(client)
     connection.getKnownDirectories = () => ["/repo", "/good"]
     await connection.connect()
-    const provider = new KiloProvider({} as never, connection as never)
+    const provider = new KappaProvider({} as never, connection as never)
     const internal = provider as unknown as ProviderInternals
     const sent: unknown[] = []
     internal.connectionState = "connected"
@@ -558,7 +558,7 @@ describe("KiloProvider pending session refresh", () => {
     expect(internal.wakeupSessions.has("s1")).toBe(true)
 
     sent.length = 0
-    client.kilocode.wakeups = async (params: { directory: string }) => {
+    client.kappacode.wakeups = async (params: { directory: string }) => {
       if (params.directory === "/good") throw new Error("offline")
       return { data: [] }
     }
@@ -571,10 +571,10 @@ describe("KiloProvider pending session refresh", () => {
   it("keeps a wakeup scheduled while a complete seed is in flight", async () => {
     const client = createClient()
     const pending = deferred<{ data: Array<{ sessionID: string; pending: number }> }>()
-    client.kilocode.wakeups = () => pending.promise
+    client.kappacode.wakeups = () => pending.promise
     const connection = createConnection(client)
     await connection.connect()
-    const provider = new KiloProvider({} as never, connection as never)
+    const provider = new KappaProvider({} as never, connection as never)
     const internal = provider as unknown as ProviderInternals
     const sent: unknown[] = []
     internal.connectionState = "connected"

@@ -2,7 +2,7 @@ import path from "node:path"
 import { expect, test } from "bun:test"
 import { ConfigMarkdown } from "@/config/markdown"
 import { ConfigVariable } from "@/config/variable"
-import { KilocodeMarkdown } from "@/kappacode/config/markdown"
+import { KappacodeMarkdown } from "@/kappacode/config/markdown"
 import { tmpdir } from "../../fixture/fixture"
 
 test("preserves dollar-prefixed placeholders in project markdown", async () => {
@@ -49,7 +49,7 @@ test("confines project markdown substitutions while preserving trusted substitut
       },
     })
 
-    const file = await KilocodeMarkdown.substitute(tmp.extra.file, tmp.extra.item, {
+    const file = await KappacodeMarkdown.substitute(tmp.extra.file, tmp.extra.item, {
       trusted: false,
       fileScope: { root: tmp.extra.project, source: tmp.extra.item },
     }).then(
@@ -57,7 +57,7 @@ test("confines project markdown substitutions while preserving trusted substitut
       () => true,
     )
     expect(file).toBe(true)
-    const env = await KilocodeMarkdown.substitute(tmp.extra.env, tmp.extra.item, {
+    const env = await KappacodeMarkdown.substitute(tmp.extra.env, tmp.extra.item, {
       trusted: false,
       fileScope: { root: tmp.extra.project, source: tmp.extra.item },
     }).then(
@@ -66,13 +66,13 @@ test("confines project markdown substitutions while preserving trusted substitut
     )
     expect(env).toBe(true)
     expect(
-      await KilocodeMarkdown.substitute("{file:../../allowed.txt}", tmp.extra.item, {
+      await KappacodeMarkdown.substitute("{file:../../allowed.txt}", tmp.extra.item, {
         trusted: false,
         fileScope: { root: tmp.extra.project, source: tmp.extra.item },
       }),
     ).toBe("project content")
 
-    const trusted = await KilocodeMarkdown.substitute(tmp.extra.text, tmp.extra.global, { trusted: true })
+    const trusted = await KappacodeMarkdown.substitute(tmp.extra.text, tmp.extra.global, { trusted: true })
     expect(trusted).toContain("file secret")
     expect(trusted).toContain("environment secret")
   } finally {
@@ -87,7 +87,7 @@ test("keeps resolving dollar-prefixed placeholders in trusted markdown", async (
   process.env[name] = "environment secret"
 
   try {
-    const env = await KilocodeMarkdown.substitute(`\${env:${name}}`, "/tmp/trusted.md", { trusted: true })
+    const env = await KappacodeMarkdown.substitute(`\${env:${name}}`, "/tmp/trusted.md", { trusted: true })
     expect(env).toBe("$environment secret")
   } finally {
     if (prior === undefined) delete process.env[name]

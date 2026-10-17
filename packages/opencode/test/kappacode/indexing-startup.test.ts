@@ -11,7 +11,7 @@ import { WorkspaceV2 } from "@opencode-ai/core/workspace"
 import { Global } from "@opencode-ai/core/global"
 import { message } from "@opencode-ai/core/kappacode/fff"
 import { WorkspaceContext } from "../../src/control-plane/workspace-context"
-import { KiloIndexing, IndexingModelError } from "../../src/kappacode/indexing"
+import { KappaIndexing, IndexingModelError } from "../../src/kappacode/indexing"
 import { indexingWarningKey } from "../../src/kappacode/indexing-warning"
 import { IndexingWorker } from "../../src/kappacode/indexing-worker-client"
 import { provideTestInstance, withTestInstance } from "../fixture/fixture"
@@ -70,7 +70,7 @@ const implicitOpenAi: Partial<Config.Info> = {
     },
   },
 }
-const staleKilo: Partial<Config.Info> = {
+const staleKappa: Partial<Config.Info> = {
   plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     enabled: true,
@@ -104,7 +104,7 @@ function inline(directory: string, root: string, hooks: IndexingWorker.Hooks): I
   }
 }
 
-async function wait(read: () => Promise<KiloIndexing.Status>, state: KiloIndexing.Status["state"]) {
+async function wait(read: () => Promise<KappaIndexing.Status>, state: KappaIndexing.Status["state"]) {
   for (const _ of Array.from({ length: 100 })) {
     const status = await read()
     if (status.state === state) return status
@@ -139,7 +139,7 @@ afterEach(async () => {
 })
 
 describe("indexing model catalog", () => {
-  test("ignores a project-scoped Kilo origin", async () => {
+  test("ignores a project-scoped Kappa origin", async () => {
     await using tmp = await tmpdir({
       git: true,
       init: async (dir) => {
@@ -255,7 +255,7 @@ describe("indexing startup degradation", () => {
       payload?: { type?: string; properties?: typeof warning }
     }) => {
       if (data.directory !== tmp.path) return
-      if (data.payload?.type !== KiloIndexing.Warning.type) return
+      if (data.payload?.type !== KappaIndexing.Warning.type) return
       if (data.payload.properties) events.push(data.payload.properties)
       workspaces.push(data.workspace)
     }
@@ -268,7 +268,7 @@ describe("indexing startup degradation", () => {
         fn: () =>
           withTestInstance({
             directory: tmp.path,
-            fn: () => KiloIndexing.current(),
+            fn: () => KappaIndexing.current(),
           }),
       })
       const app = Server.Default().app
@@ -304,7 +304,7 @@ describe("indexing startup degradation", () => {
         fn: () =>
           withTestInstance({
             directory: tmp.path,
-            fn: () => KiloIndexing.warnings(),
+            fn: () => KappaIndexing.warnings(),
           }),
       })
       const next = { ...warning, message: `${warning.message} Again.` }
@@ -325,7 +325,7 @@ describe("indexing startup degradation", () => {
   })
 
   test("coalesces burst indexing progress publications", async () => {
-    const complete: KiloIndexing.Status = {
+    const complete: KappaIndexing.Status = {
       state: "Complete",
       message: "Index up-to-date.",
       processedFiles: 50,
@@ -353,13 +353,13 @@ describe("indexing startup degradation", () => {
 
     await using tmp = await tmpdir({ git: true, config: cfg })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    const events: KiloIndexing.Status[] = []
+    const events: KappaIndexing.Status[] = []
     const on = (data: {
       directory?: string
-      payload?: { type?: string; properties?: { status?: KiloIndexing.Status } }
+      payload?: { type?: string; properties?: { status?: KappaIndexing.Status } }
     }) => {
       if (data.directory !== tmp.path) return
-      if (data.payload?.type !== KiloIndexing.Event.type) return
+      if (data.payload?.type !== KappaIndexing.Event.type) return
       if (data.payload.properties?.status) events.push(data.payload.properties.status)
     }
     GlobalBus.on("event", on)
@@ -367,7 +367,7 @@ describe("indexing startup degradation", () => {
     try {
       await withTestInstance({
         directory: tmp.path,
-        fn: async () => expect(await wait(() => KiloIndexing.current(), "Complete")).toEqual(complete),
+        fn: async () => expect(await wait(() => KappaIndexing.current(), "Complete")).toEqual(complete),
       })
       await new Promise((resolve) => setTimeout(resolve, 150))
 
@@ -423,13 +423,13 @@ describe("indexing startup degradation", () => {
     process.env["KILO_CONFIG_DIR"] = tmp.path
     const gate = Promise.withResolvers<{ requiresRestart: boolean }>()
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockImplementation(() => gate.promise)
-    const events: KiloIndexing.Status[] = []
+    const events: KappaIndexing.Status[] = []
     const on = (data: {
       directory?: string
-      payload?: { type?: string; properties?: { status?: KiloIndexing.Status } }
+      payload?: { type?: string; properties?: { status?: KappaIndexing.Status } }
     }) => {
       if (data.directory !== tmp.path) return
-      if (data.payload?.type !== KiloIndexing.Event.type) return
+      if (data.payload?.type !== KappaIndexing.Event.type) return
       if (data.payload.properties?.status) events.push(data.payload.properties.status)
     }
     GlobalBus.on("event", on)
@@ -437,10 +437,10 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
           await called(init)
-          expect((await KiloIndexing.current()).state).toBe("In Progress")
+          expect((await KappaIndexing.current()).state).toBe("In Progress")
         },
       })
 
@@ -466,15 +466,15 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
-          const status = await wait(() => KiloIndexing.current(), "Error")
+          const status = await wait(() => KappaIndexing.current(), "Error")
 
           expect(status.state).toBe("Error")
           expect(status.message).toContain("Failed to initialize: test indexing initialization failed")
-          expect(await KiloIndexing.available()).toBe(false)
-          expect(KiloIndexing.ready()).toBe(false)
-          expect(await KiloIndexing.search("boot failure")).toEqual([])
+          expect(await KappaIndexing.available()).toBe(false)
+          expect(KappaIndexing.ready()).toBe(false)
+          expect(await KappaIndexing.search("boot failure")).toEqual([])
           expect(dispose).toHaveBeenCalledTimes(1)
         },
       })
@@ -493,14 +493,14 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
           await called(init)
 
           expect(init).toHaveBeenCalled()
-          expect(KiloIndexing.ready()).toBe(false)
-          expect(await KiloIndexing.available()).toBe(false)
-          const search = KiloIndexing.search("boot failure")
+          expect(KappaIndexing.ready()).toBe(false)
+          expect(await KappaIndexing.available()).toBe(false)
+          const search = KappaIndexing.search("boot failure")
           const pending = await Promise.race([search.then(() => false), Promise.resolve(true)])
           expect(pending).toBe(true)
           gate.resolve({ requiresRestart: false })
@@ -521,15 +521,15 @@ describe("indexing startup degradation", () => {
     await provideTestInstance({
       directory: tmp.path,
       fn: async () => {
-        const status = await wait(() => KiloIndexing.current(), "Disabled")
+        const status = await wait(() => KappaIndexing.current(), "Disabled")
 
         expect(status).toMatchObject({
           state: "Disabled",
           message: "Indexing disabled.",
         })
-        expect(await KiloIndexing.available()).toBe(false)
-        expect(KiloIndexing.ready()).toBe(false)
-        expect(await KiloIndexing.search("disabled")).toEqual([])
+        expect(await KappaIndexing.available()).toBe(false)
+        expect(KappaIndexing.ready()).toBe(false)
+        expect(await KappaIndexing.search("disabled")).toEqual([])
         expect(init).not.toHaveBeenCalled()
       },
     })
@@ -551,10 +551,10 @@ describe("indexing startup degradation", () => {
         await provideTestInstance({
           directory,
           fn: async () => {
-            expect(await KiloIndexing.current()).toMatchObject({ state: "Disabled", message })
-            expect(await KiloIndexing.available()).toBe(false)
-            expect(KiloIndexing.ready()).toBe(false)
-            expect(await KiloIndexing.search("filesystem root")).toEqual([])
+            expect(await KappaIndexing.current()).toMatchObject({ state: "Disabled", message })
+            expect(await KappaIndexing.available()).toBe(false)
+            expect(KappaIndexing.ready()).toBe(false)
+            expect(await KappaIndexing.search("filesystem root")).toEqual([])
             const warnings = await app.request("/config/warnings", { headers: { "x-kappa-directory": directory } })
             expect(warnings.status).toBe(200)
             expect(await warnings.json()).toContainEqual(expect.objectContaining({ message }))
@@ -585,11 +585,11 @@ describe("indexing startup degradation", () => {
       directory,
       fn: async () => {
         await fs.rmdir(directory)
-        await KiloIndexing.init()
-        const status = await KiloIndexing.current()
-        expect(await KiloIndexing.available()).toBe(false)
-        expect(KiloIndexing.ready()).toBe(false)
-        expect(await KiloIndexing.search("removed workspace")).toEqual([])
+        await KappaIndexing.init()
+        const status = await KappaIndexing.current()
+        expect(await KappaIndexing.available()).toBe(false)
+        expect(KappaIndexing.ready()).toBe(false)
+        expect(await KappaIndexing.search("removed workspace")).toEqual([])
         expect(created).toEqual([])
         if (disabled) {
           expect(status).toMatchObject({
@@ -623,8 +623,8 @@ describe("indexing startup degradation", () => {
     const key = process.env.KILO_API_KEY
 
     const config: Partial<Config.Info> = {
-      ...staleKilo,
-      indexing: { ...staleKilo.indexing, enabled: false, model: "removed/model" },
+      ...staleKappa,
+      indexing: { ...staleKappa.indexing, enabled: false, model: "removed/model" },
     }
     await using tmp = await tmpdir({ git: true, config })
     process.env["KILO_CONFIG_DIR"] = tmp.path
@@ -633,9 +633,9 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
-          const status = await wait(() => KiloIndexing.current(), "Disabled")
+          const status = await wait(() => KappaIndexing.current(), "Disabled")
           expect(status.state).toBe("Disabled")
           const modelErr = warn.mock.calls.find((call) => IndexingModelError.isInstance(call[1]?.err))?.[1]?.err
           expect(modelErr).toBeUndefined()
@@ -648,14 +648,14 @@ describe("indexing startup degradation", () => {
     }
   })
 
-  test("disabled indexing does not resolve the Kilo model catalog", async () => {
+  test("disabled indexing does not resolve the Kappa model catalog", async () => {
     const fetchSpy = spyOn(globalThis, "fetch")
     const key = process.env.KILO_API_KEY
 
     const config: Partial<Config.Info> = {
-      ...staleKilo,
+      ...staleKappa,
       indexing: {
-        ...staleKilo.indexing,
+        ...staleKappa.indexing,
         enabled: false,
         model: "removed/model",
         kappa: { baseUrl: "not a url" },
@@ -668,9 +668,9 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
-          const status = await wait(() => KiloIndexing.current(), "Disabled")
+          const status = await wait(() => KappaIndexing.current(), "Disabled")
           expect(status.state).toBe("Disabled")
           expect(fetchSpy).not.toHaveBeenCalled()
         },
@@ -695,15 +695,15 @@ describe("indexing startup degradation", () => {
     await provideTestInstance({
       directory: tmp.path,
       fn: async () => {
-        const status = await wait(() => KiloIndexing.current(), "Disabled")
+        const status = await wait(() => KappaIndexing.current(), "Disabled")
 
         expect(status).toMatchObject({
           state: "Disabled",
           message: "Indexing disabled.",
         })
-        expect(await KiloIndexing.available()).toBe(false)
-        expect(KiloIndexing.ready()).toBe(false)
-        expect(await KiloIndexing.search("disabled")).toEqual([])
+        expect(await KappaIndexing.available()).toBe(false)
+        expect(KappaIndexing.ready()).toBe(false)
+        expect(await KappaIndexing.search("disabled")).toEqual([])
         expect(created).toEqual([])
       },
     })
@@ -729,9 +729,9 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.setConsent(false)),
+        init: Effect.promise(() => KappaIndexing.setConsent(false)),
         fn: async () => {
-          const status = await KiloIndexing.current()
+          const status = await KappaIndexing.current()
           expect(status.state).toBe("Disabled")
           expect(status.message).toContain("enable it for this project")
           expect(created).toEqual([])
@@ -776,25 +776,25 @@ describe("indexing startup degradation", () => {
       await withTestInstance({
         directory: tmp.path,
         fn: async () => {
-          await KiloIndexing.setConsent(true)
-          await wait(() => KiloIndexing.current(), "Standby")
+          await KappaIndexing.setConsent(true)
+          await wait(() => KappaIndexing.current(), "Standby")
         },
       })
       await withTestInstance({
         directory: worktree,
-        fn: async () => expect((await wait(() => KiloIndexing.current(), "Standby")).state).toBe("Standby"),
+        fn: async () => expect((await wait(() => KappaIndexing.current(), "Standby")).state).toBe("Standby"),
       })
       expect(new Set(created)).toEqual(new Set([tmp.path, worktree]))
 
       await withTestInstance({
         directory: tmp.path,
-        fn: () => KiloIndexing.setConsent(false),
+        fn: () => KappaIndexing.setConsent(false),
       })
 
       expect(new Set(disposed)).toEqual(new Set([tmp.path, worktree]))
       await withTestInstance({
         directory: worktree,
-        fn: async () => expect((await KiloIndexing.current()).state).toBe("Disabled"),
+        fn: async () => expect((await KappaIndexing.current()).state).toBe("Disabled"),
       })
     } finally {
       process.env["KILO_PLATFORM"] = "cli"
@@ -802,7 +802,7 @@ describe("indexing startup degradation", () => {
     }
   }, 15_000)
 
-  test("enriches Kilo provider config from env auth", async () => {
+  test("enriches Kappa provider config from env auth", async () => {
     global.fetch = (() =>
       Promise.resolve(
         new Response(
@@ -827,7 +827,7 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
@@ -849,7 +849,7 @@ describe("indexing startup degradation", () => {
     }
   })
 
-  test("reports an error for an unsupported explicit Kilo model instead of falling back", async () => {
+  test("reports an error for an unsupported explicit Kappa model instead of falling back", async () => {
     global.fetch = (() =>
       Promise.resolve(
         new Response(
@@ -866,21 +866,21 @@ describe("indexing startup degradation", () => {
     const warn = spyOn(logger, "warn")
     const key = process.env.KILO_API_KEY
 
-    await using tmp = await tmpdir({ git: true, config: staleKilo })
+    await using tmp = await tmpdir({ git: true, config: staleKappa })
     process.env["KILO_CONFIG_DIR"] = tmp.path
     process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
-          const status = await wait(() => KiloIndexing.current(), "Error")
+          const status = await wait(() => KappaIndexing.current(), "Error")
           expect(status.state).toBe("Error")
           expect(status.message).toBe('Failed to initialize: Invalid indexing.model "custom/model"')
-          expect(await KiloIndexing.available()).toBe(false)
-          expect(KiloIndexing.ready()).toBe(false)
-          expect(await KiloIndexing.search("unsupported model")).toEqual([])
+          expect(await KappaIndexing.available()).toBe(false)
+          expect(KappaIndexing.ready()).toBe(false)
+          expect(await KappaIndexing.search("unsupported model")).toEqual([])
 
           const err = warn.mock.calls[0]?.[1]?.err
           expect(err).toBeDefined()
@@ -895,7 +895,7 @@ describe("indexing startup degradation", () => {
     }
   })
 
-  test("passes a valid explicit Kilo model through without error", async () => {
+  test("passes a valid explicit Kappa model through without error", async () => {
     global.fetch = (() =>
       Promise.resolve(
         new Response(
@@ -914,8 +914,8 @@ describe("indexing startup degradation", () => {
     const key = process.env.KILO_API_KEY
 
     const config: Partial<Config.Info> = {
-      ...staleKilo,
-      indexing: { ...staleKilo.indexing, model: "mistralai/mistral-embed-2312" },
+      ...staleKappa,
+      indexing: { ...staleKappa.indexing, model: "mistralai/mistral-embed-2312" },
     }
     await using tmp = await tmpdir({ git: true, config })
     process.env["KILO_CONFIG_DIR"] = tmp.path
@@ -924,7 +924,7 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
@@ -935,7 +935,7 @@ describe("indexing startup degradation", () => {
           })
           const modelErr = warn.mock.calls.find((call) => IndexingModelError.isInstance(call[1]?.err))?.[1]?.err
           expect(modelErr).toBeUndefined()
-          expect((await KiloIndexing.current()).state).not.toBe("Error")
+          expect((await KappaIndexing.current()).state).not.toBe("Error")
         },
       })
     } finally {
@@ -946,7 +946,7 @@ describe("indexing startup degradation", () => {
     }
   })
 
-  test("uses hosted dimensions for supported Kilo models", async () => {
+  test("uses hosted dimensions for supported Kappa models", async () => {
     global.fetch = (() =>
       Promise.resolve(
         new Response(
@@ -968,9 +968,9 @@ describe("indexing startup degradation", () => {
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
     const key = process.env.KILO_API_KEY
     const config: Partial<Config.Info> = {
-      ...staleKilo,
+      ...staleKappa,
       indexing: {
-        ...staleKilo.indexing,
+        ...staleKappa.indexing,
         model: "openai/text-embedding-3-small",
         dimension: 256,
       },
@@ -983,7 +983,7 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
@@ -1000,19 +1000,19 @@ describe("indexing startup degradation", () => {
     }
   })
 
-  test("leaves Kilo model metadata unset when the hosted catalog is unavailable", async () => {
+  test("leaves Kappa model metadata unset when the hosted catalog is unavailable", async () => {
     global.fetch = (() => Promise.resolve(new Response(undefined, { status: 500 }))) as unknown as typeof global.fetch
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
     const key = process.env.KILO_API_KEY
 
-    await using tmp = await tmpdir({ git: true, config: staleKilo })
+    await using tmp = await tmpdir({ git: true, config: staleKappa })
     process.env["KILO_CONFIG_DIR"] = tmp.path
     process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
@@ -1030,7 +1030,7 @@ describe("indexing startup degradation", () => {
     }
   })
 
-  test("does not default to Kilo when an existing provider config is present", async () => {
+  test("does not default to Kappa when an existing provider config is present", async () => {
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
     const key = process.env.KILO_API_KEY
 
@@ -1041,7 +1041,7 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
@@ -1066,17 +1066,17 @@ describe("indexing startup degradation", () => {
     try {
       await provideTestInstance({
         directory: tmp.path,
-        init: Effect.promise(() => KiloIndexing.init()),
+        init: Effect.promise(() => KappaIndexing.init()),
         fn: async () => {
-          const status = await KiloIndexing.current()
+          const status = await KappaIndexing.current()
 
           expect(status).toMatchObject({
             state: "Disabled",
             message: "Codebase indexing is disabled because no workspace folder is open in VS Code.",
           })
-          expect(await KiloIndexing.available()).toBe(false)
-          expect(KiloIndexing.ready()).toBe(false)
-          expect(await KiloIndexing.search("no workspace")).toEqual([])
+          expect(await KappaIndexing.available()).toBe(false)
+          expect(KappaIndexing.ready()).toBe(false)
+          expect(await KappaIndexing.search("no workspace")).toEqual([])
           expect(init).not.toHaveBeenCalled()
         },
       })

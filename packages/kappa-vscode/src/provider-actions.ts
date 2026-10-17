@@ -1,8 +1,8 @@
 /**
- * Provider action handlers extracted from KiloProvider to stay under max-lines.
+ * Provider action handlers extracted from KappaProvider to stay under max-lines.
  * These are pure async functions that operate on the SDK client — no vscode dependency.
  */
-import type { Config, KiloClient } from "@kappacode/sdk/v2"
+import type { Config, KappaClient } from "@kappacode/sdk/v2"
 import { validateProviderID as validateProviderIDShared } from "./shared/custom-provider"
 import {
   resolveCustomProviderAuth,
@@ -51,7 +51,7 @@ function same(a: unknown, b: unknown): boolean {
 }
 
 /** Fetch provider availability and authentication state without exposing stored credentials. */
-export async function fetchProviderData(client: KiloClient, dir: string) {
+export async function fetchProviderData(client: KappaClient, dir: string) {
   const authRequest =
     typeof client.provider.auth === "function"
       ? client.provider
@@ -59,15 +59,15 @@ export async function fetchProviderData(client: KiloClient, dir: string) {
           .then((r) => r.data ?? {})
           .catch(() => ({}))
       : Promise.resolve({})
-  const kiloRequest = client.kappa
+  const kappaRequest = client.kappa
     .authStatus({ directory: dir }, { throwOnError: true })
     .then((r) => r.data)
     .catch(() => undefined)
 
-  const [{ data: response }, authMethods, kiloAuth] = await Promise.all([
+  const [{ data: response }, authMethods, kappaAuth] = await Promise.all([
     client.provider.list({ directory: dir }, { throwOnError: true }),
     authRequest,
-    kiloRequest,
+    kappaRequest,
   ])
   const authStates: Record<string, AuthState> = {}
   const storedKeys: Record<string, StoredProviderKey> = {}
@@ -89,8 +89,8 @@ export async function fetchProviderData(client: KiloClient, dir: string) {
     return next as (typeof response.all)[number]
   })
   delete authStates[KILO_PROVIDER_ID]
-  if (kiloAuth?.authenticated && kiloAuth.type) authStates[KILO_PROVIDER_ID] = kiloAuth.type
-  const organizationId = kiloAuth ? (kiloAuth.organizationId ?? null) : undefined
+  if (kappaAuth?.authenticated && kappaAuth.type) authStates[KILO_PROVIDER_ID] = kappaAuth.type
+  const organizationId = kappaAuth ? (kappaAuth.organizationId ?? null) : undefined
   const defaults = { ...response.default }
   if (organizationId) {
     const models = all.find((item) => item.id === KILO_PROVIDER_ID)?.models ?? {}
@@ -99,24 +99,24 @@ export async function fetchProviderData(client: KiloClient, dir: string) {
     if (model) defaults[KILO_PROVIDER_ID] = model
     if (!model) delete defaults[KILO_PROVIDER_ID]
   }
-  if (!kiloAuth) delete defaults[KILO_PROVIDER_ID]
+  if (!kappaAuth) delete defaults[KILO_PROVIDER_ID]
   return {
     response: {
       ...response,
-      all: kiloAuth ? all : all.filter((item) => item.id !== KILO_PROVIDER_ID),
-      connected: kiloAuth ? response.connected : response.connected.filter((id) => id !== KILO_PROVIDER_ID),
+      all: kappaAuth ? all : all.filter((item) => item.id !== KILO_PROVIDER_ID),
+      connected: kappaAuth ? response.connected : response.connected.filter((id) => id !== KILO_PROVIDER_ID),
       default: defaults,
     },
     authMethods,
     authStates,
     storedKeys,
     organizationId,
-    ready: !!kiloAuth,
+    ready: !!kappaAuth,
     unavailable: catalogUnavailable(response.failed, all, organizationId),
   }
 }
 
-/** An organization's Kilo catalog failed to load, so Kilo has no models to pick. */
+/** An organization's Kappa catalog failed to load, so Kappa has no models to pick. */
 function catalogUnavailable(
   failed: string[] | undefined,
   all: ReadonlyArray<{ id: string; models: Record<string, unknown> }>,
@@ -145,7 +145,7 @@ export function resolveStoredKey(
 }
 
 export function buildActionContext(
-  client: KiloClient,
+  client: KappaClient,
   post: (msg: unknown) => void,
   errFn: (err: unknown) => string,
   dir: string,
@@ -161,7 +161,7 @@ export function buildActionContext(
       // Shared State.dispose() now has a hard per-disposer timeout, so this
       // wait is bounded without needing a client-side timeout here.
       await client.global.dispose().catch((error: unknown) => {
-        console.warn(`[Kilo New] KiloProvider: global.dispose() after ${reason} failed:`, error)
+        console.warn(`[Kappa New] KappaProvider: global.dispose() after ${reason} failed:`, error)
       })
     },
     fetchAndSendProviders: refresh,
@@ -221,7 +221,7 @@ type SetCachedConfig = (msg: unknown) => void
 type AuthMetadata = Record<string, string>
 
 interface ActionContext {
-  client: KiloClient
+  client: KappaClient
   postMessage: PostMessage
   getErrorMessage: GetErrorMessage
   workspaceDir: string
@@ -291,7 +291,7 @@ async function removeAuth(ctx: ActionContext, id: string, configured: boolean) {
     await ctx.client.auth.remove({ providerID: id }, { throwOnError: true })
   } catch (err) {
     if (!configured) throw err
-    console.warn(`[Kilo New] auth.remove failed for configured provider ${id} (non-fatal):`, err)
+    console.warn(`[Kappa New] auth.remove failed for configured provider ${id} (non-fatal):`, err)
   }
 }
 

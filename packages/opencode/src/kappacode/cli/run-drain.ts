@@ -1,9 +1,9 @@
-import { createKiloClient, type Event, type KiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient, type Event, type KappaClient } from "@kappacode/sdk/v2"
 import z from "zod"
 import { setTimeout } from "node:timers/promises"
 import { promisify } from "node:util"
 
-const connections = new WeakMap<KiloClient, NonNullable<Parameters<typeof createKiloClient>[0]>>()
+const connections = new WeakMap<KappaClient, NonNullable<Parameters<typeof createKappaClient>[0]>>()
 const capability = z.object({
   paths: z.object({
     "/kappacode/session/{sessionID}/drain": z.object({
@@ -12,20 +12,20 @@ const capability = z.object({
   }),
 })
 
-export namespace KiloRunDrain {
-  export function client(config: NonNullable<Parameters<typeof createKiloClient>[0]>) {
-    const sdk = createKiloClient(config)
+export namespace KappaRunDrain {
+  export function client(config: NonNullable<Parameters<typeof createKappaClient>[0]>) {
+    const sdk = createKappaClient(config)
     connections.set(sdk, config)
     return sdk
   }
 
-  export function scope(sdk: KiloClient, directory: string, signal?: AbortSignal) {
+  export function scope(sdk: KappaClient, directory: string, signal?: AbortSignal) {
     const config = connections.get(sdk)
     if (!config) throw new Error("Missing headless server transport")
     return client({ ...config, directory, signal: signal ?? config.signal })
   }
 
-  export async function check(sdk: KiloClient, signal: AbortSignal) {
+  export async function check(sdk: KappaClient, signal: AbortSignal) {
     const config = connections.get(sdk)
     if (!config?.baseUrl) throw new Error("Missing headless server transport")
     const headers = new Headers()
@@ -99,7 +99,7 @@ export namespace KiloRunDrain {
         if (closing || (drained && !error)) return
         failure.resolve(error instanceof Error ? error : new Error("Session event stream ended before completion"))
       },
-      async wait(sdk: KiloClient, directory?: string) {
+      async wait(sdk: KappaClient, directory?: string) {
         const result = await race(sdk.kappacode.drainSession({ sessionID, directory, token }, { signal: abort.signal }))
         if (result.error || result.data !== true) throw new Error("Server did not acknowledge session completion")
         await race(acknowledged.promise)

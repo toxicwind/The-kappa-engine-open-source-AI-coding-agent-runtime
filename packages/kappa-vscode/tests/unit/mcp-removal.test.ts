@@ -1,9 +1,9 @@
 import { describe, expect, it } from "bun:test"
-import type { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 import { mcpRemoval } from "../../src/services/mcp-removal"
 
-function connection(): KiloConnectionService {
-  return {} as KiloConnectionService
+function connection(): KappaConnectionService {
+  return {} as KappaConnectionService
 }
 
 describe("mcpRemoval", () => {

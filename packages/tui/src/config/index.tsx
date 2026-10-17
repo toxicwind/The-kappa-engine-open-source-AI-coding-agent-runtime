@@ -2,9 +2,9 @@ export * as TuiConfig from "."
 
 import { createBindingLookup } from "@opentui/keymap/extras"
 import { Schema } from "effect"
-import { createComponent, createContext, type JSX, useContext } from "solid-js" // kilocode_change
+import { createComponent, createContext, type JSX, useContext } from "solid-js" // kappacode_change
 import { TuiKeybind } from "./keybind"
-import { KiloTitleIcon } from "@/kilocode/cli/cmd/tui/title-icon" // kilocode_change
+import { KappaTitleIcon } from "@/kappacode/cli/cmd/tui/title-icon" // kappacode_change
 
 export const AttentionSoundName = Schema.Literals([
   "default",
@@ -67,14 +67,14 @@ export const Info = Schema.Struct({
   plugin_enabled: Schema.optional(Schema.Record(Schema.String, Schema.Boolean)),
   leader_timeout: Schema.optional(LeaderTimeout),
   attention: Schema.optional(Attention),
-  title_icon: Schema.optional(KiloTitleIcon.Value), // kilocode_change
+  title_icon: Schema.optional(KappaTitleIcon.Value), // kappacode_change
   prompt: Schema.optional(Prompt),
   scroll_speed: Schema.optional(ScrollSpeed).annotate({ description: "TUI scroll speed" }),
   scroll_acceleration: Schema.optional(ScrollAcceleration),
   diff_style: Schema.optional(DiffStyle),
   cursor: Schema.optional(Cursor),
   mouse: Schema.optional(Schema.Boolean).annotate({ description: "Enable or disable mouse capture (default: true)" }),
-  vim: Schema.optional(Schema.Boolean), // kilocode_change - retain Kilo prompt editing mode
+  vim: Schema.optional(Schema.Boolean), // kappacode_change - retain Kappa prompt editing mode
 })
 export type Info = Schema.Schema.Type<typeof Info>
 
@@ -120,7 +120,7 @@ export function resolve(input: Info, options: ResolveOptions): Resolved {
       notifications: input.attention?.notifications ?? true,
       sound: input.attention?.sound ?? true,
       volume: input.attention?.volume ?? 0.4,
-      sound_pack: input.attention?.sound_pack ?? "kappa.default", // kilocode_change
+      sound_pack: input.attention?.sound_pack ?? "kappa.default", // kappacode_change
       sounds: input.attention?.sounds ?? {},
     },
     keybinds: createBindingLookup(TuiKeybind.toBindingConfig(TuiKeybind.parse(keybinds)), {
@@ -141,7 +141,7 @@ export function resolve(input: Info, options: ResolveOptions): Resolved {
 const ConfigContext = createContext<Resolved>()
 
 export function TuiConfigProvider(props: { config: Resolved; children: JSX.Element }) {
-  // kilocode_change start
+  // kappacode_change start
   return createComponent(ConfigContext.Provider, {
     get value() {
       return props.config
@@ -150,7 +150,7 @@ export function TuiConfigProvider(props: { config: Resolved; children: JSX.Eleme
       return props.children
     },
   })
-  // kilocode_change end
+  // kappacode_change end
 }
 
 export function useTuiConfig() {

@@ -28,7 +28,7 @@ export function createTuiResolvedConfig(input: ResolvedInput = {}): HostResolved
     notifications: true,
     sound: true,
     volume: 0.4,
-    sound_pack: "kappa.default", // kilocode_change
+    sound_pack: "kappa.default", // kappacode_change
     sounds: {},
     ...input.attention,
   }

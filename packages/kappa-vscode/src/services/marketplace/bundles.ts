@@ -1,6 +1,6 @@
 import * as path from "path"
 import * as vscode from "vscode"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 
 export interface McpBundle {
   id: string
@@ -66,7 +66,7 @@ function scopeFor(skillPath: string, directory: string): "project" | "global" {
  * membership is reconstructed client-side the same way for every consumer
  * (the Skills settings subtab uses this to confirm bundle-aware removal).
  */
-export async function marketplaceBundles(client: KiloClient, directory: string): Promise<McpBundle[]> {
+export async function marketplaceBundles(client: KappaClient, directory: string): Promise<McpBundle[]> {
   const { data: skills } = await client.app.skills({ directory }, { throwOnError: true })
   const owned = new Map<string, { scope: "project" | "global"; skills: Set<string> }>()
 

@@ -1,7 +1,7 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 
 export interface PromoteHandoffInput {
-  client: KiloClient
+  client: KappaClient
   sessionId: string
   directory: string
   branch: string
@@ -29,7 +29,7 @@ export async function recordPromotionHandoff(input: PromoteHandoffInput): Promis
         synthetic: true,
       },
     ],
-  } as Parameters<KiloClient["session"]["promptAsync"]>[0]
+  } as Parameters<KappaClient["session"]["promptAsync"]>[0]
 
   await input.client.session.promptAsync(payload, { throwOnError: true })
 }

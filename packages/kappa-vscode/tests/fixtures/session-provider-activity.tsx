@@ -441,7 +441,7 @@ try {
       providers: {
         kappa: {
           id: "kappa",
-          name: "Kilo",
+          name: "Kappa",
           models: Object.fromEntries(
             ids.map((id) => [
               id,

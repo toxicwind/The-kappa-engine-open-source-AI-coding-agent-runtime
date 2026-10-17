@@ -23,7 +23,7 @@ const release = mount(() => (
         selectedText="return 1"
         destination="local"
         onSave={(body) => saved.push(body)}
-        onSendKilo={(body) => sent.push(body)}
+        onSendKappa={(body) => sent.push(body)}
         onGithubSuccess={() => completed++}
         onCancel={() => cancelled++}
         onDestinationChange={() => {}}
@@ -48,7 +48,7 @@ const release = mount(() => (
           closed: false,
         }}
         onSave={() => {}}
-        onSendKilo={() => {}}
+        onSendKappa={() => {}}
         onGithubSuccess={() => completed++}
         onCancel={() => cancelled++}
         onDestinationChange={() => {}}
@@ -73,7 +73,7 @@ const release = mount(() => (
           closed: false,
         }}
         onSave={() => {}}
-        onSendKilo={() => {}}
+        onSendKappa={() => {}}
         onGithubSuccess={() => completed++}
         onCancel={() => cancelled++}
         onDestinationChange={() => {}}
@@ -86,8 +86,8 @@ const local = node("#local")
 const remote = node("#remote")
 const remote2 = node("#remote2")
 
-// Local-only destination exposes Kilo actions, never the GitHub split button.
-assert.equal(button("send-kappa", local).textContent, "Send to Kilo")
+// Local-only destination exposes Kappa actions, never the GitHub split button.
+assert.equal(button("send-kappa", local).textContent, "Send to Kappa")
 assert.equal(button("save", local).textContent, "Save")
 assert.equal(button("cancel", local).textContent, "Cancel")
 assert.equal(local.querySelector('[data-action="send-primary"]'), null, "no split button without a PR")
@@ -100,9 +100,9 @@ assert.equal(input(local).value, "", "saving clears the composer")
 type(local, "Send this")
 button("send-kappa", local).click()
 assert.deepEqual(sent, ["Send this"])
-assert.equal(input(local).value, "", "sending to Kilo clears the composer")
+assert.equal(input(local).value, "", "sending to Kappa clears the composer")
 
-// Plain Enter sends to Kilo and never posts to GitHub.
+// Plain Enter sends to Kappa and never posts to GitHub.
 type(local, "Keyboard send")
 input(local).dispatchEvent(new window.KeyboardEvent("keydown", { key: "Enter", bubbles: true }))
 assert.deepEqual(sent, ["Send this", "Keyboard send"])
@@ -112,7 +112,7 @@ assert.equal(messages.length, 0, "local actions never request a GitHub write")
 type(local, "Keyboard save")
 input(local).dispatchEvent(new window.KeyboardEvent("keydown", { key: "Enter", metaKey: true, bubbles: true }))
 assert.deepEqual(saved, ["Keep this", "Keyboard save"], "Cmd+Enter saves the comment")
-assert.deepEqual(sent, ["Send this", "Keyboard send"], "Cmd+Enter does not send to Kilo")
+assert.deepEqual(sent, ["Send this", "Keyboard send"], "Cmd+Enter does not send to Kappa")
 assert.equal(messages.length, 0, "Cmd+Enter never requests a GitHub write")
 
 // The remembered GitHub destination drives the split primary label.

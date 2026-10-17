@@ -26,29 +26,29 @@ test("model selector exposes combobox relationships and active option movement",
   await expect(combobox).toHaveAttribute("aria-controls", await tree.getAttribute("id"))
   await expect(combobox).toHaveAttribute("aria-activedescendant", await alpha.getAttribute("id"))
   await expect(combobox).toHaveAccessibleDescription("Choose the model used for code review tasks.")
-  await expect(alpha.locator(".model-selector-item-provider-tag")).toHaveText("Kilo")
-  await expect(bravo.locator(".model-selector-item-provider-tag")).toHaveText("Kilo")
+  await expect(alpha.locator(".model-selector-item-provider-tag")).toHaveText("Kappa")
+  await expect(bravo.locator(".model-selector-item-provider-tag")).toHaveText("Kappa")
   await expect(alpha.locator("button")).toHaveCount(0)
   await expect(page.getByRole("button", { name: "Add to favorites: Alpha" })).toBeVisible()
   await expect(page.locator(".model-selector-group-label").nth(0)).toContainText("Auto Models")
   await expect(page.locator(".model-selector-group-label").nth(1)).toContainText("Recommended")
-  const auto = page.getByRole("treeitem", { name: /Kilo Auto Efficient/ })
+  const auto = page.getByRole("treeitem", { name: /Kappa Auto Efficient/ })
   await expect(auto).toBeVisible()
   await expect(auto.locator(".model-selector-auto-icon")).toHaveAttribute(
     "aria-label",
     "Routes each request to the cheapest model that gets the job done, based on continuously benchmarked accuracy and cost.",
   )
-  const kappa = page.getByRole("treeitem", { name: "Kilo", exact: true })
-  const legacy = page.getByRole("treeitem", { name: /Kilo Auto Legacy/ })
+  const kappa = page.getByRole("treeitem", { name: "Kappa", exact: true })
+  const legacy = page.getByRole("treeitem", { name: /Kappa Auto Legacy/ })
   await expect(legacy).toBeVisible()
-  const legacyAfterKilo = await kappa.evaluate(
+  const legacyAfterKappa = await kappa.evaluate(
     (group, id) => {
       const model = document.getElementById(id!)
       return !!model && !!(group.compareDocumentPosition(model) & Node.DOCUMENT_POSITION_FOLLOWING)
     },
     await legacy.getAttribute("id"),
   )
-  expect(legacyAfterKilo).toBe(true)
+  expect(legacyAfterKappa).toBe(true)
   await expect(page.getByRole("treeitem", { name: "Omega" })).toBeVisible()
 
   await combobox.press("ArrowDown")
@@ -81,7 +81,7 @@ test("auto efficient details show server description and model choices", async (
   await load(page, "shared--model-selector-accessible")
 
   await page.getByRole("button", { name: "Review model: Alpha" }).click()
-  await page.getByRole("treeitem", { name: /Kilo Auto Efficient/ }).click()
+  await page.getByRole("treeitem", { name: /Kappa Auto Efficient/ }).click()
 
   const preview = page.locator(".model-selector-preview")
   await expect(preview).toContainText(
@@ -97,7 +97,7 @@ test("auto frontier details show model choices when routes are present", async (
   await load(page, "shared--model-selector-accessible")
 
   await page.getByRole("button", { name: "Review model: Alpha" }).click()
-  await page.getByRole("treeitem", { name: /Kilo Auto Frontier/ }).click()
+  await page.getByRole("treeitem", { name: /Kappa Auto Frontier/ }).click()
 
   const preview = page.locator(".model-selector-preview")
   await expect(preview).toContainText("Routes each request to the strongest available models.")
@@ -126,7 +126,7 @@ test("provider groups collapse, expand, and skip their model rows", async ({ pag
 
   await page.getByRole("button", { name: "Review model: Alpha" }).click()
   const combobox = page.getByRole("combobox", { name: "Review model: Alpha. Search models" })
-  const kappa = page.getByRole("treeitem", { name: "Kilo", exact: true })
+  const kappa = page.getByRole("treeitem", { name: "Kappa", exact: true })
   const nvidia = page.getByRole("treeitem", { name: "NVIDIA", exact: true })
 
   await combobox.press("ArrowDown")

@@ -1,4 +1,4 @@
 // Main exports for cli-backend services
 
-export { KiloConnectionService } from "./connection-service"
+export { KappaConnectionService } from "./connection-service"
 export { ServerStartupError } from "./server-manager"

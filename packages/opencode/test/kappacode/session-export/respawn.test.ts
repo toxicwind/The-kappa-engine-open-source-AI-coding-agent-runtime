@@ -7,20 +7,20 @@ describe("SessionExport worker respawn", () => {
 
   beforeEach(async () => {
     await SessionExport.shutdown()
-    feature = process.env.KILOCODE_FEATURE
+    feature = process.env.KAPPACODE_FEATURE
     resetEligibility()
   })
 
   afterEach(async () => {
     await SessionExport.shutdown()
     resetEligibility()
-    if (feature === undefined) delete process.env.KILOCODE_FEATURE
-    else process.env.KILOCODE_FEATURE = feature
+    if (feature === undefined) delete process.env.KAPPACODE_FEATURE
+    else process.env.KAPPACODE_FEATURE = feature
   })
 
   test("passes surface to worker init", () => {
     const workers: FakeWorker[] = []
-    process.env.KILOCODE_FEATURE = "cli"
+    process.env.KAPPACODE_FEATURE = "cli"
     SessionExport.init({
       agentVersion: "v0",
       dbPath: ":memory:",

@@ -1,4 +1,4 @@
-import { KiloPtySelfCommand } from "@/kappacode/pty/self-command"
+import { KappaPtySelfCommand } from "@/kappacode/pty/self-command"
 import { Filesystem } from "@/util/filesystem"
 import { Process } from "@/util/process"
 import { isRecord } from "@/util/record"
@@ -50,7 +50,7 @@ export namespace BackgroundProcessRunner {
   }
 
   export function command(input: Input) {
-    const self = KiloPtySelfCommand.command()
+    const self = KappaPtySelfCommand.command()
     const source = path.basename(self.command).toLowerCase().includes("bun")
     const script = self.args.find((item) => /\.(ts|js|mjs|cjs)$/.test(item))
     const args =

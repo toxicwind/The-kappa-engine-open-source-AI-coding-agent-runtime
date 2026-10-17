@@ -15,11 +15,11 @@ import { ConfigV2Compat } from "@/config/v2-compat"
 import { ConfigVariable } from "@/config/variable"
 import { Filesystem } from "@/util/filesystem"
 import { isRecord } from "@/util/record"
-import { KilocodeConfig } from "./config"
+import { KappacodeConfig } from "./config"
 import { sanitizeProjectMcpHeaders } from "./mcp-headers"
-import { KilocodeConfigSources } from "./sources"
+import { KappacodeConfigSources } from "./sources"
 
-export namespace KilocodeConfigOverlay {
+export namespace KappacodeConfigOverlay {
   const log = Log.create({ service: "kappacode.config.overlay" })
 
   export const Scope = z.enum(["global", "project"])
@@ -59,7 +59,7 @@ export namespace KilocodeConfigOverlay {
     effective: z.custom<Config.Info>(Schema.is(Config.Info)),
     global: z.custom<Config.Info>(Schema.is(Config.Info)),
     project: z.custom<Config.Info>(Schema.is(Config.Info)),
-    sources: z.array(KilocodeConfigSources.Source),
+    sources: z.array(KappacodeConfigSources.Source),
     targets: z.object({ global: z.custom<Target>(), project: z.custom<Target>(), active: z.custom<Target>() }),
     fields: z.record(z.string(), Resolved),
     collections: z.record(z.string(), z.array(Resolved)),
@@ -81,7 +81,7 @@ export namespace KilocodeConfigOverlay {
     scope: Scope
     effective: Config.Info
     global: Config.Info
-    sources: KilocodeConfigSources.Source[]
+    sources: KappacodeConfigSources.Source[]
   }
 
   const files = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json"] as const
@@ -139,7 +139,7 @@ export namespace KilocodeConfigOverlay {
     // kappacode_change - project config is untrusted; confine {file:} reads to the project root
     const root = input.worktree && input.worktree !== "/" ? input.worktree : input.directory
     const configs = await Promise.all(found.map((file) => load(file, { root, source: file })))
-    return configs.reduce((result, cfg) => KilocodeConfig.mergeConfig(result, cfg), {} as Config.Info)
+    return configs.reduce((result, cfg) => KappacodeConfig.mergeConfig(result, cfg), {} as Config.Info)
   }
 
   export async function projectTarget(input: { directory: string; worktree?: string }) {
@@ -232,8 +232,8 @@ export namespace KilocodeConfigOverlay {
   // structurally, not via the schema, because a shadowing file may use another shape.
   export async function shadow(input: { scope: Scope; directory: string; worktree?: string; patch: Config.Info }) {
     const [{ sources }, { path: target }] = await Promise.all([
-      KilocodeConfigSources.list(input),
-      KilocodeConfigOverlay.target(input),
+      KappacodeConfigSources.list(input),
+      KappacodeConfigOverlay.target(input),
     ])
     const files = sources.flatMap((item) =>
       item.path && shadowKinds.has(item.kind) ? [{ ...item, path: item.path }] : [],
@@ -287,7 +287,7 @@ export namespace KilocodeConfigOverlay {
     const fileScope = trusted || !root ? undefined : { root, source: dir }
     const agent = await ConfigAgent.load(dir, undefined, trusted, fileScope, fileScope)
     const mode = await ConfigAgent.loadMode(dir, undefined, trusted, fileScope, fileScope)
-    const next = KilocodeConfig.mergeConfig(KilocodeConfig.mergeConfig(input, { agent }), { agent: mode })
+    const next = KappacodeConfig.mergeConfig(KappacodeConfig.mergeConfig(input, { agent }), { agent: mode })
     return withAgents(next, rest, trusted, root)
   }
   // kappacode_change end

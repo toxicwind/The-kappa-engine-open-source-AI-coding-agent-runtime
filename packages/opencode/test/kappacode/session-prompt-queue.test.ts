@@ -7,9 +7,9 @@ import { Bus } from "../../src/bus"
 import { AppRuntime } from "../../src/effect/app-runtime"
 import { makeRuntime } from "../../src/effect/run-service"
 import { InstanceRef } from "../../src/effect/instance-ref"
-import { KiloSessionCompaction } from "@/kappacode/session/compaction"
-import { KiloSessionPromptQueue } from "@/kappacode/session/prompt-queue"
-import { KiloSession } from "@/kappacode/session"
+import { KappaSessionCompaction } from "@/kappacode/session/compaction"
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
+import { KappaSession } from "@/kappacode/session"
 import { Suggestion } from "../../src/kappacode/suggestion"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -202,10 +202,10 @@ describe("session prompt queue", () => {
     ]
 
     const ids = await Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         two,
-        Effect.sync(() => KiloSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id)),
+        Effect.sync(() => KappaSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id)),
         Effect.succeed([]),
       ),
     )
@@ -238,10 +238,10 @@ describe("session prompt queue", () => {
     ]
 
     const ids = await Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         m3,
-        Effect.sync(() => KiloSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id)),
+        Effect.sync(() => KappaSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id)),
         Effect.succeed([]),
       ),
     )
@@ -269,10 +269,10 @@ describe("session prompt queue", () => {
     ]
 
     const ids = await Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         m2,
-        Effect.sync(() => KiloSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id)),
+        Effect.sync(() => KappaSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id)),
         Effect.succeed([]),
       ),
     )
@@ -297,14 +297,14 @@ describe("session prompt queue", () => {
     ]
 
     const result = await Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         base,
         Effect.sync(() => {
-          KiloSessionPromptQueue.retarget(sessionID, injected)
+          KappaSessionPromptQueue.retarget(sessionID, injected)
           return {
-            active: KiloSessionPromptQueue.active(sessionID),
-            ids: KiloSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id),
+            active: KappaSessionPromptQueue.active(sessionID),
+            ids: KappaSessionPromptQueue.scope(sessionID, messages).map((item) => item.info.id),
           }
         }),
         Effect.succeed({ active: undefined, ids: [] }),
@@ -336,12 +336,12 @@ describe("session prompt queue", () => {
         await sessions.updateMessage(user(session.id, queued).info)
 
         const result = await Effect.runPromise(
-          KiloSessionPromptQueue.enqueue(
+          KappaSessionPromptQueue.enqueue(
             session.id,
             queued,
             Effect.promise(async () => {
               await Effect.runPromise(
-                KiloSessionCompaction.create({
+                KappaSessionCompaction.create({
                   session: store,
                   sessionID: session.id,
                   agent: "code",
@@ -352,7 +352,7 @@ describe("session prompt queue", () => {
               )
               const messages = await sessions.messages({ sessionID: session.id })
               const compact = messages.find((msg) => msg.parts.some((part) => part.type === "compaction"))?.info.id
-              return { compact, ids: KiloSessionPromptQueue.scope(session.id, messages).map((item) => item.info.id) }
+              return { compact, ids: KappaSessionPromptQueue.scope(session.id, messages).map((item) => item.info.id) }
             }),
             Effect.succeed({ compact: undefined, ids: [] }),
           ),
@@ -374,14 +374,14 @@ describe("session prompt queue", () => {
     const secondReleased = Promise.withResolvers<void>()
 
     const first = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         MessageID.make("msg_followup_1"),
         Effect.gen(function* () {
-          observed.push({ where: "first:start", value: KiloSessionPromptQueue.hasFollowup(sessionID) })
+          observed.push({ where: "first:start", value: KappaSessionPromptQueue.hasFollowup(sessionID) })
           firstStarted.resolve()
           yield* Effect.promise(() => firstReleased.promise)
-          observed.push({ where: "first:end", value: KiloSessionPromptQueue.hasFollowup(sessionID) })
+          observed.push({ where: "first:end", value: KappaSessionPromptQueue.hasFollowup(sessionID) })
           return "first"
         }),
         Effect.succeed("first-cancelled"),
@@ -393,11 +393,11 @@ describe("session prompt queue", () => {
     expect(observed[0]?.value).toBe(false)
 
     const second = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         MessageID.make("msg_followup_2"),
         Effect.gen(function* () {
-          observed.push({ where: "second:start", value: KiloSessionPromptQueue.hasFollowup(sessionID) })
+          observed.push({ where: "second:start", value: KappaSessionPromptQueue.hasFollowup(sessionID) })
           secondStarted.resolve()
           yield* Effect.promise(() => secondReleased.promise)
           return "second"
@@ -409,14 +409,14 @@ describe("session prompt queue", () => {
     // Enqueueing msg2 while msg1 is still running must flip hasFollowup to true
     // for msg1's running slot.
     await new Promise((resolve) => setTimeout(resolve, 10))
-    expect(KiloSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
+    expect(KappaSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
 
     const third = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         MessageID.make("msg_followup_3"),
         Effect.sync(() => {
-          observed.push({ where: "third:start", value: KiloSessionPromptQueue.hasFollowup(sessionID) })
+          observed.push({ where: "third:start", value: KappaSessionPromptQueue.hasFollowup(sessionID) })
           return "third"
         }),
         Effect.succeed("third-cancelled"),
@@ -430,7 +430,7 @@ describe("session prompt queue", () => {
 
     // msg2 started after msg3 was enqueued, so hasFollowup should be false for
     // msg2 — everything waiting is older than msg2's activeSince snapshot.
-    expect(KiloSessionPromptQueue.hasFollowup(sessionID)).toBe(false)
+    expect(KappaSessionPromptQueue.hasFollowup(sessionID)).toBe(false)
     secondReleased.resolve()
 
     expect(await second).toBe("second")
@@ -591,8 +591,8 @@ describe("session prompt queue", () => {
         directory: tmp.path,
         fn: async () =>
           scoped(tmp.path, async (prompt) => {
-            const closed: KiloSession.CloseReason[] = []
-            const unsubscribe = Bus.subscribe(KiloSession.Event.TurnClose, (event) => {
+            const closed: KappaSession.CloseReason[] = []
+            const unsubscribe = Bus.subscribe(KappaSession.Event.TurnClose, (event) => {
               closed.push(event.properties.reason)
             })
 
@@ -620,7 +620,7 @@ describe("session prompt queue", () => {
             // turn, then let the first stream drain so runLoop hands off.
             await Effect.runPromise(
               pollWithTimeout(
-                Effect.sync(() => (KiloSessionPromptQueue.hasFollowup(session.id) ? (true as const) : undefined)),
+                Effect.sync(() => (KappaSessionPromptQueue.hasFollowup(session.id) ? (true as const) : undefined)),
                 "follow-up prompt never queued behind the in-flight turn",
                 "3 seconds",
               ),
@@ -712,12 +712,12 @@ describe("session prompt queue", () => {
   test("cancel on a session with no active tail is a no-op and does not leak state", async () => {
     const sessionID = SessionID.make("session_cancel_noop")
 
-    await Effect.runPromise(KiloSessionPromptQueue.cancel(sessionID))
+    await Effect.runPromise(KappaSessionPromptQueue.cancel(sessionID))
 
-    expect(KiloSessionPromptQueue._hasInternalState(sessionID)).toBe(false)
+    expect(KappaSessionPromptQueue._hasInternalState(sessionID)).toBe(false)
 
     const result = await Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         MessageID.make("msg_probe"),
         Effect.succeed("work executed"),
@@ -762,8 +762,8 @@ describe("session prompt queue", () => {
         fn: async () =>
           scoped(tmp.path, async (prompt) => {
             const session = await sessions.create({ title: "Queued cancel regression" })
-            const closed = Promise.withResolvers<KiloSession.CloseReason>()
-            const off = Bus.subscribe(KiloSession.Event.TurnClose, (event) => {
+            const closed = Promise.withResolvers<KappaSession.CloseReason>()
+            const off = Bus.subscribe(KappaSession.Event.TurnClose, (event) => {
               if (event.properties.sessionID === session.id) closed.resolve(event.properties.reason)
             })
             const first = Effect.runPromise(
@@ -795,7 +795,7 @@ describe("session prompt queue", () => {
             await Effect.runPromise(
               pollWithTimeout(
                 Effect.sync(() =>
-                  KiloSessionPromptQueue.snapshot(session.id).length >= 2 ? (true as const) : undefined,
+                  KappaSessionPromptQueue.snapshot(session.id).length >= 2 ? (true as const) : undefined,
                 ),
                 "both follow-up prompts never queued behind the in-flight turn",
                 "3 seconds",
@@ -822,15 +822,15 @@ describe("session prompt queue", () => {
 
             // Internal state should have no lingering tail/version/target entries after the last release.
             const ids = await Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 session.id,
                 MessageID.make("msg_probe"),
-                Effect.succeed(KiloSessionPromptQueue.scope(session.id, []).map((item) => item.info.id)),
+                Effect.succeed(KappaSessionPromptQueue.scope(session.id, []).map((item) => item.info.id)),
                 Effect.succeed([]),
               ),
             )
             expect(ids).toEqual([])
-            expect(KiloSessionPromptQueue.hasFollowup(session.id)).toBe(false)
+            expect(KappaSessionPromptQueue.hasFollowup(session.id)).toBe(false)
           }),
       })
     } finally {
@@ -901,7 +901,7 @@ describe("session prompt queue", () => {
 
         // Slot 1: active, activeSince snapshots latest=1.
         const first = Effect.runPromise(
-          KiloSessionPromptQueue.enqueue(
+          KappaSessionPromptQueue.enqueue(
             sessionID,
             MessageID.make("msg_auto_sug_1"),
             Effect.gen(function* () {
@@ -916,7 +916,7 @@ describe("session prompt queue", () => {
 
         // Slot 2: enqueued while slot 1 is active → latest=2 > activeSince=1.
         const second = Effect.runPromise(
-          KiloSessionPromptQueue.enqueue(
+          KappaSessionPromptQueue.enqueue(
             sessionID,
             MessageID.make("msg_auto_sug_2"),
             Effect.succeed("second" as const),
@@ -924,7 +924,7 @@ describe("session prompt queue", () => {
           ),
         )
         await Bun.sleep(10)
-        expect(KiloSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
+        expect(KappaSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
 
         let shown = 0
         const offShown = Bus.subscribe(Suggestion.Event.Shown, (event) => {
@@ -1009,12 +1009,12 @@ describe("session prompt queue", () => {
 
             await Effect.runPromise(
               pollWithTimeout(
-                Effect.sync(() => (KiloSessionPromptQueue.hasFollowup(session.id) ? true : undefined)),
+                Effect.sync(() => (KappaSessionPromptQueue.hasFollowup(session.id) ? true : undefined)),
                 "Timed out waiting for queued prompt",
               ),
             )
-            expect(await Effect.runPromise(KiloSessionPromptQueue.drop(session.id, queuedID))).toBe(true)
-            expect(await Effect.runPromise(KiloSessionPromptQueue.drop(session.id, activeID))).toBe(false)
+            expect(await Effect.runPromise(KappaSessionPromptQueue.drop(session.id, queuedID))).toBe(true)
+            expect(await Effect.runPromise(KappaSessionPromptQueue.drop(session.id, activeID))).toBe(false)
 
             release.resolve()
             await Promise.all([first, second])
@@ -1037,7 +1037,7 @@ describe("session prompt queue", () => {
     const id = MessageID.make("msg_drop_active")
 
     const first = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         id,
         Effect.promise(async () => {
@@ -1049,14 +1049,14 @@ describe("session prompt queue", () => {
       ),
     )
     await ready.promise
-    expect(await Effect.runPromise(KiloSessionPromptQueue.drop(sessionID, id))).toBe(false)
+    expect(await Effect.runPromise(KappaSessionPromptQueue.drop(sessionID, id))).toBe(false)
     done.resolve()
     await first
   })
 
   test("drop returns false for an unknown message", async () => {
     const sessionID = SessionID.make("session_drop_unknown")
-    expect(await Effect.runPromise(KiloSessionPromptQueue.drop(sessionID, MessageID.make("msg_missing")))).toBe(false)
+    expect(await Effect.runPromise(KappaSessionPromptQueue.drop(sessionID, MessageID.make("msg_missing")))).toBe(false)
   })
 
   test("drop cancels a queued prompt and is idempotent", async () => {
@@ -1067,7 +1067,7 @@ describe("session prompt queue", () => {
     const secondID = MessageID.make("msg_drop_second")
 
     const first = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         firstID,
         Effect.promise(async () => {
@@ -1081,7 +1081,7 @@ describe("session prompt queue", () => {
     await ready.promise
 
     const second = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         secondID,
         Effect.sync(() => "second"),
@@ -1089,8 +1089,8 @@ describe("session prompt queue", () => {
       ),
     )
 
-    expect(await Effect.runPromise(KiloSessionPromptQueue.drop(sessionID, secondID))).toBe(true)
-    expect(await Effect.runPromise(KiloSessionPromptQueue.drop(sessionID, secondID))).toBe(false)
+    expect(await Effect.runPromise(KappaSessionPromptQueue.drop(sessionID, secondID))).toBe(true)
+    expect(await Effect.runPromise(KappaSessionPromptQueue.drop(sessionID, secondID))).toBe(false)
     done.resolve()
 
     expect(await first).toBe("first")
@@ -1107,7 +1107,7 @@ describe("session prompt queue", () => {
     const thirdID = MessageID.make("msg_drop_3")
 
     const first = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         firstID,
         Effect.promise(async () => {
@@ -1122,7 +1122,7 @@ describe("session prompt queue", () => {
     await ready.promise
 
     const second = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         secondID,
         Effect.sync(() => {
@@ -1133,7 +1133,7 @@ describe("session prompt queue", () => {
       ),
     )
     const third = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         thirdID,
         Effect.sync(() => {
@@ -1144,21 +1144,21 @@ describe("session prompt queue", () => {
       ),
     )
 
-    expect(await Effect.runPromise(KiloSessionPromptQueue.drop(sessionID, secondID))).toBe(true)
-    expect(KiloSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
+    expect(await Effect.runPromise(KappaSessionPromptQueue.drop(sessionID, secondID))).toBe(true)
+    expect(KappaSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
     done.resolve()
 
     expect(await first).toBe("first")
     expect(await second).toBe("second-cancelled")
     expect(await third).toBe("third")
     expect(calls).toEqual(["first", "third"])
-    expect(KiloSessionPromptQueue._hasInternalState(sessionID)).toBe(false)
+    expect(KappaSessionPromptQueue._hasInternalState(sessionID)).toBe(false)
   })
 
   // session.queue.changed event surface + snapshot accessor
   describe("session.queue.changed", () => {
     test("snapshot() returns an empty list for an unknown session", () => {
-      expect(KiloSessionPromptQueue.snapshot(SessionID.make("session_unknown"))).toEqual([])
+      expect(KappaSessionPromptQueue.snapshot(SessionID.make("session_unknown"))).toEqual([])
     })
 
     test("enqueueing on an idle session does not transiently publish a non-empty snapshot", async () => {
@@ -1171,19 +1171,19 @@ describe("session prompt queue", () => {
         fn: async () => {
           const sessionID = SessionID.make("session_queue_idle")
           const events: Array<{ type: string; queued: string[] }> = []
-          const off = Bus.subscribe(KiloSession.Event.QueueChanged, (event) => {
+          const off = Bus.subscribe(KappaSession.Event.QueueChanged, (event) => {
             events.push({ type: event.type, queued: [...(event.properties.queued as readonly string[])] })
           })
           try {
             await Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 MessageID.make("msg_idle_1"),
                 Effect.succeed("done"),
                 Effect.succeed("cancelled"),
               ),
             )
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([])
             expect(events).toEqual([])
           } finally {
             off()
@@ -1199,7 +1199,7 @@ describe("session prompt queue", () => {
         fn: async () => {
           const sessionID = SessionID.make("session_queue_busy")
           const events: Array<{ sessionID: string; queued: string[] }> = []
-          const off = Bus.subscribe(KiloSession.Event.QueueChanged, (event) => {
+          const off = Bus.subscribe(KappaSession.Event.QueueChanged, (event) => {
             if (event.properties.sessionID === sessionID) {
               events.push({
                 sessionID: event.properties.sessionID as string,
@@ -1216,7 +1216,7 @@ describe("session prompt queue", () => {
 
           try {
             const first = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m1,
                 Effect.gen(function* () {
@@ -1230,11 +1230,11 @@ describe("session prompt queue", () => {
             await firstStarted.promise
 
             // Idle-start for slot 1 must not have emitted anything.
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([])
             expect(events).toEqual([])
 
             const second = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m2,
                 Effect.succeed("second" as const),
@@ -1242,7 +1242,7 @@ describe("session prompt queue", () => {
               ),
             )
             const third = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m3,
                 Effect.succeed("third" as const),
@@ -1251,7 +1251,7 @@ describe("session prompt queue", () => {
             )
 
             // FIFO order is preserved: msg_busy_2 then msg_busy_3.
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([m2, m3])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([m2, m3])
             // Publishes are fire-and-forget microtasks; let them flush.
             await Bun.sleep(10)
             expect(events).toEqual([
@@ -1277,7 +1277,7 @@ describe("session prompt queue", () => {
         fn: async () => {
           const sessionID = SessionID.make("session_queue_drop")
           const events: Array<{ queued: string[] }> = []
-          const off = Bus.subscribe(KiloSession.Event.QueueChanged, (event) => {
+          const off = Bus.subscribe(KappaSession.Event.QueueChanged, (event) => {
             if (event.properties.sessionID === sessionID) {
               events.push({ queued: [...(event.properties.queued as readonly string[])] })
             }
@@ -1291,7 +1291,7 @@ describe("session prompt queue", () => {
 
           try {
             const first = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m1,
                 Effect.gen(function* () {
@@ -1305,7 +1305,7 @@ describe("session prompt queue", () => {
             await firstStarted.promise
 
             const second = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m2,
                 Effect.succeed("second" as const),
@@ -1313,7 +1313,7 @@ describe("session prompt queue", () => {
               ),
             )
             const third = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m3,
                 Effect.succeed("third" as const),
@@ -1321,7 +1321,7 @@ describe("session prompt queue", () => {
               ),
             )
 
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([m2, m3])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([m2, m3])
             await Effect.runPromise(
               pollWithTimeout(
                 Effect.sync(() => (events.length >= 2 ? true : undefined)),
@@ -1331,9 +1331,9 @@ describe("session prompt queue", () => {
             expect(events).toEqual([{ queued: [m2] }, { queued: [m2, m3] }])
             events.length = 0
 
-            expect(await Effect.runPromise(KiloSessionPromptQueue.drop(sessionID, m2))).toBe(true)
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([m3])
-            expect(KiloSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
+            expect(await Effect.runPromise(KappaSessionPromptQueue.drop(sessionID, m2))).toBe(true)
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([m3])
+            expect(KappaSessionPromptQueue.hasFollowup(sessionID)).toBe(true)
             await Effect.runPromise(
               pollWithTimeout(
                 Effect.sync(() => (events.length >= 1 ? true : undefined)),
@@ -1360,7 +1360,7 @@ describe("session prompt queue", () => {
         fn: async () => {
           const sessionID = SessionID.make("session_queue_start")
           const events: Array<{ queued: string[] }> = []
-          const off = Bus.subscribe(KiloSession.Event.QueueChanged, (event) => {
+          const off = Bus.subscribe(KappaSession.Event.QueueChanged, (event) => {
             if (event.properties.sessionID === sessionID) {
               events.push({ queued: [...(event.properties.queued as readonly string[])] })
             }
@@ -1375,7 +1375,7 @@ describe("session prompt queue", () => {
 
           try {
             const first = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m1,
                 Effect.gen(function* () {
@@ -1389,7 +1389,7 @@ describe("session prompt queue", () => {
             await firstStarted.promise
 
             const second = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m2,
                 Effect.gen(function* () {
@@ -1402,7 +1402,7 @@ describe("session prompt queue", () => {
             )
 
             // msg2 is waiting behind msg1.
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([m2])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([m2])
             await Bun.sleep(10)
             expect(events.map((e) => e.queued)).toEqual([[m2]])
 
@@ -1410,7 +1410,7 @@ describe("session prompt queue", () => {
             firstRelease.resolve()
             await secondStarted.promise
 
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([])
             await Bun.sleep(10)
             expect(events.map((e) => e.queued)).toEqual([[m2], []])
 
@@ -1431,7 +1431,7 @@ describe("session prompt queue", () => {
         fn: async () => {
           const sessionID = SessionID.make("session_queue_cancel")
           const events: Array<{ queued: string[] }> = []
-          const off = Bus.subscribe(KiloSession.Event.QueueChanged, (event) => {
+          const off = Bus.subscribe(KappaSession.Event.QueueChanged, (event) => {
             if (event.properties.sessionID === sessionID) {
               events.push({ queued: [...(event.properties.queued as readonly string[])] })
             }
@@ -1445,7 +1445,7 @@ describe("session prompt queue", () => {
 
           try {
             const first = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m1,
                 Effect.gen(function* () {
@@ -1459,7 +1459,7 @@ describe("session prompt queue", () => {
             await firstStarted.promise
 
             const second = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m2,
                 Effect.succeed("second" as const),
@@ -1467,7 +1467,7 @@ describe("session prompt queue", () => {
               ),
             )
             const third = Effect.runPromise(
-              KiloSessionPromptQueue.enqueue(
+              KappaSessionPromptQueue.enqueue(
                 sessionID,
                 m3,
                 Effect.succeed("third" as const),
@@ -1475,16 +1475,16 @@ describe("session prompt queue", () => {
               ),
             )
 
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([m2, m3])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([m2, m3])
             await Bun.sleep(10)
             const beforeCancel = events.length
             expect(beforeCancel).toBeGreaterThan(0)
 
-            await Effect.runPromise(KiloSessionPromptQueue.cancel(sessionID))
+            await Effect.runPromise(KappaSessionPromptQueue.cancel(sessionID))
 
             // The most recent emission must be the empty list, and the snapshot
             // must be empty for downstream replay callers.
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([])
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([])
             await Bun.sleep(10)
             expect(events.length).toBeGreaterThan(beforeCancel)
             expect(events.at(-1)?.queued).toEqual([])
@@ -1513,15 +1513,15 @@ describe("session prompt queue", () => {
         fn: async () => {
           const sessionID = SessionID.make("session_queue_cancel_idle")
           const events: Array<{ queued: string[] }> = []
-          const off = Bus.subscribe(KiloSession.Event.QueueChanged, (event) => {
+          const off = Bus.subscribe(KappaSession.Event.QueueChanged, (event) => {
             if (event.properties.sessionID === sessionID) {
               events.push({ queued: [...(event.properties.queued as readonly string[])] })
             }
           })
 
           try {
-            await Effect.runPromise(KiloSessionPromptQueue.cancel(sessionID))
-            expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([])
+            await Effect.runPromise(KappaSessionPromptQueue.cancel(sessionID))
+            expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([])
             expect(events).toEqual([])
           } finally {
             off()

@@ -56,7 +56,7 @@ test("resolves host-neutral defaults", () => {
     notifications: true,
     sound: true,
     volume: 0.4,
-    sound_pack: "kappa.default", // kilocode_change
+    sound_pack: "kappa.default", // kappacode_change
     sounds: {},
   })
   expect(config.leader_timeout).toBe(LeaderTimeoutDefault)

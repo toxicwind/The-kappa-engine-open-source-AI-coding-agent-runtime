@@ -1,12 +1,12 @@
 ---
-title: "Using Google Gemini with Kilo Code"
-description: "Connect Google Gemini models to Kilo Code. Guide to getting an API key from Google AI Studio and configuring Gemini in VS Code and the CLI."
+title: "Using Google Gemini with Kappa Code"
+description: "Connect Google Gemini models to Kappa Code. Guide to getting an API key from Google AI Studio and configuring Gemini in VS Code and the CLI."
 sidebar_label: Google Gemini
 ---
 
-# Using Google Gemini With Kilo Code
+# Using Google Gemini With Kappa Code
 
-Kilo Code supports Google's Gemini family of models through the Google AI Gemini API.
+Kappa Code supports Google's Gemini family of models through the Google AI Gemini API.
 
 **Website:** [https://ai.google.dev/](https://ai.google.dev/)
 
@@ -19,13 +19,13 @@ Kilo Code supports Google's Gemini family of models through the Google AI Gemini
 
 ## API key requirements
 
-Google AI Studio creates auth keys by default. Kilo sends these keys in the `x-goog-api-key` header required by the Gemini API. An auth key is not an OAuth access token, so you do not need to configure OAuth.
+Google AI Studio creates auth keys by default. Kappa sends these keys in the `x-goog-api-key` header required by the Gemini API. An auth key is not an OAuth access token, so you do not need to configure OAuth.
 
-Google began rejecting unrestricted Standard keys on June 19, 2026. If Gemini returns `Request had invalid authentication credentials`, open the key in [Google AI Studio](https://aistudio.google.com/api-keys) and check its type and status. Replace a Standard key with a new auth key. If the rejected key is already an auth key, check its Gemini API access or create a replacement before updating Kilo.
+Google began rejecting unrestricted Standard keys on June 19, 2026. If Gemini returns `Request had invalid authentication credentials`, open the key in [Google AI Studio](https://aistudio.google.com/api-keys) and check its type and status. Replace a Standard key with a new auth key. If the rejected key is already an auth key, check its Gemini API access or create a replacement before updating Kappa.
 
 You can temporarily keep a Standard key working by restricting it to the Gemini API (`generativelanguage.googleapis.com`), but Google will reject all Standard keys in September 2026. See [Google's Gemini API key documentation](https://ai.google.dev/gemini-api/docs/api-key) for restriction and migration steps.
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}

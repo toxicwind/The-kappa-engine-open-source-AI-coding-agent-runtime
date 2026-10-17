@@ -5,7 +5,7 @@ description: "Save and restore code states with checkpoints"
 
 # Checkpoints
 
-Checkpoints automatically version your workspace files during Kilo Code tasks, enabling non-destructive exploration of AI suggestions and easy recovery from unwanted changes.
+Checkpoints automatically version your workspace files during Kappa Code tasks, enabling non-destructive exploration of AI suggestions and easy recovery from unwanted changes.
 
 Checkpoints let you:
 
@@ -57,7 +57,7 @@ When enabled, the system automatically captures snapshots at each step of a task
 
 Session history grows over time, and a long list of old sessions gets hard to navigate. **Auto-Cleanup** removes old sessions on a schedule so you do not have to delete history by hand. It is off by default.
 
-Cleanup is a machine-wide policy, owned by the Kilo backend. When enabled, it applies to **all projects and every Kilo client on this machine** (the VS Code extension, the CLI, and JetBrains), not just the window where you turned it on.
+Cleanup is a machine-wide policy, owned by the Kappa backend. When enabled, it applies to **all projects and every Kappa client on this machine** (the VS Code extension, the CLI, and JetBrains), not just the window where you turned it on.
 
 ### Enabling Auto-Cleanup
 
@@ -71,7 +71,7 @@ The policy lives in `kappa.json` under the `retention` key, so it applies no mat
 
 Once enabled, the VS Code extension triggers cleanup about once a day while it is running. You can also run it immediately with the **Run Cleanup Now** button, which asks for confirmation first because deletion is permanent. A spinner and live status show the scanning or deleting phase and the number of sessions processed out of the total. During deletion, the status also shows deleted and failed counts. Reopening Settings shows the current progress. After each run, the **Last cleanup** line shows how many sessions were deleted, how many were skipped, and whether anything failed.
 
-A long pass can be halted with the **Stop cleanup** button while it runs. Stopping keeps what the pass already deleted and skips the rest; the **Last cleanup** line marks an interrupted run. After a pass frees a large share of the session database, Kilo also reclaims the disk space, so the storage file shrinks instead of keeping its old size.
+A long pass can be halted with the **Stop cleanup** button while it runs. Stopping keeps what the pass already deleted and skips the rest; the **Last cleanup** line marks an interrupted run. After a pass frees a large share of the session database, Kappa also reclaims the disk space, so the storage file shrinks instead of keeping its old size.
 
 ### What Is Protected
 
@@ -183,7 +183,7 @@ Checkpoints are captured automatically at each step of a task. In the CLI termin
 
 ### Limitations and Considerations
 
-- **Scope**: Checkpoints only capture changes made during active Kilo Code tasks
+- **Scope**: Checkpoints only capture changes made during active Kappa Code tasks
 - **External changes**: Modifications made outside of tasks (manual edits, other tools) aren't included
 - **Large files**: Very large binary files may impact performance
 - **Unsaved work**: Restoration will overwrite any unsaved changes in your workspace
@@ -225,7 +225,7 @@ When using the Agent Manager with git worktrees, each worktree gets its own isol
 
 ## Git Installation
 
-Checkpoints require Git to be installed on your system. If Git is unavailable or the workspace is not a Git repository, Kilo skips checkpoints automatically; you do not need to disable them manually.
+Checkpoints require Git to be installed on your system. If Git is unavailable or the workspace is not a Git repository, Kappa skips checkpoints automatically; you do not need to disable them manually.
 
 ### macOS
 

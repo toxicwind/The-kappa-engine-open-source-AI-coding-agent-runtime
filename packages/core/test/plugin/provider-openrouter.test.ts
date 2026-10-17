@@ -40,7 +40,7 @@ describe("OpenRouterPlugin", () => {
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter))?.request.headers).toEqual({
         Existing: "value",
         "HTTP-Referer": "https://kappa.ai/",
-        "X-Title": "Kilo Code",
+        "X-Title": "Kappa Code",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({})
     }),

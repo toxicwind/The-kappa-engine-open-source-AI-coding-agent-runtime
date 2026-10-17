@@ -132,7 +132,7 @@ type Transport = { signal?: AbortSignal | null }
 
 async function run(sdk: Record<string, unknown>, transport: Transport = {}) {
   await mock.module("@kappacode/sdk/v2", () => ({
-    createKiloClient: (config: Transport & { fetch?: () => Promise<Response> }) => {
+    createKappaClient: (config: Transport & { fetch?: () => Promise<Response> }) => {
       transport.signal = config.signal
       config.fetch = async () =>
         Response.json({

@@ -41,7 +41,7 @@ function provider(id: string, models: Record<string, Provider.Model>): Provider.
 }
 
 describe("prompt-training model filter", () => {
-  test("hides only explicitly marked Kilo Gateway models", () => {
+  test("hides only explicitly marked Kappa Gateway models", () => {
     const providers = {
       kappa: provider("kappa", {
         training: model("training", true),

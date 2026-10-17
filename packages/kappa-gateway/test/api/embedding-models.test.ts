@@ -1,5 +1,5 @@
 import { describe, expect, mock, spyOn, test } from "bun:test"
-import { EMPTY_KILO_EMBEDDING_MODEL_CATALOG, fetchKiloEmbeddingModelCatalog } from "../../src/api/embedding-models"
+import { EMPTY_KILO_EMBEDDING_MODEL_CATALOG, fetchKappaEmbeddingModelCatalog } from "../../src/api/embedding-models"
 
 const response = () =>
   new Response(
@@ -10,14 +10,14 @@ const response = () =>
     }),
   )
 
-describe("fetchKiloEmbeddingModelCatalog", () => {
-  test("fetches catalog from Kilo Gateway", async () => {
+describe("fetchKappaEmbeddingModelCatalog", () => {
+  test("fetches catalog from Kappa Gateway", async () => {
     const prev = global.fetch
     const fn = mock(() => Promise.resolve(response())) as unknown as typeof fetch
     global.fetch = fn
 
     try {
-      const catalog = await fetchKiloEmbeddingModelCatalog({ baseURL: "https://example.test" })
+      const catalog = await fetchKappaEmbeddingModelCatalog({ baseURL: "https://example.test" })
 
       expect(catalog.defaultModel).toBe("provider/model")
       const call = (fn as unknown as { mock: { calls: Array<[URL, RequestInit]> } }).mock.calls[0]
@@ -36,7 +36,7 @@ describe("fetchKiloEmbeddingModelCatalog", () => {
     global.fetch = fn as unknown as typeof fetch
 
     try {
-      const catalog = await fetchKiloEmbeddingModelCatalog({ baseURL: "https://example.test" })
+      const catalog = await fetchKappaEmbeddingModelCatalog({ baseURL: "https://example.test" })
 
       expect(catalog.models).toHaveLength(1)
       expect(fn).toHaveBeenCalledTimes(2)
@@ -51,7 +51,7 @@ describe("fetchKiloEmbeddingModelCatalog", () => {
     global.fetch = fn as unknown as typeof fetch
 
     try {
-      await fetchKiloEmbeddingModelCatalog({ baseURL: "https://example.test", attempts: Number.POSITIVE_INFINITY })
+      await fetchKappaEmbeddingModelCatalog({ baseURL: "https://example.test", attempts: Number.POSITIVE_INFINITY })
       expect(fn).toHaveBeenCalledTimes(3)
     } finally {
       global.fetch = prev
@@ -66,11 +66,11 @@ describe("fetchKiloEmbeddingModelCatalog", () => {
 
     try {
       await expect(
-        fetchKiloEmbeddingModelCatalog({ baseURL: "https://example.test", attempts: 1, onError: issue }),
+        fetchKappaEmbeddingModelCatalog({ baseURL: "https://example.test", attempts: 1, onError: issue }),
       ).resolves.toEqual(EMPTY_KILO_EMBEDDING_MODEL_CATALOG)
       expect(issue).toHaveBeenCalledWith({
         code: "http",
-        message: "Unable to load Kilo embedding models (HTTP 500).",
+        message: "Unable to load Kappa embedding models (HTTP 500).",
         status: 500,
       })
       expect(warn).not.toHaveBeenCalled()

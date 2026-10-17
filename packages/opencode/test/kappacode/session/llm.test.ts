@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test"
 import { Effect, Stream } from "effect"
 import { LLMEvent } from "@opencode-ai/llm"
-import { KiloLLM } from "@/kappacode/session/llm"
+import { KappaLLM } from "@/kappacode/session/llm"
 
 describe("kappacode.session.llm.timeout", () => {
   test("uses prepared options before the provider fallback", () => {
-    const result = KiloLLM.timeout({
+    const result = KappaLLM.timeout({
       options: { chunkTimeout: 15_000 },
       fallback: { chunkTimeout: 30_000 },
     })
@@ -14,7 +14,7 @@ describe("kappacode.session.llm.timeout", () => {
   })
 
   test("uses the provider fallback when prepared options omit the timeout", () => {
-    const result = KiloLLM.timeout({
+    const result = KappaLLM.timeout({
       options: {},
       fallback: { chunkTimeout: 30_000 },
     })
@@ -23,7 +23,7 @@ describe("kappacode.session.llm.timeout", () => {
   })
 
   test("uses the provider fallback when the prepared value is not a number", () => {
-    const result = KiloLLM.timeout({
+    const result = KappaLLM.timeout({
       options: { chunkTimeout: "15_000" },
       fallback: { chunkTimeout: 30_000 },
     })
@@ -32,14 +32,14 @@ describe("kappacode.session.llm.timeout", () => {
   })
 
   test("omits the timeout when it is not configured", () => {
-    expect(KiloLLM.timeout({ options: {} })).toEqual({})
+    expect(KappaLLM.timeout({ options: {} })).toEqual({})
   })
 })
 
 describe("kappacode.session.llm.text", () => {
   test("joins text delta events", async () => {
     const out = await Effect.runPromise(
-      KiloLLM.text(
+      KappaLLM.text(
         Stream.make(
           LLMEvent.textDelta({ id: "text", text: "hello " }),
           LLMEvent.textDelta({ id: "text", text: "world" }),
@@ -52,7 +52,7 @@ describe("kappacode.session.llm.text", () => {
 
   test("fails on stream errors after partial text", async () => {
     const err = new Error("provider unavailable")
-    const text = KiloLLM.text(
+    const text = KappaLLM.text(
       Stream.concat(Stream.make(LLMEvent.textDelta({ id: "text", text: "partial" })), Stream.fail(err)),
     )
 
@@ -60,7 +60,7 @@ describe("kappacode.session.llm.text", () => {
   })
 
   test("fails on stream interruption", async () => {
-    const text = KiloLLM.text(Stream.fail(new DOMException("Aborted", "AbortError")))
+    const text = KappaLLM.text(Stream.fail(new DOMException("Aborted", "AbortError")))
 
     await expect(Effect.runPromise(text)).rejects.toMatchObject({ name: "AbortError" })
   })

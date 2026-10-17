@@ -3,7 +3,7 @@
 // experimental flags are set on the `serve` subprocess and the `run`
 // subprocess attaches to it.
 import { describe, expect } from "bun:test"
-import { createKiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient } from "@kappacode/sdk/v2"
 import { Effect } from "effect"
 import { cliIt } from "../lib/cli-process"
 import { awaitWithTimeout } from "../lib/effect"
@@ -29,7 +29,7 @@ describe("experimental self-context tools through the CLI", () => {
         const server = yield* opencode.serve({
           env: { KILO_EXPERIMENTAL: "false", KILO_EXPERIMENTAL_CONTEXT_TOOLS: "false" },
         })
-        const client = createKiloClient({ baseUrl: server.url })
+        const client = createKappaClient({ baseUrl: server.url })
         const session = yield* Effect.promise(() => client.session.create({ permission: [...permission] }))
         const sessionID = session.data?.id
         if (!sessionID) throw new Error("test session was not created")
@@ -61,7 +61,7 @@ describe("experimental self-context tools through the CLI", () => {
     ({ llm, opencode }) =>
       Effect.gen(function* () {
         const server = yield* opencode.serve({ env: { KILO_EXPERIMENTAL: "1" } })
-        const client = createKiloClient({ baseUrl: server.url })
+        const client = createKappaClient({ baseUrl: server.url })
         const session = yield* Effect.promise(() => client.session.create({ permission: [...permission] }))
         const sessionID = session.data?.id
         if (!sessionID) throw new Error("test session was not created")

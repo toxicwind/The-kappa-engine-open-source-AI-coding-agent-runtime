@@ -11,7 +11,7 @@ const account = Layer.mock(Account.Service)({
 const config = makeRuntime(Config.Service, AppNodeBuilder.build(Config.node, [[Account.node, account]]))
 const auth = makeRuntime(Auth.Service, Auth.defaultLayer)
 
-export namespace KiloCliBootstrapRuntime {
+export namespace KappaCliBootstrapRuntime {
   export function getGlobal() {
     return config.runPromise((service) => service.getGlobal())
   }

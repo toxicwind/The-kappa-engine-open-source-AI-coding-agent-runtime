@@ -1,7 +1,7 @@
 import * as vscode from "vscode"
 import type { TuiAttentionSoundName } from "@kappacode/plugin/tui"
 import type { SSEPayload } from "../cli-backend/sdk-sse-adapter"
-import type { KiloConnectionService } from "../cli-backend/connection-service"
+import type { KappaConnectionService } from "../cli-backend/connection-service"
 import { playSound, resolveSoundID } from "./sound"
 import { t } from "../i18n"
 import { lines } from "./notice"
@@ -47,7 +47,7 @@ export class AttentionService implements vscode.Disposable {
   private readonly unsubscribeState: () => void
 
   constructor(
-    connection: KiloConnectionService,
+    connection: KappaConnectionService,
     private readonly opts: Options = {},
   ) {
     this.unsubscribeEvent = connection.onEvent((event, directory) => this.handle(event, directory))
@@ -216,19 +216,19 @@ export class AttentionService implements vscode.Disposable {
   private text(sound: TuiAttentionSoundName) {
     const key =
       sound === "done"
-        ? "kilocode:attention.done"
+        ? "kappacode:attention.done"
         : sound === "question"
-          ? "kilocode:attention.question"
+          ? "kappacode:attention.question"
           : sound === "permission"
-            ? "kilocode:attention.permission"
+            ? "kappacode:attention.permission"
             : sound === "error"
-              ? "kilocode:attention.error"
+              ? "kappacode:attention.error"
               : undefined
     return key ? t(key) : undefined
   }
 
   private message(sound: TuiAttentionSoundName, notice: AttentionNotice, sessionID: string, directory?: string) {
-    const show = t("kilocode:attention.show")
+    const show = t("kappacode:attention.show")
     // Same fields as the native toast; a workbench notification is plaintext,
     // so they are joined inline instead of on their own rows.
     const [head, ...rest] = lines(notice)

@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 // Bun 1.4 narrows NodeJS.Process event overloads.
 declare global {
   namespace NodeJS {

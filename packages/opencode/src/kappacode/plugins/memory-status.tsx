@@ -1,6 +1,6 @@
 import type { TuiPlugin } from "@kappacode/plugin/tui"
 import type { InternalTuiPlugin } from "@/plugin/tui/internal"
-import { MemorySidebar } from "@/kilocode/cli/cmd/tui/component/memory-status"
+import { MemorySidebar } from "@/kappacode/cli/cmd/tui/component/memory-status"
 
 const id = "internal:kappa-sidebar-memory"
 

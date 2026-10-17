@@ -29,9 +29,9 @@ Use the smallest orchestration layer that matches the work:
 | Let independent research or implementation run while the current agent continues | A background `task` subagent with `background: true` |
 | Give an agent an isolated branch, checkout, terminal, and diff | An Agent Manager `worktree` session |
 | Start another conversation on the same branch | An Agent Manager Local session or `Cmd+T` / `Ctrl+T` |
-| Share material findings among one session and its task descendants | Kilo Swarm with `board_post` and `board_read` |
+| Share material findings among one session and its task descendants | Kappa Swarm with `board_post` and `board_read` |
 
-Task children are non-interactive delegates. They cannot ask the user directly and do not create worktrees. Agent Manager sessions are top-level sessions with their own prompt queues. Separate Agent Manager sessions do not share a Kilo Swarm board automatically, even when they use the same worktree.
+Task children are non-interactive delegates. They cannot ask the user directly and do not create worktrees. Agent Manager sessions are top-level sessions with their own prompt queues. Separate Agent Manager sessions do not share a Kappa Swarm board automatically, even when they use the same worktree.
 
 {% callout type="warning" %}
 Git worktrees are lightweight compared with cloning the repository several times, but they are not free. Each worktree has its own checked-out files, and any dependencies, build artifacts, caches, local databases, or generated files created inside that directory count separately on disk.
@@ -151,9 +151,9 @@ If your app or framework supports `PORT=0`, that can be even simpler for local-o
 
 ### Setup script and copied files
 
-Use `.kappa/setup-script` to make new worktrees runnable without manual setup. It runs after Kilo copies root-level `.env` and `.env.*` files, and before the agent starts in the new worktree.
+Use `.kappa/setup-script` to make new worktrees runnable without manual setup. It runs after Kappa copies root-level `.env` and `.env.*` files, and before the agent starts in the new worktree.
 
-Kilo's env copy is intentionally narrow:
+Kappa's env copy is intentionally narrow:
 
 - It copies root-level plain files named `.env` or `.env.*`
 - It skips existing files instead of overwriting them

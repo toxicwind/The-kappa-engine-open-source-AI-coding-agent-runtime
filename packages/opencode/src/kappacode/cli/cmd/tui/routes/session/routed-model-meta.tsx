@@ -2,7 +2,7 @@ import { createContext, createMemo, Show, useContext } from "solid-js"
 import type { AssistantMessage, Part, Provider, StepFinishPart } from "@kappacode/sdk/v2"
 import { useTheme } from "@tui/context/theme"
 import * as Model from "@tui/util/model"
-import { KiloRoutedModel } from "@/kilocode/session/routed-model"
+import { KappaRoutedModel } from "@/kappacode/session/routed-model"
 
 export namespace RoutedModelMeta {
   type Providers = Provider[] | ReadonlyMap<string, Provider> | undefined
@@ -33,10 +33,10 @@ export namespace RoutedModelMeta {
 
   export function label(list: Providers, model: StepFinishPart["model"]) {
     if (!model) return undefined
-    const id = KiloRoutedModel.display(model.modelID)
+    const id = KappaRoutedModel.display(model.modelID)
     const name = Model.name(list, model.providerID, model.modelID)
     const text = name === model.modelID && id !== model.modelID ? Model.name(list, model.providerID, id) : name
-    return KiloRoutedModel.displayName(text)
+    return KappaRoutedModel.displayName(text)
   }
 
   function routed(model: StepFinishPart["model"], message: Message) {

@@ -1,6 +1,6 @@
 /** Strict project/resource ownership for Agent Manager multi-project routing. */
 
-import { zeroID as key } from "@opencode-ai/core/kilocode/zero-id"
+import { zeroID as key } from "@opencode-ai/core/kappacode/zero-id"
 
 export interface ProjectRef {
   projectId: string
@@ -124,7 +124,7 @@ export class ProjectRouteService {
   /**
    * Returns the exact directory for a project-qualified session ref, or
    * `undefined` when the project or session is unknown. Used by the
-   * KiloProvider adapter to route Agent Manager operations to an exact
+   * KappaProvider adapter to route Agent Manager operations to an exact
    * directory without risking an exception in message-handling paths.
    */
   trySessionDirectoryFor(ref: SessionRef): string | undefined {

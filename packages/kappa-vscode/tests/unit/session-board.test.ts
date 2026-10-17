@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { createKiloClient, type SessionBoard } from "@kappacode/sdk/v2/client"
+import { createKappaClient, type SessionBoard } from "@kappacode/sdk/v2/client"
 import { ProjectRouteService } from "../../src/agent-manager/project/route"
 import * as Board from "../../src/kappa-provider/session-board"
 
@@ -16,7 +16,7 @@ function setup(reply = () => Response.json(snapshot)) {
     { preconnect: globalThis.fetch.preconnect },
   ) satisfies typeof globalThis.fetch
   const ctx: Parameters<typeof Board.handle>[1] = {
-    client: createKiloClient({ baseUrl: "http://localhost", fetch }),
+    client: createKappaClient({ baseUrl: "http://localhost", fetch }),
     directories: new Map([["ses_owner", "/repo/worktree"]]),
     session: null,
     post: (message) => posts.push(message),
@@ -43,7 +43,7 @@ describe("session board requests", () => {
     const request = state.calls.at(0)!
     const url = new URL(request.url)
     expect(request.method).toBe("GET")
-    expect(url.pathname).toBe("/kilocode/session/ses_owner/board")
+    expect(url.pathname).toBe("/kappacode/session/ses_owner/board")
     expect(Object.fromEntries(url.searchParams)).toEqual({
       directory: "/repo/worktree",
       before: "board_before",
@@ -86,7 +86,7 @@ describe("session board requests", () => {
     const request = state.calls.at(0)!
     const url = new URL(request.url)
     expect(request.method).toBe("POST")
-    expect(url.pathname).toBe("/kilocode/session/ses_owner/board/reset")
+    expect(url.pathname).toBe("/kappacode/session/ses_owner/board/reset")
     expect(url.searchParams.get("directory")).toBe("/alpha/worktree")
     expect(await request.json()).toEqual({ revision: 12 })
     expect(state.posts).toEqual([

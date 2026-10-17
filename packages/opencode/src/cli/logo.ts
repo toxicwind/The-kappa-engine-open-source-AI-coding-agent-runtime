@@ -1,15 +1,15 @@
-// kilocode_change start
-import { plain } from "../kilocode/cli/logo"
+// kappacode_change start
+import { plain } from "../kappacode/cli/logo"
 
 export const logo = {
   left: ["", "", ""],
   right: plain(),
 }
-// kilocode_change end
+// kappacode_change end
 
 export const go = {
-  left: ["", "", "", ""], // kilocode_change
-  right: ["", "", "", ""], // kilocode_change
+  left: ["", "", "", ""], // kappacode_change
+  right: ["", "", "", ""], // kappacode_change
 }
 
 export const marks = "_^~,"

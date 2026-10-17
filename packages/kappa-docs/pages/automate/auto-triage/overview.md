@@ -5,7 +5,7 @@ description: "Automate GitHub issue triage with AI assistance"
 
 # Auto-Triage
 
-Kilo's **Auto-Triage** automatically analyses every new GitHub issue the moment it is opened. Within minutes of a reporter submitting an issue, Auto-Triage reads the title and body, checks whether the issue is a duplicate of something already reported, classifies it as a **bug**, **feature request**, **question**, or **unclear**, and applies the appropriate labels — all without any manual effort from your team.
+Kappa's **Auto-Triage** automatically analyses every new GitHub issue the moment it is opened. Within minutes of a reporter submitting an issue, Auto-Triage reads the title and body, checks whether the issue is a duplicate of something already reported, classifies it as a **bug**, **feature request**, **question**, or **unclear**, and applies the appropriate labels — all without any manual effort from your team.
 
 ---
 
@@ -42,7 +42,7 @@ After classification, Auto-Triage applies labels to the issue on GitHub:
 
 ### 4. Ticket history
 
-Every triage run is recorded as a ticket in the Kilo dashboard. You can:
+Every triage run is recorded as a ticket in the Kappa dashboard. You can:
 
 - Filter tickets by status, classification, or repository.
 - View the AI's classification, confidence score, intent summary, and reasoning.
@@ -54,12 +54,12 @@ Every triage run is recorded as a ticket in the Kilo dashboard. You can:
 
 ### Prerequisites
 
-- A GitHub integration connected to your Kilo account or organisation.
+- A GitHub integration connected to your Kappa account or organisation.
 - The repositories you want to triage must be accessible via that integration.
 
 ### Steps
 
-1. Go to **Auto-Triage -> Config** in the Kilo dashboard.
+1. Go to **Auto-Triage -> Config** in the Kappa dashboard.
 2. Toggle **Enable AI Auto-Triage** on.
 3. Choose which repositories to triage:
    - **All repositories** — every repository accessible via your GitHub integration.
@@ -118,4 +118,4 @@ Auto-Triage uses two reserved labels for tracking. You should create these in yo
 | `kappa-triaged` | Applied to every issue that completes triage successfully. |
 | `kappa-duplicate` | Applied alongside `kappa-triaged` when the issue is identified as a duplicate. |
 
-These labels are managed by Kilo and should not be added to your **skip labels** list.
+These labels are managed by Kappa and should not be added to your **skip labels** list.

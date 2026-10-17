@@ -53,8 +53,8 @@ export const CustomizeNav: NavSection[] = [
         children: "Memory",
       },
       {
-        href: "/customize/context/kilocodeignore",
-        children: ".kilocodeignore",
+        href: "/customize/context/kappacodeignore",
+        children: ".kappacodeignore",
       },
     ],
   },

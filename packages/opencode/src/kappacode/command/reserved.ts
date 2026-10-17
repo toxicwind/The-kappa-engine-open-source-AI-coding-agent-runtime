@@ -47,7 +47,7 @@ export function rename(commands: Record<string, Entry> | undefined, name: string
 export function notice(name: string, key?: string) {
   return [
     `Ignoring the "${name}" command registered by your config or a plugin:`,
-    `/${name} is reserved for Kilo's own command.`,
+    `/${name} is reserved for Kappa's own command.`,
     key ? `Run yours as /${key} instead.` : "",
     "Rename it, or turn it off in the plugin that registers it, to stop this warning.",
   ]

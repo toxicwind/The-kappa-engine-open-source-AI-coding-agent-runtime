@@ -60,7 +60,7 @@ function leading(messages: ModelMessage[]) {
   return chars
 }
 
-export namespace KiloSessionOverflow {
+export namespace KappaSessionOverflow {
   export class PreflightError extends Error {
     constructor() {
       super("Outgoing context reached the automatic compaction threshold")

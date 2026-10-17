@@ -41,7 +41,7 @@ const run = Effect.fn("CloudCommandTest.git")(function* (cwd: string, ...args: s
 })
 
 it.instance(
-  "assembles the default start request from Kilo state and the current repository",
+  "assembles the default start request from Kappa state and the current repository",
   () =>
     Effect.acquireUseRelease(
       Effect.sync(() =>
@@ -63,7 +63,7 @@ it.instance(
       (server) =>
         Effect.gen(function* () {
           const test = yield* TestInstance
-          yield* run(test.directory, "remote", "add", "origin", "git@github.com:Kilo-Org/kappacode.git")
+          yield* run(test.directory, "remote", "add", "origin", "git@github.com:Kappa-Org/kappacode.git")
 
           const requests: AgentStartRequest[] = []
           const keys: string[] = []
@@ -107,7 +107,7 @@ it.instance(
           expect(requests[0]).toEqual({
             message: { prompt: "Inspect the current repository" },
             agent: { mode: "plan", model: "anthropic/command-model" },
-            repository: { type: "github", repo: "Kilo-Org/kappacode" },
+            repository: { type: "github", repo: "Kappa-Org/kappacode" },
             options: {
               createdOnPlatform: "kappa-cli",
               kappacodeOrganizationId: ORG,
@@ -165,7 +165,7 @@ it.instance(
             {
               cwd: test.directory,
               prompt: "Inspect the repository",
-              repo: "Kilo-Org/kappacode",
+              repo: "Kappa-Org/kappacode",
               stream: true,
             },
             {
@@ -253,7 +253,7 @@ it.instance(
             {
               cwd: test.directory,
               prompt: "Inspect the repository",
-              repo: "Kilo-Org/kappacode",
+              repo: "Kappa-Org/kappacode",
               orgID: ORG,
               stream: true,
             },
@@ -334,7 +334,7 @@ it.instance(
             {
               cwd: test.directory,
               prompt: "Inspect the repository",
-              repo: "Kilo-Org/kappacode",
+              repo: "Kappa-Org/kappacode",
               stream: true,
             },
             {
@@ -415,7 +415,7 @@ it.instance(
             {
               cwd: test.directory,
               prompt: "Inspect the repository",
-              repo: "Kilo-Org/kappacode",
+              repo: "Kappa-Org/kappacode",
               stream: true,
             },
             {

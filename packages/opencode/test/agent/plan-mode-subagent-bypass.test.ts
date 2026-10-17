@@ -5,7 +5,7 @@ import { Effect } from "effect"
 import { Agent } from "../../src/agent/agent"
 import { deriveSubagentSessionPermission } from "../../src/agent/subagent-permissions"
 import { Permission } from "../../src/permission"
-import { KiloTask } from "../../src/kilocode/tool/task" // kilocode_change
+import { KappaTask } from "../../src/kappacode/tool/task" // kappacode_change
 import { testEffect } from "../lib/effect"
 
 const it = testEffect(LayerNode.compile(Agent.node))
@@ -160,15 +160,15 @@ it.effect("subagent inherits parent session deny rules as hard runtime ceilings"
   }),
 )
 
-// kilocode_change start - preserve Plan edit/notebook ceilings across Kilo task delegation,
+// kappacode_change start - preserve Plan edit/notebook ceilings across Kappa task delegation,
 // but do NOT project the caller's read-only bash allowlist onto a writable subagent (#11523)
 it.instance("Plan delegation preserves notebook ceilings without projecting bash denies", () =>
   Effect.gen(function* () {
     const caller = yield* Agent.use.get("plan")
     expect(caller).toBeDefined()
-    const rules = KiloTask.inherited({
+    const rules = KappaTask.inherited({
       caller: caller!,
-      session: { permission: [] } as unknown as Parameters<typeof KiloTask.inherited>[0]["session"],
+      session: { permission: [] } as unknown as Parameters<typeof KappaTask.inherited>[0]["session"],
       mcp: {},
     })
 
@@ -190,13 +190,13 @@ it.instance(
       expect(explore).toBeDefined()
 
       const inherited = (caller: Agent.Info) =>
-        KiloTask.inherited({
+        KappaTask.inherited({
           caller,
-          session: { permission: [] } as unknown as Parameters<typeof KiloTask.inherited>[0]["session"],
+          session: { permission: [] } as unknown as Parameters<typeof KappaTask.inherited>[0]["session"],
           mcp: {},
         })
       const effective = (caller: Agent.Info) =>
-        Permission.merge(explore!.permission, KiloTask.permissions(inherited(caller)))
+        Permission.merge(explore!.permission, KappaTask.permissions(inherited(caller)))
       const rules = effective(plan!)
 
       expect(Permission.evaluate("bash", "git status", rules).action).toBe("allow")
@@ -247,9 +247,9 @@ it.instance(
       expect(caller).toBeDefined()
       expect(worker).toBeDefined()
 
-      const rules = KiloTask.inherited({
+      const rules = KappaTask.inherited({
         caller: caller!,
-        session: { permission: [] } as unknown as Parameters<typeof KiloTask.inherited>[0]["session"],
+        session: { permission: [] } as unknown as Parameters<typeof KappaTask.inherited>[0]["session"],
         mcp: {},
       })
       // The phantom deny rules the issue reports must not leak from the read-only caller.
@@ -257,7 +257,7 @@ it.instance(
       expect(rules).not.toContainEqual({ permission: "bash", pattern: "*", action: "deny" })
 
       // Mirror task.ts: the subagent runs with its own permission plus the inherited ceilings.
-      const effective = Permission.merge(worker!.permission, KiloTask.permissions(rules))
+      const effective = Permission.merge(worker!.permission, KappaTask.permissions(rules))
       expect(Permission.evaluate("bash", "git status", effective).action).toBe("allow")
       expect(Permission.evaluate("bash", "touch output.txt", effective).action).toBe("allow")
     }),
@@ -279,4 +279,4 @@ it.instance(
     },
   },
 )
-// kilocode_change end
+// kappacode_change end

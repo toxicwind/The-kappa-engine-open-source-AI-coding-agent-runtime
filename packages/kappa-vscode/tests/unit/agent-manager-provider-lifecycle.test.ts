@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test"
 import * as fs from "node:fs"
 import * as os from "node:os"
 import * as path from "node:path"
-import type { KiloClient, SessionStatus } from "@kappacode/sdk/v2/client"
+import type { KappaClient, SessionStatus } from "@kappacode/sdk/v2/client"
 import { ProjectContext } from "../../src/agent-manager/project/context"
 import {
   createLifecycleWorktree,
@@ -25,7 +25,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
     question: { list: ReturnType<typeof mock> }
     backgroundProcess: { stopSession: ReturnType<typeof mock> }
     experimental: { session: { list: ReturnType<typeof mock> }; controlPlane: { moveSession: ReturnType<typeof mock> } }
-    kilocode: { removeSnapshot: ReturnType<typeof mock> }
+    kappacode: { removeSnapshot: ReturnType<typeof mock> }
   }
   let host: LifecycleHost
 
@@ -75,7 +75,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
           }),
         },
       },
-      kilocode: {
+      kappacode: {
         removeSnapshot: mock(async () => {
           calls.push("snapshots")
           return { data: true }
@@ -114,7 +114,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
       stopDiffs: () => calls.push("diff"),
       capture: () => undefined,
       autoName: () => ({ enabled: false }),
-      client: () => client as unknown as KiloClient,
+      client: () => client as unknown as KappaClient,
       acquirePtyCleanup: async () => {
         calls.push("pty")
         return () => calls.push("pty:release")
@@ -318,7 +318,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
       )
       expect(calls).toContain("stats:unskip")
       expect(calls).not.toContain("disk")
-      expect(client.kilocode.removeSnapshot).not.toHaveBeenCalled()
+      expect(client.kappacode.removeSnapshot).not.toHaveBeenCalled()
       expect(state.getWorktrees()).toHaveLength(1)
     },
   )
@@ -346,7 +346,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
     expect(calls).not.toContain("post:agentManager.worktreeDeleted")
     // The worktree survives, so its conversations must stay where they are.
     expect(client.experimental.controlPlane.moveSession).not.toHaveBeenCalled()
-    expect(client.kilocode.removeSnapshot).not.toHaveBeenCalled()
+    expect(client.kappacode.removeSnapshot).not.toHaveBeenCalled()
     expect(state.getWorktrees()).toHaveLength(1)
   })
 
@@ -354,7 +354,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
     const session = state.addSession("retained", state.getWorktrees()[0]!.id)
     const notify = mock(host.notify)
     host.notify = notify
-    client.kilocode.removeSnapshot.mockRejectedValue(new Error("checkpoint cleanup failed"))
+    client.kappacode.removeSnapshot.mockRejectedValue(new Error("checkpoint cleanup failed"))
 
     await deleteWorktree()
     // Checkpoint cleanup finishes after the row is removed.
@@ -401,7 +401,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
     expect(calls).toContain(
       "notify:The worktree was deleted, but some conversations could not be moved to Local. Conversation history is preserved.",
     )
-    expect(client.kilocode.removeSnapshot).toHaveBeenCalled()
+    expect(client.kappacode.removeSnapshot).toHaveBeenCalled()
     expect(state.getWorktrees()).toHaveLength(0)
     expect(routes.map((route) => route.sessionID)).toEqual([session.id])
     expect(client.session.delete).not.toHaveBeenCalled()
@@ -458,7 +458,7 @@ describe("Agent Manager worktree deletion lifecycle", () => {
       expect(calls.indexOf(`move:${session.id}`)).toBeLessThan(calls.indexOf(`directory:${session.id}:${ctx.root}`))
     }
     expect(calls.indexOf("snapshots")).toBeGreaterThan(calls.indexOf("post:agentManager.worktreeDeleted"))
-    expect(client.kilocode.removeSnapshot).toHaveBeenCalledWith(
+    expect(client.kappacode.removeSnapshot).toHaveBeenCalledWith(
       { directory: ctx.root, worktree },
       { throwOnError: true },
     )

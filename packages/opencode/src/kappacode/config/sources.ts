@@ -7,9 +7,9 @@ import { Global } from "@opencode-ai/core/global"
 import { Auth } from "@/auth"
 import { ConfigManaged } from "@/config/managed"
 import { Filesystem } from "@/util/filesystem"
-import { KilocodeConfig } from "./config"
+import { KappacodeConfig } from "./config"
 
-export namespace KilocodeConfigSources {
+export namespace KappacodeConfigSources {
   export const Scope = z.enum(["global", "project", "env", "managed", "cloud"])
   export type Scope = z.infer<typeof Scope>
 
@@ -137,7 +137,7 @@ export namespace KilocodeConfigSources {
     const home = await Filesystem.findUp([...roots], Global.Path.home, Global.Path.home)
     const env = Flag.KILO_CONFIG_DIR ? [Flag.KILO_CONFIG_DIR] : []
     const dirs = unique([Global.Path.config, ...project, ...home, ...env]).filter((dir) =>
-      KilocodeConfig.isConfigDir(dir, Flag.KILO_CONFIG_DIR),
+      KappacodeConfig.isConfigDir(dir, Flag.KILO_CONFIG_DIR),
     )
 
     const result: Pending[] = []
@@ -153,7 +153,7 @@ export namespace KilocodeConfigSources {
         editable: scope !== "managed" && scope !== "cloud",
       })
 
-      for (const name of KilocodeConfig.ALL_CONFIG_FILES) {
+      for (const name of KappacodeConfig.ALL_CONFIG_FILES) {
         const file = path.join(dir, name)
         result.push(await fileSource({ kind: "config-dir-file", scope, label: `Config directory ${name}`, file }))
       }
@@ -213,11 +213,11 @@ export namespace KilocodeConfigSources {
       {
         kind: "cloud-org",
         scope: "cloud",
-        label: "Kilo Cloud organization config",
+        label: "Kappa Cloud organization config",
         source: `${account.url}/api/config`,
         exists: true,
         editable: false,
-        reason: "Active organization config is managed by Kilo Cloud; values are not exposed here.",
+        reason: "Active organization config is managed by Kappa Cloud; values are not exposed here.",
       },
     ]
   }
@@ -225,7 +225,7 @@ export namespace KilocodeConfigSources {
   async function managedSources(): Promise<Pending[]> {
     const dir = ConfigManaged.managedConfigDir()
     const files = await Promise.all(
-      KilocodeConfig.ALL_CONFIG_FILES.map((name) =>
+      KappacodeConfig.ALL_CONFIG_FILES.map((name) =>
         fileSource({
           kind: "managed-file",
           scope: "managed",

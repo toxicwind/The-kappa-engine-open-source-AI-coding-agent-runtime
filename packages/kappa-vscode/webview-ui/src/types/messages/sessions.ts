@@ -1,7 +1,7 @@
-import type { KilocodeSessionModelUsageResponse } from "@kappacode/sdk/v2"
+import type { KappacodeSessionModelUsageResponse } from "@kappacode/sdk/v2"
 import type { Part, TokenUsage } from "./parts"
 
-export type SessionModelUsage = KilocodeSessionModelUsageResponse
+export type SessionModelUsage = KappacodeSessionModelUsageResponse
 
 export type SessionCloseReason = "completed" | "error" | "interrupted" | "superseded"
 
@@ -78,7 +78,7 @@ export interface ProjectSessionInfo extends SessionInfo {
 
 export type SessionUpdate = Partial<SessionInfo> & Pick<SessionInfo, "id">
 
-// Cloud session info (from Kilo cloud API)
+// Cloud session info (from Kappa cloud API)
 export interface CloudSessionInfo {
   session_id: string
   title: string | null

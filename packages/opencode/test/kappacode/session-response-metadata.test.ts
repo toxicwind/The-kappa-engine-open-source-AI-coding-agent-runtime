@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
 import { LLMAISDK } from "@/session/llm/ai-sdk"
-import { KiloResponseMetadata } from "@/kappacode/session/response-metadata"
+import { KappaResponseMetadata } from "@/kappacode/session/response-metadata"
 
 describe("session response metadata", () => {
   test("carries x-vercel-id from an AI SDK response", async () => {
@@ -30,21 +30,21 @@ describe("session response metadata", () => {
     expect(events).toHaveLength(1)
     const event = events[0]
     if (event?.type !== "step-finish") throw new Error("expected step-finish")
-    expect(KiloResponseMetadata.read(event.providerMetadata)).toBe("fra1::abc")
+    expect(KappaResponseMetadata.read(event.providerMetadata)).toBe("fra1::abc")
   })
 
   test("does not add metadata when the header is absent", () => {
-    expect(KiloResponseMetadata.write(undefined, { server: "vercel" })).toBeUndefined()
+    expect(KappaResponseMetadata.write(undefined, { server: "vercel" })).toBeUndefined()
   })
 
   test("normalizes valid Vercel IDs", () => {
-    const metadata = KiloResponseMetadata.write(undefined, { "x-vercel-id": "  fra1::abc-123_test  " })
-    expect(KiloResponseMetadata.read(metadata)).toBe("fra1::abc-123_test")
+    const metadata = KappaResponseMetadata.write(undefined, { "x-vercel-id": "  fra1::abc-123_test  " })
+    expect(KappaResponseMetadata.read(metadata)).toBe("fra1::abc-123_test")
   })
 
   test("rejects unsafe or oversized Vercel IDs", () => {
-    expect(KiloResponseMetadata.write(undefined, { "x-vercel-id": "fra1::<script>" })).toBeUndefined()
-    expect(KiloResponseMetadata.write(undefined, { "x-vercel-id": "x".repeat(201) })).toBeUndefined()
-    expect(KiloResponseMetadata.read({ kappa: { vercelID: "fra1::abc\nsecret" } })).toBeUndefined()
+    expect(KappaResponseMetadata.write(undefined, { "x-vercel-id": "fra1::<script>" })).toBeUndefined()
+    expect(KappaResponseMetadata.write(undefined, { "x-vercel-id": "x".repeat(201) })).toBeUndefined()
+    expect(KappaResponseMetadata.read({ kappa: { vercelID: "fra1::abc\nsecret" } })).toBeUndefined()
   })
 })

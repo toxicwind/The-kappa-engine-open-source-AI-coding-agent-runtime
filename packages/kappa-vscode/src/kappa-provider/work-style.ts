@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloConnectionService } from "../services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 import { getInitialWorkStyle, type WorkStyleState } from "../shared/work-style-presets"
 import { handleWorkStyleApplyMessage } from "./work-style-apply-handler"
 
@@ -36,7 +36,7 @@ export async function setWorkStyle(style: WorkStyleState) {
   await getConfig().update("agentWorkStyle", style, vscode.ConfigurationTarget.Global)
 }
 
-async function hasAnySession(connection: KiloConnectionService, directory: string): Promise<boolean> {
+async function hasAnySession(connection: KappaConnectionService, directory: string): Promise<boolean> {
   const client = await connection.getClientAsync(directory)
   const { data } = await client.experimental.session.list(
     {
@@ -49,7 +49,7 @@ async function hasAnySession(connection: KiloConnectionService, directory: strin
   return data.length > 0
 }
 
-async function initializeWorkStyle(connection: KiloConnectionService, directory: string): Promise<void> {
+async function initializeWorkStyle(connection: KappaConnectionService, directory: string): Promise<void> {
   if (isWorkStyleConfigured()) return
 
   const hasSessions = await hasAnySession(connection, directory)
@@ -60,7 +60,7 @@ async function initializeWorkStyle(connection: KiloConnectionService, directory:
 
 export async function handleWorkStyleMessage(input: {
   message: { type?: string; style?: WorkStyleState }
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   directory: string
   post: (message: unknown) => void
 }): Promise<boolean> {
@@ -68,7 +68,7 @@ export async function handleWorkStyleMessage(input: {
     const initialized = await initializeWorkStyle(input.connection, input.directory)
       .then(() => true)
       .catch((err: unknown) => {
-        console.error("[Kilo New] Failed to initialize work style:", err)
+        console.error("[Kappa New] Failed to initialize work style:", err)
         return false
       })
     const payload = getWorkStylePayload()
@@ -78,7 +78,7 @@ export async function handleWorkStyleMessage(input: {
   if (await handleWorkStyleApplyMessage(input)) return true
   if (input.message.type !== "setWorkStyle") return false
   if (!input.message.style) {
-    console.error("[Kilo New] Missing style in setWorkStyle message")
+    console.error("[Kappa New] Missing style in setWorkStyle message")
     return true
   }
   await setWorkStyle(input.message.style)

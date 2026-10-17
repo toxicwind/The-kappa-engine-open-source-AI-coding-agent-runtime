@@ -21,31 +21,31 @@ interface ProviderAuthAuthorization {
 }
 
 // Profile types from kappa-gateway
-export interface KilocodeOrganization {
+export interface KappacodeOrganization {
   id: string
   name: string
   role: string
 }
 
-export interface KilocodeProfile {
+export interface KappacodeProfile {
   email: string
   name?: string
-  organizations?: KilocodeOrganization[]
+  organizations?: KappacodeOrganization[]
   selectedOrganizationId?: string
   hasPersonalAccount?: boolean
 }
 
-export interface KilocodeBalance {
+export interface KappacodeBalance {
   balance: number
 }
 
 interface ProfileData {
-  profile: KilocodeProfile
-  balance: KilocodeBalance | null
+  profile: KappacodeProfile
+  balance: KappacodeBalance | null
   currentOrgId: string | null
 }
 
-// Cloud session from the Kilo cloud API (cli_sessions_v2)
+// Cloud session from the Kappa cloud API (cli_sessions_v2)
 interface CloudSessionInfo {
   session_id: string
   title: string | null

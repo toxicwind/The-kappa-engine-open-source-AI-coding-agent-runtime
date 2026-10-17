@@ -7,7 +7,7 @@ import { toIndexingConfigInput, type IndexingConfig } from "@kappacode/kappa-ind
 import { hasIndexingPlugin } from "@kappacode/kappa-indexing/detect"
 import { IndexingStatus, disabledIndexingStatus } from "@kappacode/kappa-indexing/status"
 import { Telemetry } from "@kappacode/kappa-telemetry"
-import { fetchKiloEmbeddingModelCatalog } from "@kappacode/kappa-gateway"
+import { fetchKappaEmbeddingModelCatalog } from "@kappacode/kappa-gateway"
 import { allowed, message } from "@opencode-ai/core/kappacode/fff"
 import { Instance } from "@/kappacode/instance"
 import { Bus } from "@/bus"
@@ -25,7 +25,7 @@ import { Event as IndexingEvent, Warning as IndexingWarningEvent } from "./index
 import { indexingWarningKey, type IndexingWarning } from "./indexing-warning"
 import { IndexingWorker } from "./indexing-worker-client"
 import { LanceDBRuntime } from "./lancedb"
-import { indexingWithKiloDefault, resolveKiloIndexingAuth, type KiloIndexingAuth } from "./indexing-auth"
+import { indexingWithKappaDefault, resolveKappaIndexingAuth, type KappaIndexingAuth } from "./indexing-auth"
 import { primaryWorktree } from "./primary-worktree"
 
 const log = Log.create({ service: "kappacode-indexing" })
@@ -36,13 +36,13 @@ const noWorkspace = () =>
   disabledIndexingStatus("Codebase indexing is disabled because no workspace folder is open in VS Code.")
 const unsafeRoot = () => disabledIndexingStatus(message)
 const noConsent = () =>
-  disabledIndexingStatus("Codebase indexing is disabled until you enable it for this project in Kilo Settings.")
+  disabledIndexingStatus("Codebase indexing is disabled until you enable it for this project in Kappa Settings.")
 
 export const IndexingModelError = NamedError.create("IndexingModelError", {
   model: Schema.String,
 })
 
-const baselineDirectory = Effect.fn("KiloIndexing.baselineDirectory")(function* (dir: string) {
+const baselineDirectory = Effect.fn("KappaIndexing.baselineDirectory")(function* (dir: string) {
   if (Instance.project.vcs !== "git") return undefined
   const checkout = path.resolve(Instance.worktree)
   const main = yield* primaryWorktree(checkout)
@@ -83,12 +83,12 @@ function pending(): z.infer<typeof IndexingStatus> {
   }
 }
 
-async function kappaAuth(cfg: Config.Info): Promise<KiloIndexingAuth> {
+async function kappaAuth(cfg: Config.Info): Promise<KappaIndexingAuth> {
   const info = await auth.runPromise((svc) => svc.get("kappa"))
-  return resolveKiloIndexingAuth({ config: cfg, auth: info })
+  return resolveKappaIndexingAuth({ config: cfg, auth: info })
 }
 
-function enrichKilo(input: ReturnType<typeof toIndexingConfigInput>, auth: KiloIndexingAuth) {
+function enrichKappa(input: ReturnType<typeof toIndexingConfigInput>, auth: KappaIndexingAuth) {
   if (input.embedderProvider !== "kappa") return input
 
   return {
@@ -99,10 +99,10 @@ function enrichKilo(input: ReturnType<typeof toIndexingConfigInput>, auth: KiloI
   }
 }
 
-async function model(input: ReturnType<typeof toIndexingConfigInput>, auth: KiloIndexingAuth) {
+async function model(input: ReturnType<typeof toIndexingConfigInput>, auth: KappaIndexingAuth) {
   if (input.embedderProvider !== "kappa" || !input.enabled) return input
 
-  const catalog = await fetchKiloEmbeddingModelCatalog({ baseURL: auth.baseUrl, token: auth.apiKey })
+  const catalog = await fetchKappaEmbeddingModelCatalog({ baseURL: auth.baseUrl, token: auth.apiKey })
 
   if (input.modelId) {
     const id = catalog.aliases[input.modelId] ?? input.modelId
@@ -124,7 +124,7 @@ async function model(input: ReturnType<typeof toIndexingConfigInput>, auth: Kilo
   const found = catalog.models.find((item) => item.id === fallback)
   if (!found) {
     if (input.modelId || input.modelDimension) {
-      log.warn("ignoring unsupported Kilo embedding model configuration", { model: input.modelId })
+      log.warn("ignoring unsupported Kappa embedding model configuration", { model: input.modelId })
     }
     return { ...input, modelId: undefined, modelDimension: undefined }
   }
@@ -208,7 +208,7 @@ function trackTelemetry(event: IndexingTelemetryEvent): void {
   })
 }
 
-export namespace KiloIndexing {
+export namespace KappaIndexing {
   export const Status = IndexingStatus
   export type Status = z.infer<typeof Status>
 
@@ -299,11 +299,11 @@ export namespace KiloIndexing {
     const auth = await kappaAuth(cfg)
     const globalConfig = await AppRuntime.runPromise(Config.Service.use((svc) => svc.getGlobal()))
     const global = globalConfig.indexing
-    const merged = indexingWithKiloDefault({ ...global, ...cfg.indexing }, auth) ?? {}
+    const merged = indexingWithKappaDefault({ ...global, ...cfg.indexing }, auth) ?? {}
     let cfgInput: Awaited<ReturnType<typeof model>>
     try {
       cfgInput = await model(
-        enrichKilo(
+        enrichKappa(
           input({ ...merged, enabled: process.env["KILO_PLATFORM"] === "vscode" ? true : merged.enabled }, global),
           auth,
         ),
@@ -551,13 +551,13 @@ export namespace KiloIndexing {
     try {
       const cfg = await AppRuntime.runPromise(Config.Service.use((svc) => svc.getGlobal()))
       const auth = await kappaAuth(cfg)
-      const catalog = await fetchKiloEmbeddingModelCatalog({ baseURL: auth.baseUrl, token: auth.apiKey })
+      const catalog = await fetchKappaEmbeddingModelCatalog({ baseURL: auth.baseUrl, token: auth.apiKey })
       if (catalog.models.length > 0 || (!auth.baseUrl && !auth.apiKey)) return catalog
-      const fallback = await fetchKiloEmbeddingModelCatalog()
+      const fallback = await fetchKappaEmbeddingModelCatalog()
       return fallback.models.length > 0 ? fallback : catalog
     } catch (err) {
-      log.warn("falling back to public Kilo embedding model catalog", { err })
-      return fetchKiloEmbeddingModelCatalog()
+      log.warn("falling back to public Kappa embedding model catalog", { err })
+      return fetchKappaEmbeddingModelCatalog()
     }
   }
 

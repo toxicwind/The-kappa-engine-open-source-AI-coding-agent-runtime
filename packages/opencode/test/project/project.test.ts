@@ -120,8 +120,8 @@ describe("Project.fromDirectory", () => {
       expect(result.project.vcs).toBe("git")
       expect(result.project.worktree).toBe(tmp)
 
-      const kiloFile = path.join(tmp, ".git", "kappa")
-      expect(yield* Effect.promise(() => Bun.file(kiloFile).exists())).toBe(false)
+      const kappaFile = path.join(tmp, ".git", "kappa")
+      expect(yield* Effect.promise(() => Bun.file(kappaFile).exists())).toBe(false)
     }),
   )
 

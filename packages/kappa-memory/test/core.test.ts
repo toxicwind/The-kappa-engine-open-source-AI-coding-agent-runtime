@@ -10,7 +10,7 @@ import { MemoryOperations } from "../src/capture/operations"
 import { MemoryPaths } from "../src/storage/paths"
 import { MemoryRecall } from "../src/recall/recall"
 import { MemorySchema } from "../src/schema"
-import { KiloMemory } from "../src/effect/index"
+import { KappaMemory } from "../src/effect/index"
 
 async function tmp() {
   const dir = await mkdtemp(path.join(os.tmpdir(), "kappa-memory-"))
@@ -72,11 +72,11 @@ describe("memory core package", () => {
       const legacy = path.join(t.root, "decisions.jsonl")
       await writeFile(legacy, '{"kind":"log"}\n')
 
-      await KiloMemory.status({ root: t.root })
+      await KappaMemory.status({ root: t.root })
       expect(await Bun.file(legacy).exists()).toBe(false)
 
       await writeFile(legacy, '{"kind":"log"}\n')
-      await KiloMemory.status({ root: t.root })
+      await KappaMemory.status({ root: t.root })
       expect(await Bun.file(legacy).exists()).toBe(true)
 
       const other = path.join(t.dir, "unowned")
@@ -84,7 +84,7 @@ describe("memory core package", () => {
       const file = path.join(other, "decisions.jsonl")
       await writeFile(file, '{"kind":"log"}\n')
 
-      await KiloMemory.status({ root: other })
+      await KappaMemory.status({ root: other })
       expect(await Bun.file(file).exists()).toBe(true)
     })
   })
@@ -99,16 +99,16 @@ describe("memory core package", () => {
         const legacy = path.join(t.root, "decisions.jsonl")
         await mkdir(legacy)
 
-        const status = await KiloMemory.status({ root: t.root })
+        const status = await KappaMemory.status({ root: t.root })
         expect(status.state.enabled).toBe(true)
 
         await rm(legacy, { recursive: true })
         await writeFile(legacy, '{"kind":"log"}\n')
-        await KiloMemory.status({ root: t.root })
+        await KappaMemory.status({ root: t.root })
         expect(await Bun.file(legacy).exists()).toBe(true)
 
         clock.mockReturnValue(now + 60_001)
-        await KiloMemory.status({ root: t.root })
+        await KappaMemory.status({ root: t.root })
         expect(await Bun.file(legacy).exists()).toBe(false)
       })
     } finally {
@@ -126,16 +126,16 @@ describe("memory core package", () => {
         const paths = MemoryPaths.files(t.root)
         await writeFile(paths.manifest, "{")
 
-        const status = await KiloMemory.status({ root: t.root })
+        const status = await KappaMemory.status({ root: t.root })
         expect(status.state.enabled).toBe(true)
 
         await writeFile(paths.manifest, '{"kind":"kappa-memory","version":1}\n')
         await writeFile(paths.decisions, '{"kind":"log"}\n')
-        await KiloMemory.status({ root: t.root })
+        await KappaMemory.status({ root: t.root })
         expect(await Bun.file(paths.decisions).exists()).toBe(true)
 
         clock.mockReturnValue(now + 60_001)
-        await KiloMemory.status({ root: t.root })
+        await KappaMemory.status({ root: t.root })
         expect(await Bun.file(paths.decisions).exists()).toBe(false)
       })
     } finally {
@@ -640,7 +640,7 @@ describe("memory core package", () => {
       await Memory.remember({
         root: t.root,
         key: "memory_tests",
-        text: "Run memory tests from packages/opencode with bun test ./test/kilocode/memory.",
+        text: "Run memory tests from packages/opencode with bun test ./test/kappacode/memory.",
       })
       await Memory.recordSession({
         root: t.root,

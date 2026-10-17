@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 /** @jsxImportSource @opentui/solid */
 import { TextareaRenderable } from "@opentui/core"
 import { createDefaultOpenTuiKeymap } from "@opentui/keymap/opentui"

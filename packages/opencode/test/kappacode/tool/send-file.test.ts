@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, spyOn, test } from "bun:test"
 import { Effect, Layer } from "effect"
 import { Agent } from "@/agent/agent"
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
-import { KiloToolRegistry } from "@/kappacode/tool/registry"
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions"
+import { KappaToolRegistry } from "@/kappacode/tool/registry"
 import { SendFileTool } from "@/kappacode/tool/send-file"
 import { MessageID, SessionID } from "@/session/schema"
 import * as Truncate from "@/tool/truncate"
@@ -47,7 +47,7 @@ const ctx: Tool.Context = {
   ask: () => Effect.void,
 }
 
-const status = spyOn(KiloSessions, "remoteStatus")
+const status = spyOn(KappaSessions, "remoteStatus")
 
 beforeEach(() => {
   status.mockReturnValue({ enabled: true, connected: true })
@@ -83,13 +83,13 @@ describe("send_file tool", () => {
     const tool = { id: "send_file" } as Tool.Def
 
     status.mockReturnValue({ enabled: false, connected: false })
-    expect(KiloToolRegistry.available(tool)).toBe(false)
+    expect(KappaToolRegistry.available(tool)).toBe(false)
 
     status.mockReturnValue({ enabled: true, connected: false })
-    expect(KiloToolRegistry.available(tool)).toBe(false)
+    expect(KappaToolRegistry.available(tool)).toBe(false)
 
     status.mockReturnValue({ enabled: true, connected: true })
-    expect(KiloToolRegistry.available(tool)).toBe(true)
+    expect(KappaToolRegistry.available(tool)).toBe(true)
   })
 
   test("returns unavailable when not connected", async () => {
@@ -155,7 +155,7 @@ describe("send_file tool", () => {
   test("sniffs correct MIME for a file with wrong extension", async () => {
     const dir = await tmpdir()
     try {
-      // Actually just test a real PNG — KiloReadObject opens by path,
+      // Actually just test a real PNG — KappaReadObject opens by path,
       // the sniffAttachmentMime looks at magic bytes
       const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 0])
       await fs.writeFile(path.join(dir, "secret.dat"), png)
@@ -440,7 +440,7 @@ describe("send_file tool", () => {
 
   test("included in extra() list", () => {
     const tool = { id: "send_file" } as Tool.Def
-    const extra = KiloToolRegistry.extra(
+    const extra = KappaToolRegistry.extra(
       {
         recall: tool,
         managerModels: tool,
@@ -501,7 +501,7 @@ describe("send_file tool", () => {
   })
 })
 // kappacode_change start — fsService mock now includes stat + realPath for the
-// missing/directory authorization sequence that runs before KiloReadObject.file().
+// missing/directory authorization sequence that runs before KappaReadObject.file().
 // stat only fabricates NotFound for ENOENT; other errors propagate.
 const fsService = FSUtil.Service.of({
   stat: (candidate: string) =>

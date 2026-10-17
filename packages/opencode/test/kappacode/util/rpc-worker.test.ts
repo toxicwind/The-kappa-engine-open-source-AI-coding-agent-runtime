@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KiloRpc } from "../../../src/kappacode/util/rpc"
+import { KappaRpc } from "../../../src/kappacode/util/rpc"
 import { withTimeout } from "../../../src/util/timeout"
 
 /**
@@ -31,7 +31,7 @@ async function gated() {
 describe("worker rpc against a real worker", () => {
   test("delivers a request posted while the worker is still initialising", async () => {
     using fixture = await gated()
-    const client = KiloRpc.client<{ ping: (input: string) => string }>(fixture.worker)
+    const client = KappaRpc.client<{ ping: (input: string) => string }>(fixture.worker)
 
     // Posted into the window that used to swallow requests outright.
     const inflight = client.call("ping", "early")
@@ -43,7 +43,7 @@ describe("worker rpc against a real worker", () => {
 
   test("serves requests issued after the worker is ready", async () => {
     using fixture = await gated()
-    const client = KiloRpc.client<{ ping: (input: string) => string }>(fixture.worker)
+    const client = KappaRpc.client<{ ping: (input: string) => string }>(fixture.worker)
     fixture.release()
     await withTimeout(client.ready, 5_000, "worker never announced readiness")
 
@@ -52,7 +52,7 @@ describe("worker rpc against a real worker", () => {
 
   test("reports a throwing worker handler instead of hanging", async () => {
     using fixture = await gated()
-    const client = KiloRpc.client<{ boom: (input: undefined) => never }>(fixture.worker)
+    const client = KappaRpc.client<{ boom: (input: undefined) => never }>(fixture.worker)
     fixture.release()
     await withTimeout(client.ready, 5_000, "worker never announced readiness")
 
@@ -77,7 +77,7 @@ describe("worker rpc against a real worker", () => {
     process.env["KILO_RPC_HANDSHAKE_TIMEOUT"] = "200"
     try {
       // Gate is never released, so the worker never installs its handler.
-      const client = KiloRpc.client<{ ping: (input: string) => string }>(fixture.worker)
+      const client = KappaRpc.client<{ ping: (input: string) => string }>(fixture.worker)
       expect(await withTimeout(client.ready, 5_000, "readiness never settled")).toBe(false)
 
       const outcome = await withTimeout(

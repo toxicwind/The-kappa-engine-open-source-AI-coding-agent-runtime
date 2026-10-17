@@ -192,7 +192,7 @@ export function PRCommentCard(props: Props) {
           <Show when={props.error}>{(err) => <div class="am-pr-comment-error">{err()}</div>}</Show>
           <div class="am-pr-comment-actions am-pr-row">
             <Button variant="primary" size="small" disabled={props.sent} onClick={props.onSend}>
-              {t("agentManager.pr.fixWithKilo")}
+              {t("agentManager.pr.fixWithKappa")}
             </Button>
             <Show when={target() && props.onToggleResolved}>
               <Button

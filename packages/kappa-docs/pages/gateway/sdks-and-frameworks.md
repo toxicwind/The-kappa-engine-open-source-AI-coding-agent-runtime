@@ -1,11 +1,11 @@
 ---
 title: "SDKs & Frameworks"
-description: "Integrate with the Kilo AI Gateway using the Vercel AI SDK, OpenAI SDK, Python, cURL, or any OpenAI-compatible client."
+description: "Integrate with the Kappa AI Gateway using the Vercel AI SDK, OpenAI SDK, Python, cURL, or any OpenAI-compatible client."
 ---
 
 # SDKs & Frameworks
 
-The Kilo AI Gateway is OpenAI-compatible, meaning any SDK or framework that works with the OpenAI API can work with the Kilo Gateway by changing the base URL.
+The Kappa AI Gateway is OpenAI-compatible, meaning any SDK or framework that works with the OpenAI API can work with the Kappa Gateway by changing the base URL.
 
 ## Vercel AI SDK (Recommended)
 
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
 
 ## OpenAI SDK
 
-The official OpenAI SDKs work with the Kilo Gateway by setting the base URL.
+The official OpenAI SDKs work with the Kappa Gateway by setting the base URL.
 
 ### TypeScript / JavaScript
 
@@ -283,23 +283,23 @@ puts result['choices'][0]['message']['content']
 
 ## Framework integrations
 
-The Kilo AI Gateway works with any framework that supports OpenAI-compatible APIs:
+The Kappa AI Gateway works with any framework that supports OpenAI-compatible APIs:
 
 | Framework | Integration |
 |---|---|
-| [Vercel AI SDK](https://ai-sdk.dev) | Use `createOpenAI` with Kilo base URL |
+| [Vercel AI SDK](https://ai-sdk.dev) | Use `createOpenAI` with Kappa base URL |
 | [LangChain](https://langchain.com) | Use `ChatOpenAI` with custom base URL |
 | [LlamaIndex](https://www.llamaindex.ai) | Use OpenAI-compatible configuration |
 | [Haystack](https://haystack.deepset.ai) | Use OpenAI generator with custom URL |
 | [Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/) | Use OpenAI connector with custom endpoint |
-| [Pi](https://pi.dev) | Install the [Kilo provider extension](https://github.com/Kilo-Org/kappa-pi-provider) |
+| [Pi](https://pi.dev) | Install the [Kappa provider extension](https://github.com/Kappa-Org/kappa-pi-provider) |
 
 ### Pi coding agent
 
-Use the Kilo-maintained [Pi provider extension](https://github.com/Kilo-Org/kappa-pi-provider) to access Kilo Gateway models from the [Pi coding agent](https://pi.dev).
+Use the Kappa-maintained [Pi provider extension](https://github.com/Kappa-Org/kappa-pi-provider) to access Kappa Gateway models from the [Pi coding agent](https://pi.dev).
 
 ```bash
-pi install git:github.com/Kilo-Org/kappa-pi-provider
+pi install git:github.com/Kappa-Org/kappa-pi-provider
 ```
 
 Run `/login kappa` in Pi to connect your account, or use supported free models without signing in. See the provider repository for organization configuration and model-specific behavior.

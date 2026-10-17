@@ -1,4 +1,4 @@
-Kilo Code v7 for JetBrains is officially available. It uses a native JetBrains interface, works well in [remote development split mode](https://www.jetbrains.com/remote-development/), and does not require Node.js.
+Kappa Code v7 for JetBrains is officially available. It uses a native JetBrains interface, works well in [remote development split mode](https://www.jetbrains.com/remote-development/), and does not require Node.js.
 
 The JetBrains plugin provides the best native JetBrains UX for working with an AI coding agent, and it improves with every release. Enable automatic plugin updates to get the latest fixes and improvements as soon as they are available.
 
@@ -6,38 +6,38 @@ The JetBrains plugin provides the best native JetBrains UX for working with an A
 
 1. Open IntelliJ IDEA or another [JetBrains IDE](https://www.jetbrains.com/ides/)
 2. Go to **Settings → Plugins**
-3. Search for **Kilo Code** in the **Marketplace** tab
+3. Search for **Kappa Code** in the **Marketplace** tab
 4. Click **Install** or **Update** and restart your IDE if prompted
 5. Open **Settings → Appearance & Behavior → System Settings → Updates**, then enable **Update plugins automatically** (recommended)
 
-{% image src="/docs/img/jetbrains/plugin-marketplace.png" alt="JetBrains Plugins Marketplace showing the Kilo Code plugin search result" width="900" caption="Search for Kilo Code in the JetBrains Plugins Marketplace." /%}
+{% image src="/docs/img/jetbrains/plugin-marketplace.png" alt="JetBrains Plugins Marketplace showing the Kappa Code plugin search result" width="900" caption="Search for Kappa Code in the JetBrains Plugins Marketplace." /%}
 
-{% image src="/docs/img/jetbrains/plugin-auto-updates.png" alt="JetBrains Updates settings with Update plugins automatically enabled" width="900" caption="Enable automatic plugin updates to receive Kilo Code fixes and improvements." /%}
+{% image src="/docs/img/jetbrains/plugin-auto-updates.png" alt="JetBrains Updates settings with Update plugins automatically enabled" width="900" caption="Enable automatic plugin updates to receive Kappa Code fixes and improvements." /%}
 
-### Install with bundled Kilo Core
+### Install with bundled Kappa Core
 
-The Marketplace build is best for most users. Use the bundled Kilo Core build when your IDE cannot download the Kilo Core runtime after installation, such as on locked-down corporate networks, behind strict proxy or TLS inspection, in offline development environments, or where corporate policy blocks applications from downloading executables at runtime.
+The Marketplace build is best for most users. Use the bundled Kappa Core build when your IDE cannot download the Kappa Core runtime after installation, such as on locked-down corporate networks, behind strict proxy or TLS inspection, in offline development environments, or where corporate policy blocks applications from downloading executables at runtime.
 
-The bundled build ships the JetBrains plugin with Kilo Core included. The install is larger, but first launch does not need a separate runtime download.
+The bundled build ships the JetBrains plugin with Kappa Core included. The install is larger, but first launch does not need a separate runtime download.
 
 1. Open **Settings → Plugins**
 2. Click the gear icon and choose **Manage Plugin Repositories...**
-3. Click **+** and add the Kilo Code repository URL:
+3. Click **+** and add the Kappa Code repository URL:
 
    ```text
-   https://kappa-org.github.io/kilocode/jetbrains/updatePlugins.xml
+   https://kappa-org.github.io/kappacode/jetbrains/updatePlugins.xml
    ```
 
-4. Click **OK**, then install or update **Kilo Code** from **Settings → Plugins**
+4. Click **OK**, then install or update **Kappa Code** from **Settings → Plugins**
 5. Restart the IDE if prompted
 
 {% image src="/docs/img/jetbrains/plugin-custom-repository-menu.png" alt="JetBrains Plugins settings with Manage Plugin Repositories selected from the gear menu" width="900" caption="Open Manage Plugin Repositories from the Plugins settings gear menu." /%}
 
-{% image src="/docs/img/jetbrains/plugin-custom-repository-url.png" alt="JetBrains Custom Plugin Repositories dialog with the Kilo Code repository URL added" width="700" caption="Add the Kilo Code custom plugin repository URL." /%}
+{% image src="/docs/img/jetbrains/plugin-custom-repository-url.png" alt="JetBrains Custom Plugin Repositories dialog with the Kappa Code repository URL added" width="700" caption="Add the Kappa Code custom plugin repository URL." /%}
 
-After restart, open the **Kilo Code** tool window and choose **... → Core**. The menu footer should show **Bundled Core** with the version and architecture.
+After restart, open the **Kappa Code** tool window and choose **... → Core**. The menu footer should show **Bundled Core** with the version and architecture.
 
-{% image src="/docs/img/jetbrains/plugin-bundled-core.png" alt="Kilo Code tool window Core menu showing Bundled Core and the current architecture" width="900" caption="Confirm that the plugin is using Bundled Core." /%}
+{% image src="/docs/img/jetbrains/plugin-bundled-core.png" alt="Kappa Code tool window Core menu showing Bundled Core and the current architecture" width="900" caption="Confirm that the plugin is using Bundled Core." /%}
 
 ### If you used the v7 EAP {% #jetbrains-early-access %}
 

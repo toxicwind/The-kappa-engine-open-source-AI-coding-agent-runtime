@@ -5,7 +5,7 @@ description: "A unified API to access hundreds of AI models through a single end
 
 # AI Gateway
 
-The Kilo AI Gateway provides a unified, OpenAI-compatible API to access hundreds of AI models through a single endpoint at `https://api.kappa.ai/api/gateway`. It gives you the ability to track usage, manage costs, bring your own API keys, and enforce organization-level controls.
+The Kappa AI Gateway provides a unified, OpenAI-compatible API to access hundreds of AI models through a single endpoint at `https://api.kappa.ai/api/gateway`. It gives you the ability to track usage, manage costs, bring your own API keys, and enforce organization-level controls.
 
 The gateway works seamlessly with the [Vercel AI SDK](https://ai-sdk.dev), the [OpenAI SDK](/docs/gateway/sdks-and-frameworks#openai-sdk), or any OpenAI-compatible client in any language.
 

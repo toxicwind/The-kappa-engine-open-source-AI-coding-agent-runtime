@@ -2,7 +2,7 @@ import { execFile } from "child_process"
 import type { DeviceAuthPollResponse } from "../types.js"
 import { poll } from "./polling.js"
 import { initiateDeviceAuth, pollDeviceAuth } from "./device.js"
-import { getKiloProfile, getKiloDefaultModel, defaultOrganizationId } from "../api/profile.js"
+import { getKappaProfile, getKappaDefaultModel, defaultOrganizationId } from "../api/profile.js"
 import { POLL_INTERVAL_MS } from "../api/constants.js"
 import type { AuthOuathResult } from "@kappacode/plugin"
 
@@ -78,11 +78,11 @@ export async function authenticateWithDeviceAuthTUI(inputs?: Record<string, stri
       // Apply the cloud-selected organization as the login-time default.
       // After this, the stored accountId is authoritative; the user can switch
       // freely and profile fetches never re-derive it from the cloud.
-      const profile = await getKiloProfile(token).catch(() => undefined)
+      const profile = await getKappaProfile(token).catch(() => undefined)
       const organizationId = profile ? defaultOrganizationId(profile) : undefined
 
       // Fetch default model
-      await getKiloDefaultModel(token, organizationId)
+      await getKappaDefaultModel(token, organizationId)
 
       // Return success with OAuth credentials
       return {

@@ -11,7 +11,7 @@ type UpdateMessage = <T extends MessageV2.Info>(msg: T) => Effect.Effect<T>
 
 const pattern = /request entity too large|function_payload_too_large/i
 
-export namespace KiloCompactionPayloadRecovery {
+export namespace KappaCompactionPayloadRecovery {
   export function matches(error: MessageV2.Assistant["error"]) {
     if (!error) return false
     if (error.name !== "ContextOverflowError" && error.name !== "APIError") return false
@@ -68,7 +68,7 @@ export namespace KiloCompactionPayloadRecovery {
       return input.prompt(conversation ? [conversation] : [])
     }
 
-    const run = Effect.fn("KiloCompactionPayloadRecovery.process")(function* (text: string) {
+    const run = Effect.fn("KappaCompactionPayloadRecovery.process")(function* (text: string) {
       return yield* input.processor.process({
         user: input.user,
         agent: input.agent,

@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { retry } from "../services/cli-backend/retry"
 
 export const MESSAGE_PAGE_LIMIT = 80
@@ -17,7 +17,7 @@ function synthesizeCursor(oldest: { info: { id: string; time: { created: number 
 }
 
 export async function fetchMessagePage(
-  client: KiloClient,
+  client: KappaClient,
   input: {
     sessionID: string
     workspaceDir: string

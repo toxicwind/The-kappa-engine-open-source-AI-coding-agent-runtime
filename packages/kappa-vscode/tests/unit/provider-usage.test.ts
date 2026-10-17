@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test"
 import type { ProviderUsage, ProviderUsageWindow } from "@kappacode/sdk/v2/client"
 import { formatWindow, windowLabel, windowProgress } from "@kappacode/kappa-gateway/provider-usage"
 
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 
 const data: ProviderUsage = {
   generatedAt: "2026-06-19T00:00:00.000Z",
@@ -22,7 +22,7 @@ type UsageClient = {
 }
 
 // Answers any SDK endpoint outside the fake usage client with a benign empty
-// response, so tests never have to mirror KiloProvider's internal fetcher list.
+// response, so tests never have to mirror KappaProvider's internal fetcher list.
 const benign = (value: unknown): unknown =>
   typeof value === "function"
     ? value
@@ -34,8 +34,8 @@ const benign = (value: unknown): unknown =>
 
 function bridge(usage: UsageClient, pending?: Promise<void>) {
   const messages: unknown[] = []
-  const client = benign({ kilocode: { providerUsage: usage } })
-  const provider = new KiloProvider(
+  const client = benign({ kappacode: { providerUsage: usage } })
+  const provider = new KappaProvider(
     {} as never,
     {
       getClient: () => client,
@@ -87,7 +87,7 @@ describe("provider usage presentation", () => {
   })
 })
 
-describe("KiloProvider provider usage bridge", () => {
+describe("KappaProvider provider usage bridge", () => {
   it("waits for backend startup before loading profile usage", async () => {
     const pending = Promise.withResolvers<void>()
     const requests: unknown[] = []

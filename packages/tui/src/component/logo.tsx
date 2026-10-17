@@ -1,5 +1,5 @@
-import { KiloLogo } from "./kappa-logo" // kilocode_change
+import { KappaLogo } from "./kappa-logo" // kappacode_change
 
 export function Logo() {
-  return <KiloLogo /> // kilocode_change
+  return <KappaLogo /> // kappacode_change
 }

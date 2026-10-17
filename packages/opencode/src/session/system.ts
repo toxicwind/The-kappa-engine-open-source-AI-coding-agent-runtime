@@ -8,9 +8,9 @@ import PROMPT_DEFAULT from "./prompt/default.txt"
 import PROMPT_BEAST from "./prompt/beast.txt"
 import PROMPT_GEMINI from "./prompt/gemini.txt"
 import PROMPT_GPT from "./prompt/gpt.txt"
-import PROMPT_GPT55 from "./prompt/kilocode-gpt-5.5.txt" // kilocode_change
+import PROMPT_GPT55 from "./prompt/kappacode-gpt-5.5.txt" // kappacode_change
 import PROMPT_KIMI from "./prompt/kimi.txt"
-import PROMPT_LING from "./prompt/ling.txt" // kilocode_change
+import PROMPT_LING from "./prompt/ling.txt" // kappacode_change
 import PROMPT_META from "./prompt/meta.txt"
 
 import PROMPT_CODEX from "./prompt/codex.txt"
@@ -19,21 +19,21 @@ import type { Provider } from "@/provider/provider"
 import type { Agent } from "@/agent/agent"
 import { Permission } from "@/permission"
 import { Skill } from "@/skill"
-// kilocode_change
+// kappacode_change
 import { LocationServiceMap, locationServiceMapLayer } from "@opencode-ai/core/location-services"
 import { MCP } from "@/mcp"
 import { PermissionV1 } from "@opencode-ai/core/v1/permission"
 
-// kilocode_change start
-import SOUL from "../kilocode/soul.txt"
-import type { EditorContext } from "../kilocode/editor-context"
-import { KilocodeSystemPrompt } from "../kilocode/system-prompt"
-import { isLing } from "../kilocode/model-match"
+// kappacode_change start
+import SOUL from "../kappacode/soul.txt"
+import type { EditorContext } from "../kappacode/editor-context"
+import { KappacodeSystemPrompt } from "../kappacode/system-prompt"
+import { isLing } from "../kappacode/model-match"
 import { Config } from "@/config/config"
-import * as KiloReference from "@/kilocode/reference"
-// kilocode_change end
+import * as KappaReference from "@/kappacode/reference"
+// kappacode_change end
 
-// kilocode_change start
+// kappacode_change start
 export function instructions() {
   return PROMPT_CODEX.trim()
 }
@@ -41,10 +41,10 @@ export function instructions() {
 export function soul() {
   return SOUL.trim()
 }
-// kilocode_change end
+// kappacode_change end
 
 export function provider(model: Provider.Model) {
-  // kilocode_change start
+  // kappacode_change start
   function prompt() {
     switch (model.prompt) {
       case "anthropic":
@@ -69,7 +69,7 @@ export function provider(model: Provider.Model) {
 
   const kappa = prompt()
   if (kappa) return kappa
-  // kilocode_change end
+  // kappacode_change end
   if (model.api.id.includes("muse")) {
     const name = model.api.id.includes("muse-glimmer") ? "Muse Glimmer" : "Muse Spark"
     return [PROMPT_META.replaceAll("{{MODEL_NAME}}", name)]
@@ -90,12 +90,12 @@ export function provider(model: Provider.Model) {
     ["kimi-for-coding", "moonshotai", "moonshotai-cn"].includes(model.providerID)
   )
     return [PROMPT_KIMI]
-  if (isLing(model.api.id)) return [PROMPT_LING] // kilocode_change
+  if (isLing(model.api.id)) return [PROMPT_LING] // kappacode_change
   return [PROMPT_DEFAULT]
 }
 
 export interface Interface {
-  readonly environment: (model: Provider.Model, editorContext?: EditorContext) => Effect.Effect<string[]> // kilocode_change
+  readonly environment: (model: Provider.Model, editorContext?: EditorContext) => Effect.Effect<string[]> // kappacode_change
   readonly skills: (agent: Agent.Info) => Effect.Effect<string | undefined>
   readonly mcp: (agent: Agent.Info, permission?: PermissionV1.Ruleset) => Effect.Effect<string | undefined>
 }
@@ -108,17 +108,17 @@ const layer = Layer.effect(
     const skill = yield* Skill.Service
     const mcp = yield* MCP.Service
     const locations = yield* LocationServiceMap.Service
-    const config = yield* Config.Service // kilocode_change
+    const config = yield* Config.Service // kappacode_change
 
     return Service.of({
-      // kilocode_change start
+      // kappacode_change start
       environment: Effect.fn("SystemPrompt.environment")(function* (
         model: Provider.Model,
         editorContext?: EditorContext,
       ) {
         const ctx = yield* InstanceState.context
         const cfg = yield* config.get()
-        const references = yield* KiloReference.list(
+        const references = yield* KappaReference.list(
           {
             references: cfg.references ?? cfg.reference ?? {},
             directory: ctx.directory,
@@ -127,7 +127,7 @@ const layer = Layer.effect(
           locations,
         ).pipe(Effect.map((references) => references.filter((reference) => reference.description !== undefined)))
         return [
-          ...KilocodeSystemPrompt.environment({ ctx, model, editor: editorContext }),
+          ...KappacodeSystemPrompt.environment({ ctx, model, editor: editorContext }),
           references.length === 0
             ? undefined
             : [
@@ -148,7 +148,7 @@ const layer = Layer.effect(
               ].join("\n"),
         ].filter((part): part is string => part !== undefined)
       }),
-      // kilocode_change end
+      // kappacode_change end
 
       skills: Effect.fn("SystemPrompt.skills")(function* (agent: Agent.Info) {
         if (Permission.disabled(["skill"], agent.permission).has("skill")) return
@@ -194,7 +194,7 @@ const locationServiceMapNode = LayerNode.make({
 export const node = LayerNode.make({
   service: Service,
   layer: layer,
-  deps: [Skill.node, MCP.node, Config.node, locationServiceMapNode], // kilocode_change
+  deps: [Skill.node, MCP.node, Config.node, locationServiceMapNode], // kappacode_change
 })
 
 export * as SystemPrompt from "./system"

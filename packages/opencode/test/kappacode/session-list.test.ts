@@ -19,7 +19,7 @@ Log.init({ print: false })
 const layer = LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node, Database.node]))
 const it = testEffect(layer)
 
-describe("Kilo Session.list", () => {
+describe("Kappa Session.list", () => {
   it.instance(
     "includes directory matches from legacy project ids",
     () =>

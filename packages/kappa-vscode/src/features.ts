@@ -1,5 +1,5 @@
 import { hasIndexingPlugin } from "@kappacode/kappa-indexing/detect"
-import type { KiloClient } from "@kappacode/sdk/v2"
+import type { KappaClient } from "@kappacode/sdk/v2"
 import * as vscode from "vscode"
 
 type PluginSpec = string | [string, Record<string, unknown>]
@@ -28,13 +28,13 @@ export function configFeatures(
   }
 }
 
-export async function serverFeatures(client: Pick<KiloClient, "experimental">, dir: string) {
+export async function serverFeatures(client: Pick<KappaClient, "experimental">, dir: string) {
   if (!client.experimental?.capabilities?.get) return false
   try {
     const { data } = await client.experimental.capabilities.get({ directory: dir }, { throwOnError: true })
     return data?.backgroundSubagents === true
   } catch (error) {
-    console.warn("[Kilo New] Failed to fetch server capabilities:", error)
+    console.warn("[Kappa New] Failed to fetch server capabilities:", error)
     return false
   }
 }

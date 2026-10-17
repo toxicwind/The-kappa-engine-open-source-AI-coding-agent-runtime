@@ -1,8 +1,8 @@
 /**
  * Architecture test: webview font-size token usage.
  *
- * Kilo's VS Code webviews use the `kappa-code.new.fontSize` setting, not
- * VS Code editor font-size or raw pixel declarations. This keeps the Kilo UI
+ * Kappa's VS Code webviews use the `kappa-code.new.fontSize` setting, not
+ * VS Code editor font-size or raw pixel declarations. This keeps the Kappa UI
  * independently scalable across sidebar, settings, Agent Manager,
  * diff viewers, code blocks, and shared kappa-ui controls.
  */
@@ -24,7 +24,7 @@ const TARGETS = [
 ]
 
 const WATCHED_PROVIDERS = [
-  path.join(ROOT, "src/KiloProvider.ts"),
+  path.join(ROOT, "src/KappaProvider.ts"),
   path.join(ROOT, "src/diff/DiffViewerProvider.ts"),
   path.join(ROOT, "src/DiffVirtualProvider.ts"),
   path.join(ROOT, "src/MarketplacePanelProvider.ts"),
@@ -94,7 +94,7 @@ describe("webview font-size architecture", () => {
 
     expect(
       violations,
-      `Use the Kilo webview font-size tokens instead of raw pixels or VS Code editor font-size variables.\n` +
+      `Use the Kappa webview font-size tokens instead of raw pixels or VS Code editor font-size variables.\n` +
         `Preferred tokens: var(--font-size-base), var(--font-size-small), or var(--kappa-font-size-N).\n\n` +
         violations.map((v) => `  - ${v}`).join("\n"),
     ).toEqual([])
@@ -128,7 +128,7 @@ describe("webview font-size architecture", () => {
   it("injects and live-broadcasts the webview font-size setting to all webview providers", () => {
     const util = fs.readFileSync(path.join(ROOT, "src/utils.ts"), "utf-8")
     expect(util, "buildWebviewHtml must seed webview font tokens before app code runs").toContain("getWebviewFontSize")
-    expect(util, "buildWebviewHtml must define scaled Kilo font tokens").toContain("--kappa-font-size-")
+    expect(util, "buildWebviewHtml must define scaled Kappa font tokens").toContain("--kappa-font-size-")
 
     const missing = WATCHED_PROVIDERS.filter((file) => !fs.readFileSync(file, "utf-8").includes("watchFontSizeConfig"))
     expect(

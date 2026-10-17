@@ -5,11 +5,11 @@ import { migrateDefaultAutocompleteSettings } from "./migrate-default"
 import { nesLog } from "./next-edit/log"
 import { INLINE_COMPLETION_ACCEPTED_COMMAND as NEXT_EDIT_ACCEPTED_COMMAND } from "./next-edit/NextEditInlineCompletionProvider"
 import { chainNextPrediction } from "./next-edit/NextEditSuggestionManager"
-import type { KiloConnectionService } from "../cli-backend"
+import type { KappaConnectionService } from "../cli-backend"
 
 export const registerAutocompleteProvider = async (
   context: vscode.ExtensionContext,
-  connectionService: KiloConnectionService,
+  connectionService: KappaConnectionService,
 ) => {
   // Run before constructing the manager so its initial readSettings() sees
   // the cleared state and behaves as "Not set." Awaited because the manager's

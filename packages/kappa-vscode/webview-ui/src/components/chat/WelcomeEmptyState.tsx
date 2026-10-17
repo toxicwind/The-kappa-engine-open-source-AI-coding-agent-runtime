@@ -1,6 +1,6 @@
 import { type Component, type JSX, createSignal, For, Show } from "solid-js"
 import { Icon } from "@kappacode/kappa-ui/icon"
-import { AnimatedKiloLogo, reduced } from "../brand/AnimatedKiloLogo"
+import { AnimatedKappaLogo, reduced } from "../brand/AnimatedKappaLogo"
 import { useDialog } from "@kappacode/kappa-ui/context/dialog"
 import { useSession } from "../../context/session"
 import { useLanguage } from "../../context/language"
@@ -17,12 +17,12 @@ interface WelcomeEmptyStateProps {
 }
 
 /**
- * Square Kilo mark. Hover rotates the mark and crossfades to the yellow Lottie animation,
- * matching Kilo Cloud's header logo. The player mounts on first hover so the WASM renderer
+ * Square Kappa mark. Hover rotates the mark and crossfades to the yellow Lottie animation,
+ * matching Kappa Cloud's header logo. The player mounts on first hover so the WASM renderer
  * never delays the empty state; the static mark stays visible until the player can draw, so a
  * slow or failed load never leaves an empty square.
  */
-export const KiloLogo = () => {
+export const KappaLogo = () => {
   const icons = (window as { ICONS_BASE_URI?: string }).ICONS_BASE_URI || ""
   const light =
     document.body.classList.contains("vscode-light") || document.body.classList.contains("vscode-high-contrast-light")
@@ -44,11 +44,11 @@ export const KiloLogo = () => {
     >
       <Show when={mounted()}>
         <div class="kappa-logo-layer kappa-logo-animated">
-          <AnimatedKiloLogo playing={hover() && ready()} onReady={setReady} />
+          <AnimatedKappaLogo playing={hover() && ready()} onReady={setReady} />
         </div>
       </Show>
       <div class="kappa-logo-layer kappa-logo-static">
-        <img src={`${icons}/${file}`} alt="Kilo Code" />
+        <img src={`${icons}/${file}`} alt="Kappa Code" />
       </div>
     </div>
   )
@@ -62,7 +62,7 @@ export const WelcomeEmptyState: Component<WelcomeEmptyStateProps> = (props) => {
 
   return (
     <div class="message-list-empty">
-      <KiloLogo />
+      <KappaLogo />
       <p class="kappa-about-text">{language.t("session.messages.welcome")}</p>
       <Show when={recent().length > 0 && props.onSelectSession}>
         <div class="recent-sessions">

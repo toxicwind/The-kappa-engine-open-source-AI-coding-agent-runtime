@@ -778,10 +778,10 @@ const blocks: SDKPart[] = [
   done(
     "repo-clone",
     "repo_clone",
-    { repository: "Kilo-Org/kilocode" },
+    { repository: "Kappa-Org/kappacode" },
     "Clone repository",
-    "Repository ready: Kilo-Org/kilocode\nStatus: cached\nLocal path: /cache/kilocode",
-    { repository: "Kilo-Org/kilocode", status: "cached", localPath: "/cache/kilocode" },
+    "Repository ready: Kappa-Org/kappacode\nStatus: cached\nLocal path: /cache/kappacode",
+    { repository: "Kappa-Org/kappacode", status: "cached", localPath: "/cache/kappacode" },
   ),
   done(
     "repo-overview",
@@ -845,7 +845,7 @@ const blocks: SDKPart[] = [
     "codesearch",
     { query: "tool renderer selection" },
     "Legacy code search",
-    "https://github.com/Kilo-Org/kilocode/blob/main/packages/kappa-ui/src/components/message-part.tsx",
+    "https://github.com/Kappa-Org/kappacode/blob/main/packages/kappa-ui/src/components/message-part.tsx",
   ),
   tool(
     "matrix-tool-hint",
@@ -1209,7 +1209,7 @@ export const SearchPreviews: Story = {
                 <div class="tool-call-lab-example">
                   <span class="tool-call-lab-example-label">CLI startup failure</span>
                   <StartupErrorBanner
-                    errorMessage="Failed to start the Kilo CLI"
+                    errorMessage="Failed to start the Kappa CLI"
                     errorDetails="spawn /path/to/kappa ENOENT"
                   />
                 </div>
@@ -1219,7 +1219,7 @@ export const SearchPreviews: Story = {
               <div class="tool-call-lab-panel-header">
                 <span class="tool-call-lab-panel-title">Assistant error families</span>
                 <span class="tool-call-lab-panel-note">
-                  Generic provider errors and Kilo authentication or promotion actions.
+                  Generic provider errors and Kappa authentication or promotion actions.
                 </span>
               </div>
               <div class="tool-call-lab-stack">

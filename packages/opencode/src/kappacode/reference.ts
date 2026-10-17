@@ -150,10 +150,10 @@ function same(left: Reference.Source | undefined, right: Reference.Source) {
   return false
 }
 
-// Keep Core V2 tools on the same effective Kilo config used by stable tools. Core's standalone
+// Keep Core V2 tools on the same effective Kappa config used by stable tools. Core's standalone
 // scanner cannot see account/managed config or KILO_CONFIG_CONTENT, so replace its provisional
 // references after both config systems finish booting.
-export const sync = Effect.fn("KiloReference.sync")(function* (input: {
+export const sync = Effect.fn("KappaReference.sync")(function* (input: {
   references: ConfigReference.Info
   directory: string
   worktree: string
@@ -193,7 +193,7 @@ export const sync = Effect.fn("KiloReference.sync")(function* (input: {
   yield* service.replace(sources)
 })
 
-export const list = Effect.fn("KiloReference.list")(function* (
+export const list = Effect.fn("KappaReference.list")(function* (
   input: { references: ConfigReference.Info; directory: string; worktree: string },
   locations: Context.Service.Shape<typeof LocationServiceMap.Service>,
 ) {

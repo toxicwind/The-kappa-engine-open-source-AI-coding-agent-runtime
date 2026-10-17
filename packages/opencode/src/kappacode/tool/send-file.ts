@@ -2,11 +2,11 @@ import { Tool } from "@/tool/tool"
 import { Effect, Schema } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import { assertExternalDirectoryEffect } from "@/tool/external-directory"
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
-import { KiloReadObject } from "@/kappacode/tool/read-object"
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions"
+import { KappaReadObject } from "@/kappacode/tool/read-object"
 import { sniffAttachmentMime } from "@/util/media"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { KiloReference } from "@/kappacode/reference/contains"
+import { KappaReference } from "@/kappacode/reference/contains"
 import DESCRIPTION from "./send-file.txt"
 import path from "node:path"
 
@@ -15,7 +15,7 @@ import path from "node:path"
  * existing tool-attachment transport (remote-sender → UserConnectionDO → mobile
  * SDK), which has no in-repo frame cap. Cloud-agent ingest trims tool-attachment
  * URLs at 1 MiB (`MAX_INGEST_EVENT_BYTES`), so delivery through the cloud-agent
- * path is impossible by design — the tool is gated on `KiloSessions.remoteStatus()
+ * path is impossible by design — the tool is gated on `KappaSessions.remoteStatus()
  * .connected`, which is only true for the remote-CLI relay. History/cold-open
  * re-hydration rides the existing R2 spill (>~1.94 MiB) and 8 MiB page budget;
  * near the cap a cold-open "unavailable" is accepted page-pressure behavior.
@@ -41,9 +41,9 @@ export const SendFileTool = Tool.define<typeof Params, {}, FSUtil.Service, "send
       parameters: Params,
       execute: (params, ctx) =>
         Effect.gen(function* () {
-          if (!KiloSessions.remoteStatus().connected) {
+          if (!KappaSessions.remoteStatus().connected) {
             return fail(
-              "Cannot send files: this session is not connected to Kilo cloud. Delivery needs an active link.",
+              "Cannot send files: this session is not connected to Kappa cloud. Delivery needs an active link.",
             )
           }
 
@@ -52,7 +52,7 @@ export const SendFileTool = Tool.define<typeof Params, {}, FSUtil.Service, "send
           const basename = path.basename(requested)
 
           // kappacode_change start — authorize missing and directory paths with the same
-          // security sequence as read.ts before any file inspection via KiloReadObject.
+          // security sequence as read.ts before any file inspection via KappaReadObject.
           // Route absent targets through a read-style authorized failure, and produce a
           // structured fail() for directories. This prevents access-pattern leakage where
           // missing vs directory vs external-directory errors differ before permission
@@ -81,7 +81,7 @@ export const SendFileTool = Tool.define<typeof Params, {}, FSUtil.Service, "send
             const target = process.platform === "win32" ? FSUtil.normalizePath(resolved) : resolved
             const explicit =
               typeof ctx.extra?.["referenceRoot"] === "string"
-                ? yield* KiloReference.path(fs, ctx.extra["referenceRoot"], target).pipe(
+                ? yield* KappaReference.path(fs, ctx.extra["referenceRoot"], target).pipe(
                     Effect.option,
                     Effect.map((result) => result._tag === "Some" && result.value),
                   )
@@ -97,13 +97,13 @@ export const SendFileTool = Tool.define<typeof Params, {}, FSUtil.Service, "send
           }
           // kappacode_change end
 
-          // 1. Resolve via KiloReadObject.file (same authorization sequence as read.ts)
-          const file = yield* KiloReadObject.file(requested)
+          // 1. Resolve via KappaReadObject.file (same authorization sequence as read.ts)
+          const file = yield* KappaReadObject.file(requested)
 
           // 2. Authorization — same pattern as read.ts
           const explicit =
             typeof ctx.extra?.["referenceRoot"] === "string"
-              ? yield* KiloReference.path(fs, ctx.extra["referenceRoot"], file.target).pipe(
+              ? yield* KappaReference.path(fs, ctx.extra["referenceRoot"], file.target).pipe(
                   Effect.option,
                   Effect.map((result) => result._tag === "Some" && result.value),
                 )
@@ -126,7 +126,7 @@ export const SendFileTool = Tool.define<typeof Params, {}, FSUtil.Service, "send
           }
 
           // 4. Open and read with TOCTOU safety (same pattern as read.ts)
-          return yield* KiloReadObject.use(file, (bound) =>
+          return yield* KappaReadObject.use(file, (bound) =>
             Effect.gen(function* () {
               const sample = yield* Effect.tryPromise({
                 try: (signal) => bound.sample(SAMPLE_BYTES, AbortSignal.any([ctx.abort, signal])),
@@ -148,7 +148,7 @@ export const SendFileTool = Tool.define<typeof Params, {}, FSUtil.Service, "send
 
               return {
                 title: `Sent file: ${basename}`,
-                output: `File ${basename} (${bytes.byteLength} bytes, ${mime}) delivered to the user's Kilo app. Older app builds ignore non-image file attachments — make sure the user has an up-to-date app to see the delivery.`,
+                output: `File ${basename} (${bytes.byteLength} bytes, ${mime}) delivered to the user's Kappa app. Older app builds ignore non-image file attachments — make sure the user has an up-to-date app to see the delivery.`,
                 metadata: {},
                 attachments: [
                   {

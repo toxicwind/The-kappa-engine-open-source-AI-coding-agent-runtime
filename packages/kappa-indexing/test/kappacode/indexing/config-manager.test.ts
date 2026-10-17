@@ -96,7 +96,7 @@ describe("CodeIndexConfigManager", () => {
     expect(IndexingConfig.safeParse({ fileExtensions: [".d.ts"] }).success).toBe(false)
   })
 
-  test("configures Kilo with hosted auth options and explicit model metadata", () => {
+  test("configures Kappa with hosted auth options and explicit model metadata", () => {
     const cfg = new CodeIndexConfigManager(
       createInput({
         embedderProvider: "kappa",
@@ -119,7 +119,7 @@ describe("CodeIndexConfigManager", () => {
     expect(cfg.currentModelDimension).toBe(1024)
   })
 
-  test("requires Kilo model metadata from Cloud config", () => {
+  test("requires Kappa model metadata from Cloud config", () => {
     const cfg = new CodeIndexConfigManager(
       createInput({
         embedderProvider: "kappa",
@@ -133,7 +133,7 @@ describe("CodeIndexConfigManager", () => {
     expect(cfg.currentModelDimension).toBeUndefined()
   })
 
-  test("uses configured dimension for Kilo models outside the fallback catalog", () => {
+  test("uses configured dimension for Kappa models outside the fallback catalog", () => {
     const cfg = new CodeIndexConfigManager(
       createInput({
         embedderProvider: "kappa",
@@ -207,7 +207,7 @@ describe("CodeIndexConfigManager", () => {
       expect(cfg.loadConfiguration(input).requiresRestart).toBe(false)
     })
 
-    test("requires restart when Kilo auth changes", () => {
+    test("requires restart when Kappa auth changes", () => {
       const cfg = new CodeIndexConfigManager(
         createInput({
           embedderProvider: "kappa",

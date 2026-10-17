@@ -1,11 +1,11 @@
 ---
 title: "Linear"
-description: "Using Kilo Code in Linear"
+description: "Using Kappa Code in Linear"
 ---
 
-# Kilo for Linear
+# Kappa for Linear
 
-**Kilo for Linear** connects Kilo Code to your Linear workspace, so you can trigger implementations, debug issues, and investigate bugs directly from your project management tool. Mention `@kappa` on any issue and the bot gets to work.
+**Kappa for Linear** connects Kappa Code to your Linear workspace, so you can trigger implementations, debug issues, and investigate bugs directly from your project management tool. Mention `@kappa` on any issue and the bot gets to work.
 
 ---
 
@@ -57,17 +57,17 @@ The bot examines the issue context and searches the connected codebase to surfac
 ## How It Works
 
 1. **Mention `@kappa`** in a comment on a Linear issue
-2. **Kilo reads the issue context** — title, description, labels, and comment thread
+2. **Kappa reads the issue context** — title, description, labels, and comment thread
 3. **A Cloud Agent spins up** to process the request (you'll see a thinking animation in Linear while this happens)
-4. **Kilo responds** with an answer or opens a pull request with the implementation
+4. **Kappa responds** with an answer or opens a pull request with the implementation
 
-When Kilo creates a pull request, it links back to the Linear issue so everything stays connected.
+When Kappa creates a pull request, it links back to the Linear issue so everything stays connected.
 
 ---
 
 ## Prerequisites
 
-- A Kilo Code account with available credits
+- A Kappa Code account with available credits
 - Your GitHub or GitLab integration configured via the Integrations tab at [app.kappa.ai](https://app.kappa.ai)
 - Access to a Linear workspace where you can install integrations
 
@@ -77,7 +77,7 @@ When Kilo creates a pull request, it links back to the Linear issue so everythin
 
 1. Go to [app.kappa.ai](https://app.kappa.ai) and navigate to the **Integrations** tab
 2. Set up the **Linear** integration
-3. Authorize Kilo to access your Linear workspace
+3. Authorize Kappa to access your Linear workspace
 
 Once connected, `@kappa` is available as a mention in any issue across your Linear workspace.
 
@@ -101,7 +101,7 @@ When a bug report is unclear or the root cause isn't obvious, ask the bot to ana
 
 ## Cost
 
-Kilo Code credits are consumed the same way as any other Kilo interface. Credit usage depends on the model selected and the complexity of the task.
+Kappa Code credits are consumed the same way as any other Kappa interface. Credit usage depends on the model selected and the complexity of the task.
 
 ---
 

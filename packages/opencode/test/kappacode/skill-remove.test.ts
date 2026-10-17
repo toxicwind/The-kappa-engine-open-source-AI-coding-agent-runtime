@@ -20,7 +20,7 @@ describe("skill removal target", () => {
   })
 
   test("rejects locations that are not in the active skill registry", () => {
-    const location = path.join(path.parse(process.cwd()).root, "__kappa_synthetic__", "SKILL.md")
+    const location = path.join(path.parse(process.cwd()).root, "__kilo_synthetic__", "SKILL.md")
     expect(() => target(location, [])).toThrow("skill not found in registry")
   })
 
@@ -30,7 +30,7 @@ describe("skill removal target", () => {
   })
 
   test("rejects registered locations that are not manifests", () => {
-    const location = path.join(path.parse(process.cwd()).root, "__kappa_synthetic__", "skill")
+    const location = path.join(path.parse(process.cwd()).root, "__kilo_synthetic__", "skill")
     expect(() => target(location, [info(location)])).toThrow("skill location must reference SKILL.md")
   })
 
@@ -40,7 +40,7 @@ describe("skill removal target", () => {
   })
 
   test("returns only the registered skill manifest", () => {
-    const location = path.join(path.parse(process.cwd()).root, "__kappa_synthetic__", "skill", "SKILL.md")
+    const location = path.join(path.parse(process.cwd()).root, "__kilo_synthetic__", "skill", "SKILL.md")
     expect(target(location, [info(location)])).toBe(location)
   })
 })

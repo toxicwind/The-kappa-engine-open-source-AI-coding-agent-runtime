@@ -1,13 +1,13 @@
 export const dict = {
-  "kilocode:attention.done": "Kilo har fuldført opgaven.",
-  "kilocode:attention.question": "Kilo har brug for dit input.",
-  "kilocode:attention.permission": "Kilo har brug for tilladelse.",
-  "kilocode:attention.error": "Kilo stoppede opgaven på grund af en fejl.",
-  "kilocode:attention.show": "Vis",
-  "kilocode:attention.workspace": "Arbejdsområde",
-  "kilocode:attention.session": "Session",
-  "kilocode:attention.test": "Dette er en testnotifikation fra Kilo Code.",
-  "kilocode:attention.unsupported": "Operativsystemets notifikationer understøttes ikke på denne platform.",
-  "kilocode:attention.identity":
+  "kappacode:attention.done": "Kappa har fuldført opgaven.",
+  "kappacode:attention.question": "Kappa har brug for dit input.",
+  "kappacode:attention.permission": "Kappa har brug for tilladelse.",
+  "kappacode:attention.error": "Kappa stoppede opgaven på grund af en fejl.",
+  "kappacode:attention.show": "Vis",
+  "kappacode:attention.workspace": "Arbejdsområde",
+  "kappacode:attention.session": "Session",
+  "kappacode:attention.test": "Dette er en testnotifikation fra Kappa Code.",
+  "kappacode:attention.unsupported": "Operativsystemets notifikationer understøttes ikke på denne platform.",
+  "kappacode:attention.identity":
     "Editorens notifikationsidentitet kunne ikke bestemmes, så native notifikationer er utilgængelige. VS Code-notifikationer virker stadig.",
 }

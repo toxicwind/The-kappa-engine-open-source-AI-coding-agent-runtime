@@ -10,12 +10,12 @@ import type { SessionStatus } from "@/session/status"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { PlanFollowup } from "@/kappacode/plan-followup"
 import { PlanFile } from "@/kappacode/plan-file"
-import { KiloSession } from "@/kappacode/session"
+import { KappaSession } from "@/kappacode/session"
 import type { SessionDrain } from "@/kappacode/session/drain"
 import type { EventV2 } from "@opencode-ai/core/event"
 import { Interrupted } from "@opencode-ai/schema/kappacode/session-drain"
-import { KiloSessionMessageOrder } from "@/kappacode/session/message-order"
-import { KiloSessionPromptQueue } from "@/kappacode/session/prompt-queue"
+import { KappaSessionMessageOrder } from "@/kappacode/session/message-order"
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
 import { Permission } from "@/permission"
 import { PermissionProvenance } from "@/kappacode/permission/provenance"
 import { Question } from "@/question"
@@ -24,14 +24,14 @@ import { environmentDetails } from "@/kappacode/editor-context"
 import { Identifier } from "@/id/id"
 import { Filesystem } from "@/util/filesystem"
 import NATIVE_PLAN_PROMPT from "@/kappacode/session/native-plan-prompt.txt"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { MemoryMarker } from "@/kappacode/memory/marker"
-import { KilocodeSystemPrompt } from "@/kappacode/system-prompt"
-import { KiloToolRegistry } from "@/kappacode/tool/registry"
+import { KappacodeSystemPrompt } from "@/kappacode/system-prompt"
+import { KappaToolRegistry } from "@/kappacode/tool/registry"
 import { consumeAutoTitle, markAutoTitle } from "@/kappa-sessions/rename-adoptions"
 
-export namespace KiloSessionPrompt {
+export namespace KappaSessionPrompt {
   const modes = ["ask", "plan", "architect"]
   type Intake = { cancelled: boolean; fiber?: Fiber.Fiber<unknown, unknown> }
   const intakes = new Map<SessionID, Set<Intake>>()
@@ -59,7 +59,7 @@ export namespace KiloSessionPrompt {
     )
   }
 
-  export const abortIntakes = Effect.fn("KiloSessionPrompt.abortIntakes")(function* (sessionID: SessionID) {
+  export const abortIntakes = Effect.fn("KappaSessionPrompt.abortIntakes")(function* (sessionID: SessionID) {
     const entries = [...(intakes.get(sessionID) ?? [])]
     yield* Effect.forEach(
       entries,
@@ -158,7 +158,7 @@ export namespace KiloSessionPrompt {
     return action === "continue" ? "continue" : "break"
   }
 
-  export const cancelTree = Effect.fn("KiloSessionPrompt.cancelTree")(
+  export const cancelTree = Effect.fn("KappaSessionPrompt.cancelTree")(
     function* (input: {
       sessionID: SessionID
       sessions: Pick<Session.Interface, "children">
@@ -178,7 +178,7 @@ export namespace KiloSessionPrompt {
 
       const cancel = (sessionID: SessionID) =>
         Effect.gen(function* () {
-          yield* KiloSessionPromptQueue.cancel(sessionID)
+          yield* KappaSessionPromptQueue.cancel(sessionID)
           PlanFollowup.abort(sessionID)
           yield* abortIntakes(sessionID)
           yield* input.cancel(sessionID, { background: input.scope !== "session" })
@@ -203,7 +203,7 @@ export namespace KiloSessionPrompt {
       ),
   )
 
-  export const recoverDanglingAssistant = Effect.fn("KiloSessionPrompt.recoverDanglingAssistant")(function* (input: {
+  export const recoverDanglingAssistant = Effect.fn("KappaSessionPrompt.recoverDanglingAssistant")(function* (input: {
     sessionID: SessionID
     status: Pick<SessionStatus.Interface, "get">
     sessions: Pick<Session.Interface, "messages" | "removeMessage">
@@ -223,7 +223,7 @@ export namespace KiloSessionPrompt {
     yield* input.sessions.removeMessage({ sessionID: input.sessionID, messageID: tail.info.id })
   })
 
-  export const recoverProviderFinishError = Effect.fn("KiloSessionPrompt.recoverProviderFinishError")(
+  export const recoverProviderFinishError = Effect.fn("KappaSessionPrompt.recoverProviderFinishError")(
     function* (input: {
       sessionID: SessionID
       status: Pick<SessionStatus.Interface, "get">
@@ -258,7 +258,7 @@ export namespace KiloSessionPrompt {
    * reasoning, or ran a tool, keeps its message: that record is what explains file changes which are
    * still applied on disk. Any part type not listed here blocks removal, so a new part type fails safe.
    */
-  export const recoverFailedAssistant = Effect.fn("KiloSessionPrompt.recoverFailedAssistant")(function* (input: {
+  export const recoverFailedAssistant = Effect.fn("KappaSessionPrompt.recoverFailedAssistant")(function* (input: {
     sessionID: SessionID
     status: Pick<SessionStatus.Interface, "get">
     sessions: Pick<Session.Interface, "messages" | "removeMessage">
@@ -351,7 +351,7 @@ export namespace KiloSessionPrompt {
     return { ruleset, hardRuleset: hardRuleset ? dedupeRuleset(hardRuleset) : undefined }
   }
 
-  export const askPermission = Effect.fn("KiloSessionPrompt.askPermission")(function* (input: {
+  export const askPermission = Effect.fn("KappaSessionPrompt.askPermission")(function* (input: {
     permission: Pick<Permission.Interface, "ask">
     agents: Pick<Agent.Interface, "get">
     sessions: Pick<Session.Interface, "get">
@@ -382,7 +382,7 @@ export namespace KiloSessionPrompt {
   }
 
   export function memoryToolEnabled(input: { ctx: MemoryPaths.Ctx }) {
-    return KiloToolRegistry.memoryToolsEnabled({ ctx: input.ctx })
+    return KappaToolRegistry.memoryToolsEnabled({ ctx: input.ctx })
   }
 
   export function memoryCache(): MemoryMarker.Cache {
@@ -412,7 +412,7 @@ export namespace KiloSessionPrompt {
 
   // Returns the injected memory blocks only; the caller keeps upstream's env line untouched and appends
   // these. Pinned per session (built once at the first step, reused byte-identically after).
-  export const memoryInject = Effect.fn("KiloSessionPrompt.memoryInject")(function* (input: {
+  export const memoryInject = Effect.fn("KappaSessionPrompt.memoryInject")(function* (input: {
     ctx: MemoryPaths.Ctx
     sessionID: SessionID
     record: boolean
@@ -422,7 +422,7 @@ export namespace KiloSessionPrompt {
     const verbose =
       input.cache.verbose ??
       (enabled
-        ? yield* Effect.tryPromise(() => KiloMemory.status({ ctx: input.ctx })).pipe(
+        ? yield* Effect.tryPromise(() => KappaMemory.status({ ctx: input.ctx })).pipe(
             Effect.map((item) => item.state.verbose),
             // Fail closed: unavailable state must not persist memory snippets.
             Effect.catch(() => Effect.succeed(false)),
@@ -432,7 +432,7 @@ export namespace KiloSessionPrompt {
     const built =
       cached?.enabled === enabled
         ? cached
-        : yield* KilocodeSystemPrompt.memoryBlocks({
+        : yield* KappacodeSystemPrompt.memoryBlocks({
             ctx: input.ctx,
             sessionID: input.sessionID,
             record: input.record,
@@ -571,9 +571,9 @@ export namespace KiloSessionPrompt {
    */
   export function resolveCloseReason(input: {
     sessionID: string
-    closeReasons: Map<string, KiloSession.CloseReason>
+    closeReasons: Map<string, KappaSession.CloseReason>
     exit: Exit.Exit<any, any>
-  }): KiloSession.CloseReason {
+  }): KappaSession.CloseReason {
     const explicit = input.closeReasons.get(input.sessionID)
     input.closeReasons.delete(input.sessionID)
     if (explicit) return explicit
@@ -600,7 +600,7 @@ export namespace KiloSessionPrompt {
   export function guardCompactionAttempt(input: {
     sessionID: string
     attempts: number
-    closeReasons: Map<string, KiloSession.CloseReason>
+    closeReasons: Map<string, KappaSession.CloseReason>
     message?: MessageV2.Assistant
   }) {
     if (input.attempts < MAX_COMPACTION_ATTEMPTS) return { exhausted: false as const }
@@ -643,7 +643,7 @@ export namespace KiloSessionPrompt {
     const summary = msgs.reduce<{ msg: MessageV2.WithParts; index: number } | undefined>((latest, msg, index) => {
       const info = msg.info
       if (info.role !== "assistant" || info.summary !== true || !info.finish || info.error) return latest
-      if (!latest || KiloSessionMessageOrder.compare(msg, latest.msg, index, latest.index) > 0) return { msg, index }
+      if (!latest || KappaSessionMessageOrder.compare(msg, latest.msg, index, latest.index) > 0) return { msg, index }
       return latest
     }, undefined)
     if (!summary) return msgs

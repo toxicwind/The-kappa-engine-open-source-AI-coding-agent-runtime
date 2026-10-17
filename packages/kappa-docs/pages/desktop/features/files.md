@@ -1,6 +1,6 @@
 ---
 title: "Files"
-description: "Browse and edit your workspace files, mention them in chat, and open file links from the agent's responses in Kilo Desktop."
+description: "Browse and edit your workspace files, mention them in chat, and open file links from the agent's responses in Kappa Desktop."
 ---
 
 # Files
@@ -24,7 +24,7 @@ Select a file to open it in the editor with syntax highlighting.
 - Images open in a preview.
 - Files that can't be shown — such as binaries or very large files — open read-only or explain why they can't be previewed.
 
-Save with `Cmd/Ctrl+S`. If the file changed on disk since you opened it, Kilo Desktop surfaces a conflict instead of overwriting, so you can reload the latest version, overwrite it with your changes, or cancel. Closing a file with unsaved changes prompts you first.
+Save with `Cmd/Ctrl+S`. If the file changed on disk since you opened it, Kappa Desktop surfaces a conflict instead of overwriting, so you can reload the latest version, overwrite it with your changes, or cancel. Closing a file with unsaved changes prompts you first.
 
 ## Mention files in chat
 
@@ -38,4 +38,4 @@ The agent can also open a file for you directly, jumping to the relevant line.
 
 ## Open in another editor
 
-Prefer your usual editor? Open the current file in an external editor you have installed, such as VS Code, Cursor, Zed, or a JetBrains IDE. Kilo Desktop remembers your preferred editor for next time.
+Prefer your usual editor? Open the current file in an external editor you have installed, such as VS Code, Cursor, Zed, or a JetBrains IDE. Kappa Desktop remembers your preferred editor for next time.

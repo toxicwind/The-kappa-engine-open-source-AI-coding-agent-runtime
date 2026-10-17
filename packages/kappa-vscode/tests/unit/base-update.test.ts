@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, realpathSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { execFileSync } from "node:child_process"
-import { createKiloClient, type QuestionRequest } from "@kappacode/sdk/v2/client"
+import { createKappaClient, type QuestionRequest } from "@kappacode/sdk/v2/client"
 import { ProjectContext } from "../../src/agent-manager/project/context"
 import { baseUpdatePrompt, handleBaseUpdate } from "../../src/agent-manager/base-update"
 import type { BaseUpdateRequest } from "../../webview-ui/src/types/messages/agent-manager"
@@ -65,7 +65,7 @@ function backend(failure?: string) {
     },
   })
   servers.push(server)
-  const client = createKiloClient({ baseUrl: server.url.href })
+  const client = createKappaClient({ baseUrl: server.url.href })
   const host: Parameters<typeof handleBaseUpdate>[2] = {
     client: () => client,
     metadata: async () => ({}),

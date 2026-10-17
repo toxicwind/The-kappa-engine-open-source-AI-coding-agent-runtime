@@ -3,7 +3,7 @@ import { Database } from "bun:sqlite"
 import { accessSync, chmodSync, constants } from "fs"
 import path from "path"
 import { DbPreflight } from "@opencode-ai/core/kappacode/db-preflight"
-import { Database as KiloDatabase } from "@opencode-ai/core/database/database"
+import { Database as KappaDatabase } from "@opencode-ai/core/database/database"
 import { tmpdir } from "../fixture/tmpdir"
 
 const writable = (file: string) => {
@@ -110,7 +110,7 @@ describe("DbPreflight", () => {
     chmodSync(`${file}-wal`, 0o444)
 
     // without repair (untrusted dir) the wiring in layerFromPath surfaces the clear error
-    expect(() => KiloDatabase.layerFromPath(file)).toThrow(`Database file is not writable: ${file}-wal`)
+    expect(() => KappaDatabase.layerFromPath(file)).toThrow(`Database file is not writable: ${file}-wal`)
 
     // with repair the startup pragma sequence succeeds and the committed row survives
     DbPreflight.assertWritable(file, tmp.path)

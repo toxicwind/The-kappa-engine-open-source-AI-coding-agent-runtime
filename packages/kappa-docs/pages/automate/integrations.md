@@ -1,11 +1,11 @@
 ---
 title: "Integrations"
-description: "Overview of Kilo Code integrations"
+description: "Overview of Kappa Code integrations"
 ---
 
-# Kilo Code Integrations
+# Kappa Code Integrations
 
-Kilo Integrations lets you connect GitHub or GitLab for repository workflows and DoltHub for Dolt-versioned data. Once connected, Kilo can access authorized resources securely, enabling features like **Code Reviews**, **Cloud Agents**, **Kilo Deploy**, and data workflows through **Kilo Connect**.
+Kappa Integrations lets you connect GitHub or GitLab for repository workflows and DoltHub for Dolt-versioned data. Once connected, Kappa can access authorized resources securely, enabling features like **Code Reviews**, **Cloud Agents**, **Kappa Deploy**, and data workflows through **Kappa Connect**.
 
 ## Supported Platforms
 
@@ -17,9 +17,9 @@ Kilo Integrations lets you connect GitHub or GitLab for repository workflows and
 
 ## What You Can Do With Integrations
 
-- **Connect GitHub, GitLab, or DoltHub to Kilo Code** in a few clicks
-- **Enable advanced features** like Cloud Agents, Code Reviews, and Kilo Deploy
-- **Authorize GitHub or GitLab repository access** so Kilo can analyze and work with your code
+- **Connect GitHub, GitLab, or DoltHub to Kappa Code** in a few clicks
+- **Enable advanced features** like Cloud Agents, Code Reviews, and Kappa Deploy
+- **Authorize GitHub or GitLab repository access** so Kappa can analyze and work with your code
 - **Query Dolt-versioned data** and authorize DoltHub access for Gas Town Wasteland
 
 ## Prerequisites
@@ -27,10 +27,10 @@ Kilo Integrations lets you connect GitHub or GitLab for repository workflows and
 Before connecting:
 
 - You must have a **GitHub** or **GitLab** account.
-- For GitHub: You need permission to install GitHub Apps for the repositories you want Kilo to access.
+- For GitHub: You need permission to install GitHub Apps for the repositories you want Kappa to access.
 - For GitLab: You need **Maintainer** role (or higher) on the projects you want to connect.
 - For DoltHub: You need a DoltHub account to authorize the OAuth connection.
-- For a Kilo organization, adding a GitHub integration requires the **Owner** or **Admin** role, in addition to permission to install the app on GitHub.
+- For a Kappa organization, adding a GitHub integration requires the **Owner** or **Admin** role, in addition to permission to install the app on GitHub.
 
 ---
 
@@ -43,12 +43,12 @@ Go to your **Personal** or **Organization Dashboard**, and navigate to the [Inte
 ### 2. Start the Connection Flow
 
 1. Click **Configure** on the GitHub panel.
-2. You'll be redirected to GitHub to authorize the **KiloConnect** App.
+2. You'll be redirected to GitHub to authorize the **KappaConnect** App.
 3. Select the GitHub account or organization you want to connect.
 
 ### 3. Choose Repository Access
 
-GitHub will ask which repositories you want Kilo to access:
+GitHub will ask which repositories you want Kappa to access:
 
 - **All repositories** (recommended if you plan to use Cloud Agents or Deploy across multiple projects)
 - **Only selected repositories** (choose specific repos)
@@ -59,9 +59,9 @@ Click **Install & Authorize** to continue.
 
 Once approved:
 
-- You'll return to the Kilo Integrations page.
+- You'll return to the Kappa Integrations page.
 - GitHub will show a **Connected** status.
-- Your Kilo workspace can now access GitHub repositories securely.
+- Your Kappa workspace can now access GitHub repositories securely.
 
 ---
 
@@ -77,7 +77,7 @@ You can connect GitLab using **OAuth** or a **Personal Access Token (PAT)**. Bot
    - **Organization**: Your organization → Integrations → GitLab
 2. Click **Connect GitLab**
 3. Authorize the application on GitLab
-4. You'll be redirected back to Kilo with the connection active
+4. You'll be redirected back to Kappa with the connection active
 
 {% /tab %}
 {% tab label="OAuth (Self-Hosted)" %}
@@ -86,12 +86,12 @@ For self-hosted GitLab instances using OAuth, you need to register an OAuth appl
 
 1. In your GitLab instance, go to **Admin Area → Applications** (or **User Settings → Applications**)
 2. Create a new application:
-   - **Name**: `Kilo Code`
+   - **Name**: `Kappa Code`
    - **Redirect URI**: `https://app.kappa.ai/api/integrations/gitlab/callback`
    - **Scopes**: `api`, `read_user`, `read_repository`, `write_repository`
    - **Confidential**: Yes
 3. Copy the **Application ID** and **Secret**
-4. In Kilo, go to the GitLab integration page
+4. In Kappa, go to the GitLab integration page
 5. Enter your **Instance URL**, **Client ID**, and **Client Secret**
 6. Click **Connect** and authorize
 
@@ -101,11 +101,11 @@ For self-hosted GitLab instances using OAuth, you need to register an OAuth appl
 1. In GitLab, go to **User Settings → Access Tokens**
 2. Create a token with the `api` scope
 3. Copy the token
-4. In Kilo, go to the GitLab integration page
+4. In Kappa, go to the GitLab integration page
 5. Paste the token (and enter your Instance URL for self-hosted)
 6. Click **Connect**
 
-> PAT tokens cannot be refreshed automatically. When your token expires, create a new one in GitLab and reconnect in Kilo.
+> PAT tokens cannot be refreshed automatically. When your token expires, create a new one in GitLab and reconnect in Kappa.
 
 {% /tab %}
 {% /tabs %}
@@ -114,18 +114,18 @@ For self-hosted GitLab instances using OAuth, you need to register an OAuth appl
 
 ## Connecting DoltHub
 
-Use the DoltHub integration page to connect your DoltHub account. Kilo uses this OAuth connection for [Kilo Connect](/docs/code-with-ai/platforms/kappa-connect) and as the default auth method for [Gas Town Wasteland](/docs/code-with-ai/gastown/wasteland).
+Use the DoltHub integration page to connect your DoltHub account. Kappa uses this OAuth connection for [Kappa Connect](/docs/code-with-ai/platforms/kappa-connect) and as the default auth method for [Gas Town Wasteland](/docs/code-with-ai/gastown/wasteland).
 
 1. Go to the **Integrations** page:
    - **Personal**: [app.kappa.ai/integrations/dolthub](https://app.kappa.ai/integrations/dolthub)
    - **Organization**: Your organization → Integrations → DoltHub
 2. Click **Connect DoltHub**.
-3. Approve Kilo on DoltHub.
-4. Return to Kilo and confirm DoltHub shows a **Connected** status.
+3. Approve Kappa on DoltHub.
+4. Return to Kappa and confirm DoltHub shows a **Connected** status.
 
-{% image src="/docs/img/integrations/dolthub/connect.png" alt="DoltHub integration page before OAuth connection" width="900" caption="DoltHub integration page in Kilo" /%}
+{% image src="/docs/img/integrations/dolthub/connect.png" alt="DoltHub integration page before OAuth connection" width="900" caption="DoltHub integration page in Kappa" /%}
 
-{% image src="/docs/img/integrations/dolthub/authorize.png" alt="DoltHub OAuth authorization screen for Kilo" width="700" caption="DoltHub OAuth authorization screen" /%}
+{% image src="/docs/img/integrations/dolthub/authorize.png" alt="DoltHub OAuth authorization screen for Kappa" width="700" caption="DoltHub OAuth authorization screen" /%}
 
 {% image src="/docs/img/integrations/dolthub/connected.png" alt="Connected DoltHub integration page showing api_read_write permission" width="900" caption="Connected DoltHub integration" /%}
 
@@ -135,11 +135,11 @@ To remove the connection, click **Disconnect** from the DoltHub integration page
 
 ## What Happens After Connecting
 
-Once your integrations are connected, the following features are enabled in Kilo:
+Once your integrations are connected, the following features are enabled in Kappa:
 
 ### Cloud Agents
 
-- Run Kilo Code in the cloud from any device
+- Run Kappa Code in the cloud from any device
 - Auto-create branches and push work continuously
 - Work from anywhere while keeping your repo in sync
 
@@ -149,9 +149,9 @@ Once your integrations are connected, the following features are enabled in Kilo
 - Consistent feedback based on your team's standards
 - See the [Code Reviews guide](/docs/automate/code-reviews/overview) for setup
 
-### Kilo Deploy
+### Kappa Deploy
 
-- Deploy Next.js 14 & 15 apps directly from Kilo
+- Deploy Next.js 14 & 15 apps directly from Kappa
 - Trigger rebuilds automatically on push
 - Manage deployment logs and history
 
@@ -176,7 +176,7 @@ An organization Owner or Admin can connect multiple GitHub organizations. Click 
 From the **Integrations** page, click "Manage on GitHub" to:
 
 - View the GitHub account you connected
-- Update which repositories Kilo has access to
+- Update which repositories Kappa has access to
 - Disconnect GitHub entirely
 - Reauthorize the app if permissions change
 
@@ -187,7 +187,7 @@ From the **Integrations** page:
 - Click **Disconnect** to remove the GitLab connection
 - Your tokens are cleared, but webhook configuration is preserved so reconnecting restores your setup
 
-> Disconnecting from Kilo does not revoke OAuth tokens on GitLab's side. You can manually revoke them from **GitLab → User Settings → Applications → Authorized Applications**.
+> Disconnecting from Kappa does not revoke OAuth tokens on GitLab's side. You can manually revoke them from **GitLab → User Settings → Applications → Authorized Applications**.
 
 ### DoltHub
 
@@ -195,7 +195,7 @@ From the **Integrations** page, open DoltHub to:
 
 - View the connected status
 - View granted permissions
-- Disconnect DoltHub from Kilo
+- Disconnect DoltHub from Kappa
 
 ---
 
@@ -204,7 +204,7 @@ From the **Integrations** page, open DoltHub to:
 ### GitHub
 
 **"I don't see my repositories."**
-Ensure the KiloConnect App is installed for the correct GitHub org and that repo access includes the repositories you need.
+Ensure the KappaConnect App is installed for the correct GitHub org and that repo access includes the repositories you need.
 
 **"My organization blocks third-party apps."**
 You may need an admin to approve installing GitHub Apps.
@@ -223,7 +223,7 @@ You need **Maintainer role** on the GitLab project for webhook and bot token cre
 **"Token expired."**
 
 - **OAuth**: Tokens refresh automatically. If refresh fails, reconnect from the integration page.
-- **PAT**: Create a new token in GitLab and reconnect in Kilo.
+- **PAT**: Create a new token in GitLab and reconnect in Kappa.
 
 **"Self-hosted connection issues."**
 

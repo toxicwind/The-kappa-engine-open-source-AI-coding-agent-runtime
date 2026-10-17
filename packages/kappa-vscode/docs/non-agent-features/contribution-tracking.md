@@ -10,8 +10,8 @@
 - Token/JWT handling for attribution APIs
 - Reporting UI
 
-## Primary Implementation Anchors (kilocode-legacy)
+## Primary Implementation Anchors (kappacode-legacy)
 
-These exist in the [kilocode-legacy](https://github.com/Kilo-Org/kilocode-legacy) repo, not in this extension:
+These exist in the [kappacode-legacy](https://github.com/Kappa-Org/kappacode-legacy) repo, not in this extension:
 
 - `src/services/contribution-tracking/`

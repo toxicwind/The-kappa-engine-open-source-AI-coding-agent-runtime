@@ -24,12 +24,12 @@ import { SessionContext } from "../context/session"
 import { LanguageContext } from "../context/language"
 import { dict as uiEn } from "@kappacode/kappa-ui/i18n/en"
 import { dict as appEn } from "../i18n/en"
-import { dict as kiloEn } from "@kappacode/kappa-i18n/en"
+import { dict as kappaEn } from "@kappacode/kappa-i18n/en"
 import { resolveTemplate } from "../context/language-utils"
 import SessionList from "../components/history/SessionList"
 import HistoryView from "../components/history/HistoryView"
 
-const dict: Record<string, string> = { ...appEn, ...uiEn, ...kiloEn }
+const dict: Record<string, string> = { ...appEn, ...uiEn, ...kappaEn }
 function t(key: string, params?: Record<string, string | number | boolean | undefined>) {
   return resolveTemplate(dict[key] ?? key, params)
 }

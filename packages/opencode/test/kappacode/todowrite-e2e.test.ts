@@ -1,5 +1,5 @@
 import { describe, expect } from "bun:test"
-import { createKiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient } from "@kappacode/sdk/v2"
 import { Effect } from "effect"
 import { cliIt } from "../lib/cli-process"
 
@@ -42,7 +42,7 @@ describe("todowrite end-to-end", () => {
     ({ llm, opencode }) =>
       Effect.gen(function* () {
         const server = yield* opencode.serve()
-        const client = createKiloClient({ baseUrl: server.url })
+        const client = createKappaClient({ baseUrl: server.url })
         const session = yield* Effect.promise(() =>
           client.session.create({
             permission: [{ permission: "*", action: "allow", pattern: "*" }],

@@ -38,7 +38,7 @@ export interface SendMessageRequest {
   browserFeedback?: BrowserFeedbackData
   agentManagerContext?: string
   contextDirectory?: string
-  /** Label for a prompt Kilo composed, such as an editor code action. */
+  /** Label for a prompt Kappa composed, such as an editor code action. */
   injectedTitle?: string
 }
 
@@ -161,7 +161,7 @@ export interface ImportAndSendMessage {
   browserFeedback?: BrowserFeedbackData
   command?: string
   commandArgs?: string
-  /** Label for a prompt Kilo composed, such as an editor code action. */
+  /** Label for a prompt Kappa composed, such as an editor code action. */
   injectedTitle?: string
 }
 
@@ -308,15 +308,15 @@ export interface OpenConfigFileRequest {
     noWorkspace: string
     openFailed: string
     sourceXdg: string
-    sourceHomeKilo: string
-    sourceHomeKilocode: string
+    sourceHomeKappa: string
+    sourceHomeKappacode: string
     sourceHomeOpencode: string
     sourceEnvFile: string
     sourceEnvDir: string
     sourceEnvContent: string
-    sourceProjectKilo: string
+    sourceProjectKappa: string
     sourceProjectRoot: string
-    sourceProjectKilocode: string
+    sourceProjectKappacode: string
     sourceProjectOpencode: string
   }
 }
@@ -626,8 +626,8 @@ export interface RequestChatSettingsMessage {
   type: "requestChatSettings"
 }
 
-export interface RequestKiloEmbeddingModelsMessage {
-  type: "requestKiloEmbeddingModels"
+export interface RequestKappaEmbeddingModelsMessage {
+  type: "requestKappaEmbeddingModels"
 }
 
 export interface RequestImageModelsMessage {
@@ -1848,7 +1848,7 @@ export type WebviewMessage =
   | RequestIndexingSettingsMessage
   | SetIndexingConsentMessage
   | RequestChatSettingsMessage
-  | RequestKiloEmbeddingModelsMessage
+  | RequestKappaEmbeddingModelsMessage
   | UpdateConfigMessage
   | OpenSettingsTabRequest
   | RequestNotificationSettingsMessage

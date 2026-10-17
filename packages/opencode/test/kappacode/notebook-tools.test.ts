@@ -2,7 +2,7 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect, test } from "bun:test"
 import { Agent } from "@/agent/agent"
 import { Notebook } from "@/kappacode/notebook/service"
-import * as KiloAgent from "@/kappacode/agent"
+import * as KappaAgent from "@/kappacode/agent"
 import { NotebookEditTool, NotebookExecuteTool, NotebookReadTool } from "@/kappacode/tool/notebook-host"
 import { MessageID, SessionID } from "@/session/schema"
 import * as Tool from "@/tool/tool"
@@ -162,10 +162,10 @@ test("uses dedicated VS Code notebook permission defaults only when enabled", ()
   const prev = process.env.KILO_CLIENT
   try {
     process.env.KILO_CLIENT = "vscode"
-    const disabled = KiloAgent.prepare({}, { experimentalSharedAgentBoard: false }).defaultsPatch
+    const disabled = KappaAgent.prepare({}, { experimentalSharedAgentBoard: false }).defaultsPatch
     expect(disabled.some((rule) => rule.permission.startsWith("notebook_"))).toBe(false)
 
-    const rules = KiloAgent.prepare(
+    const rules = KappaAgent.prepare(
       { experimental: { native_notebook_tools: true } },
       { experimentalSharedAgentBoard: false },
     ).defaultsPatch

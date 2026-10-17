@@ -12,7 +12,7 @@ async function files(dir: string, retries = 50): Promise<string[]> {
   return files(dir, retries - 1)
 }
 
-describe("Kilo logger compatibility", () => {
+describe("Kappa logger compatibility", () => {
   test("cleanup keeps the newest timestamped logs", async () => {
     const previous = Global.Path.log
     await using tmp = await tmpdir()

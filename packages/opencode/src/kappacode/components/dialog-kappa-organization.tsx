@@ -1,5 +1,5 @@
 /**
- * Kilo Gateway Organization Selection Dialog
+ * Kappa Gateway Organization Selection Dialog
  *
  * Shows organization selection after OAuth authentication when user has multiple organizations.
  * Pre-selects the first organization by default.
@@ -17,7 +17,7 @@ type UseSDK = any
 type UseTheme = any
 type DialogModel = any
 
-interface DialogKiloOrganizationProps {
+interface DialogKappaOrganizationProps {
   organizations: Organization[]
   userEmail: string
   providerID: string
@@ -27,7 +27,7 @@ interface DialogKiloOrganizationProps {
   DialogModel: DialogModel
 }
 
-export function DialogKiloOrganization(props: DialogKiloOrganizationProps) {
+export function DialogKappaOrganization(props: DialogKappaOrganizationProps) {
   const dialog = useDialog()
   const sync = useSync()
   const sdk = props.useSDK()

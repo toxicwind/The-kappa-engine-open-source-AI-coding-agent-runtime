@@ -1,5 +1,5 @@
-import { fetchKiloEmbeddingModelCatalog, resolveKiloGatewayBaseUrl } from "@kappacode/kappa-gateway"
-import type { Config, IndexingConfig, KiloEmbeddingModelCatalog } from "@kappacode/sdk/v2"
+import { fetchKappaEmbeddingModelCatalog, resolveKappaGatewayBaseUrl } from "@kappacode/kappa-gateway"
+import type { Config, IndexingConfig, KappaEmbeddingModelCatalog } from "@kappacode/sdk/v2"
 import * as Log from "@opencode-ai/core/util/log"
 import { createMemo, type Accessor } from "solid-js"
 
@@ -7,12 +7,12 @@ export type IndexingScope = "global" | "project"
 
 const log = Log.create({ service: "indexing-model-catalog" })
 
-export async function loadKiloEmbeddingModels(onError?: (message: string) => void) {
-  const endpoint = new URL("embedding-models", resolveKiloGatewayBaseUrl()).toString()
-  log.info("loading Kilo embedding model catalog", { endpoint })
-  const catalog = await fetchKiloEmbeddingModelCatalog({
+export async function loadKappaEmbeddingModels(onError?: (message: string) => void) {
+  const endpoint = new URL("embedding-models", resolveKappaGatewayBaseUrl()).toString()
+  log.info("loading Kappa embedding model catalog", { endpoint })
+  const catalog = await fetchKappaEmbeddingModelCatalog({
     onError: (issue) => {
-      log.warn("failed to load Kilo embedding model catalog", {
+      log.warn("failed to load Kappa embedding model catalog", {
         code: issue.code,
         status: issue.status,
         message: issue.message,
@@ -20,14 +20,14 @@ export async function loadKiloEmbeddingModels(onError?: (message: string) => voi
       onError?.(issue.message)
     },
   })
-  log.info("loaded Kilo embedding model catalog", {
+  log.info("loaded Kappa embedding model catalog", {
     models: catalog.models.length,
     defaultModel: catalog.defaultModel || undefined,
   })
   return catalog
 }
 
-export function kappaModelOptions(catalog?: KiloEmbeddingModelCatalog) {
+export function kappaModelOptions(catalog?: KappaEmbeddingModelCatalog) {
   if (!catalog) return [{ value: "", title: "Loading supported models..." }]
   if (catalog.models.length === 0) return [{ value: "", title: "No supported models available" }]
   return catalog.models.map((model) => ({
@@ -36,7 +36,7 @@ export function kappaModelOptions(catalog?: KiloEmbeddingModelCatalog) {
   }))
 }
 
-export function currentKiloModel(catalog: KiloEmbeddingModelCatalog | undefined, model?: string | null) {
+export function currentKappaModel(catalog: KappaEmbeddingModelCatalog | undefined, model?: string | null) {
   if (!catalog) return undefined
   const fallback = catalog.aliases[catalog.defaultModel] ?? catalog.defaultModel
   const current = model ? (catalog.aliases[model] ?? model) : fallback

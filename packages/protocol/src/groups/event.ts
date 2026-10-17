@@ -55,4 +55,4 @@ export const OpenCodeEvent = event.schema
 export type OpenCodeEvent = typeof OpenCodeEvent.Type
 export type OpenCodeEventEncoded = typeof OpenCodeEvent.Encoded
 
-export const KiloEvent = schema(EventManifest.Definitions) // kilocode_change - encode the full Kilo event bus
+export const KappaEvent = schema(EventManifest.Definitions) // kappacode_change - encode the full Kappa event bus

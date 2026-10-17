@@ -1,7 +1,7 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import type { SandboxPreference } from "../services/sandbox-preference"
 
-export const SANDBOX_METADATA_KEY = "kilocode.sandbox"
+export const SANDBOX_METADATA_KEY = "kappacode.sandbox"
 
 export function sandboxMetadata(enabled: boolean, metadata?: Record<string, unknown>) {
   return {
@@ -13,7 +13,7 @@ export function sandboxMetadata(enabled: boolean, metadata?: Record<string, unkn
   }
 }
 
-export async function sandboxDefault(preference: SandboxPreference | undefined, client: KiloClient, directory: string) {
+export async function sandboxDefault(preference: SandboxPreference | undefined, client: KappaClient, directory: string) {
   await preference?.wait()
   const explicit = preference?.explicit()
   if (explicit !== undefined) return explicit
@@ -23,7 +23,7 @@ export async function sandboxDefault(preference: SandboxPreference | undefined, 
 
 export async function sandboxSessionMetadata(
   preference: SandboxPreference | undefined,
-  client: KiloClient,
+  client: KappaClient,
   directory: string,
   metadata?: Record<string, unknown>,
 ) {

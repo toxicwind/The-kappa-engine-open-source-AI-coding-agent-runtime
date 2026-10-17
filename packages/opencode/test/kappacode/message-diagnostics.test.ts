@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { z } from "zod/v4"
 import type { ModelMessage } from "ai"
-import { KiloMessageDiagnostics } from "@/kappacode/session/message-diagnostics"
+import { KappaMessageDiagnostics } from "@/kappacode/session/message-diagnostics"
 import { LLMAISDK } from "@/session/llm/ai-sdk"
 import { Effect, Exit } from "effect"
 
@@ -30,7 +30,7 @@ const messages: ModelMessage[] = [
 
 describe("messageShape", () => {
   test("summarizes roles and part sequences without content", () => {
-    const shape = KiloMessageDiagnostics.messageShape(messages)
+    const shape = KappaMessageDiagnostics.messageShape(messages)
     expect(shape).toEqual([
       { index: 0, role: "user", contentKind: "string", parts: [], providerOptions: undefined },
       {
@@ -62,7 +62,7 @@ describe("messageShape", () => {
   })
 
   test("lists provider option keys, not values", () => {
-    const shape = KiloMessageDiagnostics.messageShape([
+    const shape = KappaMessageDiagnostics.messageShape([
       {
         role: "assistant",
         content: [{ type: "text", text: "hi" }],
@@ -73,7 +73,7 @@ describe("messageShape", () => {
   })
 
   test("distinguishes absent content from string content", () => {
-    const shape = KiloMessageDiagnostics.messageShape([
+    const shape = KappaMessageDiagnostics.messageShape([
       { role: "user", content: "plain text" } as ModelMessage,
       { role: "assistant", content: [{ type: "text", text: "hi" }] },
       { role: "user" } as ModelMessage,
@@ -90,7 +90,7 @@ describe("messageShape", () => {
       role: "assistant",
       content: [null, 42, "bare-string", { type: "tool-call" }, { type: "text" }],
     } as unknown as ModelMessage
-    const shape = KiloMessageDiagnostics.messageShape([malformed, null, 42, "bare"] as unknown as ModelMessage[])
+    const shape = KappaMessageDiagnostics.messageShape([malformed, null, 42, "bare"] as unknown as ModelMessage[])
     expect(shape[0]?.contentKind).toBe("array")
     expect(shape[0]?.parts).toEqual([
       { type: "null" },
@@ -107,7 +107,7 @@ describe("messageShape", () => {
 
 describe("toolPairing", () => {
   test("flags unmatched calls and orphan results", () => {
-    const pairing = KiloMessageDiagnostics.toolPairing(messages)
+    const pairing = KappaMessageDiagnostics.toolPairing(messages)
     expect(pairing.totalToolCalls).toBe(2)
     expect(pairing.matchedResultIds).toEqual(["call-1"])
     expect(pairing.unmatchedCallIds).toEqual(["call-2"])
@@ -115,7 +115,7 @@ describe("toolPairing", () => {
   })
 
   test("flags orphan results without a matching call", () => {
-    const pairing = KiloMessageDiagnostics.toolPairing([
+    const pairing = KappaMessageDiagnostics.toolPairing([
       {
         role: "tool",
         content: [{ type: "tool-result", toolCallId: "ghost", toolName: "read", output: { type: "text", value: "x" } }],
@@ -126,7 +126,7 @@ describe("toolPairing", () => {
   })
 
   test("skips malformed parts instead of throwing", () => {
-    const pairing = KiloMessageDiagnostics.toolPairing([
+    const pairing = KappaMessageDiagnostics.toolPairing([
       {
         role: "assistant",
         content: [null, "nope", { type: "tool-call", toolCallId: "ok" }],
@@ -154,7 +154,7 @@ describe("schemaIssues", () => {
 
     const error = new Error("Invalid prompt: The messages do not match the ModelMessage[] schema.")
     error.cause = parsed.error
-    const issues = KiloMessageDiagnostics.schemaIssues(error)
+    const issues = KappaMessageDiagnostics.schemaIssues(error)
     expect(issues.length).toBeGreaterThan(0)
     expect(issues[0]).toContain("content.0.text")
   })
@@ -184,25 +184,25 @@ describe("schemaIssues", () => {
 
     const error = new Error("Invalid prompt: The messages do not match the ModelMessage[] schema.")
     error.cause = parsed.error
-    const issues = KiloMessageDiagnostics.schemaIssues(error)
+    const issues = KappaMessageDiagnostics.schemaIssues(error)
     expect(issues.some((issue) => issue.includes("content.0"))).toBe(true)
   })
 
   test("returns nothing for unrelated errors", () => {
-    expect(KiloMessageDiagnostics.schemaIssues(new Error("boom"))).toEqual([])
-    expect(KiloMessageDiagnostics.schemaIssues(undefined)).toEqual([])
+    expect(KappaMessageDiagnostics.schemaIssues(new Error("boom"))).toEqual([])
+    expect(KappaMessageDiagnostics.schemaIssues(undefined)).toEqual([])
   })
 })
 
 describe("reportModelMessageError", () => {
   test("silently ignores non-schema errors", () => {
-    const out = KiloMessageDiagnostics.reportModelMessageError(new Error("rate limited"), messages)
+    const out = KappaMessageDiagnostics.reportModelMessageError(new Error("rate limited"), messages)
     expect(out).toBeUndefined()
   })
 
   test("returns the diagnostic for the ModelMessage[] schema mismatch", () => {
     const error = new Error("Invalid prompt: The messages do not match the ModelMessage[] schema.")
-    const out = KiloMessageDiagnostics.reportModelMessageError(error, messages)
+    const out = KappaMessageDiagnostics.reportModelMessageError(error, messages)
     expect(out).toBeDefined()
     expect(out?.messages.length).toBe(4)
   })
@@ -221,7 +221,7 @@ describe("LLMAISDK.toLLMEvents error-part mechanism", () => {
 describe("describe", () => {
   test("composes issues, shapes and pairing", () => {
     const error = new Error("Invalid prompt: The messages do not match the ModelMessage[] schema.")
-    const out = KiloMessageDiagnostics.describe(error, messages)
+    const out = KappaMessageDiagnostics.describe(error, messages)
     expect(out.issues).toEqual([])
     expect(out.messages.length).toBe(4)
     expect(out.pairing.unmatchedCallIds).toEqual(["call-2"])

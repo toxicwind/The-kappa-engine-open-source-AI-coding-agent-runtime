@@ -1,7 +1,7 @@
 /**
- * Contract test for prompt.ts Kilo-specific invariants.
+ * Contract test for prompt.ts Kappa-specific invariants.
  *
- * prompt.ts is a shared upstream file. The Kilo-specific "new prompt unblocks
+ * prompt.ts is a shared upstream file. The Kappa-specific "new prompt unblocks
  * pending suggestions/questions then enqueues without cancelling the in-flight
  * stream" behaviour lives inside a kappacode_change block. An upstream merge
  * that restructures the prompt handling could silently remove these calls —
@@ -14,7 +14,7 @@ import path from "node:path"
 
 const PROMPT_FILE = path.resolve(import.meta.dir, "../../src/session/prompt.ts")
 
-describe("prompt.ts Kilo-specific invariants", () => {
+describe("prompt.ts Kappa-specific invariants", () => {
   test("imports Suggestion from kappacode/suggestion", () => {
     const content = fs.readFileSync(PROMPT_FILE, "utf-8")
     expect(content).toMatch(/import\s*\{[^}]*Suggestion[^}]*\}\s*from\s*["']@\/kappacode\/suggestion["']/)
@@ -36,7 +36,7 @@ describe("prompt.ts Kilo-specific invariants", () => {
     // observes hasFollowup when the question resumes. The enqueue reservation
     // runs both dismissals before waiting for the prior queue tail.
     const block = content.match(
-      /kappacode_change start[^\n]*register the queued follow-up[\s\S]*?Suggestion\.dismissAll[\s\S]*?question\.dismissAll[\s\S]*?KiloSessionPromptQueue\.enqueue\([\s\S]*?dismiss/,
+      /kappacode_change start[^\n]*register the queued follow-up[\s\S]*?Suggestion\.dismissAll[\s\S]*?question\.dismissAll[\s\S]*?KappaSessionPromptQueue\.enqueue\([\s\S]*?dismiss/,
     )
     expect(block).not.toBeNull()
     expect(content).not.toMatch(/state\.cancel\(input\.sessionID\)/)
@@ -47,6 +47,6 @@ describe("prompt.ts Kilo-specific invariants", () => {
     // hasFollowup has to be checked inside runLoop so the current handle.process
     // finishes naturally (tokens + inline tool calls) and the next LLM step is
     // skipped when a follow-up is already queued.
-    expect(content).toContain("KiloSessionPromptQueue.hasFollowup(sessionID)")
+    expect(content).toContain("KappaSessionPromptQueue.hasFollowup(sessionID)")
   })
 })

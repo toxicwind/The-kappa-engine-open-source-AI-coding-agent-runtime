@@ -2,7 +2,7 @@ import { expect } from "bun:test"
 import { Effect, Layer, Ref } from "effect"
 import * as TestClock from "effect/testing/TestClock"
 import { FetchHttpClient } from "effect/unstable/http"
-import type { KiloModelsResult } from "@kappacode/kappa-gateway"
+import type { KappaModelsResult } from "@kappacode/kappa-gateway"
 import * as Core from "@opencode-ai/core/models-dev"
 import * as ModelsRefresh from "@opencode-ai/core/kappacode/models-refresh"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
@@ -20,7 +20,7 @@ import { TestConfig } from "../fixture/config"
 import { provideInstance, testInstanceStoreLayer } from "../fixture/fixture"
 import { testEffect } from "../lib/effect"
 
-type Options = Parameters<ModelCache.KiloModels["fetch"]>[0]
+type Options = Parameters<ModelCache.KappaModels["fetch"]>[0]
 const options = { kappacodeOrganizationId: "org-a", kappacodeToken: "org-token" }
 const catalog = {
   models: {
@@ -36,15 +36,15 @@ const catalog = {
     },
   },
 }
-const network: KiloModelsResult = { models: {}, error: { kind: "network" } }
+const network: KappaModelsResult = { models: {}, error: { kind: "network" } }
 
-function layer(calls: Ref.Ref<Options[]>, results: KiloModelsResult[]) {
+function layer(calls: Ref.Ref<Options[]>, results: KappaModelsResult[]) {
   return Layer.fresh(ModelCache.layer).pipe(
     Layer.provide(FetchHttpClient.layer),
     Layer.provide(TestConfig.layer()),
     Layer.provide(Layer.mock(Auth.Service)({ get: () => Effect.succeed(undefined) })),
     Layer.provide(
-      Layer.succeed(ModelCache.KiloModelsService, {
+      Layer.succeed(ModelCache.KappaModelsService, {
         fetch: (options) =>
           Effect.gen(function* () {
             yield* Ref.update(calls, (list) => [...list, options])
@@ -82,8 +82,8 @@ it.effect("refreshes initialized provider state after a prolonged outage and rep
         const model = ModelV2.ID.make("allowed")
         const missing = yield* provider.getModel(id, model).pipe(Effect.flip)
         expect(missing.modelsEmpty).toBe(true)
-        expect(missing.message).toContain("Failed to load the Kilo model catalog (network)")
-        const message = "Failed to load the Kilo model catalog (network). Check your connection and credentials."
+        expect(missing.message).toContain("Failed to load the Kappa model catalog (network)")
+        const message = "Failed to load the Kappa model catalog (network). Check your connection and credentials."
         expect(missing.catalogError).toBe(message)
         expect(FormatError(missing)).toContain(message)
         expect(FormatError({ name: "ProviderModelNotFoundError", data: missing })).toContain(message)
@@ -117,7 +117,7 @@ for (const error of [
   { kind: "unauthorized", status: 403 },
   { kind: "http", status: 404 },
   { kind: "schema" },
-] satisfies NonNullable<KiloModelsResult["error"]>[]) {
+] satisfies NonNullable<KappaModelsResult["error"]>[]) {
   it.effect(`does not retry permanent ${error.kind} ${error.status ?? ""} failures`, () =>
     Effect.gen(function* () {
       const calls = yield* Ref.make<Options[]>([])
@@ -139,7 +139,7 @@ for (const result of [
   { models: {}, error: { kind: "http", status: 408, retryAfter: 90 } },
   { models: {}, error: { kind: "http", status: 429, retryAfter: 90 } },
   { models: {} },
-] satisfies KiloModelsResult[]) {
+] satisfies KappaModelsResult[]) {
   it.effect(`recovers ${result.error?.status ?? "empty"} catalogs with the correct delay`, () =>
     Effect.gen(function* () {
       const calls = yield* Ref.make<Options[]>([])
@@ -166,7 +166,7 @@ it.effect("stops recovering after an unexpected fetch failure instead of retryin
       Layer.provide(TestConfig.layer()),
       Layer.provide(Layer.mock(Auth.Service)({ get: () => Effect.succeed(undefined) })),
       Layer.provide(
-        Layer.succeed(ModelCache.KiloModelsService, {
+        Layer.succeed(ModelCache.KappaModelsService, {
           fetch: (options) =>
             Effect.gen(function* () {
               yield* Ref.update(calls, (list) => [...list, options])

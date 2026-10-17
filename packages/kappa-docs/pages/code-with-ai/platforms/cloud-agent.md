@@ -1,15 +1,15 @@
 ---
 title: "Cloud Agent"
-description: "Using Kilo Code in the browser"
+description: "Using Kappa Code in the browser"
 ---
 
 # {% $markdoc.frontmatter.title %}
 
-Cloud Agents let you run Kilo Code in the cloud from any device, without relying on your local machine. They provide a remote development environment that can read and modify your GitHub, GitLab, or Bitbucket repositories, run commands, and optionally commit and push changes as work progresses. Bitbucket repositories are available for organizations only.
+Cloud Agents let you run Kappa Code in the cloud from any device, without relying on your local machine. They provide a remote development environment that can read and modify your GitHub, GitLab, or Bitbucket repositories, run commands, and optionally commit and push changes as work progresses. Bitbucket repositories are available for organizations only.
 
 ## What Cloud Agents Enable
 
-- Run Kilo Code remotely from a browser
+- Run Kappa Code remotely from a browser
 - Create branches and optionally commit and push changes automatically
 - Use env vars + startup commands to shape the workspace
 - Work from anywhere while keeping your repo in sync
@@ -23,7 +23,7 @@ Before using Cloud Agents:
 
 ## Cost
 
-Cloud Agent compute is billed per second while the container is awake. Compute and model inference draw from the same Kilo credit balance, but they are charged separately.
+Cloud Agent compute is billed per second while the container is awake. Compute and model inference draw from the same Kappa credit balance, but they are charged separately.
 
 | Cloud Agent size | Hourly rate |
 |---|---|
@@ -33,7 +33,7 @@ Cloud Agent compute is billed per second while the container is awake. Compute a
 
 Usage is measured in whole seconds, with no rounding up to a longer billing interval and no minimum usage charge. Your balance must contain at least $5 to launch a container, but this is not an extra charge or minimum spend. BYOK users still pay for cloud compute because their provider keys cover inference only.
 
-See [Kilo Code pricing](https://kappa.ai/pricing) for current rates and pricing for other cloud products.
+See [Kappa Code pricing](https://kappa.ai/pricing) for current rates and pricing for other cloud products.
 
 ### Session cost display
 
@@ -46,7 +46,7 @@ If a compute billing check fails, follow the recovery action next to the compose
 1. **Connect your GitHub, GitLab, or Bitbucket account** in the [Integrations](https://app.kappa.ai/integrations) tab of your personal or organization dashboard. Bitbucket requires an organization.
 2. **Select a repository** to use as your workspace.
 3. **Add environment variables** (secrets supported) and set optional startup commands.
-4. **Start chatting with Kilo Code.**
+4. **Start chatting with Kappa Code.**
 
 Automatic commit and push depends on your session settings. If it is disabled, review, commit, and push the changes you want to keep.
 
@@ -55,7 +55,7 @@ Automatic commit and push depends on your session settings. If it is disabled, r
 Use the `kappa cloud` command to run Cloud Agent tasks without opening the browser:
 
 ```bash
-kappa cloud start --prompt "Fix the flaky login test" --repo Kilo-Org/kilocode
+kappa cloud start --prompt "Fix the flaky login test" --repo Kappa-Org/kappacode
 ```
 
 `kappa cloud` can start tasks, send follow-up prompts, and check task status and results. Repository, branch, model, mode, and organization are inferred from your local checkout and CLI defaults unless you pass the matching flags. Add `--stream` to `kappa cloud start` to print task events as JSONL until the task completes. See the [CLI reference](/docs/code-with-ai/platforms/cli-reference#kappa-cloud) for all commands and options.
@@ -63,7 +63,7 @@ kappa cloud start --prompt "Fix the flaky login test" --repo Kilo-Org/kilocode
 `kappa cloud start` and `kappa cloud send` require exactly one prompt source: `--prompt` or `--prompt-stdin`. Use `--prompt-stdin` to read a file or another command's output from standard input:
 
 ```bash
-kappa cloud start --prompt-stdin --repo Kilo-Org/kilocode < task.md
+kappa cloud start --prompt-stdin --repo Kappa-Org/kappacode < task.md
 ```
 
 Standard-input prompts must be valid UTF-8 and contain no more than 100,000 characters.
@@ -150,7 +150,7 @@ You can customize each Cloud Agent session by also defining env vars and startup
 
 ## Skills
 
-Cloud Agents support project-level [skills](/docs/code-with-ai/platforms/cli#skills) stored in your repository. When your repo is cloned, any skills in `.kappa/skills/` (or the legacy `.kilocode/skills/`) are automatically available. Skill folders are uploaded as `.zip` archives, with up to 40 companion files per skill.
+Cloud Agents support project-level [skills](/docs/code-with-ai/platforms/cli#skills) stored in your repository. When your repo is cloned, any skills in `.kappa/skills/` (or the legacy `.kappacode/skills/`) are automatically available. Skill folders are uploaded as `.zip` archives, with up to 40 companion files per skill.
 
 {% callout type="note" %}
 Global skills (`~/.kappa/skills/`) are not available in Cloud Agents since there is no persistent user home directory.
@@ -177,22 +177,22 @@ Remote mode must be enabled from the CLI. See [CLI Remote Connections](/docs/cod
 
 ### Requirements
 
-- Same Kilo account on both CLI and Cloud Agent
+- Same Kappa account on both CLI and Cloud Agent
 - Active internet connection on the local machine
 - CLI must remain running
 
 {% callout type="warning" title="Security Warning" %}
-Anyone with access to your Kilo account can send messages to your computer when remote mode is enabled.
+Anyone with access to your Kappa account can send messages to your computer when remote mode is enabled.
 {% /callout %}
 
 ## Perfect For
 
 Cloud Agents are great for:
 
-- **Remote debugging** using Kilo Code debug mode
+- **Remote debugging** using Kappa Code debug mode
 - **Exploration of unfamiliar codebases** without touching your local machine
 - **Architect-mode brainstorming** while on the go
-- **Automated refactors or tech debt cleanup** driven by Kilo Code
+- **Automated refactors or tech debt cleanup** driven by Kappa Code
 - **Offloading CI-like tasks**, experiments, or batch updates
 
 ## Triggers
@@ -291,7 +291,7 @@ Care should be taken when deciding to use webhooks as they are susceptible to pr
 - Each message can run for **up to 15 minutes**.
   Break large tasks into smaller steps; use a `plan.md` or `todo.md` file to keep scope clear.
 - **Context is persistent across messages.**
-  Kilo Code remembers previous turns within the same session.
+  Kappa Code remembers previous turns within the same session.
 - **Auto/YOLO mode is always on.**
   The agent will modify code without prompting for confirmation.
 - **Sessions are restorable locally** and local sessions can be resumed in Cloud Agent.

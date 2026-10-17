@@ -8,41 +8,41 @@ export const GenerateCommand = {
   handler: async () => {
     const { Server } = await import("../../server/server")
     const specs = (await Server.openapi()) as {
-      info: { title: string; description: string } // kilocode_change
+      info: { title: string; description: string } // kappacode_change
       paths: Record<string, Record<string, any>>
     }
-    // kilocode_change start
+    // kappacode_change start
     specs.info.title = "kappa"
     specs.info.description = "kappa api"
-    // kilocode_change end
+    // kappacode_change end
     for (const item of Object.values(specs.paths)) {
       for (const method of ["get", "post", "put", "delete", "patch"] as const) {
         const operation = item[method]
         if (!operation?.operationId) continue
         operation["x-codeSamples"] = [
-          // kilocode_change start
+          // kappacode_change start
           {
             lang: "js",
             source: [
-              `import { createKiloClient } from "@kappacode/sdk"`,
+              `import { createKappaClient } from "@kappacode/sdk"`,
               ``,
-              `const client = createKiloClient()`,
+              `const client = createKappaClient()`,
               `await client.${operation.operationId}({`,
               `  ...`,
               `})`,
             ].join("\n"),
           },
-          // kilocode_change end,
+          // kappacode_change end,
         ]
       }
     }
     const raw = JSON.stringify(specs, null, 2)
-      // kilocode_change start - replace upstream product name in all descriptions
-      .replaceAll("OpenCode", "Kilo")
+      // kappacode_change start - replace upstream product name in all descriptions
+      .replaceAll("OpenCode", "Kappa")
       .replaceAll("opencode.local", "kappa.local")
       .replaceAll("opencode serve", "kappa serve")
       .replaceAll("https://opencode.ai/", "https://kappa.ai/")
-    // kilocode_change end
+    // kappacode_change end
 
     // Format through prettier so output is byte-identical to committed file
     // regardless of whether ./script/format.ts runs afterward.

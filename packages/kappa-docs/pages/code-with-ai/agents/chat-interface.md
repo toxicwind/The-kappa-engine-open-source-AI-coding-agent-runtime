@@ -1,12 +1,12 @@
 ---
 title: "The Chat Interface"
-description: "Learn how to use the Kilo Code chat interface effectively"
+description: "Learn how to use the Kappa Code chat interface effectively"
 ---
 
-# Chatting with Kilo Code
+# Chatting with Kappa Code
 
 {% callout type="tip" %}
-**Bottom line:** Kilo Code is an AI coding assistant. You chat with it in plain English, and it writes, edits, and explains code for you.
+**Bottom line:** Kappa Code is an AI coding assistant. You chat with it in plain English, and it writes, edits, and explains code for you.
 {% /callout %}
 
 {% callout type="note" title="Prefer quick completions?" %}
@@ -18,7 +18,7 @@ If you're typing code in the editor and want AI to finish your line or block, ch
 {% tabs %}
 {% tab label="VSCode" %}
 
-Click the Kilo Code icon ({% kiloCodeIcon /%}) in VS Code's Primary Side Bar to open the sidebar chat. You can also pop it out into an editor tab for a larger workspace.
+Click the Kappa Code icon ({% kappaCodeIcon /%}) in VS Code's Primary Side Bar to open the sidebar chat. You can also pop it out into an editor tab for a larger workspace.
 
 {% /tab %}
 {% tab label="CLI" %}
@@ -28,11 +28,11 @@ Open your terminal and run `kappa` to launch the interactive terminal interface 
 {% /tab %}
 {% /tabs %}
 
-## How to Talk to Kilo Code
+## How to Talk to Kappa Code
 
 **The key insight:** Just type what you want in normal English. No special commands needed.
 
-{% image src="/docs/img/typing-your-requests/typing-your-requests.png" alt="Example of typing a request in Kilo Code" width="800" caption="Example of typing a request in Kilo Code" /%}
+{% image src="/docs/img/typing-your-requests/typing-your-requests.png" alt="Example of typing a request in Kappa Code" width="800" caption="Example of typing a request in Kappa Code" /%}
 
 **Good requests:**
 
@@ -73,7 +73,7 @@ The extension automatically passes context from your editor, including your open
 
 Run `/export` in chat, or open a local session's **History** context menu and choose **Export session transcript**. The save dialog lets you choose the Markdown (`.md`) destination.
 
-Kilo builds the export from the complete local session history, not only the messages currently loaded in the chat view.
+Kappa builds the export from the complete local session history, not only the messages currently loaded in the chat view.
 
 **Renaming sessions:**
 
@@ -83,7 +83,7 @@ You can also rename local sessions from **History** using the edit button or the
 
 **Switching session tabs:**
 
-When more than one session is open, the sidebar and Kilo editor tabs show a session tab strip. Use these shortcuts while the chat has focus:
+When more than one session is open, the sidebar and Kappa editor tabs show a session tab strip. Use these shortcuts while the chat has focus:
 
 | Shortcut (macOS) | Shortcut (Windows/Linux) | Action |
 |---|---|---|
@@ -125,7 +125,7 @@ Type `@` in the TUI to get file autocomplete suggestions, or mention file paths 
 
 **Status signals:**
 
-- Spinning → Kilo is working
+- Spinning → Kappa is working
 - Red → Error occurred
 - Green → Success
 
@@ -134,30 +134,30 @@ Type `@` in the TUI to get file autocomplete suggestions, or mention file paths 
 | Instead of this... | Try this |
 |---|---|
 | "Fix the code" | "Fix the bug in `calculateTotal` that returns incorrect results" |
-| Assuming Kilo knows context | Use `@` to reference specific files |
+| Assuming Kappa knows context | Use `@` to reference specific files |
 | Multiple unrelated tasks | Submit one focused request at a time |
 | Technical jargon overload | Clear, straightforward language works best |
 | Using chat for tiny code changes. | Use [autocomplete](/docs/code-with-ai/features/autocomplete) for inline completions |
 
-**Why it matters:** Kilo Code works best when you communicate like you're talking to a smart teammate who needs clear direction.
+**Why it matters:** Kappa Code works best when you communicate like you're talking to a smart teammate who needs clear direction.
 
 ## Suggested Responses
 
-When Kilo Code needs more information to complete a task, it asks a follow-up question and often provides suggested answers to make responding faster.
+When Kappa Code needs more information to complete a task, it asks a follow-up question and often provides suggested answers to make responding faster.
 
 **How it works:**
 
-1. **Question Appears** - Kilo Code asks a question using the `question` tool
+1. **Question Appears** - Kappa Code asks a question using the `question` tool
 2. **Options Displayed** - Selectable options are presented that you can choose from
 3. **Selection** - Pick an option or type a custom response
 
 **Benefits:**
 
 - **Speed** - Quickly respond without typing full answers
-- **Clarity** - Suggestions often clarify the type of information Kilo Code needs
+- **Clarity** - Suggestions often clarify the type of information Kappa Code needs
 - **Flexibility** - Edit suggestions to provide precise, customized answers when needed
 
-This feature streamlines the interaction when Kilo Code requires clarification, allowing you to guide the task effectively with minimal effort.
+This feature streamlines the interaction when Kappa Code requires clarification, allowing you to guide the task effectively with minimal effort.
 
 ## Tips for Better Workflow
 
@@ -177,9 +177,9 @@ This feature streamlines the interaction when Kilo Code requires clarification, 
 {% /callout %}
 
 {% callout type="tip" %}
-**Move Kilo Code to the Secondary Side Bar** for a better layout. Right-click on the Kilo Code icon in the Activity Bar and select **Move To → Secondary Side Bar**. This lets you see the Explorer, Search, Source Control, etc. alongside Kilo Code.
+**Move Kappa Code to the Secondary Side Bar** for a better layout. Right-click on the Kappa Code icon in the Activity Bar and select **Move To → Secondary Side Bar**. This lets you see the Explorer, Search, Source Control, etc. alongside Kappa Code.
 
-{% image src="/docs/img/move-to-secondary.png" alt="Move to Secondary Side Bar" width="600" caption="Move Kilo Code to the Secondary Side Bar for better workspace organization" /%}
+{% image src="/docs/img/move-to-secondary.png" alt="Move to Secondary Side Bar" width="600" caption="Move Kappa Code to the Secondary Side Bar for better workspace organization" /%}
 {% /callout %}
 
 {% /tab %}
@@ -196,4 +196,4 @@ This feature streamlines the interaction when Kilo Code requires clarification, 
 {% /tab %}
 {% /tabs %}
 
-Ready to start coding? Start a session in Kilo Code and describe what you want to build!
+Ready to start coding? Start a session in Kappa Code and describe what you want to build!

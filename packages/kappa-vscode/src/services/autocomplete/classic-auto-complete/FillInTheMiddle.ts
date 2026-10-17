@@ -8,7 +8,7 @@ import {
 import { getProcessedSnippets } from "./getProcessedSnippets"
 import { getTemplateForModel } from "../continuedev/core/autocomplete/templating/AutocompleteTemplate"
 import { generateFim } from "../fim"
-import type { KiloConnectionService } from "../../cli-backend"
+import type { KappaConnectionService } from "../../cli-backend"
 
 export type { FimAutocompletePrompt, FimCompletionResult }
 
@@ -58,7 +58,7 @@ export class FimPromptBuilder {
    * Execute FIM-based completion using the model
    */
   async getFromFIM(
-    connection: KiloConnectionService,
+    connection: KappaConnectionService,
     modelId: string,
     prompt: FimAutocompletePrompt,
     processSuggestion: (text: string) => FillInAtCursorSuggestion,

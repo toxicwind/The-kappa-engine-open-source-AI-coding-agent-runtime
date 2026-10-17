@@ -7,10 +7,10 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { BackgroundJob } from "@/background/job"
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
-import { KiloSessionControl } from "@/kappacode/session/control"
-import { KiloSessionContinuation } from "@/kappacode/session/continuation"
-import { KiloSessionPromptQueue } from "@/kappacode/session/prompt-queue"
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions"
+import { KappaSessionControl } from "@/kappacode/session/control"
+import { KappaSessionContinuation } from "@/kappacode/session/continuation"
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
 import { SessionPrompt } from "@/session/prompt"
 import { MessageID, SessionID } from "@/session/schema"
 import { Session } from "@/session/session"
@@ -33,13 +33,13 @@ const it = testEffect(
       LayerNode.make({ service: TestLLMServer, layer: TestLLMServer.layer, deps: [] }),
       LayerNode.make({ service: MemoryService.Service, layer: MemoryService.layer, deps: [] }),
     ]),
-    [[KiloSessions.node, KiloSessions.testLayer]],
+    [[KappaSessions.node, KappaSessions.testLayer]],
   ),
 )
 
 it.instance("background tickets stay paused after a later continuation", () =>
   Effect.gen(function* () {
-    const control = yield* KiloSessionControl.make
+    const control = yield* KappaSessionControl.make
     const id = SessionID.descending()
     yield* control.stop(id, Effect.void)
     const paused = yield* control.begin(id, false)
@@ -127,7 +127,7 @@ const delivered = Effect.fn("ScopedAbortTest.delivered")(function* (id: SessionI
       .messages({ sessionID: id })
       .pipe(
         Effect.map((messages) =>
-          messages.some((message) => KiloSessionControl.background(message.parts)) ? messages : undefined,
+          messages.some((message) => KappaSessionControl.background(message.parts)) ? messages : undefined,
         ),
       ),
     "background result was not retained",
@@ -151,7 +151,7 @@ it.live(
             })
             .pipe(Effect.forkScoped)
           yield* pollWithTimeout(
-            Effect.sync(() => (KiloSessionPromptQueue.snapshot(run.parent.id).includes(id) ? true : undefined)),
+            Effect.sync(() => (KappaSessionPromptQueue.snapshot(run.parent.id).includes(id) ? true : undefined)),
             "follow-up was not queued",
           )
 
@@ -160,7 +160,7 @@ it.live(
           expect((yield* run.status.get(run.parent.id)).type).toBe("idle")
           expect((yield* run.jobs.get(run.child.id))?.status).toBe("running")
           expect((yield* run.status.get(SessionID.make(run.child.id))).type).toBe("busy")
-          expect(KiloSessionPromptQueue.snapshot(run.parent.id)).toEqual([])
+          expect(KappaSessionPromptQueue.snapshot(run.parent.id)).toEqual([])
           const rejected = yield* run.prompt
             .command({ sessionID: run.parent.id, command: "missing-scoped-abort-command", arguments: "" })
             .pipe(Effect.exit)
@@ -201,7 +201,7 @@ it.live(
           run.done.resolve()
           yield* run.jobs.wait({ id: run.child.id, timeout: 5000 })
           const messages = yield* delivered(run.parent.id)
-          expect(KiloSessionContinuation.target(messages)).toBe(stopped.info.id)
+          expect(KappaSessionContinuation.target(messages)).toBe(stopped.info.id)
           yield* run.llm.text("Continued with result")
           const result = yield* run.prompt.loop({ sessionID: run.parent.id, resume: stopped.info.id })
           expect(result.parts.some((part) => part.type === "text" && part.text === "Continued with result")).toBe(true)

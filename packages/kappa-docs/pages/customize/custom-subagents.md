@@ -1,12 +1,12 @@
 ---
 title: "Custom Subagents"
-description: "Create and configure custom subagents in Kilo Code's CLI"
+description: "Create and configure custom subagents in Kappa Code's CLI"
 platform: new
 ---
 
 # Custom Subagents
 
-Kilo Code's CLI supports **custom subagents** — specialized AI assistants that can be invoked by primary agents or manually via `@` mentions. Subagents run in their own isolated sessions with tailored prompts, models, tool access, and permissions, enabling you to build purpose-built workflows for tasks like code review, documentation, security audits, and more.
+Kappa Code's CLI supports **custom subagents** — specialized AI assistants that can be invoked by primary agents or manually via `@` mentions. Subagents run in their own isolated sessions with tailored prompts, models, tool access, and permissions, enabling you to build purpose-built workflows for tasks like code review, documentation, security audits, and more.
 
 {% callout type="info" %}
 Custom subagents are currently configured through the config file (`kappa.jsonc`) or via markdown agent files. UI-based configuration is not yet available.
@@ -23,11 +23,11 @@ Key characteristics of subagents:
 - **Invocable by agents or users**: Primary agents invoke subagents via the Task tool, or you can invoke them manually with `@agent-name`
 - **Results flow back**: When a subagent completes, its result summary is returned to the parent agent
 
-When a primary agent invokes a subagent with `task`, the child is non-interactive: it cannot ask the end user a question directly. The child can still use its permitted tools and communicate through its result, shared files, or the [Kilo Swarm](/docs/getting-started/settings#kappa-swarm) board. Foreground tasks return before the parent continues. Background tasks use `background: true`, return immediately, and deliver their result to the parent when they finish.
+When a primary agent invokes a subagent with `task`, the child is non-interactive: it cannot ask the end user a question directly. The child can still use its permitted tools and communicate through its result, shared files, or the [Kappa Swarm](/docs/getting-started/settings#kappa-swarm) board. Foreground tasks return before the parent continues. Background tasks use `background: true`, return immediately, and deliver their result to the parent when they finish.
 
 ### Built-in Subagents
 
-Kilo Code includes two built-in subagents:
+Kappa Code includes two built-in subagents:
 
 | Name | Description |
 |---|---|
@@ -262,7 +262,7 @@ When a subagent is delegated from a session in the VS Code extension, open its t
 
 Inspector tabs are scoped to the current project and parent session. When you switch worktrees or sessions, Agent Manager shows the tabs for that project and parent only, so child transcripts from another session are not mixed into the current view.
 
-This differs from the sidebar and Kilo editor subagent tabs. In those surfaces, **Open in Tab** opens the child transcript as a separate read-only VS Code editor tab. Agent Manager keeps the transcript inside its right-hand inspector alongside the session's other panels. In both surfaces, the child session is a delegated transcript, not a new prompt you can send messages to directly.
+This differs from the sidebar and Kappa editor subagent tabs. In those surfaces, **Open in Tab** opens the child transcript as a separate read-only VS Code editor tab. Agent Manager keeps the transcript inside its right-hand inspector alongside the session's other panels. In both surfaces, the child session is a delegated transcript, not a new prompt you can send messages to directly.
 
 ## Configuration Precedence
 

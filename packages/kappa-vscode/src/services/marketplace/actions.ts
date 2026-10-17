@@ -1,6 +1,6 @@
 import * as path from "path"
 import * as vscode from "vscode"
-import type { KiloConnectionService } from "../cli-backend"
+import type { KappaConnectionService } from "../cli-backend"
 import { retry } from "../cli-backend/retry"
 import { removeAgent } from "../agent-removal"
 import type { MarketplaceService } from "."
@@ -14,13 +14,13 @@ import type {
 } from "./types"
 
 export interface MarketplaceActionContext {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   marketplace: MarketplaceService
   storage?: vscode.Uri
 }
 
 export interface MarketplaceRemoveContext {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   marketplace: MarketplaceService
   storage?: vscode.Uri
 }
@@ -103,7 +103,7 @@ export async function removeMarketplaceItemFromAllScopes(
     const global = await removeScoped(ctx, item, "global", dir)
     return (local?.success ?? true) && global.success
   } catch (err) {
-    console.warn("[Kilo New] Marketplace removal failed:", err)
+    console.warn("[Kappa New] Marketplace removal failed:", err)
     return false
   }
 }
@@ -126,7 +126,7 @@ async function invalidate(ctx: MarketplaceActionContext, dir: string): Promise<v
     const client = await ctx.connection.getClientAsync(dir)
     await client.instance.dispose({ directory: dir })
   } catch (err) {
-    console.warn("[Kilo New] instance.dispose() after marketplace change failed:", err)
+    console.warn("[Kappa New] instance.dispose() after marketplace change failed:", err)
   }
 }
 
@@ -139,7 +139,7 @@ async function removeLegacyMcp(
   const files: vscode.Uri[] = []
   if (project && scope !== "global") {
     files.push(vscode.Uri.file(path.join(project, ".kappa", "mcp.json")))
-    files.push(vscode.Uri.file(path.join(project, ".kilocode", "mcp.json")))
+    files.push(vscode.Uri.file(path.join(project, ".kappacode", "mcp.json")))
   }
 
   if (ctx.storage && scope !== "project") files.push(vscode.Uri.joinPath(ctx.storage, "settings", "mcp_settings.json"))
@@ -160,7 +160,7 @@ async function removeLegacyMcp(
       await vscode.workspace.fs.writeFile(uri, Buffer.from(JSON.stringify(parsed, null, 2), "utf8"))
       removed = true
     } catch (err) {
-      console.warn("[Kilo New] Failed to remove legacy MCP from", uri.fsPath, err)
+      console.warn("[Kappa New] Failed to remove legacy MCP from", uri.fsPath, err)
     }
   }
   return removed

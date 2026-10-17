@@ -5,8 +5,8 @@ export const Npm = {
 
 export const Brew = {
   name: "kappa",
-  tap: "Kilo-Org/tap",
-  formula: "Kilo-Org/tap/kappa",
+  tap: "Kappa-Org/tap",
+  formula: "Kappa-Org/tap/kappa",
   api: "https://formulae.brew.sh/api/formula/kappa.json",
 }
 

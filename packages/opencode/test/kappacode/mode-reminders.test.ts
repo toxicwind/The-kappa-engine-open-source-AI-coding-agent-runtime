@@ -8,7 +8,7 @@ import { Session } from "../../src/session/session"
 import { SessionReminders } from "../../src/session/reminders"
 import { MessageV2 } from "../../src/session/message-v2"
 import { SessionID, MessageID, PartID } from "../../src/session/schema"
-import { KiloModeReminders } from "../../src/kappacode/session/mode-reminders"
+import { KappaModeReminders } from "../../src/kappacode/session/mode-reminders"
 
 const sessionID = SessionID.make("ses_mode")
 const model = { providerID: ProviderV2.ID.make("openai"), modelID: ModelV2.ID.make("gpt-4") }
@@ -65,11 +65,11 @@ function texts(message: MessageV2.WithParts) {
   return message.parts.filter((part): part is MessageV2.TextPart => part.type === "text").map((part) => part.text)
 }
 
-describe("KiloModeReminders.transition", () => {
+describe("KappaModeReminders.transition", () => {
   test("ask -> code lifts restrictions", () => {
-    const text = KiloModeReminders.transition({ current: code, prior: "ask" })
+    const text = KappaModeReminders.transition({ current: code, prior: "ask" })
     expect(text).toContain("changed from ask to code")
-    expect(text).toContain(KiloModeReminders.WRITABLE)
+    expect(text).toContain(KappaModeReminders.WRITABLE)
     expect(text).toContain("supersedes earlier agent-switch reminders")
     expect(text).toContain("those of the code agent")
     expect(text).not.toContain("${")
@@ -77,53 +77,53 @@ describe("KiloModeReminders.transition", () => {
   })
 
   test("code -> ask reinstates restrictions", () => {
-    const text = KiloModeReminders.transition({ current: ask, prior: "code" })
+    const text = KappaModeReminders.transition({ current: ask, prior: "code" })
     expect(text).toContain("changed from code to ask")
-    expect(text).toContain(KiloModeReminders.READONLY)
+    expect(text).toContain(KappaModeReminders.READONLY)
   })
 
   test("ask -> custom writable agent cancels the ask restrictions", () => {
-    const text = KiloModeReminders.transition({ current: debug, prior: "ask" })
+    const text = KappaModeReminders.transition({ current: debug, prior: "ask" })
     expect(text).toContain("changed from ask to debug")
-    expect(text).toContain(KiloModeReminders.WRITABLE)
+    expect(text).toContain(KappaModeReminders.WRITABLE)
   })
 
   test("code -> custom agent uses displayName and a neutral capability line", () => {
-    const text = KiloModeReminders.transition({ current: audit, prior: "code" })
+    const text = KappaModeReminders.transition({ current: audit, prior: "code" })
     expect(text).toContain("changed from code to Security Audit")
-    expect(text).toContain(KiloModeReminders.NEUTRAL)
-    expect(text).not.toContain(KiloModeReminders.READONLY)
+    expect(text).toContain(KappaModeReminders.NEUTRAL)
+    expect(text).not.toContain(KappaModeReminders.READONLY)
   })
 
   test("custom agent with a scoped edit allowlist is not called read-only", () => {
-    const text = KiloModeReminders.transition({ current: docsmith, prior: "code" })
-    expect(text).toContain(KiloModeReminders.NEUTRAL)
+    const text = KappaModeReminders.transition({ current: docsmith, prior: "code" })
+    expect(text).toContain(KappaModeReminders.NEUTRAL)
     expect(text).not.toContain("cannot modify files")
   })
 
   test("capability follows permissions for an organization-overridden ask", () => {
-    expect(KiloModeReminders.transition({ current: openAsk, prior: "code" })).toContain(KiloModeReminders.WRITABLE)
+    expect(KappaModeReminders.transition({ current: openAsk, prior: "code" })).toContain(KappaModeReminders.WRITABLE)
   })
 
   test("code -> native plan is read-only", () => {
-    const text = KiloModeReminders.transition({ current: plan, prior: "code" })
+    const text = KappaModeReminders.transition({ current: plan, prior: "code" })
     expect(text).toContain("changed from code to plan")
-    expect(text).toContain(KiloModeReminders.READONLY)
+    expect(text).toContain(KappaModeReminders.READONLY)
   })
 
   test("plan -> code is writable", () => {
-    expect(KiloModeReminders.transition({ current: code, prior: "plan" })).toContain(KiloModeReminders.WRITABLE)
+    expect(KappaModeReminders.transition({ current: code, prior: "plan" })).toContain(KappaModeReminders.WRITABLE)
   })
 
   test("no reminder when the agent did not change or on the first turn", () => {
-    expect(KiloModeReminders.transition({ current: ask, prior: "ask" })).toBeUndefined()
-    expect(KiloModeReminders.transition({ current: code, prior: "Code" })).toBeUndefined()
-    expect(KiloModeReminders.transition({ current: code, prior: undefined })).toBeUndefined()
+    expect(KappaModeReminders.transition({ current: ask, prior: "ask" })).toBeUndefined()
+    expect(KappaModeReminders.transition({ current: code, prior: "Code" })).toBeUndefined()
+    expect(KappaModeReminders.transition({ current: code, prior: undefined })).toBeUndefined()
   })
 })
 
-describe("KiloModeReminders.apply", () => {
-  const apply = (messages: MessageV2.WithParts[], agent: KiloModeReminders.Target, stored: MessageV2.Part[] = []) =>
+describe("KappaModeReminders.apply", () => {
+  const apply = (messages: MessageV2.WithParts[], agent: KappaModeReminders.Target, stored: MessageV2.Part[] = []) =>
     Effect.runPromise(
       SessionReminders.apply({
         messages,
@@ -164,9 +164,9 @@ describe("KiloModeReminders.apply", () => {
     const custom = user("debug", "Now fix the failing test.")
     await apply([start, assistant("code", start.info.id), asked, assistant("ask", asked.info.id), custom], debug, stored)
 
-    expect(texts(asked).at(-1)).toContain(KiloModeReminders.READONLY)
+    expect(texts(asked).at(-1)).toContain(KappaModeReminders.READONLY)
     expect(texts(custom).at(-1)).toContain("changed from ask to debug")
-    expect(texts(custom).at(-1)).toContain(KiloModeReminders.WRITABLE)
+    expect(texts(custom).at(-1)).toContain(KappaModeReminders.WRITABLE)
     expect(stored).toHaveLength(2)
   })
 

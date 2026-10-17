@@ -3,19 +3,19 @@ import { Config } from "@/config/config"
 import { ModelsDev } from "@opencode-ai/core/models-dev"
 import { Provider } from "@/provider/provider"
 
-import { mapValues, pickBy } from "remeda" // kilocode_change
-import { ModelCache } from "@/provider/model-cache" // kilocode_change
-import { Auth } from "@/auth" // kilocode_change
-import { organization, recommend } from "@/kilocode/provider/catalog" // kilocode_change
-import { ModelV2 } from "@opencode-ai/core/model" // kilocode_change
-import { Option } from "effect" // kilocode_change
+import { mapValues, pickBy } from "remeda" // kappacode_change
+import { ModelCache } from "@/provider/model-cache" // kappacode_change
+import { Auth } from "@/auth" // kappacode_change
+import { organization, recommend } from "@/kappacode/provider/catalog" // kappacode_change
+import { ModelV2 } from "@opencode-ai/core/model" // kappacode_change
+import { Option } from "effect" // kappacode_change
 import {
   disposeAllInstancesAfterProviderAuthCallback,
   invalidatePresence,
-} from "@/kilocode/server/provider-auth-lifecycle" // kilocode_change
-import { providerMetadata } from "@/kilocode/provider/metadata" // kilocode_change
-import { filterPromptTrainingModels } from "@/kilocode/provider/model-filter" // kilocode_change
-import { overlay as overlayAnacondaDesktop } from "@/kilocode/anaconda-desktop/provider" // kilocode_change
+} from "@/kappacode/server/provider-auth-lifecycle" // kappacode_change
+import { providerMetadata } from "@/kappacode/provider/metadata" // kappacode_change
+import { filterPromptTrainingModels } from "@/kappacode/provider/model-filter" // kappacode_change
+import { overlay as overlayAnacondaDesktop } from "@/kappacode/anaconda-desktop/provider" // kappacode_change
 import { Effect, Schema } from "effect"
 import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
@@ -38,7 +38,7 @@ function mapProviderAuthError<A, R>(self: Effect.Effect<A, ProviderAuth.Error, R
       if (error instanceof ProviderAuth.ValidationFailed) {
         return new ProviderAuthApiError({ name: error._tag, data: { field: error.field, message: error.message } })
       }
-      return new ProviderAuthApiError({ name: "BadRequest", data: { message: error.message } }) // kilocode_change
+      return new ProviderAuthApiError({ name: "BadRequest", data: { message: error.message } }) // kappacode_change
     }),
   )
 }
@@ -48,12 +48,12 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
     const cfg = yield* Config.Service
     const provider = yield* Provider.Service
     const svc = yield* ProviderAuth.Service
-    const cache = yield* ModelCache.Service // kilocode_change
-    const access = yield* Auth.Service // kilocode_change
+    const cache = yield* ModelCache.Service // kappacode_change
+    const access = yield* Auth.Service // kappacode_change
 
     const list = Effect.fn("ProviderHttpApi.list")(function* () {
       const config = yield* cfg.get()
-      const all = overlayAnacondaDesktop(yield* ModelsDev.Service.use((s) => s.get())) // kilocode_change
+      const all = overlayAnacondaDesktop(yield* ModelsDev.Service.use((s) => s.get())) // kappacode_change
       const disabled = new Set(config.disabled_providers ?? [])
       const enabled = config.enabled_providers ? new Set(config.enabled_providers) : undefined
       const filtered: Record<string, (typeof all)[string]> = {}
@@ -61,7 +61,7 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
         if ((enabled ? enabled.has(key) : true) && !disabled.has(key)) filtered[key] = value
       }
       const connected = yield* provider.list()
-      // kilocode_change start
+      // kappacode_change start
       const info = yield* access.get("kappa").pipe(Effect.option)
       const unavailable = Option.isNone(info) && ("kappa" in filtered || "kappa" in connected)
       if (Option.isNone(info) || organization(config.provider?.kappa?.options, info.value)) delete filtered.kappa
@@ -72,8 +72,8 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
         ),
         config.hide_prompt_training_models === true,
       )
-      // kilocode_change end
-      // kilocode_change start
+      // kappacode_change end
+      // kappacode_change start
       const failed = yield* cache.failedProviders()
       // Note: connected only contains providers with non-empty models after Provider.Service.list(),
       // so failed must be checked explicitly for providers whose fetch returned an error.
@@ -99,12 +99,12 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
         all: Object.values(validProviders).map((item) => ({
           ...Provider.toPublicInfo(item),
           metadata: providerMetadata(item.id),
-        })), // kilocode_change
+        })), // kappacode_change
         default: defaults,
         connected: Object.keys(connected),
         failed: [...failedSet],
       }
-      // kilocode_change end
+      // kappacode_change end
     })
 
     const auth = Effect.fn("ProviderHttpApi.auth")(function* () {
@@ -150,10 +150,10 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
           code: ctx.payload.code,
         }),
       )
-      // kilocode_change start - drop old-user presence before instance disposal on Kilo OAuth callback
+      // kappacode_change start - drop old-user presence before instance disposal on Kappa OAuth callback
       if (ctx.params.providerID === "kappa") yield* invalidatePresence()
-      // kilocode_change end
-      yield* disposeAllInstancesAfterProviderAuthCallback() // kilocode_change
+      // kappacode_change end
+      yield* disposeAllInstancesAfterProviderAuthCallback() // kappacode_change
       return true
     })
 

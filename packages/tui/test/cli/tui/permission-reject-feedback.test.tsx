@@ -1,4 +1,4 @@
-/** @jsxImportSource @opentui/solid */ // kilocode_change - new file
+/** @jsxImportSource @opentui/solid */ // kappacode_change - new file
 import { ScrollBoxRenderable, TextareaRenderable } from "@opentui/core"
 import { createDefaultOpenTuiKeymap } from "@opentui/keymap/opentui"
 import { createSlot, createSolidSlotRegistry, testRender, useRenderer } from "@opentui/solid"
@@ -339,7 +339,7 @@ test("scrolls a large edit to the last changed line and opens rejection feedback
     expect(await capture(app, "after 200")).toContain("after 200")
     app.mockInput.pressEscape()
     await app.flush()
-    expect(await capture(app, "Reject permission")).toContain("Tell Kilo what to do differently")
+    expect(await capture(app, "Reject permission")).toContain("Tell Kappa what to do differently")
   } finally {
     app.renderer.destroy()
   }

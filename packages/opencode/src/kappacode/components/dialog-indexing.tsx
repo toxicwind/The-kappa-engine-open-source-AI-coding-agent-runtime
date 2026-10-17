@@ -16,16 +16,16 @@ import { createEffect, createMemo, createResource, createSignal, Show } from "so
 import { reconcile } from "solid-js/store"
 import type { IndexingConfig, Config } from "@kappacode/sdk/v2"
 import * as Log from "@opencode-ai/core/util/log"
-import { hasKiloIndexingAuth, resolveKiloIndexingAuth, shouldDefaultIndexingToKilo } from "../indexing-auth"
+import { hasKappaIndexingAuth, resolveKappaIndexingAuth, shouldDefaultIndexingToKappa } from "../indexing-auth"
 import {
   createIndexingDialogState,
-  currentKiloModel,
+  currentKappaModel,
   indexingInheritance,
   indexingPatch,
   indexingScopeConfig,
   inheritedDescription,
-  kiloModelOptions,
-  loadKiloEmbeddingModels,
+  kappaModelOptions,
+  loadKappaEmbeddingModels,
   mergeIndexingConfig,
   type IndexingScope,
 } from "./indexing-dialog-state"
@@ -39,7 +39,7 @@ type EmbeddingProvider = NonNullable<IndexingConfig["provider"]>
 const log = Log.create({ service: "indexing-model-select" })
 
 const PROVIDER_LABELS: Record<EmbeddingProvider, string> = {
-  kappa: "Kilo",
+  kappa: "Kappa",
   openai: "OpenAI",
   ollama: "Ollama (local)",
   "openai-compatible": "OpenAI-Compatible",
@@ -90,10 +90,10 @@ function scopedIndexing(data: Config | undefined): IndexingConfig {
   return data?.indexing ?? {}
 }
 
-function hasKiloAuth(sync: ReturnType<typeof useSync>, scope: IndexingScope, indexing: IndexingConfig): boolean {
+function hasKappaAuth(sync: ReturnType<typeof useSync>, scope: IndexingScope, indexing: IndexingConfig): boolean {
   const provider = sync.data.provider_next.all.find((item) => item.id === "kappa")
   const config = indexingScopeConfig(scope, sync.data.config, sync.data.globalConfig, indexing)
-  return hasKiloIndexingAuth({ config, provider })
+  return hasKappaIndexingAuth({ config, provider })
 }
 
 function defaultIndexing(
@@ -104,8 +104,8 @@ function defaultIndexing(
 ): IndexingConfig {
   const provider = sync.data.provider_next.all.find((item) => item.id === "kappa")
   const config = indexingScopeConfig(scope, sync.data.config, sync.data.globalConfig, indexing)
-  const auth = resolveKiloIndexingAuth({ config, provider })
-  if (!shouldDefaultIndexingToKilo({ ...global, ...indexing }, auth)) return indexing
+  const auth = resolveKappaIndexingAuth({ config, provider })
+  if (!shouldDefaultIndexingToKappa({ ...global, ...indexing }, auth)) return indexing
   return { ...indexing, provider: "kappa", model: null, dimension: null }
 }
 
@@ -169,7 +169,7 @@ function ProviderSelect(props: SubDialogProps) {
   const options: DialogSelectOption<EmbeddingProvider>[] = (
     Object.entries(PROVIDER_LABELS) as [EmbeddingProvider, string][]
   )
-    .filter(([value]) => value !== "kappa" || hasKiloAuth(sync, props.scope, indexing) || indexing.provider === "kappa")
+    .filter(([value]) => value !== "kappa" || hasKappaAuth(sync, props.scope, indexing) || indexing.provider === "kappa")
     .map(([value, title]) => ({
       value,
       title,
@@ -200,14 +200,14 @@ function ProviderSelect(props: SubDialogProps) {
   )
 }
 
-function KiloModelSelect(props: SubDialogProps) {
+function KappaModelSelect(props: SubDialogProps) {
   const dialog = useDialog()
   const sync = useSync()
   const sdk = props.useSDK()
   const toast = useToast()
   const indexing = props.indexing
   const [error, setError] = createSignal<string>()
-  const [catalog] = createResource(() => loadKiloEmbeddingModels(setError))
+  const [catalog] = createResource(() => loadKappaEmbeddingModels(setError))
   const seen = { error: undefined as string | undefined, state: "" }
   createEffect(() => {
     const message = error()
@@ -225,26 +225,26 @@ function KiloModelSelect(props: SubDialogProps) {
     const state = `${catalog.state}:${cfg?.models.length ?? 0}`
     if (seen.state === state) return
     seen.state = state
-    log.info("Kilo embedding model resource changed", {
+    log.info("Kappa embedding model resource changed", {
       state: catalog.state,
       models: cfg?.models.length ?? 0,
-      current: currentKiloModel(cfg, indexing.model),
+      current: currentKappaModel(cfg, indexing.model),
       defaultModel: cfg?.defaultModel || undefined,
       scope: props.scope,
     })
   })
-  const options = createMemo(() => kiloModelOptions(catalog()))
-  const current = createMemo(() => currentKiloModel(catalog(), indexing.model))
+  const options = createMemo(() => kappaModelOptions(catalog()))
+  const current = createMemo(() => currentKappaModel(catalog(), indexing.model))
 
   return (
     <DialogSelect
-      title="Kilo Embedding Model"
+      title="Kappa Embedding Model"
       options={options()}
       current={current()}
       renderFilter={(catalog()?.models.length ?? 0) > 0}
       onSelect={async (option) => {
         if (!option.value || !catalog()?.models.some((model) => model.id === option.value)) return
-        log.info("selected Kilo embedding model", { model: option.value, scope: props.scope })
+        log.info("selected Kappa embedding model", { model: option.value, scope: props.scope })
         await saveScopedIndexing(
           sdk,
           sync,
@@ -559,7 +559,7 @@ export function DialogIndexing(props: DialogIndexingProps) {
         title: "Embedding Model",
         category: "Embedding",
         description: mark(
-          indexing.provider === "kappa" ? (indexing.model ?? "Kilo catalog") : (indexing.model ?? "default"),
+          indexing.provider === "kappa" ? (indexing.model ?? "Kappa catalog") : (indexing.model ?? "default"),
           [["model"]],
         ),
       },
@@ -569,7 +569,7 @@ export function DialogIndexing(props: DialogIndexingProps) {
         category: "Embedding",
         description:
           indexing.provider === "kappa"
-            ? "provided by Kilo"
+            ? "provided by Kappa"
             : mark(indexing.dimension ? String(indexing.dimension) : "auto", [["dimension"]]),
         disabled: indexing.provider === "kappa",
       },
@@ -644,7 +644,7 @@ export function DialogIndexing(props: DialogIndexingProps) {
           case "model": {
             if (indexing.provider === "kappa") {
               dialog.replace(() => (
-                <KiloModelSelect useSDK={props.useSDK} scope={scope()} indexing={indexing} raw={raw} />
+                <KappaModelSelect useSDK={props.useSDK} scope={scope()} indexing={indexing} raw={raw} />
               ))
               break
             }

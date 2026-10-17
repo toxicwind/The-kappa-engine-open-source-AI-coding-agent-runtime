@@ -50,7 +50,7 @@ describe("diff style persistence", () => {
 
   test("getUserDiffStyle reads the effective value, so workspace overrides win", () => {
     // Global split, workspace-local unified: the scope-aware read must let the
-    // workspace override win, matching how the other Kilo settings are read.
+    // workspace override win, matching how the other Kappa settings are read.
     installConfig({ "diff.style": "split" }, { "diff.style": "unified" })
     expect(getUserDiffStyle()).toBe("unified")
   })

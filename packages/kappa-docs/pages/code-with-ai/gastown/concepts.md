@@ -5,7 +5,7 @@ description: "Understand the building blocks of Gas Town — towns, beads, convo
 
 # {% $markdoc.frontmatter.title %}
 
-Gas Town by Kilo is built around a small set of composable primitives. Understanding these concepts is key to getting the most out of agent orchestration.
+Gas Town by Kappa is built around a small set of composable primitives. Understanding these concepts is key to getting the most out of agent orchestration.
 
 ## Towns
 
@@ -137,7 +137,7 @@ This pattern compounds when combined with **convoys**:
 3. Bead 3: Implement the feature (builds on beads 1+2) → reviewed → merged
 4. **Landing review**: The full convoy branch is reviewed as a cohesive unit before merging to main
 
-At every stage, work is critiqued and refined. Combined with Kilo's [Code Review](/docs/code-with-ai/gastown/code-review) product, this creates a pipeline where code is reviewed multiple times by different agents with different perspectives before it ever reaches your main branch.
+At every stage, work is critiqued and refined. Combined with Kappa's [Code Review](/docs/code-with-ai/gastown/code-review) product, this creates a pipeline where code is reviewed multiple times by different agents with different perspectives before it ever reaches your main branch.
 
 ## How It All Fits Together
 

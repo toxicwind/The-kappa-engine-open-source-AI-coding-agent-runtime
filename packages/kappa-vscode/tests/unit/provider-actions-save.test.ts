@@ -332,7 +332,7 @@ describe("saveCustomProvider", () => {
     expect(provider.models["model-1"].variants.high).toEqual(variant)
   })
 
-  // Regression tests for https://github.com/Kilo-Org/kilocode/issues/9186
+  // Regression tests for https://github.com/Kappa-Org/kappacode/issues/9186
   //
   // The CLI's config.update endpoint deep-merges its payload with the existing
   // global config. When the user removes a model or variant from a custom
@@ -560,7 +560,7 @@ describe("fetchProviderData", () => {
       expected: undefined,
     },
     {
-      name: "does not retain a default without a Kilo provider",
+      name: "does not retain a default without a Kappa provider",
       missing: true,
       recommended: "org/default",
       expected: undefined,
@@ -584,7 +584,7 @@ describe("fetchProviderData", () => {
                   : [
                       {
                         id: "kappa",
-                        name: "Kilo Gateway",
+                        name: "Kappa Gateway",
                         models: item.empty
                           ? {}
                           : { "org/first": { id: "org/first" }, "org/default": { id: "org/default" } },
@@ -621,7 +621,7 @@ describe("fetchProviderData", () => {
     })
   }
 
-  it.each([false, true])("removes unverified Kilo data without auth context (failure: %s)", async (fail) => {
+  it.each([false, true])("removes unverified Kappa data without auth context (failure: %s)", async (fail) => {
     const client = {
       provider: {
         list: async () => ({
@@ -708,12 +708,12 @@ describe("fetchProviderData", () => {
     expect("key" in item).toBe(false)
   })
 
-  it("uses local Kilo auth status instead of profile availability", async () => {
+  it("uses local Kappa auth status instead of profile availability", async () => {
     const client = {
       provider: {
         list: async () => ({
           data: {
-            all: [{ id: "kappa", name: "Kilo Gateway", source: "custom", env: [], models: {} }],
+            all: [{ id: "kappa", name: "Kappa Gateway", source: "custom", env: [], models: {} }],
             connected: ["kappa"],
             default: { kappa: "kappa-auto/frontier" },
           },
@@ -730,12 +730,12 @@ describe("fetchProviderData", () => {
     expect(result.authStates).toEqual({ kappa: "oauth" })
   })
 
-  it("does not infer Kilo speech access without stored Gateway auth", async () => {
+  it("does not infer Kappa speech access without stored Gateway auth", async () => {
     const client = {
       provider: {
         list: async () => ({
           data: {
-            all: [{ id: "kappa", name: "Kilo Gateway", source: "config", key: "configured", env: [], models: {} }],
+            all: [{ id: "kappa", name: "Kappa Gateway", source: "config", key: "configured", env: [], models: {} }],
             connected: ["kappa"],
             default: { kappa: "kappa-auto/frontier" },
           },

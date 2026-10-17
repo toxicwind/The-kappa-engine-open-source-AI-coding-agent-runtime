@@ -55,7 +55,7 @@ const [runtime, gateway, server, fixture] = await (async () => {
   }
 })()
 const { AppRuntime } = runtime
-const { KiloGatewayPaths } = gateway
+const { KappaGatewayPaths } = gateway
 const HttpApiApp = server
 const { disposeAllInstances, tmpdir } = fixture
 
@@ -121,7 +121,7 @@ async function request(directory: string, body: unknown) {
   )
   try {
     return await HttpApiApp.webHandler().handler(
-      new Request(`http://localhost${KiloGatewayPaths.cloudSessionImport}`, {
+      new Request(`http://localhost${KappaGatewayPaths.cloudSessionImport}`, {
         method: "POST",
         headers: { "content-type": "application/json", "x-kappa-directory": directory },
         body: JSON.stringify({ sessionId: "ses_cloud" }),

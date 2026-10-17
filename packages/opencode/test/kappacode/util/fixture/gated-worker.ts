@@ -7,15 +7,15 @@
 // So the stall must keep the loop running -- polling a shared gate rather than blocking on it
 // -- otherwise nothing is reproduced. The gate keeps it deterministic instead of timing
 // dependent, and the parent releases it once it has posted into the window.
-import { KiloRpc } from "../../../../src/kappacode/util/rpc"
+import { KappaRpc } from "../../../../src/kappacode/util/rpc"
 
 const gate = new Int32Array(new SharedArrayBuffer(4))
 postMessage(gate)
 while (Atomics.load(gate, 0) === 0) await Bun.sleep(5)
 
 // Mirrors production ordering: arm, then listen once the handlers exist.
-KiloRpc.arm()
-KiloRpc.listen({
+KappaRpc.arm()
+KappaRpc.listen({
   ping: (input: string) => `pong ${input}`,
   boom: () => {
     throw new Error("handler exploded")

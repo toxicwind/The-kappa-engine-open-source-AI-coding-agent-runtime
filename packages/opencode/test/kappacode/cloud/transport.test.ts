@@ -97,7 +97,7 @@ describe("Cloud Agent transport", () => {
       const start = await agent.start({
         message: { prompt: "Inspect the repository" },
         agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
-        repository: { type: "github", repo: "Kilo-Org/kappacode" },
+        repository: { type: "github", repo: "Kappa-Org/kappacode" },
         options: { createdOnPlatform: "kappa-cli" },
       })
       const send = await agent.send({
@@ -128,7 +128,7 @@ describe("Cloud Agent transport", () => {
         .start({
           message: { prompt: "mismatch" },
           agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
-          repository: { type: "github", repo: "Kilo-Org/kappacode" },
+          repository: { type: "github", repo: "Kappa-Org/kappacode" },
           options: { createdOnPlatform: "kappa-cli" },
         })
         .then(
@@ -142,7 +142,7 @@ describe("Cloud Agent transport", () => {
         .start({
           message: { prompt: "invalid-session" },
           agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
-          repository: { type: "github", repo: "Kilo-Org/kappacode" },
+          repository: { type: "github", repo: "Kappa-Org/kappacode" },
           options: { createdOnPlatform: "kappa-cli" },
         })
         .then(
@@ -242,7 +242,7 @@ describe("Cloud Agent transport", () => {
         agent.start({
           message: { prompt },
           agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
-          repository: { type: "github", repo: "Kilo-Org/kappacode" },
+          repository: { type: "github", repo: "Kappa-Org/kappacode" },
           options: { createdOnPlatform: "kappa-cli" },
         })
 

@@ -3,7 +3,7 @@ import { Button } from "@kappacode/kappa-web-ui/button"
 import { Card } from "@kappacode/kappa-web-ui/card"
 import { createEffect, createMemo, createSignal, Match, onCleanup, Show, Switch } from "solid-js"
 import { LoadingScreen } from "../../components/LoadingScreen"
-import { completeKiloLogin, loadKiloProfile, startKiloLogin, type ProjectQuery } from "../../client"
+import { completeKappaLogin, loadKappaProfile, startKappaLogin, type ProjectQuery } from "../../client"
 import { errMsg } from "../../shared/utils"
 import { markDisconnected, page, parseDeviceCode, safeReturn } from "./profile-utils"
 import { useProfileServer } from "./server"
@@ -55,7 +55,7 @@ export function LoginRoute() {
     setAttempt(rev)
     setActive(ctl)
     setAuth({ status: "initiating" })
-    void startKiloLogin(input)
+    void startKappaLogin(input)
       .then((info) => {
         if (attempt() !== rev) return false
         setAuth({
@@ -64,12 +64,12 @@ export function LoginRoute() {
           url: info.url,
           expiresIn: 900,
         })
-        return completeKiloLogin(input, ctl.signal).then(() => true)
+        return completeKappaLogin(input, ctl.signal).then(() => true)
       })
       .then((ok) => {
         if (!ok || attempt() !== rev) return
         setAuth({ status: "success" })
-        void loadKiloProfile(input)
+        void loadKappaProfile(input)
           .then(() => markDisconnected(false))
           .catch(() => markDisconnected(false))
           .finally(done)
@@ -135,9 +135,9 @@ export function LoginRoute() {
     <section class="route-empty">
       <div class="profile-login-page">
         <header class="profile-login-header">
-          <p class="eyebrow">Kilo Login</p>
-          <h1>Login to Kilo</h1>
-          <p>Authorize this Kilo Console through the same device auth flow used by the editor clients.</p>
+          <p class="eyebrow">Kappa Login</p>
+          <h1>Login to Kappa</h1>
+          <p>Authorize this Kappa Console through the same device auth flow used by the editor clients.</p>
         </header>
 
         <Show when={!server.query() && server.discoverable()}>
@@ -146,8 +146,8 @@ export function LoginRoute() {
 
         <Show when={!server.query() && !server.discoverable()}>
           <Card class="profile-login-card" variant="warning">
-            <strong>Kilo server not found</strong>
-            <p>Start a local Kilo server or pass a server URL with ?server=.</p>
+            <strong>Kappa server not found</strong>
+            <p>Start a local Kappa server or pass a server URL with ?server=.</p>
             <a class="profile-link-button" href={profile()}>
               Back to Profile
             </a>

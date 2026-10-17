@@ -1,11 +1,11 @@
 /**
- * Cloud session handlers — extracted from KiloProvider.
+ * Cloud session handlers — extracted from KappaProvider.
  *
  * Manages fetching cloud sessions, previewing them, and the "import + send"
  * flow that clones a cloud session locally on first message. No vscode dependency.
  */
 
-import type { KiloClient, Session, TextPartInput, FilePartInput } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session, TextPartInput, FilePartInput } from "@kappacode/sdk/v2/client"
 import type { CloudSessionData, EditorContext } from "../../services/cli-backend/types"
 import { getErrorMessage, sessionToWebview, mapCloudSessionMessageToWebviewMessage } from "../../kappa-provider-utils"
 import type { MessageFile } from "../message-files"
@@ -17,7 +17,7 @@ import { completesWithoutStatus } from "../command-completion"
 const TIMEOUT = 30_000
 
 export interface CloudSessionContext {
-  readonly client: KiloClient | null
+  readonly client: KappaClient | null
   currentSession: Session | null
   readonly trackedSessionIds: Set<string>
   readonly connectionService: {
@@ -57,7 +57,7 @@ export async function handleRequestCloudSessions(
       nextCursor: result.data?.nextCursor ?? null,
     })
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: Failed to fetch cloud sessions:", error)
+    console.error("[Kappa New] KappaProvider: Failed to fetch cloud sessions:", error)
     ctx.postMessage({
       type: "error",
       message: error instanceof Error ? error.message : "Failed to fetch cloud sessions",
@@ -104,7 +104,7 @@ export async function handleRequestCloudSessionData(ctx: CloudSessionContext, se
       messages,
     })
   } catch (err) {
-    console.error("[Kilo New] Failed to load cloud session data:", err)
+    console.error("[Kappa New] Failed to load cloud session data:", err)
     ctx.postMessage({
       type: "cloudSessionImportFailed",
       cloudSessionId: sessionId,
@@ -158,7 +158,7 @@ export async function handleImportAndSend(
     )
     session = result.data as Session | undefined
   } catch (error) {
-    console.error("[Kilo New] KiloProvider: ❌ Cloud session import failed:", error)
+    console.error("[Kappa New] KappaProvider: ❌ Cloud session import failed:", error)
     ctx.postMessage({
       type: "cloudSessionImportFailed",
       cloudSessionId,
@@ -257,7 +257,7 @@ export async function handleImportAndSend(
       ctx.postMessage({ type: "sessionCommandCompleted", messageID })
     }
   } catch (err) {
-    console.error("[Kilo New] Failed to send message after cloud import:", err)
+    console.error("[Kappa New] Failed to send message after cloud import:", err)
     ctx.postMessage({
       type: "sendMessageFailed",
       error: err instanceof Error ? err.message : "Failed to send message after import",

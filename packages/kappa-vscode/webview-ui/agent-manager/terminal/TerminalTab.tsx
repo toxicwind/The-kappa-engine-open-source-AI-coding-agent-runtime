@@ -151,7 +151,7 @@ export const TerminalTab: Component<Props> = (props) => {
   /** Single logger so every error path in this file surfaces in the
    *  webview DevTools console with a consistent prefix. The component
    *  is intricate — we deliberately do not swallow errors silently. */
-  const log = (...args: unknown[]) => console.warn(`[Kilo New][XTerm][${props.terminalId}]`, ...args)
+  const log = (...args: unknown[]) => console.warn(`[Kappa New][XTerm][${props.terminalId}]`, ...args)
 
   onMount(() => {
     const term = new Terminal({
@@ -552,7 +552,7 @@ export const TerminalTab: Component<Props> = (props) => {
         return
       }
 
-      // fontSizeChanged/ready control the Kilo chat UI font — do not apply
+      // fontSizeChanged/ready control the Kappa chat UI font — do not apply
       // them to the terminal, which has its own independent font settings.
       // Keep the repaint for any downstream layout side-effects.
       const size =

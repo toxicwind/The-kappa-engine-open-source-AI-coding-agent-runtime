@@ -6,5 +6,5 @@ let registered = false
 export function registerOpenCodeTheme() {
   if (registered) return
   registered = true
-  registerCustomTheme("Kilo", () => Promise.resolve(OpenCodeTheme))
+  registerCustomTheme("Kappa", () => Promise.resolve(OpenCodeTheme))
 }

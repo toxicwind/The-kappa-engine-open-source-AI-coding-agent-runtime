@@ -6,7 +6,7 @@ import path from "path"
 import { mkdir, readFile, writeFile } from "fs/promises"
 import { parse as parseJsonc } from "jsonc-parser"
 import { Global } from "@opencode-ai/core/global"
-import { KilocodePaths } from "../../../src/kappacode/server/httpapi/groups/kappacode"
+import { KappacodePaths } from "../../../src/kappacode/server/httpapi/groups/kappacode"
 import { detect } from "../../../src/kappacode/marketplace/detection"
 import * as HttpApiServer from "../../../src/server/routes/instance/httpapi/server"
 import { resetDatabase } from "../../fixture/db"
@@ -98,7 +98,7 @@ describe("marketplace HTTP API", () => {
       url: "https://example.com",
       content: JSON.stringify({ command: "npx", args: ["server"], env: { TOKEN: "secret" } }),
     }
-    const installedMcp = await json("POST", KilocodePaths.marketplaceInstall, { item: mcp, target: "project" })
+    const installedMcp = await json("POST", KappacodePaths.marketplaceInstall, { item: mcp, target: "project" })
     expect(installedMcp.success).toBe(true)
 
     const cfg = await config(tmp.path)
@@ -112,7 +112,7 @@ describe("marketplace HTTP API", () => {
       category: "development",
       content: { mode: "all", description: "Reviews code", prompt: "Review this code." },
     }
-    expect((await json("POST", KilocodePaths.marketplaceInstall, { item: agent, target: "project" })).success).toBe(
+    expect((await json("POST", KappacodePaths.marketplaceInstall, { item: agent, target: "project" })).success).toBe(
       true,
     )
     expect(await Bun.file(path.join(tmp.path, ".kappa", "agents", "reviewer.md")).exists()).toBe(true)
@@ -120,7 +120,7 @@ describe("marketplace HTTP API", () => {
     const original = globalThis.fetch
     globalThis.fetch = (async () => new Response('{"items":[]}')) as unknown as typeof fetch
     try {
-      const listed = await json("GET", KilocodePaths.marketplaceList)
+      const listed = await json("GET", KappacodePaths.marketplaceList)
       expect(rec(rec(listed.installed).project)["mcp:memory"]).toEqual({ type: "mcp" })
       expect(rec(rec(listed.installed).project)["agent:reviewer"]).toEqual({ type: "agent" })
     } finally {
@@ -128,12 +128,12 @@ describe("marketplace HTTP API", () => {
     }
 
     expect(
-      (await json("POST", KilocodePaths.marketplaceRemove, { item: { id: "memory", type: "mcp" }, scope: "project" }))
+      (await json("POST", KappacodePaths.marketplaceRemove, { item: { id: "memory", type: "mcp" }, scope: "project" }))
         .success,
     ).toBe(true)
     expect(
       (
-        await json("POST", KilocodePaths.marketplaceRemove, {
+        await json("POST", KappacodePaths.marketplaceRemove, {
           item: { id: "reviewer", type: "agent" },
           scope: "project",
         })
@@ -152,7 +152,7 @@ describe("marketplace HTTP API", () => {
     await using tmp = await tmpdir({ config: { formatter: false, lsp: false } })
     const json = harness(tmp.path)
 
-    const installed = await json("POST", KilocodePaths.marketplaceInstall, {
+    const installed = await json("POST", KappacodePaths.marketplaceInstall, {
       item: { type: "mcp", id: "memory", content: JSON.stringify({ command: "npx", args: ["server"] }) },
       target: "project",
     })
@@ -161,7 +161,7 @@ describe("marketplace HTTP API", () => {
     const cfg = await config(tmp.path)
     expect(cfg.mcp.memory).toEqual({ type: "local", command: ["npx", "server"] })
 
-    const agent = await json("POST", KilocodePaths.marketplaceInstall, {
+    const agent = await json("POST", KappacodePaths.marketplaceInstall, {
       item: {
         type: "agent",
         id: "reviewer",
@@ -191,7 +191,7 @@ describe("marketplace HTTP API", () => {
       githubUrl: "https://example.com",
       content: await tarball(tmp.path),
     }
-    expect((await json("POST", KilocodePaths.marketplaceInstall, { item: skill, target: "project" })).success).toBe(
+    expect((await json("POST", KappacodePaths.marketplaceInstall, { item: skill, target: "project" })).success).toBe(
       true,
     )
     expect(await Bun.file(manifest).exists()).toBe(true)
@@ -199,7 +199,7 @@ describe("marketplace HTTP API", () => {
     const original = globalThis.fetch
     globalThis.fetch = (async () => new Response('{"items":[]}')) as unknown as typeof fetch
     try {
-      const listed = await json("GET", KilocodePaths.marketplaceList)
+      const listed = await json("GET", KappacodePaths.marketplaceList)
       expect(rec(rec(listed.installed).project)["skill:marketplace-skill"]).toEqual({ type: "skill" })
     } finally {
       globalThis.fetch = original
@@ -207,7 +207,7 @@ describe("marketplace HTTP API", () => {
 
     expect(
       (
-        await json("POST", KilocodePaths.marketplaceRemove, {
+        await json("POST", KappacodePaths.marketplaceRemove, {
           item: { id: "marketplace-skill", type: "skill" },
           scope: "project",
         })
@@ -217,7 +217,7 @@ describe("marketplace HTTP API", () => {
 
     // Skill removal must delete the whole install directory, not just SKILL.md;
     // otherwise the leftover directory permanently blocks reinstalling the skill.
-    expect((await json("POST", KilocodePaths.marketplaceInstall, { item: skill, target: "project" })).success).toBe(
+    expect((await json("POST", KappacodePaths.marketplaceInstall, { item: skill, target: "project" })).success).toBe(
       true,
     )
     expect(await Bun.file(manifest).exists()).toBe(true)
@@ -253,18 +253,18 @@ describe("marketplace HTTP API", () => {
     const previous = process.env.KILO_MARKETPLACE_BASE_URL
     process.env.KILO_MARKETPLACE_BASE_URL = server.url.toString().replace(/\/$/, "")
     try {
-      const catalog = await json("GET", KilocodePaths.marketplaceList)
+      const catalog = await json("GET", KappacodePaths.marketplaceList)
       const item = (catalog.items as Json[]).find((item) => item.id === "remote-bundle")
       expect(item?.skills).toEqual([{ id: "remote-workflow", content: `${server.url}remote-workflow.tar.gz` }])
 
-      const installed = await json("POST", KilocodePaths.marketplaceInstall, { item, target: "project" })
+      const installed = await json("POST", KappacodePaths.marketplaceInstall, { item, target: "project" })
       const file = path.join(tmp.path, ".kappa", "skills", "remote-workflow", "SKILL.md")
       expect(installed).toMatchObject({ success: true })
       expect(installed.filePaths).toContain(file)
       expect(installed.filePaths).toContain(path.join(tmp.path, "opencode.json"))
       expect((await config(tmp.path)).mcp["remote-bundle"].type).toBe("remote")
       expect(await Bun.file(path.join(path.dirname(file), "reference.txt")).text()).toContain("Companion reference")
-      const listed = await json("GET", KilocodePaths.marketplaceList)
+      const listed = await json("GET", KappacodePaths.marketplaceList)
       expect(rec(rec(listed.installed).project)["skill:remote-workflow"]).toEqual({ type: "skill" })
       const response = await app().request("/skill", { headers: { "x-kappa-directory": tmp.path } })
       expect(response.status).toBe(200)
@@ -272,7 +272,7 @@ describe("marketplace HTTP API", () => {
       expect(skills.find((skill) => skill.name === "remote-workflow")?.content).toContain("# Skill")
 
       await server.stop(true)
-      const removed = await json("POST", KilocodePaths.marketplaceRemove, {
+      const removed = await json("POST", KappacodePaths.marketplaceRemove, {
         item: { type: "mcp", id: "remote-bundle" },
         scope: "project",
       })
@@ -281,7 +281,7 @@ describe("marketplace HTTP API", () => {
       expect((await config(tmp.path)).mcp?.["remote-bundle"]).toBeUndefined()
       expect(
         (
-          await json("POST", KilocodePaths.marketplaceRemove, {
+          await json("POST", KappacodePaths.marketplaceRemove, {
             item: { type: "mcp", id: "remote-bundle" },
             scope: "project",
           })
@@ -304,11 +304,11 @@ describe("marketplace HTTP API", () => {
       content: JSON.stringify({ type: "remote", url: "https://example.com/mcp", enabled: false }),
       skills: [skill, { id: "bundle-broken", content: "data:application/gzip;base64,bm90IGEgdGFy" }],
     }
-    const failed = await json("POST", KilocodePaths.marketplaceInstall, { item, target: "project" })
+    const failed = await json("POST", KappacodePaths.marketplaceInstall, { item, target: "project" })
     expect(failed.success).toBe(false)
     expect((await config(tmp.path)).mcp?.[item.id]).toBeUndefined()
     expect(await Bun.file(path.join(tmp.path, ".kappa", "skills", skill.id, "SKILL.md")).exists()).toBe(false)
-    expect(await json("POST", KilocodePaths.marketplaceInstall, { item: { ...item, skills: [skill] } })).toMatchObject({
+    expect(await json("POST", KappacodePaths.marketplaceInstall, { item: { ...item, skills: [skill] } })).toMatchObject({
       success: true,
     })
   })
@@ -322,7 +322,7 @@ describe("marketplace HTTP API", () => {
       content: await tarball(tmp.path, "independent-workflow"),
     }
     const file = path.join(tmp.path, ".kappa", "skills", skill.id, "SKILL.md")
-    expect((await json("POST", KilocodePaths.marketplaceInstall, { item: skill })).success).toBe(true)
+    expect((await json("POST", KappacodePaths.marketplaceInstall, { item: skill })).success).toBe(true)
     const before = await Bun.file(file).text()
     const item = {
       type: "mcp",
@@ -330,10 +330,10 @@ describe("marketplace HTTP API", () => {
       content: JSON.stringify({ type: "remote", url: "https://example.com/mcp", enabled: false }),
       skills: [{ id: skill.id, content: skill.content }],
     }
-    expect((await json("POST", KilocodePaths.marketplaceInstall, { item })).success).toBe(false)
+    expect((await json("POST", KappacodePaths.marketplaceInstall, { item })).success).toBe(false)
     expect((await config(tmp.path)).mcp?.[item.id]).toBeUndefined()
     expect(
-      (await json("POST", KilocodePaths.marketplaceRemove, { item: { type: "mcp", id: item.id }, scope: "project" }))
+      (await json("POST", KappacodePaths.marketplaceRemove, { item: { type: "mcp", id: item.id }, scope: "project" }))
         .success,
     ).toBe(true)
     expect(await Bun.file(file).text()).toBe(before)
@@ -352,16 +352,16 @@ describe("marketplace HTTP API", () => {
     const project = path.join(tmp.path, ".kappa", "skills", skill.id, "SKILL.md")
     const global = path.join(Global.Path.home, ".kappa", "skills", skill.id, "SKILL.md")
     for (const target of ["project", "global"]) {
-      expect(await json("POST", KilocodePaths.marketplaceInstall, { item, target })).toMatchObject({ success: true })
+      expect(await json("POST", KappacodePaths.marketplaceInstall, { item, target })).toMatchObject({ success: true })
     }
     expect(
-      (await json("POST", KilocodePaths.marketplaceRemove, { item: { id: item.id, type: "mcp" }, scope: "project" }))
+      (await json("POST", KappacodePaths.marketplaceRemove, { item: { id: item.id, type: "mcp" }, scope: "project" }))
         .success,
     ).toBe(true)
     expect(await Bun.file(project).exists()).toBe(false)
     expect(await Bun.file(global).exists()).toBe(true)
     expect(
-      (await json("POST", KilocodePaths.marketplaceRemove, { item: { id: item.id, type: "mcp" }, scope: "global" }))
+      (await json("POST", KappacodePaths.marketplaceRemove, { item: { id: item.id, type: "mcp" }, scope: "global" }))
         .success,
     ).toBe(true)
     expect(await Bun.file(global).exists()).toBe(false)
@@ -376,7 +376,7 @@ describe("marketplace HTTP API", () => {
       content: JSON.stringify({ type: "remote", url: "https://example.com/mcp", enabled: false }),
       skills: [{ id: "recoverable-workflow", content: await tarball(tmp.path, "recoverable-workflow") }],
     }
-    expect(await json("POST", KilocodePaths.marketplaceInstall, { item })).toMatchObject({ success: true })
+    expect(await json("POST", KappacodePaths.marketplaceInstall, { item })).toMatchObject({ success: true })
     const cfg = await config(tmp.path)
     delete cfg.mcp[item.id]
     await writeFile(path.join(tmp.path, "opencode.json"), JSON.stringify(cfg))
@@ -384,7 +384,7 @@ describe("marketplace HTTP API", () => {
 
     expect((await detect({ directory: tmp.path })).project[`mcp:${item.id}`]).toEqual({ type: "mcp" })
     expect(
-      await json("POST", KilocodePaths.marketplaceRemove, { item: { type: "mcp", id: item.id }, scope: "project" }),
+      await json("POST", KappacodePaths.marketplaceRemove, { item: { type: "mcp", id: item.id }, scope: "project" }),
     ).toMatchObject({ success: true })
     expect((await detect({ directory: tmp.path })).project[`mcp:${item.id}`]).toBeUndefined()
     expect(await Bun.file(path.join(tmp.path, ".kappa", "skills", "recoverable-workflow", "SKILL.md")).exists()).toBe(

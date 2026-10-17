@@ -31,13 +31,13 @@
 //     continued snapshot successfully produces a hash.
 //   - We do NOT call `Config.update()` when the user picks "Disable" because
 //     that finalizer runs `Instance.dispose()` and tears down the live turn.
-//     Instead we write the file directly via `KilocodeConfig.updateProjectConfig`
+//     Instead we write the file directly via `KappacodeConfig.updateProjectConfig`
 //     without touching the active Config service.
 //   - If the user picks "Continue", the fiber keeps running; we just `join` it
 //     and return its value. Any error during the in-flight snapshot is logged
 //     and swallowed so the turn can proceed.
 //
-// All of this is Kilo-specific — the upstream snapshot module remains a thin
+// All of this is Kappa-specific — the upstream snapshot module remains a thin
 // shim that calls into here.
 
 import { Duration, Effect, Fiber, Option } from "effect"
@@ -47,8 +47,8 @@ import { Question } from "@/question"
 import type { MessageID, PartID, SessionID } from "@/session/schema"
 import { PartID as PartIDSchema } from "@/session/schema"
 import type { MessageV2 } from "@/session/message-v2"
-import { KiloPartLifecycle } from "@/kappacode/session/part-lifecycle"
-import { KilocodeConfig } from "@/kappacode/config/config"
+import { KappaPartLifecycle } from "@/kappacode/session/part-lifecycle"
+import { KappacodeConfig } from "@/kappacode/config/config"
 import { capture } from "@/kappacode/instance"
 import { ConfigParse } from "@/config/parse"
 import * as Log from "@opencode-ai/core/util/log"
@@ -83,7 +83,7 @@ type SessionRuntime = {
   runPromise: <A>(fn: (svc: SessionPartAPI) => Effect.Effect<A>, options?: Effect.RunOptions) => Promise<A>
 }
 
-export namespace KiloSnapshotTrack {
+export namespace KappaSnapshotTrack {
   const log = Log.create({ service: "snapshot.track" })
 
   const duration = (name: string, fallback: number) =>
@@ -536,7 +536,7 @@ export namespace KiloSnapshotTrack {
     type: "text",
     text: input.text,
     synthetic: true,
-    metadata: { [KiloPartLifecycle.key]: "transient" },
+    metadata: { [KappaPartLifecycle.key]: "transient" },
   })
 
   export const defaultHooks: Hooks = {
@@ -613,7 +613,7 @@ export namespace KiloSnapshotTrack {
                       label: ANSWER_DISABLE,
                       labelKey: "snapshot.slowRepo.answer.disable",
                       description:
-                        "Turn off Kilo's snapshots for this project. You will lose undo/redo of Kilo file changes, but git still tracks everything.",
+                        "Turn off Kappa's snapshots for this project. You will lose undo/redo of Kappa file changes, but git still tracks everything.",
                       descriptionKey: "snapshot.slowRepo.answer.disable.description",
                     },
                   ],
@@ -647,7 +647,7 @@ export namespace KiloSnapshotTrack {
       const patch: Config.Info = { snapshot: false }
       await fsRt.runPromise((fs) =>
         Effect.gen(function* () {
-          yield* KilocodeConfig.updateProjectConfig({
+          yield* KappacodeConfig.updateProjectConfig({
             fs,
             directory: ctx.directory,
             worktree: ctx.worktree,

@@ -12,7 +12,7 @@ import type { SessionID } from "@/session/schema"
  * that never comes. Interactive clients (TUI, extension) never mark sessions
  * here, so their subagent prompts stay answerable.
  */
-export namespace KiloHeadless {
+export namespace KappaHeadless {
   const roots = new Set<string>()
 
   export function mark(id: string) {
@@ -24,7 +24,7 @@ export namespace KiloHeadless {
   }
 
   /** True when `id` is a subagent session whose root run has no attached human. */
-  export const denies = Effect.fn("KiloHeadless.denies")(function* (id: string) {
+  export const denies = Effect.fn("KappaHeadless.denies")(function* (id: string) {
     if (roots.size === 0) return false
     if (roots.has(id)) return false
     const { db } = yield* Database.Service

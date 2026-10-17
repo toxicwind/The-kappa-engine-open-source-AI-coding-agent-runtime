@@ -5,14 +5,14 @@ description: "Track team usage and performance analytics"
 
 # Analytics
 
-Using Kilo seats with an Enterprise or Teams subscription provides detailed usage analytics to help you monitor and understand your organization’s AI usage patterns, costs, and activity through the Kilo Gateway provider.
+Using Kappa seats with an Enterprise or Teams subscription provides detailed usage analytics to help you monitor and understand your organization’s AI usage patterns, costs, and activity through the Kappa Gateway provider.
 
 ## Analytics Dashboard Overview
 
-Access your organization’s usage analytics through the **Usage Details** section in your dashboard. The analytics show comprehensive data about your team's usage of the Kilo Gateway provider.
+Access your organization’s usage analytics through the **Usage Details** section in your dashboard. The analytics show comprehensive data about your team's usage of the Kappa Gateway provider.
 
 {% callout type="info" title="Usage Scope" %}
-This usage overview includes all of your usage of the Kilo Gateway provider. It does **NOT** include any usage made via the Kilo Code extension to other, non-Kilo Code providers. You can choose which API provider to use from the extension's main settings page.
+This usage overview includes all of your usage of the Kappa Gateway provider. It does **NOT** include any usage made via the Kappa Code extension to other, non-Kappa Code providers. You can choose which API provider to use from the extension's main settings page.
 {% /callout %}
 
 ## Summary Metrics
@@ -88,7 +88,7 @@ For example, if the following were in your `.git/config`:
 
 The project name would be `example-repo`.
 
-You can also manually override the project name in the `.kappa/config.json` file in your project (the legacy `.kilocode/config.json` is still read as a fallback).
+You can also manually override the project name in the `.kappa/config.json` file in your project (the legacy `.kappacode/config.json` is still read as a fallback).
 
 To set the project identifier to `my-project`, create a `.kappa/config.json` file with the following contents:
 

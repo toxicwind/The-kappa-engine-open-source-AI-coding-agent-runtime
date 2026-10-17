@@ -1,7 +1,7 @@
 /**
- * Kilo News Component
+ * Kappa News Component
  *
- * Self-contained component that fetches and displays Kilo news/notifications.
+ * Self-contained component that fetches and displays Kappa news/notifications.
  * Shows a banner on the home screen; clicking opens a dialog with all news items.
  */
 
@@ -10,26 +10,26 @@ import { useSync } from "@tui/context/sync"
 import { useSDK } from "@tui/context/sdk"
 import { useDialog } from "@tui/ui/dialog"
 import { useKV } from "@tui/context/kv"
-import type { KilocodeNotification } from "@kappacode/kappa-gateway"
+import type { KappacodeNotification } from "@kappacode/kappa-gateway"
 import { NotificationBanner } from "./notification-banner.js"
-import { DialogKiloNotifications } from "./dialog-kappa-notifications.js"
+import { DialogKappaNotifications } from "./dialog-kappa-notifications.js"
 import { News } from "./news.js"
 
-export function KiloNews() {
+export function KappaNews() {
   const sync = useSync()
   const sdk = useSDK()
   const dialog = useDialog()
   const kv = useKV()
 
-  const [notifications, setNotifications] = createSignal<KilocodeNotification[]>([])
+  const [notifications, setNotifications] = createSignal<KappacodeNotification[]>([])
   const [fetched, setFetched] = createSignal(false)
-  const isKiloConnected = createMemo(() => sync.data.provider_next.connected.includes("kappa"))
+  const isKappaConnected = createMemo(() => sync.data.provider_next.connected.includes("kappa"))
   const unread = createMemo(() => News.unread(notifications(), kv.get(News.key, [])))
 
   const openNewsDialog = () => {
     const items = unread()
     if (items.length === 0) return
-    dialog.replace(() => <DialogKiloNotifications notifications={items} />)
+    dialog.replace(() => <DialogKappaNotifications notifications={items} />)
     kv.set(News.key, News.read(items, kv.get(News.key, [])))
   }
 
@@ -42,7 +42,7 @@ export function KiloNews() {
         if (fetched()) return
         setFetched(true)
 
-        if (!isKiloConnected()) return
+        if (!isKappaConnected()) return
 
         const result = await sdk.client.kappa.notifications()
         const items = result.data?.filter(({ showIn }) => !showIn || showIn.includes("cli"))

@@ -2,7 +2,7 @@ import { Show, createMemo, createSignal } from "solid-js"
 import { Avatar } from "@kappacode/kappa-ui/avatar"
 import { githubUrl } from "./pr-comment-payload"
 
-const BOTS = new Set(["kappa-code-bot", "kilocode-bot", "kappa-maintainer", "kiloconnect", "kiloconnect-lite"])
+const BOTS = new Set(["kappa-code-bot", "kappacode-bot", "kappa-maintainer", "kiloconnect", "kiloconnect-lite"])
 
 export function PRAvatar(props: { author: string; avatar?: string }) {
   const icons = (window as { ICONS_BASE_URI?: string }).ICONS_BASE_URI || ""

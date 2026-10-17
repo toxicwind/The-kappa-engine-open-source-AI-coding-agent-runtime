@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { resolveFimTarget } from "../src/fim"
 
 describe("FIM target resolution", () => {
-  test("keeps gateway autocomplete models on Kilo Gateway", () => {
+  test("keeps gateway autocomplete models on Kappa Gateway", () => {
     expect(resolveFimTarget("kappa", "mistralai/codestral-2508")).toEqual({
       provider: "kappa",
       model: "mistralai/codestral-2508",

@@ -13,7 +13,7 @@
  * architecture test happy and makes the manager easy to unit test.
  */
 
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import path from "node:path"
 import { block } from "./pty-cleanup"
 
@@ -33,7 +33,7 @@ function key(directory: string) {
  */
 export interface TerminalManagerDeps {
   /** Obtain the shared SDK client. Throws when the CLI is not connected. */
-  getClient(): KiloClient
+  getClient(): KappaClient
   /** Build the WebSocket URL (including auth + directory query params). */
   buildWsUrl(ptyID: string, cwd: string): string
   /** Short logger, routed to the Agent Manager output channel. */
@@ -125,7 +125,7 @@ export class TerminalManager {
       cwd: params.cwd,
       title: params.title,
       // xterm's DOM renderer cannot draw the Unicode sextant glyphs used by
-      // Kilo's modern wordmark, so use the compatible logo in embedded tabs.
+      // Kappa's modern wordmark, so use the compatible logo in embedded tabs.
       env,
       size: initial,
     })

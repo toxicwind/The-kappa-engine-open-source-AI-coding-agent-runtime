@@ -1,5 +1,5 @@
 // kappacode_change - new file
-export namespace KiloRunAuto {
+export namespace KappaRunAuto {
   export interface State {
     root: string
     sessions: Set<string>

@@ -1,7 +1,7 @@
 import type { ProviderMetadata } from "@opencode-ai/llm"
 import { isRecord } from "@/util/record"
 
-export namespace KiloResponseMetadata {
+export namespace KappaResponseMetadata {
   function vercelID(value: unknown) {
     if (typeof value !== "string") return
     const id = value.trim()

@@ -263,7 +263,7 @@ export const SessionProvider: ParentComponent = (props) => {
   const [agents, setAgents] = createSignal<AgentInfo[]>([])
   const [allAgents, setAllAgents] = createSignal<AgentInfo[]>([])
   const [defaultAgent, setDefaultAgent] = createSignal("code")
-  const [pendingKiloModel, setPendingKiloModel] = createSignal<{
+  const [pendingKappaModel, setPendingKappaModel] = createSignal<{
     modelID?: string
     agent?: string
     after: number
@@ -471,7 +471,7 @@ export const SessionProvider: ParentComponent = (props) => {
       if (warnedModels.has(key)) continue
       if (isModelValid(env.providers, env.connected, model)) continue
       warnedModels.add(key)
-      console.warn(`[Kilo New] Configured model for ${agent.name} is unavailable: ${model.providerID}/${model.modelID}`)
+      console.warn(`[Kappa New] Configured model for ${agent.name} is unavailable: ${model.providerID}/${model.modelID}`)
     }
   })
 
@@ -579,31 +579,31 @@ export const SessionProvider: ParentComponent = (props) => {
     })
   }
 
-  function selectKiloModel(modelID?: string, agent?: string) {
+  function selectKappaModel(modelID?: string, agent?: string) {
     if (!modelID && !agent) return
-    setPendingKiloModel({ ...(modelID && { modelID }), ...(agent && { agent }), after: catalog() })
+    setPendingKappaModel({ ...(modelID && { modelID }), ...(agent && { agent }), after: catalog() })
     if (modelID) vscode.postMessage({ type: "requestProviders" })
   }
 
-  const unsubKiloModel = vscode.onMessage((message: ExtensionMessage) => {
+  const unsubKappaModel = vscode.onMessage((message: ExtensionMessage) => {
     if (message.type === "providersLoaded") {
       setCatalog((value) => value + 1)
       return
     }
-    if (message.type === "selectKiloModel") selectKiloModel(message.modelID, message.agent)
+    if (message.type === "selectKappaModel") selectKappaModel(message.modelID, message.agent)
   })
-  onCleanup(unsubKiloModel)
+  onCleanup(unsubKappaModel)
 
   createEffect(() => {
-    const pending = pendingKiloModel()
+    const pending = pendingKappaModel()
     if (!pending || agents().length === 0 || (pending.modelID && catalog() <= pending.after)) return
-    setPendingKiloModel(null)
+    setPendingKappaModel(null)
     if (pending.modelID && !provider.providers()[KILO_PROVIDER_ID]?.models[pending.modelID]) {
-      console.warn("[Kilo New] Ignoring unavailable Kilo catalog model:", pending.modelID)
+      console.warn("[Kappa New] Ignoring unavailable Kappa catalog model:", pending.modelID)
       return
     }
     if (pending.agent && !agentNames().has(pending.agent)) {
-      console.warn("[Kilo New] Ignoring unavailable Kilo agent:", pending.agent)
+      console.warn("[Kappa New] Ignoring unavailable Kappa agent:", pending.agent)
       return
     }
     if (pending.agent) selectAgent(pending.agent)
@@ -1042,7 +1042,7 @@ export const SessionProvider: ParentComponent = (props) => {
           title: language.t("session.cloud.import.failed") ?? "Failed to import cloud session",
           description: message.error,
         })
-        console.error("[Kilo New] Cloud session import failed:", message.error)
+        console.error("[Kappa New] Cloud session import failed:", message.error)
         break
       }
 
@@ -1427,7 +1427,7 @@ export const SessionProvider: ParentComponent = (props) => {
     const effectiveMessageID = messageID || part.messageID
 
     if (!effectiveMessageID) {
-      console.warn("[Kilo New] Part updated without messageID:", part.id, part.type)
+      console.warn("[Kappa New] Part updated without messageID:", part.id, part.type)
       return
     }
 
@@ -2192,8 +2192,8 @@ export const SessionProvider: ParentComponent = (props) => {
     const resolved = resolveModelSelection({ ...environment(), session: selection })
     if (selection && resolved?.providerID === selection.providerID && resolved.modelID === selection.modelID)
       return true
-    // Say why the picker is empty when an organization's Kilo catalog failed to load.
-    const unavailable = provider.kiloUnavailable()
+    // Say why the picker is empty when an organization's Kappa catalog failed to load.
+    const unavailable = provider.kappaUnavailable()
     showToast({
       variant: "error",
       title: unavailable ? language.t("dialog.model.unavailable") : language.t("dialog.model.select.title"),
@@ -2215,7 +2215,7 @@ export const SessionProvider: ParentComponent = (props) => {
     injectedTitle?: string,
   ): boolean {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot send message: not connected")
+      console.warn("[Kappa New] Cannot send message: not connected")
       return false
     }
 
@@ -2294,7 +2294,7 @@ export const SessionProvider: ParentComponent = (props) => {
     projectId?: string,
   ): boolean {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot send command: not connected")
+      console.warn("[Kappa New] Cannot send command: not connected")
       return false
     }
 
@@ -2402,7 +2402,7 @@ export const SessionProvider: ParentComponent = (props) => {
     const sessionID = currentSessionID()
     const scope = sessionID ?? draftSessionID()
     if (!scope) {
-      console.warn("[Kilo New] Cannot abort: no current or pending session")
+      console.warn("[Kappa New] Cannot abort: no current or pending session")
       return
     }
     const messageID = [...pendingSubmissions].reverse().find(([, sid]) => sid === scope)?.[0]
@@ -2419,13 +2419,13 @@ export const SessionProvider: ParentComponent = (props) => {
 
   function compact() {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot compact: not connected")
+      console.warn("[Kappa New] Cannot compact: not connected")
       return
     }
 
     const sessionID = currentSessionID()
     if (!sessionID) {
-      console.warn("[Kilo New] Cannot compact: no current session")
+      console.warn("[Kappa New] Cannot compact: no current session")
       return
     }
 
@@ -2547,7 +2547,7 @@ export const SessionProvider: ParentComponent = (props) => {
 
   function createSession() {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot create session: not connected")
+      console.warn("[Kappa New] Cannot create session: not connected")
       return
     }
 
@@ -2572,7 +2572,7 @@ export const SessionProvider: ParentComponent = (props) => {
 
   function loadSessions() {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot load sessions: not connected")
+      console.warn("[Kappa New] Cannot load sessions: not connected")
       return
     }
     vscode.postMessage({ type: "loadSessions" })
@@ -2601,7 +2601,7 @@ export const SessionProvider: ParentComponent = (props) => {
   function selectSession(id: string, options: { focus?: boolean; scrollToBottom?: boolean } = {}) {
     // Cloud preview sessions use a separate keyed path (selectCloudSession).
     if (id.startsWith("cloud:")) {
-      console.warn("[Kilo New] Cannot select cloud preview session via selectSession")
+      console.warn("[Kappa New] Cannot select cloud preview session via selectSession")
       return
     }
     // Always reassign: a later plain selection must clear a request that
@@ -2672,7 +2672,7 @@ export const SessionProvider: ParentComponent = (props) => {
 
   function selectCloudSession(cloudSessionId: string) {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot select cloud session: not connected")
+      console.warn("[Kappa New] Cannot select cloud session: not connected")
       return
     }
     const key = `cloud:${cloudSessionId}`
@@ -2687,7 +2687,7 @@ export const SessionProvider: ParentComponent = (props) => {
 
   function deleteSession(id: string) {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot delete session: not connected")
+      console.warn("[Kappa New] Cannot delete session: not connected")
       return
     }
     // Optimistically remove from the list so the UI updates immediately
@@ -2709,7 +2709,7 @@ export const SessionProvider: ParentComponent = (props) => {
 
   function renameSession(id: string, title: string) {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot rename session: not connected")
+      console.warn("[Kappa New] Cannot rename session: not connected")
       return
     }
     vscode.postMessage({ type: "renameSession", sessionID: id, title })
@@ -2717,11 +2717,11 @@ export const SessionProvider: ParentComponent = (props) => {
 
   function exportSessionTranscript(id: string) {
     if (!server.isConnected()) {
-      console.warn("[Kilo New] Cannot export session transcript: not connected")
+      console.warn("[Kappa New] Cannot export session transcript: not connected")
       return
     }
     if (id.startsWith("cloud:")) {
-      console.warn("[Kilo New] Cannot export cloud session transcript")
+      console.warn("[Kappa New] Cannot export cloud session transcript")
       return
     }
     vscode.postMessage({ type: "exportSessionTranscript", sessionID: id })

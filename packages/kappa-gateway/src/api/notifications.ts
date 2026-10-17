@@ -1,11 +1,11 @@
 import { z } from "zod"
 import { KILO_API_BASE } from "./constants.js"
-import { getDefaultHeaders, buildKiloHeaders } from "../headers.js"
+import { getDefaultHeaders, buildKappaHeaders } from "../headers.js"
 
 /**
- * Kilo notification schema
+ * Kappa notification schema
  */
-export const KilocodeNotificationSchema = z.object({
+export const KappacodeNotificationSchema = z.object({
   id: z.string(),
   title: z.string(),
   message: z.string(),
@@ -19,25 +19,25 @@ export const KilocodeNotificationSchema = z.object({
   suggestModelId: z.string().optional(),
 })
 
-export type KilocodeNotification = z.infer<typeof KilocodeNotificationSchema>
+export type KappacodeNotification = z.infer<typeof KappacodeNotificationSchema>
 
 const NotificationsResponseSchema = z.object({
-  notifications: z.array(KilocodeNotificationSchema),
+  notifications: z.array(KappacodeNotificationSchema),
 })
 
 const NOTIFICATIONS_TIMEOUT_MS = 5000
 
 /**
- * Fetch notifications from Kilo API
+ * Fetch notifications from Kappa API
  *
  * @param options - Configuration with token and optional organization ID
- * @returns Array of notifications from the Kilo API (clients filter by showIn)
+ * @returns Array of notifications from the Kappa API (clients filter by showIn)
  */
-export async function fetchKilocodeNotifications(options: {
-  kilocodeToken?: string
-  kilocodeOrganizationId?: string
-}): Promise<KilocodeNotification[]> {
-  const token = options.kilocodeToken
+export async function fetchKappacodeNotifications(options: {
+  kappacodeToken?: string
+  kappacodeOrganizationId?: string
+}): Promise<KappacodeNotification[]> {
+  const token = options.kappacodeToken
   if (!token) return []
 
   const url = `${KILO_API_BASE}/api/users/notifications`
@@ -46,7 +46,7 @@ export async function fetchKilocodeNotifications(options: {
     const response = await fetch(url, {
       headers: {
         ...getDefaultHeaders(),
-        ...buildKiloHeaders(undefined, { kilocodeOrganizationId: options.kilocodeOrganizationId }),
+        ...buildKappaHeaders(undefined, { kappacodeOrganizationId: options.kappacodeOrganizationId }),
         Authorization: `Bearer ${token}`,
       },
       signal: AbortSignal.timeout(NOTIFICATIONS_TIMEOUT_MS),

@@ -68,9 +68,9 @@ const SCRIPT = `
     root,
   )
 
-  if (sent.length !== 0) fail("prewarmed without Kilo access")
+  if (sent.length !== 0) fail("prewarmed without Kappa access")
   setAuth({ kappa: "api" })
-  if (sent.length !== 0) fail("prewarmed while Kilo was disabled")
+  if (sent.length !== 0) fail("prewarmed while Kappa was disabled")
   setConfig({})
   if (sent.length !== 0) fail("prewarmed without capture support")
   setCapture(true)
@@ -84,7 +84,7 @@ const SCRIPT = `
 `
 
 describe("speech-to-text prewarm", () => {
-  it("starts only after Kilo speech access becomes available", () => {
+  it("starts only after Kappa speech access becomes available", () => {
     const attempts = 3
     const failures: string[] = []
 

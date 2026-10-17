@@ -1,6 +1,6 @@
 ---
 title: "Terminal"
-description: "Run commands in an interactive shell scoped to your workspace in Kilo Desktop."
+description: "Run commands in an interactive shell scoped to your workspace in Kappa Desktop."
 ---
 
 # Terminal

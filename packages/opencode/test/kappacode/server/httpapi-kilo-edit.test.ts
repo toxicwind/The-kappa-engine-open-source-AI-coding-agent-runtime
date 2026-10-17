@@ -3,7 +3,7 @@ import { ConfigProvider, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
 import { HEADER_FEATURE, HEADER_ORGANIZATIONID } from "@kappacode/kappa-gateway"
 import * as Log from "@opencode-ai/core/util/log"
-import { KiloGatewayPaths } from "../../../src/kappacode/server/httpapi/groups/kappa-gateway"
+import { KappaGatewayPaths } from "../../../src/kappacode/server/httpapi/groups/kappa-gateway"
 import * as HttpApiServer from "../../../src/server/routes/instance/httpapi/server"
 import { resetDatabase } from "../../fixture/db"
 import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
@@ -55,7 +55,7 @@ function app() {
 
 async function send(body: Record<string, unknown> = edit, signal?: AbortSignal) {
   await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-  return app().request(KiloGatewayPaths.edit, {
+  return app().request(KappaGatewayPaths.edit, {
     method: "POST",
     headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
     body: JSON.stringify(body),
@@ -103,8 +103,8 @@ afterEach(async () => {
   await resetDatabase()
 })
 
-describe("HttpApi Kilo next edit", () => {
-  test("requires Kilo Gateway authentication for the Kilo-backed model", async () => {
+describe("HttpApi Kappa next edit", () => {
+  test("requires Kappa Gateway authentication for the Kappa-backed model", async () => {
     process.env.KILO_AUTH_CONTENT = "{}"
     expect((await send()).status).toBe(401)
   })
@@ -114,7 +114,7 @@ describe("HttpApi Kilo next edit", () => {
     expect((await send({ ...edit, model: "mistralai/codestral-2508" })).status).toBe(400)
   })
 
-  test("proxies Kilo-backed edits with gateway auth and autocomplete headers", async () => {
+  test("proxies Kappa-backed edits with gateway auth and autocomplete headers", async () => {
     authenticate()
     const calls: Array<{ input: RequestInfo | URL; init?: RequestInit }> = []
     const mock = stub(async (input, init) => {

@@ -1,7 +1,7 @@
 import * as Log from "@opencode-ai/core/util/log"
 import { InstallationBuildKind } from "@opencode-ai/core/installation/version"
 
-export namespace KiloLog {
+export namespace KappaLog {
   export function init() {
     const value = process.env.KILO_LOG_LEVEL?.toUpperCase()
     const level: Log.Level =

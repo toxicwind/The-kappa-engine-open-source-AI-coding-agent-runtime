@@ -8,7 +8,7 @@ import {
   type RecoverablePermission,
   type PermissionContext,
 } from "../../src/kappa-provider/handlers/permission-handler"
-import { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 
 /** Transient transport failures carry no HTTP status and are safe to retry. */
 function terminated() {
@@ -154,7 +154,7 @@ describe("handlePermissionResponse", () => {
 
   it("shares one save/reply sequence across concurrent callers", async () => {
     const { fake, sdk, messages, replies, saves } = ctx({ tracked: ["s1"] })
-    const service = new KiloConnectionService({} as ConstructorParameters<typeof KiloConnectionService>[0])
+    const service = new KappaConnectionService({} as ConstructorParameters<typeof KappaConnectionService>[0])
     const routed: PermissionContext = {
       ...fake,
       recordPermissionDirectory: (id, dir, sessionID) => service.recordPermissionDirectory(id, dir, sessionID),

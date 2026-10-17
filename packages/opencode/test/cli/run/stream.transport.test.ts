@@ -1,16 +1,16 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import { KiloClient, type GlobalEvent } from "@kappacode/sdk/v2"
+import { KappaClient, type GlobalEvent } from "@kappacode/sdk/v2"
 import { createSessionTransport } from "@/cli/cmd/run/stream.transport"
 import type { FooterApi, FooterEvent, LocalReplayRow, RunFilePart, StreamCommit } from "@/cli/cmd/run/types"
 
 type SdkEvent = GlobalEvent["payload"]
 type EventStream = AsyncGenerator<SdkEvent, void, unknown>
-type GlobalEventStream = Awaited<ReturnType<KiloClient["global"]["event"]>>["stream"]
-type SessionMessage = NonNullable<Awaited<ReturnType<KiloClient["session"]["messages"]>>["data"]>[number]
-type SessionChild = NonNullable<Awaited<ReturnType<KiloClient["session"]["children"]>>["data"]>[number]
+type GlobalEventStream = Awaited<ReturnType<KappaClient["global"]["event"]>>["stream"]
+type SessionMessage = NonNullable<Awaited<ReturnType<KappaClient["session"]["messages"]>>["data"]>[number]
+type SessionChild = NonNullable<Awaited<ReturnType<KappaClient["session"]["children"]>>["data"]>[number]
 type SessionToolPart = Extract<SessionMessage["parts"][number], { type: "tool" }>
-type SessionStatusMap = NonNullable<Awaited<ReturnType<KiloClient["session"]["status"]>>["data"]>
+type SessionStatusMap = NonNullable<Awaited<ReturnType<KappaClient["session"]["status"]>>["data"]>
 type TextPart = Extract<SessionMessage["parts"][number], { type: "text" }>
 type ReasoningPart = Extract<SessionMessage["parts"][number], { type: "reasoning" }>
 
@@ -440,25 +440,25 @@ function sdk(
   input: {
     stream?: EventStream
     globalStream?: GlobalEventStream
-    globalEvent?: KiloClient["global"]["event"]
-    promptAsync?: KiloClient["session"]["promptAsync"]
-    status?: KiloClient["session"]["status"]
-    messages?: KiloClient["session"]["messages"]
-    children?: KiloClient["session"]["children"]
-    permissions?: KiloClient["permission"]["list"]
-    questions?: KiloClient["question"]["list"]
+    globalEvent?: KappaClient["global"]["event"]
+    promptAsync?: KappaClient["session"]["promptAsync"]
+    status?: KappaClient["session"]["status"]
+    messages?: KappaClient["session"]["messages"]
+    children?: KappaClient["session"]["children"]
+    permissions?: KappaClient["permission"]["list"]
+    questions?: KappaClient["question"]["list"]
   } = {},
 ) {
-  const client = new KiloClient()
+  const client = new KappaClient()
 
-  const globalEvent: KiloClient["global"]["event"] =
+  const globalEvent: KappaClient["global"]["event"] =
     input.globalEvent ?? (() => globalSse(input.globalStream ?? wrapGlobalStream(input.stream ?? emptyStream())))
-  const promptAsync: KiloClient["session"]["promptAsync"] = input.promptAsync ?? (() => ok(undefined))
-  const status: KiloClient["session"]["status"] = input.status ?? (() => ok({}))
-  const messages: KiloClient["session"]["messages"] = input.messages ?? (() => ok([]))
-  const children: KiloClient["session"]["children"] = input.children ?? (() => ok([]))
-  const permissions: KiloClient["permission"]["list"] = input.permissions ?? (() => ok([]))
-  const questions: KiloClient["question"]["list"] = input.questions ?? (() => ok([]))
+  const promptAsync: KappaClient["session"]["promptAsync"] = input.promptAsync ?? (() => ok(undefined))
+  const status: KappaClient["session"]["status"] = input.status ?? (() => ok({}))
+  const messages: KappaClient["session"]["messages"] = input.messages ?? (() => ok([]))
+  const children: KappaClient["session"]["children"] = input.children ?? (() => ok([]))
+  const permissions: KappaClient["permission"]["list"] = input.permissions ?? (() => ok([]))
+  const questions: KappaClient["question"]["list"] = input.questions ?? (() => ok([]))
 
   spyOn(client.global, "event").mockImplementation(globalEvent)
   spyOn(client.session, "promptAsync").mockImplementation(promptAsync)

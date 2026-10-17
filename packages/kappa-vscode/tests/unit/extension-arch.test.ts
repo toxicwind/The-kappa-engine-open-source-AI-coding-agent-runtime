@@ -15,7 +15,7 @@ const ROOT = path.resolve(import.meta.dir, "../..")
 const PKG_JSON_FILE = path.join(ROOT, "package.json")
 const SRC_DIR = path.join(ROOT, "src")
 const EXTENSION_FILE = path.join(ROOT, "src/extension.ts")
-const KILO_PROVIDER_FILE = path.join(ROOT, "src/KiloProvider.ts")
+const KILO_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
 const SETTINGS_PROVIDER_FILE = path.join(ROOT, "src/SettingsEditorProvider.ts")
 const VSCODE_HOST_FILE = path.join(ROOT, "src/agent-manager/vscode-host.ts")
 
@@ -182,7 +182,7 @@ describe("Extension — package.json command sync", () => {
     })
   })
 
-  it("scopes agent mode shortcuts to focused Kilo webviews", () => {
+  it("scopes agent mode shortcuts to focused Kappa webviews", () => {
     const bindings = pkg.contributes?.keybindings?.filter(
       (item: { command: string }) =>
         item.command === "kappa-code.new.cycleAgentMode" || item.command === "kappa-code.new.cyclePreviousAgentMode",
@@ -199,15 +199,15 @@ describe("Extension — package.json command sync", () => {
     )
   })
 
-  it("routes task-close commands to the focused Kilo surface", () => {
+  it("routes task-close commands to the focused Kappa surface", () => {
     const commands = pkg.contributes?.commands ?? []
     expect(commands).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ command: "kappa-code.new.closeTask", title: "Close Task", category: "Kilo Code" }),
+        expect.objectContaining({ command: "kappa-code.new.closeTask", title: "Close Task", category: "Kappa Code" }),
         expect.objectContaining({
           command: "kappa-code.new.closeAllTasks",
           title: "Close All Tasks",
-          category: "Kilo Code",
+          category: "Kappa Code",
         }),
       ]),
     )
@@ -236,31 +236,31 @@ describe("Extension — package.json command sync", () => {
 })
 
 // ---------------------------------------------------------------------------
-// KiloProvider handler wiring — every new KiloProvider() must get
+// KappaProvider handler wiring — every new KappaProvider() must get
 // setContinueInWorktreeHandler() called before resolving its webview.
 //
-// Regression: tab panels created via openKiloInNewTab() and the TabPanel
+// Regression: tab panels created via openKappaInNewTab() and the TabPanel
 // deserializer were missing the handler, causing "Capturing changes..." to
 // spin forever because the webview message was silently dropped.
 // ---------------------------------------------------------------------------
 
-describe("Extension — KiloProvider handler wiring", () => {
+describe("Extension — KappaProvider handler wiring", () => {
   const ext = fs.readFileSync(EXTENSION_FILE, "utf-8")
 
   /**
-   * Every `new KiloProvider(` in extension.ts must be followed (before the
-   * next `new KiloProvider(`) by a `setContinueInWorktreeHandler` call.
+   * Every `new KappaProvider(` in extension.ts must be followed (before the
+   * next `new KappaProvider(`) by a `setContinueInWorktreeHandler` call.
    * This prevents future tab/panel additions from silently missing the handler.
    */
-  it("every KiloProvider instance gets setContinueInWorktreeHandler wired", () => {
-    const pattern = /new KiloProvider\(/g
+  it("every KappaProvider instance gets setContinueInWorktreeHandler wired", () => {
+    const pattern = /new KappaProvider\(/g
     const instances: number[] = []
     let match
     while ((match = pattern.exec(ext)) !== null) {
       instances.push(match.index)
     }
 
-    expect(instances.length, "expected sidebar and shared tab KiloProvider constructors").toBeGreaterThanOrEqual(2)
+    expect(instances.length, "expected sidebar and shared tab KappaProvider constructors").toBeGreaterThanOrEqual(2)
 
     const missing: string[] = []
     for (let i = 0; i < instances.length; i++) {
@@ -270,13 +270,13 @@ describe("Extension — KiloProvider handler wiring", () => {
 
       if (!region.includes("setContinueInWorktreeHandler")) {
         const line = ext.slice(0, start).split("\n").length
-        missing.push(`KiloProvider at line ${line}`)
+        missing.push(`KappaProvider at line ${line}`)
       }
     }
 
     expect(
       missing,
-      `These KiloProvider instances are missing setContinueInWorktreeHandler.\n` +
+      `These KappaProvider instances are missing setContinueInWorktreeHandler.\n` +
         `Without it, "Continue in Worktree" silently no-ops and the spinner\n` +
         `stays stuck on "Capturing changes..." forever.\n\n` +
         missing.map((m) => `  - ${m}`).join("\n"),
@@ -307,8 +307,8 @@ describe("Extension — KiloProvider handler wiring", () => {
   })
 
   it("new and restored tabs use shared setup and retain disposal", () => {
-    expect(ext).toContain("openKiloInNewTab(context, tabPanels, attach)")
-    for (const name of ["function openKiloInNewTab", '"kappa-code.new.TabPanel"']) {
+    expect(ext).toContain("openKappaInNewTab(context, tabPanels, attach)")
+    for (const name of ["function openKappaInNewTab", '"kappa-code.new.TabPanel"']) {
       const start = ext.indexOf(name)
       expect(start, `${name} must exist`).toBeGreaterThan(-1)
       const body = sliceBlock(ext, start)
@@ -324,9 +324,9 @@ describe("Extension — editor panel placement", () => {
   const ext = fs.readFileSync(EXTENSION_FILE, "utf-8")
   const settings = fs.readFileSync(SETTINGS_PROVIDER_FILE, "utf-8")
 
-  it("opens Kilo as a tab in the active editor group", () => {
-    const fn = ext.indexOf("function openKiloInNewTab")
-    expect(fn, "openKiloInNewTab must exist").toBeGreaterThan(-1)
+  it("opens Kappa as a tab in the active editor group", () => {
+    const fn = ext.indexOf("function openKappaInNewTab")
+    expect(fn, "openKappaInNewTab must exist").toBeGreaterThan(-1)
     const body = sliceBlock(ext, fn)
 
     expect(body).toContain("vscode.ViewColumn.Active")
@@ -347,7 +347,7 @@ describe("Extension — editor panel placement", () => {
 })
 
 // ---------------------------------------------------------------------------
-// KiloProvider — continueInWorktree error fallback
+// KappaProvider — continueInWorktree error fallback
 //
 // Regression: when continueInWorktreeHandler is null, the message handler
 // must send an error back to the webview so the spinner resets. Previously
@@ -371,7 +371,7 @@ describe("Extension — Agent Manager remote wiring", () => {
   })
 })
 
-describe("KiloProvider — remote focus lifecycle", () => {
+describe("KappaProvider — remote focus lifecycle", () => {
   const provider = fs.readFileSync(KILO_PROVIDER_FILE, "utf-8")
 
   it("registers newly created sessions and uses the synchronous session ID", () => {
@@ -383,7 +383,7 @@ describe("KiloProvider — remote focus lifecycle", () => {
   })
 })
 
-describe("KiloProvider — continueInWorktree error fallback", () => {
+describe("KappaProvider — continueInWorktree error fallback", () => {
   const helper = fs.readFileSync(path.join(ROOT, "src/kappa-provider/continue-worktree.ts"), "utf-8")
 
   it("sends error progress when handler is missing", () => {

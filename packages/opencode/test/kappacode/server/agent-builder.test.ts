@@ -159,7 +159,7 @@ describe("agent builder routes", () => {
 
   // Regression: saving must dispose the instance so open TUIs hot-reload the agent list. The
   // dispose is the reload trigger — the server agent cache is keyed by config
-  // (KiloAgent.cacheKey), not file-based `.md` agents, so without it a new agent would not
+  // (KappaAgent.cacheKey), not file-based `.md` agents, so without it a new agent would not
   // surface until restart. The TUI reacts to `server.instance.disposed` by re-bootstrapping and
   // refetching `app.agents`.
   test("disposes the instance after save so open TUIs hot-reload agents", async () => {

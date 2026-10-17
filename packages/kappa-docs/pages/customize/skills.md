@@ -1,11 +1,11 @@
 ---
 title: "Skills"
-description: "Extend Kilo Code capabilities with skills"
+description: "Extend Kappa Code capabilities with skills"
 ---
 
 # Skills
 
-Kilo Code implements [Agent Skills](https://agentskills.io/home), a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows.
+Kappa Code implements [Agent Skills](https://agentskills.io/home), a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows.
 
 ## What Are Agent Skills?
 
@@ -20,7 +20,7 @@ This approach keeps agents fast while giving them access to more context on dema
 - **Extensible**: Skills can range in complexity from simple text instructions to bundled scripts, templates, and reference materials
 - **Shareable**: Skills are portable and can be easily shared between projects and developers
 
-## How Skills Work in Kilo Code
+## How Skills Work in Kappa Code
 
 Skills can be:
 
@@ -29,7 +29,7 @@ Skills can be:
 
 The workflow is:
 
-1. **Discovery**: Skills are scanned from designated directories when Kilo Code initializes. Only the metadata (name, description, and file path) is read at this stage—not the full instructions.
+1. **Discovery**: Skills are scanned from designated directories when Kappa Code initializes. Only the metadata (name, description, and file path) is read at this stage—not the full instructions.
 2. **Prompt inclusion**: When a mode is active, the metadata for relevant skills is included in the system prompt. The agent sees a list of available skills with their descriptions.
 3. **On-demand loading**: When the agent determines that a task matches a skill's description, it reads the full `SKILL.md` file into context and follows the instructions.
 
@@ -47,7 +47,7 @@ This means:
 
 Skills are loaded from multiple locations, allowing both personal skills and project-specific instructions.
 
-To share personal skills across projects, install them at `~/.agents/skills/<name>/SKILL.md`. Kilo discovers this user-level directory by default, without a `skills.paths` entry or a plugin to register the skills. This does not register plugin hooks. Skills in this trusted user-level location can execute [embedded shell commands](/docs/customize/skills#shell-commands-in-skills) when invoked.
+To share personal skills across projects, install them at `~/.agents/skills/<name>/SKILL.md`. Kappa discovers this user-level directory by default, without a `skills.paths` entry or a plugin to register the skills. This does not register plugin hooks. Skills in this trusted user-level location can execute [embedded shell commands](/docs/customize/skills#shell-commands-in-skills) when invoked.
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -82,7 +82,7 @@ your-project/
 
 ### Compatibility Directories
 
-For interoperability with other tools, Kilo Code also loads skills from:
+For interoperability with other tools, Kappa Code also loads skills from:
 
 - `~/.agents/skills/` and `.agents/skills/` - Open agent standard, loaded by default
 - `~/.claude/skills/` and `.claude/skills/` - Claude Code compatibility, loaded when Claude Code Compatibility is enabled
@@ -102,7 +102,7 @@ You can configure extra skill locations and remote skill URLs in your `kappa.jso
 
 The `skills.paths` key accepts absolute paths, `~/` home-relative paths, or paths relative to the project root. The `skills.urls` key accepts URLs to remote skill directories that serve an `index.json` manifest.
 
-A path that starts with `/` or `\` but has no drive letter, such as `/.github/skills`, is tried as an absolute path first. If that directory does not exist, Kilo resolves it relative to the project root instead, so `/.github/skills` and `.github/skills` load the same repository skills. Skills loaded through this fallback are treated as project skills.
+A path that starts with `/` or `\` but has no drive letter, such as `/.github/skills`, is tried as an absolute path first. If that directory does not exist, Kappa resolves it relative to the project root instead, so `/.github/skills` and `.github/skills` load the same repository skills. Skills loaded through this fallback are treated as project skills.
 
 The remote server must serve an `index.json` file at the URL path with the following structure:
 
@@ -121,7 +121,7 @@ Each skill object contains:
 
 Files are downloaded from `{url}/{skill-name}/{file}` paths.
 
-When you change a remote skill's contents or file list, also change its `version`. On the next skill rediscovery (`/reload` or a new session), Kilo downloads the complete new version before atomically replacing the cached directory. If any download fails, Kilo keeps the previous cached version.
+When you change a remote skill's contents or file list, also change its `version`. On the next skill rediscovery (`/reload` or a new session), Kappa downloads the complete new version before atomically replacing the cached directory. If any download fails, Kappa keeps the previous cached version.
 
 {% /tab %}
 {% tab label="CLI" %}
@@ -176,7 +176,7 @@ You can configure extra skill locations and remote skill URLs in your `kappa.jso
 
 The `skills.paths` key accepts absolute paths, `~/` home-relative paths, or paths relative to the project root. The `skills.urls` key accepts URLs to remote skill directories that serve an `index.json` manifest.
 
-A path that starts with `/` or `\` but has no drive letter, such as `/.github/skills`, is tried as an absolute path first. If that directory does not exist, Kilo resolves it relative to the project root instead, so `/.github/skills` and `.github/skills` load the same repository skills. Skills loaded through this fallback are treated as project skills.
+A path that starts with `/` or `\` but has no drive letter, such as `/.github/skills`, is tried as an absolute path first. If that directory does not exist, Kappa resolves it relative to the project root instead, so `/.github/skills` and `.github/skills` load the same repository skills. Skills loaded through this fallback are treated as project skills.
 
 The remote server must serve an `index.json` file at the URL path with the following structure:
 
@@ -195,7 +195,7 @@ Each skill object contains:
 
 Files are downloaded from `{url}/{skill-name}/{file}` paths.
 
-When you change a remote skill's contents or file list, also change its `version`. On the next skill rediscovery (`/reload` or a new session), Kilo downloads the complete new version before atomically replacing the cached directory. If any download fails, Kilo keeps the previous cached version.
+When you change a remote skill's contents or file list, also change its `version`. On the next skill rediscovery (`/reload` or a new session), Kappa downloads the complete new version before atomically replacing the cached directory. If any download fails, Kappa keeps the previous cached version.
 
 {% /tab %}
 {% /tabs %}
@@ -326,7 +326,7 @@ metadata:
 
 ### Name Matching Rule
 
-In Kilo Code, the `name` field **must match** the parent directory name:
+In Kappa Code, the `name` field **must match** the parent directory name:
 
 ```
 ✅ Correct:
@@ -371,7 +371,7 @@ The working tree currently contains:
 
 Because the agent decides when to load a skill, embedded commands never run silently:
 
-- **Trusted skills only** — commands execute only in skills from trusted locations: global skills (such as `~/.kappa/skills/`, `~/.agents/skills/`, and `~/.claude/skills/`), skills built into Kilo Code, and absolute skill paths declared in global config. Project skills (`.kappa/skills/` in a repository) and skills fetched from remote URLs never execute commands; their placeholders are replaced with a marker noting the skill is untrusted.
+- **Trusted skills only** — commands execute only in skills from trusted locations: global skills (such as `~/.kappa/skills/`, `~/.agents/skills/`, and `~/.claude/skills/`), skills built into Kappa Code, and absolute skill paths declared in global config. Project skills (`.kappa/skills/` in a repository) and skills fetched from remote URLs never execute commands; their placeholders are replaced with a marker noting the skill is untrusted.
 - **Approval required** — when the agent loads a trusted skill containing commands, every command in the file is listed in a single permission prompt before anything runs. Approving runs all of them; rejecting aborts the skill load. This prompt appears even when bash commands are otherwise auto-approved, and a deny rule on any command still blocks it.
 - **Kill switch** — set the `KILO_DISABLE_SKILL_SHELL` environment variable to disable embedded command execution entirely.
 
@@ -450,7 +450,7 @@ When designing REST APIs, follow these conventions:
 
 The new platform does not have a marketplace UI yet. You can find and share skills through:
 
-- **[Kilo Marketplace repository](https://github.com/Kilo-Org/kappa-marketplace)** — Browse community skills on GitHub and manually download them into your skills directory
+- **[Kappa Marketplace repository](https://github.com/Kappa-Org/kappa-marketplace)** — Browse community skills on GitHub and manually download them into your skills directory
 - **[Agent Skills Specification](https://agentskills.io/home)** — The open specification that skills follow, enabling interoperability across different AI agents
 - **Remote URLs** — Use the `skills.urls` config key to load skills directly from URLs without manually downloading them
 
@@ -459,7 +459,7 @@ The new platform does not have a marketplace UI yet. You can find and share skil
 
 The new platform does not have a marketplace UI yet. You can find and share skills through:
 
-- **[Kilo Marketplace repository](https://github.com/Kilo-Org/kappa-marketplace)** — Browse community skills on GitHub and manually download them into your skills directory
+- **[Kappa Marketplace repository](https://github.com/Kappa-Org/kappa-marketplace)** — Browse community skills on GitHub and manually download them into your skills directory
 - **[Agent Skills Specification](https://agentskills.io/home)** — The open specification that skills follow, enabling interoperability across different AI agents
 - **Remote URLs** — Use the `skills.urls` config key to load skills directly from URLs without manually downloading them
 
@@ -532,17 +532,17 @@ When the agent uses a skill, it invokes the `skill` tool with the skill's name. 
 
 ## Contributing to the Marketplace
 
-Have you created a skill that others might find useful? Share it with the community by contributing to the [Kilo Marketplace](https://github.com/Kilo-Org/kappa-marketplace)!
+Have you created a skill that others might find useful? Share it with the community by contributing to the [Kappa Marketplace](https://github.com/Kappa-Org/kappa-marketplace)!
 
 {% tabs %}
 {% tab label="VSCode" %}
 
-While the new platform does not yet have a built-in marketplace UI, skills from the [Kilo Marketplace repository](https://github.com/Kilo-Org/kappa-marketplace) can be manually downloaded into your `.kappa/skills/` directory or loaded via `skills.urls` in config.
+While the new platform does not yet have a built-in marketplace UI, skills from the [Kappa Marketplace repository](https://github.com/Kappa-Org/kappa-marketplace) can be manually downloaded into your `.kappa/skills/` directory or loaded via `skills.urls` in config.
 
 {% /tab %}
 {% tab label="CLI" %}
 
-While the new platform does not yet have a built-in marketplace UI, skills from the [Kilo Marketplace repository](https://github.com/Kilo-Org/kappa-marketplace) can be manually downloaded into your `.kappa/skills/` directory or loaded via `skills.urls` in config.
+While the new platform does not yet have a built-in marketplace UI, skills from the [Kappa Marketplace repository](https://github.com/Kappa-Org/kappa-marketplace) can be manually downloaded into your `.kappa/skills/` directory or loaded via `skills.urls` in config.
 
 {% /tab %}
 {% /tabs %}
@@ -551,7 +551,7 @@ While the new platform does not yet have a built-in marketplace UI, skills from 
 
 1. **Prepare your skill**: Ensure your skill directory contains a valid `SKILL.md` file with proper frontmatter
 2. **Test thoroughly**: Verify your skill works correctly across different scenarios and modes
-3. **Fork the marketplace repository**: Visit [github.com/Kilo-Org/kappa-marketplace](https://github.com/Kilo-Org/kappa-marketplace) and create a fork
+3. **Fork the marketplace repository**: Visit [github.com/Kappa-Org/kappa-marketplace](https://github.com/Kappa-Org/kappa-marketplace) and create a fork
 4. **Add your skill**: Place your skill directory in the appropriate location following the repository's structure
 5. **Submit a pull request**: Create a PR with a clear description of what your skill does and when it's useful
 
@@ -561,9 +561,9 @@ While the new platform does not yet have a built-in marketplace UI, skills from 
 - Include a clear `name` and `description` in the frontmatter
 - Document any dependencies or requirements (scripts, external tools, etc.)
 - If your skill includes bundled resources (scripts, templates), ensure they are well-documented
-- Follow the [contribution guidelines](https://github.com/Kilo-Org/kappa-marketplace/blob/main/CONTRIBUTING.md) in the marketplace repository
+- Follow the [contribution guidelines](https://github.com/Kappa-Org/kappa-marketplace/blob/main/CONTRIBUTING.md) in the marketplace repository
 
-For more details on contributing to Kilo Code, see the [Contributing Guide](/docs/contributing).
+For more details on contributing to Kappa Code, see the [Contributing Guide](/docs/contributing).
 
 ## Related
 

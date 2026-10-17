@@ -22,7 +22,7 @@ import { Plugin } from "../../../src/plugin"
 import { disposeAllInstances, provideTmpdirInstance, tmpdir } from "../../fixture/fixture"
 import { testEffect } from "../../lib/effect"
 import { ConfigProtection } from "../../../src/kappacode/permission/config-paths"
-import { KilocodePaths } from "../../../src/kappacode/paths"
+import { KappacodePaths } from "../../../src/kappacode/paths"
 
 const runtime = ManagedRuntime.make(
   Layer.mergeAll(
@@ -248,7 +248,7 @@ describe("external_directory allow config protection", () => {
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
-          const pattern = glob(path.join(KilocodePaths.globalDirs()[0], "skills", "axiom-sre", "*"))
+          const pattern = glob(path.join(KappacodePaths.globalDirs()[0], "skills", "axiom-sre", "*"))
           const input = {
             sessionID: SessionID.make("session_global_skill"),
             permission: "external_directory",
@@ -280,7 +280,7 @@ describe("external_directory allow config protection", () => {
           yield* Fiber.join(pending)
           yield* immediate(ask(input))
 
-          const sibling = glob(path.join(KilocodePaths.globalDirs()[0], "skills", "other", "*"))
+          const sibling = glob(path.join(KappacodePaths.globalDirs()[0], "skills", "other", "*"))
           const next = yield* ask({
             ...input,
             id: PermissionV1.ID.make("permission_other_skill"),
@@ -299,7 +299,7 @@ describe("external_directory allow config protection", () => {
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
-          const pattern = glob(path.join(KilocodePaths.globalDirs()[0], "skills", "selected-skill", "*"))
+          const pattern = glob(path.join(KappacodePaths.globalDirs()[0], "skills", "selected-skill", "*"))
           const id = PermissionV1.ID.make("permission_selected_skill")
           const input = {
             sessionID: SessionID.make("session_selected_skill"),
@@ -333,7 +333,7 @@ describe("external_directory allow config protection", () => {
       () =>
         Effect.gen(function* () {
           const name = String(PermissionV1.ID.ascending())
-          const pattern = glob(path.join(KilocodePaths.globalDirs()[0], "skills", name, "*"))
+          const pattern = glob(path.join(KappacodePaths.globalDirs()[0], "skills", name, "*"))
           const input = {
             permission: "external_directory",
             patterns: [pattern],
@@ -367,7 +367,7 @@ describe("external_directory allow config protection", () => {
       () =>
         Effect.gen(function* () {
           const name = String(PermissionV1.ID.ascending())
-          const pattern = glob(path.join(KilocodePaths.globalDirs()[0], "skills", name, "*"))
+          const pattern = glob(path.join(KappacodePaths.globalDirs()[0], "skills", name, "*"))
           const input = {
             permission: "external_directory",
             patterns: [pattern],
@@ -404,10 +404,10 @@ describe("external_directory allow config protection", () => {
       () =>
         Effect.gen(function* () {
           const target = glob(
-            path.join(KilocodePaths.globalDirs()[0], "skills", String(PermissionV1.ID.ascending()), "*"),
+            path.join(KappacodePaths.globalDirs()[0], "skills", String(PermissionV1.ID.ascending()), "*"),
           )
           const approved = glob(
-            path.join(KilocodePaths.globalDirs()[0], "skills", String(PermissionV1.ID.ascending()), "*"),
+            path.join(KappacodePaths.globalDirs()[0], "skills", String(PermissionV1.ID.ascending()), "*"),
           )
           const targetID = PermissionV1.ID.make("permission_project_rule_target")
           const targetPending = yield* ask({

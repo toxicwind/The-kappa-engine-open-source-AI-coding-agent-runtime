@@ -29,7 +29,7 @@ export const Balance = Schema.Struct({
   balance: Schema.Finite,
 })
 
-export const KiloPassState = Schema.Struct({
+export const KappaPassState = Schema.Struct({
   currentPeriodBaseCreditsUsd: Schema.Finite,
   currentPeriodUsageUsd: Schema.Finite,
   currentPeriodBonusCreditsUsd: Schema.Finite,
@@ -39,7 +39,7 @@ export const KiloPassState = Schema.Struct({
 export const ProfileWithBalance = Schema.Struct({
   profile: Profile,
   balance: Schema.NullOr(Balance),
-  kappaPass: Schema.NullOr(KiloPassState),
+  kappaPass: Schema.NullOr(KappaPassState),
   currentOrgId: Schema.NullOr(Schema.String),
 })
 
@@ -231,7 +231,7 @@ export const CloudSessionData = Schema.Struct({
   messages: Schema.Array(CloudMessage),
 })
 
-export const KiloGatewayPaths = {
+export const KappaGatewayPaths = {
   modes: `${root}/modes`,
   profile: `${root}/profile`,
   authStatus: `${root}/auth-status`,
@@ -247,33 +247,33 @@ export const KiloGatewayPaths = {
   cloudSessionImport: `${root}/cloud/session/import`,
 } as const
 
-export const KiloGatewayApi = HttpApi.make("kappa")
+export const KappaGatewayApi = HttpApi.make("kappa")
   .add(
     HttpApiGroup.make("kappa")
       .add(
-        HttpApiEndpoint.get("profile", KiloGatewayPaths.profile, {
+        HttpApiEndpoint.get("profile", KappaGatewayPaths.profile, {
           query: WorkspaceRoutingQuery,
           success: described(ProfileWithBalance, "Profile data"),
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
             identifier: "kappa.profile",
-            summary: "Get Kilo Gateway profile",
-            description: "Fetch user profile and organizations from Kilo Gateway",
+            summary: "Get Kappa Gateway profile",
+            description: "Fetch user profile and organizations from Kappa Gateway",
           }),
         ),
-        HttpApiEndpoint.get("authStatus", KiloGatewayPaths.authStatus, {
+        HttpApiEndpoint.get("authStatus", KappaGatewayPaths.authStatus, {
           query: WorkspaceRoutingQuery,
-          success: described(AuthStatus, "Kilo authentication status"),
+          success: described(AuthStatus, "Kappa authentication status"),
           error: HttpApiError.BadRequest,
         }).annotateMerge(
           OpenApi.annotations({
             identifier: "kappa.authStatus",
-            summary: "Get Kilo authentication status",
-            description: "Check whether a locally stored Kilo credential can authenticate Gateway requests",
+            summary: "Get Kappa authentication status",
+            description: "Check whether a locally stored Kappa credential can authenticate Gateway requests",
           }),
         ),
-        HttpApiEndpoint.get("modes", KiloGatewayPaths.modes, {
+        HttpApiEndpoint.get("modes", KappaGatewayPaths.modes, {
           query: WorkspaceRoutingQuery,
           success: described(OrganizationModes, "Organization modes list"),
         }).annotateMerge(
@@ -283,7 +283,7 @@ export const KiloGatewayApi = HttpApi.make("kappa")
             description: "Fetch custom modes defined for the current organization",
           }),
         ),
-        HttpApiEndpoint.post("fim", KiloGatewayPaths.fim, {
+        HttpApiEndpoint.post("fim", KappaGatewayPaths.fim, {
           query: WorkspaceRoutingQuery,
           payload: FimBody,
           success: Schema.String.pipe(HttpApiSchema.asText({ contentType: "text/event-stream" })),
@@ -292,10 +292,10 @@ export const KiloGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.fim",
             summary: "FIM completion",
-            description: "Proxy a Fill-in-the-Middle completion request to the Kilo Gateway",
+            description: "Proxy a Fill-in-the-Middle completion request to the Kappa Gateway",
           }),
         ),
-        HttpApiEndpoint.post("edit", KiloGatewayPaths.edit, {
+        HttpApiEndpoint.post("edit", KappaGatewayPaths.edit, {
           query: WorkspaceRoutingQuery,
           payload: EditBody,
           success: described(EditResponse, "Next Edit completion"),
@@ -309,7 +309,7 @@ export const KiloGatewayApi = HttpApi.make("kappa")
               "context; the gateway assembles the sentinel-tagged prompt and forwards to the upstream edit endpoint.",
           }),
         ),
-        HttpApiEndpoint.post("audioTranscriptions", KiloGatewayPaths.audioTranscriptions, {
+        HttpApiEndpoint.post("audioTranscriptions", KappaGatewayPaths.audioTranscriptions, {
           query: WorkspaceRoutingQuery,
           payload: AudioTranscriptionsBody,
           success: described(TranscriptionResponse, "Transcription response"),
@@ -318,10 +318,10 @@ export const KiloGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.audio.transcriptions",
             summary: "Speech to text transcription",
-            description: "Proxy an audio transcription request to the Kilo Gateway",
+            description: "Proxy an audio transcription request to the Kappa Gateway",
           }),
         ),
-        HttpApiEndpoint.get("imageModels", KiloGatewayPaths.imageModels, {
+        HttpApiEndpoint.get("imageModels", KappaGatewayPaths.imageModels, {
           query: WorkspaceRoutingQuery,
           success: described(Schema.Array(ImageModel), "Image-capable model list"),
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
@@ -329,10 +329,10 @@ export const KiloGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.models.images",
             summary: "Image generation models",
-            description: "List image-capable models from the Kilo Gateway OpenRouter passthrough",
+            description: "List image-capable models from the Kappa Gateway OpenRouter passthrough",
           }),
         ),
-        HttpApiEndpoint.get("transcriptionModels", KiloGatewayPaths.transcriptionModels, {
+        HttpApiEndpoint.get("transcriptionModels", KappaGatewayPaths.transcriptionModels, {
           query: WorkspaceRoutingQuery,
           success: described(Schema.Array(TranscriptionModel), "Speech-to-text model list"),
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
@@ -340,21 +340,21 @@ export const KiloGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.models.transcriptions",
             summary: "Speech-to-text models",
-            description: "List transcription-capable models from the Kilo Gateway catalog",
+            description: "List transcription-capable models from the Kappa Gateway catalog",
           }),
         ),
-        HttpApiEndpoint.get("notifications", KiloGatewayPaths.notifications, {
+        HttpApiEndpoint.get("notifications", KappaGatewayPaths.notifications, {
           query: WorkspaceRoutingQuery,
           success: described(Schema.Array(Notification), "Notifications list"),
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
             identifier: "kappa.notifications",
-            summary: "Get Kilo notifications",
-            description: "Fetch notifications from Kilo Gateway for CLI display",
+            summary: "Get Kappa notifications",
+            description: "Fetch notifications from Kappa Gateway for CLI display",
           }),
         ),
-        HttpApiEndpoint.post("organization", KiloGatewayPaths.organization, {
+        HttpApiEndpoint.post("organization", KappaGatewayPaths.organization, {
           query: WorkspaceRoutingQuery,
           payload: OrganizationBody,
           success: described(Schema.Boolean, "Organization updated successfully"),
@@ -362,11 +362,11 @@ export const KiloGatewayApi = HttpApi.make("kappa")
         }).annotateMerge(
           OpenApi.annotations({
             identifier: "kappa.organization.set",
-            summary: "Update Kilo Gateway organization",
-            description: "Switch to a different Kilo Gateway organization",
+            summary: "Update Kappa Gateway organization",
+            description: "Switch to a different Kappa Gateway organization",
           }),
         ),
-        HttpApiEndpoint.get("cloudSessions", KiloGatewayPaths.cloudSessions, {
+        HttpApiEndpoint.get("cloudSessions", KappaGatewayPaths.cloudSessions, {
           query: {
             ...WorkspaceRoutingQueryFields,
             cursor: Schema.optional(Schema.String),
@@ -379,10 +379,10 @@ export const KiloGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.cloudSessions",
             summary: "Get cloud sessions",
-            description: "Fetch cloud CLI sessions from Kilo API",
+            description: "Fetch cloud CLI sessions from Kappa API",
           }),
         ),
-        HttpApiEndpoint.get("cloudSession", KiloGatewayPaths.cloudSession, {
+        HttpApiEndpoint.get("cloudSession", KappaGatewayPaths.cloudSession, {
           params: { id: Schema.String },
           query: WorkspaceRoutingQuery,
           success: described(CloudSessionData, "Cloud session data"),
@@ -391,10 +391,10 @@ export const KiloGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.cloud.session.get",
             summary: "Get cloud session",
-            description: "Fetch full session data from the Kilo cloud for preview",
+            description: "Fetch full session data from the Kappa cloud for preview",
           }),
         ),
-        HttpApiEndpoint.post("cloudSessionImport", KiloGatewayPaths.cloudSessionImport, {
+        HttpApiEndpoint.post("cloudSessionImport", KappaGatewayPaths.cloudSessionImport, {
           query: WorkspaceRoutingQuery,
           payload: CloudSessionImportBody,
           success: described(CloudSessionData.fields.info, "Imported session info"),
@@ -410,7 +410,7 @@ export const KiloGatewayApi = HttpApi.make("kappa")
       .annotateMerge(
         OpenApi.annotations({
           title: "kappa",
-          description: "Kilo Gateway routes.",
+          description: "Kappa Gateway routes.",
         }),
       )
       .middleware(InstanceContextMiddleware)
@@ -421,6 +421,6 @@ export const KiloGatewayApi = HttpApi.make("kappa")
     OpenApi.annotations({
       title: "kappa HttpApi",
       version: "0.0.1",
-      description: "Kilo HttpApi surface.",
+      description: "Kappa HttpApi surface.",
     }),
   )

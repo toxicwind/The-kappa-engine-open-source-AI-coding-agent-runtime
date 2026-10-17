@@ -122,7 +122,7 @@ export namespace Telemetry {
     if (!isEnabled()) return
 
     const previousId = Identity.getDistinctId()
-    await Identity.updateFromKiloAuth(token, accountId)
+    await Identity.updateFromKappaAuth(token, accountId)
 
     const email = Identity.getUserId()
     if (email && previousId && email !== previousId) {
@@ -141,7 +141,7 @@ export namespace Telemetry {
       ...(Identity.getUserId() &&
         (event === TelemetryEvent.CLI_START || event === TelemetryEvent.AUTH_SUCCESS) && {
           $set: {
-            ...(org && { kilocodeOrganizationId: org }),
+            ...(org && { kappacodeOrganizationId: org }),
             appName: props.appName,
             appVersion: props.appVersion,
             platform: props.platform,

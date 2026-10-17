@@ -9,8 +9,8 @@ import { LLMEvent, type LLMEvent as Event } from "@opencode-ai/llm"
 import { Bus } from "../../src/bus"
 import { Config } from "../../src/config/config"
 import { RuntimeFlags } from "../../src/effect/runtime-flags"
-import { KiloCompactionPayloadRecovery } from "../../src/kappacode/session/compaction-payload-recovery"
-import { KiloSessionCompaction } from "../../src/kappacode/session/compaction"
+import { KappaCompactionPayloadRecovery } from "../../src/kappacode/session/compaction-payload-recovery"
+import { KappaSessionCompaction } from "../../src/kappacode/session/compaction"
 import { provideTestInstance } from "../fixture/fixture"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -179,14 +179,14 @@ afterEach(() => {
   mock.restore()
 })
 
-describe("KiloCompactionPayloadRecovery", () => {
-  test("detects Kilo gateway payload-size errors", () => {
+describe("KappaCompactionPayloadRecovery", () => {
+  test("detects Kappa gateway payload-size errors", () => {
     const error = new MessageV2.ContextOverflowError({
       message: "Request Entity Too Large",
       responseBody: "Request Entity Too Large\n\nFUNCTION_PAYLOAD_TOO_LARGE",
     }).toObject()
 
-    expect(KiloCompactionPayloadRecovery.matches(error)).toBe(true)
+    expect(KappaCompactionPayloadRecovery.matches(error)).toBe(true)
   })
 
   test("strips media and marks completed tool outputs compacted", async () => {
@@ -243,7 +243,7 @@ describe("KiloCompactionPayloadRecovery", () => {
     const updated: MessageV2.Part[] = []
 
     await Effect.runPromise(
-      KiloCompactionPayloadRecovery.strip({
+      KappaCompactionPayloadRecovery.strip({
         messages: [user, assistant],
         update: (part) => Effect.sync(() => updated.push(part)).pipe(Effect.as(part)),
       }),
@@ -339,7 +339,7 @@ describe("KiloCompactionPayloadRecovery", () => {
             },
           })
           await Effect.runPromise(
-            KiloSessionCompaction.create({
+            KappaSessionCompaction.create({
               session: {
                 updateMessage: (msg) => Effect.promise(() => svc.updateMessage(msg)),
                 updatePart: (part) => Effect.promise(() => svc.updatePart(part)),

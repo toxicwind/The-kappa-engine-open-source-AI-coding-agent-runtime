@@ -3,7 +3,7 @@ import { describe, expect, it } from "bun:test"
 import {
   canChangeProviderKey,
   disabledProviderOptions,
-  providersWithKiloFallback,
+  providersWithKappaFallback,
   visibleConnectedIds,
 } from "../../webview-ui/src/components/settings/provider-visibility"
 
@@ -61,19 +61,19 @@ describe("canChangeProviderKey", () => {
 })
 
 describe("visibleConnectedIds", () => {
-  it("hides Kilo from the connected list when auth is missing", () => {
+  it("hides Kappa from the connected list when auth is missing", () => {
     const ids = visibleConnectedIds(["kappa", "openrouter"], { openrouter: "api" })
 
     expect(ids).toEqual(["openrouter"])
   })
 
-  it("keeps Kilo in the connected list when auth exists", () => {
+  it("keeps Kappa in the connected list when auth exists", () => {
     const ids = visibleConnectedIds(["kappa", "openrouter"], { kappa: "oauth", openrouter: "api" })
 
     expect(ids).toEqual(["kappa", "openrouter"])
   })
 
-  it("leaves non-Kilo providers untouched", () => {
+  it("leaves non-Kappa providers untouched", () => {
     const ids = visibleConnectedIds(["anthropic"], {})
 
     expect(ids).toEqual(["anthropic"])
@@ -81,10 +81,10 @@ describe("visibleConnectedIds", () => {
 })
 
 describe("disabledProviderOptions", () => {
-  it("includes Kilo and excludes already disabled providers", () => {
+  it("includes Kappa and excludes already disabled providers", () => {
     const options = disabledProviderOptions(
       {
-        kappa: { id: "kappa", name: "Kilo Gateway", env: [], models: {} },
+        kappa: { id: "kappa", name: "Kappa Gateway", env: [], models: {} },
         openai: { id: "openai", name: "OpenAI", env: [], models: {} },
         anthropic: { id: "anthropic", name: "Anthropic", env: [], models: {} },
       },
@@ -93,7 +93,7 @@ describe("disabledProviderOptions", () => {
 
     expect(options).toEqual([
       { value: "anthropic", label: "Anthropic" },
-      { value: "kappa", label: "Kilo Gateway" },
+      { value: "kappa", label: "Kappa Gateway" },
     ])
   })
 
@@ -113,21 +113,21 @@ describe("disabledProviderOptions", () => {
   })
 })
 
-describe("providersWithKiloFallback", () => {
-  it("adds Kilo when backend providers omit it", () => {
-    const providers = providersWithKiloFallback({
+describe("providersWithKappaFallback", () => {
+  it("adds Kappa when backend providers omit it", () => {
+    const providers = providersWithKappaFallback({
       anthropic: { id: "anthropic", name: "Anthropic", env: [], models: {} },
     })
 
-    expect(providers.kappa?.name).toBe("Kilo Gateway")
+    expect(providers.kappa?.name).toBe("Kappa Gateway")
     expect(providers.anthropic?.name).toBe("Anthropic")
   })
 
-  it("keeps the backend Kilo provider when present", () => {
-    const providers = providersWithKiloFallback({
-      kappa: { id: "kappa", name: "Custom Kilo Name", env: [], models: {} },
+  it("keeps the backend Kappa provider when present", () => {
+    const providers = providersWithKappaFallback({
+      kappa: { id: "kappa", name: "Custom Kappa Name", env: [], models: {} },
     })
 
-    expect(providers.kappa?.name).toBe("Custom Kilo Name")
+    expect(providers.kappa?.name).toBe("Custom Kappa Name")
   })
 })

@@ -6,7 +6,7 @@ const MAX_SNIPPET_LINES = 20
 const MAX_SNIPPETS = 5
 
 /**
- * Convert kilocode's already-collected `RecentlyVisitedRangesService` output
+ * Convert kappacode's already-collected `RecentlyVisitedRangesService` output
  * into the shape Mercury Edit expects for the `<|recently_viewed_code_snippets|>`
  * block. Per docs: 3–5 snippets × ~20 lines, oldest → newest, excluding the
  * currently active file (the service already filters that out).

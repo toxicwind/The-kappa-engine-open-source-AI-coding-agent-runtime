@@ -1,19 +1,19 @@
 /**
- * TUI-specific helper functions for Kilo Gateway integration
+ * TUI-specific helper functions for Kappa Gateway integration
  *
  * This module provides utilities that are consumed by the TUI layer
  * to implement organization selection, profile display, and team management.
  */
 
-import type { KilocodeProfile, KilocodeBalance, Organization } from "../types.js"
+import type { KappacodeProfile, KappacodeBalance, Organization } from "../types.js"
 
 /**
  * Format profile information for display
  * Used by TUI to show profile in dialogs
  */
 export function formatProfileInfo(
-  profile: KilocodeProfile,
-  balance: KilocodeBalance | null,
+  profile: KappacodeProfile,
+  balance: KappacodeBalance | null,
   currentOrgId?: string,
 ): string {
   let content = ""

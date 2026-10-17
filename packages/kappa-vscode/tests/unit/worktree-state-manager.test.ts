@@ -769,13 +769,13 @@ describe("WorktreeStateManager", () => {
     })
   })
 
-  describe("legacy .kilocode migration", () => {
-    it("migrates and loads state from .kilocode when .kappa is absent", async () => {
+  describe("legacy .kappacode migration", () => {
+    it("migrates and loads state from .kappacode when .kappa is absent", async () => {
       // Remove the .kappa dir created in beforeEach
       fs.rmSync(path.join(root, ".kappa"), { recursive: true, force: true })
 
-      // Write state to legacy .kilocode dir (migration will move it to .kappa)
-      const legacyDir = path.join(root, ".kilocode")
+      // Write state to legacy .kappacode dir (migration will move it to .kappa)
+      const legacyDir = path.join(root, ".kappacode")
       fs.mkdirSync(legacyDir, { recursive: true })
       fs.writeFileSync(
         path.join(legacyDir, "agent-manager.json"),
@@ -817,8 +817,8 @@ describe("WorktreeStateManager", () => {
         "utf-8",
       )
 
-      // Legacy .kilocode state
-      const legacyDir = path.join(root, ".kilocode")
+      // Legacy .kappacode state
+      const legacyDir = path.join(root, ".kappacode")
       fs.mkdirSync(legacyDir, { recursive: true })
       fs.writeFileSync(
         path.join(legacyDir, "agent-manager.json"),
@@ -842,14 +842,14 @@ describe("WorktreeStateManager", () => {
       expect(manager.getWorktrees()[0].branch).toBe("new-branch")
     })
 
-    it("rewrites stale .kilocode paths in worktree entries (unix)", async () => {
+    it("rewrites stale .kappacode paths in worktree entries (unix)", async () => {
       fs.writeFileSync(
         path.join(root, ".kappa", "agent-manager.json"),
         JSON.stringify({
           worktrees: {
             "wt-stale": {
               branch: "fix",
-              path: "/repo/.kilocode/worktrees/fix",
+              path: "/repo/.kappacode/worktrees/fix",
               parentBranch: "main",
               createdAt: new Date().toISOString(),
             },
@@ -864,14 +864,14 @@ describe("WorktreeStateManager", () => {
       expect(manager.getWorktrees()[0].path).toBe(`/repo/.kappa/worktrees/fix`)
     })
 
-    it("rewrites stale .kilocode paths with backslashes (windows)", async () => {
+    it("rewrites stale .kappacode paths with backslashes (windows)", async () => {
       fs.writeFileSync(
         path.join(root, ".kappa", "agent-manager.json"),
         JSON.stringify({
           worktrees: {
             "wt-win": {
               branch: "fix",
-              path: "C:\\.kilocode\\worktrees\\fix",
+              path: "C:\\.kappacode\\worktrees\\fix",
               parentBranch: "main",
               createdAt: new Date().toISOString(),
             },

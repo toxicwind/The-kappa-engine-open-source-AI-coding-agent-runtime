@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { FormatError } from "@/cli/error"
 
 describe("MCP errors", () => {
-  test("uses Kilo-neutral capability messaging", () => {
+  test("uses Kappa-neutral capability messaging", () => {
     const error = FormatError({ name: "MCPFailed", data: { name: "example" } })
 
     expect(error).toBe('MCP server "example" failed.')
@@ -39,7 +39,7 @@ describe("model not found errors", () => {
 })
 
 describe("remote config authentication errors", () => {
-  test("uses the Kilo login command", () => {
+  test("uses the Kappa login command", () => {
     const error = FormatError({
       _tag: "ConfigRemoteAuthError",
       url: "https://example.com/config.json",

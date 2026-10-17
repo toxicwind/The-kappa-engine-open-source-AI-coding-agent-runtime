@@ -2,8 +2,8 @@ import { Effect } from "effect"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import type { Resolved } from "@/kappacode/reference"
 
-export namespace KiloReference {
-  export const contains = Effect.fn("KiloReference.contains")(function* (input: {
+export namespace KappaReference {
+  export const contains = Effect.fn("KappaReference.contains")(function* (input: {
     fs: Pick<FSUtil.Interface, "realPath">
     references: Resolved[]
     target: string
@@ -15,7 +15,7 @@ export namespace KiloReference {
     return false
   })
 
-  export const path = Effect.fn("KiloReference.path")(function* (
+  export const path = Effect.fn("KappaReference.path")(function* (
     fs: Pick<FSUtil.Interface, "realPath">,
     reference: string,
     target: string,

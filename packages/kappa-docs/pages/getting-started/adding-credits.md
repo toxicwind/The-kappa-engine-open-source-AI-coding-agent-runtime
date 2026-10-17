@@ -1,13 +1,13 @@
 ---
 title: "Adding Credits"
-description: "How to add credits to your Kilo Code account"
+description: "How to add credits to your Kappa Code account"
 ---
 
-# Adding More Kilo Credits
+# Adding More Kappa Credits
 
-Once you've used any initial free Kilo Credits, you can easily add more:
+Once you've used any initial free Kappa Credits, you can easily add more:
 
-- Subscribe to the [Kilo Pass](https://kappa.ai/pricing/kappa-pass), the most cost effective way to add credits.
+- Subscribe to the [Kappa Pass](https://kappa.ai/pricing/kappa-pass), the most cost effective way to add credits.
 - Purchase additional credits as a one-time transaction.
 - Enable [automatic top-up](https://kappa.ai/features/auto-top-ups), which purchases additional credits when your balance runs low. Auto top-up is available for both individual and organization accounts.
 
@@ -17,18 +17,18 @@ You can also use subscriptions or credits you may have purchased directly with a
 
 ## Transparent Pricing
 
-At Kilo Code, we believe in complete pricing transparency:
+At Kappa Code, we believe in complete pricing transparency:
 
-- Model inference through Kilo Gateway matches the provider's API rates with no markup.
-- We debit your Kilo credits by the amount charged for inference or other metered Kilo services, such as cloud compute.
+- Model inference through Kappa Gateway matches the provider's API rates with no markup.
+- We debit your Kappa credits by the amount charged for inference or other metered Kappa services, such as cloud compute.
 - $1 of purchased credits funds $1 of usage.
 - A 5% payment-processing fee applies when you purchase credits. This fee is charged separately and does not increase your credit balance.
 
-For current platform, inference, credit purchase, and cloud compute pricing, see [Kilo Code pricing](https://kappa.ai/pricing).
+For current platform, inference, credit purchase, and cloud compute pricing, see [Kappa Code pricing](https://kappa.ai/pricing).
 
 ## Future Plans
 
-We're continuously working to improve Kilo Code and expand our offerings:
+We're continuously working to improve Kappa Code and expand our offerings:
 
 - Additional LLM providers will be added in the future
 - More payment options and other plans are under development

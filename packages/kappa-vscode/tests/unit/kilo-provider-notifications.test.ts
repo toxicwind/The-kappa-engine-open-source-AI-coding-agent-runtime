@@ -3,7 +3,7 @@ import { dismissNotification, fetchAndSendNotifications } from "../../src/kappa-
 
 const KEY = "kappa.dismissedNotificationIds"
 
-describe("KiloProvider local notifications", () => {
+describe("KappaProvider local notifications", () => {
   it("passes local notifications through without requiring a profile", async () => {
     const items = [
       {

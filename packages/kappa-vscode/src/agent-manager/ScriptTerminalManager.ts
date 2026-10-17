@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import path from "node:path"
 import type { TerminalFont } from "./terminal-font"
 import { message, type RunHandle } from "./run/manager"
@@ -38,8 +38,8 @@ export interface ScriptTerminalView {
 }
 
 interface ScriptTerminalDeps {
-  getClient(): KiloClient
-  getClientAsync(directory: string): Promise<KiloClient>
+  getClient(): KappaClient
+  getClientAsync(directory: string): Promise<KappaClient>
   buildWsUrl(ptyID: string, cwd: string): string
   getTerminalFont(): TerminalFont
   emit(terminals: ScriptTerminalView[]): void
@@ -329,7 +329,7 @@ export class ScriptTerminalManager {
     await Promise.all([...this.terminals.keys()].map((terminalId) => this.close(terminalId, true)))
   }
 
-  private async reconcile(entry: Entry, client: KiloClient): Promise<void> {
+  private async reconcile(entry: Entry, client: KappaClient): Promise<void> {
     if (!this.current(entry)) return
     try {
       const result = await client.v2.pty.get({ ptyID: entry.ptyID, location: { directory: entry.cwd } })
@@ -394,7 +394,7 @@ export class ScriptTerminalManager {
     }
   }
 
-  private async url(client: KiloClient, kind: ScriptTerminalKind, ptyID: string, cwd: string): Promise<string> {
+  private async url(client: KappaClient, kind: ScriptTerminalKind, ptyID: string, cwd: string): Promise<string> {
     try {
       return this.deps.buildWsUrl(ptyID, cwd)
     } catch (error) {

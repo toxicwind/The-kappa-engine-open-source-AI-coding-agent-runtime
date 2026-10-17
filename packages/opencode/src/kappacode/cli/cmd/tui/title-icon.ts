@@ -1,6 +1,6 @@
 import { Schema } from "effect"
 
-export namespace KiloTitleIcon {
+export namespace KappaTitleIcon {
   export const Value = Schema.Literals(["none", "unicode", "emojis"]).annotate({
     description: "Status icon style shown in terminal titles",
   })

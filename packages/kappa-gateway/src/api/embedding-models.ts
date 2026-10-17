@@ -1,7 +1,7 @@
 import { z } from "zod"
-import { resolveKiloGatewayBaseUrl } from "./url.js"
+import { resolveKappaGatewayBaseUrl } from "./url.js"
 
-export type KiloEmbeddingModel = {
+export type KappaEmbeddingModel = {
   id: string
   name: string
   dimension: number
@@ -9,19 +9,19 @@ export type KiloEmbeddingModel = {
   note?: string
 }
 
-export type KiloEmbeddingModelCatalog = {
+export type KappaEmbeddingModelCatalog = {
   defaultModel: string
-  models: KiloEmbeddingModel[]
+  models: KappaEmbeddingModel[]
   aliases: Record<string, string>
 }
 
-export type KiloEmbeddingModelCatalogIssue = {
+export type KappaEmbeddingModelCatalogIssue = {
   code: "http" | "invalid-response" | "network"
   message: string
   status?: number
 }
 
-export const EMPTY_KILO_EMBEDDING_MODEL_CATALOG: KiloEmbeddingModelCatalog = {
+export const EMPTY_KILO_EMBEDDING_MODEL_CATALOG: KappaEmbeddingModelCatalog = {
   defaultModel: "",
   models: [],
   aliases: {},
@@ -46,7 +46,7 @@ type Options = {
   token?: string
   signal?: AbortSignal
   attempts?: number
-  onError?: (issue: KiloEmbeddingModelCatalogIssue) => void
+  onError?: (issue: KappaEmbeddingModelCatalogIssue) => void
 }
 
 const retryable = (status: number) => status === 408 || status === 425 || status === 429 || status >= 500
@@ -66,11 +66,11 @@ function wait(ms: number, signal?: AbortSignal) {
   })
 }
 
-export async function fetchKiloEmbeddingModelCatalog(options: Options = {}): Promise<KiloEmbeddingModelCatalog> {
-  const url = new URL("embedding-models", resolveKiloGatewayBaseUrl({ baseURL: options.baseURL, token: options.token }))
+export async function fetchKappaEmbeddingModelCatalog(options: Options = {}): Promise<KappaEmbeddingModelCatalog> {
+  const url = new URL("embedding-models", resolveKappaGatewayBaseUrl({ baseURL: options.baseURL, token: options.token }))
   const requested = options.attempts ?? 3
   const attempts = Number.isFinite(requested) ? Math.min(3, Math.max(1, Math.floor(requested))) : 3
-  const issue = { current: undefined as KiloEmbeddingModelCatalogIssue | undefined }
+  const issue = { current: undefined as KappaEmbeddingModelCatalogIssue | undefined }
 
   for (const attempt of Array.from({ length: attempts }, (_, index) => index)) {
     if (options.signal?.aborted) throw options.signal.reason
@@ -79,7 +79,7 @@ export async function fetchKiloEmbeddingModelCatalog(options: Options = {}): Pro
       if (!response.ok) {
         issue.current = {
           code: "http",
-          message: `Unable to load Kilo embedding models (HTTP ${response.status}).`,
+          message: `Unable to load Kappa embedding models (HTTP ${response.status}).`,
           status: response.status,
         }
         if (!retryable(response.status) || attempt === attempts - 1) break
@@ -91,14 +91,14 @@ export async function fetchKiloEmbeddingModelCatalog(options: Options = {}): Pro
       if (parsed.success) return parsed.data
       issue.current = {
         code: "invalid-response",
-        message: "Kilo returned an invalid embedding model catalog.",
+        message: "Kappa returned an invalid embedding model catalog.",
       }
       break
     } catch (err) {
       if (options.signal?.aborted) throw options.signal.reason
       issue.current = {
         code: "network",
-        message: "Unable to connect to Kilo to load embedding models. Check your network connection and try again.",
+        message: "Unable to connect to Kappa to load embedding models. Check your network connection and try again.",
       }
       if (attempt === attempts - 1) break
       await wait(200 * 2 ** attempt, options.signal)

@@ -27,11 +27,11 @@ const labels = {
   sourceEnvContent: "Env content",
   sourceEnvDir: "Env dir",
   sourceEnvFile: "Env file",
-  sourceHomeKilo: "Home Kilo",
-  sourceHomeKilocode: "Home Kilocode",
+  sourceHomeKappa: "Home Kappa",
+  sourceHomeKappacode: "Home Kappacode",
   sourceHomeOpencode: "Home Opencode",
-  sourceProjectKilo: "Project Kilo",
-  sourceProjectKilocode: "Project Kilocode",
+  sourceProjectKappa: "Project Kappa",
+  sourceProjectKappacode: "Project Kappacode",
   sourceProjectOpencode: "Project Opencode",
   sourceProjectRoot: "Project root",
   sourceXdg: "XDG",
@@ -116,7 +116,7 @@ describe("config file discovery", () => {
     process.env.KILO_CONFIG_DIR = extra
     process.env.KILO_CONFIG_CONTENT = "{}"
     await file(path.join(xdg, "kappa", "kappa.json"))
-    await file(path.join(home, ".kilocode", "opencode.json"))
+    await file(path.join(home, ".kappacode", "opencode.json"))
     await file(path.join(home, ".opencode", "kappa.jsonc"))
     await file(envfile)
 
@@ -124,7 +124,7 @@ describe("config file discovery", () => {
     const sources = list.map((item) => item.source)
 
     expect(sources).toContain("sourceXdg")
-    expect(sources).toContain("sourceHomeKilocode")
+    expect(sources).toContain("sourceHomeKappacode")
     expect(sources).toContain("sourceHomeOpencode")
     expect(sources).toContain("sourceEnvFile")
     expect(sources).toContain("sourceEnvDir")

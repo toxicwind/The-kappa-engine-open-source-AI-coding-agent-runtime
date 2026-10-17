@@ -1,6 +1,6 @@
 ---
-title: "Using Vercel AI Gateway with Kilo Code"
-description: Configure the Vercel AI Gateway in Kilo Code to robustly access 100+ language models from various providers through a centralized interface.
+title: "Using Vercel AI Gateway with Kappa Code"
+description: Configure the Vercel AI Gateway in Kappa Code to robustly access 100+ language models from various providers through a centralized interface.
 keywords:
   - kappa code
   - vercel ai gateway
@@ -14,7 +14,7 @@ keywords:
 sidebar_label: Vercel AI Gateway
 ---
 
-# Using Vercel AI Gateway With Kilo Code
+# Using Vercel AI Gateway With Kappa Code
 
 The AI Gateway provides a unified API to access hundreds of models through a single endpoint. It gives you the ability to set budgets, monitor usage, load-balance requests, and manage fallbacks.
 
@@ -38,7 +38,7 @@ An API key is required for authentication.
 
 ## Supported Models
 
-The Vercel AI Gateway supports a large and growing number of models. Kilo Code automatically fetches the list of available models from the `https://ai-gateway.vercel.sh/v1/models` endpoint. Only language models are shown.
+The Vercel AI Gateway supports a large and growing number of models. Kappa Code automatically fetches the list of available models from the `https://ai-gateway.vercel.sh/v1/models` endpoint. Only language models are shown.
 
 The default model is `anthropic/claude-sonnet-4` if no model is selected.
 
@@ -53,7 +53,7 @@ Check the model description in the dropdown for specific capabilities.
 
 ---
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}

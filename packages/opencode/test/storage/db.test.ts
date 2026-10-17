@@ -13,7 +13,7 @@ describe("Database.getChannelPath", () => {
       const flags = yield* RuntimeFlags.Service
       const expected = ["latest", "beta", "prod"].includes(InstallationChannel)
         ? path.join(Global.Path.data, "kappa.db")
-        : path.join(Global.Path.data, `kappa-${InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, "-")}.db`) // kilocode_change
+        : path.join(Global.Path.data, `kappa-${InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, "-")}.db`) // kappacode_change
 
       expect(Database.getChannelPath(flags)).toBe(expected)
     }).pipe(Effect.provide(RuntimeFlags.layer())),

@@ -1,15 +1,15 @@
 ---
 title: How Tools Work
-description: Learn how Kilo Code's tools automate your development workflow
+description: Learn how Kappa Code's tools automate your development workflow
 ---
 
 # How Tools Work
 
-Kilo Code uses tools to interact with your code and environment. These specialized helpers perform specific actions like reading files, making edits, running commands, or searching your codebase. Tools provide automation for common development tasks without requiring manual execution.
+Kappa Code uses tools to interact with your code and environment. These specialized helpers perform specific actions like reading files, making edits, running commands, or searching your codebase. Tools provide automation for common development tasks without requiring manual execution.
 
 ## Tool Workflow
 
-Describe what you want to accomplish in natural language, and Kilo Code will:
+Describe what you want to accomplish in natural language, and Kappa Code will:
 
 1. Select the appropriate tool based on your request
 2. Present the tool with its parameters for your review
@@ -36,13 +36,13 @@ When a tool is proposed, you'll see an approval prompt in the **Permission Dock*
 
 **User:** Create a file named `greeting.js` that logs a greeting message
 
-**Kilo Code:** (Proposes the `write` tool)
+**Kappa Code:** (Proposes the `write` tool)
 
 The extension shows the file path and proposed content for review. Click **Approve** to execute or **Deny** to cancel.
 
 ## Tool Safety and Approval
 
-Every tool use is subject to a permission check. The default action for any tool with no matching rule in your config is **`ask`** — meaning Kilo will pause and prompt you before executing it.
+Every tool use is subject to a permission check. The default action for any tool with no matching rule in your config is **`ask`** — meaning Kappa will pause and prompt you before executing it.
 
 **Default permissions by tool:**
 
@@ -92,7 +92,7 @@ This safety mechanism ensures you maintain control over which files are modified
 | `apply_patch` | Applies unified diffs (used with certain models) | Edit |
 | `bash` | Runs shell commands | Execute |
 | `webfetch` | Fetches a URL | Web |
-| `websearch` | Searches the web (Kilo/OpenRouter users) | Web |
+| `websearch` | Searches the web (Kappa/OpenRouter users) | Web |
 | `question` | Asks you a clarifying question with selectable options | Workflow |
 | `task` | Spawns a sub-agent session | Workflow |
 | `todowrite` | Creates and updates a session TODO list | Workflow |

@@ -3,13 +3,13 @@ import { Auth } from "@/auth"
 import { GlobalBus } from "@/bus/global"
 import { Config } from "@/config/config"
 import * as InstanceState from "@/effect/instance-state"
-import { KilocodeConfigOverlay } from "@/kappacode/config/overlay"
-import { KilocodeConfigWriter } from "@/kappacode/config/writer"
-import { KilocodeConfigSources } from "@/kappacode/config/sources"
-import { KilocodeModelState } from "@/kappacode/config/model-state"
+import { KappacodeConfigOverlay } from "@/kappacode/config/overlay"
+import { KappacodeConfigWriter } from "@/kappacode/config/writer"
+import { KappacodeConfigSources } from "@/kappacode/config/sources"
+import { KappacodeModelState } from "@/kappacode/config/model-state"
 import { ConfigRules } from "@/kappacode/server/routes/config-rules"
-import { KilocodeKeybinds } from "@/kappacode/tui/keybinds"
-import { KilocodeTuiConfig } from "@/kappacode/tui/config"
+import { KappacodeKeybinds } from "@/kappacode/tui/keybinds"
+import { KappacodeTuiConfig } from "@/kappacode/tui/config"
 import { disposeAllInstancesAndEmitGlobalDisposed } from "@/server/global-lifecycle"
 import { Event } from "@/server/event"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
@@ -51,7 +51,7 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
           config.get(),
           config.getGlobal(),
           Effect.promise(() =>
-            KilocodeConfigSources.list({
+            KappacodeConfigSources.list({
               directory: instance.directory,
               worktree: instance.worktree,
               auth: all,
@@ -62,7 +62,7 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
         { concurrency: 3 },
       )
       return yield* Effect.promise(() =>
-        KilocodeConfigOverlay.resolve({
+        KappacodeConfigOverlay.resolve({
           directory: instance.directory,
           worktree: instance.worktree,
           scope: ctx.query.scope ?? "project",
@@ -83,10 +83,10 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
       }
       const expected = body.expected ? { ...body.expected } : undefined
       const instance = yield* InstanceState.context
-      const patch = KilocodeConfigOverlay.patch(body)
+      const patch = KappacodeConfigOverlay.patch(body)
       // A later config file can already define the value, so a write would silently not apply.
       const shadow = yield* Effect.promise(() =>
-        KilocodeConfigOverlay.shadow({
+        KappacodeConfigOverlay.shadow({
           scope: body.scope,
           directory: instance.directory,
           worktree: instance.worktree,
@@ -104,7 +104,7 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
       }
       const writing = Effect.tryPromise({
         try: () =>
-          KilocodeConfigWriter.write({
+          KappacodeConfigWriter.write({
             ...body,
             directory: instance.directory,
             worktree: instance.worktree,
@@ -188,7 +188,7 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
         Effect.orElseSucceed(() => undefined),
       )
       return yield* Effect.promise(() =>
-        KilocodeConfigSources.list({
+        KappacodeConfigSources.list({
           directory: instance.directory,
           worktree: instance.worktree,
           auth: all,
@@ -222,24 +222,24 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
     })
 
     const modelState = Effect.fn("ConfigConsoleHttpApi.modelState")(function* () {
-      return yield* Effect.promise(() => KilocodeModelState.get())
+      return yield* Effect.promise(() => KappacodeModelState.get())
     })
 
     const modelStateUpdate = Effect.fn("ConfigConsoleHttpApi.modelStateUpdate")(function* (ctx: {
       payload: typeof ConfigModelStatePatch.Type
     }) {
       return yield* Effect.promise(() =>
-        KilocodeModelState.update({ favorite: ctx.payload.favorite?.map((item) => ({ ...item })) }),
+        KappacodeModelState.update({ favorite: ctx.payload.favorite?.map((item) => ({ ...item })) }),
       )
     })
 
     const tuiConfigGet = Effect.fn("ConfigConsoleHttpApi.tuiConfigGet")(function* () {
       const instance = yield* InstanceState.context
-      return yield* Effect.promise(() => KilocodeTuiConfig.get({ directory: instance.directory }))
+      return yield* Effect.promise(() => KappacodeTuiConfig.get({ directory: instance.directory }))
     })
 
     const tuiKeybindList = Effect.fn("ConfigConsoleHttpApi.tuiKeybindList")(function* () {
-      return { keybinds: KilocodeKeybinds.list() }
+      return { keybinds: KappacodeKeybinds.list() }
     })
 
     const tuiConfigUpdate = Effect.fn("ConfigConsoleHttpApi.tuiConfigUpdate")(function* (ctx: {
@@ -257,7 +257,7 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
         plugin_enabled: ctx.payload.plugin_enabled ? { ...ctx.payload.plugin_enabled } : undefined,
       }
       return yield* Effect.promise(() =>
-        KilocodeTuiConfig.update({
+        KappacodeTuiConfig.update({
           directory: instance.directory,
           worktree: instance.worktree,
           scope: ctx.query.scope ?? "project",

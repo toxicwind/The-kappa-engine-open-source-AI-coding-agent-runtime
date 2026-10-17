@@ -1,7 +1,7 @@
 import { Auth } from "@/auth"
 import { Config } from "@/config/config"
 import { makeRuntime } from "@/effect/run-service"
-import { resolveKiloIndexingAuth } from "@/kappacode/indexing-auth"
+import { resolveKappaIndexingAuth } from "@/kappacode/indexing-auth"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 
 export type OrgState = { type: "personal" } | { type: "org"; id: string } | { type: "unknown" }
@@ -16,7 +16,7 @@ export async function getAuthOrgId(): Promise<OrgState> {
       config.runPromise((svc) => svc.get()),
       auth.runPromise((svc) => svc.get("kappa")),
     ])
-    const id = resolveKiloIndexingAuth({ config: cfg, auth: info }).organizationId
+    const id = resolveKappaIndexingAuth({ config: cfg, auth: info }).organizationId
     if (id) return { type: "org", id }
     return { type: "personal" }
   } catch (err) {

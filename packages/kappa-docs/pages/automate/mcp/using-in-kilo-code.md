@@ -1,18 +1,18 @@
 ---
-title: "Using MCP in Kilo Code"
-description: "How to use MCP servers in Kilo Code"
+title: "Using MCP in Kappa Code"
+description: "How to use MCP servers in Kappa Code"
 ---
 
-# Using MCP in Kilo Code
+# Using MCP in Kappa Code
 
-Model Context Protocol (MCP) extends Kilo Code's capabilities by connecting to external tools and services. This guide covers everything you need to know about using MCP with Kilo Code.
+Model Context Protocol (MCP) extends Kappa Code's capabilities by connecting to external tools and services. This guide covers everything you need to know about using MCP with Kappa Code.
 
 ## Configuring MCP Servers
 
 {% tabs %}
 {% tab label="VSCode" %}
 
-MCP server configurations are stored inside the main Kilo config file. There are two levels:
+MCP server configurations are stored inside the main Kappa config file. There are two levels:
 
 1. **Global Configuration**: `~/.config/kappa/kappa.jsonc` — applies to all projects.
 2. **Project-level Configuration**: `kappa.jsonc` in your project root, or `.kappa/kappa.jsonc` for a cleaner setup.
@@ -21,7 +21,7 @@ MCP server configurations are stored inside the main Kilo config file. There are
 
 ### Editing MCP Settings
 
-You can edit MCP settings from the Kilo Code settings UI:
+You can edit MCP settings from the Kappa Code settings UI:
 
 1. Click the {% codicon name="gear" /%} icon in the sidebar toolbar to open Settings.
 2. Click the `Agent Behaviour` tab on the left side.
@@ -29,7 +29,7 @@ You can edit MCP settings from the Kilo Code settings UI:
 
 From here you can add, edit, enable/disable, and delete MCP servers. Changes are written directly to the appropriate config file.
 
-If the UI cannot add a server, edit a Kilo config file directly and add the server under the top-level `mcp` key. For project-specific servers, edit `./kappa.json` or `./kappa.jsonc` if your project already has one; otherwise use `./.kappa/kappa.json` or `./.kappa/kappa.jsonc` for a cleaner setup. For servers you want in every workspace, use `~/.config/kappa/kappa.json` or `~/.config/kappa/kappa.jsonc`.
+If the UI cannot add a server, edit a Kappa config file directly and add the server under the top-level `mcp` key. For project-specific servers, edit `./kappa.json` or `./kappa.jsonc` if your project already has one; otherwise use `./.kappa/kappa.json` or `./.kappa/kappa.jsonc` for a cleaner setup. For servers you want in every workspace, use `~/.config/kappa/kappa.json` or `~/.config/kappa/kappa.jsonc`.
 
 ### Config Format
 
@@ -71,7 +71,7 @@ MCP servers are configured under the `mcp` key in `kappa.jsonc`:
 }
 ```
 
-Remote servers support OAuth 2.0 authentication. If the server supports it, Kilo Code will automatically start the OAuth flow when you connect. You can also disable OAuth with `"oauth": false`.
+Remote servers support OAuth 2.0 authentication. If the server supports it, Kappa Code will automatically start the OAuth flow when you connect. You can also disable OAuth with `"oauth": false`.
 
 {% /tab %}
 {% tab label="CLI" %}
@@ -120,7 +120,7 @@ You can disable a server by setting `enabled` to `false` without removing it fro
 MCP supports two main transport types:
 
 - **Local (STDIO)**: Servers run as a child process on your machine, communicating over stdin/stdout.
-- **Remote (HTTP/SSE)**: Servers hosted over HTTP/HTTPS. Kilo Code tries `StreamableHTTP` first, then falls back to `SSE` automatically.
+- **Remote (HTTP/SSE)**: Servers hosted over HTTP/HTTPS. Kappa Code tries `StreamableHTTP` first, then falls back to `SSE` automatically.
 
 For more details, see [STDIO & SSE Transports](server-transports).
 
@@ -494,30 +494,30 @@ Add the test MCP server for development:
 
 ## Finding and Installing MCP Servers
 
-Kilo Code does not come with any pre-installed MCP servers. You'll need to find and install them separately.
+Kappa Code does not come with any pre-installed MCP servers. You'll need to find and install them separately.
 
-- **Kilo Marketplace:** Browse community-contributed MCP server configurations and agent skills in the [Kilo Marketplace](https://github.com/Kilo-Org/kappa-marketplace). The marketplace includes ready-to-use configs for popular tools like Figma, Sentry, and more.
+- **Kappa Marketplace:** Browse community-contributed MCP server configurations and agent skills in the [Kappa Marketplace](https://github.com/Kappa-Org/kappa-marketplace). The marketplace includes ready-to-use configs for popular tools like Figma, Sentry, and more.
 - **Community Repositories:** Check for community-maintained lists of MCP servers on GitHub
-- **Ask Kilo Code:** You can ask Kilo Code to help you find or even create MCP servers
-- **Build Your Own:** Create custom MCP servers using the SDK to extend Kilo Code with your own tools
+- **Ask Kappa Code:** You can ask Kappa Code to help you find or even create MCP servers
+- **Build Your Own:** Create custom MCP servers using the SDK to extend Kappa Code with your own tools
 
 For full SDK documentation, visit the [MCP GitHub repository](https://github.com/modelcontextprotocol/).
 
 ## Using MCP Tools in Your Workflow
 
-After configuring an MCP server, Kilo Code will automatically detect available tools and resources. To use them:
+After configuring an MCP server, Kappa Code will automatically detect available tools and resources. To use them:
 
-1. Type your request in the Kilo Code chat interface
-2. Kilo Code will identify when an MCP tool can help with your task
+1. Type your request in the Kappa Code chat interface
+2. Kappa Code will identify when an MCP tool can help with your task
 3. Approve the tool use when prompted (or use auto-approval)
 
 Example: "Analyze the performance of my API" might use an MCP tool that tests API endpoints.
 
 ### Server instructions and resources
 
-When a connected MCP server provides instructions, Kilo adds them to the model context so the agent can follow the server's usage guidance. Kilo omits those instructions when every tool from that server is denied.
+When a connected MCP server provides instructions, Kappa adds them to the model context so the agent can follow the server's usage guidance. Kappa omits those instructions when every tool from that server is denied.
 
-Resource-capable servers also make the `list_mcp_resources`, `list_mcp_resource_templates`, and `read_mcp_resource` tools available to the agent. Resource templates describe parameterized URIs; the agent fills in a template, then reads the resulting resource URI. Resource listing and reads use Kilo's normal read approval flow.
+Resource-capable servers also make the `list_mcp_resources`, `list_mcp_resource_templates`, and `read_mcp_resource` tools available to the agent. Resource templates describe parameterized URIs; the agent fills in a template, then reads the resulting resource URI. Resource listing and reads use Kappa's normal read approval flow.
 
 ## Troubleshooting MCP Servers
 

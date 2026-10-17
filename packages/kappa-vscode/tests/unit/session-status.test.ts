@@ -3,7 +3,7 @@ import { seedSessionStatuses, seedSessionWakeups } from "../../src/session-statu
 import type { SessionStatus } from "@kappacode/sdk/v2/client"
 
 /**
- * Minimal fake client that satisfies the KiloClient.session.status() call.
+ * Minimal fake client that satisfies the KappaClient.session.status() call.
  * Returns controlled data or throws to simulate server errors.
  */
 function createClient(response: { data: Record<string, SessionStatus> | null } | Error) {
@@ -220,7 +220,7 @@ type WakeupResult = { data: Array<{ sessionID: string; pending: number }> | null
 
 function createWakeupClient(byDirectory: Record<string, WakeupResult>) {
   return {
-    kilocode: {
+    kappacode: {
       wakeups: async (params: { directory: string }) => {
         const result = byDirectory[params.directory]
         if (result === undefined) return { data: [] }

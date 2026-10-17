@@ -7,8 +7,8 @@ import { ProviderV2 } from "@opencode-ai/core/provider"
 import { SessionRunnerModel } from "@opencode-ai/core/session/runner/model"
 import { it } from "../lib/effect"
 
-describe("SessionRunnerModel Kilo credentials", () => {
-  it.effect("maps OAuth account IDs to Kilo organization routing", () =>
+describe("SessionRunnerModel Kappa credentials", () => {
+  it.effect("maps OAuth account IDs to Kappa organization routing", () =>
     Effect.gen(function* () {
       const model = ModelV2.Info.make({
         id: ModelV2.ID.make("test-model"),

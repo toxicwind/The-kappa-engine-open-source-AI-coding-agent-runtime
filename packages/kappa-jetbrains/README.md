@@ -1,4 +1,4 @@
-# Kilo JetBrains
+# Kappa JetBrains
 
 AI coding agent plugin for JetBrains IDEs.
 
@@ -52,7 +52,7 @@ From `packages/kappa-jetbrains/`:
 bun run build
 ```
 
-This builds the plugin without bundling CLI binaries. The backend downloads the pinned Kilo CLI release for the host platform at connect time. The plugin archive is output to `build/distributions/`.
+This builds the plugin without bundling CLI binaries. The backend downloads the pinned Kappa CLI release for the host platform at connect time. The plugin archive is output to `build/distributions/`.
 
 Or via Turbo from the repo root:
 
@@ -70,7 +70,7 @@ From `packages/kappa-jetbrains/`:
 bun run build:production
 ```
 
-This builds the plugin without bundling CLI binaries. The backend downloads the pinned Kilo CLI release for the host platform at connect time.
+This builds the plugin without bundling CLI binaries. The backend downloads the pinned Kappa CLI release for the host platform at connect time.
 
 The built plugin archive is at `build/distributions/kappa.jetbrains-<version>.zip`. This zip can be installed in any JetBrains IDE via **Settings > Plugins > Install Plugin from Disk**.
 
@@ -105,7 +105,7 @@ All properties below are passed with `-P` on the Gradle command line or in the r
 | Property | Default | Description |
 |---|---|---|
 | `kappa.splitModeServerPort` | `0` | Backend split-mode server port. `0` or omitted lets the IntelliJ Platform Gradle Plugin pick a free port when the task runs. |
-| `kappa.dev.storage.isolated` | `false` | When `true`, CLI runs with `XDG_*_HOME` pointing to `.kappa-dev/` in the worktree root, fully isolating dev storage from your real Kilo installation. Enabled by default in the checked-in split-mode run configurations. |
+| `kappa.dev.storage.isolated` | `false` | When `true`, CLI runs with `XDG_*_HOME` pointing to `.kappa-dev/` in the worktree root, fully isolating dev storage from your real Kappa installation. Enabled by default in the checked-in split-mode run configurations. |
 | `kappa.dev.worktree.root` | monorepo root | Worktree root used to resolve `.kappa-dev/`. Auto-detected from the Gradle project directory; override only when the auto-detection is wrong. |
 
 The checked-in IDE run configurations pass `--no-configuration-cache` because the IntelliJ Platform Gradle Plugin run-IDE tasks are not configuration-cache compatible in this setup.
@@ -129,7 +129,7 @@ When `kappa.dev.storage.isolated=true`, the CLI subprocess receives standard `XD
   cache/   -> XDG_CACHE_HOME  (CLI uses .../cache/kappa for cache, bin)
 ```
 
-This keeps all development data isolated from your real Kilo installation. The `.kappa-dev/` directory is gitignored and created automatically on first run.
+This keeps all development data isolated from your real Kappa installation. The `.kappa-dev/` directory is gitignored and created automatically on first run.
 
 The checked-in `Run IDE (Backend)`, `Run IDE (Frontend)`, and `Run IDE (Split Mode)` run configurations enable this by default. To disable it:
 
@@ -145,7 +145,7 @@ The plugin supports a few JVM system properties for local debugging. These are m
 
 `kappa.dev.log.level`
 
-- Controls the Kilo debug file logger level.
+- Controls the Kappa debug file logger level.
 - Supported values: `DEBUG`, `INFO`, `WARN`, `ERROR`, `OFF`
 - Default: `INFO`
 - Use `DEBUG` to enable detailed chat tracing and lazy `log.debug { ... }` summaries.
@@ -166,7 +166,7 @@ The plugin supports a few JVM system properties for local debugging. These are m
 
 Where to find the log files:
 
-- In sandbox runs, Kilo writes separate dev log files for each side under the IDE sandbox log directory reported by `PathManager.getLogDir()`.
+- In sandbox runs, Kappa writes separate dev log files for each side under the IDE sandbox log directory reported by `PathManager.getLogDir()`.
 - Frontend log file: `<sandbox log dir>/kappa-frontend/kappa.log`
 - Backend log file: `<sandbox log dir>/kappa-backend/kappa.log`
 - Rotated files use numbered suffixes: `kappa.log.0`, `kappa.log.1`.
@@ -176,10 +176,10 @@ Where to find the log files:
 
 ### Reading the logs in the Run tool window
 
-The checked-in IDE run configurations attach both files as `<log_file>` tabs ("Backend Kilo", "Frontend Kilo"). Two IntelliJ defaults are worth knowing:
+The checked-in IDE run configurations attach both files as `<log_file>` tabs ("Backend Kappa", "Frontend Kappa"). Two IntelliJ defaults are worth knowing:
 
 - `skipped` defaults to `true`, which makes the tab open the file at its current end offset and show nothing that was already written. The checked-in configurations set `skipped="false"`. The `show_all` attribute is unrelated — it only selects "every glob match" over "the newest match" for pattern paths.
-- The tab's log level filter defaults to **Show errors and warnings**, and Kilo's dev logs are almost entirely `INFO`/`DEBUG`, so a correctly wired tab still looks empty. Open the tab's filter control (funnel icon) and pick **Show all**. This is a per-project setting stored in `.idea/workspace.xml` under `LogFilters`, so it cannot ship with the run configuration.
+- The tab's log level filter defaults to **Show errors and warnings**, and Kappa's dev logs are almost entirely `INFO`/`DEBUG`, so a correctly wired tab still looks empty. Open the tab's filter control (funnel icon) and pick **Show all**. This is a per-project setting stored in `.idea/workspace.xml` under `LogFilters`, so it cannot ship with the run configuration.
 
 Runs started from the Agent Manager against a git worktree get their log paths rebased onto that worktree, because `$PROJECT_DIR$` was already expanded against the main checkout when the configuration was read (`WorktreeRunAdapter.rebaseLogs`).
 

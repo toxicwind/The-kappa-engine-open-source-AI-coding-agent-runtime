@@ -1,12 +1,12 @@
 ---
-title: "Using DaoXE with Kilo Code"
-description: "Connect Kilo Code to DaoXE's multi-model API gateway with an API key and an account-available model ID."
+title: "Using DaoXE with Kappa Code"
+description: "Connect Kappa Code to DaoXE's multi-model API gateway with an API key and an account-available model ID."
 sidebar_label: DaoXE
 ---
 
-# Using DaoXE With Kilo Code
+# Using DaoXE With Kappa Code
 
-[DaoXE](https://daoxe.com) is an AI gateway with native Claude protocol, verifiable routing, and one-key access to Claude, GPT, Gemini, and more. Kilo Code uses the `daoxe` provider ID and reads your API key from `DAOXE_API_KEY`.
+[DaoXE](https://daoxe.com) is an AI gateway with native Claude protocol, verifiable routing, and one-key access to Claude, GPT, Gemini, and more. Kappa Code uses the `daoxe` provider ID and reads your API key from `DAOXE_API_KEY`.
 
 {% callout type="warning" %}
 DaoXE is not available in mainland China. Requests from mainland China may be blocked or rejected.
@@ -18,22 +18,22 @@ DaoXE is not available in mainland China. Requests from mainland China may be bl
 2. Create an API key in your DaoXE dashboard.
 3. Choose an exact model ID available to your account. Model availability and pricing can change, so check the live catalog instead of copying an old model list.
 
-## Configure Kilo Code
+## Configure Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
 
-1. Open **Settings** in the Kilo Code extension.
+1. Open **Settings** in the Kappa Code extension.
 2. Go to the **Providers** tab and add **DaoXE**. If it is not visible, click **Show more providers**.
 3. Enter your DaoXE API key.
 4. Select a model that is available to your DaoXE account.
 
-The provider credentials are stored in Kilo's `auth.json` store.
+The provider credentials are stored in Kappa's `auth.json` store.
 
 {% /tab %}
 {% tab label="CLI" %}
 
-**Recommended:** connect interactively so the API key is stored in Kilo's `auth.json` store (same credential store as VS Code).
+**Recommended:** connect interactively so the API key is stored in Kappa's `auth.json` store (same credential store as VS Code).
 
 1. In the TUI, run `/connect` and choose **DaoXE**, then paste your API key.
 2. Or from the shell:
@@ -74,7 +74,7 @@ export DAOXE_API_KEY="your-api-key"
 
 ## API compatibility
 
-Kilo Code connects to DaoXE through the OpenAI-compatible API at `https://daoxe.com/v1`. DaoXE also exposes OpenAI Responses, Anthropic Messages, and image-generation-compatible endpoints, but the provider configuration on this page uses Kilo Code's OpenAI-compatible chat path.
+Kappa Code connects to DaoXE through the OpenAI-compatible API at `https://daoxe.com/v1`. DaoXE also exposes OpenAI Responses, Anthropic Messages, and image-generation-compatible endpoints, but the provider configuration on this page uses Kappa Code's OpenAI-compatible chat path.
 
 For standalone cURL, Node.js, Python, Postman, and Claude Code examples, see the [DaoXE-AI examples repository](https://github.com/seven7763/DaoXE-AI).
 
@@ -82,7 +82,7 @@ For standalone cURL, Node.js, Python, Postman, and Claude Code examples, see the
 
 - **Invalid API key:** Create a new key in your DaoXE dashboard, then reconnect with `/connect` / `kappa auth login --provider daoxe`, or update `DAOXE_API_KEY` if you use manual configuration.
 - **Model not found:** Copy an exact model ID available to your account. Do not rely on a static model list.
-- **Provider not visible:** Refresh Kilo Code's provider catalog, then check **Show more providers**.
+- **Provider not visible:** Refresh Kappa Code's provider catalog, then check **Show more providers**.
 - **Connection rejected:** Confirm that you are using the service from an available region.
 
 {% callout type="note" %}

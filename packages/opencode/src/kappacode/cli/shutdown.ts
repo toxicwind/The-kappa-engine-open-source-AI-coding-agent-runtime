@@ -1,4 +1,4 @@
-export namespace KiloShutdown {
+export namespace KappaShutdown {
   const tasks = new Set<() => void | Promise<void>>()
 
   export function register(task: () => void | Promise<void>) {

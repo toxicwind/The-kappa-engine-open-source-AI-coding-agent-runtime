@@ -267,7 +267,7 @@ describe("link_pr tool", () => {
     // Imported lazily: the registry pulls the kappa-sessions module, whose own
     // migration is owned by another slice, so this import must not stop the
     // session-scoped link_pr tests above from running.
-    const { KiloToolRegistry } = await import("@/kappacode/tool/registry")
+    const { KappaToolRegistry } = await import("@/kappacode/tool/registry")
     const built = await Effect.runPromise(
       Effect.gen(function* () {
         const linkPr = yield* LinkPrTool
@@ -294,13 +294,13 @@ describe("link_pr tool", () => {
           send: info("send_file"),
           linkPr,
         }
-        return yield* KiloToolRegistry.build(infos, { agent: agents, truncate, indexing: false })
+        return yield* KappaToolRegistry.build(infos, { agent: agents, truncate, indexing: false })
       }).pipe(Effect.provide(layer)),
     )
 
     expect(built.linkPr.id).toBe("link_pr")
 
-    const ids = KiloToolRegistry.extra(
+    const ids = KappaToolRegistry.extra(
       {
         recall: built.recall,
         managerModels: built.managerModels,

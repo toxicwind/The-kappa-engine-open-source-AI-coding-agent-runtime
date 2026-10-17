@@ -1,4 +1,4 @@
-import { createKiloClient, type Config as EffectiveConfig } from "@kappacode/sdk/v2/client"
+import { createKappaClient, type Config as EffectiveConfig } from "@kappacode/sdk/v2/client"
 import type {
   AgentBuilderPreviewResponse,
   AgentBuilderSaveResponse,
@@ -10,18 +10,18 @@ import type {
   FormatterStatusResponse,
   GlobalHealthResponse,
   GlobalEvent,
-  KiloEmbeddingModelCatalog,
-  KiloProfileResponse,
+  KappaEmbeddingModelCatalog,
+  KappaProfileResponse,
   LspStatusResponse,
   McpStatusResponse,
   Pty as PtyInfo,
   PermissionRequest,
-  Project as KiloProject,
+  Project as KappaProject,
   QuestionRequest,
   ProviderAuthAuthorization,
   ProviderAuthResponse,
   ProviderListResponse,
-  Session as KiloSession,
+  Session as KappaSession,
   SessionStatus,
   ToolIdsResponse,
   ToolListResponse,
@@ -43,9 +43,9 @@ export type Query = {
 
 export type ProjectQuery = Pick<Query, "url" | "dir">
 
-export type KiloProfileData = KiloProfileResponse
+export type KappaProfileData = KappaProfileResponse
 
-export type ProjectItem = KiloProject
+export type ProjectItem = KappaProject
 export type RecentProjectItem = ProjectItem & {
   sessions: number
 }
@@ -67,7 +67,7 @@ export type ProjectDiffItem = WorktreeDiffItem
 export type ProjectPtyInfo = PtyInfo
 export type ProjectTerminalItem = ProjectPtyInfo & {
   directory: string
-  session?: KiloSession
+  session?: KappaSession
   sessionStatus?: SessionStatus
   attention?: "permission" | "question"
 }
@@ -155,7 +155,7 @@ function server(input: string) {
 
 function client(input: ProjectQuery) {
   const info = server(input.url)
-  return createKiloClient({
+  return createKappaClient({
     baseUrl: info.url,
     directory: value(input.dir),
     headers: {
@@ -262,7 +262,7 @@ function score(item: ProjectItem, dir: string) {
   }, -1)
 }
 
-function owner(items: ProjectItem[], session: Pick<KiloSession, "projectID" | "directory">) {
+function owner(items: ProjectItem[], session: Pick<KappaSession, "projectID" | "directory">) {
   const exact = items.find((item) => item.id === session.projectID)
   if (exact) return exact
   return items.reduce<{ item?: ProjectItem; score: number }>(
@@ -411,43 +411,43 @@ export async function load(input: Query): Promise<Snapshot> {
   }
 }
 
-export async function loadEmbeddingModels(input: Query): Promise<KiloEmbeddingModelCatalog> {
-  return demand("Kilo embedding models", await client(input).indexing.models())
+export async function loadEmbeddingModels(input: Query): Promise<KappaEmbeddingModelCatalog> {
+  return demand("Kappa embedding models", await client(input).indexing.models())
 }
 
-export async function loadKiloProfile(input: ProjectQuery): Promise<KiloProfileData> {
+export async function loadKappaProfile(input: ProjectQuery): Promise<KappaProfileData> {
   const sdk = client(input)
   const result = await sdk.kappa.profile(directory(input))
-  return demand("Kilo profile", result)
+  return demand("Kappa profile", result)
 }
 
-export async function setKiloOrganization(input: ProjectQuery, organizationId: string | null) {
+export async function setKappaOrganization(input: ProjectQuery, organizationId: string | null) {
   const sdk = client(input)
   const result = await sdk.kappa.organization.set({ ...directory(input), organizationId })
-  demand("Switch Kilo account", result)
+  demand("Switch Kappa account", result)
   await sdk.global.dispose()
 }
 
-export async function logoutKilo(input: ProjectQuery) {
+export async function logoutKappa(input: ProjectQuery) {
   const sdk = client(input)
   const result = await sdk.auth.remove({ providerID: "kappa" })
-  demand("Log out of Kilo", result)
+  demand("Log out of Kappa", result)
   await sdk.global.dispose()
 }
 
-export async function startKiloLogin(input: ProjectQuery): Promise<ProviderAuthAuthorization> {
+export async function startKappaLogin(input: ProjectQuery): Promise<ProviderAuthAuthorization> {
   const sdk = client(input)
   const result = await sdk.provider.oauth.authorize({ ...directory(input), providerID: "kappa", method: 0 })
-  return demand("Start Kilo login", result)
+  return demand("Start Kappa login", result)
 }
 
-export async function completeKiloLogin(input: ProjectQuery, signal?: AbortSignal) {
+export async function completeKappaLogin(input: ProjectQuery, signal?: AbortSignal) {
   const sdk = client(input)
   const result = await sdk.provider.oauth.callback(
     { ...directory(input), providerID: "kappa", method: 0 },
     signal ? { signal } : undefined,
   )
-  demand("Complete Kilo login", result)
+  demand("Complete Kappa login", result)
   await sdk.global.dispose()
 }
 
@@ -539,7 +539,7 @@ export async function loadProjectTerminals(input: ProjectQuery, dir: string): Pr
   const status = statusResult ?? {}
   const permissions = pending(permissionResult ?? [])
   const questions = pending(questionResult ?? [])
-  const sessions = new Map<string, KiloSession>()
+  const sessions = new Map<string, KappaSession>()
 
   await Promise.all(
     rows.map(async (item) => {
@@ -621,7 +621,7 @@ export async function loadProjectDiffFile(input: Query, dir: string, file: strin
   return demand("Worktree diff file", result)
 }
 
-export async function createProjectPty(input: Query, dir: string, title = "Kilo session"): Promise<ProjectPtyInfo> {
+export async function createProjectPty(input: Query, dir: string, title = "Kappa session"): Promise<ProjectPtyInfo> {
   const sdk = client({ url: input.url, dir })
   const result = await sdk.pty.create({ directory: dir, command: "kappa", cwd: dir, title })
   return demand("Create terminal", result)

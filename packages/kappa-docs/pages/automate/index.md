@@ -1,12 +1,12 @@
 ---
 title: "Automate"
-description: "Automate your development workflows with Kilo Code"
+description: "Automate your development workflows with Kappa Code"
 ---
 
 # {% $markdoc.frontmatter.title %}
 
 {% callout type="generic" %}
-Automate repetitive tasks, set up AI-powered code reviews, and extend Kilo Code's capabilities with integrations and MCP servers.
+Automate repetitive tasks, set up AI-powered code reviews, and extend Kappa Code's capabilities with integrations and MCP servers.
 {% /callout %}
 
 ## Code Reviews
@@ -30,26 +30,26 @@ Manage and orchestrate multiple AI agents:
 
 ## MCP (Model Context Protocol)
 
-Connect Kilo Code to external tools and services:
+Connect Kappa Code to external tools and services:
 
 - [**MCP Overview**](/docs/automate/mcp/overview) — Introduction to the Model Context Protocol
 - [**What is MCP?**](/docs/automate/mcp/what-is-mcp) — Understanding MCP architecture
-- [**Using MCP in Kilo Code**](/docs/automate/mcp/using-in-kappa-code) — Configuration guide
+- [**Using MCP in Kappa Code**](/docs/automate/mcp/using-in-kappa-code) — Configuration guide
 - [**STDIO & SSE Transports**](/docs/automate/mcp/server-transports) — Local and remote server options
 - [**MCP vs API**](/docs/automate/mcp/mcp-vs-api) — When to use MCP
 
 ## Integrations
 
-Connect Kilo Code with your development tools:
+Connect Kappa Code with your development tools:
 
 - [**Integrations**](/docs/automate/integrations) — Available integrations overview
 - GitHub integration for deployments and code reviews
 - GitHub Actions for CI/CD workflows
 - Custom integrations via MCP
 
-## Extending Kilo
+## Extending Kappa
 
-Customize and extend Kilo Code's capabilities:
+Customize and extend Kappa Code's capabilities:
 
 - [**Local Models**](/docs/automate/extending/local-models) — Run local AI models
 - [**Shell Integration**](/docs/automate/extending/shell-integration) — Shell command integration

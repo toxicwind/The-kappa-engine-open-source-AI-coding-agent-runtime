@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test"
 import { Effect, Schema } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
-import { KiloToolRegistry } from "../../src/kappacode/tool/registry"
+import { KappaToolRegistry } from "../../src/kappacode/tool/registry"
 import { Agent } from "../../src/agent/agent"
 import * as Truncate from "../../src/tool/truncate"
 import type * as Tool from "../../src/tool/tool"
@@ -16,7 +16,7 @@ describe("kappacode tool registry indexing import failure", () => {
 
     try {
       const result = await Effect.runPromise(
-        KiloToolRegistry.build(infos(), deps, {
+        KappaToolRegistry.build(infos(), deps, {
           indexing: async () => {
             throw err
           },
@@ -37,8 +37,8 @@ function infos() {
   return {
     recall: info("recall"),
     managerModels: info("agent_manager_models"),
-    memory: info("kappa_memory_recall"),
-    save: info("kappa_memory_save"),
+    memory: info("kilo_memory_recall"),
+    save: info("kilo_memory_save"),
     manager: info("agent_manager"),
     process: info("background_process"),
     browser: info("browser_open"),

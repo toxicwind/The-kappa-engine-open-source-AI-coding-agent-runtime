@@ -1,27 +1,27 @@
 ---
-title: "Using Kilo for Free"
-description: "How to use Kilo Code for free — Auto Free, finding free models, free autocomplete, and free background tasks"
+title: "Using Kappa for Free"
+description: "How to use Kappa Code for free — Auto Free, finding free models, free autocomplete, and free background tasks"
 ---
 
-# Using Kilo for Free
+# Using Kappa for Free
 
-Kilo Code can be used completely free of charge. There are three places where Kilo uses AI model inference, and each can be configured to use free models.
+Kappa Code can be used completely free of charge. There are three places where Kappa uses AI model inference, and each can be configured to use free models.
 
-## Where Kilo Uses Models
+## Where Kappa Uses Models
 
 1. **Agentic interactions** — Conversations with coding agents in IDE extensions (VS Code, JetBrains), CLI, and cloud services like Code Reviewer
 2. **Autocomplete** — In-editor code completions as you type (IDE extensions only)
 3. **Background tasks** — Automatic session titles and context summarization
 
-Each of these consumes credits by default. **To use Kilo entirely for free, configure all three to use free models.**
+Each of these consumes credits by default. **To use Kappa entirely for free, configure all three to use free models.**
 
 ## Free Agentic Usage
 
-Kilo provides free models for coding tasks through the Kilo Gateway and partner providers.
+Kappa provides free models for coding tasks through the Kappa Gateway and partner providers.
 
 ### Auto Free
 
-The easiest way to get started is [**Auto Free**](/docs/code-with-ai/agents/auto-model) (`kappa-auto/free`). This is a Kilo-provided model tier that automatically routes your requests to the best available free models — no configuration needed.
+The easiest way to get started is [**Auto Free**](/docs/code-with-ai/agents/auto-model) (`kappa-auto/free`). This is a Kappa-provided model tier that automatically routes your requests to the best available free models — no configuration needed.
 
 {% callout type="warning" title="Data handling for Auto Free" %}
 Auto Free may route your requests to providers that log prompts and outputs and use them to improve their services. Do not submit personal or confidential data when using Auto Free. In particular, it may route to NVIDIA's free endpoints.
@@ -51,27 +51,27 @@ Some free models may be rate limited by the upstream provider. If you hit a rate
 
 ### Cloud Tasks
 
-Kilo's cloud services, including Code Reviewer, also support free models. Select any model labeled "(free)" in the model dropdown when configuring a cloud task.
+Kappa's cloud services, including Code Reviewer, also support free models. Select any model labeled "(free)" in the model dropdown when configuring a cloud task.
 
 {% callout type="tip" %}
-Available free models change over time as Kilo partners with different inference providers. Subscribe to our blog or join our [Discord](https://kappa.ai/discord) for updates.
+Available free models change over time as Kappa partners with different inference providers. Subscribe to our blog or join our [Discord](https://kappa.ai/discord) for updates.
 {% /callout %}
 
 ## Free Autocomplete
 
-Kilo's autocomplete feature provides AI-powered code completions as you type in IDE extensions.
+Kappa's autocomplete feature provides AI-powered code completions as you type in IDE extensions.
 
-By default, autocomplete routes through the Kilo provider and uses credits. If you run out of credits without a free alternative configured, autocomplete stops working — but your main coding workflow is unaffected.
+By default, autocomplete routes through the Kappa provider and uses credits. If you run out of credits without a free alternative configured, autocomplete stops working — but your main coding workflow is unaffected.
 
 ### How to Get It Free
 
-Add your own Mistral AI API key via **BYOK (Bring Your Own Key)** on the Kilo Gateway. Mistral offers a free tier for Codestral. When you configure a BYOK key, autocomplete requests use your key directly — at no cost on your Kilo balance.
+Add your own Mistral AI API key via **BYOK (Bring Your Own Key)** on the Kappa Gateway. Mistral offers a free tier for Codestral. When you configure a BYOK key, autocomplete requests use your key directly — at no cost on your Kappa balance.
 
 See the [Mistral Setup Guide](/docs/code-with-ai/features/autocomplete/mistral-setup) for step-by-step instructions.
 
 ## Free Background Tasks
 
-Kilo uses a small model in the background for tasks like session titling. By default this is Auto Small, which consumes credits. If the small model is unavailable, Kilo falls back to your primary model — which may also consume credits if it's a paid model.
+Kappa uses a small model in the background for tasks like session titling. By default this is Auto Small, which consumes credits. If the small model is unavailable, Kappa falls back to your primary model — which may also consume credits if it's a paid model.
 
 To avoid credit usage for background tasks, set the small model to a free model:
 

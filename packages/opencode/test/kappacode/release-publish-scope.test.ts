@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import path from "path"
 
-test("Kilo releases do not publish upstream-owned packages", async () => {
+test("Kappa releases do not publish upstream-owned packages", async () => {
   const root = path.join(import.meta.dir, "../../../..")
   const src = await Bun.file(path.join(root, "script", "publish.ts")).text()
 

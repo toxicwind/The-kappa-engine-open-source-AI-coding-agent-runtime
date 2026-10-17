@@ -12,4 +12,4 @@ CLI-side snapshot service is fully implemented (`packages/opencode/src/snapshot/
 - "See New Changes" buttons to view git diffs for completed tasks
 - Integration with CLI session undo/redo/fork operations
 - Consider reusing kappa-ui's `MessageNav` component
-- Evaluate whether CLI session undo/redo/revert maps to Kilo's checkpoint model or if extension needs its own git-based implementation
+- Evaluate whether CLI session undo/redo/revert maps to Kappa's checkpoint model or if extension needs its own git-based implementation

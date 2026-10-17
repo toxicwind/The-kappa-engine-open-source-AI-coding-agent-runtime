@@ -6,15 +6,15 @@ export type Scope = "global" | "local"
 
 export type Source =
   | "sourceXdg"
-  | "sourceHomeKilo"
-  | "sourceHomeKilocode"
+  | "sourceHomeKappa"
+  | "sourceHomeKappacode"
   | "sourceHomeOpencode"
   | "sourceEnvFile"
   | "sourceEnvDir"
   | "sourceEnvContent"
-  | "sourceProjectKilo"
+  | "sourceProjectKappa"
   | "sourceProjectRoot"
-  | "sourceProjectKilocode"
+  | "sourceProjectKappacode"
   | "sourceProjectOpencode"
 
 export interface Entry {
@@ -34,10 +34,10 @@ const MODERN = ["kappa.jsonc", "kappa.json"]
 const LEGACY = ["opencode.jsonc", "opencode.json"]
 const FILES = [...MODERN, ...LEGACY]
 const GLOBAL = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "config.json"]
-const HOME = [".kappa", ".kilocode", ".opencode"]
+const HOME = [".kappa", ".kappacode", ".opencode"]
 const SOURCES: Record<string, Source> = {
-  ".kappa": "sourceHomeKilo",
-  ".kilocode": "sourceHomeKilocode",
+  ".kappa": "sourceHomeKappa",
+  ".kappacode": "sourceHomeKappacode",
   ".opencode": "sourceHomeOpencode",
 }
 
@@ -49,7 +49,7 @@ function row(file: string, source: Source, loaded = true, recommended = false): 
     source,
     exists: existsSync(file),
     loaded: loaded && existsSync(file),
-    legacy: name.startsWith("opencode") || name === "config.json" || file.includes(`${path.sep}.kilocode${path.sep}`),
+    legacy: name.startsWith("opencode") || name === "config.json" || file.includes(`${path.sep}.kappacode${path.sep}`),
     recommended,
   }
 }
@@ -93,19 +93,19 @@ export function globalFiles() {
 
 export function localFiles(root: string) {
   const enabled = !process.env.KILO_DISABLE_PROJECT_CONFIG
-  const dirs = [path.join(root, ".kappa"), root, path.join(root, ".kilocode"), path.join(root, ".opencode")]
+  const dirs = [path.join(root, ".kappa"), root, path.join(root, ".kappacode"), path.join(root, ".opencode")]
   const list = dirs.flatMap((dir) => FILES.map((file) => row(path.join(dir, file), localSource(root, dir), enabled)))
   return ensure(
     list.filter((item) => item.exists),
     path.join(root, ".kappa", "kappa.jsonc"),
-    "sourceProjectKilo",
+    "sourceProjectKappa",
   ).map((item) => (enabled ? item : { ...item, loaded: false }))
 }
 
 function localSource(root: string, dir: string) {
   if (dir === root) return "sourceProjectRoot"
-  if (dir.endsWith(`${path.sep}.kappa`)) return "sourceProjectKilo"
-  if (dir.endsWith(`${path.sep}.kilocode`)) return "sourceProjectKilocode"
+  if (dir.endsWith(`${path.sep}.kappa`)) return "sourceProjectKappa"
+  if (dir.endsWith(`${path.sep}.kappacode`)) return "sourceProjectKappacode"
   return "sourceProjectOpencode"
 }
 

@@ -7,7 +7,7 @@ import { Integration } from "@opencode-ai/core/integration"
 import { SkillV2 } from "@opencode-ai/core/skill"
 import { InstanceDisposed } from "@/server/event"
 import { Question } from "@/question"
-import { BusEvent } from "@/bus/bus-event" // kilocode_change - include legacy Kilo events until they migrate to EventV2
+import { BusEvent } from "@/bus/bus-event" // kappacode_change - include legacy Kappa events until they migrate to EventV2
 import { ConfigApi } from "./groups/config"
 import { ControlApi } from "./groups/control"
 import { ControlPlaneApi } from "./groups/control-plane"
@@ -26,26 +26,26 @@ import { SessionApi } from "./groups/session"
 import { SyncApi } from "./groups/sync"
 import { TuiApi } from "./groups/tui"
 import { WorkspaceApi } from "./groups/workspace"
-// kilocode_change start - Kilo HttpApi groups
-import { AgentBuilderApi } from "@/kilocode/server/httpapi/groups/agent-builder"
-import { BranchNameApi } from "@/kilocode/server/httpapi/groups/branch-name"
-import { CommitMessageApi } from "@/kilocode/server/httpapi/groups/commit-message"
-import { BackgroundProcessApi } from "@/kilocode/server/httpapi/groups/background-process"
-import { ConfigConsoleApi } from "@/kilocode/server/httpapi/groups/config-console"
-import { EnhancePromptApi } from "@/kilocode/server/httpapi/groups/enhance-prompt"
-import { IndexingApi } from "@/kilocode/server/httpapi/groups/indexing"
-import { InstanceReloadApi } from "@/kilocode/server/httpapi/groups/instance-reload"
-import { KiloGatewayApi } from "@/kilocode/server/httpapi/groups/kappa-gateway"
-import { KilocodeApi } from "@/kilocode/server/httpapi/groups/kilocode"
-import { MigrateApi } from "@/kilocode/server/httpapi/groups/migrate"
-import { NetworkApi } from "@/kilocode/server/httpapi/groups/network"
-import { RemoteApi } from "@/kilocode/server/httpapi/groups/remote"
-import { SandboxApi } from "@/kilocode/server/httpapi/groups/sandbox"
-import { SessionImportApi } from "@/kilocode/server/httpapi/groups/session-import"
-import { SuggestionApi } from "@/kilocode/server/httpapi/groups/suggestion"
-import { TelemetryApi } from "@/kilocode/server/httpapi/groups/telemetry"
-import { MemoryApi } from "@/kilocode/server/httpapi/groups/memory" // kilocode_change
-// kilocode_change end
+// kappacode_change start - Kappa HttpApi groups
+import { AgentBuilderApi } from "@/kappacode/server/httpapi/groups/agent-builder"
+import { BranchNameApi } from "@/kappacode/server/httpapi/groups/branch-name"
+import { CommitMessageApi } from "@/kappacode/server/httpapi/groups/commit-message"
+import { BackgroundProcessApi } from "@/kappacode/server/httpapi/groups/background-process"
+import { ConfigConsoleApi } from "@/kappacode/server/httpapi/groups/config-console"
+import { EnhancePromptApi } from "@/kappacode/server/httpapi/groups/enhance-prompt"
+import { IndexingApi } from "@/kappacode/server/httpapi/groups/indexing"
+import { InstanceReloadApi } from "@/kappacode/server/httpapi/groups/instance-reload"
+import { KappaGatewayApi } from "@/kappacode/server/httpapi/groups/kappa-gateway"
+import { KappacodeApi } from "@/kappacode/server/httpapi/groups/kappacode"
+import { MigrateApi } from "@/kappacode/server/httpapi/groups/migrate"
+import { NetworkApi } from "@/kappacode/server/httpapi/groups/network"
+import { RemoteApi } from "@/kappacode/server/httpapi/groups/remote"
+import { SandboxApi } from "@/kappacode/server/httpapi/groups/sandbox"
+import { SessionImportApi } from "@/kappacode/server/httpapi/groups/session-import"
+import { SuggestionApi } from "@/kappacode/server/httpapi/groups/suggestion"
+import { TelemetryApi } from "@/kappacode/server/httpapi/groups/telemetry"
+import { MemoryApi } from "@/kappacode/server/httpapi/groups/memory" // kappacode_change
+// kappacode_change end
 import { makeApi } from "@opencode-ai/protocol/api"
 import { LocationMiddleware } from "@opencode-ai/server/location"
 import { SessionLocationMiddleware } from "@opencode-ai/server/middleware/session-location"
@@ -63,7 +63,7 @@ const EventSchema = Schema.Union([
       }).annotate({ identifier: `Event.${definition.type}` }),
     )
     .toArray(),
-  ...BusEvent.effectPayloads(), // kilocode_change - include legacy Kilo events until they migrate to EventV2
+  ...BusEvent.effectPayloads(), // kappacode_change - include legacy Kappa events until they migrate to EventV2
   InstanceDisposed,
 ]).annotate({ identifier: "Event" })
 
@@ -96,7 +96,7 @@ export const InstanceHttpApi = HttpApi.make("opencode-instance")
   .addHttpApi(SyncApi)
   .addHttpApi(TuiApi)
   .addHttpApi(WorkspaceApi)
-  // kilocode_change start - Kilo HttpApi groups
+  // kappacode_change start - Kappa HttpApi groups
   .addHttpApi(AgentBuilderApi)
   .addHttpApi(BackgroundProcessApi)
   .addHttpApi(BranchNameApi)
@@ -105,8 +105,8 @@ export const InstanceHttpApi = HttpApi.make("opencode-instance")
   .addHttpApi(EnhancePromptApi)
   .addHttpApi(IndexingApi)
   .addHttpApi(InstanceReloadApi)
-  .addHttpApi(KiloGatewayApi)
-  .addHttpApi(KilocodeApi)
+  .addHttpApi(KappaGatewayApi)
+  .addHttpApi(KappacodeApi)
   .addHttpApi(MigrateApi)
   .addHttpApi(NetworkApi)
   .addHttpApi(RemoteApi)
@@ -115,7 +115,7 @@ export const InstanceHttpApi = HttpApi.make("opencode-instance")
   .addHttpApi(SuggestionApi)
   .addHttpApi(TelemetryApi)
   .addHttpApi(MemoryApi)
-  // kilocode_change end
+  // kappacode_change end
   .middleware(SchemaErrorMiddleware)
 
 export const OpenCodeHttpApi = HttpApi.make("opencode")

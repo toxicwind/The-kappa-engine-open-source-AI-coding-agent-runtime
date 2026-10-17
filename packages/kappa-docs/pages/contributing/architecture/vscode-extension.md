@@ -1,11 +1,11 @@
 ---
 title: "VS Code Extension Architecture"
-description: "Architecture of the Kilo VS Code extension and Agent Manager"
+description: "Architecture of the Kappa VS Code extension and Agent Manager"
 ---
 
 # VS Code Extension Architecture
 
-The VS Code extension (`packages/kappa-vscode/`) is a client of [Kilo CLI runtime](/docs/contributing/architecture/cli-runtime). It bundles platform CLI binary, starts one shared editor-owned `kappa serve` server on demand, and drives that server through generated SDK HTTP calls plus global SSE.
+The VS Code extension (`packages/kappa-vscode/`) is a client of [Kappa CLI runtime](/docs/contributing/architecture/cli-runtime). It bundles platform CLI binary, starts one shared editor-owned `kappa serve` server on demand, and drives that server through generated SDK HTTP calls plus global SSE.
 
 {% callout type="info" title="Scope" %}
 This page covers extension-host ownership, webview routing, Agent Manager, local terminal paths, recovery, bundled resources, and build outputs. It is not full extension feature inventory.
@@ -15,20 +15,20 @@ This page covers extension-host ownership, webview routing, Agent Manager, local
 
 [CLI Runtime](/docs/contributing/architecture/cli-runtime) defines shared local-server authentication, directory routing, provider routing, persistence, and SSE contracts. This page starts at VS Code client boundary.
 
-Activation creates one `KiloConnectionService`. It owns one `ServerManager`, one active SDK client, and one SSE adapter. `ServerManager` owns child process lifecycle. This editor-owned child is separate from detached local daemon managed by `kappa daemon`.
+Activation creates one `KappaConnectionService`. It owns one `ServerManager`, one active SDK client, and one SSE adapter. `ServerManager` owns child process lifecycle. This editor-owned child is separate from detached local daemon managed by `kappa daemon`.
 
 ```mermaid
 flowchart LR
   subgraph host ["VS Code extension host"]
     consumers["Sidebar, tabs, panels, services"]
-    service["KiloConnectionService"]
+    service["KappaConnectionService"]
     manager["ServerManager"]
     sdk["Generated SDK client"]
     sse["SdkSSEAdapter"]
   end
 
   server["bin/kappa serve --port 0"]
-  runtime["Kilo CLI runtime"]
+  runtime["Kappa CLI runtime"]
 
   consumers --> service
   service --> manager --> server
@@ -67,13 +67,13 @@ Main chat webviews use host-mediated message bridge:
 
 ```text
 webview vscode.postMessage()
-  -> KiloProvider host handler
+  -> KappaProvider host handler
   -> generated SDK HTTP request
   -> CLI runtime
   -> /global/event SSE
   -> SdkSSEAdapter
-  -> KiloConnectionService subscribers
-  -> KiloProvider directory/session filtering and stream coalescing
+  -> KappaConnectionService subscribers
+  -> KappaProvider directory/session filtering and stream coalescing
   -> webview postMessage()
 ```
 
@@ -97,7 +97,7 @@ Agent Manager request path is:
 session worktree path -> SDK directory -> CLI directory-routing middleware -> InstanceStore directory key
 ```
 
-Agent Manager persists state in `.kappa/agent-manager.json` and worktrees under `.kappa/worktrees/`. Startup migration moves Agent Manager-owned data from legacy `.kilocode/` paths when target items do not already exist and repairs git worktree refs.
+Agent Manager persists state in `.kappa/agent-manager.json` and worktrees under `.kappa/worktrees/`. Startup migration moves Agent Manager-owned data from legacy `.kappacode/` paths when target items do not already exist and repairs git worktree refs.
 
 ## State boundaries
 
@@ -133,7 +133,7 @@ Extension-specific behavior belongs in VS Code settings. Agent runtime behavior 
 | Empty-window cwd | Uses extension global storage directory when no VS Code workspace folder exists |
 | Empty-window indexing | Sets `KILO_DISABLE_CODEBASE_INDEXING=vscode-no-workspace` so CLI reports indexing disabled |
 
-Speech-to-text captures audio locally, then sends completed recording through shared editor-owned `kappa serve` server to authenticated Kilo Gateway transcription path. It is batch transcription, not direct provider streaming.
+Speech-to-text captures audio locally, then sends completed recording through shared editor-owned `kappa serve` server to authenticated Kappa Gateway transcription path. It is batch transcription, not direct provider streaming.
 
 ## Recovery
 
@@ -160,7 +160,7 @@ Extension host bundle targets Node/CommonJS. Browser webviews and shared worker 
 
 ## Source map
 
-Paths below are relative to [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode).
+Paths below are relative to [`Kappa-Org/kappacode`](https://github.com/Kappa-Org/kappacode).
 
 | Concern | Source path |
 |---|---|

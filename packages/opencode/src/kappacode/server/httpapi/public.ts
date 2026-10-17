@@ -38,7 +38,7 @@ type Spec = {
   paths?: Record<string, Partial<Record<"get" | "post" | "put" | "patch", Operation>>>
 }
 
-export function matchLegacyKiloOpenApi(input: Record<string, unknown>) {
+export function matchLegacyKappaOpenApi(input: Record<string, unknown>) {
   rebrand(input)
   const spec = input as Spec
   const rules = spec.paths?.["/config/rules"]?.get?.parameters?.find(
@@ -137,7 +137,7 @@ function rebrand(value: unknown): void {
       continue
     }
     ;(value as Record<string, unknown>)[key] = item
-      .replaceAll("OpenCode", "Kilo")
+      .replaceAll("OpenCode", "Kappa")
       .replaceAll("opencode.local", "kappa.local")
       .replaceAll("opencode serve", "kappa serve")
       .replaceAll("https://opencode.ai/", "https://kappa.ai/")

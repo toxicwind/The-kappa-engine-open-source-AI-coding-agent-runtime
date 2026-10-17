@@ -202,7 +202,7 @@ export function mostUsedModels(
 
 // Strips trailing "(free)" parenthesized suffix from model display names, e.g.
 // "Llama 3 (free)" → "Llama 3". A separate "Free" label/tag is rendered
-// elsewhere, so preserve bare trailing "Free" words (e.g. "Kilo Auto Free").
+// elsewhere, so preserve bare trailing "Free" words (e.g. "Kappa Auto Free").
 export function sanitizeName(name: string): string {
   return name.replace(/[\s:_-]*\(free\)\s*$/i, "").trim()
 }

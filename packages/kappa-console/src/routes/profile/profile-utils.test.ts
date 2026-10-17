@@ -7,10 +7,10 @@ test("parses device auth codes from instructions", () => {
   expect(parseDeviceCode(undefined)).toBeUndefined()
 })
 
-test("detects Kilo auth failures", () => {
-  expect(authError(new Error("Kilo profile: Unauthorized"))).toBe(true)
+test("detects Kappa auth failures", () => {
+  expect(authError(new Error("Kappa profile: Unauthorized"))).toBe(true)
   expect(authError({ status: 401 })).toBe(true)
-  expect(authError(new Error("Kilo profile: temporary network failure"))).toBe(false)
+  expect(authError(new Error("Kappa profile: temporary network failure"))).toBe(false)
 })
 
 test("formats account display helpers", () => {

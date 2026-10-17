@@ -4,7 +4,7 @@ import { Popover } from "@kappacode/kappa-ui/popover"
 import { useLanguage } from "../../src/context/language"
 import { useVSCode } from "../../src/context/vscode"
 import type { SessionInfo } from "../../src/types/messages"
-import { WelcomeEmptyState, KiloLogo } from "../../src/components/chat/WelcomeEmptyState"
+import { WelcomeEmptyState, KappaLogo } from "../../src/components/chat/WelcomeEmptyState"
 import { IntroGraph } from "./IntroGraph"
 import "./intro.css"
 
@@ -110,7 +110,7 @@ function Introduction(props: IntroProps) {
     <section class="am-intro">
       <header class="am-intro-heading">
         <div class="am-intro-logo" aria-hidden="true">
-          <KiloLogo />
+          <KappaLogo />
         </div>
         <h2 class="am-intro-title">{t("agentManager.intro.title")}</h2>
       </header>

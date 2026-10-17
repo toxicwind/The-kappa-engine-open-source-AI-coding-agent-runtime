@@ -31,7 +31,7 @@ Gas Town is a complex system with multiple agents, containers, and external inte
 - Environment variables causing startup crash
 
 **Fix:**
-1. Check that the [Kilo GitHub App](https://github.com/apps/kappa-code) is installed on your repository
+1. Check that the [Kappa GitHub App](https://github.com/apps/kappa-code) is installed on your repository
 2. Verify your GitHub PAT is valid (if configured)
 3. Remove any environment variables that might cause issues during container init
 4. Try a container restart from town settings
@@ -75,7 +75,7 @@ Beads automatically escalate after 3 failed review cycles. If a bead is genuinel
 
 **Common causes:**
 - Container sleeping (wakes up after ~30 seconds)
-- KILOCODE_TOKEN expired
+- KAPPACODE_TOKEN expired
 - Gateway authentication failure
 
 **Fix:**

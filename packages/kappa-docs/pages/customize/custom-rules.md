@@ -1,11 +1,11 @@
 ---
 title: "Custom Rules"
-description: "Define custom rules for Kilo Code behavior"
+description: "Define custom rules for Kappa Code behavior"
 ---
 
 # Custom Rules
 
-Custom rules provide a powerful way to define project-specific and global behaviors and constraints for the Kilo Code AI agent. With custom rules, you can ensure consistent formatting, restrict access to sensitive files, enforce coding standards, and customize the AI's behavior for your specific project needs or across all projects.
+Custom rules provide a powerful way to define project-specific and global behaviors and constraints for the Kappa Code AI agent. With custom rules, you can ensure consistent formatting, restrict access to sensitive files, enforce coding standards, and customize the AI's behavior for your specific project needs or across all projects.
 
 ## Overview
 
@@ -21,7 +21,7 @@ Custom rules can be written in plain text, but Markdown format is recommended fo
 
 ## Rule Types
 
-Kilo Code supports two types of custom rules:
+Kappa Code supports two types of custom rules:
 
 - **Project Rules**: Apply only to the current project workspace
 - **Global Rules**: Apply across all projects and workspaces
@@ -61,7 +61,7 @@ project/
 Global rules are configured via the `instructions` key in your global `kappa.jsonc` config file (typically at `~/.config/kappa/kappa.jsonc`).
 
 {% callout type="note" title="Migration" %}
-The extension is backward compatible with `.kilocode/rules/` directories. Existing rules will continue to work, but migrating to `kappa.jsonc` is recommended.
+The extension is backward compatible with `.kappacode/rules/` directories. Existing rules will continue to work, but migrating to `kappa.jsonc` is recommended.
 {% /callout %}
 
 {% /tab %}
@@ -97,7 +97,7 @@ project/
 Global rules are configured via the `instructions` key in your global `kappa.jsonc` config file (typically at `~/.config/kappa/kappa.jsonc`).
 
 {% callout type="note" title="Migration" %}
-The CLI is backward compatible with `.kilocode/rules/` directories. Existing rules will continue to work, but migrating to `kappa.jsonc` is recommended.
+The CLI is backward compatible with `.kappacode/rules/` directories. Existing rules will continue to work, but migrating to `kappa.jsonc` is recommended.
 {% /callout %}
 
 {% /tab %}
@@ -161,7 +161,7 @@ Rules are loaded in the order they appear in the `instructions` array in `kappa.
 Files matched by glob patterns are loaded in filesystem order. Project-level instructions take precedence over global instructions for conflicting directives.
 
 {% callout type="note" title="Backward Compatibility" %}
-If `.kilocode/rules/` directories exist in your project, their contents are automatically included for backward compatibility. To fully migrate, move your rule files and reference them in `kappa.jsonc`.
+If `.kappacode/rules/` directories exist in your project, their contents are automatically included for backward compatibility. To fully migrate, move your rule files and reference them in `kappa.jsonc`.
 {% /callout %}
 
 {% /tab %}
@@ -175,7 +175,7 @@ Rules are loaded in the order they appear in the `instructions` array in `kappa.
 Files matched by glob patterns are loaded in filesystem order. Project-level instructions take precedence over global instructions for conflicting directives.
 
 {% callout type="note" title="Backward Compatibility" %}
-If `.kilocode/rules/` directories exist in your project, their contents are automatically included for backward compatibility. To fully migrate, move your rule files and reference them in `kappa.jsonc`.
+If `.kappacode/rules/` directories exist in your project, their contents are automatically included for backward compatibility. To fully migrate, move your rule files and reference them in `kappa.jsonc`.
 {% /callout %}
 
 {% /tab %}
@@ -250,7 +250,7 @@ Files in the list contain sensitive data, they MUST NOT be read
 
 This rule prevents the AI from reading or accessing sensitive files, even if explicitly requested to do so.
 
-{% image src="/docs/img/custom-rules/custom-rules.png" alt="Kilo Code ignores request to read sensitive file" width="600" /%}
+{% image src="/docs/img/custom-rules/custom-rules.png" alt="Kappa Code ignores request to read sensitive file" width="600" /%}
 
 ## Use Cases
 

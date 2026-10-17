@@ -4,12 +4,12 @@ import { createHash } from "node:crypto"
 import { join, relative, dirname, basename } from "node:path"
 import { chmodSync, statSync, rmSync, readdirSync, existsSync } from "node:fs"
 import {
-  copyKiloSandboxWorker,
+  copyKappaSandboxWorker,
   copySandboxResources,
   copyTreeSitterResources,
-  hasKiloSandboxWorker,
+  hasKappaSandboxWorker,
   hasTreeSitterResources,
-  kiloSandboxWorkerForBinary,
+  kappaSandboxWorkerForBinary,
   sanitizeSandboxResources,
 } from "../src/services/cli-backend/cli-resources"
 import { currentBwrapTarget, ensureBwrapForTarget } from "./bwrap-helper"
@@ -30,17 +30,17 @@ const compiledOnly = process.argv.includes("--compiled")
  * This script is intended to be run from `packages/kappa-vscode` as part of build/package.
  */
 
-const kiloVscodeDir = join(import.meta.dir, "..")
-const packagesDir = join(kiloVscodeDir, "..")
+const kappaVscodeDir = join(import.meta.dir, "..")
+const packagesDir = join(kappaVscodeDir, "..")
 const repoDir = join(packagesDir, "..")
 const opencodeDir = join(packagesDir, "opencode")
 const sandboxDir = join(packagesDir, "kappa-sandbox")
 const rootFile = join(repoDir, "package.json")
 
-const targetBinDir = join(kiloVscodeDir, "bin")
+const targetBinDir = join(kappaVscodeDir, "bin")
 const binName = process.platform === "win32" ? "kappa.exe" : "kappa"
 const targetBinPath = join(targetBinDir, binName)
-const versionFile = join(kiloVscodeDir, "node_modules", ".kappa-cli-version")
+const versionFile = join(kappaVscodeDir, "node_modules", ".kappa-cli-version")
 
 function log(msg: string) {
   console.log(`[local-bin] ${msg}`)
@@ -187,7 +187,7 @@ function platformTag(): string {
   return `cli-${os}-${process.arch}`
 }
 
-async function findKiloBinaryInOpencodeDist(): Promise<string | null> {
+async function findKappaBinaryInOpencodeDist(): Promise<string | null> {
   const distDir = join(opencodeDir, "dist")
 
   try {
@@ -201,7 +201,7 @@ async function findKiloBinaryInOpencodeDist(): Promise<string | null> {
   const preferred = join(distDir, `@kappacode`, tag, "bin", binName)
   try {
     statSync(preferred)
-    if (!hasTreeSitterResources(preferred) || !hasKiloSandboxWorker(preferred)) return null
+    if (!hasTreeSitterResources(preferred) || !hasKappaSandboxWorker(preferred)) return null
     return preferred
   } catch {
     // fall through to generic search
@@ -229,7 +229,7 @@ async function findKiloBinaryInOpencodeDist(): Promise<string | null> {
         continue
       }
       if (e.isFile() && (e.name === "kappa" || e.name === "kappa.exe") && basename(dirname(p)) === "bin") {
-        if (!hasTreeSitterResources(p) || !hasKiloSandboxWorker(p)) continue
+        if (!hasTreeSitterResources(p) || !hasKappaSandboxWorker(p)) continue
         return p
       }
     }
@@ -238,11 +238,11 @@ async function findKiloBinaryInOpencodeDist(): Promise<string | null> {
 }
 
 async function ensureBuiltBinary(): Promise<string> {
-  const found = await findKiloBinaryInOpencodeDist()
+  const found = await findKappaBinaryInOpencodeDist()
   if (found) return found
 
   log(
-    `No prebuilt binary found under ${relative(kiloVscodeDir, join(opencodeDir, "dist"))} - attempting build via bun.`,
+    `No prebuilt binary found under ${relative(kappaVscodeDir, join(opencodeDir, "dist"))} - attempting build via bun.`,
   )
 
   if (!Bun.which("bun")) {
@@ -262,7 +262,7 @@ async function ensureBuiltBinary(): Promise<string> {
     await $`bun run script/build.ts --single --skip-install`.cwd(opencodeDir)
   }
 
-  const built = await findKiloBinaryInOpencodeDist()
+  const built = await findKappaBinaryInOpencodeDist()
   if (!built) {
     throw new Error(
       `CLI build completed but no binary was found in ${join(opencodeDir, "dist")} (expected dist/**/bin/kappa).`,
@@ -271,15 +271,15 @@ async function ensureBuiltBinary(): Promise<string> {
   return built
 }
 
-async function bundleKiloSandboxWorker() {
+async function bundleKappaSandboxWorker() {
   const result = await Bun.build({
     entrypoints: [join(sandboxDir, "src", "kappa-sandbox-mutation-worker.ts")],
     target: "bun",
     format: "esm",
     minify: true,
   })
-  if (!result.success || result.outputs.length !== 1) throw new Error("Could not bundle Kilo sandbox mutation worker")
-  await Bun.write(kiloSandboxWorkerForBinary(targetBinPath), result.outputs[0])
+  if (!result.success || result.outputs.length !== 1) throw new Error("Could not bundle Kappa sandbox mutation worker")
+  await Bun.write(kappaSandboxWorkerForBinary(targetBinPath), result.outputs[0])
 }
 
 async function ensureLocalHelpers() {
@@ -307,12 +307,12 @@ async function writeSourceWrapper() {
     ].join("\n"),
   )
   chmodSync(targetBinPath, 0o755)
-  await bundleKiloSandboxWorker()
+  await bundleKappaSandboxWorker()
   await ensureLocalHelpers()
 
   await writeVersion("wrapper")
   log(
-    `Compiled CLI build failed; wrote source wrapper at ${relative(kiloVscodeDir, targetBinPath)} for local development.`,
+    `Compiled CLI build failed; wrote source wrapper at ${relative(kappaVscodeDir, targetBinPath)} for local development.`,
   )
 }
 
@@ -322,7 +322,7 @@ async function main() {
   }
   const targetFile = Bun.file(targetBinPath)
   const exists = await targetFile.exists()
-  const ready = exists && hasTreeSitterResources(targetBinPath) && hasKiloSandboxWorker(targetBinPath)
+  const ready = exists && hasTreeSitterResources(targetBinPath) && hasKappaSandboxWorker(targetBinPath)
 
   const stale = ready && !forceRebuild && (await isStale())
   const rebuild = forceRebuild || stale || !ready
@@ -330,7 +330,7 @@ async function main() {
   if (ready && !rebuild) {
     const st = statSync(targetBinPath)
     log(
-      `CLI binary already present at ${relative(kiloVscodeDir, targetBinPath)} (${Math.round(st.size / 1024 / 1024)}MB). Use --force to rebuild.`,
+      `CLI binary already present at ${relative(kappaVscodeDir, targetBinPath)} (${Math.round(st.size / 1024 / 1024)}MB). Use --force to rebuild.`,
     )
     await ensureLocalHelpers()
     return
@@ -364,13 +364,13 @@ async function main() {
   await $`cp ${sourceBinPath} ${targetBinPath}`
   await copyTreeSitterResources(sourceBinPath, targetBinPath)
   await copySandboxResources(sourceBinPath, targetBinPath)
-  await copyKiloSandboxWorker(sourceBinPath, targetBinPath)
+  await copyKappaSandboxWorker(sourceBinPath, targetBinPath)
   chmodSync(targetBinPath, 0o755)
   await ensureLocalHelpers()
 
   await writeVersion("compiled")
 
-  log(`Copied CLI binary from ${relative(packagesDir, sourceBinPath)} -> ${relative(kiloVscodeDir, targetBinPath)}`)
+  log(`Copied CLI binary from ${relative(packagesDir, sourceBinPath)} -> ${relative(kappaVscodeDir, targetBinPath)}`)
 }
 
 function removeDist() {
@@ -378,7 +378,7 @@ function removeDist() {
   const distDir = join(opencodeDir, "dist")
   if (!existsSync(distDir)) return
   rmSync(distDir, { recursive: true })
-  log(`Removed ${relative(kiloVscodeDir, distDir)} to force rebuild.`)
+  log(`Removed ${relative(kappaVscodeDir, distDir)} to force rebuild.`)
 }
 
 try {

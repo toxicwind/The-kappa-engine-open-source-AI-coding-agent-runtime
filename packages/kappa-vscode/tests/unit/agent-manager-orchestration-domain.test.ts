@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test"
 import * as fs from "fs"
 import * as os from "os"
 import * as path from "path"
-import type { KiloClient, QuestionRequest, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, QuestionRequest, Session } from "@kappacode/sdk/v2/client"
 import { OrchestrationError, answer, move, overview, prompt } from "../../src/agent-manager/orchestration-domain"
 import { WorktreeStateManager } from "../../src/agent-manager/WorktreeStateManager"
 import { ProjectContext } from "../../src/agent-manager/project/context"
@@ -79,7 +79,7 @@ describe("Agent Manager orchestration domain", () => {
           data: directory === sectioned ? [{ id: "question", sessionID: "ses_second_b" }] : [],
         })),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     const cache = new Map<string, string>()
     const prs = new Map<string, AgentManagerPRStatus>([
       [
@@ -195,7 +195,7 @@ describe("Agent Manager orchestration domain", () => {
       question: {
         list: mock(async () => ({ data: noQuestions })),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await prompt({ client, root, state, sessionID: "ses_target", text: "Continue" })
 
@@ -222,7 +222,7 @@ describe("Agent Manager orchestration domain", () => {
       },
       permission: { list: mock(async () => ({ data: [] })) },
       question: { list: mock(async () => ({ data: noQuestions })) },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await prompt({ client, root, state, sessionID: "ses_caller", directory: root, text: "Peer" })
 
@@ -240,7 +240,7 @@ describe("Agent Manager orchestration domain", () => {
       session: { get, promptAsync },
       permission: { list: mock(async () => ({ data: [] })) },
       question: { list: mock(async () => ({ data: noQuestions })) },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await prompt({
       client,
@@ -297,7 +297,7 @@ describe("Agent Manager orchestration domain", () => {
       },
       permission: { list: mock(async () => ({ data: [] })) },
       question: { list: mock(async () => ({ data: questions })), reply: replied },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await prompt({ client, root, state, sessionID: session.id, text: "Continue", managed })
     expect(delivered).toHaveBeenCalledWith(expect.objectContaining({ sessionID: session.id, directory: worktree }), {
@@ -347,7 +347,7 @@ describe("Agent Manager orchestration domain", () => {
       },
       permission: { list: mock(async () => ({ data: [] })) },
       question: { list: mock(async () => ({ data: [] })) },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await prompt({ client, root, state, sessionID: "ses_live", text: "Continue", managed })
     expect(delivered).toHaveBeenCalledWith(expect.objectContaining({ directory: worktree }), { throwOnError: true })
@@ -366,7 +366,7 @@ describe("Agent Manager orchestration domain", () => {
       },
       permission: { list: mock(async () => ({ data: [] })) },
       question: { list: mock(async () => ({ data: noQuestions })) },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await prompt({ client, root, state, sessionID: "ses_queue", text: "Continue" })
 
@@ -395,7 +395,7 @@ describe("Agent Manager orchestration domain", () => {
       },
       permission: { list: mock(async () => ({ data: [{ id: "perm_1", sessionID: "ses_blocked" }] })) },
       question: { list: mock(async () => ({ data: noQuestions })) },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await expect(prompt({ client, root, state, sessionID: "ses_blocked", text: "Continue" })).rejects.toMatchObject({
       code: "unavailable_session",
@@ -420,7 +420,7 @@ describe("Agent Manager orchestration domain", () => {
           return { data: noQuestions }
         }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await prompt({
       client,
@@ -472,7 +472,7 @@ describe("Agent Manager orchestration domain", () => {
       question: {
         list: mock(async () => ({ data: [question] })),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await expect(prompt({ client, root, state, sessionID: "ses_blocked", text: "Continue" })).rejects.toMatchObject({
       code: "unavailable_session",
@@ -514,7 +514,7 @@ describe("Agent Manager orchestration domain", () => {
       question: {
         list: mock(async () => ({ data: noQuestions })),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await expect(
       prompt({ client, root, state, sessionID: "ses_blocker_error", text: "Continue" }),
@@ -540,7 +540,7 @@ describe("Agent Manager orchestration domain", () => {
       question: {
         list: mock(async () => ({ data: noQuestions })),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await expect(prompt({ client, root, state, sessionID: "ses_unknown", text: "Continue" })).rejects.toMatchObject({
       code: "unknown_session",
@@ -602,7 +602,7 @@ describe("Agent Manager orchestration domain", () => {
         })),
         reply,
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     const resolved = await answer({ client, root, state, sessionID: "ses_ask", answers: [["Yes"]] })
 
@@ -629,7 +629,7 @@ describe("Agent Manager orchestration domain", () => {
         list: mock(async () => ({ data: pending })),
         reply,
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await expect(answer({ client, root, state, sessionID: "ses_many", answers: [["x"]] })).rejects.toMatchObject({
       code: "unavailable_session",
@@ -677,7 +677,7 @@ describe("Agent Manager orchestration domain", () => {
         })),
         reply,
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     await expect(answer({ client, root, state, sessionID: "ses_none", answers: [["x"]] })).rejects.toMatchObject({
       code: "unavailable_session",

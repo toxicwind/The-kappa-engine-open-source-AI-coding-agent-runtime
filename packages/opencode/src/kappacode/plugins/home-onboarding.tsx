@@ -1,6 +1,6 @@
 import type { TuiPlugin, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, Show } from "solid-js"
-import { Tips } from "@/kilocode/components/tips"
+import { Tips } from "@/kappacode/components/tips"
 
 const id = "internal:home-onboarding"
 

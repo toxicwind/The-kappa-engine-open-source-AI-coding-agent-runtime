@@ -7,7 +7,7 @@ import * as Log from "@opencode-ai/core/util/log"
 import { Telemetry } from "@kappacode/kappa-telemetry"
 import z from "zod"
 import { Schema } from "effect"
-import { KiloSessionPromptQueue } from "../session/prompt-queue"
+import { KappaSessionPromptQueue } from "../session/prompt-queue"
 import { Instance } from "../instance"
 import { parseReviewCommand } from "../review/command"
 
@@ -132,7 +132,7 @@ export namespace Suggestion {
     // Auto-dismiss if a newer prompt is already queued on this session.
     // Synchronous check immediately before the pending set, so there's no
     // interleaving with dismissAll called from SessionPrompt.prompt.
-    if (KiloSessionPromptQueue.hasFollowup(SessionID.make(input.sessionID))) {
+    if (KappaSessionPromptQueue.hasFollowup(SessionID.make(input.sessionID))) {
       log.info("auto-dismissed — followup queued", { sessionID: input.sessionID })
       throw new DismissedError()
     }

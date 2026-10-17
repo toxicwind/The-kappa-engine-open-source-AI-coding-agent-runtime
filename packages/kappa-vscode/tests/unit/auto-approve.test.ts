@@ -2,8 +2,8 @@ import { describe, expect, it } from "bun:test"
 import * as vscode from "vscode"
 import { registerToggleAutoApprove, type AutoApproveController } from "../../src/commands/toggle-auto-approve"
 import { createAutoApproveBridge } from "../../src/kappa-provider/auto-approve"
-import type { Event, KiloClient } from "@kappacode/sdk/v2/client"
-import type { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import type { Event, KappaClient } from "@kappacode/sdk/v2/client"
+import type { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 
 type ConfigEvent = { affectsConfiguration(key: string): boolean }
 type Permission = { id: string }
@@ -79,14 +79,14 @@ function context() {
   return { subscriptions: [] as Array<{ dispose(): void }> } as vscode.ExtensionContext
 }
 
-function connection(client: KiloClient | null, dirs = new Map<string, string>()) {
+function connection(client: KappaClient | null, dirs = new Map<string, string>()) {
   const svc = {
     getClient: () => {
       if (!client) throw new Error("not connected")
       return client
     },
     getPermissionDirectory: (id: string) => dirs.get(id),
-  } as unknown as KiloConnectionService
+  } as unknown as KappaConnectionService
 
   return { svc }
 }
@@ -106,7 +106,7 @@ function client(opts: {
         options?: { throwOnError?: boolean },
       ) => opts.reply?.(args, options),
     },
-  } as unknown as KiloClient
+  } as unknown as KappaClient
 }
 
 function asked(id: string, sessionID = "ses_1") {

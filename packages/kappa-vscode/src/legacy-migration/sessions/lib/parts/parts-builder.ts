@@ -1,4 +1,4 @@
-import type { KilocodeSessionImportPartData as Part } from "@kappacode/sdk/v2"
+import type { KappacodeSessionImportPartData as Part } from "@kappacode/sdk/v2"
 import { cleanLegacyTaskText, isLegacySystemErrorText, record } from "./parts-util"
 
 type Body = NonNullable<Part["body"]>

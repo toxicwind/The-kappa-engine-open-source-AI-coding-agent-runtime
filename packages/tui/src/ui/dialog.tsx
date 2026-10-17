@@ -40,7 +40,7 @@ export function Dialog(
       width={dimensions().width}
       height={dimensions().height}
       alignItems="center"
-      justifyContent="center" // kilocode_change
+      justifyContent="center" // kappacode_change
       position="absolute"
       zIndex={3000}
       left={0}

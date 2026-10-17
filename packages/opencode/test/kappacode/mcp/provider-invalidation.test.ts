@@ -3,7 +3,7 @@ import { Effect } from "effect"
 import { McpOAuthProvider } from "../../../src/mcp/oauth-provider"
 import type { McpAuth } from "../../../src/mcp/auth"
 
-// Covers the Kilo-specific conditional credential invalidation added to McpOAuthProvider:
+// Covers the Kappa-specific conditional credential invalidation added to McpOAuthProvider:
 // automatic invalidation must clear only the credential the failed request presented and must
 // never delete a value blindly.
 

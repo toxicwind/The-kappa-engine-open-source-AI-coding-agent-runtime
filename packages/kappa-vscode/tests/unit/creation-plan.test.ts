@@ -112,7 +112,7 @@ it("prepares directory endpoints in parallel and rejects failures", async () => 
         return { data: {} }
       },
     },
-    kilocode: {
+    kappacode: {
       snapshot: {
         prepare: ({ directory }: { directory: string }) => {
           calls.push(`snapshot:${directory}`)

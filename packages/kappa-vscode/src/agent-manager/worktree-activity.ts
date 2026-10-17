@@ -1,5 +1,5 @@
 import { samePath } from "./project/paths"
-import type { KiloConnectionService } from "../services/cli-backend"
+import type { KappaConnectionService } from "../services/cli-backend"
 
 type Snapshot = {
   statuses: Record<string, { type: string }>
@@ -38,7 +38,7 @@ type Options = {
 }
 
 type FactoryOptions = {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   paths: () => string[]
   post: (active: string[]) => void
   status: (event: unknown) => void

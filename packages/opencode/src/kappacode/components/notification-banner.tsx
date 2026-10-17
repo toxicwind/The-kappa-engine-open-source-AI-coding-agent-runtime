@@ -1,5 +1,5 @@
 /**
- * Kilo Notification Banner
+ * Kappa Notification Banner
  *
  * Displays a notification teaser on the home screen.
  * Clicking opens the full notifications dialog.
@@ -11,10 +11,10 @@
 
 import { createSignal, Show } from "solid-js"
 import { useTheme } from "@tui/context/theme"
-import type { KilocodeNotification } from "@kappacode/kappa-gateway"
+import type { KappacodeNotification } from "@kappacode/kappa-gateway"
 
 interface NotificationBannerProps {
-  notification: KilocodeNotification
+  notification: KappacodeNotification
   totalCount: number
   onClick?: () => void
 }

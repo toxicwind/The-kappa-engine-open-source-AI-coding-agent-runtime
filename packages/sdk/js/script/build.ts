@@ -58,7 +58,7 @@ await createClient({
     },
     {
       name: "@hey-api/sdk",
-      instance: "KiloClient",
+      instance: "KappaClient",
       exportFromIndex: false,
       auth: false,
       paramsStructure: "flat",
@@ -95,7 +95,7 @@ if (historySdkPatched === generatedSdk) {
 await Bun.write("./src/v2/gen/sdk.gen.ts", historySdkPatched)
 
 // The legacy SDK generator is retired, but this public Config type remains exported.
-// Keep Kilo's released sandbox settings aligned with the current generated client.
+// Keep Kappa's released sandbox settings aligned with the current generated client.
 const legacyTypesPath = "./src/gen/types.gen.ts"
 const legacyTypesFile = Bun.file(legacyTypesPath)
 const legacySource = await legacyTypesFile.text()

@@ -1,37 +1,37 @@
 import { createContext, createSignal, onCleanup, useContext, type Accessor, type ParentComponent } from "solid-js"
 import {
   EMPTY_KILO_EMBEDDING_MODEL_CATALOG,
-  type KiloEmbeddingModelCatalog,
+  type KappaEmbeddingModelCatalog,
 } from "@kappacode/kappa-indexing/embedding-models"
 import { useVSCode } from "./vscode"
 import type { ExtensionMessage } from "../types/messages"
 
-type KiloEmbeddingModelsContextValue = {
-  catalog: Accessor<KiloEmbeddingModelCatalog>
+type KappaEmbeddingModelsContextValue = {
+  catalog: Accessor<KappaEmbeddingModelCatalog>
 }
 
-export const KiloEmbeddingModelsContext = createContext<KiloEmbeddingModelsContextValue>()
+export const KappaEmbeddingModelsContext = createContext<KappaEmbeddingModelsContextValue>()
 
-export const KiloEmbeddingModelsProvider: ParentComponent = (props) => {
+export const KappaEmbeddingModelsProvider: ParentComponent = (props) => {
   const vscode = useVSCode()
-  const [catalog, setCatalog] = createSignal<KiloEmbeddingModelCatalog>(EMPTY_KILO_EMBEDDING_MODEL_CATALOG)
+  const [catalog, setCatalog] = createSignal<KappaEmbeddingModelCatalog>(EMPTY_KILO_EMBEDDING_MODEL_CATALOG)
 
   const unsubscribe = vscode.onMessage((message: ExtensionMessage) => {
-    if (message.type !== "kiloEmbeddingModelsLoaded") return
+    if (message.type !== "kappaEmbeddingModelsLoaded") return
     setCatalog(message.catalog)
   })
 
-  vscode.postMessage({ type: "requestKiloEmbeddingModels" })
+  vscode.postMessage({ type: "requestKappaEmbeddingModels" })
 
   onCleanup(unsubscribe)
 
-  return <KiloEmbeddingModelsContext.Provider value={{ catalog }}>{props.children}</KiloEmbeddingModelsContext.Provider>
+  return <KappaEmbeddingModelsContext.Provider value={{ catalog }}>{props.children}</KappaEmbeddingModelsContext.Provider>
 }
 
-export function useKiloEmbeddingModels(): KiloEmbeddingModelsContextValue {
-  const context = useContext(KiloEmbeddingModelsContext)
+export function useKappaEmbeddingModels(): KappaEmbeddingModelsContextValue {
+  const context = useContext(KappaEmbeddingModelsContext)
   if (!context) {
-    throw new Error("useKiloEmbeddingModels must be used within a KiloEmbeddingModelsProvider")
+    throw new Error("useKappaEmbeddingModels must be used within a KappaEmbeddingModelsProvider")
   }
   return context
 }

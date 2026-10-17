@@ -1,18 +1,18 @@
 import { createBuiltinPlugins, type BuiltinTuiPlugin } from "@opencode-ai/tui/builtins"
 import type { RuntimeFlags } from "@/effect/runtime-flags"
-import { withKiloTuiPlugins } from "@/kilocode/plugins/internal" // kilocode_change
+import { withKappaTuiPlugins } from "@/kappacode/plugins/internal" // kappacode_change
 
 export type InternalTuiPlugin = BuiltinTuiPlugin
 
-// kilocode_change start
+// kappacode_change start
 export function internalTuiPlugins(
   flags: Pick<RuntimeFlags.Info, "experimentalEventSystem" | "experimentalSessionSwitcher">,
 ): InternalTuiPlugin[] {
-  return withKiloTuiPlugins(
+  return withKappaTuiPlugins(
     createBuiltinPlugins({
       experimentalEventSystem: flags.experimentalEventSystem,
     }),
     flags,
   )
-  // kilocode_change end
+  // kappacode_change end
 }

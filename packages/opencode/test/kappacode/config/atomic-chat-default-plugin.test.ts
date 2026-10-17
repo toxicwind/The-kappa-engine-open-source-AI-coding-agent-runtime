@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test"
 import { Npm } from "@opencode-ai/core/npm"
 import type { ConfigPlugin } from "@/config/plugin"
 import { hasAtomicChatPlugin } from "@/kappacode/atomic-chat-feature"
-import { KilocodeDefaultPlugins } from "@/kappacode/config/default-plugins"
+import { KappacodeDefaultPlugins } from "@/kappacode/config/default-plugins"
 import { PluginLoader } from "@/plugin/loader"
 
 const atomic = "@kappacode/plugin-atomic-chat"
@@ -12,7 +12,7 @@ describe("kappacode default atomic chat plugin", () => {
     const external: ConfigPlugin.Origin = { spec: "global-plugin", source: "global", scope: "global" }
     const cfg = { plugin: [external.spec], plugin_origins: [external] }
 
-    KilocodeDefaultPlugins.apply(cfg, { disabled: false })
+    KappacodeDefaultPlugins.apply(cfg, { disabled: false })
 
     expect(hasAtomicChatPlugin(cfg.plugin)).toBe(true)
     expect(cfg.plugin_origins).toEqual([external])
@@ -20,7 +20,7 @@ describe("kappacode default atomic chat plugin", () => {
 
   test("does not add atomic chat plugin when default plugins are disabled", () => {
     const cfg = { plugin: ["global-plugin-1"] }
-    KilocodeDefaultPlugins.apply(cfg, { disabled: true })
+    KappacodeDefaultPlugins.apply(cfg, { disabled: true })
     expect(hasAtomicChatPlugin(cfg.plugin)).toBe(false)
     expect(cfg.plugin).toEqual(["global-plugin-1"])
   })
@@ -32,7 +32,7 @@ describe("kappacode default atomic chat plugin", () => {
       plugin_origins: [{ spec: atomic, source: "builtin", scope: "global" as const }, external],
     }
 
-    KilocodeDefaultPlugins.apply(cfg, { disabled: true })
+    KappacodeDefaultPlugins.apply(cfg, { disabled: true })
 
     expect(cfg.plugin).toEqual([atomic, external.spec])
     expect(cfg.plugin_origins).toEqual([external])
@@ -40,7 +40,7 @@ describe("kappacode default atomic chat plugin", () => {
 
   test("does not duplicate atomic chat plugin", () => {
     const cfg = { plugin: [atomic] }
-    KilocodeDefaultPlugins.apply(cfg, { disabled: false })
+    KappacodeDefaultPlugins.apply(cfg, { disabled: false })
     expect(cfg.plugin.filter((plugin) => hasAtomicChatPlugin([plugin])).length).toBe(1)
   })
 
@@ -51,7 +51,7 @@ describe("kappacode default atomic chat plugin", () => {
       plugin_origins: [{ spec, source: "global", scope: "global" as const }],
     }
 
-    KilocodeDefaultPlugins.apply(cfg, { disabled: false })
+    KappacodeDefaultPlugins.apply(cfg, { disabled: false })
 
     expect(cfg.plugin.filter((plugin) => hasAtomicChatPlugin([plugin]))).toEqual([spec])
     expect(cfg.plugin_origins).toEqual([])
@@ -69,7 +69,7 @@ describe("kappacode default atomic chat plugin", () => {
         plugin_origins: [{ spec, source: "global", scope: "global" as const }],
       }
 
-      KilocodeDefaultPlugins.apply(cfg, { disabled: false })
+      KappacodeDefaultPlugins.apply(cfg, { disabled: false })
 
       expect(cfg.plugin.filter((plugin) => hasAtomicChatPlugin([plugin]))).toEqual([spec])
       expect(cfg.plugin_origins).toEqual([])
@@ -81,7 +81,7 @@ describe("kappacode default atomic chat plugin", () => {
     const origin: ConfigPlugin.Origin = { spec, source: "global", scope: "global" }
     const cfg = { plugin: [spec], plugin_origins: [origin] }
 
-    KilocodeDefaultPlugins.apply(cfg, { disabled: false })
+    KappacodeDefaultPlugins.apply(cfg, { disabled: false })
 
     expect(cfg.plugin).toContain(atomic)
     expect(cfg.plugin_origins).toEqual([origin])
@@ -92,7 +92,7 @@ describe("kappacode default atomic chat plugin", () => {
     const origin: ConfigPlugin.Origin = { spec, source: "project", scope: "local" }
     const cfg = { plugin: [spec], plugin_origins: [origin] }
 
-    KilocodeDefaultPlugins.apply(cfg, { disabled: false })
+    KappacodeDefaultPlugins.apply(cfg, { disabled: false })
 
     expect(cfg.plugin).toContain(spec)
     expect(cfg.plugin).toContain(atomic)

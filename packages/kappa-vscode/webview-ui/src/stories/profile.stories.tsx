@@ -25,7 +25,7 @@ const loggedInProfile: ProfileData = {
     ],
   },
   balance: { balance: 42.5 },
-  kiloPass: null,
+  kappaPass: null,
   currentOrgId: null,
 }
 
@@ -35,7 +35,7 @@ const personalProfile: ProfileData = {
     name: "Solo Dev",
   },
   balance: { balance: 267.59 },
-  kiloPass: {
+  kappaPass: {
     currentPeriodBaseCreditsUsd: 199,
     currentPeriodUsageUsd: 73.27,
     currentPeriodBonusCreditsUsd: 99.5,
@@ -55,7 +55,7 @@ const usage: ProviderUsageData = {
       sourceKind: "kilo_managed",
       providerLabel: "MiniMax",
       planLabel: "Token Plan Plus",
-      sourceLabel: "via Kilo",
+      sourceLabel: "via Kappa",
       fetchState: "ready",
       planState: "active",
       routingState: "active",

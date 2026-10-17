@@ -1,9 +1,9 @@
 import { expect, test } from "bun:test"
-import { KiloRunDrain } from "@/kappacode/cli/run-drain"
-import { KiloRun } from "@/kappacode/cli/cmd/run"
+import { KappaRunDrain } from "@/kappacode/cli/run-drain"
+import { KappaRun } from "@/kappacode/cli/cmd/run"
 
 function client(handle: (request: Request) => Promise<Response>) {
-  return KiloRunDrain.client({
+  return KappaRunDrain.client({
     baseUrl: "http://drain.test/prefix",
     headers: { Authorization: "Basic test-only" },
     fetch: Object.assign(
@@ -26,7 +26,7 @@ test("checks capabilities through the selected transport before accepting comple
       paths: { "/kappacode/session/{sessionID}/drain": { post: { operationId: "kappacode.drainSession" } } },
     })
   })
-  await KiloRunDrain.check(sdk, new AbortController().signal)
+  await KappaRunDrain.check(sdk, new AbortController().signal)
 })
 
 test("scopes requests without losing the transport or cancellation signal", async () => {
@@ -42,10 +42,10 @@ test("scopes requests without losing the transport or cancellation signal", asyn
     signals.push(request.signal)
     return Response.json(request.method === "GET" ? {} : true)
   })
-  const scoped = KiloRunDrain.scope(sdk, "/session owner", abort.signal)
+  const scoped = KappaRunDrain.scope(sdk, "/session owner", abort.signal)
   await scoped.config.get()
-  await KiloRunDrain.scope(scoped, "/resumed owner").config.get()
-  await KiloRun.runBuiltin(
+  await KappaRunDrain.scope(scoped, "/resumed owner").config.get()
+  await KappaRun.runBuiltin(
     scoped,
     "ses_test",
     "compact",
@@ -63,7 +63,7 @@ test("headless goal controls use direct commands without draining", async () => 
   const calls: unknown[] = []
   const events: unknown[] = []
   const part = { id: "part_goal", messageID: "msg_goal", sessionID: "ses_goal", type: "text", text: "Goal paused" }
-  const sdk = KiloRunDrain.scope(
+  const sdk = KappaRunDrain.scope(
     client(async (request) => {
       const url = new URL(request.url)
       calls.push({ path: url.pathname, directory: request.headers.get("x-kappa-directory"), body: await request.json() })
@@ -73,7 +73,7 @@ test("headless goal controls use direct commands without draining", async () => 
   )
 
   for (const action of ["", " pause ", "clear"]) {
-    await KiloRun.goal(sdk, "ses_goal", action, (type, data) => {
+    await KappaRun.goal(sdk, "ses_goal", action, (type, data) => {
       events.push({ type, ...data })
       return true
     })
@@ -100,7 +100,7 @@ test("headless goal start and resume fail before dispatch", async () => {
 
   try {
     for (const action of ["Fix failing tests", "resume"]) {
-      await KiloRun.goal(sdk, "ses_goal", action, (type, data) => {
+      await KappaRun.goal(sdk, "ses_goal", action, (type, data) => {
         expect(type).toBe("error")
         errors.push(data.error)
         return true
@@ -121,7 +121,7 @@ test("headless goal command failures set a nonzero exit code", async () => {
   const sdk = client(async () => Response.json({ message: "Goal unavailable" }, { status: 400 }))
 
   try {
-    await KiloRun.goal(sdk, "ses_goal", "pause", (type) => {
+    await KappaRun.goal(sdk, "ses_goal", "pause", (type) => {
       events.push(type)
       return true
     })
@@ -138,21 +138,21 @@ test.each([
   () => Response.json({ error: "Not Found" }, { status: 404 }),
 ])("rejects unsupported or HTML-returning servers", async (response) => {
   const sdk = client(async () => response())
-  await expect(KiloRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
+  await expect(KappaRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
     "does not support session draining",
   )
 })
 
 test.each([401, 403])("reports HTTP %i as an authentication or authorization failure", async (status) => {
   const sdk = client(async () => new Response("private error body", { status }))
-  await expect(KiloRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
+  await expect(KappaRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
     `Server rejected access (HTTP ${status})`,
   )
 })
 
 test.each([429, 500, 503])("preserves HTTP %i instead of recommending a server upgrade", async (status) => {
   const sdk = client(async () => new Response("private error body", { status }))
-  await expect(KiloRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
+  await expect(KappaRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
     `Server capability check failed (HTTP ${status})`,
   )
 })
@@ -161,15 +161,15 @@ test("reports invalid JSON without exposing the response body", async () => {
   const sdk = client(
     async () => new Response("private invalid payload", { headers: { "content-type": "application/json" } }),
   )
-  await expect(KiloRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
+  await expect(KappaRunDrain.check(sdk, new AbortController().signal)).rejects.toThrow(
     "Server returned invalid capability JSON",
   )
 })
 
 test.each(["EPIPE", "ERR_STREAM_DESTROYED"])("flush tolerates closed output %s", async (code) => {
   const error = Object.assign(new Error("closed output"), { code })
-  await KiloRunDrain.flush([{ write: (_chunk, callback) => callback(error) }])
-  await KiloRunDrain.flush([
+  await KappaRunDrain.flush([{ write: (_chunk, callback) => callback(error) }])
+  await KappaRunDrain.flush([
     {
       write: () => {
         throw error
@@ -180,14 +180,14 @@ test.each(["EPIPE", "ERR_STREAM_DESTROYED"])("flush tolerates closed output %s",
 
 test("flush preserves other I/O errors", async () => {
   const error = Object.assign(new Error("output failed"), { code: "EIO" })
-  await expect(KiloRunDrain.flush([{ write: (_chunk, callback) => callback(error) }])).rejects.toBe(error)
+  await expect(KappaRunDrain.flush([{ write: (_chunk, callback) => callback(error) }])).rejects.toBe(error)
 })
 
 test("flush waits for all output callbacks", async () => {
   const first = Promise.withResolvers<void>()
   const second = Promise.withResolvers<void>()
   let done = false
-  const output = KiloRunDrain.flush([
+  const output = KappaRunDrain.flush([
     { write: (_chunk, callback) => void first.promise.then(() => callback()) },
     { write: (_chunk, callback) => void second.promise.then(() => callback()) },
   ]).then(() => {
@@ -203,7 +203,7 @@ test("flush waits for all output callbacks", async () => {
 
 test("accepts an acknowledgment that arrives before the HTTP result", async () => {
   const response = Promise.withResolvers<Response>()
-  const drain = KiloRunDrain.create("ses_parent")
+  const drain = KappaRunDrain.create("ses_parent")
   const sdk = client(() => response.promise)
   const waiting = drain.wait(sdk)
   expect(drain.event(event("wrong"))).toBe(false)
@@ -216,7 +216,7 @@ test("accepts an acknowledgment that arrives before the HTTP result", async () =
 
 test("accepts the HTTP result before the matching acknowledgment", async () => {
   const received = Promise.withResolvers<void>()
-  const drain = KiloRunDrain.create("ses_parent")
+  const drain = KappaRunDrain.create("ses_parent")
   const sdk = client(async () => Response.json(true))
   const original = sdk.kappacode.drainSession.bind(sdk.kappacode)
   sdk.kappacode.drainSession = (params, options) => {
@@ -233,7 +233,7 @@ test("accepts the HTTP result before the matching acknowledgment", async () => {
 
 test("stream loss fails a pending wait instead of reporting completion", async () => {
   const response = Promise.withResolvers<Response>()
-  const drain = KiloRunDrain.create("ses_parent")
+  const drain = KappaRunDrain.create("ses_parent")
   const sdk = client(() => response.promise)
   const waiting = drain.wait(sdk)
   drain.end()
@@ -243,14 +243,14 @@ test("stream loss fails a pending wait instead of reporting completion", async (
 })
 
 test("closing a run aborts pending retry waits", async () => {
-  const drain = KiloRunDrain.create("ses_parent")
+  const drain = KappaRunDrain.create("ses_parent")
   const waiting = drain.pause(60_000)
   drain.close()
   await expect(waiting).rejects.toThrow()
 })
 
 test("session cancellation fails a drain after the parent turn already closed", async () => {
-  const drain = KiloRunDrain.create("ses_parent")
+  const drain = KappaRunDrain.create("ses_parent")
   drain.event({
     id: "evt_done",
     type: "session.turn.close",
@@ -266,7 +266,7 @@ test("session cancellation fails a drain after the parent turn already closed", 
 })
 
 test("a root interruption fails but a superseded handoff and child interruption do not", async () => {
-  const drain = KiloRunDrain.create("ses_parent")
+  const drain = KappaRunDrain.create("ses_parent")
   drain.event({
     id: "evt_superseded",
     type: "session.turn.close",

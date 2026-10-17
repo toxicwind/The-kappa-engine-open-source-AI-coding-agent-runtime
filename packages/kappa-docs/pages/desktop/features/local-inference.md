@@ -1,6 +1,6 @@
 ---
 title: "Local inference"
-description: "Run models on your own machine with the local model server in Kilo Desktop."
+description: "Run models on your own machine with the local model server in Kappa Desktop."
 ---
 
 # Local inference
@@ -8,7 +8,7 @@ description: "Run models on your own machine with the local model server in Kilo
 Run models on your own machine through a managed local model server, so you can work with a model without sending your prompts to a hosted provider.
 
 {% callout type="info" %}
-The local model server requires a [Kilo account](/docs/desktop/settings/ai#ai-providers). Sign in to use it.
+The local model server requires a [Kappa account](/docs/desktop/settings/ai#ai-providers). Sign in to use it.
 {% /callout %}
 
 ## Set up a local model

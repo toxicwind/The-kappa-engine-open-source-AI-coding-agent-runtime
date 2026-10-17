@@ -1,7 +1,7 @@
-// Verifies fetchKiloModels typed result and 401 fallback behaviour.
+// Verifies fetchKappaModels typed result and 401 fallback behaviour.
 
 import { test, expect, spyOn } from "bun:test"
-import { fetchKiloModels, fetchKiloTranscriptionModels } from "../../src/api/models.js"
+import { fetchKappaModels, fetchKappaTranscriptionModels } from "../../src/api/models.js"
 
 const VALID_RESPONSE = JSON.stringify({
   data: [
@@ -46,7 +46,7 @@ const VALID_AUTO_ROUTING_RESPONSE = JSON.stringify({
   data: [
     {
       id: "kappa-auto/efficient",
-      name: "Kilo Auto Efficient",
+      name: "Kappa Auto Efficient",
       context_length: 128000,
       max_completion_tokens: 16384,
       architecture: {
@@ -97,7 +97,7 @@ for (const status of [408, 429, 503]) {
         new Response("Unavailable", { status, headers: header == null ? {} : { "retry-after": header } }),
       )
       try {
-        const result = await fetchKiloModels({ kilocodeOrganizationId: "org-a" })
+        const result = await fetchKappaModels({ kappacodeOrganizationId: "org-a" })
         expect(result.error?.kind).toBe("http")
         expect(result.error?.status).toBe(status)
         expect(result.error?.retryAfter).toBe(expected)
@@ -114,7 +114,7 @@ test("returns empty models and error when both auth and public requests return 4
   const orig = globalThis.fetch
   stubFetch(async () => new Response("Unauthorized", { status: 401, statusText: "Unauthorized" }))
 
-  const result = await fetchKiloModels({ kilocodeToken: "bad-token" })
+  const result = await fetchKappaModels({ kappacodeToken: "bad-token" })
 
   ;(globalThis as any).fetch = orig
 
@@ -137,8 +137,8 @@ test("falls back to public endpoint on 401 and returns models", async () => {
     })
   })
 
-  const result = await fetchKiloModels({
-    kilocodeToken: "expired-token",
+  const result = await fetchKappaModels({
+    kappacodeToken: "expired-token",
   })
 
   ;(globalThis as any).fetch = orig
@@ -149,19 +149,19 @@ test("falls back to public endpoint on 401 and returns models", async () => {
 })
 
 test.each([
-  { kilocodeToken: "expired-token", kilocodeOrganizationId: "org-123" },
-  { kilocodeOrganizationId: "org-123" },
-  { kilocodeToken: "expired-token", baseURL: "https://api.kappa.ai/api/organizations/org-123" },
-  { kilocodeToken: "expired-token", baseURL: "https://gateway.test/api/organizations/org-123" },
-  { kilocodeToken: "https://gateway.test/api/organizations/org-token:expired-token" },
+  { kappacodeToken: "expired-token", kappacodeOrganizationId: "org-123" },
+  { kappacodeOrganizationId: "org-123" },
+  { kappacodeToken: "expired-token", baseURL: "https://api.kappa.ai/api/organizations/org-123" },
+  { kappacodeToken: "expired-token", baseURL: "https://gateway.test/api/organizations/org-123" },
+  { kappacodeToken: "https://gateway.test/api/organizations/org-token:expired-token" },
   {
-    kilocodeToken: "https://gateway.test/api/organizations/org-token:expired-token",
+    kappacodeToken: "https://gateway.test/api/organizations/org-token:expired-token",
     baseURL: "https://api.kappa.ai/api/openrouter",
   },
 ])("never retries an organization-scoped 401 against the public catalog: %j", async (options) => {
   const fetch = spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 401 }))
   try {
-    expect(await fetchKiloModels(options)).toEqual({ models: {}, error: { kind: "unauthorized", status: 401 } })
+    expect(await fetchKappaModels(options)).toEqual({ models: {}, error: { kind: "unauthorized", status: 401 } })
     expect(fetch).toHaveBeenCalledTimes(1)
   } finally {
     fetch.mockRestore()
@@ -171,7 +171,7 @@ test.each([
 test("preserves a successful empty organization catalog", async () => {
   const fetch = spyOn(globalThis, "fetch").mockResolvedValue(Response.json({ data: [] }))
   try {
-    expect(await fetchKiloModels({ kilocodeToken: "token", kilocodeOrganizationId: "org-123" })).toEqual({ models: {} })
+    expect(await fetchKappaModels({ kappacodeToken: "token", kappacodeOrganizationId: "org-123" })).toEqual({ models: {} })
     expect(fetch).toHaveBeenCalledTimes(1)
   } finally {
     fetch.mockRestore()
@@ -184,7 +184,7 @@ test("returns error with kind=network on fetch exception", async () => {
     throw new Error("network error")
   })
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -196,7 +196,7 @@ test("returns error with kind=http on non-auth HTTP error (e.g. 500)", async () 
   const orig = globalThis.fetch
   stubFetch(async () => new Response("Server Error", { status: 500, statusText: "Internal Server Error" }))
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -215,7 +215,7 @@ test("returns models without error on success", async () => {
       }),
   )
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -237,7 +237,7 @@ test("preserves Terminal Bench metadata as a dedicated model field", async () =>
       }),
   )
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -258,7 +258,7 @@ test("preserves Auto Efficient routing metadata as a dedicated model field", asy
       }),
   )
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -278,7 +278,7 @@ test("omits malformed Terminal Bench metadata without rejecting the catalog", as
       }),
   )
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -296,7 +296,7 @@ test("returns error with kind=schema when response body is invalid JSON", async 
       }),
   )
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -393,7 +393,7 @@ test("keeps image-output models with tools and drops models without tools", asyn
       }),
   )
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 
@@ -425,7 +425,7 @@ test("fetches and filters the transcription catalog", async () => {
     )
   })
 
-  const result = await fetchKiloTranscriptionModels({ kilocodeToken: "token" })
+  const result = await fetchKappaTranscriptionModels({ kappacodeToken: "token" })
 
   ;(globalThis as any).fetch = orig
 
@@ -449,7 +449,7 @@ test("keeps organization catalog errors from silently falling back to personal m
     return new Response("Forbidden", { status: 403 })
   })
 
-  const result = await fetchKiloTranscriptionModels({ kilocodeToken: "token", kilocodeOrganizationId: "org-1" })
+  const result = await fetchKappaTranscriptionModels({ kappacodeToken: "token", kappacodeOrganizationId: "org-1" })
 
   ;(globalThis as any).fetch = orig
 
@@ -457,7 +457,7 @@ test("keeps organization catalog errors from silently falling back to personal m
   expect(result.error?.kind).toBe("unauthorized")
   expect(calls).toHaveLength(1)
   expect(calls[0]).toContain("/api/gateway/transcription-models")
-  expect(headers[0]?.get("X-KILOCODE-ORGANIZATIONID")).toBe("org-1")
+  expect(headers[0]?.get("X-KAPPACODE-ORGANIZATIONID")).toBe("org-1")
 })
 
 test("omits cost when pricing contains negative values (dynamic/auto-routed pricing)", async () => {
@@ -508,7 +508,7 @@ test("omits cost when pricing contains negative values (dynamic/auto-routed pric
       ),
   )
 
-  const result = await fetchKiloModels({})
+  const result = await fetchKappaModels({})
 
   ;(globalThis as any).fetch = orig
 

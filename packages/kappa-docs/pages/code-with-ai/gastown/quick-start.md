@@ -9,7 +9,7 @@ This guide walks you through creating your first town, connecting a repository, 
 
 ## Prerequisites
 
-- A [Kilo account](https://app.kappa.ai) (free tier works)
+- A [Kappa account](https://app.kappa.ai) (free tier works)
 - A GitHub repository you want agents to work on
 - A GitHub Personal Access Token (recommended)
 
@@ -30,7 +30,7 @@ Add a **rig** to your town. A rig is a connection to a specific repository.
 3. Choose the default branch (usually `main`)
 4. Click **Connect**
 
-Gastown uses the [Kilo GitHub App](https://github.com/apps/kappa-code) to access your repository. You'll be prompted to install it if you haven't already.
+Gastown uses the [Kappa GitHub App](https://github.com/apps/kappa-code) to access your repository. You'll be prompted to install it if you haven't already.
 
 {% browserFrame url="app.kappa.ai/gastown/town/rigs/new" caption="Adding a new rig — connect your repository" %}
 {% image src="/docs/img/gastown/gt-new-rig.png" alt="Gas Town new rig creation flow" /%}

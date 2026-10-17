@@ -24,7 +24,7 @@ const it = testEffect(
   ),
 )
 
-it.instance("shares and unshares sessions through Kilo public URLs", () => {
+it.instance("shares and unshares sessions through Kappa public URLs", () => {
   const urls: string[] = []
   const fetch: typeof globalThis.fetch = Object.assign(
     async (input: RequestInfo | URL) => {

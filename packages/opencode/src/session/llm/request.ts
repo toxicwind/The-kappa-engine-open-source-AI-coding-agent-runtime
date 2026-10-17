@@ -9,14 +9,15 @@ import type { MessageV2 } from "../message-v2"
 import type { Provider } from "@/provider/provider"
 import { ProviderTransform } from "@/provider/transform"
 import { SystemPrompt } from "../system"
-import { USER_AGENT } from "@/installation" // kilocode_change
+import { USER_AGENT } from "@/installation" // kappacode_change
+import { openCodeClientHeaders } from "@/kappacode/provider/opencode-zen" // kappacode_change
 import { Effect, Record } from "effect"
 import { jsonSchema, tool as aiTool, type ModelMessage, type Tool } from "ai"
 import type { Plugin } from "@/plugin"
 import { mergeDeep } from "remeda"
-import { DEFAULT_HEADERS } from "@/kilocode/const" // kilocode_change
-// kilocode_change start
-import { getKiloProjectId } from "@/kilocode/project-id"
+import { DEFAULT_HEADERS } from "@/kappacode/const" // kappacode_change
+// kappacode_change start
+import { getKappaProjectId } from "@/kappacode/project-id"
 import {
   HEADER_FEATURE,
   HEADER_PARENT_TASKID,
@@ -25,11 +26,11 @@ import {
   HEADER_TASKID,
 } from "@kappacode/kappa-gateway"
 import { Identity } from "@kappacode/kappa-telemetry"
-import { KiloSession } from "@/kilocode/session"
-import { stripInternalOptions } from "@/kilocode/agent/options"
-import { KilocodeSystemPrompt } from "@/kilocode/system-prompt"
-import { KiloLLM } from "@/kilocode/session/llm"
-// kilocode_change end
+import { KappaSession } from "@/kappacode/session"
+import { stripInternalOptions } from "@/kappacode/agent/options"
+import { KappacodeSystemPrompt } from "@/kappacode/system-prompt"
+import { KappaLLM } from "@/kappacode/session/llm"
+// kappacode_change end
 
 type PrepareInput = {
   readonly user: SessionV1.User
@@ -69,12 +70,12 @@ const mergeOptions = (target: Record<string, any>, source: Record<string, any> |
 
 export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: PrepareInput) {
   const isOpenaiOauth = input.provider.id === "openai" && input.auth?.type === "oauth"
-  const includePersona = KilocodeSystemPrompt.shouldIncludePersona(input.agent.name) // kilocode_change
+  const includePersona = KappacodeSystemPrompt.shouldIncludePersona(input.agent.name) // kappacode_change
   const system = [
     [
-      // kilocode_change start - soul defines core identity and personality
+      // kappacode_change start - soul defines core identity and personality
       ...(isOpenaiOauth || !includePersona ? [] : [SystemPrompt.soul()]),
-      // kilocode_change end
+      // kappacode_change end
       ...(input.agent.prompt ? [input.agent.prompt] : SystemPrompt.provider(input.model)),
       ...input.system,
       ...(input.user.system ? [input.user.system] : []),
@@ -106,11 +107,11 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
         sessionID: input.sessionID,
         providerOptions: input.provider.options,
       })
-  // kilocode_change start - drop Kilo-internal agent metadata (id/displayName/source)
+  // kappacode_change start - drop Kappa-internal agent metadata (id/displayName/source)
   // so it never leaks into providerOptions and gets rejected by strict providers
   const agentOptions = stripInternalOptions(input.agent.options)
   const options = mergeOptions(mergeOptions(mergeOptions(base, input.model.options), agentOptions), variant)
-  // kilocode_change end
+  // kappacode_change end
   if (
     input.model.api.npm === "@ai-sdk/azure" &&
     (input.provider.options.useCompletionUrls || input.model.options.useCompletionUrls || options.useCompletionUrls)
@@ -119,9 +120,9 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
     delete options.include
   }
   if (isOpenaiOauth) {
-    // kilocode_change start - prepend soul to instructions
+    // kappacode_change start - prepend soul to instructions
     options.instructions = [...(includePersona ? [SystemPrompt.soul()] : []), ...system].join("\n")
-    // kilocode_change end
+    // kappacode_change end
   }
 
   const messages =
@@ -152,15 +153,15 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
         : undefined,
       topP: input.agent.topP ?? ProviderTransform.topP(input.model),
       topK: ProviderTransform.topK(input.model),
-      // kilocode_change start - gpt-5 via @ai-sdk/openai-compatible proxies (e.g. LiteLLM)
+      // kappacode_change start - gpt-5 via @ai-sdk/openai-compatible proxies (e.g. LiteLLM)
       // rejects `max_tokens`; OpenAI requires `max_completion_tokens` and the compatible
       // SDK cannot rename the field, so drop the cap and let the upstream default apply.
-      // Claude on first-party routes requests its full output limit, see KiloLLM.outputTokens.
+      // Claude on first-party routes requests its full output limit, see KappaLLM.outputTokens.
       maxOutputTokens:
         input.model.api.npm === "@ai-sdk/openai-compatible" && input.model.api.id.toLowerCase().includes("gpt-5")
           ? undefined
-          : KiloLLM.outputTokens({ model: input.model, options, max: input.flags.outputTokenMax, small: input.small }),
-      // kilocode_change end
+          : KappaLLM.outputTokens({ model: input.model, options, max: input.flags.outputTokenMax, small: input.small }),
+      // kappacode_change end
       options,
     },
   )
@@ -179,22 +180,21 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
     },
   )
 
-  // kilocode_change start - resolve project ID and machine ID for kappa provider
-  const isKilo = input.model.api.npm === "@kappacode/kappa-gateway"
-  const kiloProjectId = yield* isKilo
-    ? Effect.promise(() => getKiloProjectId().catch(() => undefined))
+  // kappacode_change start - resolve project ID and machine ID for kappa provider
+  const isKappa = input.model.api.npm === "@kappacode/kappa-gateway"
+  const kappaProjectId = yield* isKappa
+    ? Effect.promise(() => getKappaProjectId().catch(() => undefined))
     : Effect.succeed(undefined)
-  const machineId = yield* isKilo
+  const machineId = yield* isKappa
     ? Effect.promise(() => Identity.getMachineId().catch(() => undefined))
     : Effect.succeed(undefined)
-  const parent = input.parentSessionID ?? KiloSession.resolveParent(input.sessionID)
-  // kilocode_change end
-  // kilocode_change start - attribute Kilo gateway usage to the root product session
-  const attr = KiloSession.attribution(input.sessionID)
-  // kilocode_change end
+  const parent = input.parentSessionID ?? KappaSession.resolveParent(input.sessionID)
+  // kappacode_change end
+  // kappacode_change start - attribute Kappa gateway usage to the root product session
+  const attr = KappaSession.attribution(input.sessionID)
+  // kappacode_change end
 
   const tools = resolveTools(input)
-  // Codex parity: OpenAI Responses-family providers hardcode `strict: false`
   // on every function tool so MCP-sourced and dynamic schemas that don't
   // satisfy OpenAI's structured-outputs constraints still register.
   if (
@@ -231,7 +231,7 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
     messages,
     tools: Object.fromEntries(Object.entries(tools).toSorted(([a], [b]) => a.localeCompare(b))),
     params,
-    // kilocode_change start - surface provider-level endpoint overrides to message
+    // kappacode_change start - surface provider-level endpoint overrides to message
     // transforms without leaking them into the wire params (options is also params.options)
     messageTransformOptions: {
       ...options,
@@ -239,30 +239,27 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
         ? { providerEndpointOverride: input.provider.options?.endpoint ?? input.provider.options?.baseURL }
         : {}),
     },
-    // kilocode_change end
+    // kappacode_change end
     headers: {
       ...(input.model.providerID.startsWith("opencode")
         ? {
+            ...openCodeClientHeaders({}, input.sessionID, input.user.id),
             ...(opencodeProjectID ? { "x-opencode-project": opencodeProjectID } : {}),
-            "x-opencode-session": input.sessionID,
-            "x-opencode-request": input.user.id,
-            "x-opencode-client": input.flags.client,
-            "User-Agent": USER_AGENT,
           }
         : {
             "x-session-affinity": input.sessionID,
             "X-Session-Id": input.sessionID,
             "User-Agent": USER_AGENT,
-            ...(input.model.providerID !== "anthropic" ? DEFAULT_HEADERS : undefined), // kilocode_change
+            ...(input.model.providerID !== "anthropic" ? DEFAULT_HEADERS : undefined), // kappacode_change
           }),
-      // kilocode_change start - headers for kappa provider
-      ...(isKilo && input.agent.name ? { "x-kilocode-mode": input.agent.name.toLowerCase() } : {}),
-      ...(isKilo && kiloProjectId ? { [HEADER_PROJECTID]: kiloProjectId } : {}),
-      ...(isKilo && machineId ? { [HEADER_MACHINEID]: machineId } : {}),
-      ...(isKilo ? { [HEADER_TASKID]: input.sessionID } : {}),
-      ...(isKilo && parent ? { [HEADER_PARENT_TASKID]: parent } : {}),
-      ...(isKilo && attr.feature ? { [HEADER_FEATURE]: attr.feature } : {}),
-      // kilocode_change end
+      // kappacode_change start - headers for kappa provider
+      ...(isKappa && input.agent.name ? { "x-kappacode-mode": input.agent.name.toLowerCase() } : {}),
+      ...(isKappa && kappaProjectId ? { [HEADER_PROJECTID]: kappaProjectId } : {}),
+      ...(isKappa && machineId ? { [HEADER_MACHINEID]: machineId } : {}),
+      ...(isKappa ? { [HEADER_TASKID]: input.sessionID } : {}),
+      ...(isKappa && parent ? { [HEADER_PARENT_TASKID]: parent } : {}),
+      ...(isKappa && attr.feature ? { [HEADER_FEATURE]: attr.feature } : {}),
+      // kappacode_change end
       ...(input.parentSessionID ? { "x-parent-session-id": input.parentSessionID } : {}),
       ...input.model.headers,
       ...headers,

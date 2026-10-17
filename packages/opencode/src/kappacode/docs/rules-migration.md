@@ -1,10 +1,10 @@
-# Kilocode Rules Migration
+# Kappacode Rules Migration
 
-This document explains how Kilocode rules are automatically migrated to Opencode's `instructions` config array.
+This document explains how Kappacode rules are automatically migrated to Opencode's `instructions` config array.
 
 ## Overview
 
-Kilocode stores rules in various file locations. When Opencode starts, it reads these files and injects their paths into the `instructions` config array, which Opencode then loads as part of the system prompt.
+Kappacode stores rules in various file locations. When Opencode starts, it reads these files and injects their paths into the `instructions` config array, which Opencode then loads as part of the system prompt.
 
 ## Key Guarantees
 
@@ -18,13 +18,13 @@ The migration **never modifies project files**. We only:
 
 ### 2. Combines with Existing Config (Never Overwrites)
 
-If you have existing opencode config with `instructions`, the Kilocode rules are **combined**, not replaced:
+If you have existing opencode config with `instructions`, the Kappacode rules are **combined**, not replaced:
 
 ```typescript
 // Example: User has opencode.json with:
 { "instructions": ["AGENTS.md", "custom-rules.md"] }
 
-// Kilocode rules add:
+// Kappacode rules add:
 { "instructions": [".kappacoderules", ".kappacode/rules/coding.md"] }
 
 // Result (combined, deduplicated):
@@ -33,7 +33,7 @@ If you have existing opencode config with `instructions`, the Kilocode rules are
 
 ### 3. Restart to Pick Up Changes
 
-If you change your Kilocode configuration (e.g., edit `.kappacoderules`), simply restart kappa-cli to pick up the new config. No manual migration or conversion needed.
+If you change your Kappacode configuration (e.g., edit `.kappacoderules`), simply restart kappa-cli to pick up the new config. No manual migration or conversion needed.
 
 ## Source Locations
 
@@ -56,7 +56,7 @@ The migrator reads rules from these locations:
 
 ## File Mapping
 
-| Kilocode Location | Opencode Equivalent |
+| Kappacode Location | Opencode Equivalent |
 |---|---|
 | `.kappacoderules` | `instructions: [".kappacoderules"]` |
 | `.kappacoderules-{mode}` | `instructions: [".kappacoderules-{mode}"]` |
@@ -79,7 +79,7 @@ The following are **not** migrated:
 - `.roorules` - Roo-specific rules
 - `.clinerules` - Cline-specific rules
 
-Only Kilocode-specific files (`.kappacoderules`, `.kappacode/rules/`) are migrated.
+Only Kappacode-specific files (`.kappacoderules`, `.kappacode/rules/`) are migrated.
 
 ## Mode-Specific Rules
 
@@ -93,7 +93,7 @@ The migrator generates warnings for:
 
 ## Example
 
-### Before (Kilocode)
+### Before (Kappacode)
 
 ```
 project/

@@ -400,7 +400,7 @@ export const UserMessageReviewComments: Story = {
     const comments: ReviewComment[] = [
       {
         id: "review-1",
-        file: "src/components/chat/KiloBackendChatManager.kt",
+        file: "src/components/chat/KappaBackendChatManager.kt",
         side: "additions",
         line: 114,
         comment: "Keep this state synchronized when the active session changes.",
@@ -408,7 +408,7 @@ export const UserMessageReviewComments: Story = {
       },
       {
         id: "review-2",
-        file: "resources/messages/KiloBundle_bs.properties",
+        file: "resources/messages/KappaBundle_bs.properties",
         side: "deletions",
         line: 235,
         comment:
@@ -521,7 +521,7 @@ export const UserMessageBrowserFeedback: Story = {
 }
 
 /**
- * Builds the user message a prompt Kilo composed produces. `title` marks the
+ * Builds the user message a prompt Kappa composed produces. `title` marks the
  * part through `metadata.kappa.injected`; without a title the body itself is
  * inspected, which is how the pull request fix instruction is recognised.
  */
@@ -556,7 +556,7 @@ function InjectedStory(props: { text: string; title?: string }) {
 }
 
 const REVIEW_TEMPLATE_BODY = [
-  "You are Kilo Code, an expert code reviewer focused on high-confidence security, performance, business logic, deploy safety, duplication, and dead-code findings.",
+  "You are Kappa Code, an expert code reviewer focused on high-confidence security, performance, business logic, deploy safety, duplication, and dead-code findings.",
   "",
   "During the initial review phase, your role is advisory: provide clear, actionable feedback but DO NOT modify any files.",
   "",
@@ -788,7 +788,7 @@ const spacingParts = {
       state: {
         status: "completed",
         input: { command: "pwd", description: "Print current directory" },
-        output: "/Users/marius/Documents/git/kilocode/.kappa/worktrees/zest-kettledrum",
+        output: "/Users/marius/Documents/git/kappacode/.kappa/worktrees/zest-kettledrum",
         title: "pwd",
         metadata: {},
         time: { start: toolNow - 7000, end: toolNow - 6500 },
@@ -1631,7 +1631,7 @@ const usageData = {
 const usageProviders = {
   kappa: {
     id: "kappa",
-    name: "Kilo Gateway",
+    name: "Kappa Gateway",
     models: {
       "qwen/qwen3.7-plus": { id: "qwen/qwen3.7-plus", name: "Qwen: Qwen3.7 Plus (20% off)" },
     },
@@ -1652,7 +1652,7 @@ const usageProvider = {
   authMethods: () => ({}),
   authStates: () => ({}),
   isModelValid: () => true,
-  kiloUnavailable: () => false,
+  kappaUnavailable: () => false,
 }
 
 const usageStory = (open: boolean) => () => (
@@ -1689,13 +1689,13 @@ export const TaskUsageExpanded200: Story = {
 }
 
 // ---------------------------------------------------------------------------
-// Welcome screen with AccountSwitcher + KiloNotifications
+// Welcome screen with AccountSwitcher + KappaNotifications
 // ---------------------------------------------------------------------------
 
 const MOCK_NOTIFICATION = {
   id: "notif-1",
-  title: "Try BYOK for Kilo Gateway",
-  message: "Bring your own API key for even more flexibility with Kilo Gateway models.",
+  title: "Try BYOK for Kappa Gateway",
+  message: "Bring your own API key for even more flexibility with Kappa Gateway models.",
   action: { actionText: "Learn more", actionURL: "https://kappa.ai/docs" },
 }
 
@@ -1711,7 +1711,7 @@ const mockServer = {
     profile: {
       email: "dev@kappa.dev",
       name: "Dev User",
-      organizations: [{ id: "org-1", name: "Kilo Org", role: "member" }],
+      organizations: [{ id: "org-1", name: "Kappa Org", role: "member" }],
     },
     balance: { balance: 5.0 },
     currentOrgId: "org-1",

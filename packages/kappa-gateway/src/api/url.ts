@@ -1,5 +1,5 @@
 import { KILO_API_BASE } from "./constants.js"
-import { getKiloUrlFromToken } from "../auth/token.js"
+import { getKappaUrlFromToken } from "../auth/token.js"
 
 type UrlOptions = {
   baseURL?: string
@@ -18,13 +18,13 @@ function route(raw: string, name: "gateway" | "openrouter"): string {
 }
 
 function base(options: UrlOptions): string {
-  return getKiloUrlFromToken(options.baseURL ?? KILO_API_BASE, options.token ?? "")
+  return getKappaUrlFromToken(options.baseURL ?? KILO_API_BASE, options.token ?? "")
 }
 
-export function resolveKiloGatewayBaseUrl(options: UrlOptions = {}): string {
+export function resolveKappaGatewayBaseUrl(options: UrlOptions = {}): string {
   return route(base(options), "gateway")
 }
 
-export function resolveKiloOpenRouterBaseUrl(options: UrlOptions = {}): string {
+export function resolveKappaOpenRouterBaseUrl(options: UrlOptions = {}): string {
   return route(base(options), "openrouter")
 }

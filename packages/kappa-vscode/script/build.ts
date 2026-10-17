@@ -3,7 +3,7 @@ import { $ } from "bun"
 import { join } from "node:path"
 import { existsSync, mkdirSync, rmSync, chmodSync } from "node:fs"
 import {
-  copyKiloSandboxWorker,
+  copyKappaSandboxWorker,
   copySandboxResources,
   copyTreeSitterResources,
 } from "../src/services/cli-backend/cli-resources"
@@ -83,7 +83,7 @@ for (const config of targets) {
   await $`cp ${sourceBinary} ${targetBinary}`
   await copyTreeSitterResources(sourceBinary, targetBinary)
   await copySandboxResources(sourceBinary, targetBinary)
-  await copyKiloSandboxWorker(sourceBinary, targetBinary)
+  await copyKappaSandboxWorker(sourceBinary, targetBinary)
 
   if (config.binary !== "kappa.exe") {
     chmodSync(targetBinary, 0o755)

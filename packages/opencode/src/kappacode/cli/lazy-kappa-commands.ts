@@ -1,9 +1,9 @@
 import { lazy } from "@/kappacode/cli/lazy-commands"
 
-export const KiloConsoleCommand = lazy({
+export const KappaConsoleCommand = lazy({
   command: "console",
-  describe: "open or stop the local Kilo Console (deprecated)",
-  load: async () => (await import("@/kappacode/cli/cmd/console")).KiloConsoleCommand,
+  describe: "open or stop the local Kappa Console (deprecated)",
+  load: async () => (await import("@/kappacode/cli/cmd/console")).KappaConsoleCommand,
 })
 
 export const CloudCommand = lazy({
@@ -20,7 +20,7 @@ export const RollCallCommand = lazy({
 
 export const ProfileCommand = lazy({
   command: "profile",
-  describe: "show Kilo account profile",
+  describe: "show Kappa account profile",
   load: async () => (await import("@/kappacode/cli/cmd/profile")).ProfileCommand,
 })
 

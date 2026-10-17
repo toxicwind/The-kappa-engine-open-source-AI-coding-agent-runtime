@@ -1,12 +1,12 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { AISDK } from "@opencode-ai/core/aisdk" // kilocode_change
+import { AISDK } from "@opencode-ai/core/aisdk" // kappacode_change
 import { Catalog } from "@opencode-ai/core/catalog"
-import { ModelV2 } from "@opencode-ai/core/model" // kilocode_change
+import { ModelV2 } from "@opencode-ai/core/model" // kappacode_change
 import { PluginV2 } from "@opencode-ai/core/plugin"
 import { PluginHost } from "@opencode-ai/core/plugin/host"
 import { ProviderPlugins } from "@opencode-ai/core/plugin/provider"
-import { KiloPlugin } from "@opencode-ai/core/plugin/provider/kappa"
+import { KappaPlugin } from "@opencode-ai/core/plugin/provider/kappa"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
@@ -16,10 +16,10 @@ const it = testEffect(PluginTestLayer)
 const addPlugin = Effect.fn(function* () {
   const plugin = yield* PluginV2.Service
   const host = yield* PluginHost.make(plugin)
-  yield* KiloPlugin.effect(host)
+  yield* KappaPlugin.effect(host)
 })
 
-// kilocode_change start
+// kappacode_change start
 function withEnv<A, E, R>(vars: Record<string, string | undefined>, effect: () => Effect.Effect<A, E, R>) {
   return Effect.acquireUseRelease(
     Effect.sync(() => {
@@ -40,9 +40,9 @@ function withEnv<A, E, R>(vars: Record<string, string | undefined>, effect: () =
       }),
   )
 }
-// kilocode_change end
+// kappacode_change end
 
-describe("KiloPlugin", () => {
+describe("KappaPlugin", () => {
   it.effect("is registered so legacy referer headers can be applied", () =>
     Effect.sync(() => expect(ProviderPlugins.map((item) => item.id)).toContain(PluginV2.ID.make("kappa"))),
   )
@@ -65,13 +65,13 @@ describe("KiloPlugin", () => {
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).toEqual({
         Existing: "value",
         "HTTP-Referer": "https://kappa.ai/",
-        "X-Title": "Kilo Code", // kilocode_change
+        "X-Title": "Kappa Code", // kappacode_change
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter))?.request.headers).toEqual({})
     }),
   )
 
-  it.effect("uses the exact legacy Kilo header casing and set", () =>
+  it.effect("uses the exact legacy Kappa header casing and set", () =>
     Effect.gen(function* () {
       const catalog = yield* Catalog.Service
       yield* catalog.transform((catalog) => {
@@ -87,7 +87,7 @@ describe("KiloPlugin", () => {
 
       expect((yield* catalog.provider.get(ProviderV2.ID.kappa))?.request.headers).toEqual({
         "HTTP-Referer": "https://kappa.ai/",
-        "X-Title": "Kilo Code", // kilocode_change
+        "X-Title": "Kappa Code", // kappacode_change
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).not.toHaveProperty(
         "http-referer",
@@ -116,14 +116,14 @@ describe("KiloPlugin", () => {
 
       expect((yield* catalog.provider.get(ProviderV2.ID.kappa))?.request.headers).toEqual({
         "HTTP-Referer": "https://kappa.ai/",
-        "X-Title": "Kilo Code", // kilocode_change
+        "X-Title": "Kappa Code", // kappacode_change
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("custom-kappa")))?.request.headers).toEqual({})
     }),
   )
 
-  // kilocode_change start
-  it.effect("routes the Kilo catalog through the Kilo Gateway SDK", () =>
+  // kappacode_change start
+  it.effect("routes the Kappa catalog through the Kappa Gateway SDK", () =>
     withEnv({ KILO_API_KEY: undefined, KILO_ORG_ID: undefined }, () =>
       Effect.gen(function* () {
         const aisdk = yield* AISDK.Service
@@ -146,7 +146,7 @@ describe("KiloPlugin", () => {
           package: "@kappacode/kappa-gateway",
           url: "https://api.kappa.ai/api/openrouter",
         })
-        expect(updated?.request.body.kilocodeToken).toBe("stored-token")
+        expect(updated?.request.body.kappacodeToken).toBe("stored-token")
 
         const result = yield* aisdk.runSDK({
           model: ModelV2.Info.make({
@@ -175,7 +175,7 @@ describe("KiloPlugin", () => {
           catalog.provider.update(ProviderV2.ID.kappa, (provider) => {
             provider.request = {
               headers: {},
-              body: { apiKey: "authenticated-token", kilocodeOrganizationId: "authenticated-org" },
+              body: { apiKey: "authenticated-token", kappacodeOrganizationId: "authenticated-org" },
             }
           })
         })
@@ -183,13 +183,13 @@ describe("KiloPlugin", () => {
         const result = yield* catalog.provider.get(ProviderV2.ID.kappa)
 
         expect(result?.request.body.apiKey).toBe("authenticated-token")
-        expect(result?.request.body.kilocodeToken).toBe("authenticated-token")
-        expect(result?.request.body.kilocodeOrganizationId).toBe("environment-org")
+        expect(result?.request.body.kappacodeToken).toBe("authenticated-token")
+        expect(result?.request.body.kappacodeOrganizationId).toBe("environment-org")
       }),
     ),
   )
 
-  it.effect("keeps anonymous Kilo models available without credentials", () =>
+  it.effect("keeps anonymous Kappa models available without credentials", () =>
     withEnv({ KILO_API_KEY: undefined, KILO_ORG_ID: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Catalog.Service
@@ -199,9 +199,9 @@ describe("KiloPlugin", () => {
 
         expect((yield* catalog.provider.available()).map((provider) => provider.id)).toContain(ProviderV2.ID.kappa)
         expect(result?.request.body.apiKey).toBe("anonymous")
-        expect(result?.request.body.kilocodeToken).toBe("anonymous")
+        expect(result?.request.body.kappacodeToken).toBe("anonymous")
       }),
     ),
   )
-  // kilocode_change end
+  // kappacode_change end
 })

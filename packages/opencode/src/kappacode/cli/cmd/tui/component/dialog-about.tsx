@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { TextAttributes } from "@opentui/core"
 import { createMemo, For } from "solid-js"
 import { InstallationVersion, InstallationChannel } from "@opencode-ai/core/installation/version"
@@ -76,8 +76,8 @@ export function DialogAbout() {
 
   const links = [
     { label: "Docs", url: "https://kappa.ai/docs" },
-    { label: "GitHub", url: "https://github.com/Kilo-Org/kilocode" },
-    { label: "Issues", url: "https://github.com/Kilo-Org/kilocode/issues" },
+    { label: "GitHub", url: "https://github.com/Kappa-Org/kappacode" },
+    { label: "Issues", url: "https://github.com/Kappa-Org/kappacode/issues" },
     { label: "Discord", url: "https://kappa.ai/discord" },
   ]
 
@@ -87,7 +87,7 @@ export function DialogAbout() {
       return
     }
     const lines = [
-      `Kilo CLI ${InstallationVersion} (${InstallationChannel})`,
+      `Kappa CLI ${InstallationVersion} (${InstallationChannel})`,
       `Runtime: ${runtime()} (${process.platform}/${process.arch})`,
       `Config: ${pathLabel(Global.Path.config, privacy(), paths.home)}`,
       `Project: ${pathLabel(projectRoot(), privacy(), paths.home)}`,
@@ -118,7 +118,7 @@ export function DialogAbout() {
     <box paddingLeft={2} paddingRight={2} gap={1} paddingBottom={1}>
       <box flexDirection="row" justifyContent="space-between">
         <text fg={theme.text} attributes={TextAttributes.BOLD}>
-          About Kilo CLI
+          About Kappa CLI
         </text>
         <text fg={theme.textMuted} onMouseUp={() => dialog.clear()}>
           esc
@@ -127,7 +127,7 @@ export function DialogAbout() {
 
       <box gap={1}>
         <text fg={theme.textMuted} wrapMode="word">
-          Open source AI coding agent. Access hundreds of models through Kilo Gateway.
+          Open source AI coding agent. Access hundreds of models through Kappa Gateway.
         </text>
 
         <box gap={0}>

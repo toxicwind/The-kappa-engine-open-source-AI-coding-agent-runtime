@@ -5,17 +5,17 @@ description: "Configure Single Sign-On for your organization"
 
 # SSO
 
-Kilo Enterprise lets your organization securely manage access using **Single Sign-On (SSO)**. With SSO enabled, team members can sign in to Kilo using your company's existing identity provider, such as Okta, Github, Google Workspace, etc.
+Kappa Enterprise lets your organization securely manage access using **Single Sign-On (SSO)**. With SSO enabled, team members can sign in to Kappa using your company's existing identity provider, such as Okta, Github, Google Workspace, etc.
 
 {% callout type="warning" %}
-**IDP-initiated logins are not currently supported.** Users must navigate to the [Kilo Web App](https://app.kappa.ai) to log in. Logging in directly from your identity provider's dashboard is not supported at this time.
+**IDP-initiated logins are not currently supported.** Users must navigate to the [Kappa Web App](https://app.kappa.ai) to log in. Logging in directly from your identity provider's dashboard is not supported at this time.
 {% /callout %}
 
 ## Prerequisites
 
 You’ll need:
 
-- Admin or Owner permissions for your Kilo organization.
+- Admin or Owner permissions for your Kappa organization.
 - Access to your **Identity Provider (IdP)** (e.g. Okta, Google Workspace, Azure AD).
 
 ## Initiating SSO Configuration
@@ -31,12 +31,12 @@ Fill in your contact information and someone from our team will reach out soon t
 
 ## Implementing SSO Configuration
 
-Once the Kilo team has enabled SSO for your organization, your named admin will get an email from WorkOS to configure SSO.
+Once the Kappa team has enabled SSO for your organization, your named admin will get an email from WorkOS to configure SSO.
 
 {% callout type="warning" %}
 **Save domain policy for last.**
 
-If you configure domain policy before setting up SSO, you may lock users out of Kilo.
+If you configure domain policy before setting up SSO, you may lock users out of Kappa.
 {% /callout %}
 
 Your admin will need to use the WorkOS link to:
@@ -64,6 +64,6 @@ After enabling SSO:
 
 ## Signing in with SSO
 
-When you open an SSO sign-in link, Kilo checks whether your browser is already signed in to Kilo with a different address than the one the link requests. If the addresses differ, sign-in stops and Kilo shows a **Wrong account signed in** page instead of continuing. The page names the address the app requested and the address currently signed in, with a single button that signs out of the current browser session and returns you to SSO sign-in for the expected address. The switch keeps the original callback path and device code, so sign-in completes for the right account once you sign in with it. A matching address continues to the callback path unchanged.
+When you open an SSO sign-in link, Kappa checks whether your browser is already signed in to Kappa with a different address than the one the link requests. If the addresses differ, sign-in stops and Kappa shows a **Wrong account signed in** page instead of continuing. The page names the address the app requested and the address currently signed in, with a single button that signs out of the current browser session and returns you to SSO sign-in for the expected address. The switch keeps the original callback path and device code, so sign-in completes for the right account once you sign in with it. A matching address continues to the callback path unchanged.
 
-Kilo trims spaces and ignores case when comparing addresses. A request without an `email` keeps the previous behavior, and an explicit `email` in the sign-in URL takes precedence over a remembered returning-user address when the form is prefilled.
+Kappa trims spaces and ignores case when comparing addresses. A request without an `email` keeps the previous behavior, and an explicit `email` in the sign-in URL takes precedence over a remembered returning-user address when the form is prefilled.

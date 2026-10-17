@@ -14,8 +14,8 @@ import { ProjectTable } from "@opencode-ai/core/project/sql"
 import { AbsolutePath } from "@opencode-ai/core/schema"
 import { SessionTable } from "@opencode-ai/core/session/sql"
 import { SessionID } from "../../src/session/schema"
-import { KiloSnapshotCleanup } from "../../src/kappacode/snapshot/cleanup"
-import { KiloSnapshotPrepare } from "../../src/kappacode/snapshot/prepare"
+import { KappaSnapshotCleanup } from "../../src/kappacode/snapshot/cleanup"
+import { KappaSnapshotPrepare } from "../../src/kappacode/snapshot/prepare"
 import { tmpdirScoped, testInstanceStoreLayer } from "../fixture/fixture"
 import { testEffect } from "../lib/effect"
 import path from "path"
@@ -82,7 +82,7 @@ const remove = (input: ReturnType<typeof item>) =>
   Effect.gen(function* () {
     const fs = yield* FSUtil.Service
     const flock = yield* EffectFlock.Service
-    return yield* KiloSnapshotCleanup.remove({ ...input, fs, flock })
+    return yield* KappaSnapshotCleanup.remove({ ...input, fs, flock })
   })
 
 it.live("removes an explicitly deleted snapshot repository recursively", () =>
@@ -311,7 +311,7 @@ for (const stored of [false, true]) {
       const denied = Effect.die(new Error("Workspace ancestor access denied"))
 
       expect(
-        yield* KiloSnapshotCleanup.remove({
+        yield* KappaSnapshotCleanup.remove({
           ...input,
           flock,
           fs: {
@@ -527,7 +527,7 @@ it.live("removes a prepared repository that was never tracked", () =>
     const input = item(base, "project", "prepared")
     const current = yield* repo(input)
     yield* drop(input.worktree)
-    yield* write(path.join(current.dir, KiloSnapshotPrepare.MARKER), "")
+    yield* write(path.join(current.dir, KappaSnapshotPrepare.MARKER), "")
     yield* write(path.join(current.dir, "objects", "info", "alternates"), "pending")
     yield* write(path.join(current.dir, "seed-objects", "part"), "pending")
 

@@ -1,11 +1,11 @@
 import type * as vscode from "vscode"
-import type { KiloConnectionService } from "../services/cli-backend"
+import type { KappaConnectionService } from "../services/cli-backend"
 import { removeMarketplaceItemFromAllScopes, type MarketplaceRemoveContext } from "../services/marketplace/actions"
 import type { MarketplaceService } from "../services/marketplace"
 import type { MarketplaceItemRef } from "../services/marketplace/types"
 
 export interface RemoveConfigItemContext {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   marketplace: MarketplaceService
   project: () => string | undefined
   directory: () => string

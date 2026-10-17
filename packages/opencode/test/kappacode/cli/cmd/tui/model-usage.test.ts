@@ -77,11 +77,11 @@ describe("TUI model usage", () => {
     ]
     expect(
       groupModelsByProvider(models, [
-        { id: "kappa", name: "Kilo Gateway" },
+        { id: "kappa", name: "Kappa Gateway" },
         { id: "minimax", name: "MiniMax" },
       ]),
     ).toEqual([
-      { providerID: "kappa", providerName: "Kilo Gateway", models: models.slice(0, 2) },
+      { providerID: "kappa", providerName: "Kappa Gateway", models: models.slice(0, 2) },
       { providerID: "minimax", providerName: "MiniMax", models: models.slice(2) },
     ])
     expect(formatRate({ input: 100, output: 0, reasoning: 0, cache: { read: 300, write: 100 } })).toBe("60.0%")

@@ -9,7 +9,7 @@ import { Flag } from "@opencode-ai/core/flag/flag"
 import * as Log from "@opencode-ai/core/util/log"
 import { ConfigParse } from "@/config/parse"
 import { ConfigMarkdown } from "@/config/markdown"
-import { KilocodeConfig } from "./config"
+import { KappacodeConfig } from "./config"
 import { BUILTIN_SKILLS } from "../skills/builtin"
 import { SkillInject } from "../skills/inject"
 
@@ -27,14 +27,14 @@ export namespace ClaudeMigration {
   const SAFE_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]*$/
   const log = Log.create({ service: "kappacode.claude-migration" })
   const REASONS: Record<string, string> = {
-    "destination-exists": "Kilo already has a destination with that name; existing content was kept.",
-    "skill-name-conflict": "Kilo already has a skill with that name; existing content was kept.",
-    "mcp-name-conflict": "Kilo already has an MCP server with that name; existing configuration was kept.",
+    "destination-exists": "Kappa already has a destination with that name; existing content was kept.",
+    "skill-name-conflict": "Kappa already has a skill with that name; existing content was kept.",
+    "mcp-name-conflict": "Kappa already has an MCP server with that name; existing configuration was kept.",
     "unsupported-markdown": "it contains dynamic content outside the supported migration subset.",
     "skill-frontmatter-unsupported": "it uses frontmatter fields outside the supported migration subset.",
-    "skill-frontmatter-invalid": "its frontmatter could not be parsed, even with Kilo's compatibility fallback.",
+    "skill-frontmatter-invalid": "its frontmatter could not be parsed, even with Kappa's compatibility fallback.",
     "skill-bundle-unsupported": "it contains additional files that this migration does not copy.",
-    "destination-write-failed": "Kilo could not write the destination.",
+    "destination-write-failed": "Kappa could not write the destination.",
     "destination-unsafe": "the destination path was not safe to write.",
     "source-changed": "the Claude source changed during migration, so it was not copied.",
     "source-unreadable": "the Claude source could not be read.",
@@ -54,9 +54,9 @@ export namespace ClaudeMigration {
     "mcp-transport-unsupported": "the MCP transport is not supported by this migration.",
     "mcp-url-invalid": "the MCP URL was not a valid HTTP(S) URL.",
     "mcp-headers-invalid": "the MCP headers were not static strings.",
-    "existing-config-unreadable": "an existing Kilo configuration could not be read safely.",
-    "existing-mcp-invalid": "an existing Kilo MCP configuration was invalid.",
-    "existing-skills-unreadable": "an existing Kilo skill could not be read safely.",
+    "existing-config-unreadable": "an existing Kappa configuration could not be read safely.",
+    "existing-mcp-invalid": "an existing Kappa MCP configuration was invalid.",
+    "existing-skills-unreadable": "an existing Kappa skill could not be read safely.",
     "skill-name-invalid": "the skill name was invalid.",
     "skill-description-invalid": "the skill description was not a string.",
     "migration-failed": "the migration stopped before this item could be completed.",
@@ -171,7 +171,7 @@ export namespace ClaudeMigration {
       id: NOTIFICATION_ID,
       title: "Claude Code configuration migration",
       message:
-        `${outcome} global Claude Code configuration into Kilo ` +
+        `${outcome} global Claude Code configuration into Kappa ` +
         `(imported ${imported}, skipped ${skipped}, failed ${failed}). ` +
         (details.length > 0 ? `\n${details.map((item) => `- ${item}`).join("\n")}` : "") +
         (omitted > 0
@@ -181,7 +181,7 @@ export namespace ClaudeMigration {
           ? `\nReview the original Claude files and receipt, then merge skipped instructions or skills manually and resolve failed items; this migration runs once.\n`
           : "") +
         `Original Claude files were left unchanged. ` +
-        `Imported MCP servers are disabled until you enable them. Future global changes belong in Kilo; keep the Claude files if you still use Claude Code. ` +
+        `Imported MCP servers are disabled until you enable them. Future global changes belong in Kappa; keep the Claude files if you still use Claude Code. ` +
         `Details: ${file}`,
       action: { actionText: "Learn more", actionURL: DOCS_URL },
       showIn: ["cli", "extension"],
@@ -198,7 +198,7 @@ export namespace ClaudeMigration {
           : `MCP server "${name}"`
     const text =
       item.category === "instructions" && item.reason === "destination-exists"
-        ? `Kilo already has ${path.basename(item.destination ?? "AGENTS.md")}; existing instructions were kept.`
+        ? `Kappa already has ${path.basename(item.destination ?? "AGENTS.md")}; existing instructions were kept.`
         : item.reason
           ? (REASONS[item.reason] ?? `migration skipped it for safety (${item.reason}).`)
           : "not imported."
@@ -566,8 +566,8 @@ export namespace ClaudeMigration {
     try {
       const current = target.exists ? await readFile(target.path, "utf8") : "{}"
       if (hash(target.path, target.exists, target.exists ? current : "") !== revision) return false
-      const { KilocodeConfigWriter } = await import("./writer")
-      const result = await KilocodeConfigWriter.write({
+      const { KappacodeConfigWriter } = await import("./writer")
+      const result = await KappacodeConfigWriter.write({
         directory: base.home,
         scope: "global",
         expected: { path: target.path, revision },
@@ -608,7 +608,7 @@ export namespace ClaudeMigration {
     const dirs = [base.config, path.join(base.home, ".kappa"), path.join(base.home, ".kappacode")]
     const names = new Set<string>()
     for (const dir of dirs) {
-      for (const file of KilocodeConfig.GLOBAL_CONFIG_FILES) {
+      for (const file of KappacodeConfig.GLOBAL_CONFIG_FILES) {
         const filepath = path.join(dir, file)
         if (!(await fileExists(filepath))) continue
         const text = await readText(filepath, MAX_CONFIG)
@@ -664,7 +664,7 @@ export namespace ClaudeMigration {
     }
 
     for (const dir of [base.config, path.join(base.home, ".kappa"), path.join(base.home, ".kappacode")]) {
-      for (const file of KilocodeConfig.GLOBAL_CONFIG_FILES) {
+      for (const file of KappacodeConfig.GLOBAL_CONFIG_FILES) {
         const filepath = path.join(dir, file)
         if (!(await fileExists(filepath))) continue
         const read = await readText(filepath, MAX_CONFIG)

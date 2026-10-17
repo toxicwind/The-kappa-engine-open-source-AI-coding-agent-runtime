@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2"
+import type { KappaClient } from "@kappacode/sdk/v2"
 import type {
   AnacondaDesktopAction,
   AnacondaDesktopExtensionMessage,
@@ -6,7 +6,7 @@ import type {
 } from "../shared/anaconda-desktop-messages"
 
 interface Context {
-  client?: KiloClient | null
+  client?: KappaClient | null
   directory: string
   post: (message: AnacondaDesktopExtensionMessage) => void
   refresh: () => Promise<void>

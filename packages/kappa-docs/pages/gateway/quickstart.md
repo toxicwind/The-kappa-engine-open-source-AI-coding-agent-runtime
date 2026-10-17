@@ -1,15 +1,15 @@
 ---
 title: "Quickstart"
-description: "Get started with the Kilo AI Gateway in minutes. Make your first AI model request using the Vercel AI SDK, OpenAI SDK, Python, or cURL."
+description: "Get started with the Kappa AI Gateway in minutes. Make your first AI model request using the Vercel AI SDK, OpenAI SDK, Python, or cURL."
 ---
 
 # Quickstart
 
-This guide walks you through making your first AI model request with the Kilo AI Gateway. While this guide focuses on the [Vercel AI SDK](https://ai-sdk.dev), you can also use the [OpenAI SDK](/docs/gateway/sdks-and-frameworks#openai-sdk), [Python](/docs/gateway/sdks-and-frameworks#python), or [cURL](/docs/gateway/sdks-and-frameworks#curl).
+This guide walks you through making your first AI model request with the Kappa AI Gateway. While this guide focuses on the [Vercel AI SDK](https://ai-sdk.dev), you can also use the [OpenAI SDK](/docs/gateway/sdks-and-frameworks#openai-sdk), [Python](/docs/gateway/sdks-and-frameworks#python), or [cURL](/docs/gateway/sdks-and-frameworks#curl).
 
 ## Prerequisites
 
-You need a Kilo account with API credits. Sign up at [kappa.ai](https://kappa.ai) and add credits from your account dashboard.
+You need a Kappa account with API credits. Sign up at [kappa.ai](https://kappa.ai) and add credits from your account dashboard.
 
 ## Using the Vercel AI SDK
 
@@ -29,13 +29,13 @@ npm install ai @ai-sdk/openai dotenv
 
 ### 3. Set up your API key
 
-Create a `.env` file and add your Kilo API key:
+Create a `.env` file and add your Kappa API key:
 
 ```bash
 KILO_API_KEY=your_api_key_here
 ```
 
-For step-by-step instructions on getting an API key, please see the [Kilo Gateway API Key instructions](/docs/getting-started/setup-authentication#kappa-gateway-api-key).
+For step-by-step instructions on getting an API key, please see the [Kappa Gateway API Key instructions](/docs/getting-started/setup-authentication#kappa-gateway-api-key).
 
 ### 4. Create and run your script
 
@@ -79,7 +79,7 @@ You should see the model's response streamed to your terminal.
 
 ## Using the OpenAI SDK
 
-The Kilo AI Gateway is fully OpenAI-compatible, so you can use the OpenAI SDK by pointing it to the Kilo base URL.
+The Kappa AI Gateway is fully OpenAI-compatible, so you can use the OpenAI SDK by pointing it to the Kappa base URL.
 
 {% tabs %}
 {% tab label="TypeScript" %}

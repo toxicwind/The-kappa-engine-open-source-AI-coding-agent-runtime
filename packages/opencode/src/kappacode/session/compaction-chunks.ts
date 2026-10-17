@@ -24,7 +24,7 @@ const CONCURRENCY = 3
 const DEPTH = 3
 const OUTPUT = 2_048
 
-export namespace KiloCompactionChunks {
+export namespace KappaCompactionChunks {
   export const EMPTY_SUMMARY =
     "Compaction did not run: the model returned an empty summary. Retry with /compact. If it keeps failing, start a new session to continue."
 

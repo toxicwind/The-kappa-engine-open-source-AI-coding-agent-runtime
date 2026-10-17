@@ -3,10 +3,10 @@ import { resolveLocale, selectedLocale, t, translate } from "../../src/services/
 
 describe("extension host i18n", () => {
   it("returns translated string for known key", () => {
-    const result = t("kilocode:autocomplete.statusBar.enabled")
+    const result = t("kappacode:autocomplete.statusBar.enabled")
     expect(typeof result).toBe("string")
     expect(result.length).toBeGreaterThan(0)
-    expect(result).not.toBe("kilocode:autocomplete.statusBar.enabled")
+    expect(result).not.toBe("kappacode:autocomplete.statusBar.enabled")
   })
 
   it("returns the key itself for unknown key", () => {
@@ -18,7 +18,7 @@ describe("extension host i18n", () => {
   })
 
   it("interpolates a single variable", () => {
-    const result = t("kilocode:autocomplete.statusBar.tooltip.noUsableProvider", {
+    const result = t("kappacode:autocomplete.statusBar.tooltip.noUsableProvider", {
       providers: "OpenAI, Anthropic",
       command: "command:kappa-code.new.settingsButtonClicked",
     })
@@ -27,7 +27,7 @@ describe("extension host i18n", () => {
   })
 
   it("interpolates multiple variables", () => {
-    const result = t("kilocode:autocomplete.statusBar.tooltip.completionSummary", {
+    const result = t("kappacode:autocomplete.statusBar.tooltip.completionSummary", {
       count: "5",
       startTime: "10:00",
       endTime: "11:00",
@@ -41,25 +41,25 @@ describe("extension host i18n", () => {
   })
 
   it("interpolates numeric variable as string", () => {
-    const result = t("kilocode:autocomplete.statusBar.tooltip.noUsableProvider", {
+    const result = t("kappacode:autocomplete.statusBar.tooltip.noUsableProvider", {
       providers: 42 as unknown as string,
     })
     expect(result).toContain("42")
   })
 
   it("leaves unreferenced vars intact in template", () => {
-    const key = "kilocode:autocomplete.statusBar.tooltip.noUsableProvider"
+    const key = "kappacode:autocomplete.statusBar.tooltip.noUsableProvider"
     const result = t(key, { unrelated: "value" })
     expect(result).toContain("{{providers}}")
   })
 
   it("returns the raw key when called without vars on a template key", () => {
-    const result = t("kilocode:autocomplete.statusBar.tooltip.noUsableProvider")
+    const result = t("kappacode:autocomplete.statusBar.tooltip.noUsableProvider")
     expect(result).toContain("{{providers}}")
   })
 
   it("handles empty vars object (no interpolation)", () => {
-    const result = t("kilocode:autocomplete.statusBar.enabled", {})
+    const result = t("kappacode:autocomplete.statusBar.enabled", {})
     expect(typeof result).toBe("string")
     expect(result).not.toContain("{{")
   })
@@ -77,7 +77,7 @@ describe("extension host i18n", () => {
     expect(resolveLocale("sv-SE")).toBe("en")
   })
 
-  it("prefers Kilo new language setting over VS Code language", () => {
+  it("prefers Kappa new language setting over VS Code language", () => {
     const vscode = {
       env: { language: "en" },
       workspace: {
@@ -90,7 +90,7 @@ describe("extension host i18n", () => {
     expect(selectedLocale(vscode)).toBe("de")
   })
 
-  it("uses VS Code language when Kilo language setting is automatic", () => {
+  it("uses VS Code language when Kappa language setting is automatic", () => {
     const vscode = {
       env: { language: "nl" },
       workspace: {
@@ -104,7 +104,7 @@ describe("extension host i18n", () => {
   })
 
   it("translates status bar tooltip copy for German", () => {
-    const text = translate("de", "kilocode:autocomplete.statusBar.tooltip.completionSummary", {
+    const text = translate("de", "kappacode:autocomplete.statusBar.tooltip.completionSummary", {
       count: 1,
       startTime: "12:25:24",
       endTime: "12:25:26",

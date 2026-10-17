@@ -31,15 +31,15 @@ const formatResults = (data: Schema.Schema.Type<typeof ExaResponse>): string => 
     .join("\n\n")
 }
 
-export type KiloExaParams = {
+export type KappaExaParams = {
   query: string
   type?: string
   numResults?: number
 }
 
-export const callKiloExa = Effect.fn("WebSearchKiloExa.call")(function* (
+export const callKappaExa = Effect.fn("WebSearchKappaExa.call")(function* (
   http: HttpClient.HttpClient,
-  params: KiloExaParams,
+  params: KappaExaParams,
   kappaToken: string,
 ) {
   const numResults = Math.min(params.numResults ?? MAX_KILO_EXA_RESULTS, MAX_KILO_EXA_RESULTS)
@@ -61,11 +61,11 @@ export const callKiloExa = Effect.fn("WebSearchKiloExa.call")(function* (
   )
   const status = response.status
   if (status === 401 || status === 403) {
-    return yield* Effect.die(new Error(`Kilo exa request unauthorized (${status}); sign in with \`kappa auth login\``))
+    return yield* Effect.die(new Error(`Kappa exa request unauthorized (${status}); sign in with \`kappa auth login\``))
   }
   if (status < 200 || status >= 300) {
     const body = yield* response.text
-    return yield* Effect.die(new Error(`Kilo exa request failed (${status}): ${body.slice(0, 200)}`))
+    return yield* Effect.die(new Error(`Kappa exa request failed (${status}): ${body.slice(0, 200)}`))
   }
   const data = yield* response.json
   const decode = Schema.decodeUnknownEffect(ExaResponse)

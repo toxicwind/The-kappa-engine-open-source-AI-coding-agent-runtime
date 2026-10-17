@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { t } from "./cli-backend/i18n"
 
 export type RemoteState = { enabled: boolean; connected: boolean }
@@ -15,7 +15,7 @@ export class RemoteStatusService implements vscode.Disposable {
   private state: RemoteState = { enabled: false, connected: false }
   private bar: vscode.StatusBarItem
   private listeners = new Set<Listener>()
-  private client: KiloClient | null = null
+  private client: KappaClient | null = null
 
   constructor() {
     this.bar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 99)
@@ -23,7 +23,7 @@ export class RemoteStatusService implements vscode.Disposable {
     this.sync()
   }
 
-  setClient(c: KiloClient | null): void {
+  setClient(c: KappaClient | null): void {
     this.client = c
   }
 
@@ -50,7 +50,7 @@ export class RemoteStatusService implements vscode.Disposable {
   async refresh(): Promise<void> {
     if (!this.client) return
     const res = await this.client.remote.status().catch((err: unknown) => {
-      console.warn("[Kilo] remote status refresh failed:", err)
+      console.warn("[Kappa] remote status refresh failed:", err)
       return undefined
     })
     if (!res?.data) return
@@ -117,11 +117,11 @@ export class RemoteStatusService implements vscode.Disposable {
       return
     }
     if (this.state.connected) {
-      this.bar.text = "$(radio-tower) Kilo Remote"
+      this.bar.text = "$(radio-tower) Kappa Remote"
       this.bar.tooltip = t("remote.connected")
       this.bar.color = new vscode.ThemeColor("testing.iconPassed")
     } else {
-      this.bar.text = "$(radio-tower) Kilo Remote \u2026"
+      this.bar.text = "$(radio-tower) Kappa Remote \u2026"
       this.bar.tooltip = t("remote.connecting")
       this.bar.color = new vscode.ThemeColor("editorWarning.foreground")
     }

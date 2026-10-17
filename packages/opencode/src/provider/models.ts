@@ -1,14 +1,14 @@
-// kilocode_change - new file
+// kappacode_change - new file
 import { Config } from "@/config/config"
 import { Auth } from "@/auth"
 import { ModelCache } from "./model-cache"
 import * as Core from "@opencode-ai/core/models-dev"
 import { Context, Effect, Layer } from "effect"
 import { AI_SDK_PROVIDERS, KILO_OPENROUTER_BASE, PROMPTS } from "@kappacode/kappa-gateway"
-import { overlay } from "@/kilocode/anaconda-desktop/provider"
-import { compatible, organization, token } from "@/kilocode/provider/catalog"
+import { overlay } from "@/kappacode/anaconda-desktop/provider"
+import { compatible, organization, token } from "@/kappacode/provider/catalog"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kilocode_change
+import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 
 export const Model = Core.Model
 export type Model = Core.Model
@@ -84,14 +84,14 @@ export const layer: Layer.Layer<Service, never, Core.Service | Config.Service | 
         const url = baseURL(opts?.baseURL, org)
         const fetch = {
           ...(url ? { baseURL: url } : {}),
-          ...(org ? { kilocodeOrganizationId: org } : {}),
+          ...(org ? { kappacodeOrganizationId: org } : {}),
         }
-        const valid = compatible({ ...fetch, kilocodeToken: token(opts, info) })
+        const valid = compatible({ ...fetch, kappacodeToken: token(opts, info) })
         const fetched = valid ? yield* cache.fetch("kappa", fetch).pipe(Effect.catch(() => Effect.succeed({}))) : {}
         const models = !valid || org || Object.keys(fetched).length > 0 ? fetched : (fallback?.models ?? {})
         providers.kappa = {
           id: "kappa",
-          name: "Kilo Gateway",
+          name: "Kappa Gateway",
           env: ["KILO_API_KEY"],
           api: KILO_OPENROUTER_BASE.endsWith("/") ? KILO_OPENROUTER_BASE : `${KILO_OPENROUTER_BASE}/`,
           npm: "@kappacode/kappa-gateway",
@@ -107,7 +107,7 @@ export const layer: Layer.Layer<Service, never, Core.Service | Config.Service | 
     }),
   )
 
-export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kilocode_change - build from the LayerNode graph
+export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kappacode_change - build from the LayerNode graph
 
 export const node = LayerNode.make({
   service: Service,

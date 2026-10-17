@@ -50,7 +50,7 @@ export async function readAppID(root: string | undefined): Promise<string | unde
   // `appRoot` is not guaranteed to be populated on every host.
   if (!root) return undefined
   const raw = await fs.readFile(path.join(root, "product.json"), "utf8").catch((err) => {
-    console.debug("[Kilo New] could not read product.json for the notification identity", { root, err })
+    console.debug("[Kappa New] could not read product.json for the notification identity", { root, err })
     return undefined
   })
   if (!raw) return undefined
@@ -58,7 +58,7 @@ export async function readAppID(root: string | undefined): Promise<string | unde
     try {
       return JSON.parse(raw)
     } catch (err) {
-      console.debug("[Kilo New] product.json is not valid JSON", { root, err })
+      console.debug("[Kappa New] product.json is not valid JSON", { root, err })
       return undefined
     }
   })()
@@ -90,7 +90,7 @@ export function notificationCommand(
     // Without a verified identity Windows would either drop the toast or
     // attribute it to another editor, so decline instead of guessing.
     if (!appid) return undefined
-    const xml = `<toast><visual><binding template="ToastGeneric"><text>${escape(notice.message)}</text>${notice.workspace ? `<text>${escape(t("kilocode:attention.workspace"))}: ${escape(notice.workspace)}</text>` : ""}${notice.session ? `<text>${escape(t("kilocode:attention.session"))}: ${escape(notice.session)}</text>` : ""}</binding></visual></toast>`
+    const xml = `<toast><visual><binding template="ToastGeneric"><text>${escape(notice.message)}</text>${notice.workspace ? `<text>${escape(t("kappacode:attention.workspace"))}: ${escape(notice.workspace)}</text>` : ""}${notice.session ? `<text>${escape(t("kappacode:attention.session"))}: ${escape(notice.session)}</text>` : ""}</binding></visual></toast>`
     // The XML and the identity are passed as environment data and never
     // interpolated into the script. XML escaping does not neutralize the
     // Unicode smart quotes (U+2018/U+2019) that PowerShell also accepts as
@@ -112,11 +112,11 @@ export function notificationCommand(
     }
   }
   if (platform === "darwin") {
-    return { cmd: "osascript", args: ["-e", `display notification "${apple(text(notice))}" with title "Kilo Code"`] }
+    return { cmd: "osascript", args: ["-e", `display notification "${apple(text(notice))}" with title "Kappa Code"`] }
   }
   if (platform === "linux") {
     // Only the body is markup; the summary is taken literally.
-    return { cmd: "notify-send", args: ["--app-name=Kilo Code", "--urgency=normal", "Kilo Code", pango(text(notice))] }
+    return { cmd: "notify-send", args: ["--app-name=Kappa Code", "--urgency=normal", "Kappa Code", pango(text(notice))] }
   }
 }
 
@@ -135,11 +135,11 @@ function run(command: Command) {
 
 /** Sends a real native notification and reports whether the underlying command succeeded. */
 export async function testOSNotification(platform = process.platform): Promise<{ ok: boolean; error?: string }> {
-  const notice = { message: t("kilocode:attention.test") }
+  const notice = { message: t("kappacode:attention.test") }
   const appid = await resolveAppID(platform)
   const command = notificationCommand(notice, platform, appid)
   if (!command) {
-    const reason = platform === "win32" ? "kilocode:attention.identity" : "kilocode:attention.unsupported"
+    const reason = platform === "win32" ? "kappacode:attention.identity" : "kappacode:attention.unsupported"
     return { ok: false, error: t(reason) }
   }
   return run(command).then(
@@ -159,7 +159,7 @@ export function showOSNotification(notice: AttentionNotice): void {
       await run(command).then(
         () => undefined,
         (error) => {
-          console.debug("[Kilo New] OS notification failed", { cmd: command.cmd, error })
+          console.debug("[Kappa New] OS notification failed", { cmd: command.cmd, error })
         },
       )
     })

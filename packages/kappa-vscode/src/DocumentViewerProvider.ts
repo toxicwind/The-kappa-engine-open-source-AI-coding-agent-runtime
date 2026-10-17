@@ -4,7 +4,7 @@ import { readDocument } from "./documents/document-reader"
 import { openRelativeFile } from "./review-utils"
 import { resolveInside } from "./diff/shared/path"
 import { buildWebviewHtml } from "./utils"
-import type { KiloConnectionService } from "./services/cli-backend"
+import type { KappaConnectionService } from "./services/cli-backend"
 
 interface Context {
   sessionId?: string
@@ -27,7 +27,7 @@ export class DocumentViewerProvider implements vscode.Disposable {
 
   constructor(
     private readonly extensionUri: vscode.Uri,
-    private readonly connection: KiloConnectionService,
+    private readonly connection: KappaConnectionService,
     private readonly options: DocumentViewerOptions,
   ) {}
 
@@ -114,7 +114,7 @@ export class DocumentViewerProvider implements vscode.Disposable {
       if (resolved)
         vscode.env.clipboard
           .writeText(resolved)
-          .then(undefined, (err) => console.error("[Kilo New] DocumentViewerProvider: Failed to copy path:", err))
+          .then(undefined, (err) => console.error("[Kappa New] DocumentViewerProvider: Failed to copy path:", err))
       return
     }
     if (message.type === "document.close") this.panel?.dispose()

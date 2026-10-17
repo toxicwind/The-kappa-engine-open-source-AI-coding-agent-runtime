@@ -7,7 +7,7 @@ import { useLocal } from "../context/local"
 import { useSync } from "../context/sync"
 import { useTheme } from "../context/theme"
 import { Locale } from "../util/locale"
-import { KiloSteer } from "./steer"
+import { KappaSteer } from "./steer"
 
 export type Subagent = {
   label: string
@@ -21,14 +21,14 @@ export function useSubagent(id: Accessor<string | undefined>) {
   const local = useLocal()
   return createMemo((): Subagent | undefined => {
     const session = sync.session.get(id() ?? "")
-    if (!KiloSteer.steering(session)) return undefined
+    if (!KappaSteer.steering(session)) return undefined
     const last = (sync.data.message[id() ?? ""] ?? []).findLast((item) => item.role === "assistant")?.agent
-    const name = KiloSteer.agent(session, last) ?? "subagent"
+    const name = KappaSteer.agent(session, last) ?? "subagent"
     const info = sync.data.agent.find((item) => item.name === name)
     return {
       label: info?.displayName ?? Locale.titlecase(name),
       color: local.agent.color(name),
-      model: KiloSteer.model(session?.model, sync.data.provider),
+      model: KappaSteer.model(session?.model, sync.data.provider),
     }
   })
 }

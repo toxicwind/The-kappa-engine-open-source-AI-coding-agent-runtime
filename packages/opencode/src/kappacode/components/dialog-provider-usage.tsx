@@ -82,8 +82,8 @@ export function DialogProviderUsage() {
     setLoading(true)
     setFailure(undefined)
     const response = await (force
-      ? sdk.client.kilocode.providerUsage.refresh().catch(() => undefined)
-      : sdk.client.kilocode.providerUsage.get().catch(() => undefined))
+      ? sdk.client.kappacode.providerUsage.refresh().catch(() => undefined)
+      : sdk.client.kappacode.providerUsage.get().catch(() => undefined))
     if (response?.data) setData(response.data)
     if (response?.error || !response?.data) setFailure("Provider usage could not be loaded.")
     setLoading(false)

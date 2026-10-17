@@ -1,6 +1,6 @@
 import { Cause, Context, Effect, Layer } from "effect"
 import { EffectBridge } from "@/effect/bridge"
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions"
 import * as Log from "@opencode-ai/core/util/log"
 import { Global } from "@opencode-ai/core/global"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
@@ -19,15 +19,15 @@ import { MemoryLifecycle } from "@/kappacode/memory/turn"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { MemoryEvents } from "@/kappacode/memory/events"
 import { installMemoryRuntime } from "@/kappacode/memory/runtime"
-import { KiloToolRegistry } from "@/kappacode/tool/registry"
+import { KappaToolRegistry } from "@/kappacode/tool/registry"
 import { Wakeup } from "@/kappacode/wakeup"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { KilocodeWatcher } from "@/kappacode/watcher"
+import { KappacodeWatcher } from "@/kappacode/watcher"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 
 const log = Log.create({ service: "kappacode-bootstrap" })
 
-export namespace KilocodeBootstrap {
+export namespace KappacodeBootstrap {
   export interface Interface {
     readonly init: () => Effect.Effect<void, unknown>
   }
@@ -39,26 +39,26 @@ export namespace KilocodeBootstrap {
     Effect.gen(function* () {
       // Bind the package memory effect layer to opencode (paths, instance binder, logger, event sink).
       installMemoryRuntime()
-      const kappa = yield* KiloSessions.Service
+      const kappa = yield* KappaSessions.Service
       const bus = yield* Bus.Service
       const sessions = yield* Session.Service
       const summary = yield* SessionSummary.Service
       const provider = yield* Provider.Service
       const config = yield* Config.Service
       const memory = yield* MemoryService.Service
-      const watcher = yield* KilocodeWatcher.Service
+      const watcher = yield* KappacodeWatcher.Service
       const wake = yield* Wakeup.Service
 
-      const init = Effect.fn("KilocodeBootstrap.init")(function* () {
+      const init = Effect.fn("KappacodeBootstrap.init")(function* () {
         yield* watcher.init()
         yield* kappa.init()
         yield* MemoryLifecycle.subscribe({ bus, sessions, summary, provider, config, memory })
         // Invalidate enabled cache on every memory state mutation (properties.directory holds the memory root).
         yield* bus.subscribeCallback(MemoryEvents.Status, (evt) =>
-          KiloToolRegistry.invalidateMemoryEnabled(evt.properties.directory),
+          KappaToolRegistry.invalidateMemoryEnabled(evt.properties.directory),
         )
         yield* bus.subscribeCallback(MemoryEvents.Updated, (evt) =>
-          KiloToolRegistry.invalidateMemoryEnabled(evt.properties.directory),
+          KappaToolRegistry.invalidateMemoryEnabled(evt.properties.directory),
         )
         // Re-arm this directory's persisted wakeups on every instance start: overdue ones
         // fire immediately, the rest get their timers. A failure must not block bootstrap.
@@ -97,7 +97,7 @@ export namespace KilocodeBootstrap {
         )
         if (process.env["KILO_PLATFORM"] !== "vscode") {
           yield* EffectBridge.fromPromise(() =>
-            import("@/kappacode/indexing").then((mod) => mod.KiloIndexing.init()),
+            import("@/kappacode/indexing").then((mod) => mod.KappaIndexing.init()),
           ).pipe(
             Effect.catchCause((cause) =>
               Effect.sync(() => log.warn("indexing bootstrap failed", { err: Cause.squash(cause) })),
@@ -113,26 +113,26 @@ export namespace KilocodeBootstrap {
 
   export const defaultLayer = layer.pipe(
     Layer.provide([
-      KiloSessions.defaultLayer,
+      KappaSessions.defaultLayer,
       Session.defaultLayer,
       AppNodeBuilder.build(SessionSummary.node),
       AppNodeBuilder.build(Provider.node),
       AppNodeBuilder.build(Config.node),
       MemoryService.layer,
       Bus.defaultLayer,
-      KilocodeWatcher.defaultLayer,
+      KappacodeWatcher.defaultLayer,
       AppNodeBuilder.build(Wakeup.node),
     ]),
   )
 
   const memory = LayerNode.make({ service: MemoryService.Service, layer: MemoryService.layer, deps: [] })
-  const watcher = LayerNode.make({ service: KilocodeWatcher.Service, layer: KilocodeWatcher.defaultLayer, deps: [] })
+  const watcher = LayerNode.make({ service: KappacodeWatcher.Service, layer: KappacodeWatcher.defaultLayer, deps: [] })
   export const node = LayerNode.suspend(() =>
     LayerNode.make({
       service: Service,
       layer,
       deps: [
-        KiloSessions.node,
+        KappaSessions.node,
         Session.node,
         SessionSummary.node,
         Provider.node,

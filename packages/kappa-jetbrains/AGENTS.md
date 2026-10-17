@@ -1,4 +1,4 @@
-# AGENTS.md — Kilo JetBrains Plugin
+# AGENTS.md — Kappa JetBrains Plugin
 
 This file is always loaded for work in this package. Detailed guidance lives in the skills and command listed in [Skill and Command Index](#skill-and-command-index) — load the relevant one before starting UI, session, architecture, or release work.
 
@@ -7,7 +7,7 @@ This file is always loaded for work in this package. Detailed guidance lives in 
 - **Split-mode plugin** with three Gradle modules: `shared/`, `frontend/`, `backend/`. The module descriptors are `kappa.jetbrains.shared.xml`, `kappa.jetbrains.frontend.xml`, `kappa.jetbrains.backend.xml` — these must stay in sync with `plugin.xml`'s `<content>` block.
 - Reference template for the split-mode structure: https://github.com/JetBrains/intellij-platform-modular-plugin-template
 - Official docs: https://plugins.jetbrains.com/docs/intellij/split-mode-for-remote-development.html
-- Kotlin source goes under `{module}/src/main/kotlin/ai/kilocode/jetbrains/`. Package name is `ai.kilocode.jetbrains` (matches `group` in root `build.gradle.kts`).
+- Kotlin source goes under `{module}/src/main/kotlin/ai/kappacode/jetbrains/`. Package name is `ai.kappacode.jetbrains` (matches `group` in root `build.gradle.kts`).
 - The root `plugin.xml` is wiring only: keep plugin metadata and the `<content>` block there. Register services, extensions, listeners, and actions in the module XML descriptors, not in root `plugin.xml`.
 - Module descriptor files must live directly in `{module}/src/main/resources/`, not in `META-INF/`.
 - Module XMLs use `<dependencies>`, not `<depends>`. The allowed top-level registration tags are limited; keep module XMLs focused on `<resource-bundle>`, `<extensions>`, `<extensionPoints>`, `<actions>`, `<applicationListeners>`, and `<projectListeners>`.
@@ -43,10 +43,10 @@ Check these before writing a new component, constant, or test harness. Do not du
 |---|---|---|
 | Reusable colors, spacing, gaps | `UiStyle` | `frontend/.../ui/UiStyle.kt` |
 | Session-specific style tokens | `SessionUiStyle` | `frontend/.../session/ui/style/SessionUiStyle.kt` |
-| One-dimensional layout (row/column) | `Stack` | `ai.kilocode.client.ui.layout.Stack` |
-| Single-component alignment | `Align` | `ai.kilocode.client.ui.layout.Align` |
-| Single-line transcript text | `PlainLabel` | `ai.kilocode.client.ui.PlainLabel` |
-| Icon-only clickable control | `HoverIcon` | `ai.kilocode.client.ui.HoverIcon` |
+| One-dimensional layout (row/column) | `Stack` | `ai.kappacode.client.ui.layout.Stack` |
+| Single-component alignment | `Align` | `ai.kappacode.client.ui.layout.Align` |
+| Single-line transcript text | `PlainLabel` | `ai.kappacode.client.ui.PlainLabel` |
+| Icon-only clickable control | `HoverIcon` | `ai.kappacode.client.ui.HoverIcon` |
 | Expandable transcript cards | `AbstractSessionPartView` | `frontend/.../session/ui/` |
 | Settings pages, rows, lists | `BaseSettingsUi`, `SettingsRow*`, `SettingsListPanel` | `frontend/.../settings/base/` |
 | EDT + real Application test base | `SessionControllerTestBase` | `test/.../session/` |

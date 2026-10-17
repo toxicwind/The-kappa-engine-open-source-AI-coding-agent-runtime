@@ -1,6 +1,6 @@
 import type { TuiPlugin, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, Show } from "solid-js"
-import { KiloNews } from "@/kilocode/components/kappa-news"
+import { KappaNews } from "@/kappacode/components/kappa-news"
 
 const id = "internal:home-news"
 
@@ -34,7 +34,7 @@ const tui: TuiPlugin = async (api) => {
         return (
           <box width="100%" maxWidth={75} alignItems="center" paddingTop={2}>
             <Show when={!hidden()}>
-              <KiloNews />
+              <KappaNews />
             </Show>
           </box>
         )

@@ -9,7 +9,7 @@ import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi"
 import { Auth } from "../../../src/auth"
 import type { Config } from "../../../src/config/config"
 import { TestConfig } from "../../fixture/config"
-import { KiloGatewayApi, KiloGatewayPaths } from "../../../src/kappacode/server/httpapi/groups/kappa-gateway"
+import { KappaGatewayApi, KappaGatewayPaths } from "../../../src/kappacode/server/httpapi/groups/kappa-gateway"
 import { kappaGatewayHandlers } from "../../../src/kappacode/server/httpapi/handlers/kappa-gateway"
 import { InstanceStore } from "../../../src/project/instance-store"
 import { ModelCache } from "../../../src/provider/model-cache"
@@ -25,7 +25,7 @@ import {
 } from "../../../src/server/routes/instance/httpapi/middleware/workspace-routing"
 import { testEffect } from "../../lib/effect"
 
-const TestHttpApi = HttpApi.make("opencode-instance").addHttpApi(KiloGatewayApi)
+const TestHttpApi = HttpApi.make("opencode-instance").addHttpApi(KappaGatewayApi)
 const state: { info: Auth.Info | undefined; config: Config.Info } = {
   info: new Auth.Api({ type: "api", key: "test-token" }),
   config: {},
@@ -103,7 +103,7 @@ function post(path: string, body: Record<string, unknown>) {
   return HttpClientRequest.post(path).pipe(HttpClientRequest.bodyJson(body), Effect.flatMap(HttpClient.execute))
 }
 
-describe("Kilo gateway HttpApi statuses", () => {
+describe("Kappa gateway HttpApi statuses", () => {
   const error = new Error("ConnectionRefused")
   for (const failure of [
     {
@@ -149,7 +149,7 @@ describe("Kilo gateway HttpApi statuses", () => {
           return Response.json({ subscription: null })
         })
 
-        const response = yield* HttpClient.get(KiloGatewayPaths.profile)
+        const response = yield* HttpClient.get(KappaGatewayPaths.profile)
 
         expect(response.status).toBe(200)
         expect(yield* response.json).toMatchObject({
@@ -168,7 +168,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => Promise.reject(new Error("unexpected Gateway request")))
 
-      const response = yield* HttpClient.get(KiloGatewayPaths.authStatus)
+      const response = yield* HttpClient.get(KappaGatewayPaths.authStatus)
 
       expect(response.status).toBe(200)
       expect(yield* response.json).toEqual({ authenticated: true, type: "api" })
@@ -227,7 +227,7 @@ describe("Kilo gateway HttpApi statuses", () => {
             }),
         )
         yield* stub(() => Promise.reject(new Error("unexpected Gateway request")))
-        const response = yield* HttpClient.get(KiloGatewayPaths.authStatus)
+        const response = yield* HttpClient.get(KappaGatewayPaths.authStatus)
         expect(response.status).toBe(200)
         expect(yield* response.json).toEqual({
           authenticated: !context.anonymous,
@@ -242,7 +242,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => new Response("rate limited", { status: 429 }))
 
-      const response = yield* HttpClient.get(KiloGatewayPaths.cloudSessions)
+      const response = yield* HttpClient.get(KappaGatewayPaths.cloudSessions)
 
       expect(response.status).toBe(429)
       expect(yield* response.json).toEqual({ error: "Cloud sessions fetch failed: 429" })
@@ -253,7 +253,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => Promise.reject(new TypeError("network error")))
 
-      const response = yield* HttpClient.get(KiloGatewayPaths.cloudSessions)
+      const response = yield* HttpClient.get(KappaGatewayPaths.cloudSessions)
 
       expect(response.status).toBe(500)
       expect(yield* response.json).toEqual({ error: "Internal error" })
@@ -264,7 +264,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => new Response("missing", { status: 404 }))
 
-      const response = yield* HttpClient.get(KiloGatewayPaths.cloudSession.replace(":id", "missing"))
+      const response = yield* HttpClient.get(KappaGatewayPaths.cloudSession.replace(":id", "missing"))
 
       expect(response.status).toBe(404)
       expect(yield* response.json).toEqual({ error: "Session not found" })
@@ -275,7 +275,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => new Response("failed", { status: 500 }))
 
-      const response = yield* HttpClient.get(KiloGatewayPaths.cloudSession.replace(":id", "failed"))
+      const response = yield* HttpClient.get(KappaGatewayPaths.cloudSession.replace(":id", "failed"))
 
       expect(response.status).toBe(500)
       expect(yield* response.json).toEqual({ error: "Failed to fetch session" })
@@ -286,7 +286,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => Promise.reject(new TypeError("network error")))
 
-      const response = yield* HttpClient.get(KiloGatewayPaths.cloudSession.replace(":id", "failed"))
+      const response = yield* HttpClient.get(KappaGatewayPaths.cloudSession.replace(":id", "failed"))
 
       expect(response.status).toBe(500)
       expect(yield* response.json).toEqual({ error: "Internal error" })
@@ -297,7 +297,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => new Response("unauthorized", { status: 401 }))
 
-      const response = yield* post(KiloGatewayPaths.cloudSessionImport, { sessionId: "unauthorized" })
+      const response = yield* post(KappaGatewayPaths.cloudSessionImport, { sessionId: "unauthorized" })
 
       expect(response.status).toBe(401)
       expect(yield* response.json).toEqual({ error: "Import failed: 401" })
@@ -308,7 +308,7 @@ describe("Kilo gateway HttpApi statuses", () => {
     Effect.gen(function* () {
       yield* stub(() => Promise.reject(new TypeError("network error")))
 
-      const response = yield* post(KiloGatewayPaths.cloudSessionImport, { sessionId: "failed" })
+      const response = yield* post(KappaGatewayPaths.cloudSessionImport, { sessionId: "failed" })
 
       expect(response.status).toBe(500)
       expect(yield* response.json).toEqual({ error: "Internal error" })

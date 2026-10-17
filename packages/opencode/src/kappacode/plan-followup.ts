@@ -4,7 +4,7 @@ import { TuiEvent } from "@/server/tui-event"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { Identifier } from "@/id/id"
 import { Instance } from "@/kappacode/instance"
-import { KilocodeModelState } from "@/kappacode/config/model-state"
+import { KappacodeModelState } from "@/kappacode/config/model-state"
 import { Provider } from "@/provider/provider"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -12,14 +12,14 @@ import { Question } from "@/question"
 import { Session } from "@/session/session"
 import { SessionID, MessageID, PartID } from "@/session/schema"
 import { LLM } from "@/session/llm"
-import { KiloLLM } from "@/kappacode/session/llm"
+import { KappaLLM } from "@/kappacode/session/llm"
 import { MessageV2 } from "@/session/message-v2"
 import { SessionStatus } from "@/session/status"
 import { Todo } from "@/session/todo"
 import { makeRuntime } from "@/effect/run-service"
 import { Effect } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
-import { KiloSessionPromptQueue } from "@/kappacode/session/prompt-queue"
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
 import { lazy } from "@/util/lazy"
 import { PlanFile } from "@/kappacode/plan-file"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
@@ -52,7 +52,7 @@ export const PlanFollowupRuntime = {
     },
   },
   handover(input: LLM.StreamInput, signal: AbortSignal) {
-    return llm().runPromise((svc) => KiloLLM.text(svc.stream(input)).pipe(Effect.orDie), { signal })
+    return llm().runPromise((svc) => KappaLLM.text(svc.stream(input)).pipe(Effect.orDie), { signal })
   },
   async session<A, E>(run: (svc: Session.Interface) => Effect.Effect<A, E>) {
     const { AppRuntime } = await import("@/effect/app-runtime")
@@ -214,7 +214,7 @@ export namespace PlanFollowup {
   }
 
   async function resolveCodeModel(input: Pick<MessageV2.User, "model">) {
-    const state = Flag.KILO_CLIENT === "cli" ? await KilocodeModelState.get().catch(() => undefined) : undefined
+    const state = Flag.KILO_CLIENT === "cli" ? await KappacodeModelState.get().catch(() => undefined) : undefined
     const saved = state?.model.code
     const entry = await PlanFollowupRuntime.agent("code")
     const next =
@@ -582,7 +582,7 @@ export namespace PlanFollowup {
           time: msg.time.created,
         }),
       )
-      KiloSessionPromptQueue.retarget(input.sessionID, msg.id)
+      KappaSessionPromptQueue.retarget(input.sessionID, msg.id)
       return "continue"
     }
 
@@ -594,7 +594,7 @@ export namespace PlanFollowup {
         model: user.model,
         text: "Continue refining the plan. Do not implement yet.",
       })
-      KiloSessionPromptQueue.retarget(input.sessionID, msg.id)
+      KappaSessionPromptQueue.retarget(input.sessionID, msg.id)
       return "continue"
     }
 
@@ -605,7 +605,7 @@ export namespace PlanFollowup {
       model: user.model,
       text: answer,
     })
-    KiloSessionPromptQueue.retarget(input.sessionID, msg.id)
+    KappaSessionPromptQueue.retarget(input.sessionID, msg.id)
     return "continue"
   }
 }

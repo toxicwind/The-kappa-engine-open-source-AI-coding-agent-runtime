@@ -1,26 +1,26 @@
 import type { ModelMessage } from "ai"
 import { MessageV2 } from "@/session/message-v2"
-import { KiloSessionMessageOrder } from "./message-order"
-import { KiloSessionControl } from "./control"
+import { KappaSessionMessageOrder } from "./message-order"
+import { KappaSessionControl } from "./control"
 
-export namespace KiloSessionContinuation {
+export namespace KappaSessionContinuation {
   export function target(messages: MessageV2.WithParts[]) {
     const answered = new Set(
       messages.flatMap((message) => (message.info.role === "assistant" ? [message.info.parentID] : [])),
     )
-    const latest = KiloSessionMessageOrder.latest(
+    const latest = KappaSessionMessageOrder.latest(
       messages.filter(
         (message) =>
           message.info.role !== "user" ||
           answered.has(message.info.id) ||
-          !KiloSessionControl.background(message.parts),
+          !KappaSessionControl.background(message.parts),
       ),
     )
     const user = latest.userMessage
     const assistant = latest.assistantMessage
     if (!user || !assistant || assistant.info.role !== "assistant") return undefined
     if (assistant.info.parentID !== user.info.id || assistant.info.summary) return undefined
-    if (KiloSessionMessageOrder.compare(user, assistant, messages.indexOf(user), messages.indexOf(assistant)) >= 0)
+    if (KappaSessionMessageOrder.compare(user, assistant, messages.indexOf(user), messages.indexOf(assistant)) >= 0)
       return undefined
     if (user.parts.some((part) => part.type === "subtask" || part.type === "compaction")) return undefined
     if (

@@ -1,5 +1,5 @@
 /**
- * "Hand this to Kilo" actions shared by the PR summary and the PR sections.
+ * "Hand this to Kappa" actions shared by the PR summary and the PR sections.
  *
  * Both places must agree on what is still actionable and must send the same
  * payload, so the counts in the summary match the section buttons and a send

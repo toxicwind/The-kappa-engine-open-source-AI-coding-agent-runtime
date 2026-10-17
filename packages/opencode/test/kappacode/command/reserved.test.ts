@@ -45,7 +45,7 @@ describe("reserved command names", () => {
     const message = Reserved.notice("goal")
 
     expect(message).toContain('"goal" command registered by your config or a plugin')
-    expect(message).toContain("reserved for Kilo's own command")
+    expect(message).toContain("reserved for Kappa's own command")
     expect(message).toContain("Rename it")
     expect(message).toContain("turn it off in the plugin that registers it")
     // No alias was registered, so there is nothing to point the user at.
@@ -121,7 +121,7 @@ describe("reserved command names", () => {
         expect(names).toContain("review")
         expect(names).toContain("goal:command")
         expect(list.filter((item) => item.name === "goal")).toHaveLength(1)
-        // Kilo's own /goal is untouched.
+        // Kappa's own /goal is untouched.
         expect(yield* command.get("goal")).toMatchObject({ source: "command", template: "$ARGUMENTS" })
         expect(yield* command.get("ship")).toMatchObject({ source: "command" })
         // The clashing template is reachable under the alias instead of being dropped.
@@ -229,7 +229,7 @@ describe("reserved command names", () => {
       expect(message).toContain('"goal" command registered by your config or a plugin')
       expect(message).toContain("Run yours as /goal:command instead.")
 
-      // The plugin keeps every command that does not clash, and /goal stays Kilo's.
+      // The plugin keeps every command that does not clash, and /goal stays Kappa's.
       const command = yield* Command.Service
       const list = yield* command.list()
       expect(list.map((item) => item.name)).toContain("handoff")

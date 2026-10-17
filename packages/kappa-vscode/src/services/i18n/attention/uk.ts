@@ -1,13 +1,13 @@
 export const dict = {
-  "kilocode:attention.done": "Kilo завершив завдання.",
-  "kilocode:attention.question": "Kilo очікує на вашу відповідь.",
-  "kilocode:attention.permission": "Kilo потребує дозволу.",
-  "kilocode:attention.error": "Kilo зупинив завдання через помилку.",
-  "kilocode:attention.show": "Показати",
-  "kilocode:attention.workspace": "Робоча область",
-  "kilocode:attention.session": "Сесія",
-  "kilocode:attention.test": "Це тестове сповіщення від Kilo Code.",
-  "kilocode:attention.unsupported": "Сповіщення операційної системи не підтримуються на цій платформі.",
-  "kilocode:attention.identity":
+  "kappacode:attention.done": "Kappa завершив завдання.",
+  "kappacode:attention.question": "Kappa очікує на вашу відповідь.",
+  "kappacode:attention.permission": "Kappa потребує дозволу.",
+  "kappacode:attention.error": "Kappa зупинив завдання через помилку.",
+  "kappacode:attention.show": "Показати",
+  "kappacode:attention.workspace": "Робоча область",
+  "kappacode:attention.session": "Сесія",
+  "kappacode:attention.test": "Це тестове сповіщення від Kappa Code.",
+  "kappacode:attention.unsupported": "Сповіщення операційної системи не підтримуються на цій платформі.",
+  "kappacode:attention.identity":
     "Не вдалося визначити ідентифікатор сповіщень цього редактора, тому нативні сповіщення недоступні. Сповіщення VS Code продовжують працювати.",
 }

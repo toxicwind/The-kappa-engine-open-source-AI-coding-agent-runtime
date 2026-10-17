@@ -1,12 +1,12 @@
 ---
-title: "Using AWS Bedrock with Kilo Code"
-description: "Configure AWS Bedrock in Kilo Code to access Claude, Llama, and other foundation models through your AWS account."
+title: "Using AWS Bedrock with Kappa Code"
+description: "Configure AWS Bedrock in Kappa Code to access Claude, Llama, and other foundation models through your AWS account."
 sidebar_label: AWS Bedrock
 ---
 
-# Using AWS Bedrock With Kilo Code
+# Using AWS Bedrock With Kappa Code
 
-Kilo Code supports accessing models through Amazon Bedrock, a fully managed service that makes a selection of high-performing foundation models (FMs) from leading AI companies available via a single API. This provider connects directly to AWS Bedrock and authenticates with the provided credentials.
+Kappa Code supports accessing models through Amazon Bedrock, a fully managed service that makes a selection of high-performing foundation models (FMs) from leading AI companies available via a single API. This provider connects directly to AWS Bedrock and authenticates with the provided credentials.
 
 **Website:** [https://aws.amazon.com/bedrock/](https://aws.amazon.com/bedrock/)
 
@@ -34,7 +34,7 @@ You have three options for configuring AWS credentials:
 3.  **AWS Profile:**
     - Configure an AWS profile using the AWS CLI or by manually editing your AWS credentials file. See the [AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) for details.
 
-## Configuration in Kilo Code
+## Configuration in Kappa Code
 
 {% tabs %}
 {% tab label="VSCode" %}
@@ -46,7 +46,7 @@ You have three options for configuring AWS credentials:
    - **Bedrock API key:** Enter a Bedrock API key.
 4. Select **Submit**.
 
-The extension stores these credentials in Kilo's credential store, not in `kappa.json`.
+The extension stores these credentials in Kappa's credential store, not in `kappa.json`.
 
 {% /tab %}
 {% tab label="CLI" %}

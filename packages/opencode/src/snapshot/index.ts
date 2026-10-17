@@ -1,7 +1,7 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kilocode_change
+import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { Cause, Duration, Effect, Layer, Schedule, Schema, Semaphore, Context } from "effect"
-import { Struct, Fiber } from "effect" // kilocode_change
+import { Struct, Fiber } from "effect" // kappacode_change
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
 import { formatPatch, structuredPatch } from "diff"
 import path from "path"
@@ -9,41 +9,41 @@ import { AppProcess } from "@opencode-ai/core/process"
 import { InstanceState } from "@/effect/instance-state"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Hash } from "@opencode-ai/core/util/hash"
-import { EffectFlock } from "@opencode-ai/core/util/effect-flock" // kilocode_change
+import { EffectFlock } from "@opencode-ai/core/util/effect-flock" // kappacode_change
 import { Config } from "@/config/config"
 import { Global } from "@opencode-ai/core/global"
 import { Info } from "@opencode-ai/schema/file-diff"
-// kilocode_change start
+// kappacode_change start
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { DiffFull } from "../kilocode/snapshot/diff-full"
-import { KiloSnapshotTrack } from "../kilocode/snapshot/track"
-import { KiloSnapshotPrepare } from "../kilocode/snapshot/prepare"
-import { KiloSnapshotMaterialize } from "../kilocode/snapshot/materialize"
+import { DiffFull } from "../kappacode/snapshot/diff-full"
+import { KappaSnapshotTrack } from "../kappacode/snapshot/track"
+import { KappaSnapshotPrepare } from "../kappacode/snapshot/prepare"
+import { KappaSnapshotMaterialize } from "../kappacode/snapshot/materialize"
 import type { MessageID, SessionID } from "../session/schema"
 import { withStatics } from "@opencode-ai/core/schema"
 import { zod } from "@opencode-ai/core/effect-zod"
-import { KiloSnapshotLock } from "../kilocode/snapshot/lock"
-// kilocode_change end
+import { KappaSnapshotLock } from "../kappacode/snapshot/lock"
+// kappacode_change end
 
 export const Patch = Schema.Struct({
   hash: Schema.String,
   files: Schema.mutable(Schema.Array(Schema.String)),
-}).pipe(withStatics((s) => ({ zod: zod(s) }))) // kilocode_change
+}).pipe(withStatics((s) => ({ zod: zod(s) }))) // kappacode_change
 export type Patch = typeof Patch.Type
 
-// kilocode_change - retain the legacy Zod facade while sharing the canonical schema
+// kappacode_change - retain the legacy Zod facade while sharing the canonical schema
 export const FileDiff = Info.pipe(withStatics((s) => ({ zod: zod(s) })))
 export type FileDiff = typeof FileDiff.Type
 
-// kilocode_change start - lightweight FileDiff without heavy content (patch/before/after) for session summaries
+// kappacode_change start - lightweight FileDiff without heavy content (patch/before/after) for session summaries
 export const SummaryFileDiff = FileDiff.mapFields(Struct.omit(["patch", "before", "after"]))
   .annotate({ identifier: "SnapshotSummaryFileDiff" })
   .pipe(withStatics((s) => ({ zod: zod(s) })))
 export type SummaryFileDiff = typeof SummaryFileDiff.Type
-// kilocode_change end
+// kappacode_change end
 
 const prune = "7.days"
-const retention = 7 * 24 * 60 * 60 * 1000 // kilocode_change
+const retention = 7 * 24 * 60 * 60 * 1000 // kappacode_change
 const limit = 2 * 1024 * 1024
 const core = ["-c", "core.longpaths=true", "-c", "core.symlinks=true"]
 const cfg = ["-c", "core.autocrlf=false", ...core]
@@ -54,41 +54,41 @@ interface GitResult {
   readonly stderr: string
 }
 
-export const MAX_DIFF_SIZE = 256 * 1024 // kilocode_change
+export const MAX_DIFF_SIZE = 256 * 1024 // kappacode_change
 
-type State = Omit<Interface, "init"> & { prepare: () => Effect.Effect<boolean> } // kilocode_change
+type State = Omit<Interface, "init"> & { prepare: () => Effect.Effect<boolean> } // kappacode_change
 
 export interface Interface {
   readonly init: () => Effect.Effect<void>
   readonly cleanup: () => Effect.Effect<void>
-  // kilocode_change start - pass prompt context and managed initialization policy
+  // kappacode_change start - pass prompt context and managed initialization policy
   readonly track: (opts?: {
     sessionID?: SessionID
     messageID?: MessageID
-    snapshotInitialization?: KiloSnapshotTrack.SnapshotInitialization
+    snapshotInitialization?: KappaSnapshotTrack.SnapshotInitialization
   }) => Effect.Effect<string | undefined>
-  // kilocode_change end
+  // kappacode_change end
   readonly patch: (hash: string) => Effect.Effect<Patch>
   readonly restore: (snapshot: string) => Effect.Effect<void>
   readonly revert: (patches: Patch[]) => Effect.Effect<void>
   readonly diff: (hash: string) => Effect.Effect<string>
   readonly diffFull: (from: string, to: string) => Effect.Effect<FileDiff[]>
-  readonly diffFile: (from: string, to: string, file: string) => Effect.Effect<FileDiff | undefined> // kilocode_change - authoritative full-content detail
+  readonly diffFile: (from: string, to: string, file: string) => Effect.Effect<FileDiff | undefined> // kappacode_change - authoritative full-content detail
 }
 
 export class Service extends Context.Service<Service, Interface>()("@opencode/Snapshot") {}
 
-// kilocode_change start
+// kappacode_change start
 type Requirements = FSUtil.Service | AppProcess.Service | Config.Service | EffectFlock.Service
 export const layer: Layer.Layer<Service, never, Requirements> =
-  // kilocode_change end
+  // kappacode_change end
   Layer.effect(
     Service,
     Effect.gen(function* () {
       const fs = yield* FSUtil.Service
       const appProcess = yield* AppProcess.Service
       const config = yield* Config.Service
-      const flock = yield* EffectFlock.Service // kilocode_change
+      const flock = yield* EffectFlock.Service // kappacode_change
       const locks = new Map<string, Semaphore.Semaphore>()
 
       const lock = (key: string) => {
@@ -181,14 +181,14 @@ export const layer: Layer.Layer<Service, never, Requirements> =
             )
           })
 
-          // kilocode_change start
+          // kappacode_change start
           const stage = Effect.fnUntraced(function* (
             files: string[],
             opts?: { env?: Record<string, string>; root?: boolean },
           ) {
-            // kilocode_change end
+            // kappacode_change end
             if (!files.length) return
-            // kilocode_change start
+            // kappacode_change start
             // A new root snapshot covers the full worktree, so a single pathspec avoids
             // quadratic matching against every tracked path in very large repositories.
             const cmd = opts?.root
@@ -200,7 +200,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
               env: opts?.env,
               stdin: opts?.root ? undefined : literal(files),
             })
-            // kilocode_change end
+            // kappacode_change end
             if (result.code === 0) return
             yield* Effect.logWarning("failed to add snapshot files", {
               exitCode: result.code,
@@ -210,20 +210,20 @@ export const layer: Layer.Layer<Service, never, Requirements> =
 
           const exists = (file: string) => fs.exists(file).pipe(Effect.orDie)
           const read = (file: string) => fs.readFileString(file).pipe(Effect.catch(() => Effect.succeed("")))
-          // kilocode_change start - restoration must fail if deletion fails
+          // kappacode_change start - restoration must fail if deletion fails
           const remove = (file: string) => fs.remove(file, { force: true }).pipe(Effect.orDie)
-          // kilocode_change end
-          // kilocode_change start - serialize snapshot repositories across CLI and extension processes
+          // kappacode_change end
+          // kappacode_change start - serialize snapshot repositories across CLI and extension processes
           const locked = <A, E, R>(fx: Effect.Effect<A, E, R>) =>
             lock(state.gitdir).withPermits(1)(
-              KiloSnapshotLock.dieOnLockError(flock.withLock(fx, `snapshot:${state.gitdir}`)),
+              KappaSnapshotLock.dieOnLockError(flock.withLock(fx, `snapshot:${state.gitdir}`)),
             )
 
-          // kilocode_change end
+          // kappacode_change end
 
           const enabled = Effect.fnUntraced(function* () {
             if (state.vcs !== "git") return false
-            if (Flag.KILO_CLIENT === "acp") return false // kilocode_change - ACP clients do not support snapshots
+            if (Flag.KILO_CLIENT === "acp") return false // kappacode_change - ACP clients do not support snapshots
             return (yield* config.get()).snapshot !== false
           })
 
@@ -250,9 +250,9 @@ export const layer: Layer.Layer<Service, never, Requirements> =
             yield* fs.writeFileString(target, text ? `${text}\n` : "").pipe(Effect.orDie)
           })
 
-          // kilocode_change start
+          // kappacode_change start
           const add = Effect.fnUntraced(function* (opts?: { env?: Record<string, string>; root?: boolean }) {
-            // kilocode_change end
+            // kappacode_change end
             yield* sync()
             const [diff, other] = yield* Effect.all(
               [
@@ -317,7 +317,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
             const block = new Set(untracked.filter((item) => large.has(item)))
             yield* sync(Array.from(block))
             // Stage only the allowed candidate paths so snapshot updates stay scoped.
-            // kilocode_change start - initial seeded writes stay protected by the source pin
+            // kappacode_change start - initial seeded writes stay protected by the source pin
             // A large candidate set with nothing filtered out is the whole worktree, so one
             // bulk add is equivalent and avoids quadratic pathspec matching.
             const bulk = allow.length > 1000 && !ignored.size && !block.size && state.directory === state.worktree
@@ -340,7 +340,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
               // here would only race the first snapshot and then repack right behind it.
               if (!(yield* exists(state.gitdir))) return
               scheduled.running = true
-              yield* locked(KiloSnapshotPrepare.resume({ gitdir: state.gitdir, git, fs }).pipe(Effect.orDie)).pipe(
+              yield* locked(KappaSnapshotPrepare.resume({ gitdir: state.gitdir, git, fs }).pipe(Effect.orDie)).pipe(
                 Effect.timeout("5 minutes"),
                 Effect.catchCause((cause) =>
                   Effect.logError("snapshot materialization failed", { cause: Cause.pretty(cause) }),
@@ -356,17 +356,17 @@ export const layer: Layer.Layer<Service, never, Requirements> =
             )
             scheduled.fiber = yield* Effect.forkDetach(work)
           })
-          // kilocode_change end
+          // kappacode_change end
 
           const cleanup = Effect.fnUntraced(function* () {
-            if ((yield* config.get()).snapshot === false) return undefined // kilocode_change - skip locks for disabled periodic cleanup too
+            if ((yield* config.get()).snapshot === false) return undefined // kappacode_change - skip locks for disabled periodic cleanup too
             return yield* locked(
               Effect.gen(function* () {
                 if (!(yield* enabled())) return
                 if (!(yield* exists(state.gitdir))) return
-                // kilocode_change start - retain snapshots for the same seven-day window as object pruning
-                yield* KiloSnapshotMaterialize.prune({ gitdir: state.gitdir, git, fs }, Date.now() - retention)
-                // kilocode_change end
+                // kappacode_change start - retain snapshots for the same seven-day window as object pruning
+                yield* KappaSnapshotMaterialize.prune({ gitdir: state.gitdir, git, fs }, Date.now() - retention)
+                // kappacode_change end
                 const result = yield* git(args(["gc", `--prune=${prune}`]), { cwd: state.directory })
                 if (result.code !== 0) {
                   yield* Effect.logWarning("cleanup failed", {
@@ -380,9 +380,9 @@ export const layer: Layer.Layer<Service, never, Requirements> =
             )
           })
 
-          // kilocode_change start - share locked initialization without creating a tracking ref
+          // kappacode_change start - share locked initialization without creating a tracking ref
           const initialize = (prepare = false) =>
-            KiloSnapshotPrepare.initialize(
+            KappaSnapshotPrepare.initialize(
               {
                 dir: state.directory,
                 worktree: state.worktree,
@@ -408,11 +408,11 @@ export const layer: Layer.Layer<Service, never, Requirements> =
           })
 
           const track = Effect.fnUntraced(function* (opts?: Parameters<Interface["track"]>[0]) {
-            // kilocode_change end
+            // kappacode_change end
             return yield* locked(
               Effect.gen(function* () {
                 if (!(yield* enabled())) return
-                // kilocode_change start - pin every snapshot before background materialization
+                // kappacode_change start - pin every snapshot before background materialization
                 const seeded = yield* initialize()
                 const existed = seeded === undefined
                 const seed = seeded?.source
@@ -425,7 +425,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
                 yield* add({ env, root: !existed && state.directory === state.worktree })
                 if (
                   seed &&
-                  !(yield* KiloSnapshotMaterialize.localize({
+                  !(yield* KappaSnapshotMaterialize.localize({
                     gitdir: state.gitdir,
                     git,
                     fs,
@@ -445,16 +445,16 @@ export const layer: Layer.Layer<Service, never, Requirements> =
                 }
                 if (
                   seed &&
-                  !(yield* KiloSnapshotMaterialize.localizeTrees(
+                  !(yield* KappaSnapshotMaterialize.localizeTrees(
                     { gitdir: state.gitdir, git, fs, staging: seed.staging },
                     hash,
                   ))
                 )
                   return
-                if (!(yield* KiloSnapshotMaterialize.pin({ gitdir: state.gitdir, git, fs }, hash))) return
+                if (!(yield* KappaSnapshotMaterialize.pin({ gitdir: state.gitdir, git, fs }, hash))) return
                 const alt = path.join(state.gitdir, "objects", "info", "alternates")
-                if (yield* exists(alt)) yield* materialize(KiloSnapshotMaterialize.idle())
-                // kilocode_change end
+                if (yield* exists(alt)) yield* materialize(KappaSnapshotMaterialize.idle())
+                // kappacode_change end
                 yield* Effect.logInfo("tracking", { hash, cwd: state.directory, git: state.gitdir })
                 return hash
               }),
@@ -466,12 +466,12 @@ export const layer: Layer.Layer<Service, never, Requirements> =
               Effect.gen(function* () {
                 yield* add()
                 const result = yield* git(
-                  // kilocode_change start
+                  // kappacode_change start
                   [
                     ...quote,
                     ...args(["diff", "--cached", "--no-ext-diff", "--no-renames", "--name-only", hash, "--", "."]),
                   ],
-                  // kilocode_change end
+                  // kappacode_change end
                   {
                     cwd: state.directory,
                   },
@@ -514,14 +514,14 @@ export const layer: Layer.Layer<Service, never, Requirements> =
                     exitCode: checkout.code,
                     stderr: checkout.stderr,
                   })
-                  return yield* Effect.die(new Error(`Failed to restore snapshot ${snapshot}`)) // kilocode_change
+                  return yield* Effect.die(new Error(`Failed to restore snapshot ${snapshot}`)) // kappacode_change
                 }
                 yield* Effect.logError("failed to restore snapshot", {
                   snapshot,
                   exitCode: result.code,
                   stderr: result.stderr,
                 })
-                return yield* Effect.die(new Error(`Failed to restore snapshot ${snapshot}`)) // kilocode_change
+                return yield* Effect.die(new Error(`Failed to restore snapshot ${snapshot}`)) // kappacode_change
               }),
             )
           })
@@ -529,14 +529,14 @@ export const layer: Layer.Layer<Service, never, Requirements> =
           const revert = Effect.fnUntraced(function* (patches: Patch[]) {
             return yield* locked(
               Effect.gen(function* () {
-                // kilocode_change start - validate every checkpoint before mutating workspace files
+                // kappacode_change start - validate every checkpoint before mutating workspace files
                 for (const hash of new Set(patches.filter((item) => item.files.length > 0).map((item) => item.hash))) {
                   const tree = yield* git([...core, ...args(["cat-file", "-e", `${hash}^{tree}`])], {
                     cwd: state.worktree,
                   })
                   if (tree.code !== 0) return yield* Effect.die(new Error(`Snapshot ${hash} is unavailable`))
                 }
-                // kilocode_change end
+                // kappacode_change end
                 const ops: { hash: string; file: string; rel: string }[] = []
                 const seen = new Set<string>()
                 for (const item of patches) {
@@ -560,7 +560,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
                   const tree = yield* git([...core, ...args(["ls-tree", op.hash, "--", op.rel])], {
                     cwd: state.worktree,
                   })
-                  // kilocode_change start - never report success for a file that Git could not restore
+                  // kappacode_change start - never report success for a file that Git could not restore
                   if (tree.code !== 0) {
                     return yield* Effect.die(new Error(`Snapshot ${op.hash} is unavailable`))
                   }
@@ -573,7 +573,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
                     })
                     return yield* Effect.die(new Error(`Failed to restore ${op.file} from snapshot ${op.hash}`))
                   }
-                  // kilocode_change end
+                  // kappacode_change end
                   yield* Effect.logInfo("file did not exist in snapshot, deleting", {
                     file: op.file,
                     hash: op.hash,
@@ -879,7 +879,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
                 const patch = (file: string, before: string, after: string) =>
                   formatPatch(structuredPatch(file, file, before, after, "", "", { context: Number.MAX_SAFE_INTEGER }))
 
-                // kilocode_change start - use git patches to avoid blocking the event loop on large diffs
+                // kappacode_change start - use git patches to avoid blocking the event loop on large diffs
                 for (let i = 0; i < rows.length; i += step) {
                   const run = rows.slice(i, i + step)
                   const patches = yield* DiffFull.batch(
@@ -899,7 +899,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
                   }
                 }
                 return result
-                // kilocode_change end
+                // kappacode_change end
 
                 for (let i = 0; i < rows.length; i += step) {
                   const run = rows.slice(i, i + step)
@@ -927,7 +927,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
           // fresh snapshot: with a zero delay this fiber's exists-check can land after the
           // first track created the alternates and repack behind it, defeating the wait
           // the tracks scheduled. A restart has been quiet, so the default idle applies.
-          yield* materialize(KiloSnapshotMaterialize.idle()) // kilocode_change - resume interrupted snapshot object materialization
+          yield* materialize(KappaSnapshotMaterialize.idle()) // kappacode_change - resume interrupted snapshot object materialization
 
           yield* cleanup().pipe(
             Effect.catchCause((cause) => Effect.logError("cleanup loop failed", { cause: Cause.pretty(cause) })),
@@ -936,7 +936,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
             Effect.forkScoped,
           )
 
-          // kilocode_change start - authoritative full-content detail for editor diff tabs
+          // kappacode_change start - authoritative full-content detail for editor diff tabs
           const diffFile = Effect.fnUntraced(function* (from: string, to: string, file: string) {
             return yield* locked(
               DiffFull.detail(
@@ -950,19 +950,19 @@ export const layer: Layer.Layer<Service, never, Requirements> =
               ),
             )
           })
-          // kilocode_change end
+          // kappacode_change end
 
-          return { cleanup, prepare, track, patch, restore, revert, diff, diffFull, diffFile } // kilocode_change
+          return { cleanup, prepare, track, patch, restore, revert, diff, diffFull, diffFile } // kappacode_change
         }),
       )
 
-      // kilocode_change start - service-local state and cache avoid leaking across Snapshot layer instances
-      const trackState = KiloSnapshotTrack.makeStates()
+      // kappacode_change start - service-local state and cache avoid leaking across Snapshot layer instances
+      const trackState = KappaSnapshotTrack.makeStates()
       const cache = new Map<string, Promise<FileDiff[]>>()
       const max = 100
-      // kilocode_change end
+      // kappacode_change end
 
-      // kilocode_change - bind preparation without changing the shared service interface
+      // kappacode_change - bind preparation without changing the shared service interface
       const service = Service.of({
         init: Effect.fn("Snapshot.init")(function* () {
           yield* InstanceState.get(state)
@@ -970,14 +970,14 @@ export const layer: Layer.Layer<Service, never, Requirements> =
         cleanup: Effect.fn("Snapshot.cleanup")(function* () {
           return yield* InstanceState.useEffect(state, (s) => s.cleanup())
         }),
-        // kilocode_change start - isolate turn-facing snapshot work from poisoned locks
+        // kappacode_change start - isolate turn-facing snapshot work from poisoned locks
         track: Effect.fn("Snapshot.track")(function* (opts) {
           // Check before starting progress or waiting on an earlier snapshot's lock.
           if ((yield* config.get()).snapshot === false) return undefined
           const ctx = yield* InstanceState.context
           const guard = trackState(ctx.worktree)
-          return yield* KiloSnapshotTrack.protect({
-            inner: KiloSnapshotTrack.wrap({
+          return yield* KappaSnapshotTrack.protect({
+            inner: KappaSnapshotTrack.wrap({
               inner: InstanceState.useEffect(state, (s) => s.track(opts)),
               state: guard,
               snapshotInitialization: opts?.snapshotInitialization,
@@ -993,14 +993,14 @@ export const layer: Layer.Layer<Service, never, Requirements> =
           if ((yield* config.get()).snapshot === false) return { hash, files: [] }
           const ctx = yield* InstanceState.context
           const guard = trackState(ctx.worktree)
-          return yield* KiloSnapshotTrack.protect({
+          return yield* KappaSnapshotTrack.protect({
             inner: InstanceState.useEffect(state, (s) => s.patch(hash)),
             state: guard,
             fallback: { hash, files: [] },
             operation: "patch",
           })
         }),
-        // kilocode_change end
+        // kappacode_change end
         restore: Effect.fn("Snapshot.restore")(function* (snapshot: string) {
           return yield* InstanceState.useEffect(state, (s) => s.restore(snapshot))
         }),
@@ -1011,7 +1011,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
           return yield* InstanceState.useEffect(state, (s) => s.diff(hash))
         }),
         diffFull: Effect.fn("Snapshot.diffFull")(function* (from: string, to: string) {
-          // kilocode_change start - cache full diffs at the service boundary
+          // kappacode_change start - cache full diffs at the service boundary
           if (from === to) return []
           const directory = yield* InstanceState.directory
           const key = `${directory}\0${from}:${to}`
@@ -1030,25 +1030,25 @@ export const layer: Layer.Layer<Service, never, Requirements> =
           )
           cache.set(key, pending)
           return yield* Effect.promise(() => pending)
-          // kilocode_change end
+          // kappacode_change end
         }),
-        // kilocode_change start - authoritative full-content detail for editor diff tabs
+        // kappacode_change start - authoritative full-content detail for editor diff tabs
         diffFile: Effect.fn("Snapshot.diffFile")(function* (from: string, to: string, file: string) {
           if (from === to) return undefined
           return yield* InstanceState.useEffect(state, (s) => s.diffFile(from, to, file))
         }),
-        // kilocode_change end
+        // kappacode_change end
       })
-      return KiloSnapshotPrepare.bind(service, () => InstanceState.useEffect(state, (s) => s.prepare())) // kilocode_change
+      return KappaSnapshotPrepare.bind(service, () => InstanceState.useEffect(state, (s) => s.prepare())) // kappacode_change
     }),
   )
 
-export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kilocode_change - build from the LayerNode graph
+export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kappacode_change - build from the LayerNode graph
 
 export const node = LayerNode.make({
   service: Service,
   layer,
-  deps: [FSUtil.node, AppProcess.node, Config.node, EffectFlock.node], // kilocode_change
+  deps: [FSUtil.node, AppProcess.node, Config.node, EffectFlock.node], // kappacode_change
 })
 
 export * as Snapshot from "."

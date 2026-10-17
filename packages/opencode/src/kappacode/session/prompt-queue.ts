@@ -1,7 +1,7 @@
 import { Effect } from "effect"
 import { MessageV2 } from "@/session/message-v2"
 import { MessageID, SessionID } from "@/session/schema"
-import { KiloSession } from "@/kappacode/session"
+import { KappaSession } from "@/kappacode/session"
 
 type Slot = {
   readonly seq: number
@@ -17,7 +17,7 @@ type Target = {
   readonly extras: ReadonlySet<MessageID>
 }
 
-export namespace KiloSessionPromptQueue {
+export namespace KappaSessionPromptQueue {
   const tails = new Map<SessionID, Promise<void>>()
   const versions = new Map<SessionID, number>()
   const targets = new Map<SessionID, Target>()
@@ -80,7 +80,7 @@ export namespace KiloSessionPromptQueue {
     if (prev.length === next.length && prev.every((id, i) => id === next[i])) return
     if (next.length === 0) waiting.delete(sessionID)
     else waiting.set(sessionID, next)
-    KiloSession.publishQueueChangedAsync({ sessionID, queued: snapshot(sessionID) })
+    KappaSession.publishQueueChangedAsync({ sessionID, queued: snapshot(sessionID) })
   }
 
   export function cancel(sessionID: SessionID) {

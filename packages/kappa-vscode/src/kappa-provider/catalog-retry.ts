@@ -1,5 +1,5 @@
 /**
- * Re-fetches providers while an organization's Kilo catalog is unavailable.
+ * Re-fetches providers while an organization's Kappa catalog is unavailable.
  * The CLI recovers the catalog in the background but does not notify clients,
  * so without this the model picker would stay empty until a reload.
  */

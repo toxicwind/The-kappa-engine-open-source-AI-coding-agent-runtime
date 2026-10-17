@@ -161,7 +161,7 @@ describe("Config", () => {
     ),
   )
 
-  // kilocode_change start
+  // kappacode_change start
   it.live("skips project configuration when project discovery is disabled", () =>
     Effect.acquireRelease(
       Effect.promise(() => tmpdir()),
@@ -198,7 +198,7 @@ describe("Config", () => {
       ),
     ),
   )
-            // kilocode_change end
+            // kappacode_change end
 
   it.live("loads opencode JSON and JSONC files from lowest to highest priority", () =>
     Effect.acquireRelease(
@@ -248,7 +248,7 @@ describe("Config", () => {
     ),
   )
 
-  // kilocode_change - Kilo keeps loading config.json for released installs (see the names list in config.ts)
+  // kappacode_change - Kappa keeps loading config.json for released installs (see the names list in config.ts)
   it.live("still loads legacy config.json files", () =>
     Effect.acquireRelease(
       Effect.promise(() => tmpdir()),
@@ -264,7 +264,7 @@ describe("Config", () => {
             const config = yield* Config.Service
             const documents = (yield* config.entries()).filter((entry) => entry.type === "document")
 
-            expect(documents).toHaveLength(1) // kilocode_change
+            expect(documents).toHaveLength(1) // kappacode_change
           }).pipe(Effect.provide(testLayer(tmp.path)))
         }),
       ),
@@ -764,8 +764,8 @@ describe("Config", () => {
     ),
   )
 
-  // kilocode_change start - V2 config discovery follows Kilo roots and precedence
-  it.live("loads Kilo configuration roots up to the project boundary", () =>
+  // kappacode_change start - V2 config discovery follows Kappa roots and precedence
+  it.live("loads Kappa configuration roots up to the project boundary", () =>
     Effect.acquireRelease(
       Effect.promise(() => tmpdir()),
       (tmp) => Effect.promise(() => tmp[Symbol.asyncDispose]()),
@@ -781,7 +781,7 @@ describe("Config", () => {
             await fs.mkdir(directory, { recursive: true })
             await Promise.all(
               [root, directory].flatMap((dir) =>
-                [".kilocode", ".kappa", ".opencode"].map((name) => fs.mkdir(path.join(dir, name), { recursive: true })),
+                [".kappacode", ".kappa", ".opencode"].map((name) => fs.mkdir(path.join(dir, name), { recursive: true })),
               ),
             )
             await Promise.all([
@@ -790,11 +790,11 @@ describe("Config", () => {
               fs.writeFile(path.join(root, "kappa.json"), JSON.stringify({ $schema: "root" })),
               fs.writeFile(path.join(parent, "opencode.jsonc"), JSON.stringify({ $schema: "parent" })),
               fs.writeFile(path.join(directory, "opencode.json"), JSON.stringify({ $schema: "directory" })),
-              fs.writeFile(path.join(root, ".kilocode", "opencode.json"), JSON.stringify({ $schema: "root-kilocode" })),
+              fs.writeFile(path.join(root, ".kappacode", "opencode.json"), JSON.stringify({ $schema: "root-kappacode" })),
               fs.writeFile(path.join(root, ".kappa", "kappa.json"), JSON.stringify({ $schema: "root-kappa" })),
               fs.writeFile(
-                path.join(directory, ".kilocode", "opencode.jsonc"),
-                JSON.stringify({ $schema: "directory-kilocode" }),
+                path.join(directory, ".kappacode", "opencode.jsonc"),
+                JSON.stringify({ $schema: "directory-kappacode" }),
               ),
               fs.writeFile(path.join(directory, ".kappa", "kappa.jsonc"), JSON.stringify({ $schema: "directory-kappa" })),
               fs.writeFile(path.join(root, ".opencode", "opencode.json"), JSON.stringify({ $schema: "ignored" })),
@@ -808,9 +808,9 @@ describe("Config", () => {
 
             expect(entries.filter((entry) => entry.type === "directory").map((entry) => entry.path)).toEqual([
               AbsolutePath.make(global),
-              AbsolutePath.make(path.join(root, ".kilocode")),
+              AbsolutePath.make(path.join(root, ".kappacode")),
               AbsolutePath.make(path.join(root, ".kappa")),
-              AbsolutePath.make(path.join(directory, ".kilocode")),
+              AbsolutePath.make(path.join(directory, ".kappacode")),
               AbsolutePath.make(path.join(directory, ".kappa")),
             ])
             expect(documents.map((document) => document.info.$schema)).toEqual([
@@ -818,9 +818,9 @@ describe("Config", () => {
               "root",
               "parent",
               "directory",
-              "root-kilocode",
+              "root-kappacode",
               "root-kappa",
-              "directory-kilocode",
+              "directory-kappacode",
               "directory-kappa",
             ])
             expect(Config.latest(entries, "$schema")).toBe("directory-kappa")
@@ -830,12 +830,12 @@ describe("Config", () => {
               "root",
               "parent",
               "directory",
-              "root-kilocode",
-              AbsolutePath.make(path.join(root, ".kilocode")),
+              "root-kappacode",
+              AbsolutePath.make(path.join(root, ".kappacode")),
               "root-kappa",
               AbsolutePath.make(path.join(root, ".kappa")),
-              "directory-kilocode",
-              AbsolutePath.make(path.join(directory, ".kilocode")),
+              "directory-kappacode",
+              AbsolutePath.make(path.join(directory, ".kappacode")),
               "directory-kappa",
               AbsolutePath.make(path.join(directory, ".kappa")),
             ])
@@ -851,5 +851,5 @@ describe("Config", () => {
       }),
     ),
   )
-  // kilocode_change end
+  // kappacode_change end
 })

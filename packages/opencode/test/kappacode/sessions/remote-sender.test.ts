@@ -18,7 +18,7 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { MessageID, SessionID } from "../../../src/session/schema"
 import { Session } from "../../../src/session/session"
 import { Suggestion } from "../../../src/kappacode/suggestion"
-import { KiloSessionPromptQueue } from "../../../src/kappacode/session/prompt-queue"
+import { KappaSessionPromptQueue } from "../../../src/kappacode/session/prompt-queue"
 import { mkdir, symlink, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { tmpdir } from "../../fixture/fixture"
@@ -757,7 +757,7 @@ describe("RemoteSender", () => {
     const activeRelease = Promise.withResolvers<void>()
 
     const active = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         activeID,
         Effect.promise(async () => {
@@ -771,7 +771,7 @@ describe("RemoteSender", () => {
     await activeStarted.promise
 
     const queued = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         queuedID,
         Effect.sync(() => "queued"),
@@ -779,7 +779,7 @@ describe("RemoteSender", () => {
       ),
     )
 
-    expect(KiloSessionPromptQueue.snapshot(sessionID)).toEqual([queuedID])
+    expect(KappaSessionPromptQueue.snapshot(sessionID)).toEqual([queuedID])
 
     const sender = RemoteSender.create({
       conn,
@@ -819,7 +819,7 @@ describe("RemoteSender", () => {
     const activeRelease = Promise.withResolvers<void>()
 
     const active = Effect.runPromise(
-      KiloSessionPromptQueue.enqueue(
+      KappaSessionPromptQueue.enqueue(
         sessionID,
         activeID,
         Effect.promise(async () => {
@@ -2275,7 +2275,7 @@ describe("RemoteSender", () => {
       { id: "sug_1", sessionID: "ses_other", text: "Review?", actions: [] } as any,
     ])
     // Queue snapshot is always replayed, even when empty
-    spyOn(KiloSessionPromptQueue, "snapshot").mockReturnValue([])
+    spyOn(KappaSessionPromptQueue, "snapshot").mockReturnValue([])
 
     const sender = RemoteSender.create({
       conn,
@@ -2322,7 +2322,7 @@ describe("RemoteSender", () => {
     const bus = fakeBus()
 
     spyOn(Suggestion, "list").mockResolvedValue([])
-    spyOn(KiloSessionPromptQueue, "snapshot").mockReturnValue([])
+    spyOn(KappaSessionPromptQueue, "snapshot").mockReturnValue([])
 
     const sender = RemoteSender.create({
       conn,
@@ -2346,7 +2346,7 @@ describe("RemoteSender", () => {
         data: { sessionID: "ses_target", queued: [] },
       },
     ])
-    expect(KiloSessionPromptQueue.snapshot).toHaveBeenCalledWith(SessionID.make("ses_target"))
+    expect(KappaSessionPromptQueue.snapshot).toHaveBeenCalledWith(SessionID.make("ses_target"))
   })
 
   test("subscribe replays a non-empty queue snapshot for the subscribed session", async () => {
@@ -2354,7 +2354,7 @@ describe("RemoteSender", () => {
     const bus = fakeBus()
 
     spyOn(Suggestion, "list").mockResolvedValue([])
-    spyOn(KiloSessionPromptQueue, "snapshot").mockReturnValue(["msg_a", "msg_b"] as any)
+    spyOn(KappaSessionPromptQueue, "snapshot").mockReturnValue(["msg_a", "msg_b"] as any)
 
     const sender = RemoteSender.create({
       conn,
@@ -4098,7 +4098,7 @@ describe("RemoteSender slash commands", () => {
     }
   })
 
-  test("create_session with cloneFromKiloSessionId imports in-process, attaches, and never creates", async () => {
+  test("create_session with cloneFromKappaSessionId imports in-process, attaches, and never creates", async () => {
     const { conn, sent } = fakeConn()
     const dirs: string[] = []
     const importCalls: unknown[] = []
@@ -4144,7 +4144,7 @@ describe("RemoteSender slash commands", () => {
       id: "req_clone",
       command: "create_session",
       sessionId: "ses_current",
-      data: { protocolVersion: 1, cloneFromKiloSessionId: "ses_cloud" },
+      data: { protocolVersion: 1, cloneFromKappaSessionId: "ses_cloud" },
     })
     await response.promise
     response.restore()
@@ -4185,7 +4185,7 @@ describe("RemoteSender slash commands", () => {
       id: "req_clone_cut",
       command: "create_session",
       sessionId: "ses_current",
-      data: { protocolVersion: 1, cloneFromKiloSessionId: "ses_cloud", cloneUpToMessageId: "msg_002" },
+      data: { protocolVersion: 1, cloneFromKappaSessionId: "ses_cloud", cloneUpToMessageId: "msg_002" },
     })
     await response.promise
     response.restore()
@@ -4196,7 +4196,7 @@ describe("RemoteSender slash commands", () => {
     ])
   })
 
-  test("create_session rejects cloneUpToMessageId without cloneFromKiloSessionId", () => {
+  test("create_session rejects cloneUpToMessageId without cloneFromKappaSessionId", () => {
     const { conn, sent } = fakeConn()
     const createCalls: unknown[] = []
     const importCalls: unknown[] = []
@@ -4230,7 +4230,7 @@ describe("RemoteSender slash commands", () => {
     expect(importCalls).toHaveLength(0)
   })
 
-  test("create_session with cloneFromKiloSessionId and no importFromCloud seam rejects without creating", () => {
+  test("create_session with cloneFromKappaSessionId and no importFromCloud seam rejects without creating", () => {
     const { conn, sent } = fakeConn()
     const createCalls: unknown[] = []
     const attachCalls: SessionID[] = []
@@ -4258,7 +4258,7 @@ describe("RemoteSender slash commands", () => {
       id: "req_clone_no_seam",
       command: "create_session",
       sessionId: "ses_current",
-      data: { protocolVersion: 1, cloneFromKiloSessionId: "ses_cloud" },
+      data: { protocolVersion: 1, cloneFromKappaSessionId: "ses_cloud" },
     })
 
     expect(sent).toEqual([{ type: "response", id: "req_clone_no_seam", error: "invalid create_session command" }])
@@ -4314,7 +4314,7 @@ describe("RemoteSender slash commands", () => {
         id: "req_clone_fail",
         command: "create_session",
         sessionId: "ses_current",
-        data: { protocolVersion: 1, cloneFromKiloSessionId: "ses_cloud" },
+        data: { protocolVersion: 1, cloneFromKappaSessionId: "ses_cloud" },
       })
       await response.promise
       response.restore()
@@ -4366,7 +4366,7 @@ describe("RemoteSender slash commands", () => {
       id: "req_clone_attach_fail",
       command: "create_session",
       sessionId: "ses_current",
-      data: { protocolVersion: 1, cloneFromKiloSessionId: "ses_cloud" },
+      data: { protocolVersion: 1, cloneFromKappaSessionId: "ses_cloud" },
     })
     await response.promise
     response.restore()
@@ -4403,7 +4403,7 @@ describe("RemoteSender slash commands", () => {
       type: "command",
       id: "req_clone_strict",
       command: "create_session",
-      data: { protocolVersion: 1, cloneFromKiloSessionId: "ses_cloud", unknown: true },
+      data: { protocolVersion: 1, cloneFromKappaSessionId: "ses_cloud", unknown: true },
     })
     expect(sent).toEqual([{ type: "response", id: "req_clone_strict", error: "invalid create_session command" }])
     expect(createCalls).toHaveLength(0)

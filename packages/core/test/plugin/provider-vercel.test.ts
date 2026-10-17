@@ -33,7 +33,7 @@ describe("VercelPlugin", () => {
       expect((yield* catalog.provider.get(ProviderV2.ID.make("vercel")))?.request.headers).toEqual({
         Existing: "1",
         "http-referer": "https://kappa.ai/",
-        "x-title": "Kilo Code",
+        "x-title": "Kappa Code",
       })
     }),
   )

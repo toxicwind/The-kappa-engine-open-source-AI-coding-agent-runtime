@@ -3,7 +3,7 @@
 type Flags = { experimentalCodeMode: boolean }
 type Settings = { experimental?: { code_mode?: boolean } }
 
-export namespace KiloCodeMode {
+export namespace KappaCodeMode {
   export function wanted(flags: Flags, cfg: Settings) {
     return flags.experimentalCodeMode || cfg.experimental?.code_mode === true
   }

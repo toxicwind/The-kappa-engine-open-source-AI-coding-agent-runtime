@@ -1,6 +1,6 @@
-# Kilocode Migration
+# Kappacode Migration
 
-This document explains how Kilocode configurations are automatically migrated to Opencode.
+This document explains how Kappacode configurations are automatically migrated to Opencode.
 
 ## Table of Contents
 
@@ -9,17 +9,17 @@ This document explains how Kilocode configurations are automatically migrated to
 - [Rules Migration](#rules-migration)
 - [Workflows Migration](#workflows-migration)
 - [MCP Migration](#mcp-migration)
-- [Kilo Notifications](#kappa-notifications)
+- [Kappa Notifications](#kappa-notifications)
 
 ---
 
 # Modes Migration
 
-This section explains how Kilocode custom modes are automatically migrated to Opencode agents.
+This section explains how Kappacode custom modes are automatically migrated to Opencode agents.
 
 ## Overview
 
-Kilocode stores custom modes in YAML files. When Opencode starts, it reads these files and converts them to Opencode's agent format, injecting them via the `OPENCODE_CONFIG_CONTENT` mechanism.
+Kappacode stores custom modes in YAML files. When Opencode starts, it reads these files and converts them to Opencode's agent format, injecting them via the `OPENCODE_CONFIG_CONTENT` mechanism.
 
 ## Source Locations
 
@@ -43,7 +43,7 @@ The migrator reads custom modes from these locations (in order, later entries ov
 
 ### Migrated Fields
 
-| Kilocode Field | Opencode Field | Notes |
+| Kappacode Field | Opencode Field | Notes |
 |---|---|---|
 | `slug` | Agent key | Used as the agent identifier |
 | `roleDefinition` | `prompt` | Combined with `customInstructions` |
@@ -55,9 +55,9 @@ The migrator reads custom modes from these locations (in order, later entries ov
 
 ### Permission Mapping
 
-Kilocode uses "groups" to define what tools a mode can access. These are converted to Opencode's permission system:
+Kappacode uses "groups" to define what tools a mode can access. These are converted to Opencode's permission system:
 
-| Kilocode Group | Opencode Permission | Notes |
+| Kappacode Group | Opencode Permission | Notes |
 |---|---|---|
 | `read` | `read: "allow"` | File reading |
 | `edit` | `edit: "allow"` | File editing |
@@ -69,7 +69,7 @@ Kilocode uses "groups" to define what tools a mode can access. These are convert
 
 ### File Restrictions
 
-Kilocode supports restricting edit access to specific file patterns:
+Kappacode supports restricting edit access to specific file patterns:
 
 ```yaml
 groups:
@@ -99,9 +99,9 @@ Note: `bash` and `mcp` are explicitly denied because they weren't in the origina
 
 ## Default Modes
 
-The following Kilocode default modes are **skipped** during migration because Opencode has native equivalents:
+The following Kappacode default modes are **skipped** during migration because Opencode has native equivalents:
 
-| Kilocode Mode | Reason |
+| Kappacode Mode | Reason |
 |---|---|
 | `code` | Maps to Opencode's `build` agent |
 | `architect` | Maps to Opencode's `plan` agent |
@@ -111,7 +111,7 @@ The following Kilocode default modes are **skipped** during migration because Op
 
 ## Example Conversion
 
-### Kilocode Mode (YAML)
+### Kappacode Mode (YAML)
 
 ```yaml
 customModes:
@@ -153,7 +153,7 @@ customModes:
 
 ## Not Migrated (Future Phases)
 
-The following Kilocode features are not yet migrated:
+The following Kappacode features are not yet migrated:
 
 | Feature | Status | Notes |
 |---|---|---|
@@ -188,11 +188,11 @@ The following Kilocode features are not yet migrated:
 
 # Skills Discovery
 
-Kilocode skills are automatically discovered and made available in Opencode. This is **not a migration** - skills remain in their original locations and can be managed independently by the Kilo VSCode extension.
+Kappacode skills are automatically discovered and made available in Opencode. This is **not a migration** - skills remain in their original locations and can be managed independently by the Kappa VSCode extension.
 
 ## How It Works
 
-Kilo scans canonical `.kappa/skill/` and `.kappa/skills/` directories alongside legacy `.kappacode/` equivalents. The `KilocodePaths.skillDirectories()` function provides these paths.
+Kappa scans canonical `.kappa/skill/` and `.kappa/skills/` directories alongside legacy `.kappacode/` equivalents. The `KappacodePaths.skillDirectories()` function provides these paths.
 
 ## Source Locations
 
@@ -253,7 +253,7 @@ When the same skill name exists in multiple locations, **last one wins**. Canoni
 
 ## Mode-Specific Skills
 
-Kilocode supports mode-specific skills in `skills-{mode}/` directories (e.g., `skills-code/`, `skills-architect/`). These are **not currently migrated** to Opencode.
+Kappacode supports mode-specific skills in `skills-{mode}/` directories (e.g., `skills-code/`, `skills-architect/`). These are **not currently migrated** to Opencode.
 
 If you need mode-specific behavior, use Opencode's agent permission system:
 
@@ -281,7 +281,7 @@ Skills can be symlinked from a shared location:
 .kappa/skill/shared-skill -> ...       # Canonical symlink
 ```
 
-The scanner follows symlinks, so a skill installed once can be available to both Kilo VSCode and Opencode CLI.
+The scanner follows symlinks, so a skill installed once can be available to both Kappa VSCode and Opencode CLI.
 
 ## Related Files
 
@@ -292,7 +292,7 @@ The scanner follows symlinks, so a skill installed once can be available to both
 
 # Rules Migration
 
-Kilocode rules are migrated to Opencode's `instructions` array. See [`rules-migrator.ts`](../rules-migrator.ts).
+Kappacode rules are migrated to Opencode's `instructions` array. See [`rules-migrator.ts`](../rules-migrator.ts).
 
 ## Source Locations
 
@@ -308,7 +308,7 @@ Kilocode rules are migrated to Opencode's `instructions` array. See [`rules-migr
 
 # Workflows Migration
 
-Kilocode workflows are migrated to Opencode commands. See [`workflows-migrator.ts`](../workflows-migrator.ts).
+Kappacode workflows are migrated to Opencode commands. See [`workflows-migrator.ts`](../workflows-migrator.ts).
 
 ## Source Locations
 
@@ -322,7 +322,7 @@ Kilocode workflows are migrated to Opencode commands. See [`workflows-migrator.t
 
 # MCP Migration
 
-Kilocode MCP server configurations are migrated to Opencode's `mcp` config. See [`mcp-migrator.ts`](../mcp-migrator.ts).
+Kappacode MCP server configurations are migrated to Opencode's `mcp` config. See [`mcp-migrator.ts`](../mcp-migrator.ts).
 
 ## Config file location
 
@@ -333,7 +333,7 @@ The CLI reads global config from `~/.config/kappa/` (see [`global/index.ts`](../
 
 Use a top-level `"mcp"` object. Each key is the server name. For a local server, value must have `type: "local"` and `command: ["executable", "arg1", ...]`. Optional: `environment` (env vars), `enabled` (boolean), `timeout` (ms). See `Config.McpLocal` in [`config.ts`](../../config/config.ts). Restart the CLI after editing.
 
-## Source Location (migration from Kilocode)
+## Source Location (migration from Kappacode)
 
 | Location | Description |
 |---|---|
@@ -341,20 +341,20 @@ Use a top-level `"mcp"` object. Each key is the server name. For a local server,
 
 ---
 
-# Kilo Notifications
+# Kappa Notifications
 
-When connected to Kilo Gateway, the CLI fetches and displays notifications from the Kilo API. This allows Kilo to communicate important announcements, feature updates, and tips to users.
+When connected to Kappa Gateway, the CLI fetches and displays notifications from the Kappa API. This allows Kappa to communicate important announcements, feature updates, and tips to users.
 
 ## How It Works
 
-1. **On startup**, if the user is authenticated with Kilo Gateway, the CLI fetches notifications from `https://api.kappa.ai/api/users/notifications`
+1. **On startup**, if the user is authenticated with Kappa Gateway, the CLI fetches notifications from `https://api.kappa.ai/api/users/notifications`
 2. **Filtering**: Only notifications with `showIn` containing `"cli"` (or no `showIn` restriction) are displayed
 3. **Display**: The first notification is shown as a toast notification after a 2-second delay
 
 ## Notification Data Structure
 
 ```typescript
-interface KilocodeNotification {
+interface KappacodeNotification {
   id: string // Unique identifier
   title: string // Notification title (e.g., "Agent skills now supported!")
   message: string // Description text
@@ -378,8 +378,8 @@ Action: Learn More -> https://docs.kappa.ai/skills
 
 | Condition | Notifications Shown |
 |---|---|
-| Connected to Kilo Gateway | Yes |
-| Not connected to Kilo | No |
+| Connected to Kappa Gateway | Yes |
+| Not connected to Kappa | No |
 | No notifications from API | No |
 
 ## Related Files

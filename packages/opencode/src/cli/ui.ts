@@ -1,11 +1,11 @@
 import { EOL } from "os"
 import { Schema } from "effect"
 import { logo as glyphs } from "./logo"
-import { tui } from "../kilocode/cli/logo" // kilocode_change
+import { tui } from "../kappacode/cli/logo" // kappacode_change
 
-// kilocode_change start
+// kappacode_change start
 const wordmark = [...tui()]
-// kilocode_change end
+// kappacode_change end
 
 export class CancelledError extends Schema.TaggedErrorClass<CancelledError>()("UICancelledError", {}) {}
 

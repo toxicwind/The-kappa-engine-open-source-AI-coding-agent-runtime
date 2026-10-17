@@ -192,7 +192,7 @@ export function PRComments(props: Props) {
               {t(
                 props.activeTerminalId
                   ? "agentManager.pr.comment.sendAllToTerminal"
-                  : "agentManager.pr.fixWithKiloCount",
+                  : "agentManager.pr.fixWithKappaCount",
                 { count: Math.min(unsent().length, SEND_LIMIT) },
               )}
             </Button>

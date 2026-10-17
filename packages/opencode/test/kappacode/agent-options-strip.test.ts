@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { stripInternalOptions, INTERNAL_OPTION_KEYS } from "../../src/kappacode/agent/options"
 
 describe("stripInternalOptions", () => {
-  test("removes Kilo-internal metadata keys", () => {
+  test("removes Kappa-internal metadata keys", () => {
     const result = stripInternalOptions({
       id: "architect",
       displayName: "Architect",

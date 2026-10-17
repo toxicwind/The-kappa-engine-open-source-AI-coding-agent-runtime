@@ -1,4 +1,4 @@
-import type { KiloConnectionService } from "../../cli-backend"
+import type { KappaConnectionService } from "../../cli-backend"
 import { nesLog, nesWarn } from "./log"
 import type { MercuryEditRequestContext, MercuryEditSuggestion } from "./types"
 
@@ -9,7 +9,7 @@ const DEFAULT_MODEL_ID = "mercury-next-edit"
 type EditResponseData = { content?: string; usage?: { prompt_tokens?: number; completion_tokens?: number } }
 
 export interface MercuryEditProviderOptions {
-  connectionService: KiloConnectionService
+  connectionService: KappaConnectionService
   /** Provider id to send to the gateway (e.g. `"kappa"` or `"inception"`). */
   providerId?: string
   /** Model id to send to the gateway (e.g. `"inception/mercury-next-edit"`). */

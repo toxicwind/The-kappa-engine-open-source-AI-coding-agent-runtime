@@ -1,6 +1,6 @@
 ---
 title: "Conda Environments"
-description: "Create, import, and manage conda environments and their packages from Kilo Desktop."
+description: "Create, import, and manage conda environments and their packages from Kappa Desktop."
 ---
 
 # Conda environments
@@ -8,7 +8,7 @@ description: "Create, import, and manage conda environments and their packages f
 Manage conda environments and their packages from within the app, so you can set up the Python environment your work needs without dropping to a separate terminal. You'll find **Conda Environments** in [Settings](/docs/desktop/settings/general#conda-environments), under **General**.
 
 {% callout type="info" %}
-Conda environments require a [Kilo account](/docs/desktop/settings/ai#ai-providers). Sign in to create and manage them.
+Conda environments require a [Kappa account](/docs/desktop/settings/ai#ai-providers). Sign in to create and manage them.
 {% /callout %}
 
 ## Why conda?

@@ -27,7 +27,7 @@ export function shouldOpenLinkInIntegratedBrowser(url: string): boolean {
 }
 
 /**
- * Open a web link in the Kilo Integrated Browser through the provided opener,
+ * Open a web link in the Kappa Integrated Browser through the provided opener,
  * and fall back to the system browser when integration is unavailable or the
  * opener cannot take the link. A navigation error inside the browser does not
  * reject the opener, so this never opens both.
@@ -43,7 +43,7 @@ function openerAccepted(openIntegrated?: () => boolean): boolean {
   try {
     return openIntegrated()
   } catch (error) {
-    console.warn("[Kilo New] Integrated Browser open failed, opening externally:", error)
+    console.warn("[Kappa New] Integrated Browser open failed, opening externally:", error)
     return false
   }
 }

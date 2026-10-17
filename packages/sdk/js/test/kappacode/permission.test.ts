@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { createKiloClient } from "../../src/v2/client"
+import { createKappaClient } from "../../src/v2/client"
 import { permissionSettled, respondToPermission } from "../../src/kappacode/permission"
 
 const route = { requestID: "p1", directory: "/worktree" }
@@ -15,7 +15,7 @@ describe("respondToPermission", () => {
       },
     })
     try {
-      const result = await respondToPermission(createKiloClient({ baseUrl: server.url.href }), {
+      const result = await respondToPermission(createKappaClient({ baseUrl: server.url.href }), {
         ...route,
         reply: "once",
         approvedAlways: ["bun *"],
@@ -33,7 +33,7 @@ describe("respondToPermission", () => {
     const server = Bun.serve({ port: 0, fetch: () => gate.promise })
     try {
       const result = await respondToPermission(
-        createKiloClient({ baseUrl: server.url.href }),
+        createKappaClient({ baseUrl: server.url.href }),
         { ...route, reply: "once", approvedAlways: [], deniedAlways: [] },
         20,
       )
@@ -57,7 +57,7 @@ describe("respondToPermission", () => {
     })
     try {
       const result = await respondToPermission(
-        createKiloClient({ baseUrl: server.url.href }),
+        createKappaClient({ baseUrl: server.url.href }),
         { ...route, reply: "once", approvedAlways: ["bun *"], deniedAlways: [] },
         20,
       )
@@ -75,7 +75,7 @@ describe("respondToPermission", () => {
       fetch: () => Response.json({ name: "NotFoundError" }, { status: 404 }),
     })
     try {
-      const result = await respondToPermission(createKiloClient({ baseUrl: server.url.href }), {
+      const result = await respondToPermission(createKappaClient({ baseUrl: server.url.href }), {
         ...route,
         reply: "once",
         approvedAlways: [],
@@ -93,7 +93,7 @@ describe("respondToPermission", () => {
       fetch: () => Response.json({ name: "NotFoundError" }, { status: 404 }),
     })
     try {
-      const result = await respondToPermission(createKiloClient({ baseUrl: server.url.href }), {
+      const result = await respondToPermission(createKappaClient({ baseUrl: server.url.href }), {
         ...route,
         reply: "always",
         approvedAlways: ["bun *"],
@@ -111,7 +111,7 @@ describe("respondToPermission", () => {
     try {
       const started = Date.now()
       const result = await respondToPermission(
-        createKiloClient({ baseUrl: server.url.href }),
+        createKappaClient({ baseUrl: server.url.href }),
         { ...route, reply: "once", approvedAlways: ["bun *"], deniedAlways: [] },
         300,
       )
@@ -141,7 +141,7 @@ describe("respondToPermission", () => {
       return fetch(request)
     }
     try {
-      const result = await respondToPermission(createKiloClient({ baseUrl: server.url.href, fetch: flaky }), {
+      const result = await respondToPermission(createKappaClient({ baseUrl: server.url.href, fetch: flaky }), {
         ...route,
         reply: "once",
         approvedAlways: [],
@@ -172,7 +172,7 @@ describe("respondToPermission", () => {
       return fetch(request)
     }
     try {
-      const result = await respondToPermission(createKiloClient({ baseUrl: server.url.href, fetch: flaky }), {
+      const result = await respondToPermission(createKappaClient({ baseUrl: server.url.href, fetch: flaky }), {
         ...route,
         reply: "once",
         approvedAlways: ["bun *"],
@@ -195,7 +195,7 @@ describe("respondToPermission", () => {
       },
     })
     try {
-      const result = await respondToPermission(createKiloClient({ baseUrl: server.url.href }), {
+      const result = await respondToPermission(createKappaClient({ baseUrl: server.url.href }), {
         ...route,
         reply: "once",
         approvedAlways: [],
@@ -214,7 +214,7 @@ describe("respondToPermission", () => {
       calls += 1
       return Promise.reject(new Error("Request is not supported by this version of OpenCode Server"))
     }
-    const result = await respondToPermission(createKiloClient({ baseUrl: "http://127.0.0.1:1/", fetch: failing }), {
+    const result = await respondToPermission(createKappaClient({ baseUrl: "http://127.0.0.1:1/", fetch: failing }), {
       ...route,
       reply: "once",
       approvedAlways: [],
@@ -229,7 +229,7 @@ describe("permissionSettled", () => {
   it("reports settled when the request is no longer pending", async () => {
     const server = Bun.serve({ port: 0, fetch: () => Response.json([]) })
     try {
-      expect(await permissionSettled(createKiloClient({ baseUrl: server.url.href }), route.directory, "p1")).toBe(true)
+      expect(await permissionSettled(createKappaClient({ baseUrl: server.url.href }), route.directory, "p1")).toBe(true)
     } finally {
       await server.stop(true)
     }
@@ -238,7 +238,7 @@ describe("permissionSettled", () => {
   it("reports pending when the request is still listed", async () => {
     const server = Bun.serve({ port: 0, fetch: () => Response.json([{ id: "p1" }]) })
     try {
-      expect(await permissionSettled(createKiloClient({ baseUrl: server.url.href }), route.directory, "p1")).toBe(false)
+      expect(await permissionSettled(createKappaClient({ baseUrl: server.url.href }), route.directory, "p1")).toBe(false)
     } finally {
       await server.stop(true)
     }
@@ -247,7 +247,7 @@ describe("permissionSettled", () => {
   it("reports unknown when the list fails", async () => {
     const server = Bun.serve({ port: 0, fetch: () => Response.json({ message: "boom" }, { status: 500 }) })
     try {
-      expect(await permissionSettled(createKiloClient({ baseUrl: server.url.href }), route.directory, "p1")).toBe(false)
+      expect(await permissionSettled(createKappaClient({ baseUrl: server.url.href }), route.directory, "p1")).toBe(false)
     } finally {
       await server.stop(true)
     }

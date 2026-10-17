@@ -7,21 +7,21 @@ import { ConfigParse } from "@/config/parse"
 import { ConfigV2Compat } from "@/config/v2-compat"
 import { Filesystem } from "@/util/filesystem"
 import { isRecord } from "@/util/record"
-import { KilocodeConfigOverlay } from "./overlay"
+import { KappacodeConfigOverlay } from "./overlay"
 import { Excess } from "./excess"
 
-export namespace KilocodeConfigWriter {
+export namespace KappacodeConfigWriter {
   export type Conflict = {
     ok: false
     code: "target-changed" | "revision-conflict" | "target-not-writable"
     message: string
-    target: KilocodeConfigOverlay.Target
+    target: KappacodeConfigOverlay.Target
   }
 
   export type Result =
     | {
         ok: true
-        target: KilocodeConfigOverlay.Target
+        target: KappacodeConfigOverlay.Target
         changed: boolean
         sandboxChanged: boolean
       }
@@ -30,14 +30,14 @@ export namespace KilocodeConfigWriter {
   export async function write(input: {
     directory: string
     worktree?: string
-    scope: KilocodeConfigOverlay.Scope
+    scope: KappacodeConfigOverlay.Scope
     expected?: { path: string; revision: string }
     set?: Record<string, unknown>
     unset?: string[][]
     write?: typeof Filesystem.write
     beforeWrite?: () => Promise<void>
   }): Promise<Result> {
-    const target = await KilocodeConfigOverlay.target(input)
+    const target = await KappacodeConfigOverlay.target(input)
     const expected = input.expected
     if (expected && target.path !== expected.path) {
       return { ok: false, code: "target-changed", message: "The authoritative config target changed.", target }
@@ -61,11 +61,11 @@ export namespace KilocodeConfigWriter {
         issues: [{ message: Excess.issue(keys), path: [] }],
       })
     }
-    const patch = KilocodeConfigOverlay.patch({ scope: input.scope, set: input.set, unset: input.unset })
+    const patch = KappacodeConfigOverlay.patch({ scope: input.scope, set: input.set, unset: input.unset })
     if (Object.keys(patch).length === 0) return { ok: true, target, changed: false, sandboxChanged: false }
     await mkdir(path.dirname(target.path), { recursive: true })
     await input.beforeWrite?.()
-    const checked = await KilocodeConfigOverlay.target(input)
+    const checked = await KappacodeConfigOverlay.target(input)
     if ((expected && checked.path !== expected.path) || !checked.writable) {
       return {
         ok: false,
@@ -77,7 +77,7 @@ export namespace KilocodeConfigWriter {
     const before = checked.exists ? await Bun.file(checked.path).text() : "{}"
     if (
       expected &&
-      KilocodeConfigOverlay.revision(checked.path, checked.exists, checked.exists ? before : "") !== expected.revision
+      KappacodeConfigOverlay.revision(checked.path, checked.exists, checked.exists ? before : "") !== expected.revision
     ) {
       return {
         ok: false,
@@ -98,7 +98,7 @@ export namespace KilocodeConfigWriter {
     if (updated !== before) await (input.write ?? Filesystem.write)(checked.path, updated, mode)
     return {
       ok: true,
-      target: await KilocodeConfigOverlay.target(input),
+      target: await KappacodeConfigOverlay.target(input),
       changed: updated !== before,
       sandboxChanged: updated !== before && Object.hasOwn(patch, "sandbox"),
     }

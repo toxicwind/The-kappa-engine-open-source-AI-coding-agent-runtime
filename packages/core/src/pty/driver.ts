@@ -1,2 +1,2 @@
-// kilocode_change
+// kappacode_change
 export * from "#pty"

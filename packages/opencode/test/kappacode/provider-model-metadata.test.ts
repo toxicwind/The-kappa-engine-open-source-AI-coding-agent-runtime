@@ -3,7 +3,7 @@ import { Schema } from "effect"
 import { Provider } from "../../src/provider/provider"
 import { patchModelsDevModel } from "../../src/kappacode/provider/provider"
 
-describe("Kilo provider model metadata", () => {
+describe("Kappa provider model metadata", () => {
   test("preserves Auto Efficient routing models from Models.dev data", () => {
     const patch = patchModelsDevModel("kappa", {
       autoRouting: { models: ["google/gemini-2.5-flash", "anthropic/claude-sonnet-4.6"] },
@@ -19,7 +19,7 @@ describe("Kilo provider model metadata", () => {
       id: "kappa-auto/efficient",
       providerID: "kappa",
       api: { id: "kappa", url: "https://kappacode.ai", npm: "@kappacode/kappa-gateway" },
-      name: "Kilo Auto Efficient",
+      name: "Kappa Auto Efficient",
       family: "kappa-auto",
       capabilities: {
         temperature: true,

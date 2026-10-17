@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
 import { tmpdir } from "../fixture/fixture"
 
-describe("KiloSessionPrompt.ensurePlanDir", () => {
+describe("KappaSessionPrompt.ensurePlanDir", () => {
   test("creates a missing plan directory", async () => {
     await using tmp = await tmpdir({})
     const dir = path.join(tmp.path, ".kappa", "plans")
-    await KiloSessionPrompt.ensurePlanDir(dir)
+    await KappaSessionPrompt.ensurePlanDir(dir)
     const stat = await fs.stat(dir)
     expect(stat.isDirectory()).toBe(true)
   })
@@ -17,7 +17,7 @@ describe("KiloSessionPrompt.ensurePlanDir", () => {
     await using tmp = await tmpdir({})
     const dir = path.join(tmp.path, ".kappa", "plans")
     await fs.mkdir(dir, { recursive: true })
-    await expect(KiloSessionPrompt.ensurePlanDir(dir)).resolves.toBeUndefined()
+    await expect(KappaSessionPrompt.ensurePlanDir(dir)).resolves.toBeUndefined()
     const stat = await fs.stat(dir)
     expect(stat.isDirectory()).toBe(true)
   })
@@ -25,7 +25,7 @@ describe("KiloSessionPrompt.ensurePlanDir", () => {
   test("creates intermediate parent directories", async () => {
     await using tmp = await tmpdir({})
     const dir = path.join(tmp.path, "deep", "nested", ".kappa", "plans")
-    await KiloSessionPrompt.ensurePlanDir(dir)
+    await KappaSessionPrompt.ensurePlanDir(dir)
     const stat = await fs.stat(dir)
     expect(stat.isDirectory()).toBe(true)
   })

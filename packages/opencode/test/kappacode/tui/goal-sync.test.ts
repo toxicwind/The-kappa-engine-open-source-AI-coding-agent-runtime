@@ -1,5 +1,5 @@
 import { expect, spyOn, test } from "bun:test"
-import { createKiloClient, type GlobalEvent, type Session } from "@kappacode/sdk/v2"
+import { createKappaClient, type GlobalEvent, type Session } from "@kappacode/sdk/v2"
 import { createRoot, createSignal } from "solid-js"
 import { createStore, produce } from "solid-js/store"
 import { GoalSync } from "@/kappacode/cli/cmd/tui/goal-sync"
@@ -114,7 +114,7 @@ for (const entry of [
 
 for (const change of ["live event", "workspace switch"]) {
   test(`discards a delayed goal refresh after a ${change}`, async () => {
-    const client = createKiloClient({ baseUrl: "http://test" })
+    const client = createKappaClient({ baseUrl: "http://test" })
     const reply = Promise.withResolvers<{ data: Session; request: Request; response: Response }>()
     const get = spyOn(client.session, "get").mockReturnValue(reply.promise)
     const handlers = new Set<(event: GlobalEvent) => void>()
@@ -172,7 +172,7 @@ test("refreshes a waiting goal even though it is inactive", async () => {
     active: false,
     wait: { kind: "wakeup", id: "wk_deploy", label: "deploy" },
   }
-  const client = createKiloClient({ baseUrl: "http://test" })
+  const client = createKappaClient({ baseUrl: "http://test" })
   const get = spyOn(client.session, "get").mockResolvedValue({
     data: { ...info, metadata: { retained: true, "kappa.goal": waiting } },
     request: new Request("http://test"),

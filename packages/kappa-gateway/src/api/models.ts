@@ -1,10 +1,10 @@
 import { z } from "zod"
-import { getKiloUrlFromToken } from "../auth/token.js"
-import { getDefaultHeaders, buildKiloHeaders } from "../headers.js"
-import { resolveKiloGatewayBaseUrl } from "./url.js"
+import { getKappaUrlFromToken } from "../auth/token.js"
+import { getDefaultHeaders, buildKappaHeaders } from "../headers.js"
+import { resolveKappaGatewayBaseUrl } from "./url.js"
 import { KILO_API_BASE, KILO_OPENROUTER_BASE, MODELS_FETCH_TIMEOUT_MS, PROMPTS, AI_SDK_PROVIDERS } from "./constants.js"
 
-export type KiloModelsResult = {
+export type KappaModelsResult = {
   models: Record<string, any>
   error?: { kind: "unauthorized" | "network" | "schema" | "http"; status?: number; retryAfter?: number }
 }
@@ -81,24 +81,24 @@ function parseApiPrice(price: string | null | undefined): number | undefined {
 }
 
 /**
- * Fetch models from Kilo API (OpenRouter-compatible endpoint)
+ * Fetch models from Kappa API (OpenRouter-compatible endpoint)
  *
  * @param options - Configuration options
  * @returns Typed result with models and optional error info
  */
-export async function fetchKiloModels(options?: {
-  kilocodeToken?: string
-  kilocodeOrganizationId?: string
+export async function fetchKappaModels(options?: {
+  kappacodeToken?: string
+  kappacodeOrganizationId?: string
   baseURL?: string
-}): Promise<KiloModelsResult> {
-  const raw = await fetchRawKiloModels(options)
+}): Promise<KappaModelsResult> {
+  const raw = await fetchRawKappaModels(options)
   if (raw.error) return { models: {}, error: raw.error }
 
   // Transform models to ModelsDev.Model format
   const models: Record<string, any> = {}
 
   for (const model of raw.data) {
-    // Skip models that explicitly don't support tools — Kilo requires tool calling
+    // Skip models that explicitly don't support tools — Kappa requires tool calling
     if (!supportsTools(model)) continue
 
     const transformedModel = transformToModelDevFormat(model)
@@ -108,41 +108,41 @@ export async function fetchKiloModels(options?: {
   return { models }
 }
 
-export type KiloImageModel = {
+export type KappaImageModel = {
   id: string
   name: string
   description?: string
 }
 
-export type KiloImageModelsResult = {
-  models: KiloImageModel[]
+export type KappaImageModelsResult = {
+  models: KappaImageModel[]
   error?: { kind: "unauthorized" | "network" | "schema" | "http"; status?: number }
 }
 
-export type KiloTranscriptionModel = {
+export type KappaTranscriptionModel = {
   id: string
   name: string
 }
 
-export type KiloTranscriptionModelsResult = {
-  models: KiloTranscriptionModel[]
+export type KappaTranscriptionModelsResult = {
+  models: KappaTranscriptionModel[]
   error?: { kind: "unauthorized" | "network" | "schema" | "http"; status?: number }
 }
 
 /**
- * Fetch image-capable models from Kilo API (OpenRouter-compatible endpoint).
- * Uses the same raw fetch as {@link fetchKiloModels} but keeps only models
+ * Fetch image-capable models from Kappa API (OpenRouter-compatible endpoint).
+ * Uses the same raw fetch as {@link fetchKappaModels} but keeps only models
  * whose `output_modalities` include `"image"`.
  */
-export async function fetchKiloImageModels(options?: {
-  kilocodeToken?: string
-  kilocodeOrganizationId?: string
+export async function fetchKappaImageModels(options?: {
+  kappacodeToken?: string
+  kappacodeOrganizationId?: string
   baseURL?: string
-}): Promise<KiloImageModelsResult> {
-  const raw = await fetchRawKiloModels(options)
+}): Promise<KappaImageModelsResult> {
+  const raw = await fetchRawKappaModels(options)
   if (raw.error) return { models: [], error: raw.error }
 
-  const models: KiloImageModel[] = []
+  const models: KappaImageModel[] = []
 
   for (const model of raw.data) {
     if (model.architecture?.output_modalities?.includes("image")) {
@@ -153,18 +153,18 @@ export async function fetchKiloImageModels(options?: {
   return { models }
 }
 
-export async function fetchKiloTranscriptionModels(options?: {
-  kilocodeToken?: string
-  kilocodeOrganizationId?: string
+export async function fetchKappaTranscriptionModels(options?: {
+  kappacodeToken?: string
+  kappacodeOrganizationId?: string
   baseURL?: string
-}): Promise<KiloTranscriptionModelsResult> {
-  const token = options?.kilocodeToken
-  const organizationId = options?.kilocodeOrganizationId
-  const url = new URL("transcription-models", resolveKiloGatewayBaseUrl({ baseURL: options?.baseURL, token }))
+}): Promise<KappaTranscriptionModelsResult> {
+  const token = options?.kappacodeToken
+  const organizationId = options?.kappacodeOrganizationId
+  const url = new URL("transcription-models", resolveKappaGatewayBaseUrl({ baseURL: options?.baseURL, token }))
   const response = await fetch(url, {
     headers: {
       ...getDefaultHeaders(),
-      ...buildKiloHeaders(undefined, { kilocodeOrganizationId: organizationId }),
+      ...buildKappaHeaders(undefined, { kappacodeOrganizationId: organizationId }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     signal: AbortSignal.timeout(MODELS_FETCH_TIMEOUT_MS),
@@ -200,17 +200,17 @@ function isTranscriptionModel(value: unknown): value is TranscriptionModelRespon
 }
 
 /**
- * Shared raw fetch + validate used by both {@link fetchKiloModels} and {@link fetchKiloImageModels}.
+ * Shared raw fetch + validate used by both {@link fetchKappaModels} and {@link fetchKappaImageModels}.
  */
-async function fetchRawKiloModels(options?: {
-  kilocodeToken?: string
-  kilocodeOrganizationId?: string
+async function fetchRawKappaModels(options?: {
+  kappacodeToken?: string
+  kappacodeOrganizationId?: string
   baseURL?: string
 }): Promise<
-  { data: OpenRouterModel[]; error?: undefined } | { data?: undefined; error: NonNullable<KiloModelsResult["error"]> }
+  { data: OpenRouterModel[]; error?: undefined } | { data?: undefined; error: NonNullable<KappaModelsResult["error"]> }
 > {
-  const token = options?.kilocodeToken
-  const organizationId = options?.kilocodeOrganizationId
+  const token = options?.kappacodeToken
+  const organizationId = options?.kappacodeOrganizationId
 
   // Construct base URL
   const defaultBaseURL = organizationId ? `${KILO_API_BASE}/api/organizations/${organizationId}` : KILO_OPENROUTER_BASE
@@ -218,7 +218,7 @@ async function fetchRawKiloModels(options?: {
   const baseURL = options?.baseURL ?? defaultBaseURL
 
   // Transform URL with token if available
-  const finalBaseURL = token ? getKiloUrlFromToken(baseURL, token) : baseURL
+  const finalBaseURL = token ? getKappaUrlFromToken(baseURL, token) : baseURL
 
   // Construct models endpoint
   const modelsURL = `${finalBaseURL}/models`
@@ -226,7 +226,7 @@ async function fetchRawKiloModels(options?: {
   const response = await fetch(modelsURL, {
     headers: {
       ...getDefaultHeaders(),
-      ...buildKiloHeaders(undefined, { kilocodeOrganizationId: organizationId }),
+      ...buildKappaHeaders(undefined, { kappacodeOrganizationId: organizationId }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     signal: AbortSignal.timeout(MODELS_FETCH_TIMEOUT_MS),
@@ -238,7 +238,7 @@ async function fetchRawKiloModels(options?: {
 
   if (!response.ok) {
     if (response.status === 401 && token && !organizationId && !finalBaseURL.includes("/api/organizations/")) {
-      return fetchRawKiloModels({})
+      return fetchRawKappaModels({})
     }
     const kind = response.status === 401 || response.status === 403 ? "unauthorized" : "http"
     const header = response.headers.get("retry-after")
@@ -265,7 +265,7 @@ async function fetchRawKiloModels(options?: {
 }
 
 /**
- * Kilo requires tool calling, so models that explicitly omit "tools" are hidden.
+ * Kappa requires tool calling, so models that explicitly omit "tools" are hidden.
  * Optimistically assume models with a missing or empty supported_parameters list
  * support tools (e.g. routers like typesafe/jev-router report an empty list).
  */

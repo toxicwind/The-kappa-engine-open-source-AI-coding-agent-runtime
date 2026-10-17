@@ -10,9 +10,9 @@ import {
   resolveThreadDirectory,
   runEmbeddedRemoteExitBridge,
 } from "../../../../src/cli/cmd/tui"
-import { preload, validate } from "../../../../src/kappacode/cli/cmd/tui"
-import { KiloTuiThreadDaemon } from "../../../../src/kappacode/cli/cmd/tui/thread"
-import { DaemonClient } from "../../../../src/kappacode/daemon/client"
+import { preload, validate } from "../../../../../src/kappacode/cli/cmd/tui"
+import { KappaTuiThreadDaemon } from "../../../../../src/kappacode/cli/cmd/tui/thread"
+import { DaemonClient } from "../../../../../src/kappacode/daemon/client"
 
 afterEach(() => {
   mock.restore()
@@ -98,7 +98,7 @@ describe("kappa tui thread", () => {
           return
         }
         // The title is emitted only after the worker-backed TUI reaches its rendered app.
-        if (state.text.includes("Kilo CLI")) ready.resolve()
+        if (state.text.includes("Kappa CLI")) ready.resolve()
       })
       const exit = proc.onExit((event) => {
         state.exit = event
@@ -115,7 +115,7 @@ describe("kappa tui thread", () => {
 
       try {
         await ready.promise
-        expect(state.text).toContain("Kilo CLI")
+        expect(state.text).toContain("Kappa CLI")
       } finally {
         clearTimeout(timer)
         data.dispose()
@@ -226,12 +226,12 @@ describe("kappa tui thread", () => {
       },
     })
     const args = { port: 0, hostname: "127.0.0.1", mdns: false, "mdns-domain": "kappa.local", cors: [] }
-    const start: Parameters<typeof KiloTuiThreadDaemon.attach>[0]["start"] = async (input) => {
+    const start: Parameters<typeof KappaTuiThreadDaemon.attach>[0]["start"] = async (input) => {
       opened.push(input.args.sessionID)
     }
 
     try {
-      await KiloTuiThreadDaemon.attach({
+      await KappaTuiThreadDaemon.attach({
         args: { ...args, session: cloud, cloudFork: true },
         cwd: root.path,
         input: async () => undefined,
@@ -250,7 +250,7 @@ describe("kappa tui thread", () => {
     const started: string[] = []
 
     mock.module("@kappacode/sdk/v2", () => ({
-      createKiloClient: () => ({
+      createKappaClient: () => ({
         kappa: {
           cloud: {
             session: {
@@ -286,9 +286,9 @@ describe("kappa tui thread", () => {
     }))
 
     const key = JSON.stringify({ time: Date.now(), rand: Math.random() })
-    const mod = await import(`../../../../src/kappacode/cli/cmd/tui/thread?${key}`)
+    const mod = await import(`../../../../../src/kappacode/cli/cmd/tui/thread?${key}`)
 
-    const handled = await mod.KiloTuiThreadDaemon.attach({
+    const handled = await mod.KappaTuiThreadDaemon.attach({
       args: { session: "ses_cloud", cloudFork: true },
       cwd: "/tmp/project",
       input: async () => undefined,

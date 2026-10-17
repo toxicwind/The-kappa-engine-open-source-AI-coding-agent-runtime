@@ -1,14 +1,14 @@
 ---
 title: "Development Patterns"
-description: "Contributor patterns for Kilo architecture implementation and fork maintenance"
+description: "Contributor patterns for Kappa architecture implementation and fork maintenance"
 ---
 
 # Development Patterns
 
-This page turns architecture boundaries into contributor decisions. Read [Architecture Overview](/docs/contributing/architecture) and relevant subsystem page first, then use this guide before editing architecture-facing code in `Kilo-Org/kilocode` or its cross-repository contracts.
+This page turns architecture boundaries into contributor decisions. Read [Architecture Overview](/docs/contributing/architecture) and relevant subsystem page first, then use this guide before editing architecture-facing code in `Kappa-Org/kappacode` or its cross-repository contracts.
 
 {% callout type="info" title="Default rule" %}
-Prefer Kilo-owned seams over broad changes to shared OpenCode files. Follow neighboring style when changing existing modules.
+Prefer Kappa-owned seams over broad changes to shared OpenCode files. Follow neighboring style when changing existing modules.
 {% /callout %}
 
 ## How to use this page
@@ -22,44 +22,44 @@ Prefer Kilo-owned seams over broad changes to shared OpenCode files. Follow neig
 
 | Change shape | Preferred location or action | Reason |
 |---|---|---|
-| Additive Kilo CLI behavior | `packages/opencode/src/kilocode/` | Keeps Kilo-only behavior out of upstream-owned files |
-| Kilo CLI test for additive behavior | `packages/opencode/test/kilocode/` | Avoids shared tests that encode only Kilo behavior |
-| Required shared OpenCode edit | Small import, route, or injection seam in shared file plus `kilocode_change` marker | Keeps upstream diff narrow and merge review obvious |
-| VS Code, JetBrains, docs, indexing, UI, gateway, or telemetry change | Existing Kilo-owned package | These packages are Kilo-owned; do not add `kilocode_change` markers |
+| Additive Kappa CLI behavior | `packages/opencode/src/kappacode/` | Keeps Kappa-only behavior out of upstream-owned files |
+| Kappa CLI test for additive behavior | `packages/opencode/test/kappacode/` | Avoids shared tests that encode only Kappa behavior |
+| Required shared OpenCode edit | Small import, route, or injection seam in shared file plus `kappacode_change` marker | Keeps upstream diff narrow and merge review obvious |
+| VS Code, JetBrains, docs, indexing, UI, gateway, or telemetry change | Existing Kappa-owned package | These packages are Kappa-owned; do not add `kappacode_change` markers |
 | CLI server endpoint change | Effect `HttpApi` route plus handler; then run root SDK generator | Keeps server contract and generated JavaScript SDK aligned |
 | JetBrains API contract change | Shared CLI OpenAPI change; let Gradle regenerate build-local Kotlin client | Kotlin client is generated during JetBrains build |
-| Kilo-only config-key change | Update CLI Effect Schema and cloud JSON Schema overlay | Runtime acceptance and editor validation are separate cross-repository paths |
+| Kappa-only config-key change | Update CLI Effect Schema and cloud JSON Schema overlay | Runtime acceptance and editor validation are separate cross-repository paths |
 | Docs page move or removal | Update nav and add permanent redirect | Preserves external links and bookmarks |
 
-## Kilo-owned boundaries
+## Kappa-owned boundaries
 
-Kilo CLI forks upstream OpenCode. Prefer Kilo-owned directories and packages for additive behavior:
+Kappa CLI forks upstream OpenCode. Prefer Kappa-owned directories and packages for additive behavior:
 
 | Prefer | Avoid unless necessary |
 |---|---|
-| `packages/opencode/src/kilocode/` | Broad edits to shared `packages/opencode/src/` files |
-| `packages/opencode/test/kilocode/` | Shared tests that encode only Kilo behavior |
-| `packages/kappa-vscode/`, `packages/kappa-jetbrains/`, `packages/kappa-docs/`, `packages/kappa-indexing/` | Moving Kilo-only behavior into upstream-owned modules |
+| `packages/opencode/src/kappacode/` | Broad edits to shared `packages/opencode/src/` files |
+| `packages/opencode/test/kappacode/` | Shared tests that encode only Kappa behavior |
+| `packages/kappa-vscode/`, `packages/kappa-jetbrains/`, `packages/kappa-docs/`, `packages/kappa-indexing/` | Moving Kappa-only behavior into upstream-owned modules |
 | Narrow import or route seams in shared files | Refactors that enlarge upstream merge conflicts |
 
 ## Shared OpenCode files
 
-Use `kilocode_change` markers when Kilo-specific code must modify shared upstream files.
+Use `kappacode_change` markers when Kappa-specific code must modify shared upstream files.
 
 | Change shape | Marker |
 |---|---|
-| One line | Trailing `// kilocode_change` |
-| Multi-line block | `// kilocode_change start` and `// kilocode_change end` |
-| New file in shared path | Top-level `// kilocode_change - new file` |
+| One line | Trailing `// kappacode_change` |
+| Multi-line block | `// kappacode_change start` and `// kappacode_change end` |
+| New file in shared path | Top-level `// kappacode_change - new file` |
 | JSX or TSX | JSX comment equivalents |
 
-Marker exemptions apply to paths already owned by Kilo, including paths whose names contain `kilocode` and Kilo packages such as `packages/kappa-vscode/` or `packages/kappa-ui/`. Do not add markers there.
+Marker exemptions apply to paths already owned by Kappa, including paths whose names contain `kappacode` and Kappa packages such as `packages/kappa-vscode/` or `packages/kappa-ui/`. Do not add markers there.
 
 | Guard | When to run |
 |---|---|
-| `bun run script/check-opencode-annotations.ts` | PR touches `packages/opencode/`; verifies shared OpenCode Kilo edits are annotated |
+| `bun run script/check-opencode-annotations.ts` | PR touches `packages/opencode/`; verifies shared OpenCode Kappa edits are annotated |
 | `bun run script/check-opencode-promise-facades.ts` | Service adapter changes; prevents new runtime-backed Promise facades in shared Effect services |
-| `bun run check-kilocode-change` from `packages/kappa-vscode/` | VS Code or Kilo UI changes; markers must not appear in fully Kilo-owned packages |
+| `bun run check-kappacode-change` from `packages/kappa-vscode/` | VS Code or Kappa UI changes; markers must not appear in fully Kappa-owned packages |
 | `bun run script/check-workflows.ts` | Workflow add or remove changes; keeps workflow allowlist explicit |
 
 ## CLI server API
@@ -70,8 +70,8 @@ CLI server uses Effect `HttpApi` and publishes OpenAPI-compatible HTTP + SSE sur
 |---|---|
 | Define shared routes under `packages/opencode/src/server/routes/instance/httpapi/` | Keeps route contract close to runtime handlers |
 | Normalize public spec in `packages/opencode/src/server/routes/instance/httpapi/public.ts` | Preserves legacy-compatible request and response shapes during Effect migration |
-| Put additive Kilo groups and handlers under `packages/opencode/src/kilocode/server/httpapi/` | Reduces edits in shared upstream-owned files |
-| Inject Kilo APIs through narrow shared seam | Keeps upstream diff small and marker placement obvious |
+| Put additive Kappa groups and handlers under `packages/opencode/src/kappacode/server/httpapi/` | Reduces edits in shared upstream-owned files |
+| Inject Kappa APIs through narrow shared seam | Keeps upstream diff small and marker placement obvious |
 | Preserve route spans and stable attributes | Keeps diagnostics and telemetry understandable |
 
 ## SDK generation
@@ -87,7 +87,7 @@ CLI server uses Effect `HttpApi` and publishes OpenAPI-compatible HTTP + SSE sur
 
 ## CLI config schema
 
-Runtime config loading and editor validation are separate paths. New Kilo-only config key requires CLI Effect Schema change in `Kilo-Org/kilocode` and JSON Schema overlay change in `Kilo-Org/cloud`. Follow [CLI Config Schema](/docs/contributing/architecture/config-schema) for exact workflow.
+Runtime config loading and editor validation are separate paths. New Kappa-only config key requires CLI Effect Schema change in `Kappa-Org/kappacode` and JSON Schema overlay change in `Kappa-Org/cloud`. Follow [CLI Config Schema](/docs/contributing/architecture/config-schema) for exact workflow.
 
 ## Module export pattern
 
@@ -107,7 +107,7 @@ export const list = fn(ListSchema, async (input) => {
 export * as Session from "./session"
 ```
 
-Import specific export when practical. Use namespace shape (`Session.create`) when preserving existing API or grouped module access improves clarity. Existing Kilo-owned namespaces remain valid; do not refactor them solely for style.
+Import specific export when practical. Use namespace shape (`Session.create`) when preserving existing API or grouped module access improves clarity. Existing Kappa-owned namespaces remain valid; do not refactor them solely for style.
 
 ## Tool implementation
 
@@ -161,7 +161,7 @@ When adding or moving docs pages:
 
 ## Source map
 
-Paths below are relative to [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode).
+Paths below are relative to [`Kappa-Org/kappacode`](https://github.com/Kappa-Org/kappacode).
 
 | Concern | Source path |
 |---|---|
@@ -169,7 +169,7 @@ Paths below are relative to [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/ki
 | Tool example | `packages/opencode/src/tool/read.ts` |
 | Server APIs | `packages/opencode/src/server/routes/instance/httpapi/` |
 | Public OpenAPI normalization | `packages/opencode/src/server/routes/instance/httpapi/public.ts` |
-| Kilo route seam | `packages/opencode/src/kilocode/server/httpapi/` |
+| Kappa route seam | `packages/opencode/src/kappacode/server/httpapi/` |
 | JavaScript SDK generation | `packages/sdk/js/script/build.ts`{% linebreak /%}`script/generate.ts` |
 | JetBrains client generation | `packages/kappa-jetbrains/backend/build.gradle.kts` |
 | Upstream merge automation | `script/upstream/` |
@@ -186,7 +186,7 @@ bun run merge.ts --version <tag> --dry-run
 bun run merge.ts --version <tag>
 ```
 
-Keep Kilo-specific logic extracted, shared seams narrow, markers accurate, and CI guards green before upstream merge work lands.
+Keep Kappa-specific logic extracted, shared seams narrow, markers accurate, and CI guards green before upstream merge work lands.
 
 ## Related pages
 

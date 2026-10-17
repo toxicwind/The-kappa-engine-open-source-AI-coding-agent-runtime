@@ -1,11 +1,11 @@
 import { describe, expect, it, spyOn } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import * as vscode from "vscode"
-import { KiloProviderMemory } from "../../src/kappa-provider/memory"
+import { KappaProviderMemory } from "../../src/kappa-provider/memory"
 
-function subject(client: KiloClient | undefined) {
+function subject(client: KappaClient | undefined) {
   const posts: unknown[] = []
-  const memory = new KiloProviderMemory({
+  const memory = new KappaProviderMemory({
     client: () => client,
     session: () => undefined,
     dir: () => "/repo",
@@ -43,7 +43,7 @@ function show(root: string) {
   }
 }
 
-describe("KiloProviderMemory", () => {
+describe("KappaProviderMemory", () => {
   it("shows stored memory and explains empty projects", async () => {
     const picker = spyOn(vscode.window, "showQuickPick")
     const notice = spyOn(vscode.window, "showInformationMessage")
@@ -55,13 +55,13 @@ describe("KiloProviderMemory", () => {
         show: async () => ({ data: view }),
         status: async () => ({ data: full }),
       },
-    } as unknown as KiloClient)
+    } as unknown as KappaClient)
     const empty = subject({
       memory: {
         show: async () => ({ data: show("/empty") }),
         status: async () => ({ data: status("/empty") }),
       },
-    } as unknown as KiloClient)
+    } as unknown as KappaClient)
 
     try {
       await stored.memory.show("ses_stored")
@@ -75,7 +75,7 @@ describe("KiloProviderMemory", () => {
         expect.objectContaining({ label: "Stored memory fact :: with context" }),
       )
       expect(notice).toHaveBeenCalledWith(
-        "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+        "This project doesn't have any memory yet. It will start showing after you use Kappa.",
       )
     } finally {
       picker.mockRestore()
@@ -92,7 +92,7 @@ describe("KiloProviderMemory", () => {
         show: async () => ({ data: view }),
         status: async () => ({ data: status("/repo") }),
       },
-    } as unknown as KiloClient)
+    } as unknown as KappaClient)
 
     try {
       await item.memory.show("ses_stored")
@@ -113,7 +113,7 @@ describe("KiloProviderMemory", () => {
         status: async () => ({ data: status("/repo") }),
         show: async () => ({ data: show("/repo") }),
       },
-    } as unknown as KiloClient)
+    } as unknown as KappaClient)
 
     try {
       await item.memory.run({ operation: "inspect", sessionID: "ses_inspect" })
@@ -128,7 +128,7 @@ describe("KiloProviderMemory", () => {
   })
 
   it("handles clients without memory endpoints gracefully", async () => {
-    const item = subject({} as KiloClient)
+    const item = subject({} as KappaClient)
 
     await item.memory.fetch("ses_memoryless")
     await item.memory.show("ses_memoryless")
@@ -170,9 +170,9 @@ describe("KiloProviderMemory", () => {
   })
 
   it("evicts older cached memory payloads", async () => {
-    let client: KiloClient | undefined
+    let client: KappaClient | undefined
     const posts: unknown[] = []
-    const item = new KiloProviderMemory({
+    const item = new KappaProviderMemory({
       client: () => client,
       session: () => undefined,
       dir: (sid) => `/repo/${sid ?? "current"}`,
@@ -183,7 +183,7 @@ describe("KiloProviderMemory", () => {
         status: async (input: { directory: string }) => ({ data: status(input.directory) }),
         show: async (input: { directory: string }) => ({ data: show(input.directory) }),
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
 
     for (let i = 0; i < 9; i++) {
       await item.show(`ses_${i}`)
@@ -219,7 +219,7 @@ describe("KiloProviderMemory", () => {
         status: async () => ({ data: state }),
         show: async () => ({ data: view }),
       },
-    } as unknown as KiloClient)
+    } as unknown as KappaClient)
 
     await item.memory.run({
       operation: "correct",
@@ -250,7 +250,7 @@ describe("KiloProviderMemory", () => {
           return { data: state }
         },
       },
-    } as unknown as KiloClient)
+    } as unknown as KappaClient)
 
     await item.memory.run({ operation: "status", sessionID: "ses_memory" })
 
@@ -279,7 +279,7 @@ describe("KiloProviderMemory", () => {
         status: async () => ({ data: state }),
         show: async () => ({ data: view }),
       },
-    } as unknown as KiloClient)
+    } as unknown as KappaClient)
 
     await item.memory.run({ operation: "auto", mode: "off", sessionID: "ses_memory" })
     await item.memory.run({ operation: "purge", confirm: true, sessionID: "ses_memory" })

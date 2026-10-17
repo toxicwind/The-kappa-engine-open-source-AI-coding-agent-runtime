@@ -4,8 +4,8 @@ import { Project } from "ts-morph"
 import type { AutoCleanupStateLoadedMessage } from "../../webview-ui/src/types/messages"
 
 // Exercise the actual handler without loading unrelated VS Code provider dependencies.
-const source = new Project().addSourceFileAtPath(path.join(import.meta.dir, "../../src/KiloProvider.ts"))
-const method = source.getClassOrThrow("KiloProvider").getMethodOrThrow("handleAutoCleanupMessage").getText()
+const source = new Project().addSourceFileAtPath(path.join(import.meta.dir, "../../src/KappaProvider.ts"))
+const method = source.getClassOrThrow("KappaProvider").getMethodOrThrow("handleAutoCleanupMessage").getText()
 const code = new Bun.Transpiler({ loader: "ts" }).transformSync(`class Provider { ${method} }`)
 const handler = new Function(`${code}; return Provider.prototype.handleAutoCleanupMessage`)()
 

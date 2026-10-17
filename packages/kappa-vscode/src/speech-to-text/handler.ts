@@ -1,7 +1,7 @@
 import { getErrorMessage } from "../kappa-provider-utils"
 import { transcribeSpeech } from "./transcribe"
 import { cancelSpeechCapture, startSpeechCapture, stopSpeechCapture } from "./capture"
-import type { KiloConnectionService } from "../services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 import type { SpeechToTextSource } from "./source"
 
 type Msg = {
@@ -46,7 +46,7 @@ export function handleSpeechToTextStart(message: Msg, post: Post): void {
 }
 
 export function handleSpeechToTextStop(
-  connection: KiloConnectionService,
+  connection: KappaConnectionService,
   message: Msg,
   dir: string,
   post: Post,

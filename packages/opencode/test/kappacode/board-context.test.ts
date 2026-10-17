@@ -409,7 +409,7 @@ describe("shared board notifications", () => {
             agent,
             user: message.info,
           })
-          yield* database.db.run(sql`DROP TABLE kappa_board_message`)
+          yield* database.db.run(sql`DROP TABLE kilo_board_message`)
           const result = yield* notify("read", output)
           expect(result.output).toBe(output.output)
           expect(result.metadata).toMatchObject({ [BoardNotice.key]: "unavailable" })

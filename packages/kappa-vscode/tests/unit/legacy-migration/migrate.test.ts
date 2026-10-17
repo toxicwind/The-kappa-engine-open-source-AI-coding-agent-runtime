@@ -50,7 +50,7 @@ function client() {
     session: {
       get,
     },
-    kilocode: {
+    kappacode: {
       sessionImport: {
         project: async (body: unknown) => {
           calls.push({ name: "project", body })
@@ -86,7 +86,7 @@ describe("legacy migration migrate", () => {
           return { data: { id: createSessionID("legacy-task-1") } }
         },
       },
-      kilocode: {
+      kappacode: {
         sessionImport: {
           project: async () => {
             throw new Error("should not import project")
@@ -129,7 +129,7 @@ describe("legacy migration migrate", () => {
       session: {
         get: async () => ({ data: null }),
       },
-      kilocode: {
+      kappacode: {
         sessionImport: {
           project: async () => {
             calls.push("project")
@@ -217,7 +217,7 @@ describe("legacy migration migrate", () => {
       session: {
         get: async () => ({ data: null }),
       },
-      kilocode: {
+      kappacode: {
         sessionImport: {
           project: async () => ({ data: { id: "project-real" } }),
           session: async () => {
@@ -240,7 +240,7 @@ describe("legacy migration migrate", () => {
       session: {
         get: async () => ({ data: null }),
       },
-      kilocode: {
+      kappacode: {
         sessionImport: {
           project: async () => {
             calls.push("project")

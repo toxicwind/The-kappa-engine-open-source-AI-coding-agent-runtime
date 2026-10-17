@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kilo-Org/kilocode.git",
+    "url": "git+https://github.com/Kappa-Org/kappacode.git",
     "directory": "packages/ui"
   },
   "publishConfig": {

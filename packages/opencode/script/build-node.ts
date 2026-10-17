@@ -14,23 +14,23 @@ const generated = await import("./generate.ts")
 
 await Bun.build({
   target: "node",
-  // kilocode_change start
+  // kappacode_change start
   entrypoints: [
     "./src/node.ts",
     "../kappa-sandbox/src/kappa-sandbox-mutation-worker.ts",
     "../kappa-sandbox/src/kappa-sandbox-network-relay.ts",
   ],
-  // kilocode_change end
+  // kappacode_change end
   outdir: "./dist/node",
   format: "esm",
   sourcemap: "linked",
   external: ["jsonc-parser", "@lydell/node-pty"],
   define: {
     KILO_MODELS_DEV: generated.modelsData,
-    KILO_VERSION: `'${Script.version}'`, // kilocode_change
-    KILO_SANDBOX_MUTATION_WORKER_PATH: `'./kappa-sandbox-mutation-worker.js'`, // kilocode_change
-    KILO_SANDBOX_NETWORK_RELAY_PATH: `'./kappa-sandbox-network-relay.js'`, // kilocode_change
-    KILO_SANDBOX_SECCOMP_PATH: "undefined", // kilocode_change
+    KILO_VERSION: `'${Script.version}'`, // kappacode_change
+    KILO_SANDBOX_MUTATION_WORKER_PATH: `'./kappa-sandbox-mutation-worker.js'`, // kappacode_change
+    KILO_SANDBOX_NETWORK_RELAY_PATH: `'./kappa-sandbox-network-relay.js'`, // kappacode_change
+    KILO_SANDBOX_SECCOMP_PATH: "undefined", // kappacode_change
     KILO_CHANNEL: `'${Script.channel}'`,
   },
   files: {

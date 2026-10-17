@@ -5,7 +5,7 @@ import { MemoryRecall } from "../recall/recall"
 import { MemorySchema } from "../schema"
 import { MemoryFiles } from "../storage/store"
 import { MemoryToken } from "../recall/token"
-import { KiloMemory } from "./index"
+import { KappaMemory } from "./index"
 import { MemoryEvents } from "./events"
 import { MemoryInstance } from "./instance"
 import { MemoryError, type MemoryError as Failure } from "./errors"
@@ -14,41 +14,41 @@ type SessionID = string
 
 const IDLE_SETTLE_MS = 30_000
 
-type ConfigureInput = KiloMemory.Input & {
+type ConfigureInput = KappaMemory.Input & {
   settings: Partial<Pick<MemorySchema.State, "autoConsolidate" | "verbose">>
 }
 
-type ApplyInput = KiloMemory.Input & {
+type ApplyInput = KappaMemory.Input & {
   ops: MemoryOperations.Op[]
   trigger?: Memory.Trigger
   cost?: number
   tokens?: number
 }
 
-type RememberInput = KiloMemory.Input & {
+type RememberInput = KappaMemory.Input & {
   text: string
   key?: string
   file?: MemorySchema.Source
   section?: string
 }
 
-type CorrectInput = KiloMemory.Input & {
+type CorrectInput = KappaMemory.Input & {
   text: string
   key?: string
 }
 
-type ForgetInput = KiloMemory.Input & {
+type ForgetInput = KappaMemory.Input & {
   query: string
 }
 
-type RecallInput = KiloMemory.Input & {
+type RecallInput = KappaMemory.Input & {
   query: string
   sessionID?: string
 }
 
 type SearchInput = Parameters<typeof MemoryRecall.search>[0]
 
-type RecordInput = KiloMemory.Input & {
+type RecordInput = KappaMemory.Input & {
   sessionID: string
   topic?: string
   summary: string
@@ -123,29 +123,29 @@ export namespace MemoryService {
   export type Timing = { settleMs: number }
 
   export interface Interface {
-    readonly prepare: (input: KiloMemory.Input) => Effect.Effect<string, Failure>
-    readonly status: (input: KiloMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.status>>, Failure>
-    readonly show: (input: KiloMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.show>>, Failure>
-    readonly enable: (input: KiloMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.enable>>, Failure>
+    readonly prepare: (input: KappaMemory.Input) => Effect.Effect<string, Failure>
+    readonly status: (input: KappaMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.status>>, Failure>
+    readonly show: (input: KappaMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.show>>, Failure>
+    readonly enable: (input: KappaMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.enable>>, Failure>
     readonly disable: (
-      input: KiloMemory.Input,
-    ) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.disable>>, Failure>
+      input: KappaMemory.Input,
+    ) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.disable>>, Failure>
     readonly rebuild: (
-      input: KiloMemory.Input,
-    ) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.rebuild>>, Failure>
+      input: KappaMemory.Input,
+    ) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.rebuild>>, Failure>
     readonly configure: (
       input: ConfigureInput,
-    ) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.configure>>, Failure>
-    readonly apply: (input: ApplyInput) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.apply>>, Failure>
-    readonly remember: (input: RememberInput) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.remember>>, Failure>
-    readonly correct: (input: CorrectInput) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.correct>>, Failure>
-    readonly forget: (input: ForgetInput) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.forget>>, Failure>
-    readonly purge: (input: KiloMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.purge>>, Failure>
-    readonly recall: (input: RecallInput) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.recall>>, Failure>
+    ) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.configure>>, Failure>
+    readonly apply: (input: ApplyInput) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.apply>>, Failure>
+    readonly remember: (input: RememberInput) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.remember>>, Failure>
+    readonly correct: (input: CorrectInput) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.correct>>, Failure>
+    readonly forget: (input: ForgetInput) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.forget>>, Failure>
+    readonly purge: (input: KappaMemory.Input) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.purge>>, Failure>
+    readonly recall: (input: RecallInput) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.recall>>, Failure>
     readonly search: (input: SearchInput) => Effect.Effect<Awaited<ReturnType<typeof MemoryRecall.search>>, Failure>
     readonly recordSession: (
       input: RecordInput,
-    ) => Effect.Effect<Awaited<ReturnType<typeof KiloMemory.recordSession>>, Failure>
+    ) => Effect.Effect<Awaited<ReturnType<typeof KappaMemory.recordSession>>, Failure>
     readonly state: (input: RootInput) => Effect.Effect<MemorySchema.State, Failure>
     readonly session: (
       input: SessionInput,
@@ -174,21 +174,21 @@ export namespace MemoryService {
     const locks = new Map<SessionID, { sema: Semaphore.Semaphore; holders: number }>()
     let settle = IDLE_SETTLE_MS
     return Service.of({
-      prepare: (input) => bridge(() => KiloMemory.prepare(input)),
-      status: (input) => bridge(() => KiloMemory.status(input)),
-      show: (input) => bridge(() => KiloMemory.show(input)),
-      enable: (input) => bridge(() => KiloMemory.enable(input)),
-      disable: (input) => bridge(() => KiloMemory.disable(input)),
-      rebuild: (input) => bridge(() => KiloMemory.rebuild(input)),
-      configure: (input) => bridge(() => KiloMemory.configure(input)),
-      apply: (input) => bridge(() => KiloMemory.apply(input)),
-      remember: (input) => bridge(() => KiloMemory.remember(input)),
-      correct: (input) => bridge(() => KiloMemory.correct(input)),
-      forget: (input) => bridge(() => KiloMemory.forget(input)),
-      purge: (input) => bridge(() => KiloMemory.purge(input)),
-      recall: (input) => bridge(() => KiloMemory.recall(input)),
+      prepare: (input) => bridge(() => KappaMemory.prepare(input)),
+      status: (input) => bridge(() => KappaMemory.status(input)),
+      show: (input) => bridge(() => KappaMemory.show(input)),
+      enable: (input) => bridge(() => KappaMemory.enable(input)),
+      disable: (input) => bridge(() => KappaMemory.disable(input)),
+      rebuild: (input) => bridge(() => KappaMemory.rebuild(input)),
+      configure: (input) => bridge(() => KappaMemory.configure(input)),
+      apply: (input) => bridge(() => KappaMemory.apply(input)),
+      remember: (input) => bridge(() => KappaMemory.remember(input)),
+      correct: (input) => bridge(() => KappaMemory.correct(input)),
+      forget: (input) => bridge(() => KappaMemory.forget(input)),
+      purge: (input) => bridge(() => KappaMemory.purge(input)),
+      recall: (input) => bridge(() => KappaMemory.recall(input)),
       search: (input) => bridge(() => MemoryRecall.search(input)),
-      recordSession: (input) => bridge(() => KiloMemory.recordSession(input)),
+      recordSession: (input) => bridge(() => KappaMemory.recordSession(input)),
       state: (input) => bridge(() => MemoryFiles.readState(input.root)),
       session: (input) =>
         bridge(() => MemoryFiles.readSession(input.root, { sessionID: input.sessionID, max: input.max })),

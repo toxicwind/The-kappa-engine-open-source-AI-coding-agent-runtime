@@ -2,7 +2,7 @@ import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin
 import { createMemo, createSignal, onCleanup, onMount, Show } from "solid-js"
 import { Global } from "@opencode-ai/core/global"
 import * as Log from "@opencode-ai/core/util/log"
-import type { KiloPassState } from "@kappacode/kappa-gateway"
+import type { KappaPassState } from "@kappacode/kappa-gateway"
 import type { Message } from "@kappacode/sdk/v2"
 import { onBalanceRefresh } from "../balance-refresh"
 import { REDACTED_BALANCE } from "../pii"
@@ -21,7 +21,7 @@ const usd = new Intl.NumberFormat("en-US", {
 type State = {
   balance?: number
   scope: ReturnType<typeof scope>
-  pass: KiloPassState | null
+  pass: KappaPassState | null
 }
 
 export function format(value: number) {
@@ -47,7 +47,7 @@ export function creditLabel(value: ReturnType<typeof scope>, masked = false) {
 const short = (value: number) => "$" + Math.round(value)
 
 // Pass credits are part of the personal balance, so we show this period's usage against the base allotment.
-export function passLine(pass: KiloPassState) {
+export function passLine(pass: KappaPassState) {
   return `${short(pass.currentPeriodUsageUsd)} / ${short(pass.currentPeriodBaseCreditsUsd)}`
 }
 
@@ -58,7 +58,7 @@ export function resetLabel(iso?: string | null) {
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(date)
 }
 
-// A billed turn: a completed Kilo assistant message with a non-zero cost.
+// A billed turn: a completed Kappa assistant message with a non-zero cost.
 export function billable(info: Message) {
   if (info.role !== "assistant") return false
   return info.providerID === "kappa" && info.time.completed !== undefined && info.cost > 0
@@ -125,7 +125,7 @@ function View(props: { api: TuiPluginApi }) {
         const next: State = {
           balance: res.data.balance?.balance,
           scope: scope(res.data.currentOrgId, res.data.profile.organizations),
-          pass: res.data.kiloPass ?? null,
+          pass: res.data.kappaPass ?? null,
         }
         setState(next)
         // Team balances move with other members' usage, so poll while on a team; personal updates on spend.
@@ -191,7 +191,7 @@ function View(props: { api: TuiPluginApi }) {
               {(pass) => (
                 <box gap={0}>
                   <box flexDirection="row" justifyContent="space-between" gap={1}>
-                    <text fg={theme().textMuted}>{" └ Kilo Pass"}</text>
+                    <text fg={theme().textMuted}>{" └ Kappa Pass"}</text>
                     <text fg={theme().textMuted}>{passLine(pass())}</text>
                   </box>
                   <Show when={pass().currentPeriodBonusCreditsUsd > 0}>
@@ -236,7 +236,7 @@ function View(props: { api: TuiPluginApi }) {
                 ✕
               </text>
             </box>
-            <text fg={theme().textMuted}>Kilo includes free models so you can start immediately.</text>
+            <text fg={theme().textMuted}>Kappa includes free models so you can start immediately.</text>
             <text fg={theme().textMuted}>
               Connect from 75+ providers to use other models, including Claude, GPT, Gemini etc
             </text>
@@ -254,7 +254,7 @@ function View(props: { api: TuiPluginApi }) {
       <text fg={theme().textMuted}>
         <span style={{ fg: theme().success }}>•</span>{" "}
         <span style={{ fg: theme().text }}>
-          <b>Kilo</b>
+          <b>Kappa</b>
         </span>{" "}
         <span>{props.api.app.version}</span>
       </text>

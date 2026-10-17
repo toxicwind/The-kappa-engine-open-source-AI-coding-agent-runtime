@@ -1,4 +1,4 @@
-Save explicit project memory to Kilo's local memory files.
+Save explicit project memory to Kappa's local memory files.
 
 Use this when the user explicitly asks to remember, save, correct, update, or forget project memory. Do not use it for speculative or incidental facts.
 
@@ -18,4 +18,4 @@ Usage notes:
   - Use concise text that will still make sense in a future session.
   - For forget, pass the user's exact key or the most specific query phrase available.
   - If the user asks whether you can save memory, answer based on this tool when it is available.
-  - This tool writes only Kilo memory files for the current project. It does not use MCP memory or external memory.
+  - This tool writes only Kappa memory files for the current project. It does not use MCP memory or external memory.

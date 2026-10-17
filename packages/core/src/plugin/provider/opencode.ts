@@ -2,15 +2,15 @@ import { Effect } from "effect"
 import { define } from "@kappacode/plugin/v2/effect/plugin"
 import { ProviderV2 } from "../../provider"
 
-// kilocode_change start - Kilo keeps only the free-tier catalog gate from upstream's opencode plugin.
+// kappacode_change start - Kappa keeps only the free-tier catalog gate from upstream's opencode plugin.
 //
 // Upstream turned this plugin into a full identity + remote-config integration: an OAuth device
 // flow against https://console.opencode.ai (client id "opencode-cli"), an "OpenCode Console
 // account" login method, an "API key (service account)" method, and a fetch that lets that console
-// drive Kilo's provider/model catalog. Kilo routes providers through the Kilo gateway and does not
+// drive Kappa's provider/model catalog. Kappa routes providers through the Kappa gateway and does not
 // offer a competitor's account system as a sign-in option, so none of that is registered here.
 //
-// What remains is the behavior Kilo actually relies on and shipped before the v1.17.13 merge:
+// What remains is the behavior Kappa actually relies on and shipped before the v1.17.13 merge:
 // gate the opencode ("zen") provider's paid models unless the user supplies a key, and mark the
 // provider as "public" otherwise. The provider itself still reaches the catalog through models.dev
 // sync (see catalog.ts), so this gate stays live.
@@ -41,4 +41,4 @@ export const OpencodePlugin = define({
     )
   }),
 })
-// kilocode_change end
+// kappacode_change end

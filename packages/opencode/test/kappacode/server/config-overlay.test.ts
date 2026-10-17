@@ -6,8 +6,8 @@ import { Global } from "@opencode-ai/core/global"
 import { Server } from "../../../src/server/server"
 import { Config } from "../../../src/config/config"
 import { ConfigParse } from "../../../src/config/parse"
-import { KilocodeConfigOverlay } from "../../../src/kappacode/config/overlay"
-import { KilocodeConfigWriter } from "../../../src/kappacode/config/writer"
+import { KappacodeConfigOverlay } from "../../../src/kappacode/config/overlay"
+import { KappacodeConfigWriter } from "../../../src/kappacode/config/writer"
 import { Permission } from "../../../src/permission"
 import { PtyPaths } from "../../../src/server/routes/instance/httpapi/groups/pty"
 import { SessionPaths } from "../../../src/server/routes/instance/httpapi/groups/session"
@@ -148,9 +148,9 @@ describe("config overlay routes", () => {
 
   test("writes a missing project target atomically", async () => {
     await using project = await tmpdir()
-    const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const target = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
 
-    const result = await KilocodeConfigWriter.write({
+    const result = await KappacodeConfigWriter.write({
       scope: "project",
       directory: project.path,
       expected: target,
@@ -163,9 +163,9 @@ describe("config overlay routes", () => {
 
   test("rejects unknown requested config settings without writing them", async () => {
     await using project = await tmpdir()
-    const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const target = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
 
-    const result = await KilocodeConfigWriter.write({
+    const result = await KappacodeConfigWriter.write({
       scope: "project",
       directory: project.path,
       expected: target,
@@ -185,9 +185,9 @@ describe("config overlay routes", () => {
     await using project = await tmpdir()
     const file = path.join(project.path, "kappa.json")
     await Bun.write(file, JSON.stringify({ future: { enabled: true } }))
-    const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const target = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
 
-    const result = await KilocodeConfigWriter.write({
+    const result = await KappacodeConfigWriter.write({
       scope: "project",
       directory: project.path,
       expected: target,
@@ -201,11 +201,11 @@ describe("config overlay routes", () => {
   test.each([
     ["V1", '"anthropic/claude-sonnet"'],
     ["V2", '{ "providerID": "anthropic", "model": "claude-sonnet" }'],
-  ])("preserves %s JSONC and Kilo settings when saving an unrelated setting", async (_version, model) => {
+  ])("preserves %s JSONC and Kappa settings when saving an unrelated setting", async (_version, model) => {
     await using project = await tmpdir()
     const file = path.join(project.path, "kappa.jsonc")
     const before = `{
-  // Keep the user's model format and Kilo settings.
+  // Keep the user's model format and Kappa settings.
   "model": ${model},
   "privacy_mode": true,
   "indexing": { "enabled": false, "provider": "ollama" },
@@ -214,12 +214,12 @@ describe("config overlay routes", () => {
 `
     await Bun.write(file, before)
     const input = { directory: project.path, worktree: project.path, scope: "project" as const }
-    const target = await KilocodeConfigOverlay.target(input)
-    const result = await KilocodeConfigWriter.write({ ...input, expected: target, set: { autoupdate: false } })
+    const target = await KappacodeConfigOverlay.target(input)
+    const result = await KappacodeConfigWriter.write({ ...input, expected: target, set: { autoupdate: false } })
 
     expect(result).toMatchObject({ ok: true, changed: true })
     expect(await Bun.file(file).text()).toBe(before.replace('"autoupdate": true', '"autoupdate": false'))
-    expect(await KilocodeConfigOverlay.project(input)).toMatchObject({
+    expect(await KappacodeConfigOverlay.project(input)).toMatchObject({
       model: "anthropic/claude-sonnet",
       privacy_mode: true,
       indexing: { enabled: false, provider: "ollama" },
@@ -235,7 +235,7 @@ describe("config overlay routes", () => {
       const before = JSON.stringify(value)
       await Bun.write(file, before)
 
-      const error = await KilocodeConfigWriter.write({
+      const error = await KappacodeConfigWriter.write({
         directory: project.path,
         worktree: project.path,
         scope: "project",
@@ -286,15 +286,15 @@ describe("config overlay routes", () => {
 
   test("returns exact raw target data and a stable missing-file revision", async () => {
     await using project = await tmpdir()
-    const first = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
-    const second = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const first = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const second = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
 
     expect(first.exists).toBe(false)
     expect(first.raw).toEqual({})
     expect(first.revision).toBe(second.revision)
 
     await Filesystem.write(first.path, '{\n  // preserved\n  "model": "test/model"\n}\n')
-    const saved = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const saved = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
     expect(saved.raw).toEqual({ model: "test/model" })
     expect(saved.revision).not.toBe(first.revision)
   })
@@ -557,10 +557,10 @@ describe("config overlay routes", () => {
     await using project = await tmpdir()
     const file = path.join(project.path, "kappa.jsonc")
     await Filesystem.write(file, '{\n  "model": "test/before"\n}\n')
-    const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const target = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
 
     await expect(
-      KilocodeConfigWriter.write({
+      KappacodeConfigWriter.write({
         scope: "project",
         directory: project.path,
         expected: target,
@@ -577,9 +577,9 @@ describe("config overlay routes", () => {
     if (process.platform === "win32") return
     await using project = await tmpdir()
     await using outside = await tmpdir()
-    const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const target = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
 
-    const result = await KilocodeConfigWriter.write({
+    const result = await KappacodeConfigWriter.write({
       scope: "project",
       directory: project.path,
       expected: target,
@@ -600,9 +600,9 @@ describe("config overlay routes", () => {
     const file = path.join(project.path, "kappa.jsonc")
     await Filesystem.write(file, "{}", 0o600)
     await chmod(file, 0o600)
-    const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
+    const target = await KappacodeConfigOverlay.target({ scope: "project", directory: project.path })
 
-    const result = await KilocodeConfigWriter.write({
+    const result = await KappacodeConfigWriter.write({
       scope: "project",
       directory: project.path,
       expected: target,
@@ -614,7 +614,7 @@ describe("config overlay routes", () => {
   })
 
   test("ignores unsafe patch paths", () => {
-    const patched = KilocodeConfigOverlay.patch({
+    const patched = KappacodeConfigOverlay.patch({
       scope: "project",
       unset: [
         ["__proto__", "polluted"],
@@ -661,7 +661,7 @@ describe("config overlay routes", () => {
       "---\ndescription: opencode-only agent\nmode: subagent\n---\nopencode-only agent prompt",
     )
 
-    const body = await KilocodeConfigOverlay.resolve({
+    const body = await KappacodeConfigOverlay.resolve({
       directory: project.path,
       scope: "project",
       effective: {},
@@ -689,7 +689,7 @@ describe("config overlay routes", () => {
       JSON.stringify({ username: "{file:/etc/passwd}" }),
     )
 
-    const body = await KilocodeConfigOverlay.resolve({
+    const body = await KappacodeConfigOverlay.resolve({
       directory: project.path,
       scope: "project",
       effective: {},
@@ -819,7 +819,7 @@ describe("config overlay routes", () => {
     }
     await config(project.path, local)
 
-    const body = await KilocodeConfigOverlay.resolve({
+    const body = await KappacodeConfigOverlay.resolve({
       directory: project.path,
       scope: "global",
       effective: local,

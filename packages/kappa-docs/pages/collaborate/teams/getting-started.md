@@ -1,11 +1,11 @@
 ---
 title: "Getting Started with Teams"
-description: "Set up your Kilo Code team account"
+description: "Set up your Kappa Code team account"
 ---
 
-# Get Started with Kilo Seats in 10 Minutes
+# Get Started with Kappa Seats in 10 Minutes
 
-Seats for Kilo in the Teams or Enterprise subscription bring transparent AI coding to your entire engineering organization. Model inference is charged at provider rates with no markup, while credit purchases have a separate 5% payment-processing fee.
+Seats for Kappa in the Teams or Enterprise subscription bring transparent AI coding to your entire engineering organization. Model inference is charged at provider rates with no markup, while credit purchases have a separate 5% payment-processing fee.
 
 ## Before You Begin
 
@@ -50,7 +50,7 @@ Seats for Kilo in the Teams or Enterprise subscription bring transparent AI codi
 Team members receive invitation emails with these steps:
 
 1. Accept the team invitation
-2. Install Kilo Code from [VS Code Marketplace](vscode:extension/kilocode.kappa-code)
+2. Install Kappa Code from [VS Code Marketplace](vscode:extension/kappacode.kappa-code)
 3. Sign in with their invited email
 4. Start coding with AI assistance
 

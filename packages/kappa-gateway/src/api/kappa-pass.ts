@@ -1,5 +1,5 @@
-import { buildKiloHeaders } from "../headers.js"
-import type { KiloPassState } from "../types.js"
+import { buildKappaHeaders } from "../headers.js"
+import type { KappaPassState } from "../types.js"
 import { KILO_API_BASE } from "./constants.js"
 
 function record(value: unknown) {
@@ -14,7 +14,7 @@ function num(value: unknown) {
 // these statuses represent a pass the user can actually consume.
 const live = new Set(["active", "past_due", "trialing"])
 
-export function parseKiloPassState(value: unknown): KiloPassState | null {
+export function parseKappaPassState(value: unknown): KappaPassState | null {
   const item = Array.isArray(value) ? value[0] : value
   const data = record(record(record(item)?.result)?.data)
   const root = record(data?.json) ?? data ?? record(value)
@@ -31,14 +31,14 @@ export function parseKiloPassState(value: unknown): KiloPassState | null {
   }
 }
 
-export async function fetchKiloPassState(token: string): Promise<KiloPassState | null> {
+export async function fetchKappaPassState(token: string): Promise<KappaPassState | null> {
   try {
     const params = new URLSearchParams({ batch: "1", input: JSON.stringify({ "0": null }) })
-    const response = await fetch(`${KILO_API_BASE}/api/trpc/kiloPass.getState?${params}`, {
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...buildKiloHeaders() },
+    const response = await fetch(`${KILO_API_BASE}/api/trpc/kappaPass.getState?${params}`, {
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...buildKappaHeaders() },
     })
     if (!response.ok) return null
-    return parseKiloPassState(await response.json())
+    return parseKappaPassState(await response.json())
   } catch {
     return null
   }

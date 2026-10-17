@@ -4,7 +4,7 @@
   "version": "7.8.10",
   "type": "module",
   "license": "MIT",
-  "description": "Kilo-specific i18n translations and overrides",
+  "description": "Kappa-specific i18n translations and overrides",
   "exports": {
     "./*": "./src/*.ts"
   },

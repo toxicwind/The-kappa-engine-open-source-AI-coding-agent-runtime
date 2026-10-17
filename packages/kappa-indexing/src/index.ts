@@ -1,4 +1,4 @@
-export { KiloIndexingPlugin, default } from "./plugin.js"
+export { KappaIndexingPlugin, default } from "./plugin.js"
 export { IndexingConfig, toIndexingConfigInput } from "./config.js"
 export { hasIndexingPlugin, isIndexingPlugin, normalizePluginName, INDEXING_PLUGIN_NAMES } from "./detect.js"
 export {

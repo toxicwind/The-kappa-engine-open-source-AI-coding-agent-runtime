@@ -2,7 +2,7 @@ import { Button } from "@kappacode/kappa-ui/button"
 import { useVSCode } from "../../context/vscode"
 import { useLanguage } from "../../context/language"
 
-const REPO_URL = "https://github.com/Kilo-Org/kappa-marketplace"
+const REPO_URL = "https://github.com/Kappa-Org/kappa-marketplace"
 
 export const MarketplaceContribute = () => {
   const vscode = useVSCode()

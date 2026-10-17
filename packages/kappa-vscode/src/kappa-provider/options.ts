@@ -3,7 +3,7 @@ import type { SettingsHandler } from "../agent-manager/project/settings"
 
 export type AgentManagerSettingsHandler = SettingsHandler
 
-export type KiloProviderOptions = {
+export type KappaProviderOptions = {
   /** Context key updated from focus events reported by this provider's webview. */
   focusContext?: string
   /**

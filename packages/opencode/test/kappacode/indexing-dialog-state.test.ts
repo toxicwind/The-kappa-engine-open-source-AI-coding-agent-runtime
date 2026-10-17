@@ -3,19 +3,19 @@ import { createEffect, createRoot, createSignal } from "solid-js"
 import type { Config, IndexingConfig } from "@kappacode/sdk/v2"
 import {
   createIndexingDialogState,
-  currentKiloModel,
+  currentKappaModel,
   indexingInheritance,
   indexingPatch,
   indexingScopeConfig,
   inheritedDescription,
   kappaModelOptions,
-  loadKiloEmbeddingModels,
+  loadKappaEmbeddingModels,
   mergeIndexingConfig,
   type IndexingScope,
 } from "../../src/kappacode/components/indexing-dialog-state"
 
 describe("indexing dialog state", () => {
-  test.serial("loads Kilo models directly from the public catalog", async () => {
+  test.serial("loads Kappa models directly from the public catalog", async () => {
     const original = global.fetch
     const calls: string[] = []
     global.fetch = (async (input) => {
@@ -31,7 +31,7 @@ describe("indexing dialog state", () => {
     }) as typeof global.fetch
 
     try {
-      const catalog = await loadKiloEmbeddingModels()
+      const catalog = await loadKappaEmbeddingModels()
 
       expect(catalog.models).toHaveLength(1)
       expect(catalog.defaultModel).toBe("kappa/default")
@@ -61,8 +61,8 @@ describe("indexing dialog state", () => {
       { value: "provider/default", title: "Default (1024d)" },
       { value: "provider/code", title: "Code (code, 1536d)" },
     ])
-    expect(currentKiloModel(catalog, "code")).toBe("provider/code")
-    expect(currentKiloModel(catalog, "missing")).toBe("provider/default")
+    expect(currentKappaModel(catalog, "code")).toBe("provider/code")
+    expect(currentKappaModel(catalog, "missing")).toBe("provider/default")
   })
 
   test("classifies scalar and partial nested inheritance", () => {

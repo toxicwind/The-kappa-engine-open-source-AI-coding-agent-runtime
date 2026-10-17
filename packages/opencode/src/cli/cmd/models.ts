@@ -53,15 +53,15 @@ export const ModelsCommand = effectCmd({
       return
     }
 
-    // kilocode_change start
+    // kappacode_change start
     const ids = Object.keys(providers).sort((a, b) => {
-      const aIsKilo = a === "kappa" || a.startsWith("opencode")
-      const bIsKilo = b === "kappa" || b.startsWith("opencode")
-      if (aIsKilo && !bIsKilo) return -1
-      if (!aIsKilo && bIsKilo) return 1
+      const aIsKappa = a === "kappa" || a.startsWith("opencode")
+      const bIsKappa = b === "kappa" || b.startsWith("opencode")
+      if (aIsKappa && !bIsKappa) return -1
+      if (!aIsKappa && bIsKappa) return 1
       return a.localeCompare(b)
     })
-    // kilocode_change end
+    // kappacode_change end
 
     for (const providerID of ids) print(ProviderV2.ID.make(providerID), args.verbose)
   }),

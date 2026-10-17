@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 // Shared derivation for the spawn-capable instance advertisement payload.
 // Used by both `kappa remote` (explicit CLI) and `enableRemote()` (covers `/remote`
 // and KILO_REMOTE / remote_control auto-enable) so all enable paths share

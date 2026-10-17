@@ -1,7 +1,7 @@
 import { Config } from "@/config/config"
 import { InstanceRef } from "@/effect/instance-ref"
 import { isInterrupted } from "@/kappacode/effect/cause"
-import * as KiloReference from "@/kappacode/reference"
+import * as KappaReference from "@/kappacode/reference"
 import { InstanceStore } from "@/project/instance-store"
 import { LocationServiceMap } from "@opencode-ai/core/location-services"
 import { Location } from "@opencode-ai/core/location"
@@ -17,7 +17,7 @@ const reconcile = Effect.gen(function* () {
     const ctx = yield* store.load({ directory: location.directory })
     const cfg = yield* config.get().pipe(Effect.provideService(InstanceRef, ctx))
     yield* (yield* PluginV2.Service).wait(PluginV2.ID.make("core/config-reference")) // kappacode_change
-    yield* KiloReference.sync({
+    yield* KappaReference.sync({
       references: cfg.references ?? cfg.reference ?? {},
       directory: ctx.directory,
       worktree: ctx.worktree,

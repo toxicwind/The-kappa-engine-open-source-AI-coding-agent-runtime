@@ -1,5 +1,5 @@
 import { ResponseMetaData } from "./types"
-import type { KiloConnectionService } from "../cli-backend"
+import type { KappaConnectionService } from "../cli-backend"
 import { getAutocompleteModel, getAutocompleteModelById } from "../../shared/autocomplete-models"
 
 const FIM_MAX_TOKENS = 256
@@ -17,7 +17,7 @@ export function fimModel(provider?: string, model?: string) {
  * @param signal - Optional AbortSignal to cancel the SSE stream early (e.g. when the user types again)
  */
 export async function generateFim(
-  connectionService: KiloConnectionService,
+  connectionService: KappaConnectionService,
   modelId: string,
   prefix: string,
   suffix: string,
@@ -81,6 +81,6 @@ export async function generateFim(
  * Check if the CLI backend is connected. The CLI manages credentials internally,
  * so a connected state means we can issue FIM requests.
  */
-export function hasValidCredentials(connectionService: KiloConnectionService): boolean {
+export function hasValidCredentials(connectionService: KappaConnectionService): boolean {
   return connectionService.getConnectionState() === "connected"
 }

@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 
 type Item = {
   id: string
@@ -13,7 +13,7 @@ type Message = {
 }
 
 type Input = {
-  client: KiloClient | null
+  client: KappaClient | null
   message: Message
   current?: string
   context?: string
@@ -57,7 +57,7 @@ export async function handleSessionSearch(input: Input): Promise<void> {
       }))
     input.post({ type: "sessionSearchResult", sessions, requestId: input.message.requestId })
   } catch (err) {
-    console.error("[Kilo New] Session search failed:", err)
+    console.error("[Kappa New] Session search failed:", err)
     input.post({ type: "sessionSearchResult", sessions: [], requestId: input.message.requestId })
   }
 }

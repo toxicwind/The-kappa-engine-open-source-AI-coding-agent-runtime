@@ -1,4 +1,4 @@
-// kilocode_change - new file
+// kappacode_change - new file
 
 import fs from "fs/promises"
 import path from "path"

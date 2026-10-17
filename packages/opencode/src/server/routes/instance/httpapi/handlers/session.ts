@@ -1,12 +1,12 @@
-import { Image } from "@/image/image" // kilocode_change - classify user image validation defects
-import { busyMessage, isBusy } from "@/kilocode/database/sqlite-error" // kilocode_change
-import { KiloAttachment } from "@/kilocode/session/attachment" // kilocode_change - synchronous precheck for undecodable attachments
-import { KiloSessionHttpApi } from "@/kilocode/server/httpapi/session-fork" // kilocode_change
-import { KiloSessionPromptQueue } from "@/kilocode/session/prompt-queue" // kilocode_change
-import { mergeScheduled } from "@/kilocode/session/scheduled" // kilocode_change
-import { Wakeup } from "@/kilocode/wakeup" // kilocode_change
+import { Image } from "@/image/image" // kappacode_change - classify user image validation defects
+import { busyMessage, isBusy } from "@/kappacode/database/sqlite-error" // kappacode_change
+import { KappaAttachment } from "@/kappacode/session/attachment" // kappacode_change - synchronous precheck for undecodable attachments
+import { KappaSessionHttpApi } from "@/kappacode/server/httpapi/session-fork" // kappacode_change
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue" // kappacode_change
+import { mergeScheduled } from "@/kappacode/session/scheduled" // kappacode_change
+import { Wakeup } from "@/kappacode/wakeup" // kappacode_change
 import { PermissionV1 } from "@opencode-ai/core/v1/permission"
-import { KiloViewers } from "@/kilocode/presence/service" // kilocode_change
+import { KappaViewers } from "@/kappacode/presence/service" // kappacode_change
 import { Agent } from "@/agent/agent"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { EventV2Bridge } from "@/event-v2-bridge"
@@ -31,9 +31,9 @@ import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { HttpApiBuilder, HttpApiError, HttpApiSchema } from "effect/unstable/httpapi"
 import { InstanceHttpApi } from "../api"
 import {
-  AbortQuery, // kilocode_change
+  AbortQuery, // kappacode_change
   CommandPayload,
-  DeleteMessageQuery, // kilocode_change
+  DeleteMessageQuery, // kappacode_change
   DiffQuery,
   ForkPayload,
   InitPayload,
@@ -45,9 +45,9 @@ import {
   ShellPayload,
   SummarizePayload,
   UpdatePayload,
-  ViewedPayload, // kilocode_change
+  ViewedPayload, // kappacode_change
 } from "../groups/session"
-import { InvalidRequestError, PermissionNotFoundError } from "../errors" // kilocode_change - InvalidRequestError carries a readable message for rejected attachments
+import { InvalidRequestError, PermissionNotFoundError } from "../errors" // kappacode_change - InvalidRequestError carries a readable message for rejected attachments
 import * as SessionError from "./session-errors"
 
 const tryParseJson = (text: string) =>
@@ -67,11 +67,11 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
     const agentSvc = yield* Agent.Service
     const permissionSvc = yield* Permission.Service
     const statusSvc = yield* SessionStatus.Service
-    const wake = yield* Wakeup.Service // kilocode_change
+    const wake = yield* Wakeup.Service // kappacode_change
     const todoSvc = yield* Todo.Service
     const summary = yield* SessionSummary.Service
     const events = yield* EventV2Bridge.Service
-    const viewers = yield* KiloViewers.Service // kilocode_change
+    const viewers = yield* KappaViewers.Service // kappacode_change
     const scope = yield* Scope.Scope
 
     const list = Effect.fn("SessionHttpApi.list")(function* (ctx: { query: typeof ListQuery.Type }) {
@@ -88,13 +88,13 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
     })
 
     const status = Effect.fn("SessionHttpApi.status")(function* () {
-      // kilocode_change start - fold in a future wakeup so a session asleep on a
+      // kappacode_change start - fold in a future wakeup so a session asleep on a
       // schedule is reported as `scheduled` instead of `idle`
       return mergeScheduled(
         Object.fromEntries(yield* statusSvc.list()),
         yield* wake.scheduled(yield* InstanceState.directory),
       )
-      // kilocode_change end
+      // kappacode_change end
     })
 
     const requireSession = Effect.fn("SessionHttpApi.requireSession")(function* (sessionID: SessionID) {
@@ -119,14 +119,14 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       params: { sessionID: SessionID }
       query: typeof DiffQuery.Type
     }) {
-      // kilocode_change start - pass full-content detail query fields through to the summary service
+      // kappacode_change start - pass full-content detail query fields through to the summary service
       return yield* summary.diff({
         sessionID: ctx.params.sessionID,
         messageID: ctx.query.messageID,
         full: ctx.query.full,
         file: ctx.query.file,
       })
-      // kilocode_change end
+      // kappacode_change end
     })
 
     const messages = Effect.fn("SessionHttpApi.messages")(function* (ctx: {
@@ -241,9 +241,9 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       )
     })
 
-    const forkRaw = KiloSessionHttpApi.forkRaw(fork) // kilocode_change - carry upstream bodyless full-session fork support
+    const forkRaw = KappaSessionHttpApi.forkRaw(fork) // kappacode_change - carry upstream bodyless full-session fork support
 
-    // kilocode_change start
+    // kappacode_change start
     const abort = Effect.fn("SessionHttpApi.abort")(function* (ctx: {
       params: { sessionID: SessionID }
       query: typeof AbortQuery.Type
@@ -251,7 +251,7 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       yield* promptSvc.cancel(ctx.params.sessionID, ctx.query.scope)
       return true
     })
-    // kilocode_change end
+    // kappacode_change end
 
     const init = Effect.fn("SessionHttpApi.init")(function* (ctx: {
       params: { sessionID: SessionID }
@@ -311,29 +311,29 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       return true
     })
 
-    // kilocode_change start - reject an undecodable attachment synchronously, before either prompt route
+    // kappacode_change start - reject an undecodable attachment synchronously, before either prompt route
     // promises acceptance. Without this, prompt_async returns 204 and clears the client's draft, then
     // fails ~1s later with no way to recover the typed text (see Image.DecodeError handling below).
     const rejectBadAttachments = (payload: typeof PromptPayload.Type) =>
       Effect.gen(function* () {
         for (const part of payload.parts) {
           if (part.type !== "file") continue
-          const reason = KiloAttachment.precheck(part)
+          const reason = KappaAttachment.precheck(part)
           if (reason) return yield* Effect.fail(new InvalidRequestError({ message: reason, kind: "attachment" }))
         }
       })
-    // kilocode_change end
+    // kappacode_change end
 
     const prompt = Effect.fn("SessionHttpApi.prompt")(function* (ctx: {
       params: { sessionID: SessionID }
       payload: typeof PromptPayload.Type
     }) {
       yield* requireSession(ctx.params.sessionID)
-      yield* rejectBadAttachments(ctx.payload) // kilocode_change
+      yield* rejectBadAttachments(ctx.payload) // kappacode_change
       const message = yield* promptSvc
-        .prompt({ ...ctx.payload, sessionID: ctx.params.sessionID } as unknown as SessionPrompt.PromptInput) // kilocode_change
+        .prompt({ ...ctx.payload, sessionID: ctx.params.sessionID } as unknown as SessionPrompt.PromptInput) // kappacode_change
         .pipe(
-          // kilocode_change start - reject only typed user image validation defects as request errors
+          // kappacode_change start - reject only typed user image validation defects as request errors
           Effect.catchCause((cause) => {
             const error = Cause.squash(cause)
             if (
@@ -341,10 +341,10 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
               error instanceof Image.DecodeError ||
               error instanceof Image.SizeError
             )
-              return Effect.fail(new InvalidRequestError({ message: error.message, kind: "attachment" })) // kilocode_change - carry a readable message instead of an empty BadRequest
+              return Effect.fail(new InvalidRequestError({ message: error.message, kind: "attachment" })) // kappacode_change - carry a readable message instead of an empty BadRequest
             return Effect.die(error)
           }),
-          // kilocode_change end
+          // kappacode_change end
         )
       return HttpServerResponse.stream(Stream.make(JSON.stringify(message)).pipe(Stream.encodeText), {
         contentType: "application/json",
@@ -356,22 +356,22 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       payload: typeof PromptPayload.Type
     }) {
       yield* requireSession(ctx.params.sessionID)
-      yield* rejectBadAttachments(ctx.payload) // kilocode_change - synchronous 400 instead of a post-204 session.error
+      yield* rejectBadAttachments(ctx.payload) // kappacode_change - synchronous 400 instead of a post-204 session.error
       yield* promptSvc
         .prompt({ ...ctx.payload, sessionID: ctx.params.sessionID } as unknown as SessionPrompt.PromptInput)
         .pipe(
           Effect.catchCause((cause) => {
-            if (Cause.hasInterruptsOnly(cause)) return Effect.void // kilocode_change - Stop is not an error
+            if (Cause.hasInterruptsOnly(cause)) return Effect.void // kappacode_change - Stop is not an error
             return Effect.gen(function* () {
               const error = Cause.squash(cause)
-              // kilocode_change start - keep SQLite lock failures out of local CLI logs
+              // kappacode_change start - keep SQLite lock failures out of local CLI logs
               const busy = isBusy(error)
               if (busy) {
                 yield* Effect.logWarning("prompt_async database busy", { sessionID: ctx.params.sessionID })
               }
               if (!busy) yield* Effect.logError("prompt_async failed", { sessionID: ctx.params.sessionID, cause })
-              // kilocode_change end
-              // kilocode_change start - a readable message for known Image.* defects instead of a raw stack trace
+              // kappacode_change end
+              // kappacode_change start - a readable message for known Image.* defects instead of a raw stack trace
               const imageError =
                 error instanceof Image.InvalidDataUrlError ||
                 error instanceof Image.DecodeError ||
@@ -384,7 +384,7 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
                   ? new NamedError.Unknown({ message: busyMessage }).toObject()
                   : new NamedError.Unknown({ message: imageError?.message ?? Cause.pretty(cause) }).toObject(),
               })
-              // kilocode_change end
+              // kappacode_change end
             })
           }),
           Effect.forkIn(scope, { startImmediately: true }),
@@ -443,22 +443,22 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
 
     const deleteMessage = Effect.fn("SessionHttpApi.deleteMessage")(function* (ctx: {
       params: { sessionID: SessionID; messageID: MessageID }
-      query: typeof DeleteMessageQuery.Type // kilocode_change
+      query: typeof DeleteMessageQuery.Type // kappacode_change
     }) {
       yield* requireSession(ctx.params.sessionID)
-      // kilocode_change start - allow deleting prompts that are queued behind the active turn
+      // kappacode_change start - allow deleting prompts that are queued behind the active turn
       const remove = yield* ctx.query.queued === true
-        ? KiloSessionPromptQueue.drop(ctx.params.sessionID, ctx.params.messageID)
+        ? KappaSessionPromptQueue.drop(ctx.params.sessionID, ctx.params.messageID)
         : runState.assertNotBusy(ctx.params.sessionID).pipe(
             Effect.as(true),
             Effect.catchTag("SessionBusyError", () =>
-              KiloSessionPromptQueue.drop(ctx.params.sessionID, ctx.params.messageID),
+              KappaSessionPromptQueue.drop(ctx.params.sessionID, ctx.params.messageID),
             ),
           )
       // A false result means the message is not in the waiting list. It may have
       // already started, or the ID may be stale. Leave the message untouched.
       if (!remove) return false
-      // kilocode_change end
+      // kappacode_change end
       yield* session.removeMessage(ctx.params)
       return true
     })
@@ -487,12 +487,12 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       return yield* session.updatePart(payload)
     })
 
-    // kilocode_change start
+    // kappacode_change start
     const viewed = Effect.fn("SessionHttpApi.viewed")(function* (ctx: { payload: typeof ViewedPayload.Type }) {
       yield* viewers.update(ctx.payload)
       return true
     })
-    // kilocode_change end
+    // kappacode_change end
 
     return handlers
       .handle("list", list)
@@ -506,7 +506,7 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       .handleRaw("create", createRaw)
       .handle("remove", remove)
       .handle("update", update)
-      .handleRaw("fork", forkRaw) // kilocode_change - carry upstream bodyless full-session fork support
+      .handleRaw("fork", forkRaw) // kappacode_change - carry upstream bodyless full-session fork support
       .handle("abort", abort)
       .handle("init", init)
       .handle("share", share)
@@ -522,6 +522,6 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       .handle("deleteMessage", deleteMessage)
       .handle("deletePart", deletePart)
       .handle("updatePart", updatePart)
-      .handle("viewed", viewed) // kilocode_change
+      .handle("viewed", viewed) // kappacode_change
   }),
 )

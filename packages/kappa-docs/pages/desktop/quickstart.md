@@ -1,11 +1,11 @@
 ---
 title: "Quickstart"
-description: "Sign in, open a workspace, and start your first agentic chat in Kilo Desktop."
+description: "Sign in, open a workspace, and start your first agentic chat in Kappa Desktop."
 ---
 
 # Quickstart
 
-This guide walks you through your first session in Kilo Desktop. If you haven't installed the app yet, see [Installation](/docs/desktop/installation).
+This guide walks you through your first session in Kappa Desktop. If you haven't installed the app yet, see [Installation](/docs/desktop/installation).
 
 ## Complete onboarding
 
@@ -13,19 +13,19 @@ On first launch, a short setup wizard walks you through the setup steps.
 
 ### 1. Review the terms of service
 
-Review and accept Kilo's [terms of service](https://kappa.ai/terms).
+Review and accept Kappa's [terms of service](https://kappa.ai/terms).
 
-### 2. Connect to Kilo
+### 2. Connect to Kappa
 
-Sign in to your **Kilo account** to use frontier models, credits, and organization settings through the [Kilo Gateway](/docs/gateway). You can skip this step and connect later from [Settings](/docs/desktop/settings/ai#ai-providers). 
+Sign in to your **Kappa account** to use frontier models, credits, and organization settings through the [Kappa Gateway](/docs/gateway). You can skip this step and connect later from [Settings](/docs/desktop/settings/ai#ai-providers). 
 
 {% callout type="note" %}
-A Kilo account is also required to use [conda environments](/docs/desktop/features/environments) and the [local model server](/docs/desktop/features/local-inference). You can sign in during onboarding or later from the **Account** section in [Settings](/docs/desktop/settings/general#account).
+A Kappa account is also required to use [conda environments](/docs/desktop/features/environments) and the [local model server](/docs/desktop/features/local-inference). You can sign in during onboarding or later from the **Account** section in [Settings](/docs/desktop/settings/general#account).
 {% /callout %}
 
 ### 3. Choose an autonomy level
 
-Choose whether you want Kilo to operate with high autonomy or review its work first, pausing to show its plan and ask for your approval before it edits files or runs commands. High autonomy is the default behavior of the Kilo Code agent.
+Choose whether you want Kappa to operate with high autonomy or review its work first, pausing to show its plan and ask for your approval before it edits files or runs commands. High autonomy is the default behavior of the Kappa Code agent.
 
 ### 4. Create a workspace
 
@@ -33,9 +33,9 @@ A workspace scopes a chat to one or more folders on your machine. Add the folder
 
 ## Navigate the home screen
 
-When Kilo Desktop opens, you land on a new chat in the workspace you created during setup.
+When Kappa Desktop opens, you land on a new chat in the workspace you created during setup.
 
-{% image src="/docs/img/desktop/quickstart-home-screen.png" alt="The Kilo Desktop home screen with the sidebar and a new chat" width="800" /%}
+{% image src="/docs/img/desktop/quickstart-home-screen.png" alt="The Kappa Desktop home screen with the sidebar and a new chat" width="800" /%}
 
 ### Sidebar
 
@@ -59,8 +59,8 @@ The controls around the input let you:
 
 - **Add an attachment** with the **+** button.
 - **Choose an agent** to set how it approaches your request. Pick one of the default agents: Code, Plan, Ask, Debug, or Architect. See [Using agents](/docs/code-with-ai/agents/using-agents) for what each one does.
-- **Select autonomy level** for the agent. With **Manually approve**, Kilo asks before each file edit or command; with **Automatically approve**, it proceeds on its own without requesting permission.
-- **Pick a model** for the chat. The available models depend on how you're signed in and which providers you've connected. The list can include [Kilo Gateway](/docs/gateway) models, provider models you've added, or a [local model](/docs/desktop/features/local-inference) you've added.
+- **Select autonomy level** for the agent. With **Manually approve**, Kappa asks before each file edit or command; with **Automatically approve**, it proceeds on its own without requesting permission.
+- **Pick a model** for the chat. The available models depend on how you're signed in and which providers you've connected. The list can include [Kappa Gateway](/docs/gateway) models, provider models you've added, or a [local model](/docs/desktop/features/local-inference) you've added.
 - **Select a workspace** to scope the chat to a workspace, add a **New workspace**, or choose **No workspace** to chat without one.
 - **Set where changes go** with the git controls beside the workspace — work in your **Local** repository (switching or creating **branches** as needed), or run the session in a **new worktree**, an isolated copy created from a base branch. See [Git integration](/docs/desktop/features/git).
 
@@ -72,7 +72,7 @@ Enter your message and send it to start the conversation. See [What you can ask]
 
 Tab groups let you work in the same workspace alongside the chat. Each tab group holds one or more tabs. Send a message to access the tab groups view.
 
-{% image src="/docs/img/desktop/quickstart-panels.png" alt="A chat with tab groups open beside it in Kilo Desktop" width="800" /%}
+{% image src="/docs/img/desktop/quickstart-panels.png" alt="A chat with tab groups open beside it in Kappa Desktop" width="800" /%}
 
 ### Open a tab group
 

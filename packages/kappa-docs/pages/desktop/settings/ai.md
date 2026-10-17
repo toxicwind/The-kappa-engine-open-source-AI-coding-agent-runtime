@@ -1,6 +1,6 @@
 ---
 title: "AI settings"
-description: "Configure agent behavior, AI providers, and the local model server in Kilo Desktop."
+description: "Configure agent behavior, AI providers, and the local model server in Kappa Desktop."
 ---
 
 # AI settings
@@ -9,17 +9,17 @@ Open settings from the gear at the bottom of the sidebar, and use the search box
 
 ## Agent behavior
 
-The **Agent Behavior** section is where you review and install the [agents](/docs/code-with-ai/agents/using-agents), [skills](/docs/customize/skills), and [MCP servers](/docs/automate/mcp/what-is-mcp) Kilo can use.
+The **Agent Behavior** section is where you review and install the [agents](/docs/code-with-ai/agents/using-agents), [skills](/docs/customize/skills), and [MCP servers](/docs/automate/mcp/what-is-mcp) Kappa can use.
 
 Installed items are grouped by type, and you can search them or filter by **Agents**, **MCPs**, or **Skills**. You can also filter by {% svgIcon src="/docs/img/desktop/list-filter.svg" /%} **Workspace**. Each item shows the workspaces it applies to (such as **All Workspaces**) and its author. Expand an item to see its details and to remove it; an MCP also shows whether it's **Connected**. **Refresh** re-checks for changes.
 
-Select **+ Add** to open the **Kilo Marketplace**, where you can browse specialized agents, skills, and MCPs by category and install them. See [Marketplace](/docs/customize/marketplace) for the full catalog and how installing works.
+Select **+ Add** to open the **Kappa Marketplace**, where you can browse specialized agents, skills, and MCPs by category and install them. See [Marketplace](/docs/customize/marketplace) for the full catalog and how installing works.
 
 ## AI providers
 
 The **AI Providers** section lists your enabled AI providers, and **Add AI Provider** (top-right) connects a new one.
 
-The **Kilo Gateway** is the default path to models. When you're signed in it shows your account email and available balance; when you're signed out, use **Sign In**. Manage your account from the [Account](/docs/desktop/settings/general#account) section.
+The **Kappa Gateway** is the default path to models. When you're signed in it shows your account email and available balance; when you're signed out, use **Sign In**. Manage your account from the [Account](/docs/desktop/settings/general#account) section.
 
 Other providers appear below the gateway:
 
@@ -45,7 +45,7 @@ For details on the gateway itself, see [Models & Providers](/docs/gateway/models
 
 ## Local model server
 
-The **Local Model Server** section runs models on your own machine and exposes them to Kilo through an OpenAI-compatible endpoint. The toggle at the top starts and stops the server; the status beside it reads **Idle**, **Starting…**, or **Running**.
+The **Local Model Server** section runs models on your own machine and exposes them to Kappa through an OpenAI-compatible endpoint. The toggle at the top starts and stops the server; the status beside it reads **Idle**, **Starting…**, or **Running**.
 
 **System Monitor** shows live **CPU**, **RAM**, and **GPU** usage so you can gauge how much headroom a model has.
 
@@ -59,7 +59,7 @@ Select a model to open its settings, grouped into **General**, **Sampling**, and
 
 **General**
 
-- **Coding tools and instructions** — off by default for faster local inference. Turn it on to give the model the full context and tools that Kilo Code uses by default. This is not advised for the smallest of models and should only be used with models that support tool-calling.
+- **Coding tools and instructions** — off by default for faster local inference. Turn it on to give the model the full context and tools that Kappa Code uses by default. This is not advised for the smallest of models and should only be used with models that support tool-calling.
 - **Context length** — the maximum number of tokens the model holds at once, including the conversation so far and the response being generated. Larger values use more memory and can slow generation. Ranges from **256** to **1,048,576** tokens.
 - **Temperature** — how random the output is. Lower values are more predictable and focused; higher values are more varied and creative. Ranges from **0** to **2**.
 - **Max tokens** — the maximum number of tokens the model generates in a single response. Unlimited by default; ranges from **1** to **1,048,576**.

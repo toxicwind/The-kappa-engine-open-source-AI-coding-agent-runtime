@@ -8,8 +8,8 @@ import { MemoryPaths } from "./paths"
 import { MemoryTimers } from "./timers"
 import { MemoryDisabledError } from "./errors"
 
-/** Context-bound Kilo adapter over the root-bound package primitives. Prefer ctx inputs at runtime edges. */
-export namespace KiloMemory {
+/** Context-bound Kappa adapter over the root-bound package primitives. Prefer ctx inputs at runtime edges. */
+export namespace KappaMemory {
   export type Input =
     | {
         root: string

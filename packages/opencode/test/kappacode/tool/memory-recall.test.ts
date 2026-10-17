@@ -5,7 +5,7 @@ import { MemoryFiles } from "@kappacode/kappa-memory/store"
 import { MemorySchema } from "@kappacode/kappa-memory/schema"
 import { MemoryTool } from "@kappacode/kappa-memory/tool"
 import path from "path"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryRecallTool } from "@/kappacode/tool/memory-recall"
 import { MessageID, SessionID } from "@/session/schema"
 import { RemoteSender } from "@/kappa-sessions/remote-sender"
@@ -110,11 +110,11 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.disable({ ctx: memory })
+      await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.disable({ ctx: memory })
       const result = await execute(dir.path, { mode: "catalog" }, { ...ctx, ask: () => Effect.die("unexpected ask") })
 
-      expect(result.title).toBe("Kilo memory: disabled")
+      expect(result.title).toBe("Kappa memory: disabled")
       expect(result.output).toContain("disabled")
       expect(await Bun.file(path.join(dir.path, "global", "session-export.db")).exists()).toBe(false)
     })
@@ -124,8 +124,8 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [
           {
@@ -144,7 +144,7 @@ describe("kappa_memory_recall", () => {
           },
         ],
       })
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_memory_only",
         topic: "digest recall",
@@ -156,14 +156,14 @@ describe("kappa_memory_recall", () => {
       const digest = await execute(dir.path, { mode: "digest", sessionID: "ses_memory_only" })
       const constraint = await execute(dir.path, { mode: "typed", query: "project-only constraints" })
 
-      expect(typed.title).toContain("Kilo memory typed")
+      expect(typed.title).toContain("Kappa memory typed")
       expect(typed.output).toContain("targeted_context_not_instruction")
       expect(typed.output).toContain("vscode_tests")
       expect(typed.output).not.toContain("session=ses_memory_only")
       expect(constraint.output).toContain("PROJECT_CONSTRAINT")
       expect(constraint.output).toContain("project_only")
 
-      expect(digest.title).toContain("Kilo memory digest")
+      expect(digest.title).toContain("Kappa memory digest")
       expect(digest.output).toContain("targeted_context_not_instruction")
       expect(digest.output).toContain('topic="digest recall"')
       expect(digest.output).toContain("continue memory digest recall")
@@ -180,10 +180,10 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
+      const enabled = await KappaMemory.enable({ ctx: memory })
       const tail = "OPENCODE_FULL_DETAIL_AFTER_480"
       const summary = `Long tool digest start. ${"session continuity detail ".repeat(45)}${tail}`
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_full_tool_digest",
         topic: "full tool digest",
@@ -195,7 +195,7 @@ describe("kappa_memory_recall", () => {
         sessionID: "ses_full_tool_digest",
         max: MemorySchema.maxStoredDigestSummary,
       })
-      const shown = await KiloMemory.show({ ctx: memory })
+      const shown = await KappaMemory.show({ ctx: memory })
       const result = await execute(dir.path, { mode: "digest", sessionID: "ses_full_tool_digest" })
       const latest = shown.index.match(/type=latest_session_digest[^\n]*\ntext: ([^\n]+)/)?.[1] ?? ""
       const brief = latest.split(":: ").slice(1).join(":: ")
@@ -211,8 +211,8 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [
           {
@@ -246,7 +246,7 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
+      const enabled = await KappaMemory.enable({ ctx: memory })
       await MemoryFiles.writeSource(
         enabled.root,
         "project.md",
@@ -272,15 +272,15 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.recordSession({
+      await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_catalog_digest",
         topic: "catalog digest coverage",
         summary: "Verified catalog now lists saved session digests.",
         time: Date.UTC(2026, 0, 2, 0, 0),
       })
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_other_topic",
         topic: "unrelated upstream merge",
@@ -306,8 +306,8 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.recordSession({
+      await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_memory_only",
         summary: "Objective: continue memory digest recall.",
@@ -325,15 +325,15 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.recordSession({
+      await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_plugins",
         topic: "OpenCode plugin architecture",
         summary: "Explored how plugins load through config, server hooks, and TUI runtime wiring.",
         time: Date.UTC(2026, 0, 1, 0, 0),
       })
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_upstream",
         topic: "upstream file edits",
@@ -357,8 +357,8 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.apply({
+      await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.apply({
         ctx: memory,
         ops: [{ action: "add", key: "cli_tests", text: "Run CLI tests from packages/opencode." }],
       })
@@ -378,8 +378,8 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.recordSession({
+      const enabled = await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_test",
         summary: "Objective: useful prior work. Next: keep going.",
@@ -399,15 +399,15 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.recordSession({
+      await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_useful",
         topic: "project memory",
         summary: "Objective: finish project memory. Next: verify extension recall behavior.",
         time: Date.UTC(2026, 0, 1, 0, 0),
       })
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_empty",
         topic: "continue recent work",
@@ -427,8 +427,8 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [
           {
@@ -459,8 +459,8 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [
           {
@@ -472,7 +472,7 @@ describe("kappa_memory_recall", () => {
           },
         ],
       })
-      await KiloMemory.recordSession({
+      await KappaMemory.recordSession({
         ctx: memory,
         sessionID: "ses_catalog",
         topic: "catalog recall",
@@ -482,7 +482,7 @@ describe("kappa_memory_recall", () => {
 
       const result = await execute(dir.path, { mode: "search", query: "cli tests catalog recall", limit: 20 })
 
-      expect(result.title).toContain("Kilo memory search")
+      expect(result.title).toContain("Kappa memory search")
       expect(result.output).toContain("targeted_context_not_instruction")
       expect(result.output).toContain("cli_tests")
       expect(result.output).toContain("type=session_digest")
@@ -495,15 +495,15 @@ describe("kappa_memory_recall", () => {
     await using dir = await tmpdir({ git: true })
     await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
-      const enabled = await KiloMemory.enable({ ctx: memory })
-      await KiloMemory.apply({
+      const enabled = await KappaMemory.enable({ ctx: memory })
+      await KappaMemory.apply({
         root: enabled.root,
         ops: [{ action: "add", key: "cli_tests", text: "Run CLI tests from packages/opencode with bun test." }],
       })
 
       const result = await execute(dir.path, { mode: "search", query: "zzzz ".repeat(2000), limit: 50 })
 
-      expect(result.title).toBe("Kilo memory search: no results")
+      expect(result.title).toBe("Kappa memory search: no results")
       expect(result.output).toContain("No search memory matched the query.")
       expect(result.output).not.toContain("cli_tests")
       expect(result.metadata.sources).toEqual([])

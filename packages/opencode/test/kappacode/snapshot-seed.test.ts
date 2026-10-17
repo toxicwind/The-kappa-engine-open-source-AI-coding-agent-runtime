@@ -12,8 +12,8 @@ import { Hash } from "@opencode-ai/core/util/hash"
 import { Snapshot } from "../../src/snapshot"
 import { Instance } from "../../src/kappacode/instance"
 import { Filesystem } from "../../src/util/filesystem"
-import { KiloSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize"
-import { KiloSnapshotSeed } from "../../src/kappacode/snapshot/seed"
+import { KappaSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize"
+import { KappaSnapshotSeed } from "../../src/kappacode/snapshot/seed"
 import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture"
 
 const fwd = (...parts: string[]) => path.join(...parts).replaceAll("\\", "/")
@@ -139,7 +139,7 @@ test(
     const common = (await $`git rev-parse --path-format=absolute --git-common-dir`.cwd(seeded).text()).trim()
     expect(
       (
-        await $`git --git-dir=${common} rev-parse --verify --quiet ${KiloSnapshotMaterialize.ref(fast.gitdir)}`
+        await $`git --git-dir=${common} rev-parse --verify --quiet ${KappaSnapshotMaterialize.ref(fast.gitdir)}`
           .nothrow()
           .text()
       ).trim(),
@@ -259,7 +259,7 @@ test(
 
     await fs.writeFile(alt, `${path.join(common, "objects")}\n`)
     await fs.rename(alt, `${alt}.materializing`)
-    const sourceRef = KiloSnapshotMaterialize.ref(result.gitdir)
+    const sourceRef = KappaSnapshotMaterialize.ref(result.gitdir)
     const sourceHash = (await $`git write-tree`.cwd(tmp.path).text()).trim()
     await $`git --git-dir=${common} update-ref ${sourceRef} ${sourceHash}`.quiet()
     await disposeAllInstances()
@@ -343,7 +343,7 @@ test("interrupted seed removes borrowed state after source gc", async () => {
   await $`git init --bare ${gitdir}`.quiet()
   const index = (await $`git rev-parse --path-format=absolute --git-path index`.cwd(source.path).text()).trim()
   const original = await fs.readFile(index)
-  const ref = KiloSnapshotMaterialize.ref(gitdir)
+  const ref = KappaSnapshotMaterialize.ref(gitdir)
 
   await Effect.runPromise(
     Effect.gen(function* () {
@@ -377,7 +377,7 @@ test("interrupted seed removes borrowed state after source gc", async () => {
         if (read) return Deferred.succeed(reached, undefined).pipe(Effect.andThen(Effect.never))
         return raw(cmd, opts)
       }
-      const fiber = yield* KiloSnapshotSeed.seed({
+      const fiber = yield* KappaSnapshotSeed.seed({
         dir: source.path,
         worktree: source.path,
         gitdir,
@@ -447,7 +447,7 @@ test("regular seed keeps source stat data except for rewritten or flagged entrie
               ),
             )
         if (init) yield* Effect.promise(() => $`git init --bare ${gitdir}`.quiet())
-        const out: KiloSnapshotSeed.Output = yield* KiloSnapshotSeed.seed({
+        const out: KappaSnapshotSeed.Output = yield* KappaSnapshotSeed.seed({
           dir,
           worktree: dir,
           gitdir,

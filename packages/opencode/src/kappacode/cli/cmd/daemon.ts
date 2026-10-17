@@ -80,7 +80,7 @@ async function hold(enabled: boolean, json: boolean, run: (signal?: AbortSignal)
   const { Daemon } = await import("@/kappacode/daemon/daemon")
   await Daemon.foreground(async (signal) => {
     const state = await run(signal)
-    if (!signal.aborted && !json) console.log("Press Ctrl+C to stop the Kilo daemon.")
+    if (!signal.aborted && !json) console.log("Press Ctrl+C to stop the Kappa daemon.")
     return state
   })
 }
@@ -102,7 +102,7 @@ function start(command: string) {
         const daemon = await Daemon.ensure(opts, explicitNetworkOptions())
         const result = daemon.result
         const state = result.state
-        if (!state) throw new Error("Kilo daemon did not provide process state")
+        if (!state) throw new Error("Kappa daemon did not provide process state")
         if (signal?.aborted) return state
         if (args.json) print(result, true)
         if (!args.json) {
@@ -159,7 +159,7 @@ const RestartCommand = cmd({
       const { Daemon } = await import("@/kappacode/daemon/daemon")
       const result = await Daemon.restart(opts)
       const state = result.state
-      if (!state) throw new Error("Kilo daemon did not provide process state")
+      if (!state) throw new Error("Kappa daemon did not provide process state")
       if (signal?.aborted) return state
       if (args.json) print(result, true)
       if (!args.json) {

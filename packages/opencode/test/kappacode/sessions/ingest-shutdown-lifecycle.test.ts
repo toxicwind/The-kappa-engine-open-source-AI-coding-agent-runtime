@@ -1,8 +1,8 @@
 import { expect, spyOn, test } from "bun:test"
 import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
-import { KiloShutdown } from "../../../src/kappacode/cli/shutdown"
+import { KappaShutdown } from "../../../src/kappacode/cli/shutdown"
 
-test("KiloSessions drains queued ingest before instance disposal", async () => {
+test("KappaSessions drains queued ingest before instance disposal", async () => {
   const token = process.env.KILO_API_KEY
   const base = process.env.KILO_SESSION_INGEST_URL
   const calls: string[] = []
@@ -12,7 +12,7 @@ test("KiloSessions drains queued ingest before instance disposal", async () => {
   clearInFlightCache("kappa-sessions:token")
   clearInFlightCache("kappa-sessions:client")
   clearInFlightCache("kappa-sessions:token-valid:shutdown-token")
-  await KiloShutdown.run()
+  await KappaShutdown.run()
 
   const request = spyOn(globalThis, "fetch").mockImplementation(
     Object.assign(
@@ -36,11 +36,11 @@ test("KiloSessions drains queued ingest before instance disposal", async () => {
   try {
     const url = new URL("../../../src/kappa-sessions/kappa-sessions.ts", import.meta.url)
     url.searchParams.set("test", crypto.randomUUID())
-    const { KiloSessions } = await import(url.href)
-    await KiloSessions.bootstrap("session-shutdown")
-    expect(await KiloSessions._queueIngestForTest("session-shutdown")).toBe(true)
+    const { KappaSessions } = await import(url.href)
+    await KappaSessions.bootstrap("session-shutdown")
+    expect(await KappaSessions._queueIngestForTest("session-shutdown")).toBe(true)
 
-    await KiloShutdown.run()
+    await KappaShutdown.run()
     calls.push("dispose")
 
     expect(calls).toEqual(["ingest", "dispose"])
@@ -54,6 +54,6 @@ test("KiloSessions drains queued ingest before instance disposal", async () => {
     clearInFlightCache("kappa-sessions:token")
     clearInFlightCache("kappa-sessions:client")
     clearInFlightCache("kappa-sessions:token-valid:shutdown-token")
-    await KiloShutdown.run()
+    await KappaShutdown.run()
   }
 }, 30_000)

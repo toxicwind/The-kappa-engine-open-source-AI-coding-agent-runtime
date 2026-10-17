@@ -32,9 +32,9 @@ afterEach(() => {
   Identity.setDataPath("")
 })
 
-describe("Identity.updateFromKiloAuth profile cache", () => {
+describe("Identity.updateFromKappaAuth profile cache", () => {
   test("fetches profile and writes cache keyed by token hash", async () => {
-    await Identity.updateFromKiloAuth("token-a")
+    await Identity.updateFromKappaAuth("token-a")
     expect(Identity.getUserId()).toBe("user-token-a@example.com")
     expect(profileCalls).toBe(1)
 
@@ -50,40 +50,40 @@ describe("Identity.updateFromKiloAuth profile cache", () => {
   })
 
   test("uses cached email without a network request on later invocations", async () => {
-    await Identity.updateFromKiloAuth("token-a")
+    await Identity.updateFromKappaAuth("token-a")
     expect(profileCalls).toBe(1)
 
     // Simulate a fresh process: identity state resets, cache file persists.
     Identity.reset()
-    await Identity.updateFromKiloAuth("token-a")
+    await Identity.updateFromKappaAuth("token-a")
     expect(Identity.getUserId()).toBe("user-token-a@example.com")
     expect(profileCalls).toBe(1)
   })
 
   test("refetches when the token changes", async () => {
-    await Identity.updateFromKiloAuth("token-a")
+    await Identity.updateFromKappaAuth("token-a")
     Identity.reset()
-    await Identity.updateFromKiloAuth("token-b")
+    await Identity.updateFromKappaAuth("token-b")
     expect(Identity.getUserId()).toBe("user-token-b@example.com")
     expect(profileCalls).toBe(2)
   })
 
   test("clears identity when token is null", async () => {
-    await Identity.updateFromKiloAuth("token-a")
+    await Identity.updateFromKappaAuth("token-a")
     Identity.reset()
-    await Identity.updateFromKiloAuth(null)
+    await Identity.updateFromKappaAuth(null)
     expect(Identity.getUserId()).toBeNull()
     expect(profileCalls).toBe(1)
   })
 
   test("ignores a cache file for a different token", async () => {
-    await Identity.updateFromKiloAuth("token-a")
+    await Identity.updateFromKappaAuth("token-a")
     const file = path.join(dir, "telemetry-profile.json")
     const cache = JSON.parse(readFileSync(file, "utf8"))
     expect(cache.token).toBe(digest("token-a"))
 
     Identity.reset()
-    await Identity.updateFromKiloAuth("token-b")
+    await Identity.updateFromKappaAuth("token-b")
     expect(Identity.getUserId()).toBe("user-token-b@example.com")
   })
 })

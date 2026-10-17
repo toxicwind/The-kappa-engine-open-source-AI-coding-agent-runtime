@@ -57,14 +57,14 @@ function layer(
   ])
 }
 
-describe("Kilo installation upgrade", () => {
+describe("Kappa installation upgrade", () => {
   const release: string[] = []
   testEffect(
     layer(
       () => "",
       (request) => {
         release.push(request.url)
-        if (request.url === "https://api.github.com/repos/Kilo-Org/kappacode/releases/latest") {
+        if (request.url === "https://api.github.com/repos/Kappa-Org/kappacode/releases/latest") {
           return json({ tag_name: "jetbrains/v7.0.16" })
         }
         return json({ version: "8.8.8" })
@@ -75,7 +75,7 @@ describe("Kilo installation upgrade", () => {
       const result = yield* Installation.Service.use((svc) => svc.latest("unknown"))
       expect(result).toBe("8.8.8")
       expect(release).toContain(`https://registry.npmjs.org/@kappacode%2fcli/${InstallationChannel}`)
-      expect(release).not.toContain("https://api.github.com/repos/Kilo-Org/kappacode/releases/latest")
+      expect(release).not.toContain("https://api.github.com/repos/Kappa-Org/kappacode/releases/latest")
     }),
   )
 
@@ -88,7 +88,7 @@ describe("Kilo installation upgrade", () => {
         return json({ version: "8.8.8" })
       },
     ),
-  ).effect("reads yarn versions from the Kilo package registry", () =>
+  ).effect("reads yarn versions from the Kappa package registry", () =>
     Effect.gen(function* () {
       const result = yield* Installation.Service.use((svc) => svc.latest("yarn"))
       expect(result).toBe("8.8.8")
@@ -101,7 +101,7 @@ describe("Kilo installation upgrade", () => {
       if (cmd === "npm" && args.includes("list")) return "@kappacode/cli@7.3.45"
       return ""
     }),
-  ).effect("detects npm installs from the Kilo package", () =>
+  ).effect("detects npm installs from the Kappa package", () =>
     Effect.gen(function* () {
       const result = yield* Installation.Service.use((svc) => svc.method())
       expect(result).toBe("npm")
@@ -117,7 +117,7 @@ describe("Kilo installation upgrade", () => {
         return json({ d: { results: [{ Version: "8.8.8" }] } })
       },
     ),
-  ).effect("reads choco versions from the Kilo package", () =>
+  ).effect("reads choco versions from the Kappa package", () =>
     Effect.gen(function* () {
       const result = yield* Installation.Service.use((svc) => svc.latest("choco"))
       expect(result).toBe("8.8.8")
@@ -136,7 +136,7 @@ describe("Kilo installation upgrade", () => {
         return json({ version: "8.8.8" })
       },
     ),
-  ).effect("reads scoop versions from the Kilo manifest", () =>
+  ).effect("reads scoop versions from the Kappa manifest", () =>
     Effect.gen(function* () {
       const result = yield* Installation.Service.use((svc) => svc.latest("scoop"))
       expect(result).toBe("8.8.8")
@@ -150,28 +150,28 @@ describe("Kilo installation upgrade", () => {
     return ""
   })
 
-  testEffect(upgrade).effect("installs the Kilo npm package", () =>
+  testEffect(upgrade).effect("installs the Kappa npm package", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("npm", "9.9.9"))
       expect(calls).toContain("npm install -g @kappacode/cli@9.9.9")
     }),
   )
 
-  testEffect(upgrade).effect("installs the Kilo yarn package", () =>
+  testEffect(upgrade).effect("installs the Kappa yarn package", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("yarn", "9.9.9"))
       expect(calls).toContain("yarn global add @kappacode/cli@9.9.9")
     }),
   )
 
-  testEffect(upgrade).effect("installs the Kilo pnpm package", () =>
+  testEffect(upgrade).effect("installs the Kappa pnpm package", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("pnpm", "9.9.9"))
       expect(calls).toContain("pnpm install -g @kappacode/cli@9.9.9")
     }),
   )
 
-  testEffect(upgrade).effect("installs the Kilo bun package", () =>
+  testEffect(upgrade).effect("installs the Kappa bun package", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("bun", "9.9.9"))
       expect(calls).toContain("bun install -g @kappacode/cli@9.9.9")
@@ -186,22 +186,22 @@ describe("Kilo installation upgrade", () => {
     return ""
   })
 
-  testEffect(brewer).effect("upgrades the Kilo brew formula", () =>
+  testEffect(brewer).effect("upgrades the Kappa brew formula", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("brew", "9.9.9"))
-      expect(brew).toContain("brew tap Kilo-Org/tap")
-      expect(brew).toContain("brew upgrade Kilo-Org/tap/kappa")
+      expect(brew).toContain("brew tap Kappa-Org/tap")
+      expect(brew).toContain("brew upgrade Kappa-Org/tap/kappa")
     }),
   )
 
-  testEffect(upgrade).effect("upgrades the Kilo choco package", () =>
+  testEffect(upgrade).effect("upgrades the Kappa choco package", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("choco", "9.9.9"))
       expect(calls).toContain("choco upgrade kappa --version=9.9.9 -y")
     }),
   )
 
-  testEffect(upgrade).effect("installs the Kilo scoop package", () =>
+  testEffect(upgrade).effect("installs the Kappa scoop package", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("scoop", "9.9.9"))
       expect(calls).toContain("scoop install kappa@9.9.9")
@@ -220,7 +220,7 @@ describe("Kilo installation upgrade", () => {
         return new Response("#!/usr/bin/env bash", { status: 200 })
       },
     ),
-  ).effect("uses the Kilo install script for curl upgrades", () =>
+  ).effect("uses the Kappa install script for curl upgrades", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("curl", "9.9.9"))
       expect(curl).toContain("https://kappa.ai/cli/install")

@@ -18,7 +18,7 @@
     "./v2/gen/client": "./src/v2/gen/client/index.ts",
     "./v2/server": "./src/v2/server.ts",
     "./v2/types": "./src/v2/gen/types.gen.ts",
-    "./permission": "./src/kilocode/permission.ts"
+    "./permission": "./src/kappacode/permission.ts"
   },
   "files": [
     "dist"
@@ -37,7 +37,7 @@
   "peerDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kilo-Org/kilocode",
+    "url": "https://github.com/Kappa-Org/kappacode",
     "directory": "packages/sdk/js"
   }
 }

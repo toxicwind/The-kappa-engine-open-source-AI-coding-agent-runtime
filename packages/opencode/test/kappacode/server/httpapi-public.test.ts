@@ -5,9 +5,9 @@ import { AgentBuilderPaths } from "../../../src/kappacode/server/httpapi/groups/
 import { BackgroundProcessPaths } from "../../../src/kappacode/server/httpapi/groups/background-process"
 import { BranchNamePaths } from "../../../src/kappacode/server/httpapi/groups/branch-name"
 import { ConfigConsolePaths } from "../../../src/kappacode/server/httpapi/groups/config-console"
-import { IndexingPaths, KiloEmbeddingModel } from "../../../src/kappacode/server/httpapi/groups/indexing"
-import { KiloGatewayPaths } from "../../../src/kappacode/server/httpapi/groups/kappa-gateway"
-import { KilocodePaths } from "../../../src/kappacode/server/httpapi/groups/kappacode"
+import { IndexingPaths, KappaEmbeddingModel } from "../../../src/kappacode/server/httpapi/groups/indexing"
+import { KappaGatewayPaths } from "../../../src/kappacode/server/httpapi/groups/kappa-gateway"
+import { KappacodePaths } from "../../../src/kappacode/server/httpapi/groups/kappacode"
 import { MemoryPaths } from "../../../src/kappacode/server/httpapi/groups/memory"
 import { NetworkPaths } from "../../../src/kappacode/server/httpapi/groups/network"
 import { TelemetryPaths } from "../../../src/kappacode/server/httpapi/groups/telemetry"
@@ -38,11 +38,11 @@ type Body = {
   content?: Record<string, { schema?: Schema }>
 }
 
-describe("Kilo PublicApi OpenAPI contract", () => {
+describe("Kappa PublicApi OpenAPI contract", () => {
   test("exposes board paging and reset with a minimal snapshot", () => {
     const spec = OpenApi.fromApi(PublicApi)
-    const path = KilocodePaths.sessionBoard.replace(":sessionID", "{sessionID}")
-    const reset = KilocodePaths.resetSessionBoard.replace(":sessionID", "{sessionID}")
+    const path = KappacodePaths.sessionBoard.replace(":sessionID", "{sessionID}")
+    const reset = KappacodePaths.resetSessionBoard.replace(":sessionID", "{sessionID}")
     const query = spec.paths[path]?.get?.parameters as Parameter[] | undefined
     expect(spec.paths[path]?.get?.operationId).toBe("kappacode.sessionBoard")
     expect(spec.paths[reset]?.post?.operationId).toBe("kappacode.resetSessionBoard")
@@ -60,13 +60,13 @@ describe("Kilo PublicApi OpenAPI contract", () => {
     ])
   })
 
-  test("uses Kilo branding", () => {
+  test("uses Kappa branding", () => {
     const spec = OpenApi.fromApi(PublicApi)
     expect(spec.info.title).toBe("kappa")
     expect(spec.info.description).toBe("kappa api")
   })
 
-  test("includes legacy Kilo events in the generated SDK contract", () => {
+  test("includes legacy Kappa events in the generated SDK contract", () => {
     const spec = JSON.stringify(OpenApi.fromApi(PublicApi))
     for (const type of [
       "suggestion.shown",
@@ -91,7 +91,7 @@ describe("Kilo PublicApi OpenAPI contract", () => {
   test("constrains embedding model metadata", () => {
     const accepts = (dimension: number, scoreThreshold: number) =>
       Result.isSuccess(
-        EffectSchema.decodeUnknownResult(KiloEmbeddingModel)({
+        EffectSchema.decodeUnknownResult(KappaEmbeddingModel)({
           id: "provider/model",
           name: "Model",
           dimension,
@@ -140,7 +140,7 @@ describe("Kilo PublicApi OpenAPI contract", () => {
     }
   })
 
-  test("keeps directory routing queries on Kilo Console routes", () => {
+  test("keeps directory routing queries on Kappa Console routes", () => {
     const spec = OpenApi.fromApi(PublicApi)
     const routes = [
       { method: "get", path: ExperimentalPaths.worktreeDiff },
@@ -161,7 +161,7 @@ describe("Kilo PublicApi OpenAPI contract", () => {
     }
   })
 
-  test("keeps workspace routing queries on all Kilo-owned routed endpoints", () => {
+  test("keeps workspace routing queries on all Kappa-owned routed endpoints", () => {
     const spec = OpenApi.fromApi(PublicApi)
     const routes = [
       { method: "post", path: AgentBuilderPaths.preview },
@@ -182,9 +182,9 @@ describe("Kilo PublicApi OpenAPI contract", () => {
       { method: "get", path: ConfigConsolePaths.tuiConfig },
       { method: "get", path: ConfigConsolePaths.tuiKeybinds },
       { method: "patch", path: ConfigConsolePaths.tuiConfig },
-      { method: "get", path: KilocodePaths.providerUsage },
-      { method: "post", path: KilocodePaths.providerUsageRefresh },
-      { method: "get", path: KilocodePaths.sessionModelUsage },
+      { method: "get", path: KappacodePaths.providerUsage },
+      { method: "post", path: KappacodePaths.providerUsageRefresh },
+      { method: "get", path: KappacodePaths.sessionModelUsage },
       { method: "post", path: BranchNamePaths.generate },
       { method: "get", path: MemoryPaths.status },
       { method: "get", path: MemoryPaths.show },
@@ -209,7 +209,7 @@ describe("Kilo PublicApi OpenAPI contract", () => {
 
   test("keeps personal organization resets nullable", () => {
     const spec = OpenApi.fromApi(PublicApi)
-    const body = spec.paths[KiloGatewayPaths.organization]?.post?.requestBody as Body | undefined
+    const body = spec.paths[KappaGatewayPaths.organization]?.post?.requestBody as Body | undefined
     const schema = body?.content?.["application/json"]?.schema
     const props = schema?.properties
     expect(props?.organizationId).toEqual({ anyOf: [{ type: "string" }, { type: "null" }] })
@@ -224,14 +224,14 @@ describe("Kilo PublicApi OpenAPI contract", () => {
     expect(branch).toEqual({ anyOf: [{ type: "string" }, { type: "null" }] })
   })
 
-  test("keeps Kilo gateway responses nullable", () => {
+  test("keeps Kappa gateway responses nullable", () => {
     const spec = OpenApi.fromApi(PublicApi)
     const response = (path: string) => {
       const body = spec.paths[path]?.get?.responses?.["200"] as Body | undefined
       return body?.content?.["application/json"]?.schema
     }
 
-    const profile = response(KiloGatewayPaths.profile)?.properties
+    const profile = response(KappaGatewayPaths.profile)?.properties
     expect(profile?.balance).toEqual({ anyOf: [expect.objectContaining({ type: "object" }), { type: "null" }] })
     expect(profile?.kappaPass).toEqual({ anyOf: [expect.objectContaining({ type: "object" }), { type: "null" }] })
     expect(profile?.profile?.properties?.selectedOrganizationId).toEqual({ type: "string" })
@@ -240,14 +240,14 @@ describe("Kilo PublicApi OpenAPI contract", () => {
     expect(pass?.nextBillingAt).toEqual({ anyOf: [{ type: "string" }, { type: "null" }] })
     expect(profile?.currentOrgId).toEqual({ anyOf: [{ type: "string" }, { type: "null" }] })
 
-    const auth = response(KiloGatewayPaths.authStatus)?.properties
+    const auth = response(KappaGatewayPaths.authStatus)?.properties
     expect(auth).toEqual({
       authenticated: { type: "boolean" },
       type: { type: "string", enum: ["api", "oauth"] },
       organizationId: { type: "string" },
     })
 
-    const sessions = response(KiloGatewayPaths.cloudSessions)?.properties
+    const sessions = response(KappaGatewayPaths.cloudSessions)?.properties
     expect(sessions?.cliSessions?.items?.properties?.title).toEqual({
       anyOf: [{ type: "string" }, { type: "null" }],
     })
@@ -256,7 +256,7 @@ describe("Kilo PublicApi OpenAPI contract", () => {
 
   test("keeps transcription prompts in the public contract", () => {
     const spec = OpenApi.fromApi(PublicApi)
-    const body = spec.paths[KiloGatewayPaths.audioTranscriptions]?.post?.requestBody as Body | undefined
+    const body = spec.paths[KappaGatewayPaths.audioTranscriptions]?.post?.requestBody as Body | undefined
     const schema = body?.content?.["application/json"]?.schema
     expect(schema?.properties?.prompt).toEqual({ type: "string" })
   })
@@ -272,8 +272,8 @@ describe("Kilo PublicApi OpenAPI contract", () => {
     }
     const fields = keys(usage).map((key) => key.toLowerCase())
 
-    expect(spec.paths[KilocodePaths.providerUsage]?.get?.responses?.["200"]).toBeDefined()
-    expect(spec.paths[KilocodePaths.providerUsageRefresh]?.post?.responses?.["200"]).toBeDefined()
+    expect(spec.paths[KappacodePaths.providerUsage]?.get?.responses?.["200"]).toBeDefined()
+    expect(spec.paths[KappacodePaths.providerUsageRefresh]?.post?.responses?.["200"]).toBeDefined()
     expect(schemas.ProviderUsageSnapshot?.properties?.windows).toBeDefined()
     for (const forbidden of [
       "key",
@@ -296,7 +296,7 @@ describe("Kilo PublicApi OpenAPI contract", () => {
 
   test("documents the transcription model catalog route", () => {
     const spec = OpenApi.fromApi(PublicApi)
-    const route = spec.paths[KiloGatewayPaths.transcriptionModels]?.get
+    const route = spec.paths[KappaGatewayPaths.transcriptionModels]?.get
     const query = (route?.parameters as Parameter[] | undefined)?.map((item) => item.name)
 
     expect(query).toEqual(["directory", "workspace"])

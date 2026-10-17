@@ -4,7 +4,7 @@ import { ProviderTransform } from "@/provider/transform"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { SessionID } from "@/session/schema"
-import { KiloSessionPrompt } from "@/kappacode/session/prompt"
+import { KappaSessionPrompt } from "@/kappacode/session/prompt"
 
 function model(id: string, reasoning = true): Model {
   return {
@@ -36,7 +36,7 @@ function model(id: string, reasoning = true): Model {
 
 describe("session title generation", () => {
   test("uses an isolated task ID", () => {
-    expect(KiloSessionPrompt.titleID(SessionID.make("ses_test"))).toBe("title-ses_test")
+    expect(KappaSessionPrompt.titleID(SessionID.make("ses_test"))).toBe("title-ses_test")
   })
 
   test("uses the model default for reasoning-capable small models", () => {

@@ -12,7 +12,7 @@ import { Flag } from "@opencode-ai/core/flag/flag"
 import { applyEdits, modify, parse as parseJsonc } from "jsonc-parser"
 import type { RuntimeFlags } from "@/effect/runtime-flags"
 import { BoardEnabled } from "@/kappacode/board/enabled"
-import { KilocodeConfigSources } from "../config/sources"
+import { KappacodeConfigSources } from "../config/sources"
 
 import PROMPT_DEBUG from "../../agent/prompt/debug.txt"
 import PROMPT_ORCHESTRATOR from "../../agent/prompt/orchestrator.txt"
@@ -213,7 +213,7 @@ function askEditGuard() {
 // "always allow" in code mode or the allow-everything toggle would otherwise hand ask and
 // plan the arbitrary execution reported in #12053. Opt a single mode in with
 // `agent.<name>.permission`, which merges after patchAgents in agent.ts.
-// Exported so KiloTask.inherited carries the same set into delegated sessions; a tool
+// Exported so KappaTask.inherited carries the same set into delegated sessions; a tool
 // guarded here but not there would be reachable again through a subagent.
 export const guarded = ["bash", "task", "notebook_edit", "notebook_execute", "write", "agent_manager", "repo_clone"]
 
@@ -365,14 +365,14 @@ export function getMcpRules(cfg: Config.Info): Record<string, "allow" | "ask" | 
   return rules
 }
 
-export interface KiloData {
+export interface KappaData {
   mcpRules: Record<string, "allow" | "ask" | "deny">
   defaultsPatch: Permission.Ruleset
   board: boolean
 }
 
 // Prepare kappa-specific data derived from config. Call once per state initialization.
-export function prepare(cfg: Config.Info, flags: Pick<RuntimeFlags.Info, "experimentalSharedAgentBoard">): KiloData {
+export function prepare(cfg: Config.Info, flags: Pick<RuntimeFlags.Info, "experimentalSharedAgentBoard">): KappaData {
   const mcpRules = getMcpRules(cfg)
   const enabled = BoardEnabled.on(cfg, flags)
   const defaultsPatch = Permission.fromConfig({
@@ -421,7 +421,7 @@ export function preprocessConfig<T>(agentConfig: Record<string, T>): Record<stri
   return result
 }
 
-// Lift Kilo-internal metadata onto typed agent fields and remove it from `options`.
+// Lift Kappa-internal metadata onto typed agent fields and remove it from `options`.
 // Older org modes and marketplace agents stored `displayName`/`source` inside the
 // `options` record, which is otherwise forwarded verbatim to the provider as request
 // parameters. Promoting then deleting them keeps `options` provider-clean at the source
@@ -507,7 +507,7 @@ export function patchAgents(
   >,
   defaults: Permission.Ruleset,
   user: Permission.Ruleset,
-  kappa: KiloData,
+  kappa: KappaData,
   worktree: string,
   whitelistedDirs: string[],
 ) {
@@ -695,7 +695,7 @@ export async function remove(input: {
 
   const { unlink, writeFile } = await import("fs/promises")
   let found = false
-  const result = await KilocodeConfigSources.list({ directory: input.directory, worktree: input.worktree })
+  const result = await KappacodeConfigSources.list({ directory: input.directory, worktree: input.worktree })
   const sources = result.sources.filter((source) => !input.scope || source.scope === input.scope)
   const roots = new Set(
     sources.flatMap((source) => {
@@ -725,14 +725,14 @@ export async function remove(input: {
 
   // 2. Remove from legacy .kappacodemodes YAML files (read by ModesMigrator)
   const { ModesMigrator } = await import("@/kappacode/modes-migrator")
-  const { KilocodePaths } = await import("@/kappacode/paths")
+  const { KappacodePaths } = await import("@/kappacode/paths")
   const os = await import("os")
   const matter = (await import("gray-matter")).default
   const home = os.default.homedir()
   const legacy = [
     {
       scope: "global" as const,
-      file: path.join(KilocodePaths.vscodeGlobalStorage(), "settings", "custom_modes.yaml"),
+      file: path.join(KappacodePaths.vscodeGlobalStorage(), "settings", "custom_modes.yaml"),
     },
     {
       scope: "global" as const,
@@ -762,7 +762,7 @@ export async function remove(input: {
   if (!found) throw new RemoveError({ name: input.name, message: "no agent file found on disk" })
 }
 
-async function removeConfigAgent(name: string, sources: KilocodeConfigSources.Source[]) {
+async function removeConfigAgent(name: string, sources: KappacodeConfigSources.Source[]) {
   const files = sources
     .filter((source) => source.exists && source.editable && source.path && source.kind.endsWith("-file"))
     .map((source) => source.path!)

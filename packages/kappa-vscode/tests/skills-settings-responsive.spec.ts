@@ -85,7 +85,7 @@ test.describe("skills settings responsive layout", () => {
       // path is visible without resizing.
       await trigger.hover()
       const content = page.locator('[data-component="tooltip"]').filter({ hasText: seeded })
-      await expect(content, `Kilo Tooltip exposes full path on hover: ${seeded}`).toBeVisible()
+      await expect(content, `Kappa Tooltip exposes full path on hover: ${seeded}`).toBeVisible()
       await assertTooltipFitsViewport(content, `path tooltip "${seeded}"`, page)
     }
 
@@ -112,7 +112,7 @@ test.describe("skills settings responsive layout", () => {
       // URL is visible without resizing.
       await trigger.hover()
       const content = page.locator('[data-component="tooltip"]').filter({ hasText: seeded })
-      await expect(content, `Kilo Tooltip exposes full URL on hover: ${seeded}`).toBeVisible()
+      await expect(content, `Kappa Tooltip exposes full URL on hover: ${seeded}`).toBeVisible()
       await assertTooltipFitsViewport(content, `URL tooltip "${seeded}"`, page)
     }
 

@@ -200,7 +200,7 @@ export namespace MemoryRecall {
     const typed = hits.filter((hit) => hit.type === "typed")
     const digests = hits.filter((hit) => hit.type === "digest")
     return [
-      "# Kilo Memory Recall",
+      "# Kappa Memory Recall",
       ...(typed.length ? ["", "## Typed Memory", ...typed.map(renderLine)] : []),
       ...(digests.length ? ["", "## Session Digests", ...digests.map(renderLine)] : []),
     ].join("\n")

@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "bun:test"
-import { createKiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient } from "@kappacode/sdk/v2"
 import { Server } from "../../src/server/server"
 import { disposeAllInstances, tmpdir } from "../fixture/fixture"
 import { resetDatabase } from "../fixture/db"
@@ -11,7 +11,7 @@ afterEach(async () => {
 
 test("blocking TUI bootstrap requests complete", async () => {
   await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-  const client = createKiloClient({
+  const client = createKappaClient({
     baseUrl: "http://kappa.internal",
     directory: tmp.path,
     fetch: ((request: RequestInfo | URL, init?: RequestInit) =>

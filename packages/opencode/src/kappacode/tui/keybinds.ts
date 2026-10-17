@@ -1,7 +1,7 @@
 import { TuiKeybind } from "@opencode-ai/tui/config/keybind"
 import { Schema } from "effect"
 
-export namespace KilocodeKeybinds {
+export namespace KappacodeKeybinds {
   export const Info = Schema.Struct({
     id: Schema.String,
     label: Schema.String,

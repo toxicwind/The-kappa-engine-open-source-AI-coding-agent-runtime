@@ -10,7 +10,7 @@ import { Question } from "@/question"
  * Extracted here so the shared tool file keeps just a one-liner pipe plus an
  * early return, minimising the surface area that conflicts with upstream.
  */
-export namespace KiloQuestionTool {
+export namespace KappaQuestionTool {
   const DISMISSED = "dismissed" as const
   type Dismissed = typeof DISMISSED
 

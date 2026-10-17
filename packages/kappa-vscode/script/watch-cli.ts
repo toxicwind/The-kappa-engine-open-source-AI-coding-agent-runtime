@@ -11,11 +11,11 @@ import { join, relative } from "node:path"
 import { $ } from "bun"
 import { copySandboxResources, copyTreeSitterResources } from "../src/services/cli-backend/cli-resources"
 
-const kiloVscodeDir = join(import.meta.dir, "..")
-const packagesDir = join(kiloVscodeDir, "..")
+const kappaVscodeDir = join(import.meta.dir, "..")
+const packagesDir = join(kappaVscodeDir, "..")
 const opencodeDir = join(packagesDir, "opencode")
 const opencodeSrcDir = join(opencodeDir, "src")
-const targetBinDir = join(kiloVscodeDir, "bin")
+const targetBinDir = join(kappaVscodeDir, "bin")
 const targetBinPath = join(targetBinDir, "kappa")
 
 let building = false
@@ -76,7 +76,7 @@ async function rebuild() {
 await rebuild()
 
 // Watch for changes
-log(`Watching ${relative(kiloVscodeDir, opencodeSrcDir)}/ for changes...`)
+log(`Watching ${relative(kappaVscodeDir, opencodeSrcDir)}/ for changes...`)
 
 const debounce = 500
 let timer: ReturnType<typeof setTimeout> | null = null

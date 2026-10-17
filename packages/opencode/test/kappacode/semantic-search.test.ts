@@ -4,7 +4,7 @@ import path from "path"
 import { Effect, Layer, ManagedRuntime } from "effect"
 import { Agent } from "../../src/agent/agent"
 import { SemanticSearchTool } from "../../src/kappacode/tool/semantic-search"
-import { KiloIndexing } from "../../src/kappacode/indexing"
+import { KappaIndexing } from "../../src/kappacode/indexing"
 import { provideTestInstance } from "../fixture/fixture"
 import { tmpdir } from "../fixture/fixture"
 import type { Permission } from "../../src/permission"
@@ -23,7 +23,7 @@ const complete = {
   processedFiles: 0,
   totalFiles: 0,
   percent: 100,
-} satisfies KiloIndexing.Status
+} satisfies KappaIndexing.Status
 
 async function initTool() {
   return rt.runPromise(
@@ -64,8 +64,8 @@ describe("tool.semantic_search", () => {
       directory: tmp.path,
       fn: async () => {
         const requests: Array<Omit<Permission.Request, "id" | "sessionID" | "tool">> = []
-        const search = spyOn(KiloIndexing, "search").mockResolvedValue([])
-        const status = spyOn(KiloIndexing, "current").mockResolvedValue(complete)
+        const search = spyOn(KappaIndexing, "search").mockResolvedValue([])
+        const status = spyOn(KappaIndexing, "current").mockResolvedValue(complete)
 
         try {
           const tool = await initTool()
@@ -111,8 +111,8 @@ describe("tool.semantic_search", () => {
     await provideTestInstance({
       directory: tmp.path,
       fn: async () => {
-        const search = spyOn(KiloIndexing, "search").mockResolvedValue([])
-        const status = spyOn(KiloIndexing, "current").mockResolvedValue(complete)
+        const search = spyOn(KappaIndexing, "search").mockResolvedValue([])
+        const status = spyOn(KappaIndexing, "current").mockResolvedValue(complete)
 
         try {
           const tool = await initTool()
@@ -139,7 +139,7 @@ describe("tool.semantic_search", () => {
     await provideTestInstance({
       directory: tmp.path,
       fn: async () => {
-        const search = spyOn(KiloIndexing, "search").mockResolvedValue([
+        const search = spyOn(KappaIndexing, "search").mockResolvedValue([
           {
             id: "1",
             score: 0.812345,
@@ -195,7 +195,7 @@ describe("tool.semantic_search", () => {
     await provideTestInstance({
       directory: tmp.path,
       fn: async () => {
-        const search = spyOn(KiloIndexing, "search").mockResolvedValue([])
+        const search = spyOn(KappaIndexing, "search").mockResolvedValue([])
 
         try {
           const tool = await initTool()

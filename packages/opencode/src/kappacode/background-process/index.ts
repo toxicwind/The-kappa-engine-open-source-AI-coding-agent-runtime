@@ -4,7 +4,7 @@ import { InstanceState } from "@/effect/instance-state"
 import { makeRuntime } from "@/effect/run-service"
 import { Identifier } from "@/id/id"
 import { Instance, type InstanceContext } from "@/kappacode/instance"
-import { KiloShutdown } from "@/kappacode/cli/shutdown"
+import { KappaShutdown } from "@/kappacode/cli/shutdown"
 import { model as modelEnv } from "@/kappacode/process/env"
 import { SessionID } from "@/session/schema"
 import { Shell } from "@opencode-ai/core/shell"
@@ -271,7 +271,7 @@ export namespace BackgroundProcess {
         return true
       })
       .catch((err) => {
-        log.debug("persistent process scope is managed by another Kilo process", { err, scope: shared.key })
+        log.debug("persistent process scope is managed by another Kappa process", { err, scope: shared.key })
         return false
       })
       .finally(() => {
@@ -960,7 +960,7 @@ export namespace BackgroundProcess {
     if (logpath) {
       await secure(state.shared)
       if (!(await claim(state.shared)))
-        throw new Error("Persistent processes for this project are managed by another Kilo process")
+        throw new Error("Persistent processes for this project are managed by another Kappa process")
       await Filesystem.write(logpath, "", 0o600)
     }
     const cmd =
@@ -1222,7 +1222,7 @@ export namespace BackgroundProcess {
   )
 
   const runtime = makeRuntime(StateService, stateLayer)
-  KiloShutdown.register(() => runtime.dispose())
+  KappaShutdown.register(() => runtime.dispose())
 
   function state() {
     return runtime.runPromise((svc) => svc.get())

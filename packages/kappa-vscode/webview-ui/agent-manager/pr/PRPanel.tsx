@@ -239,7 +239,7 @@ export const PRPanel: Component<PRPanelProps> = (props) => {
           <span class="am-pr-panel-number">#{props.pr.number}</span>
         </div>
         <div class="am-pr-panel-actions am-pr-row">
-          {/* Fix mode: whether "Fix with Kilo" also commits and pushes so the PR updates. */}
+          {/* Fix mode: whether "Fix with Kappa" also commits and pushes so the PR updates. */}
           <Tooltip value={t("settings.agentBehaviour.pushFixes.description")} placement="bottom">
             <IconButton
               icon="cloud-upload"

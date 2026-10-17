@@ -1,11 +1,11 @@
 ---
 title: "What you can ask"
-description: "Example prompts for Kilo Desktop, mapped to the capability each one uses."
+description: "Example prompts for Kappa Desktop, mapped to the capability each one uses."
 ---
 
 # What you can ask
 
-Kilo Desktop's agent works across the tools in your workspace. Describe what you want in plain language, and the agent uses the matching capability. The table below maps common intents to example prompts and the [feature](/docs/desktop/features) they use.
+Kappa Desktop's agent works across the tools in your workspace. Describe what you want in plain language, and the agent uses the matching capability. The table below maps common intents to example prompts and the [feature](/docs/desktop/features) they use.
 
 | What you want | Example prompt | Capability |
 |---|---|---|

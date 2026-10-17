@@ -19,7 +19,7 @@ function withNvidiaKey<A, E, R>(self: Effect.Effect<A, E, R>) {
   })
 }
 
-it.live("nvidia provider includes KiloCode billing origin header", () =>
+it.live("nvidia provider includes KappaCode billing origin header", () =>
   provideTmpdirInstance(() =>
     withNvidiaKey(
       Provider.Service.use((provider) =>
@@ -28,8 +28,8 @@ it.live("nvidia provider includes KiloCode billing origin header", () =>
           const headers = providers[ProviderV2.ID.make("nvidia")].options.headers
 
           expect(headers["HTTP-Referer"]).toBe("https://kappa.ai/")
-          expect(headers["X-Title"]).toBe("Kilo Code")
-          expect(headers["X-BILLING-INVOKE-ORIGIN"]).toBe("KiloCode")
+          expect(headers["X-Title"]).toBe("Kappa Code")
+          expect(headers["X-BILLING-INVOKE-ORIGIN"]).toBe("KappaCode")
         }),
       ),
     ),
@@ -64,7 +64,7 @@ it.live("nvidia billing origin header can be overridden from config", () =>
             const headers = providers[ProviderV2.ID.make("nvidia")].options.headers
 
             expect(headers["HTTP-Referer"]).toBe("https://kappa.ai/")
-            expect(headers["X-Title"]).toBe("Kilo Code")
+            expect(headers["X-Title"]).toBe("Kappa Code")
             expect(headers["X-BILLING-INVOKE-ORIGIN"]).toBe("CustomOrigin")
           }),
         ),

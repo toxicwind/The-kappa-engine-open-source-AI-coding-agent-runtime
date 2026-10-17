@@ -18,10 +18,10 @@ import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import path from "path"
 import { Global } from "@opencode-ai/core/global"
 import { modify, applyEdits } from "jsonc-parser"
-// kilocode_change - KilocodeMcpConfig is dynamically imported in addMcpToConfig to keep startup fast
+// kappacode_change - KappacodeMcpConfig is dynamically imported in addMcpToConfig to keep startup fast
 import { Filesystem } from "@/util/filesystem"
 import { Effect } from "effect"
-import { Flag } from "@opencode-ai/core/flag/flag" // kilocode_change
+import { Flag } from "@opencode-ai/core/flag/flag" // kappacode_change
 
 function getAuthStatusIcon(status: MCP.AuthStatus): string {
   switch (status) {
@@ -121,7 +121,7 @@ export const McpListCommand = effectCmd({
 
     if (servers.length === 0) {
       prompts.log.warn("No MCP servers configured")
-      prompts.outro("Add servers with: kappa mcp add") // kilocode_change
+      prompts.outro("Add servers with: kappa mcp add") // kappacode_change
       return
     }
 
@@ -189,7 +189,7 @@ export const McpAuthCommand = effectCmd({
 
     if (servers.length === 0) {
       prompts.log.warn("No OAuth-capable MCP servers configured")
-      prompts.log.info("Remote MCP servers support OAuth by default. Add a remote server in kappa.json:") // kilocode_change
+      prompts.log.info("Remote MCP servers support OAuth by default. Add a remote server in kappa.json:") // kappacode_change
       prompts.log.info(`
   "mcp": {
     "my-server": {
@@ -394,7 +394,7 @@ export const McpLogoutCommand = effectCmd({
 })
 
 async function resolveConfigPath(baseDir: string, global = false) {
-  // kilocode_change start - prefer supported Kilo config directories over root files
+  // kappacode_change start - prefer supported Kappa config directories over root files
   const roots = [
     path.join(baseDir, "kappa.jsonc"),
     path.join(baseDir, "kappa.json"),
@@ -408,10 +408,10 @@ async function resolveConfigPath(baseDir: string, global = false) {
         path.join(baseDir, ".kappa", "kappa.json"),
         path.join(baseDir, ".kappa", "opencode.jsonc"),
         path.join(baseDir, ".kappa", "opencode.json"),
-        path.join(baseDir, ".kilocode", "kappa.jsonc"),
-        path.join(baseDir, ".kilocode", "kappa.json"),
-        path.join(baseDir, ".kilocode", "opencode.jsonc"),
-        path.join(baseDir, ".kilocode", "opencode.json"),
+        path.join(baseDir, ".kappacode", "kappa.jsonc"),
+        path.join(baseDir, ".kappacode", "kappa.json"),
+        path.join(baseDir, ".kappacode", "opencode.jsonc"),
+        path.join(baseDir, ".kappacode", "opencode.json"),
         ...roots,
       ]
 
@@ -423,7 +423,7 @@ async function resolveConfigPath(baseDir: string, global = false) {
 
   // Default to kappa.json if none exist
   return path.join(baseDir, "kappa.json")
-  // kilocode_change end
+  // kappacode_change end
 }
 
 async function addMcpToConfig(name: string, mcpConfig: ConfigMCPV1.Info, configPath: string) {
@@ -436,10 +436,10 @@ async function addMcpToConfig(name: string, mcpConfig: ConfigMCPV1.Info, configP
   const edits = modify(text, ["mcp", name], mcpConfig, {
     formattingOptions: { tabSize: 2, insertSpaces: true },
   })
-  // kilocode_change start - lazy import keeps the CLI startup graph light
-  const { KilocodeMcpConfig } = await import("@/kilocode/cli/cmd/mcp")
-  const result = KilocodeMcpConfig.format(configPath, applyEdits(text, edits))
-  // kilocode_change end
+  // kappacode_change start - lazy import keeps the CLI startup graph light
+  const { KappacodeMcpConfig } = await import("@/kappacode/cli/cmd/mcp")
+  const result = KappacodeMcpConfig.format(configPath, applyEdits(text, edits))
+  // kappacode_change end
 
   await Filesystem.write(configPath, result)
 
@@ -473,7 +473,7 @@ export const McpAddCommand = effectCmd({
     const maybeCtx = yield* InstanceRef
     if (!maybeCtx) return yield* Effect.die("InstanceRef not provided")
     const ctx = maybeCtx
-    const global = Flag.KILO_CONFIG_DIR ?? Global.Path.config // kilocode_change - honor the active Kilo config profile
+    const global = Flag.KILO_CONFIG_DIR ?? Global.Path.config // kappacode_change - honor the active Kappa config profile
     yield* Effect.promise(async () => {
       const command = args["--"] ?? []
       if (!args.name && (args.url || args.env?.length || args.header?.length || command.length)) {
@@ -515,7 +515,7 @@ export const McpAddCommand = effectCmd({
               ...(Object.keys(environment).length ? { environment } : {}),
             }
 
-        const configPath = await resolveConfigPath(global, true) // kilocode_change
+        const configPath = await resolveConfigPath(global, true) // kappacode_change
         await addMcpToConfig(args.name, mcpConfig, configPath)
         prompts.log.success(`MCP server "${args.name}" added to ${configPath}`)
         return
@@ -529,7 +529,7 @@ export const McpAddCommand = effectCmd({
       // Resolve config paths eagerly for hints
       const [projectConfigPath, globalConfigPath] = await Promise.all([
         resolveConfigPath(ctx.worktree),
-        resolveConfigPath(global, true), // kilocode_change
+        resolveConfigPath(global, true), // kappacode_change
       ])
 
       // Determine scope
@@ -580,7 +580,7 @@ export const McpAddCommand = effectCmd({
       if (type === "local") {
         const command = await prompts.text({
           message: "Enter command to run",
-          placeholder: "e.g., kappa x @modelcontextprotocol/server-filesystem", // kilocode_change
+          placeholder: "e.g., kappa x @modelcontextprotocol/server-filesystem", // kappacode_change
           validate: (x) => (x && x.length > 0 ? undefined : "Required"),
         })
         if (prompts.isCancel(command)) throw new UI.CancelledError()
@@ -767,7 +767,7 @@ export const McpDebugCommand = effectCmd({
             params: {
               protocolVersion: LATEST_PROTOCOL_VERSION,
               capabilities: {},
-              clientInfo: { name: "kappa-debug", version: InstallationVersion }, // kilocode_change
+              clientInfo: { name: "kappa-debug", version: InstallationVersion }, // kappacode_change
             },
             id: 1,
           }),
@@ -811,7 +811,7 @@ export const McpDebugCommand = effectCmd({
 
           try {
             const client = new Client({
-              name: "kappa-debug", // kilocode_change
+              name: "kappa-debug", // kappacode_change
               version: InstallationVersion,
             })
             await client.connect(transport)

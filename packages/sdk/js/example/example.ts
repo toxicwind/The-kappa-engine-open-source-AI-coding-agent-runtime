@@ -1,8 +1,8 @@
-import { createKiloClient, createKiloServer } from "@kappacode/sdk"
+import { createKappaClient, createKappaServer } from "@kappacode/sdk"
 import { pathToFileURL } from "bun"
 
-const server = await createKiloServer()
-const client = createKiloClient({ baseUrl: server.url })
+const server = await createKappaServer()
+const client = createKappaClient({ baseUrl: server.url })
 
 const input = await Array.fromAsync(new Bun.Glob("packages/core/*.ts").scan())
 

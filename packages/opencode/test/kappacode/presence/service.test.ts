@@ -5,11 +5,11 @@ import { Auth } from "@/auth"
 const attachedCalls: string[][] = []
 
 const realSessions = await import("@/kappa-sessions/kappa-sessions")
-const realSetAttached = realSessions.KiloSessions.setAttachedSessions
+const realSetAttached = realSessions.KappaSessions.setAttachedSessions
 mock.module("@/kappa-sessions/kappa-sessions", () => ({
   ...realSessions,
-  KiloSessions: {
-    ...realSessions.KiloSessions,
+  KappaSessions: {
+    ...realSessions.KappaSessions,
     setAttachedSessions: (ids: readonly string[]) => {
       attachedCalls.push([...ids])
       realSetAttached(ids)
@@ -17,7 +17,7 @@ mock.module("@/kappa-sessions/kappa-sessions", () => ({
   },
 }))
 
-const { KiloViewers } = await import("@/kappacode/presence/service")
+const { KappaViewers } = await import("@/kappacode/presence/service")
 
 const authLayer = Layer.succeed(
   Auth.Service,
@@ -29,7 +29,7 @@ const authLayer = Layer.succeed(
   }),
 )
 
-const layer = KiloViewers.layer.pipe(Layer.provide(authLayer))
+const layer = KappaViewers.layer.pipe(Layer.provide(authLayer))
 
 const uid = "11111111-1111-4111-8111-111111111111"
 
@@ -42,13 +42,13 @@ function run(body: (viewers: {
   invalidateAuth: () => Effect.Effect<void>
 }) => Effect.Effect<void>) {
   return Effect.gen(function* () {
-    const v = yield* KiloViewers.Service
+    const v = yield* KappaViewers.Service
     yield* body(v)
   }).pipe(Effect.provide(layer), Effect.runPromise)
 }
 
-describe("KiloViewers.Service", () => {
-  test("pushes the attached union to KiloSessions on change", async () => {
+describe("KappaViewers.Service", () => {
+  test("pushes the attached union to KappaSessions on change", async () => {
     attachedCalls.length = 0
     await run((v) => v.update({ viewer: { id: uid, active: true }, attached: ["ses_a"], visible: ["ses_a"] }))
     expect(attachedCalls).toEqual([["ses_a"], []])

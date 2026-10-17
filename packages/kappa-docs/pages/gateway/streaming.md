@@ -1,11 +1,11 @@
 ---
 title: "Streaming"
-description: "Learn how to implement real-time streaming responses with the Kilo AI Gateway using Server-Sent Events (SSE)."
+description: "Learn how to implement real-time streaming responses with the Kappa AI Gateway using Server-Sent Events (SSE)."
 ---
 
 # Streaming
 
-The Kilo AI Gateway supports streaming responses from all models using Server-Sent Events (SSE). Streaming allows your application to display tokens as they're generated, providing a more responsive user experience.
+The Kappa AI Gateway supports streaming responses from all models using Server-Sent Events (SSE). Streaming allows your application to display tokens as they're generated, providing a more responsive user experience.
 
 ## Enabling streaming
 

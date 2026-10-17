@@ -36,7 +36,7 @@ function describe(item: MarketplaceItem): string {
 
 /**
  * Show a native VS Code notification for a matched item, offering a direct install,
- * a "View details" action that opens the item in the Kilo Marketplace panel, and a
+ * a "View details" action that opens the item in the Kappa Marketplace panel, and a
  * persistent "Don't show again" dismissal. Resolves with the user's choice, or
  * `undefined` if the toast was closed without picking an action.
  */
@@ -45,7 +45,7 @@ export async function showSuggestionNotification(item: MarketplaceItem): Promise
   const details = "View details"
   const dismiss = "Don't show again"
   const picked = await vscode.window.showInformationMessage(
-    `Kilo found ${describe(item)} that matches this workspace. Install it?`,
+    `Kappa found ${describe(item)} that matches this workspace. Install it?`,
     install,
     details,
     dismiss,

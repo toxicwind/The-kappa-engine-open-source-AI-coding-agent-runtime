@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import * as vscode from "vscode"
-import { KiloConnectionService } from "./connection-service"
+import { KappaConnectionService } from "./connection-service"
 import type { SSEPayload } from "./sdk-sse-adapter"
 
 function state(value: boolean) {
@@ -10,9 +10,9 @@ function state(value: boolean) {
   }
 }
 
-describe("KiloConnectionService sandbox preference", () => {
+describe("KappaConnectionService sandbox preference", () => {
   test("uses workspace state instead of extension-global state", () => {
-    const service = new KiloConnectionService({
+    const service = new KappaConnectionService({
       workspaceState: state(false),
       globalState: state(true),
     } as any)
@@ -21,9 +21,9 @@ describe("KiloConnectionService sandbox preference", () => {
   })
 })
 
-describe("KiloConnectionService visible sessions", () => {
+describe("KappaConnectionService visible sessions", () => {
   test("reports a session as visible while any surface displays it", () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
 
     expect(service.isVisible("ses-1")).toBe(false)
 
@@ -44,9 +44,9 @@ describe("KiloConnectionService visible sessions", () => {
   })
 })
 
-describe("KiloConnectionService clients", () => {
+describe("KappaConnectionService clients", () => {
   test("returns a connected client without a workspace folder", async () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const client = {}
     const workspace = vscode.workspace as { workspaceFolders?: readonly vscode.WorkspaceFolder[] }
     const folders = workspace.workspaceFolders
@@ -63,7 +63,7 @@ describe("KiloConnectionService clients", () => {
   })
 })
 
-describe("KiloConnectionService explicit aborts", () => {
+describe("KappaConnectionService explicit aborts", () => {
   const close = {
     id: "event-close",
     type: "session.turn.close",
@@ -71,7 +71,7 @@ describe("KiloConnectionService explicit aborts", () => {
   } as SSEPayload
 
   function setup() {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const raw: SSEPayload[] = []
     const first: SSEPayload[] = []
     const second: SSEPayload[] = []
@@ -115,9 +115,9 @@ describe("KiloConnectionService explicit aborts", () => {
   })
 })
 
-describe("KiloConnectionService viewed sessions", () => {
+describe("KappaConnectionService viewed sessions", () => {
   test("keeps Agent Manager sessions when sidebar visibility changes during a flush", async () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const calls: Array<{ viewer: { id: string; active: boolean }; attached: string[]; visible: string[] }> = []
     let release!: () => void
     const gate = new Promise<void>((resolve) => {
@@ -174,7 +174,7 @@ describe("KiloConnectionService viewed sessions", () => {
     }
 
     try {
-      const service = new KiloConnectionService({} as any)
+      const service = new KappaConnectionService({} as any)
       const calls: Array<{ viewer: { id: string; active: boolean }; attached: string[]; visible: string[] }> = []
       ;(service as any).client = {
         session: {
@@ -202,7 +202,7 @@ describe("KiloConnectionService viewed sessions", () => {
   })
 
   test("sends snapshots while remote control is disabled", async () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const calls: Array<{ viewer: { id: string; active: boolean }; attached: string[]; visible: string[] }> = []
     ;(service as any).client = {
       session: {
@@ -226,9 +226,9 @@ describe("KiloConnectionService viewed sessions", () => {
   })
 })
 
-describe("KiloConnectionService drainPendingPrompts", () => {
+describe("KappaConnectionService drainPendingPrompts", () => {
   test("ignores stale NotFoundError replies while draining permissions", async () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const client = {
       project: {
         list: async () => ({ data: [] }),
@@ -255,7 +255,7 @@ describe("KiloConnectionService drainPendingPrompts", () => {
   })
 
   test("drains four directories concurrently and suggestions once", async () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const dirs = ["/tmp/a", "/tmp/b", "/tmp/c", "/tmp/d", "/tmp/e"]
     const gates = new Map(dirs.map((dir) => [dir, Promise.withResolvers<void>()]))
     const fifth = Promise.withResolvers<void>()
@@ -316,7 +316,7 @@ describe("KiloConnectionService drainPendingPrompts", () => {
   })
 
   test("waits for active drains and skips queued directories after a failure", async () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const dirs = ["/tmp/a", "/tmp/b", "/tmp/c", "/tmp/d", "/tmp/e"]
     const release = Promise.withResolvers<void>()
     const calls: string[] = []
@@ -359,9 +359,9 @@ describe("KiloConnectionService drainPendingPrompts", () => {
   })
 })
 
-describe("KiloConnectionService server exit handling", () => {
+describe("KappaConnectionService server exit handling", () => {
   test("reports signal name when process is killed by signal", () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     let stateErr: Error | undefined
     service.onStateChange((state, err) => {
       if (state === "error") stateErr = err
@@ -371,7 +371,7 @@ describe("KiloConnectionService server exit handling", () => {
   })
 
   test("reports exit code when process exits normally with code", () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     let stateErr: Error | undefined
     service.onStateChange((state, err) => {
       if (state === "error") stateErr = err

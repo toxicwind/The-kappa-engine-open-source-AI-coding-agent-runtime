@@ -1,13 +1,13 @@
 ---
 title: "Notebooks"
-description: "Analyze data in interactive Python notebooks alongside your chat in Kilo Desktop."
+description: "Analyze data in interactive Python notebooks alongside your chat in Kappa Desktop."
 ---
 
 # Notebooks
 
 Open interactive Python notebooks in a tab next to your chat, so you can explore and visualize data without leaving the conversation. A notebook is a shared document you and the agent build together: you edit and run cells directly, while the agent reads, writes, and runs cells alongside you as you talk through the analysis. Notebooks run on a dedicated notebook runtime.
 
-{% image src="/docs/img/desktop/notebooks-with-chat.png" alt="A Python notebook open beside a chat in Kilo Desktop" width="800" /%}
+{% image src="/docs/img/desktop/notebooks-with-chat.png" alt="A Python notebook open beside a chat in Kappa Desktop" width="800" /%}
 
 ## Open a notebook
 

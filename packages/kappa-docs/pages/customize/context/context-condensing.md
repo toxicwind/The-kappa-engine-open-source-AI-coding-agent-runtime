@@ -7,7 +7,7 @@ description: "Manage conversation context to optimize token usage and maintain l
 
 ## Overview
 
-When working on complex tasks, conversations with Kilo Code can grow long and consume a significant portion of the AI model's context window. **Context Condensing** is a feature that intelligently summarizes your conversation history, reducing token usage while preserving the essential information needed to continue your work effectively.
+When working on complex tasks, conversations with Kappa Code can grow long and consume a significant portion of the AI model's context window. **Context Condensing** is a feature that intelligently summarizes your conversation history, reducing token usage while preserving the essential information needed to continue your work effectively.
 
 ## The Problem: Context Window Limits
 
@@ -22,7 +22,7 @@ Every AI model has a maximum context window — a limit on how much text it can 
 
 ## The Solution: Auto-Compaction
 
-Kilo Code uses a **Compaction** system to manage context automatically. When your conversation approaches the token limit, compaction kicks in and produces an anchored summary that captures:
+Kappa Code uses a **Compaction** system to manage context automatically. When your conversation approaches the token limit, compaction kicks in and produces an anchored summary that captures:
 
 - The overall goal of the session
 - Constraints and preferences you gave along the way
@@ -30,15 +30,15 @@ Kilo Code uses a **Compaction** system to manage context automatically. When you
 - Critical context needed to continue
 - Relevant files and directories
 
-This summary replaces older conversation history while Kilo keeps the most recent turns verbatim when they fit. If a session has already been compacted, Kilo updates the previous summary instead of starting over, preserving still-relevant details and removing stale ones.
+This summary replaces older conversation history while Kappa keeps the most recent turns verbatim when they fit. If a session has already been compacted, Kappa updates the previous summary instead of starting over, preserving still-relevant details and removing stale ones.
 
 ## How Compaction Triggers
 
 ### Automatic trigger
 
-Kilo checks provider-reported usage after each response and estimates the outgoing text, system instructions, and tool definitions before contacting the provider. Compaction runs when either count reaches `compaction.threshold_percent`, or when the remaining window hits the reserved safety buffer, whichever happens first.
+Kappa checks provider-reported usage after each response and estimates the outgoing text, system instructions, and tool definitions before contacting the provider. Compaction runs when either count reaches `compaction.threshold_percent`, or when the remaining window hits the reserved safety buffer, whichever happens first.
 
-How the buffer is chosen depends on what the model declares. When the model advertises a separate input limit, the buffer defaults to 20,000 tokens (or the model's maximum output size, whichever is smaller). When the model only declares a single context window, Kilo instead reserves the model's full output cap — up to 32,000 tokens.
+How the buffer is chosen depends on what the model declares. When the model advertises a separate input limit, the buffer defaults to 20,000 tokens (or the model's maximum output size, whichever is smaller). When the model only declares a single context window, Kappa instead reserves the model's full output cap — up to 32,000 tokens.
 
 `compaction.threshold_percent` is optional. Set it from `1` to `100` to compact at that percentage of the model input or context window.
 
@@ -46,7 +46,7 @@ Custom models that do not declare a context window are not tracked, and auto-com
 
 ### Context Pruning
 
-Between turns, Kilo also runs a lighter **prune** pass. It walks completed tool outputs outside a 40,000-token recency window and replaces them with `"[Old tool result content cleared]"`. Pruning runs incrementally so large tool outputs don't consume space forever, even before full compaction is needed.
+Between turns, Kappa also runs a lighter **prune** pass. It walks completed tool outputs outside a 40,000-token recency window and replaces them with `"[Old tool result content cleared]"`. Pruning runs incrementally so large tool outputs don't consume space forever, even before full compaction is needed.
 
 ### Manual Compaction
 
@@ -124,7 +124,7 @@ The selection applies to automatic and manual compaction without changing your c
 
 ## The Solution: Auto-Compaction
 
-Kilo CLI uses a **Compaction** system to manage context automatically. When your conversation approaches the token limit, compaction kicks in and produces an anchored summary that captures:
+Kappa CLI uses a **Compaction** system to manage context automatically. When your conversation approaches the token limit, compaction kicks in and produces an anchored summary that captures:
 
 - The overall goal of the session
 - Constraints and preferences you gave along the way
@@ -132,15 +132,15 @@ Kilo CLI uses a **Compaction** system to manage context automatically. When your
 - Critical context needed to continue
 - Relevant files and directories
 
-This summary replaces older conversation history while Kilo keeps the most recent turns verbatim when they fit. If a session has already been compacted, Kilo updates the previous summary instead of starting over, preserving still-relevant details and removing stale ones.
+This summary replaces older conversation history while Kappa keeps the most recent turns verbatim when they fit. If a session has already been compacted, Kappa updates the previous summary instead of starting over, preserving still-relevant details and removing stale ones.
 
 ## How Compaction Triggers
 
 ### Automatic trigger
 
-Kilo checks provider-reported usage after each response and estimates the outgoing text, system instructions, and tool definitions before contacting the provider. Compaction runs when either count reaches `compaction.threshold_percent`, or when the remaining window hits the reserved safety buffer, whichever happens first.
+Kappa checks provider-reported usage after each response and estimates the outgoing text, system instructions, and tool definitions before contacting the provider. Compaction runs when either count reaches `compaction.threshold_percent`, or when the remaining window hits the reserved safety buffer, whichever happens first.
 
-How the buffer is chosen depends on what the model declares. When the model advertises a separate input limit, the buffer defaults to 20,000 tokens (or the model's maximum output size, whichever is smaller). When the model only declares a single context window, Kilo instead reserves the model's full output cap — up to 32,000 tokens.
+How the buffer is chosen depends on what the model declares. When the model advertises a separate input limit, the buffer defaults to 20,000 tokens (or the model's maximum output size, whichever is smaller). When the model only declares a single context window, Kappa instead reserves the model's full output cap — up to 32,000 tokens.
 
 `compaction.threshold_percent` is optional. Set it from `1` to `100` to compact at that percentage of the model input or context window.
 
@@ -148,7 +148,7 @@ How the buffer is chosen depends on what the model declares. When the model adve
 
 ### Context Pruning
 
-Between turns, Kilo also runs a lighter **prune** pass. It walks completed tool outputs outside a 40,000-token recency window and replaces them with `"[Old tool result content cleared]"`. Pruning runs incrementally so large tool outputs don't consume space forever, even before full compaction is needed.
+Between turns, Kappa also runs a lighter **prune** pass. It walks completed tool outputs outside a 40,000-token recency window and replaces them with `"[Old tool result content cleared]"`. Pruning runs incrementally so large tool outputs don't consume space forever, even before full compaction is needed.
 
 ### Manual Compaction
 

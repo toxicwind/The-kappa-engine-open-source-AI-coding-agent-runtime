@@ -1,7 +1,7 @@
 /**
- * Localization lint: unused translation keys (all Kilo-owned pools)
+ * Localization lint: unused translation keys (all Kappa-owned pools)
  *
- * Ensures every key in every Kilo-owned english dictionary is either
+ * Ensures every key in every Kappa-owned english dictionary is either
  * referenced from repository source or explicitly protected as a runtime
  * protocol key. Keys that lose their last usage during refactors tend to
  * linger in all 20 locale files forever; this test fails for review instead.
@@ -27,7 +27,7 @@
  *   - a quoted string literal equal to the key appears in scanned code
  *     (covers t("key") calls, ternaries producing key strings, key strings
  *     embedded in the CLI backend that travel to the webview as data, e.g.
- *     provider metadata noteKeys in opencode/src/kilocode/provider), or
+ *     provider metadata noteKeys in opencode/src/kappacode/provider), or
  *   - a template literal with a static dotted head ending right before ${}
  *     covers the key by prefix (e.g. t(`agentManager.setup.error.${code}`),
  *     t(`workStyle.choice.${choice}.title`), const k = `a.b.${x}`).
@@ -42,7 +42,7 @@ import { Glob } from "bun"
 import path from "node:path"
 
 import { dict as appEn } from "../../webview-ui/src/i18n/en"
-import { dict as kiloEn } from "../../../kappa-i18n/src/en"
+import { dict as kappaEn } from "../../../kappa-i18n/src/en"
 import { dict as amEn } from "../../webview-ui/agent-manager/i18n/en"
 import { dict as cliEn } from "../../src/services/cli-backend/i18n/en"
 import { dict as hostEn } from "../../src/services/i18n/en"
@@ -66,7 +66,7 @@ const pools = [
   // packages/ui/src (and the TUI), so those count as usage too.
   {
     name: "kappa-i18n",
-    dict: kiloEn,
+    dict: kappaEn,
     roots: [...WEBVIEW_ROOTS, path.join(REPO, "packages/ui"), path.join(REPO, "packages/tui")],
     runtime: ["plan.followup.", "snapshot.slowRepo.", "settings.providers.note."],
   },

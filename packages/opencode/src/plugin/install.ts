@@ -14,7 +14,7 @@ import { Flock } from "@opencode-ai/core/util/flock"
 import { isRecord } from "@/util/record"
 
 import { parsePluginSpecifier, readPackageThemes, readPluginPackage, resolvePluginTarget } from "./shared"
-import { pluginIdentity } from "@/kilocode/marketplace/plugin-spec" // kilocode_change
+import { pluginIdentity } from "@/kappacode/marketplace/plugin-spec" // kappacode_change
 
 type Mode = "noop" | "add" | "replace"
 type Kind = "server" | "tui"
@@ -187,9 +187,9 @@ function patchPluginList(
   force = false,
 ): { mode: Mode; text: string } {
   const pkg = parsePluginSpecifier(spec).pkg
-  // kilocode_change start - key dedupe on pluginIdentity so a git repo under a new ref replaces the old entry
+  // kappacode_change start - key dedupe on pluginIdentity so a git repo under a new ref replaces the old entry
   const key = pluginIdentity(spec) ?? pkg
-  // kilocode_change end
+  // kappacode_change end
   const rows = (list ?? []).map((item, i) => ({
     item,
     i,
@@ -199,7 +199,7 @@ function patchPluginList(
     if (!item.spec) return false
     if (item.spec === spec) return true
     if (item.spec.startsWith("file://")) return false
-    return (pluginIdentity(item.spec) ?? parsePluginSpecifier(item.spec).pkg) === key // kilocode_change
+    return (pluginIdentity(item.spec) ?? parsePluginSpecifier(item.spec).pkg) === key // kappacode_change
   })
 
   if (!dup.length) {
@@ -338,7 +338,7 @@ function patchDir(input: PatchInput) {
   if (input.global) return input.config ?? Global.Path.config
   const git = input.vcs === "git" && input.worktree !== "/"
   const root = git ? input.worktree : input.directory
-  return path.join(root, ".kappa") // kilocode_change
+  return path.join(root, ".kappa") // kappacode_change
 }
 
 function patchName(kind: Kind): "opencode" | "tui" {

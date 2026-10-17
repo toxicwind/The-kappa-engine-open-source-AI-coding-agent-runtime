@@ -1,8 +1,8 @@
 import {
   GatewayError,
   fetchCloudSession,
-  fetchKiloImageModels,
-  fetchKiloTranscriptionModels,
+  fetchKappaImageModels,
+  fetchKappaTranscriptionModels,
   getCloudSessions,
   getOrganizationId,
   getToken,
@@ -12,15 +12,15 @@ import {
   KILO_API_BASE,
   clearModesCache,
   fetchBalance,
-  fetchKilocodeNotifications,
-  fetchKiloPassState,
+  fetchKappacodeNotifications,
+  fetchKappaPassState,
   fetchOrganizationModes,
   fetchProfile,
 } from "@kappacode/kappa-gateway"
 import { DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget } from "@kappacode/kappa-gateway/fim"
 import { DIRECT_EDIT_ENV, extractFencedBody, resolveEditTarget } from "@kappacode/kappa-gateway/edit"
 import { buildMercuryEditPrompt } from "@kappacode/kappa-gateway/edit-prompt"
-import { buildKiloHeaders } from "@kappacode/kappa-gateway"
+import { buildKappaHeaders } from "@kappacode/kappa-gateway"
 import { Effect, Schema } from "effect"
 import * as Stream from "effect/Stream"
 import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
@@ -28,7 +28,7 @@ import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
 import * as Log from "@opencode-ai/core/util/log"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { Database } from "@opencode-ai/core/database/database"
-import { KilocodeConfig } from "@/kappacode/config/config"
+import { KappacodeConfig } from "@/kappacode/config/config"
 import { ClaudeMigration } from "@/kappacode/config/claude-migration"
 import { Auth } from "@/auth"
 import { Config } from "@/config/config"
@@ -62,7 +62,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
     const database = yield* Database.Service
     const storage = yield* Storage.Service
 
-    const profile = Effect.fn("KiloGatewayHttpApi.profile")(function* () {
+    const profile = Effect.fn("KappaGatewayHttpApi.profile")(function* () {
       const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
       if (!info || info.type !== "oauth") return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
@@ -72,14 +72,14 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
           Promise.all([
             fetchProfile(info.access),
             fetchBalance(info.access, currentOrgId ?? undefined, log),
-            fetchKiloPassState(info.access),
+            fetchKappaPassState(info.access),
           ]),
         catch: () => new HttpApiError.BadRequest({}),
       })
       return { profile, balance, kappaPass, currentOrgId }
     })
 
-    const authStatus = Effect.fn("KiloGatewayHttpApi.authStatus")(function* () {
+    const authStatus = Effect.fn("KappaGatewayHttpApi.authStatus")(function* () {
       const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
       const cfg = yield* config.get()
       const organizationId = catalogOrganization(cfg.provider?.kappa?.options, info)
@@ -91,7 +91,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       }
     })
 
-    const proxyAuth = Effect.fn("KiloGatewayHttpApi.proxyAuth")(function* () {
+    const proxyAuth = Effect.fn("KappaGatewayHttpApi.proxyAuth")(function* () {
       const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
       return {
         auth: info,
@@ -100,7 +100,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       }
     })
 
-    const modes = Effect.fn("KiloGatewayHttpApi.modes")(function* () {
+    const modes = Effect.fn("KappaGatewayHttpApi.modes")(function* () {
       const info = yield* auth.get("kappa").pipe(Effect.catch(() => Effect.succeed(undefined)))
       if (!info || info.type !== "oauth" || !info.access || !info.accountId) return { modes: [] }
 
@@ -111,7 +111,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       )
     })
 
-    const fim = Effect.fn("KiloGatewayHttpApi.fim")(function* (ctx: { payload: typeof FimBody.Type }) {
+    const fim = Effect.fn("KappaGatewayHttpApi.fim")(function* (ctx: { payload: typeof FimBody.Type }) {
       const target = resolveFimTarget(ctx.payload.provider, ctx.payload.model)
       const info = target.provider === "kappa" ? yield* proxyAuth() : undefined
       const token = yield* Effect.gen(function* () {
@@ -139,7 +139,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
                 ...(target.provider === "kappa"
-                  ? buildKiloHeaders(undefined, { kappacodeOrganizationId: info?.organizationId })
+                  ? buildKappaHeaders(undefined, { kappacodeOrganizationId: info?.organizationId })
                   : {}),
                 ...(target.provider === "kappa" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
               },
@@ -187,7 +187,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       )
     })
 
-    const edit = Effect.fn("KiloGatewayHttpApi.edit")(function* (ctx: { payload: typeof EditBody.Type }) {
+    const edit = Effect.fn("KappaGatewayHttpApi.edit")(function* (ctx: { payload: typeof EditBody.Type }) {
       const target = resolveEditTarget(ctx.payload.provider, ctx.payload.model)
       if (target.provider === "kappa" && !target.url) {
         return yield* Effect.fail(new HttpApiError.BadRequest({}))
@@ -229,7 +229,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
               ...(target.provider === "kappa"
-                ? buildKiloHeaders(undefined, { kappacodeOrganizationId: proxy?.organizationId })
+                ? buildKappaHeaders(undefined, { kappacodeOrganizationId: proxy?.organizationId })
                 : {}),
               ...(target.provider === "kappa" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
             },
@@ -286,7 +286,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       }
     })
 
-    const audioTranscriptions = Effect.fn("KiloGatewayHttpApi.audioTranscriptions")(function* (ctx: {
+    const audioTranscriptions = Effect.fn("KappaGatewayHttpApi.audioTranscriptions")(function* (ctx: {
       payload: typeof AudioTranscriptionsBody.Type
     }) {
       const info = yield* proxyAuth()
@@ -301,7 +301,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${info.token}`,
-              ...buildKiloHeaders(undefined, { kappacodeOrganizationId: info.organizationId }),
+              ...buildKappaHeaders(undefined, { kappacodeOrganizationId: info.organizationId }),
               [HEADER_FEATURE]: "vscode-extension",
             },
             signal: request.source instanceof Request ? request.source.signal : undefined,
@@ -316,9 +316,9 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       })
     })
 
-    const notifications = Effect.fn("KiloGatewayHttpApi.notifications")(function* () {
+    const notifications = Effect.fn("KappaGatewayHttpApi.notifications")(function* () {
       // Locally-detected notice about leftover opencode config; appended so it reuses each client's dismissal path.
-      const notice = KilocodeConfig.opencodeConfigNotification({
+      const notice = KappacodeConfig.opencodeConfigNotification({
         directory: Instance.directory,
         worktree: Instance.worktree,
         scanProject: !Flag.KILO_DISABLE_PROJECT_CONFIG,
@@ -331,7 +331,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       if (!token) return append([])
 
       const cloud = yield* Effect.promise(() =>
-        fetchKilocodeNotifications({
+        fetchKappacodeNotifications({
           kappacodeToken: token,
           kappacodeOrganizationId: getOrganizationId(info),
         }),
@@ -339,7 +339,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       return append(cloud)
     })
 
-    const organization = Effect.fn("KiloGatewayHttpApi.organization")(function* (ctx) {
+    const organization = Effect.fn("KappaGatewayHttpApi.organization")(function* (ctx) {
       const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
       if (!info || info.type !== "oauth") return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
@@ -359,7 +359,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       return true
     })
 
-    const cloudSessions = Effect.fn("KiloGatewayHttpApi.cloudSessions")(function* (ctx) {
+    const cloudSessions = Effect.fn("KappaGatewayHttpApi.cloudSessions")(function* (ctx) {
       const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
       const token = getToken(info)
       if (!token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
@@ -384,7 +384,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       )
     })
 
-    const cloudSession = Effect.fn("KiloGatewayHttpApi.cloudSession")(function* (ctx) {
+    const cloudSession = Effect.fn("KappaGatewayHttpApi.cloudSession")(function* (ctx) {
       const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
       const token = getToken(info)
       if (!token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
@@ -405,7 +405,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       return result.data
     })
 
-    const cloudSessionImport = Effect.fn("KiloGatewayHttpApi.cloudSessionImport")(function* (ctx) {
+    const cloudSessionImport = Effect.fn("KappaGatewayHttpApi.cloudSessionImport")(function* (ctx) {
       // Load the helper lazily: a static top-level import pulls the HTTP
       // handler graph into the remote-sender module graph and breaks the
       // create_session test's module init. Run the helper's Effect on the
@@ -445,14 +445,14 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       }
     })
 
-    const imageModels = Effect.fn("KiloGatewayHttpApi.imageModels")(function* () {
+    const imageModels = Effect.fn("KappaGatewayHttpApi.imageModels")(function* () {
       const info = yield* proxyAuth()
       if (!info.auth) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
       if (!info.token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
       const result = yield* Effect.tryPromise({
         try: () =>
-          fetchKiloImageModels({
+          fetchKappaImageModels({
             kappacodeToken: info.token,
             kappacodeOrganizationId: info.organizationId,
           }),
@@ -468,14 +468,14 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       return result.models
     })
 
-    const transcriptionModels = Effect.fn("KiloGatewayHttpApi.transcriptionModels")(function* () {
+    const transcriptionModels = Effect.fn("KappaGatewayHttpApi.transcriptionModels")(function* () {
       const info = yield* proxyAuth()
       if (!info.auth) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
       if (!info.token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
       const result = yield* Effect.tryPromise({
         try: () =>
-          fetchKiloTranscriptionModels({
+          fetchKappaTranscriptionModels({
             kappacodeToken: info.token,
             kappacodeOrganizationId: info.organizationId,
           }),

@@ -6,7 +6,7 @@ import type { AbortRequest, ClearSessionRequest } from "../../webview-ui/src/typ
 import { REVERT_ERROR_CODE } from "../../src/shared/revert-error"
 
 // vscode mock is provided by the shared preload (tests/setup/vscode-mock.ts)
-const { KiloProvider, unwrapSyncEvent } = await import("../../src/KiloProvider")
+const { KappaProvider, unwrapSyncEvent } = await import("../../src/KappaProvider")
 const { ProjectRouteService } = await import("../../src/agent-manager/project/route")
 
 type State = "connecting" | "connected" | "disconnected" | "error"
@@ -287,10 +287,10 @@ type ProviderInternals = {
 
 function makeProvider(
   client: ReturnType<typeof createClient> | null,
-  opts?: ConstructorParameters<typeof KiloProvider>[3],
+  opts?: ConstructorParameters<typeof KappaProvider>[3],
 ) {
   const connection = createConnection(client)
-  const provider = new KiloProvider({} as never, connection as never, undefined, opts)
+  const provider = new KappaProvider({} as never, connection as never, undefined, opts)
   const internal = provider as unknown as ProviderInternals
   internal.connectionState = client ? "connected" : "disconnected"
   const sent: unknown[] = []
@@ -310,7 +310,7 @@ function mockMaxCost(internal: ProviderInternals, value: number) {
   internal.setMaxCost(value)
 }
 
-describe("KiloProvider.handleAbort", () => {
+describe("KappaProvider.handleAbort", () => {
   it.each([undefined, "session", "tree"] as const)(
     "forwards %s abort scope without extra child or process stops",
     async (scope) => {
@@ -494,7 +494,7 @@ describe("KiloProvider.handleAbort", () => {
   })
 })
 
-describe("KiloProvider session status reconciliation", () => {
+describe("KappaProvider session status reconciliation", () => {
   it("rejects a stale busy snapshot after a newer idle event", async () => {
     const pending = defer<{ data: Record<string, SessionStatus> }>()
     const client = createClient({ status: async () => pending.promise })
@@ -706,7 +706,7 @@ describe("KiloProvider session status reconciliation", () => {
   })
 })
 
-describe("KiloProvider sandbox status", () => {
+describe("KappaProvider sandbox status", () => {
   it("ignores events from another directory for the same session", () => {
     const client = createClient()
     const { internal, sent } = makeProvider(client)
@@ -727,7 +727,7 @@ describe("KiloProvider sandbox status", () => {
   })
 })
 
-describe("KiloProvider sandbox toggle", () => {
+describe("KappaProvider sandbox toggle", () => {
   it("remembers a blank composer toggle without creating a session", async () => {
     const notice = spyOn(vscode.window, "showInformationMessage").mockResolvedValue(undefined)
     const client = createClient()
@@ -773,7 +773,7 @@ describe("KiloProvider sandbox toggle", () => {
     support.resolve({ data: { available: true } })
     await Promise.all([toggle, send])
     expect(client.created).toEqual([
-      expect.objectContaining({ metadata: { "kilocode.sandbox": { enabled: true, version: 0 } } }),
+      expect.objectContaining({ metadata: { "kappacode.sandbox": { enabled: true, version: 0 } } }),
     ])
     expect(client.prompted).toHaveLength(1)
   })
@@ -825,7 +825,7 @@ describe("KiloProvider sandbox toggle", () => {
     expect(client.created).toEqual([
       expect.objectContaining({
         directory: "/repo",
-        metadata: { "kilocode.sandbox": { enabled: true, version: 0 } },
+        metadata: { "kappacode.sandbox": { enabled: true, version: 0 } },
       }),
     ])
     expect(client.sandboxed).toHaveLength(0)
@@ -833,7 +833,7 @@ describe("KiloProvider sandbox toggle", () => {
   })
 })
 
-describe("KiloProvider sidebar tabs", () => {
+describe("KappaProvider sidebar tabs", () => {
   it("creates distinct sessions for explicit drafts even when another session is current", async () => {
     const client = createClient({
       createSession: async (_params, index) => ({ data: { ...mkSession(), id: `s${index + 1}` } }),
@@ -864,7 +864,7 @@ describe("KiloProvider sidebar tabs", () => {
   })
 })
 
-describe("KiloProvider revert ordering", () => {
+describe("KappaProvider revert ordering", () => {
   it("unwraps the nested sync payload emitted by the live SSE endpoint", () => {
     const event = unwrapSyncEvent({
       type: "sync",
@@ -1107,7 +1107,7 @@ describe("KiloProvider revert ordering", () => {
   })
 })
 
-describe("KiloProvider revert failure reporting", () => {
+describe("KappaProvider revert failure reporting", () => {
   it("tags a failed revert with the code the webview translates", async () => {
     const logged = spyOn(console, "error").mockImplementation(() => {})
     const revert = defer<{ data?: unknown; error?: unknown }>()
@@ -1143,7 +1143,7 @@ describe("KiloProvider revert failure reporting", () => {
   })
 })
 
-describe("KiloProvider.handleLoadMessages / focus mode freshness", () => {
+describe("KappaProvider.handleLoadMessages / focus mode freshness", () => {
   it.each(["focus", "clear"])(
     "cancels an old worktree transcript when %s changes the local selection",
     async (action) => {
@@ -1372,7 +1372,7 @@ describe("KiloProvider.handleLoadMessages / focus mode freshness", () => {
   })
 })
 
-describe("KiloProvider.handleDeleteSession / background processes", () => {
+describe("KappaProvider.handleDeleteSession / background processes", () => {
   it("stops session background processes in the session directory before deletion", async () => {
     const client = createClient()
     const { internal } = makeProvider(client)
@@ -1404,7 +1404,7 @@ describe("KiloProvider.handleDeleteSession / background processes", () => {
   })
 })
 
-describe("KiloProvider.handleDeleteMessage", () => {
+describe("KappaProvider.handleDeleteMessage", () => {
   const ids = { sessionID: "s1", messageID: "m1", requestID: "r1" }
 
   it.each([true, false, undefined, "true"])("confirms only a true queued deletion result: %p", async (result) => {
@@ -1429,7 +1429,7 @@ describe("KiloProvider.handleDeleteMessage", () => {
   })
 })
 
-describe("KiloProvider.handleLoadMessages / cold tail", () => {
+describe("KappaProvider.handleLoadMessages / cold tail", () => {
   const items = [
     mkMessage("m2", "assistant", 20, "m1"),
     mkMessage("m3", "user", 30),
@@ -1538,7 +1538,7 @@ describe("KiloProvider.handleLoadMessages / cold tail", () => {
   })
 })
 
-describe("KiloProvider.handleLoadMessages / slim payload", () => {
+describe("KappaProvider.handleLoadMessages / slim payload", () => {
   it("shows a cost alert even when cost arrives after the session is idle", () => {
     const client = createClient()
     const { internal, sent } = makeProvider(client)
@@ -1902,7 +1902,7 @@ describe("KiloProvider.handleLoadMessages / slim payload", () => {
   })
 })
 
-describe("KiloProvider.loadMessages / sub-agent viewer", () => {
+describe("KappaProvider.loadMessages / sub-agent viewer", () => {
   it("uses the same paginated initial load as normal sessions", async () => {
     const page = Array.from({ length: 80 }, (_, i) => mkMessage(`m${i}`, i % 2 === 0 ? "user" : "assistant", i))
     const client = createClient({ messagesData: page })
@@ -1963,7 +1963,7 @@ describe("KiloProvider.loadMessages / sub-agent viewer", () => {
   })
 })
 
-describe("KiloProvider.handleLoadMessages / prepend into deleted session", () => {
+describe("KappaProvider.handleLoadMessages / prepend into deleted session", () => {
   it("does not post messagesLoaded for a session deleted mid-prepend", async () => {
     // Regression: handleLoadMessages fires fire-and-forget from the webview
     // message dispatcher. If the user deletes the session while a prepend

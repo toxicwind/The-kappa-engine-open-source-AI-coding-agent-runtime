@@ -43,7 +43,7 @@ export const IndexingConfig = z
       })
       .strict()
       .optional()
-      .describe("Kilo-hosted embedding provider options"),
+      .describe("Kappa-hosted embedding provider options"),
     openai: z
       .object({ apiKey: z.string().optional() })
       .strict()
@@ -164,7 +164,7 @@ export const IndexingSchema = Schema.Struct({
       baseUrl: Schema.optional(Schema.String),
       organizationId: Schema.optional(Schema.String),
     }),
-  ).annotate({ description: "Kilo-hosted embedding provider options" }),
+  ).annotate({ description: "Kappa-hosted embedding provider options" }),
   openai: Schema.optional(
     Schema.Struct({
       apiKey: Schema.optional(Schema.String),
@@ -265,9 +265,9 @@ export function toIndexingConfigInput(cfg: IndexingConfig | undefined): Indexing
     embeddingBatchSize: cfg?.embeddingBatchSize,
     scannerMaxBatchRetries: cfg?.scannerMaxBatchRetries,
     fileExtensions: normalizeFileExtensions(cfg?.fileExtensions),
-    kiloApiKey: cfg?.kappa?.apiKey,
-    kiloBaseUrl: cfg?.kappa?.baseUrl,
-    kiloOrganizationId: cfg?.kappa?.organizationId,
+    kappaApiKey: cfg?.kappa?.apiKey,
+    kappaBaseUrl: cfg?.kappa?.baseUrl,
+    kappaOrganizationId: cfg?.kappa?.organizationId,
     openAiKey: cfg?.openai?.apiKey,
     ollamaBaseUrl: cfg?.ollama?.baseUrl,
     openAiCompatibleBaseUrl: cfg?.["openai-compatible"]?.baseUrl,

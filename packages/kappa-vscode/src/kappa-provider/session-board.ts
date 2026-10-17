@@ -1,4 +1,4 @@
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import type { ProjectRouteService } from "../agent-manager/project/route"
 import { getErrorMessage, sameDirectory } from "../kappa-provider-utils"
 import type {
@@ -10,7 +10,7 @@ import type {
 type Request = RequestSessionBoardMessage | ResetSessionBoardMessage
 
 type Context = {
-  client: KiloClient | null
+  client: KappaClient | null
   routes?: ProjectRouteService
   projectId?: string
   directories: ReadonlyMap<string, string>
@@ -76,7 +76,7 @@ export async function handle(input: Record<string, unknown>, ctx: Context): Prom
     const target = scope(input, ctx)
     const { data } =
       input.type === "requestSessionBoard"
-        ? await client.kilocode.sessionBoard(
+        ? await client.kappacode.sessionBoard(
             {
               sessionID: input.sessionID,
               directory: target.directory,
@@ -85,7 +85,7 @@ export async function handle(input: Record<string, unknown>, ctx: Context): Prom
             },
             { throwOnError: true },
           )
-        : await client.kilocode.resetSessionBoard(
+        : await client.kappacode.resetSessionBoard(
             { sessionID: input.sessionID, directory: target.directory, revision: input.revision },
             { throwOnError: true },
           )

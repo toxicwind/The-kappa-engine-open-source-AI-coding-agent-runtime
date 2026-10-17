@@ -5,19 +5,19 @@ description: "Understand and configure filesystem write and network restrictions
 
 # Sandboxing
 
-The sandbox adds an operating-system boundary around agent tools. It limits where tools can write and, by default, blocks outbound network access from model-originated commands. This boundary applies even when a tool passes Kilo's permission checks.
+The sandbox adds an operating-system boundary around agent tools. It limits where tools can write and, by default, blocks outbound network access from model-originated commands. This boundary applies even when a tool passes Kappa's permission checks.
 
 The sandbox is **disabled by default**. It does not restrict filesystem reads. An agent can still read any file that your user account can read, but it can write only to explicitly allowed locations.
 
 {% callout type="warning" %}
-Sandboxing is not available on Windows. If an enabled macOS or Linux sandbox policy cannot be enforced, Kilo reports the reason and refuses to run the affected tool. It does not silently fall back to unrestricted execution.
+Sandboxing is not available on Windows. If an enabled macOS or Linux sandbox policy cannot be enforced, Kappa reports the reason and refuses to run the affected tool. It does not silently fall back to unrestricted execution.
 {% /callout %}
 
 ## Enable the sandbox
 
 In the VS Code extension:
 
-1. Open Kilo Code Settings using the gear icon ({% codicon name="gear" /%}).
+1. Open Kappa Code Settings using the gear icon ({% codicon name="gear" /%}).
 2. Select **Sandboxing**.
 3. Turn on **Sandbox**.
 4. Keep **Restrict Network Access** on unless the agent's commands need outbound network access.
@@ -60,12 +60,12 @@ The sandbox can reduce the impact of an unsafe tool call by:
 - Blocking direct outbound connections from sandboxed commands and policy-aware tools when network restriction is on
 - Applying the same restrictions to child processes, such as package installation and build scripts launched by a shell command
 
-This can reduce the risk of auto-approving selected routine commands, such as builds and tests, by placing operating-system limits around many of their effects. It does **not** make **Allow Everything** safe. An allowed command can still modify or delete workspace files, alter other writable Kilo directories, consume data it can read, or write unsafe code that runs later outside the sandbox.
+This can reduce the risk of auto-approving selected routine commands, such as builds and tests, by placing operating-system limits around many of their effects. It does **not** make **Allow Everything** safe. An allowed command can still modify or delete workspace files, alter other writable Kappa directories, consume data it can read, or write unsafe code that runs later outside the sandbox.
 
 The sandbox does not protect against every result of prompt injection. In particular, it does not prevent the agent from reading accessible files or including their contents in model context. MCP client lifecycle and plugin hooks run as trusted host integrations. While network restriction is active, local and remote MCP tool calls and typed resource reads are unavailable, but MCP prompt retrieval remains outside the session network policy.
 
 {% callout type="warning" %}
-The network sandbox is not a provider privacy control. Provider and model inference traffic remains available. If Kilo reads a secret and includes it in a prompt, tool result, or conversation context, that content may be sent to the configured model provider even while network restriction is on. Choose providers with data-handling policies appropriate for your work, consider a local model for sensitive projects, and use read permissions to block or prompt for sensitive files. See [Prompt-Training Model Visibility](/docs/getting-started/settings#prompt-training-model-visibility).
+The network sandbox is not a provider privacy control. Provider and model inference traffic remains available. If Kappa reads a secret and includes it in a prompt, tool result, or conversation context, that content may be sent to the configured model provider even while network restriction is on. Choose providers with data-handling policies appropriate for your work, consider a local model for sensitive projects, and use read permissions to block or prompt for sensitive files. See [Prompt-Training Model Visibility](/docs/getting-started/settings#prompt-training-model-visibility).
 {% /callout %}
 
 ## Sandboxing and permissions
@@ -74,12 +74,12 @@ Permissions and sandboxing solve different parts of the security problem and wor
 
 | Control | What it decides | Best used for |
 |---|---|---|
-| Permissions | Whether Kilo allows, asks about, or denies a matching tool invocation | Prompting for sensitive file reads, blocking specific commands or tools, reviewing consequential actions, and limiting MCP tool or subagent invocation |
+| Permissions | Whether Kappa allows, asks about, or denies a matching tool invocation | Prompting for sensitive file reads, blocking specific commands or tools, reviewing consequential actions, and limiting MCP tool or subagent invocation |
 | Sandbox | What an allowed tool call can change or connect to while it runs | Limiting the impact of model mistakes, prompt injection, malicious dependencies, and unexpected child-process behavior |
 
-Permissions can ask or deny Kilo tool invocations that read or change data. For example, set `read` or `external_directory` rules to `ask` or `deny` for credentials, personal files, or directories the agent does not need. Kilo's `read` tool also prompts for `.env` and `.env.*` unless you explicitly create a matching sensitive-file rule. See [Agent Permissions](/docs/customize/agent-permissions) for path and command rules.
+Permissions can ask or deny Kappa tool invocations that read or change data. For example, set `read` or `external_directory` rules to `ask` or `deny` for credentials, personal files, or directories the agent does not need. Kappa's `read` tool also prompts for `.env` and `.env.*` unless you explicitly create a matching sensitive-file rule. See [Agent Permissions](/docs/customize/agent-permissions) for path and command rules.
 
-Permission rules are tool-specific and do not create a complete file-confidentiality boundary. A `read` denial controls Kilo's file-reading tool, but an allowed `grep` call, shell command, build script, or other process may read the same file through a different path. A child process can also print sensitive content into tool output, which may then become model context. Configure `grep`, `bash`, and other data-accessing tools separately, and avoid running untrusted code when sensitive files remain readable by your operating-system account.
+Permission rules are tool-specific and do not create a complete file-confidentiality boundary. A `read` denial controls Kappa's file-reading tool, but an allowed `grep` call, shell command, build script, or other process may read the same file through a different path. A child process can also print sensitive content into tool output, which may then become model context. Configure `grep`, `bash`, and other data-accessing tools separately, and avoid running untrusted code when sensitive files remain readable by your operating-system account.
 
 For a given tool invocation, approving a shell command does not grant writes outside the sandbox, and a path being writable inside the sandbox does not bypass a matching permission rule. Some integration code runs outside this boundary: plugin hooks can run before a tool's internal permission check, and MCP clients run as separate trusted host integrations. MCP permissions control exposed tool invocations, not local server startup, remote connections, reconnections, or other background lifecycle. Enable only MCP servers and plugins you trust.
 
@@ -91,7 +91,7 @@ A practical setup for work on unfamiliar or partially trusted code is:
 - Enable the sandbox and keep network restriction on to reduce write and direct network-exfiltration impact if an approved action behaves unexpectedly.
 - Add extra writable paths only when a known workflow requires them.
 
-For a stronger confidentiality boundary, remove sensitive files from the environment or run Kilo under a separate operating-system account, container, or virtual machine that cannot read them. If file contents must not leave your machine, use local inference and disable other integrations that can send data over the network. If remote processing is acceptable, choose a provider with data-handling terms suitable for the data involved.
+For a stronger confidentiality boundary, remove sensitive files from the environment or run Kappa under a separate operating-system account, container, or virtual machine that cannot read them. If file contents must not leave your machine, use local inference and disable other integrations that can send data over the network. If remote processing is acceptable, choose a provider with data-handling terms suitable for the data involved.
 
 Configure these rules in **Settings > Auto Approve** or `kappa.jsonc`. See [Auto-Approving Actions](/docs/getting-started/settings/auto-approving-actions) for the settings UI and default permission behavior.
 
@@ -102,12 +102,12 @@ When the sandbox is active, agent tools can read files normally. The sandbox res
 Writes are allowed in:
 
 - The active workspace or worktree
-- Kilo's runtime directories listed below
+- Kappa's runtime directories listed below
 - Paths listed in `sandbox.writable_paths`
 
-| Writable Kilo path | Purpose |
+| Writable Kappa path | Purpose |
 |---|---|
-| `$XDG_DATA_HOME/kappa` (normally `~/.local/share/kappa`) | Session data, logs, and Kilo's managed repository cache under `repos/` |
+| `$XDG_DATA_HOME/kappa` (normally `~/.local/share/kappa`) | Session data, logs, and Kappa's managed repository cache under `repos/` |
 | `$XDG_CACHE_HOME/kappa` (normally `~/.cache/kappa`) | Cached data and downloaded binaries |
 | `$XDG_STATE_HOME/kappa` (normally `~/.local/state/kappa`) | Runtime state |
 | `$TMPDIR/kappa` | Temporary files; on macOS this is commonly under `/var/folders/.../T/kappa` |
@@ -115,14 +115,14 @@ Writes are allowed in:
 Writes are denied everywhere else. The following rules still apply inside writable locations:
 
 - `.git` directories are always read-only to sandboxed tools.
-- Kilo's stored sandbox policy and preference files are read-only.
-- Kilo's global config root is read-only so a sandboxed command cannot widen network or write authority for a later session.
+- Kappa's stored sandbox policy and preference files are read-only.
+- Kappa's global config root is read-only so a sandboxed command cannot widen network or write authority for a later session.
 - A permission approval for a path outside the sandbox does not make that path writable. Add the path to **Additional Writable Paths** if the tool must modify it.
 - Linked worktree sessions can write to their active worktree, not the primary checkout or sibling worktrees.
 
-Shell commands and their child processes inherit the same restrictions. Kilo's file tools perform mutations through a sandboxed worker. Writable file handles are unavailable, so a tool that requires an open read-write handle may fail even for an allowed path.
+Shell commands and their child processes inherit the same restrictions. Kappa's file tools perform mutations through a sandboxed worker. Writable file handles are unavailable, so a tool that requires an open read-write handle may fail even for an allowed path.
 
-Direct filesystem access inside trusted integrations is confined only when the integration uses Kilo's sandbox-aware filesystem service. Notebook execution and starting or restarting a background process are unavailable while sandboxing is active because those processes do not yet run inside the same boundary.
+Direct filesystem access inside trusted integrations is confined only when the integration uses Kappa's sandbox-aware filesystem service. Notebook execution and starting or restarting a background process are unavailable while sandboxing is active because those processes do not yet run inside the same boundary.
 
 {% callout type="info" %}
 The sandbox is a write boundary, not a privacy boundary. It does not prevent an agent from reading files outside your workspace if your operating-system account can read them.
@@ -132,11 +132,11 @@ The sandbox is a write boundary, not a privacy boundary. It does not prevent an 
 
 **Restrict Network Access** controls outbound network access independently of filesystem writes. Turning it off leaves the filesystem write restrictions active.
 
-When network restriction is on, Kilo blocks:
+When network restriction is on, Kappa blocks:
 
 - Direct outbound sockets from model-originated shell commands and their child processes
 - HTTP and HTTPS requests from commands and built-in HTTP tools unless the destination is configured in `sandbox.allowed_hosts`
-- Local and remote MCP tool calls and typed resource reads, plus custom or plugin tools that Kilo cannot prove will remain offline
+- Local and remote MCP tool calls and typed resource reads, plus custom or plugin tools that Kappa cannot prove will remain offline
 - Built-in tools such as codebase search, semantic search, and LSP that may use opaque or indirect network access
 
 Network restriction does not block:
@@ -147,19 +147,19 @@ Network restriction does not block:
 - Plugin hooks that run outside the sandboxed tool execution
 - Filesystem reads
 
-This is not a system-wide firewall. It applies to the sandboxed tool execution boundary, not every Kilo, extension, or local process.
+This is not a system-wide firewall. It applies to the sandboxed tool execution boundary, not every Kappa, extension, or local process.
 
-When `sandbox.allowed_hosts` is non-empty, Kilo keeps direct sockets blocked and exposes an authenticated proxy as the only supported egress path. Entries are DNS hosts with an optional port; the default port is `443`. Use an explicit port such as `example.com:80` for HTTP. Wildcards, URLs, IP literals, private or reserved addresses, and implicit subdomains are rejected. Allowing `github.com:443` does not permit a `CONNECT` request for `api.github.com:443` or a tunnel whose TLS SNI is `api.github.com`.
+When `sandbox.allowed_hosts` is non-empty, Kappa keeps direct sockets blocked and exposes an authenticated proxy as the only supported egress path. Entries are DNS hosts with an optional port; the default port is `443`. Use an explicit port such as `example.com:80` for HTTP. Wildcards, URLs, IP literals, private or reserved addresses, and implicit subdomains are rejected. Allowing `github.com:443` does not permit a `CONNECT` request for `api.github.com:443` or a tunnel whose TLS SNI is `api.github.com`.
 
-For HTTP, the proxy checks the requested DNS host and port. For HTTPS `CONNECT`, it also requires the TLS ClientHello to contain SNI matching the configured DNS host before opening the tunnel. Connections without matching SNI are rejected. The proxy resolves DNS outside the sandbox, rejects non-public results and recognized IPv4-transition ranges, and connects to the validated address. Unknown network-specific NAT64 prefixes cannot be identified without trusted prefix configuration, so such a network may translate an accepted global IPv6 result to an IPv4 destination that Kilo would otherwise reject. Redirects are checked again at the next proxy request. Linux keeps the command in a network namespace and bridges only the proxy socket; macOS Seatbelt permits only the scoped loopback proxy port.
+For HTTP, the proxy checks the requested DNS host and port. For HTTPS `CONNECT`, it also requires the TLS ClientHello to contain SNI matching the configured DNS host before opening the tunnel. Connections without matching SNI are rejected. The proxy resolves DNS outside the sandbox, rejects non-public results and recognized IPv4-transition ranges, and connects to the validated address. Unknown network-specific NAT64 prefixes cannot be identified without trusted prefix configuration, so such a network may translate an accepted global IPv6 result to an IPv4 destination that Kappa would otherwise reject. Redirects are checked again at the next proxy request. Linux keeps the command in a network namespace and bridges only the proxy socket; macOS Seatbelt permits only the scoped loopback proxy port.
 
 {% callout type="warning" %}
-A configured destination is an egress route, not tenant, organization, repository, HTTP-origin, path, action, content, or data-loss-prevention isolation. The allowed service can receive, route, or store readable data and inherited credentials under its own policies. After an HTTPS tunnel passes the SNI check, Kilo cannot inspect encrypted requests, and the service may honor an alternate HTTP `Host` value within that connection. Allowing GitHub therefore grants the operations permitted by the active token, not access to only one organization or repository. HTTP and HTTPS are supported, including HTTPS Git remotes. SSH, arbitrary TCP, UDP, QUIC, SOCKS, CIDR ranges, and wildcard hosts remain blocked.
+A configured destination is an egress route, not tenant, organization, repository, HTTP-origin, path, action, content, or data-loss-prevention isolation. The allowed service can receive, route, or store readable data and inherited credentials under its own policies. After an HTTPS tunnel passes the SNI check, Kappa cannot inspect encrypted requests, and the service may honor an alternate HTTP `Host` value within that connection. Allowing GitHub therefore grants the operations permitted by the active token, not access to only one organization or repository. HTTP and HTTPS are supported, including HTTPS Git remotes. SSH, arbitrary TCP, UDP, QUIC, SOCKS, CIDR ranges, and wildcard hosts remain blocked.
 {% /callout %}
 
 ## Leaving the sandbox
 
-Some commands must write outside the sandbox boundary. Kilo then shows an escalation prompt and waits for an explicit approval before it runs the command.
+Some commands must write outside the sandbox boundary. Kappa then shows an escalation prompt and waits for an explicit approval before it runs the command.
 
 ### Git and linked worktrees
 
@@ -173,7 +173,7 @@ Some commands must write outside the sandbox boundary. Kilo then shows an escala
 | Bash allow rules | Do not approve the escalation prompt |
 | Auto-approve | Does not approve the escalation prompt |
 
-Approving the prompt runs the entire shell command outside the sandbox. Filesystem writes and network access are unrestricted for that command and its child processes. The approval is one-shot and applies to that command only. Bash allow rules and auto-approve never cover the escalation prompt, so Kilo always asks for an explicit reply.
+Approving the prompt runs the entire shell command outside the sandbox. Filesystem writes and network access are unrestricted for that command and its child processes. The approval is one-shot and applies to that command only. Bash allow rules and auto-approve never cover the escalation prompt, so Kappa always asks for an explicit reply.
 
 GitHub access is a network question, not an escalation question. The GitHub CLI (`gh`) and HTTPS Git need `github.com:443` and `api.github.com:443` in `sandbox.allowed_hosts`. The escalation prompt does not grant network access by itself. See [Network restrictions](#network-restrictions).
 
@@ -181,7 +181,7 @@ GitHub access is a network question, not an escalation question. The GitHub CLI 
 
 The config setting supplies the initial default for new sessions that do not have a saved preference. Use the lock button in the VS Code prompt or `/sandbox` in the CLI to change the current session. Your latest choice is saved as the default for future sessions in that project, takes precedence over the config default, and persists across restarts.
 
-Each session preserves its enabled or disabled choice. Saving changes through Kilo settings to network mode, allowed destinations, or additional writable paths refreshes existing session policies before their next tool execution. Enabling sandboxing also reads the latest settings. A tool that is already running keeps the policy it started with.
+Each session preserves its enabled or disabled choice. Saving changes through Kappa settings to network mode, allowed destinations, or additional writable paths refreshes existing session policies before their next tool execution. Enabling sandboxing also reads the latest settings. A tool that is already running keeps the policy it started with.
 
 At creation, forked sessions retain the source session's confinement and subagents inherit the stricter combination of parent and child settings: sandboxing remains enabled if either requires it, deny-all wins over destination exceptions, destination lists intersect, and additional writable paths intersect. Later trusted sandbox settings replace those network and writable-path limits before the affected session's next tool execution.
 
@@ -189,7 +189,7 @@ Cloud sessions do not expose the local sandbox control because their tools do no
 
 ## Platform support
 
-On every platform, Kilo reports an error and refuses to run the affected tool if the configured confinement or destination proxy cannot be established. It does not fall back to unrestricted execution.
+On every platform, Kappa reports an error and refuses to run the affected tool if the configured confinement or destination proxy cannot be established. It does not fall back to unrestricted execution.
 
 | Platform | Backend | Notes |
 |---|---|---|

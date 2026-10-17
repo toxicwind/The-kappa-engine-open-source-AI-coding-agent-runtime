@@ -12,8 +12,8 @@ import type { Provider } from "@/provider/provider"
 import type { Session } from "@/session/session"
 import type { SessionID } from "@/session/schema"
 import type { SessionSummary } from "@/session/summary"
-import { KiloSession } from "@/kappacode/session"
-import { KiloSessionPrompt } from "@/kappacode/session/prompt"
+import { KappaSession } from "@/kappacode/session"
+import { KappaSessionPrompt } from "@/kappacode/session/prompt"
 import { MemoryModel, MemorySession } from "./ports"
 
 const log = Log.create({ service: "memory.lifecycle" })
@@ -66,7 +66,7 @@ export namespace MemoryLifecycle {
     memory: MemoryService.Interface
   }) {
     const bridge = yield* EffectBridge.make()
-    yield* input.bus.subscribeCallback(KiloSession.Event.TurnOpen, (evt) =>
+    yield* input.bus.subscribeCallback(KappaSession.Event.TurnOpen, (evt) =>
       bridge.fork(
         Effect.sync(() => MemoryTurn.open({ sessionID: evt.properties.sessionID })).pipe(
           Effect.catchCause((cause) =>
@@ -75,11 +75,11 @@ export namespace MemoryLifecycle {
         ),
       ),
     )
-    yield* input.bus.subscribeCallback(KiloSession.Event.TurnClose, (evt) =>
+    yield* input.bus.subscribeCallback(KappaSession.Event.TurnClose, (evt) =>
       bridge.fork(
         Effect.gen(function* () {
           const ctx = yield* InstanceState.context
-          const enabled = yield* KiloSessionPrompt.memoryToolEnabled({ ctx })
+          const enabled = yield* KappaSessionPrompt.memoryToolEnabled({ ctx })
           if (!enabled) return
           yield* MemoryTurn.close({
             sessionID: evt.properties.sessionID,

@@ -1,7 +1,7 @@
 /**
  * Source contract tests for session-presence registration.
  *
- * Static analysis — reads KiloProvider.ts, AgentManagerProvider.ts,
+ * Static analysis — reads KappaProvider.ts, AgentManagerProvider.ts,
  * vscode-host.ts, and connection-service.ts and verifies the locked
  * viewed/presence behavior from the presence plan:
  *
@@ -13,7 +13,7 @@
  * - Agent Manager visible presence is routed through
  *   AgentManagerVisiblePresence so cleanup cannot leave a stale displayed id.
  *
- * Protects against accidental removal during Kilo development.
+ * Protects against accidental removal during Kappa development.
  */
 
 import { describe, it, expect } from "bun:test"
@@ -21,7 +21,7 @@ import fs from "node:fs"
 import path from "node:path"
 
 const ROOT = path.resolve(import.meta.dir, "../..")
-const KILOPROVIDER_FILE = path.join(ROOT, "src/KiloProvider.ts")
+const KILOPROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
 const AGENT_MANAGER_PROVIDER_FILE = path.join(ROOT, "src/agent-manager/AgentManagerProvider.ts")
 const VSCODE_HOST_FILE = path.join(ROOT, "src/agent-manager/vscode-host.ts")
 const CONNECTION_SERVICE_FILE = path.join(ROOT, "src/services/cli-backend/connection-service.ts")
@@ -30,7 +30,7 @@ function readFile(filePath: string): string {
   return fs.readFileSync(filePath, "utf-8")
 }
 
-describe("KiloProvider editor-panel visible registration contract", () => {
+describe("KappaProvider editor-panel visible registration contract", () => {
   const source = readFile(KILOPROVIDER_FILE)
   // The bindPanel callback installed in resolveWebviewPanel.
   const match = source.match(
@@ -65,12 +65,12 @@ describe("KiloProvider editor-panel visible registration contract", () => {
   })
 })
 
-describe("KiloProvider disableViewedRegistration contract", () => {
-  const kiloProvider = readFile(KILOPROVIDER_FILE)
+describe("KappaProvider disableViewedRegistration contract", () => {
+  const kappaProvider = readFile(KILOPROVIDER_FILE)
   const vscodeHost = readFile(VSCODE_HOST_FILE)
 
   it("registerPresence skips viewed registration when the option is set", () => {
-    const match = kiloProvider.match(/private registerPresence\(\): void \{([\s\S]*?)\n {2}\}/)
+    const match = kappaProvider.match(/private registerPresence\(\): void \{([\s\S]*?)\n {2}\}/)
     expect(match).not.toBeNull()
     const body = match![1]
     const guard = body.indexOf("if (this.opts.disableViewedRegistration) return")
@@ -84,16 +84,16 @@ describe("KiloProvider disableViewedRegistration contract", () => {
   it("focusSession and trackOpenSessions report through registerPresence", () => {
     // Both the focused session (visible) and the open local tabs (attached)
     // funnel into one snapshot so neither write can clobber the other.
-    const focus = kiloProvider.match(/private focusSession\(id\?: string\): void \{([\s\S]*?)\n {2}\}/)
+    const focus = kappaProvider.match(/private focusSession\(id\?: string\): void \{([\s\S]*?)\n {2}\}/)
     expect(focus).not.toBeNull()
     expect(focus![1]).toContain("this.registerPresence()")
-    const track = kiloProvider.match(/private trackOpenSessions\(ids: string\[\]\): void \{([\s\S]*?)\n {2}\}/)
+    const track = kappaProvider.match(/private trackOpenSessions\(ids: string\[\]\): void \{([\s\S]*?)\n {2}\}/)
     expect(track).not.toBeNull()
     expect(track![1]).toContain("this.registerPresence()")
   })
 
   it("registerPresence attaches the open local tabs plus the focused session", () => {
-    const match = kiloProvider.match(/private registerPresence\(\): void \{([\s\S]*?)\n {2}\}/)
+    const match = kappaProvider.match(/private registerPresence\(\): void \{([\s\S]*?)\n {2}\}/)
     expect(match).not.toBeNull()
     const body = match![1]
     expect(body).toContain("const attached = new Set(this.openSessionIds)")
@@ -101,7 +101,7 @@ describe("KiloProvider disableViewedRegistration contract", () => {
   })
 
   it("the editor-panel view-state callback honors the same option", () => {
-    const match = kiloProvider.match(
+    const match = kappaProvider.match(
       /this\.viewStateDisposable = this\.visibleTaskStreams\.bindPanel\(panel, \(\) => \{([\s\S]*?)\n {4}\}\)/,
     )
     expect(match).not.toBeNull()
@@ -112,14 +112,14 @@ describe("KiloProvider disableViewedRegistration contract", () => {
   })
 
   it("embedded Agent Manager providers disable generic viewed registration", () => {
-    // Each Agent Manager panel hosts a full KiloProvider; the "agent-manager"
+    // Each Agent Manager panel hosts a full KappaProvider; the "agent-manager"
     // keys own presence there, so the embedded provider must not
     // double-register under its own instanceId.
     expect(vscodeHost).toContain("disableViewedRegistration: true")
   })
 })
 
-describe("KiloConnectionService connection snapshot contract", () => {
+describe("KappaConnectionService connection snapshot contract", () => {
   const source = readFile(CONNECTION_SERVICE_FILE)
 
   it("sends the accumulated snapshot on initial connection and reconnect", () => {

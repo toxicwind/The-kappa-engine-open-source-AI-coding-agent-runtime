@@ -6,9 +6,9 @@ The published code comes from `jetbrains/v<version>`. Marketplace and GitHub rel
 
 ## Command-Assisted Release
 
-Maintainers can use the Kilo `/release-jetbrains` command to drive this process from a version request such as `next rc` or an explicit version. The command resolves and confirms the version, dispatches and watches the prepare workflow, helps produce a filtered human-readable JetBrains/CLI changelog draft, commits the reviewed changelog to the release PR, and watches publishing after the PR is merged.
+Maintainers can use the Kappa `/release-jetbrains` command to drive this process from a version request such as `next rc` or an explicit version. The command resolves and confirms the version, dispatches and watches the prepare workflow, helps produce a filtered human-readable JetBrains/CLI changelog draft, commits the reviewed changelog to the release PR, and watches publishing after the PR is merged.
 
-JetBrains plugin builds and runtime downloads use the Kilo Core version pinned in `packages/kappa-jetbrains/package.json`, so verify that pin points at a published `v<version>` release before creating the release tag.
+JetBrains plugin builds and runtime downloads use the Kappa Core version pinned in `packages/kappa-jetbrains/package.json`, so verify that pin points at a published `v<version>` release before creating the release tag.
 
 `kappa.cli.pinned=false` in `packages/kappa-jetbrains/gradle.properties` is local development mode only. It generates the client from `packages/opencode/` and bundles a locally built CLI into the plugin; production Gradle builds and release scripts fail until the property is restored to `true`.
 
@@ -20,7 +20,7 @@ The JetBrains plugin has two independent versions:
 
 | Field | Meaning |
 |---|---|
-| `packages/kappa-jetbrains/package.json` `version` | The pinned Kilo CLI release used for OpenAPI generation and runtime downloads. |
+| `packages/kappa-jetbrains/package.json` `version` | The pinned Kappa CLI release used for OpenAPI generation and runtime downloads. |
 | `packages/kappa-jetbrains/gradle.properties` `kappa.jetbrains.version` | The JetBrains Marketplace plugin version. |
 
 The prepare workflow tags `origin/main`, so the CLI pin that matters is the one already merged to `main`. Before creating a release tag, run:
@@ -54,7 +54,7 @@ CLI releases also try to open this pin bump PR automatically after publishing. T
 
 1. Open the GitHub Actions workflow:
 
-[https://github.com/Kilo-Org/kilocode/actions/workflows/prepare-jetbrains-release.yml](https://github.com/Kilo-Org/kilocode/actions/workflows/prepare-jetbrains-release.yml)
+[https://github.com/Kappa-Org/kappacode/actions/workflows/prepare-jetbrains-release.yml](https://github.com/Kappa-Org/kappacode/actions/workflows/prepare-jetbrains-release.yml)
 
 2. Click **Run workflow**. This immediately creates `jetbrains/v<version>` at the current `origin/main` commit, then creates or updates the release PR.
 
@@ -121,7 +121,7 @@ jetbrains/v<version>
 
 Then it publishes from that tag:
 
-[https://github.com/Kilo-Org/kilocode/actions/workflows/publish-jetbrains.yml](https://github.com/Kilo-Org/kilocode/actions/workflows/publish-jetbrains.yml)
+[https://github.com/Kappa-Org/kappacode/actions/workflows/publish-jetbrains.yml](https://github.com/Kappa-Org/kappacode/actions/workflows/publish-jetbrains.yml)
 
 Publishing behavior:
 
@@ -137,7 +137,7 @@ After Marketplace publishing succeeds, `publish-jetbrains` dispatches `publish-j
 Stable bundled releases also publish the GitHub Pages custom plugin repository XML:
 
 ```text
-https://kappa-org.github.io/kilocode/jetbrains/updatePlugins.xml
+https://kappa-org.github.io/kappacode/jetbrains/updatePlugins.xml
 ```
 
 RC bundled ZIPs are attached to prereleases for install-from-disk testing, but they do not update the stable custom repository XML.
@@ -154,7 +154,7 @@ RC builds are published to the `eap` channel. To get them in IntelliJ IDEA:
 https://plugins.jetbrains.com/plugins/list?channel=eap&pluginId=28350
 ```
 
-4. Search for **Kilo Code** in the Marketplace tab.
+4. Search for **Kappa Code** in the Marketplace tab.
 
 ## Manual Recovery
 

@@ -1,9 +1,9 @@
 import { getErrorMessage } from "../kappa-provider-utils"
-import type { KiloConnectionService } from "./cli-backend"
+import type { KappaConnectionService } from "./cli-backend"
 import type { RemoveResult } from "./marketplace/types"
 
 interface Input {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   directory: string
   name: string
   scope?: "project" | "global"
@@ -12,7 +12,7 @@ interface Input {
 export async function removeAgent(input: Input): Promise<RemoveResult> {
   try {
     const client = await input.connection.getClientAsync(input.directory)
-    const result = await client.kilocode.removeAgent({
+    const result = await client.kappacode.removeAgent({
       name: input.name,
       directory: input.directory,
       scope: input.scope,

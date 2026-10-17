@@ -1,7 +1,7 @@
 import { HEADER_FEATURE } from "../api/constants.js"
 import type { DirectAutocompleteProviderID } from "../autocomplete.js"
 import { DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget, type FimTarget } from "../fim.js"
-import { buildKiloHeaders } from "../headers.js"
+import { buildKappaHeaders } from "../headers.js"
 import type { AuthStore } from "./handlers.js"
 
 type Auth = Pick<AuthStore, "get">
@@ -44,7 +44,7 @@ async function fetchFim(
         "Content-Type": "application/json",
         Authorization: `Bearer ${key}`,
         ...(target.provider === "kappa"
-          ? buildKiloHeaders(undefined, { kilocodeOrganizationId: input.organizationId })
+          ? buildKappaHeaders(undefined, { kappacodeOrganizationId: input.organizationId })
           : {}),
         ...(target.provider === "kappa" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
       },
@@ -74,7 +74,7 @@ export function createFimHandler(Auth: Auth) {
     const token = target.provider === "kappa" ? proxy?.token : await getProviderKey(Auth, target.provider)
 
     if (target.provider === "kappa" && !proxy?.auth) {
-      return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+      return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
     }
 
     if (target.provider === "kappa" && !token) {

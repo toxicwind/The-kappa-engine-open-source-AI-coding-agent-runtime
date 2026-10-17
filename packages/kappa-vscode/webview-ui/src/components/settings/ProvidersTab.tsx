@@ -21,7 +21,7 @@ import { isPopularProvider, providerIcon, providerNoteKey, sortProviders } from 
 import {
   canChangeProviderKey,
   disabledProviderOptions,
-  providersWithKiloFallback,
+  providersWithKappaFallback,
   visibleConnectedIds,
 } from "./provider-visibility"
 import { isCustomProviderPackage, KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
@@ -42,7 +42,7 @@ const ProvidersTab: Component = () => {
 
   onCleanup(action.dispose)
 
-  const kiloLoggedIn = createMemo(() => !!provider.authStates()[KILO_PROVIDER_ID])
+  const kappaLoggedIn = createMemo(() => !!provider.authStates()[KILO_PROVIDER_ID])
 
   const connectedProviders = createMemo(() => {
     const ids = visibleConnectedIds(provider.connected(), provider.authStates())
@@ -67,7 +67,7 @@ const ProvidersTab: Component = () => {
 
   const disabledProviders = createMemo(() => config().disabled_providers ?? [])
   const disabledIds = createMemo(() => new Set(disabledProviders()))
-  const providers = createMemo(() => providersWithKiloFallback(provider.providers()))
+  const providers = createMemo(() => providersWithKappaFallback(provider.providers()))
   const disabledOptions = createMemo(() => disabledProviderOptions(providers(), disabledProviders()))
 
   function source(item: Provider): ProviderSource | undefined {
@@ -145,7 +145,7 @@ const ProvidersTab: Component = () => {
 
   function connectProvider(item: Provider) {
     if (item.id === KILO_PROVIDER_ID) {
-      // Route Kilo Gateway sign-in through the Profile view so the user sees
+      // Route Kappa Gateway sign-in through the Profile view so the user sees
       // the full device-auth UI (URL, QR, code, timer, cancel). Triggering
       // `startLogin()` from here alone would run the flow silently with no
       // way to recover if the browser is dismissed.
@@ -168,7 +168,7 @@ const ProvidersTab: Component = () => {
   return (
     <div>
       <Show when={!disabledIds().has(KILO_PROVIDER_ID)}>
-        {/* Kilo Gateway — always at the top, not editable */}
+        {/* Kappa Gateway — always at the top, not editable */}
         <Card>
           <div
             style={{
@@ -187,10 +187,10 @@ const ProvidersTab: Component = () => {
                 color: "var(--vscode-foreground)",
               }}
             >
-              Kilo Gateway
+              Kappa Gateway
             </span>
             <Show
-              when={kiloLoggedIn()}
+              when={kappaLoggedIn()}
               fallback={
                 <Button size="small" variant="secondary" onClick={() => server.goToLogin()}>
                   {language.t("common.signIn")}
@@ -203,7 +203,7 @@ const ProvidersTab: Component = () => {
         </Card>
       </Show>
 
-      {/* Connected providers (excluding Kilo) */}
+      {/* Connected providers (excluding Kappa) */}
       <h4 style={{ "margin-top": "16px", "margin-bottom": "8px" }}>
         {language.t("settings.providers.section.connected")}
       </h4>

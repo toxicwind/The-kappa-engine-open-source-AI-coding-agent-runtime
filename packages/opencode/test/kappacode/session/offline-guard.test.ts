@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Cause, Effect, Exit } from "effect"
-import { KiloSessionProcessor } from "@/kappacode/session/processor"
+import { KappaSessionProcessor } from "@/kappacode/session/processor"
 import { SessionNetwork } from "@/session/network"
 import { SessionRetry } from "@/session/retry"
 import { MessageV2 } from "@/session/message-v2"
@@ -16,15 +16,15 @@ function error(exit: Exit.Exit<unknown, unknown>) {
 
 describe("kappacode.session.offlineGuard", () => {
   test("fails a stalled attempt when the connectivity probe fails", async () => {
-    const guard = KiloSessionProcessor.offlineGuard({ ...fast, check: () => Promise.resolve(false) })
+    const guard = KappaSessionProcessor.offlineGuard({ ...fast, check: () => Promise.resolve(false) })
     const exit = await Effect.runPromiseExit(guard.watch)
     expect(Exit.isFailure(exit)).toBe(true)
-    expect(error(exit)).toBeInstanceOf(KiloSessionProcessor.DisconnectedError)
+    expect(error(exit)).toBeInstanceOf(KappaSessionProcessor.DisconnectedError)
   })
 
   test("keeps waiting while connectivity is healthy", async () => {
     let asked = 0
-    const guard = KiloSessionProcessor.offlineGuard({
+    const guard = KappaSessionProcessor.offlineGuard({
       ...fast,
       check: () => {
         asked++
@@ -38,7 +38,7 @@ describe("kappacode.session.offlineGuard", () => {
 
   test("stream activity defers the probe", async () => {
     let asked = 0
-    const guard = KiloSessionProcessor.offlineGuard({
+    const guard = KappaSessionProcessor.offlineGuard({
       ...fast,
       check: () => {
         asked++
@@ -59,7 +59,7 @@ describe("kappacode.session.offlineGuard", () => {
 
   test("stream activity during a failing probe keeps the attempt alive", async () => {
     let asked = 0
-    const guard = KiloSessionProcessor.offlineGuard({
+    const guard = KappaSessionProcessor.offlineGuard({
       ...fast,
       check: () => {
         asked++
@@ -83,7 +83,7 @@ describe("kappacode.session.offlineGuard", () => {
 
   test("active tool calls hold the guard back", async () => {
     let asked = 0
-    const guard = KiloSessionProcessor.offlineGuard({
+    const guard = KappaSessionProcessor.offlineGuard({
       ...fast,
       busy: () => true,
       check: () => {
@@ -98,9 +98,9 @@ describe("kappacode.session.offlineGuard", () => {
 
   test("pending tool input does not hold the guard back", async () => {
     let asked = 0
-    const guard = KiloSessionProcessor.offlineGuard({
+    const guard = KappaSessionProcessor.offlineGuard({
       ...fast,
-      busy: () => KiloSessionProcessor.executingTools({ "call-1": {} }),
+      busy: () => KappaSessionProcessor.executingTools({ "call-1": {} }),
       check: () => {
         asked++
         return Promise.resolve(false)
@@ -108,15 +108,15 @@ describe("kappacode.session.offlineGuard", () => {
     })
     const exit = await Effect.runPromiseExit(guard.watch.pipe(Effect.raceFirst(Effect.sleep("700 millis"))))
     expect(Exit.isFailure(exit)).toBe(true)
-    expect(error(exit)).toBeInstanceOf(KiloSessionProcessor.DisconnectedError)
+    expect(error(exit)).toBeInstanceOf(KappaSessionProcessor.DisconnectedError)
     expect(asked).toBeGreaterThanOrEqual(1)
   })
 
   test("executing tool calls hold the guard back", async () => {
     let asked = 0
-    const guard = KiloSessionProcessor.offlineGuard({
+    const guard = KappaSessionProcessor.offlineGuard({
       ...fast,
-      busy: () => KiloSessionProcessor.executingTools({ "call-1": { executing: true } }),
+      busy: () => KappaSessionProcessor.executingTools({ "call-1": { executing: true } }),
       check: () => {
         asked++
         return Promise.resolve(false)
@@ -128,7 +128,7 @@ describe("kappacode.session.offlineGuard", () => {
   })
 
   test("the synthetic failure routes to the offline retry branch", () => {
-    const err = new KiloSessionProcessor.DisconnectedError()
+    const err = new KappaSessionProcessor.DisconnectedError()
     expect(SessionNetwork.disconnected(err)).toBe(true)
     expect(SessionNetwork.message(err)).toBe("Network connection failed")
 
@@ -192,8 +192,8 @@ describe("kappacode.session.expandEnv", () => {
   test("${VAR} resolves from the environment and unknown names stay intact", () => {
     process.env.KILO_TEST_EXPAND = "8123"
     try {
-      expect(KiloSessionProcessor.expandEnv("http://127.0.0.1:${KILO_TEST_EXPAND}/v1")).toBe("http://127.0.0.1:8123/v1")
-      expect(KiloSessionProcessor.expandEnv("http://127.0.0.1:${KILO_TEST_MISSING}/v1")).toBe(
+      expect(KappaSessionProcessor.expandEnv("http://127.0.0.1:${KILO_TEST_EXPAND}/v1")).toBe("http://127.0.0.1:8123/v1")
+      expect(KappaSessionProcessor.expandEnv("http://127.0.0.1:${KILO_TEST_MISSING}/v1")).toBe(
         "http://127.0.0.1:${KILO_TEST_MISSING}/v1",
       )
     } finally {

@@ -2,7 +2,7 @@ import { describe, expect, mock, setSystemTime, test } from "bun:test"
 import { Effect, Layer } from "effect"
 import { Auth } from "@/auth"
 
-// Each KiloViewers.layer construction reads these env vars (post-refactor), so
+// Each KappaViewers.layer construction reads these env vars (post-refactor), so
 // setting them here controls presence wiring per test.
 process.env.KILO_EVENT_SERVICE_URL = "wss://test-presence"
 process.env.KILO_PLATFORM = "cli"
@@ -40,11 +40,11 @@ class FakeClient {
 }
 
 const realSessions = await import("@/kappa-sessions/kappa-sessions")
-const realSetAttached = realSessions.KiloSessions.setAttachedSessions
+const realSetAttached = realSessions.KappaSessions.setAttachedSessions
 mock.module("@/kappa-sessions/kappa-sessions", () => ({
   ...realSessions,
-  KiloSessions: {
-    ...realSessions.KiloSessions,
+  KappaSessions: {
+    ...realSessions.KappaSessions,
     setAttachedSessions: (ids: readonly string[]) => {
       attachedCalls.push([...ids])
       realSetAttached(ids)
@@ -77,7 +77,7 @@ mock.module("@/kappacode/event-service/client", () => ({
   },
 }))
 
-const { KiloViewers } = await import("@/kappacode/presence/service")
+const { KappaViewers } = await import("@/kappacode/presence/service")
 
 const authLayer = Layer.succeed(
   Auth.Service,
@@ -89,7 +89,7 @@ const authLayer = Layer.succeed(
   }),
 )
 
-const layer = KiloViewers.layer.pipe(Layer.provide(authLayer))
+const layer = KappaViewers.layer.pipe(Layer.provide(authLayer))
 
 const uid = "11111111-1111-4111-8111-111111111111"
 
@@ -102,7 +102,7 @@ function run(body: (viewers: {
   invalidateAuth: () => Effect.Effect<void>
 }) => Effect.Effect<void>, l: typeof layer = layer) {
   return Effect.gen(function* () {
-    const v = yield* KiloViewers.Service
+    const v = yield* KappaViewers.Service
     yield* body(v)
   }).pipe(Effect.provide(l), Effect.runPromise)
 }
@@ -115,7 +115,7 @@ function unsubscribeCalls(): string[][] {
   return current.calls.filter((c) => c.type === "unsubscribe").map((c) => c.contexts)
 }
 
-describe("KiloViewers.Service presence contexts", () => {
+describe("KappaViewers.Service presence contexts", () => {
   test("active viewer subscribes platform plus its visible session context", async () => {
     attachedCalls.length = 0
     current = new FakeClient()
@@ -164,7 +164,7 @@ describe("KiloViewers.Service presence contexts", () => {
     expect(unsub.every((c) => c.startsWith("/presence/cli-session/ses_old_"))).toBe(true)
   })
 
-  test("kill switch blocks the presence socket but attached union still reaches KiloSessions", async () => {
+  test("kill switch blocks the presence socket but attached union still reaches KappaSessions", async () => {
     attachedCalls.length = 0
     current = new FakeClient()
     const prev = process.env.KILO_DISABLE_PRESENCE
@@ -185,7 +185,7 @@ describe("KiloViewers.Service presence contexts", () => {
 
 const uidB = "22222222-2222-4222-8222-222222222222"
 
-describe("KiloViewers.Service viewer lifecycle", () => {
+describe("KappaViewers.Service viewer lifecycle", () => {
   test("viewer expires at lastSeen + 120s", async () => {
     attachedCalls.length = 0
     current = new FakeClient()
@@ -239,7 +239,7 @@ describe("KiloViewers.Service viewer lifecycle", () => {
           second = current
           yield* v.update({ viewer: { id: uid, active: true }, attached: ["ses_a"], visible: ["ses_a"] })
         }),
-      KiloViewers.layer.pipe(Layer.provide(mutableAuthLayer)),
+      KappaViewers.layer.pipe(Layer.provide(mutableAuthLayer)),
     )
     expect(first).toBeDefined()
     expect(second).toBeDefined()

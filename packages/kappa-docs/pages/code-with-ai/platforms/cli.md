@@ -1,20 +1,20 @@
 ---
-title: "Kilo Code CLI: Run the AI Coding Agent from Your Terminal"
-description: "Using Kilo Code from the command line"
+title: "Kappa Code CLI: Run the AI Coding Agent from Your Terminal"
+description: "Using Kappa Code from the command line"
 platform: new
 ---
 
 {% callout type="warning" title="Version Notice" %}
-This documentation applies only to Kilo version 1.0 and later. Users running versions below 1.0 should upgrade before proceeding.
+This documentation applies only to Kappa version 1.0 and later. Users running versions below 1.0 should upgrade before proceeding.
 {% /callout %}
 
-# Kilo Code CLI: AI Coding Agent in Your Terminal
+# Kappa Code CLI: AI Coding Agent in Your Terminal
 
 Orchestrate agents from your terminal. Plan, debug, and code fast with keyboard-first navigation on the command line.
 
-The Kilo Code CLI uses the same underlying technology that powers the IDE extensions, so you can expect the same workflow to handle agentic coding tasks from start to finish.
+The Kappa Code CLI uses the same underlying technology that powers the IDE extensions, so you can expect the same workflow to handle agentic coding tasks from start to finish.
 
-**Source code & issues (Kilo CLI 1.0):** [Kilo-Org/kilocode](https://github.com/Kilo-Org/kilocode) · [Report an issue](https://github.com/Kilo-Org/kilocode/issues)
+**Source code & issues (Kappa CLI 1.0):** [Kappa-Org/kappacode](https://github.com/Kappa-Org/kappacode) · [Report an issue](https://github.com/Kappa-Org/kappacode/issues)
 
 ## Getting Started
 
@@ -41,15 +41,15 @@ After installation, run `kappa` and use the `/connect` command to add your first
 
 ## Opening Links
 
-Links in agent responses use terminal hyperlink metadata when the terminal supports it. Kilo also handles links inside the TUI, so mouse capture does not make supported HTTP(S) links inactive. Move the pointer over a link to see the hover underline, then click it to open the default browser.
+Links in agent responses use terminal hyperlink metadata when the terminal supports it. Kappa also handles links inside the TUI, so mouse capture does not make supported HTTP(S) links inactive. Move the pointer over a link to see the hover underline, then click it to open the default browser.
 
 Ghostty sends native link clicks through the TUI when mouse capture is enabled. Use `Ctrl+Shift+click` on Linux or `Cmd+Shift+click` on macOS for terminal-native activation. The application click handler does not depend on those modifiers.
 
-If a link cannot open, select and copy its visible URL. Links are opened on the machine running Kilo, so use the copy fallback when Kilo runs over SSH and the browser is on your local machine. `KILO_DISABLE_MOUSE=1` can help diagnose terminal-native link behavior, but it also disables TUI mouse controls and is not required for normal link activation.
+If a link cannot open, select and copy its visible URL. Links are opened on the machine running Kappa, so use the copy fallback when Kappa runs over SSH and the browser is on your local machine. `KILO_DISABLE_MOUSE=1` can help diagnose terminal-native link behavior, but it also disables TUI mouse controls and is not required for normal link activation.
 
 ## Update
 
-Upgrade the Kilo CLI:
+Upgrade the Kappa CLI:
 
 `kappa upgrade`
 
@@ -57,10 +57,10 @@ Or use npm:
 
 `npm update -g @kappacode/cli`
 
-## What you can do with Kilo Code CLI
+## What you can do with Kappa Code CLI
 
 - **Plan and execute code changes without leaving your terminal.** Use your command line to make edits to your project without opening your IDE.
-- **Switch between hundreds of LLMs without constraints.** Other CLI tools only work with one model or curate opinionated lists. With Kilo, you can switch models without booting up another tool.
+- **Switch between hundreds of LLMs without constraints.** Other CLI tools only work with one model or curate opinionated lists. With Kappa, you can switch models without booting up another tool.
 - **Choose the right mode for the task in your workflow.** Select between Architect, Ask, Debug, Orchestrator, or custom agent modes.
 - **Automate tasks.** Get AI assistance writing shell scripts for tasks like renaming all of the files in a folder or transforming sizes for a set of images.
 - **Extend capabilities with skills.** Add domain expertise and repeatable workflows through [Agent Skills](#skills).
@@ -73,8 +73,8 @@ Or use npm:
 
 For detailed help on every command and subcommand, see the [CLI Command Reference](/docs/code-with-ai/platforms/cli-reference).
 
-{% callout type="warning" title="Kilo Console is deprecated" %}
-The `kappa console` command and its browser interface are deprecated and will be removed in a future release. Use the CLI TUI, VS Code extension, or JetBrains plugin to run sessions. Use the CLI slash commands, other extensions, or edit Kilo configuration files directly to manage settings.
+{% callout type="warning" title="Kappa Console is deprecated" %}
+The `kappa console` command and its browser interface are deprecated and will be removed in a future release. Use the CLI TUI, VS Code extension, or JetBrains plugin to run sessions. Use the CLI slash commands, other extensions, or edit Kappa configuration files directly to manage settings.
 {% /callout %}
 
 ### Global Options
@@ -137,18 +137,18 @@ The `kappa console` command and its browser interface are deprecated and will be
 | `/reload` | - | Reload every instance of the project from disk (config, skills, agents, and commands) |
 | `/editor` | - | Open external editor |
 | `/auto-approve` | `/autoapprove`, `/approve-all`, `/approveall` | Toggle auto-approve mode for all permission prompts (saved to global config) |
-| `/caffeinate` | `/caffenate` | Toggle Keep Awake: prevent system sleep while Kilo sessions run |
+| `/caffeinate` | `/caffenate` | Toggle Keep Awake: prevent system sleep while Kappa sessions run |
 | `/privacy` | - | Toggle privacy mode (blurs PII in the TUI) |
 | `/exit` | `/quit`, `/q` | Exit the app |
 
-`/reload` reloads every instance of the project, including the main checkout and sibling worktrees. Kilo refuses the reload while any session in the project is running; wait for it to finish or abort it first.
+`/reload` reloads every instance of the project, including the main checkout and sibling worktrees. Kappa refuses the reload while any session in the project is running; wait for it to finish or abort it first.
 
-#### Kilo Gateway Commands (when connected)
+#### Kappa Gateway Commands (when connected)
 
 | Command | Aliases | Description |
 |---|---|---|
-| `/profile` | `/me`, `/whoami` | View your Kilo Gateway profile |
-| `/teams` | `/team`, `/org`, `/orgs` | Switch between Kilo Gateway teams |
+| `/profile` | `/me`, `/whoami` | View your Kappa Gateway profile |
+| `/teams` | `/team`, `/org`, `/orgs` | Switch between Kappa Gateway teams |
 | `/remote` | - | Toggle remote mode for Cloud Agent access |
 
 #### Built-in Commands
@@ -167,7 +167,7 @@ Continue work started in Claude Code or the OpenAI Codex CLI without copying tra
 2. Run `/resume-claude` or `/resume-codex`.
 3. Pick one of the 10 most recent sessions for the current directory, or pass a session UUID directly, for example `/resume-claude <uuid>`.
 
-Kilo discovers Claude Code transcripts under `~/.claude/projects/` and Codex CLI rollouts under `~/.codex/sessions/`. The imported history keeps its original order and ends with an import notice. Content that Kilo cannot represent, such as some tool outputs, is skipped and counted in that notice.
+Kappa discovers Claude Code transcripts under `~/.claude/projects/` and Codex CLI rollouts under `~/.codex/sessions/`. The imported history keeps its original order and ends with an import notice. Content that Kappa cannot represent, such as some tool outputs, is skipped and counted in that notice.
 
 ## Local Code Reviews
 
@@ -188,7 +188,7 @@ Review your code locally before pushing — catch issues early without waiting f
 Configuration is managed through:
 
 - `/connect` command for provider setup (interactive)
-- Config files in **`~/.config/kappa/`**: use **`kappa.jsonc`** for provider, model, permission, and **MCP** settings. Restart the CLI after editing. See [Using MCP in Kilo Code](/docs/automate/mcp/using-in-kappa-code) for MCP config format.
+- Config files in **`~/.config/kappa/`**: use **`kappa.jsonc`** for provider, model, permission, and **MCP** settings. Restart the CLI after editing. See [Using MCP in Kappa Code](/docs/automate/mcp/using-in-kappa-code) for MCP config format.
 - **`tui.jsonc`** for terminal UI settings such as notifications, sounds, themes, and keybindings
 - `kappa auth` for credential management
 
@@ -239,7 +239,7 @@ To replace individual sounds, add file paths under `attention.sounds`:
 }
 ```
 
-Supported sound names are `default`, `question`, `permission`, `error`, `done`, and `subagent_done`. Relative paths are resolved from the directory containing the TUI configuration file. If an override cannot be loaded, Kilo falls back to the active sound pack and then the built-in `opencode.default` pack.
+Supported sound names are `default`, `question`, `permission`, `error`, `done`, and `subagent_done`. Relative paths are resolved from the directory containing the TUI configuration file. If an override cannot be loaded, Kappa falls back to the active sound pack and then the built-in `opencode.default` pack.
 
 The `attention.sound_pack` setting selects a sound pack registered by a TUI plugin. Setting an arbitrary pack name does not install or load a pack. Per-event file overrides remain the simplest way to customize sounds without a plugin.
 
@@ -264,7 +264,7 @@ The `diff_open` and `session_move` TUI keybindings run the same actions and are 
 
 ## Permissions
 
-Kilo Code uses the permission config to decide whether a given action should run automatically, prompt you, or be blocked.
+Kappa Code uses the permission config to decide whether a given action should run automatically, prompt you, or be blocked.
 
 ### Actions
 
@@ -341,7 +341,7 @@ You can use `~` or `$HOME` at the start of a pattern to reference your home dire
 
 ### External Directories
 
-Use `external_directory` to allow tool calls that touch paths outside the working directory where Kilo was started. This applies to any tool that takes a path as input (for example `read`, `edit`, `glob`, `grep`, and many bash commands).
+Use `external_directory` to allow tool calls that touch paths outside the working directory where Kappa was started. This applies to any tool that takes a path as input (for example `read`, `edit`, `glob`, `grep`, and many bash commands).
 
 ```json
 {
@@ -376,19 +376,19 @@ In Ask and Plan modes, `external_directory` allow rules can still permit reads o
 
 ## Configuration
 
-The Kilo CLI is a fork of [OpenCode](https://opencode.ai) and supports the same configuration options. The CLI you install with `npm install -g @kappacode/cli` (Kilo CLI 1.0) is built from [Kilo-Org/kilocode](https://github.com/Kilo-Org/kilocode). For comprehensive configuration documentation, see the [OpenCode Config documentation](https://opencode.ai/docs/config).
+The Kappa CLI is a fork of [OpenCode](https://opencode.ai) and supports the same configuration options. The CLI you install with `npm install -g @kappacode/cli` (Kappa CLI 1.0) is built from [Kappa-Org/kappacode](https://github.com/Kappa-Org/kappacode). For comprehensive configuration documentation, see the [OpenCode Config documentation](https://opencode.ai/docs/config).
 
-### Config File Location (Kilo CLI 1.0)
+### Config File Location (Kappa CLI 1.0)
 
 | Scope | Path |
 |---|---|
 | **Global** | `~/.config/kappa/kappa.json[c]` or legacy `opencode.json[c]` (Windows config dir may vary) |
-| **Project** | `./kappa.json[c]`, legacy `./opencode.json[c]`, or config inside `./.kappa/` (legacy `./.kilocode/` is also read) |
+| **Project** | `./kappa.json[c]`, legacy `./opencode.json[c]`, or config inside `./.kappa/` (legacy `./.kappacode/` is also read) |
 
 Project-level configuration takes precedence over global settings.
 
 {% callout type="warning" %}
-**Migrating from opencode?** Kilo no longer falls back to opencode configuration stored in `.opencode` directories (such as `~/.config/opencode` or a project `./.opencode/`). To keep using it, move your global config into `~/.config/kappa/` and any project config into `./.kappa/`.
+**Migrating from opencode?** Kappa no longer falls back to opencode configuration stored in `.opencode` directories (such as `~/.config/opencode` or a project `./.opencode/`). To keep using it, move your global config into `~/.config/kappa/` and any project config into `./.kappa/`.
 {% /callout %}
 
 ### Key Configuration Options
@@ -417,7 +417,7 @@ Common configuration options include:
 - **`formatter`** - Code formatter configuration (`true`, `false`, or formatter-specific entries)
 - **`lsp`** - Language server configuration (`true`, `false`, or server-specific entries)
 - **`disabled_providers`** / **`enabled_providers`** - Control which providers are available
-- **`privacy_mode`** - Blur PII in the TUI (balance, team name, Kilo Pass usage) and require confirmation before `/profile` reveals account details — see [Privacy Mode](#privacy-mode)
+- **`privacy_mode`** - Blur PII in the TUI (balance, team name, Kappa Pass usage) and require confirmation before `/profile` reveals account details — see [Privacy Mode](#privacy-mode)
 
 {% callout type="tip" %}
 **Using a model that's not in the built-in list?** You can register any model by adding it under `provider.<provider_id>.models` in your config file. See [Custom Models](/docs/code-with-ai/agents/custom-models) for full details and examples.
@@ -453,7 +453,7 @@ The TUI gives `Ctrl+Z` to input undo on Windows because native Windows terminals
 
 #### Enabling Shift+Enter in Windows Terminal
 
-Some terminals don't send modifier keys with Enter by default. Windows Terminal requires a one-time configuration to forward `Shift+Enter` as an escape sequence that Kilo can read.
+Some terminals don't send modifier keys with Enter by default. Windows Terminal requires a one-time configuration to forward `Shift+Enter` as an escape sequence that Kappa can read.
 
 Open your `settings.json` at:
 
@@ -486,11 +486,11 @@ Add this entry to the root-level `keybindings` array:
 ]
 ```
 
-Save the file and restart Windows Terminal or open a new tab. `Shift+Enter` will now insert a newline in the Kilo prompt instead of submitting the message.
+Save the file and restart Windows Terminal or open a new tab. `Shift+Enter` will now insert a newline in the Kappa prompt instead of submitting the message.
 
 ### OpenTelemetry Export
 
-Kilo telemetry is enabled by default and can be disabled with `experimental.openTelemetry = false`:
+Kappa telemetry is enabled by default and can be disabled with `experimental.openTelemetry = false`:
 
 ```jsonc
 {
@@ -514,7 +514,7 @@ Set `privacy_mode` to `true` in `kappa.jsonc`, or toggle it with the `/privacy` 
 
 When privacy mode is on:
 
-- The sidebar footer shows the balance as `•••`, collapses the team name to "Team credits", and hides the Kilo Pass usage block.
+- The sidebar footer shows the balance as `•••`, collapses the team name to "Team credits", and hides the Kappa Pass usage block.
 - `/profile` asks for confirmation before revealing your email, name, balance, and team on screen.
 
 Privacy mode only affects the TUI display. The `kappa profile` CLI command is unaffected.
@@ -543,9 +543,9 @@ For full details on all configuration options including compaction, file watcher
 
 ## Interactive Mode
 
-Interactive mode is the default mode when running Kilo Code without the `--auto` flag, designed to work interactively with a user through the console.
+Interactive mode is the default mode when running Kappa Code without the `--auto` flag, designed to work interactively with a user through the console.
 
-In interactive mode Kilo Code will request approval for operations which have not been auto-approved, allowing the user to review and approve operations before they are executed, and optionally add them to the auto-approval list.
+In interactive mode Kappa Code will request approval for operations which have not been auto-approved, allowing the user to review and approve operations before they are executed, and optionally add them to the auto-approval list.
 
 ### Interactive Command Approval
 
@@ -566,7 +566,7 @@ Selecting an "Always run" option will:
 2. Save the selected pattern as an `allow` rule under `permission.bash` in your global config
 3. Auto-approve future matching commands, including matching approvals already waiting in other open sessions
 
-Kilo only saves the pattern you select. Approving a specific command does not approve redirected variants or broader command patterns unless that broader option is shown and selected.
+Kappa only saves the pattern you select. Approving a specific command does not approve redirected variants or broader command patterns unless that broader option is shown and selected.
 
 ### Pasting Large Text
 
@@ -574,7 +574,7 @@ Pasting a large block of text (five or more lines, or over 800 characters) into 
 
 ## Autonomous Mode (Non-Interactive)
 
-Autonomous mode allows Kilo Code to run in automated environments like CI/CD pipelines without requiring user interaction.
+Autonomous mode allows Kappa Code to run in automated environments like CI/CD pipelines without requiring user interaction.
 
 ```bash
 # Run in autonomous mode with a message
@@ -608,7 +608,7 @@ This instructs the AI to proceed without user input.
 - `124`: Timeout (task exceeded time limit)
 - `1`: Error (initialization, execution, or request failure)
 
-A run that finishes without an assistant message also exits `1`, reporting `run ended without an assistant message; the model returned no output` on stderr or as a final `error` record with `--format json`. If the prompt request fails, Kilo reports that error instead.
+A run that finishes without an assistant message also exits `1`, reporting `run ended without an assistant message; the model returned no output` on stderr or as a final `error` record with `--format json`. If the prompt request fails, Kappa reports that error instead.
 
 Without `--auto`, a non-interactive run cannot prompt for approval and auto-rejects any permission request it receives. If a run auto-rejected at least one request, it exits `1` with a stderr diagnostic naming the cause, since the task likely did not complete. Pass `--auto` for autonomous use.
 
@@ -616,7 +616,7 @@ Without `--auto`, a non-interactive run cannot prompt for approval and auto-reje
 
 ```yaml
 # GitHub Actions example
-- name: Run Kilo Code
+- name: Run Kappa Code
   run: |
     kappa run "Implement the new feature" --auto
 ```
@@ -661,7 +661,7 @@ kappa --continue
 
 ## Remote Connections
 
-Remote Connections let you access your local CLI sessions from the Cloud Agents web interface. Requires [Kilo Gateway](/docs/gateway) connection.
+Remote Connections let you access your local CLI sessions from the Cloud Agents web interface. Requires [Kappa Gateway](/docs/gateway) connection.
 
 ### Enabling Remote Mode
 
@@ -671,7 +671,7 @@ Remote Connections let you access your local CLI sessions from the Cloud Agents 
 /remote
 ```
 
-Requires connection to Kilo Gateway. The `/remote` command appears only when authenticated.
+Requires connection to Kappa Gateway. The `/remote` command appears only when authenticated.
 
 **Enable by default:**
 
@@ -691,12 +691,12 @@ A connected client can start a session in a child folder of the CLI's launch dir
 
 ### Requirements
 
-- Connection to Kilo Gateway
-- Same Kilo account on CLI and Cloud Agent
+- Connection to Kappa Gateway
+- Same Kappa account on CLI and Cloud Agent
 - CLI must remain running with internet connection
 
 {% callout type="warning" title="Security Warning" %}
-Anyone with access to your Kilo account can send messages to your computer when remote mode is enabled.
+Anyone with access to your Kappa account can send messages to your computer when remote mode is enabled.
 {% /callout %}
 
 ## Environment Variable Overrides
@@ -704,12 +704,12 @@ Anyone with access to your Kilo account can send messages to your computer when 
 The CLI supports overriding config values with environment variables. The supported environment variables are:
 
 - `KILO_PROVIDER`: Override the active provider ID
-- For `kilocode` provider: `KILOCODE_<FIELD_NAME>` (e.g., `KILOCODE_MODEL` → `kilocodeModel`)
+- For `kappacode` provider: `KAPPACODE_<FIELD_NAME>` (e.g., `KAPPACODE_MODEL` → `kappacodeModel`)
 - For other providers: `KILO_<FIELD_NAME>` (e.g., `KILO_API_KEY` → `apiKey`)
 
 ## Using the CLI in an Organization
 
-If you belong to a Kilo organization (Team or Enterprise), you can route CLI requests through that organization. The process differs slightly between interactive and non-interactive usage.
+If you belong to a Kappa organization (Team or Enterprise), you can route CLI requests through that organization. The process differs slightly between interactive and non-interactive usage.
 
 ### Interactive Usage
 

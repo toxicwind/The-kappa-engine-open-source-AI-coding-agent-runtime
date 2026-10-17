@@ -9,7 +9,7 @@ import { disposeInstance } from "../../src/effect/instance-registry"
 import { Git } from "../../src/git"
 import { InstanceBootstrap } from "../../src/project/bootstrap"
 import { InstanceStore } from "../../src/project/instance-store"
-import { KilocodeWatcher } from "../../src/kappacode/watcher"
+import { KappacodeWatcher } from "../../src/kappacode/watcher"
 import type { InstanceContext } from "../../src/project/instance-context"
 import { tmpdirScoped } from "../fixture/fixture"
 import { awaitWithTimeout, testEffect } from "../lib/effect"
@@ -29,18 +29,18 @@ const it = testEffect(layer.pipe(Layer.provideMerge(config)))
 // The watcher is unreliable on Windows CI, so this test only runs on unix.
 const live = process.platform === "win32" ? it.live.skip : it.live
 
-describe("KilocodeWatcher.eager", () => {
+describe("KappacodeWatcher.eager", () => {
   test("skips eager location watchers for VS Code", () => {
-    expect(KilocodeWatcher.eager("vscode")).toBe(false)
+    expect(KappacodeWatcher.eager("vscode")).toBe(false)
   })
 
   test("skips eager location watchers for JetBrains", () => {
-    expect(KilocodeWatcher.eager("jetbrains")).toBe(false)
+    expect(KappacodeWatcher.eager("jetbrains")).toBe(false)
   })
 
   test("keeps eager location watchers for the standalone CLI", () => {
-    expect(KilocodeWatcher.eager("cli")).toBe(true)
-    expect(KilocodeWatcher.eager(undefined)).toBe(true)
+    expect(KappacodeWatcher.eager("cli")).toBe(true)
+    expect(KappacodeWatcher.eager(undefined)).toBe(true)
   })
 })
 
@@ -111,10 +111,10 @@ test.serial(
             ),
           ),
         )
-        const watcher = KilocodeWatcher.layer.pipe(Layer.provide(Layer.succeed(LocationServiceMap.Service, map)))
+        const watcher = KappacodeWatcher.layer.pipe(Layer.provide(Layer.succeed(LocationServiceMap.Service, map)))
         const services = yield* Layer.build(watcher)
         const init = (directory: string) =>
-          KilocodeWatcher.Service.use((service) => service.init()).pipe(
+          KappacodeWatcher.Service.use((service) => service.init()).pipe(
             Effect.provide(services),
             Effect.provideService(InstanceRef, {
               directory,

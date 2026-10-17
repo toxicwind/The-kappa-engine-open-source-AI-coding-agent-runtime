@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { RemoteExitRpc } from "../../../../src/kappacode/cli/cmd/tui/remote-exit-rpc"
-import { createParentRemoteExitBridge } from "../../../../src/kappacode/cli/cmd/tui/remote-exit-bridge"
+import { RemoteExitRpc } from "../../../../../src/kappacode/cli/cmd/tui/remote-exit-rpc"
+import { createParentRemoteExitBridge } from "../../../../../src/kappacode/cli/cmd/tui/remote-exit-bridge"
 import { Rpc } from "../../../../src/util/rpc"
 
 describe("parent remote exit RPC bridge", () => {

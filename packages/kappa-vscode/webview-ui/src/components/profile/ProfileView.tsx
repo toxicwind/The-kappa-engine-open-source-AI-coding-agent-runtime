@@ -126,13 +126,13 @@ const ProfileView: Component<ProfileViewProps> = (props) => {
       error={props.providerUsageError}
       onRefresh={() => props.onRefreshProviderUsage?.()}
       onOpen={openExternal}
-      kiloPass={props.profileData?.kiloPass}
-      showKiloPass={
+      kappaPass={props.profileData?.kappaPass}
+      showKappaPass={
         !!props.profileData &&
         (props.profileData.currentOrgId ?? null) === null &&
         props.profileData.profile.hasPersonalAccount !== false
       }
-      onGetKiloPass={handleGetPass}
+      onGetKappaPass={handleGetPass}
     />
   )
 

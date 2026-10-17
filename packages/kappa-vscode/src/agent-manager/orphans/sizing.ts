@@ -85,7 +85,7 @@ function apply(ctx: ProjectContext, known: Map<string, number | undefined>): boo
  * one new leftover folder does not re-read the other forty.
  *
  * A walk in flight is abandoned as soon as any path it covers leaves the orphan list — a directory
- * removed outside Kilo, say — regardless of whether *this* call needs a walk of its own. Leaving it
+ * removed outside Kappa, say — regardless of whether *this* call needs a walk of its own. Leaving it
  * running would eventually write a size for a path nothing lists as an orphan anymore, and if that
  * path reappears later, `apply` would resurrect the stale number with no new walk ever correcting it,
  * since the path already has an entry in `known`. Checking this ahead of the usual "anything missing?"

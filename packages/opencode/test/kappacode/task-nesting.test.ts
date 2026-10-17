@@ -26,7 +26,7 @@ import { Provider } from "../../src/provider/provider"
 import { Permission } from "../../src/permission"
 import { TaskTool, type TaskPromptOps } from "../../src/tool/task"
 import type { Context } from "../../src/tool/tool"
-import { KiloSessionPrompt } from "../../src/kappacode/session/prompt"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
 import * as SandboxPolicy from "../../src/kappacode/sandbox/policy"
 import { Truncate } from "../../src/tool/truncate"
 import { ToolRegistry } from "../../src/tool/registry"
@@ -147,7 +147,7 @@ function stubOps(opts?: { onPrompt?: (input: SessionPrompt.PromptInput) => void;
   }
 }
 
-describe("Kilo task nesting", () => {
+describe("Kappa task nesting", () => {
   it.live("treats a missing ancestor row as the root", () =>
     provideTmpdirInstance(() =>
       Effect.gen(function* () {
@@ -341,7 +341,7 @@ describe("Kilo task nesting", () => {
   )
 
   test("preserves inherited restrictions while refreshing prompt tool toggles", () => {
-    const permission = KiloSessionPrompt.mergeToolPermissions({
+    const permission = KappaSessionPrompt.mergeToolPermissions({
       existing: [
         { permission: "bash", pattern: "*", action: "deny" },
         { permission: "edit", pattern: "*", action: "deny" },
@@ -397,7 +397,7 @@ describe("Kilo task nesting", () => {
 
           const effective = Permission.merge(
             validator.permission,
-            KiloSessionPrompt.guardPermissions({ agent: validator, session: child }),
+            KappaSessionPrompt.guardPermissions({ agent: validator, session: child }),
           )
           expect(child.permission).not.toContainEqual({ permission: "bash", pattern: "*", action: "ask" })
           // The calling agent's own bash policy is no longer projected onto the subagent as a
@@ -528,7 +528,7 @@ describe("Kilo task nesting", () => {
   )
 })
 
-describe("Kilo task drain", () => {
+describe("Kappa task drain", () => {
   function task(message: MessageV2.Assistant, ops: TaskPromptOps, metadata: Context["metadata"] = () => Effect.void) {
     return Effect.gen(function* () {
       const tool = yield* (yield* TaskTool).init()

@@ -1,14 +1,14 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kilocode_change
+import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
 import { PlanExitTool } from "./plan"
 import { Session } from "@/session/session"
-import { SessionCompaction } from "@/session/compaction" // kilocode_change - compaction service for the experimental compact tool
+import { SessionCompaction } from "@/session/compaction" // kappacode_change - compaction service for the experimental compact tool
 import { QuestionTool } from "./question"
-// kilocode_change start
-import { SuggestTool } from "../kilocode/suggestion/tool"
+// kappacode_change start
+import { SuggestTool } from "../kappacode/suggestion/tool"
 import { Command } from "@/command"
-// kilocode_change end
+// kappacode_change end
 import { ShellTool } from "./shell"
 import { EditTool } from "./edit"
 import { GlobTool } from "./glob"
@@ -31,27 +31,27 @@ import { Plugin } from "../plugin"
 import { Provider } from "@/provider/provider"
 
 import { WebSearchTool } from "./websearch"
-import { KiloToolRegistry } from "../kilocode/tool/registry" // kilocode_change
-import { KiloCodeMode } from "../kilocode/tool/code-mode" // kilocode_change
-import { Notebook } from "@/kilocode/notebook/service" // kilocode_change
-import { AgentManager } from "@/kilocode/agent-manager/service" // kilocode_change
-import { Wakeup } from "@/kilocode/wakeup" // kilocode_change
-import { SessionDrain } from "@/kilocode/session/drain" // kilocode_change
-import { RepoOverviewTool } from "@/kilocode/tool/repo-overview" // kilocode_change
-import { ContextInfoTool, CompactTool } from "@/kilocode/tool/context" // kilocode_change
-import { RepoCloneTool } from "./repo_clone" // kilocode_change
-import { Flag } from "@opencode-ai/core/flag/flag" // kilocode_change
-import { Auth } from "@/auth" // kilocode_change
-import { Env } from "@/env" // kilocode_change - websearch resolves its config via Env.Service
+import { KappaToolRegistry } from "../kappacode/tool/registry" // kappacode_change
+import { KappaCodeMode } from "../kappacode/tool/code-mode" // kappacode_change
+import { Notebook } from "@/kappacode/notebook/service" // kappacode_change
+import { AgentManager } from "@/kappacode/agent-manager/service" // kappacode_change
+import { Wakeup } from "@/kappacode/wakeup" // kappacode_change
+import { SessionDrain } from "@/kappacode/session/drain" // kappacode_change
+import { RepoOverviewTool } from "@/kappacode/tool/repo-overview" // kappacode_change
+import { ContextInfoTool, CompactTool } from "@/kappacode/tool/context" // kappacode_change
+import { RepoCloneTool } from "./repo_clone" // kappacode_change
+import { Flag } from "@opencode-ai/core/flag/flag" // kappacode_change
+import { Auth } from "@/auth" // kappacode_change
+import { Env } from "@/env" // kappacode_change - websearch resolves its config via Env.Service
 import { LspTool } from "./lsp"
 import * as Truncate from "./truncate"
 import { ApplyPatchTool } from "./apply_patch"
 import { Glob } from "@opencode-ai/core/util/glob"
 import path from "path"
 import { pathToFileURL } from "url"
-import { Effect, Layer, Context, Option } from "effect" // kilocode_change
+import { Effect, Layer, Context, Option } from "effect" // kappacode_change
 import { ChildProcessSpawner } from "effect/unstable/process/ChildProcessSpawner"
-import { HttpClient } from "effect/unstable/http" // kilocode_change
+import { HttpClient } from "effect/unstable/http" // kappacode_change
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Format } from "../format"
 import { InstanceState } from "@/effect/instance-state"
@@ -66,29 +66,29 @@ import { Bus } from "../bus"
 import { Agent } from "../agent/agent"
 import { Skill } from "../skill"
 import { Permission } from "@/permission"
-import { SessionStatus } from "@/session/status" // kilocode_change
-import { KiloSessions } from "@/kappa-sessions/kappa-sessions" // kilocode_change - provide KiloSessions.Service so the notify_user tool's init resolves
-import { Git } from "@/git" // kilocode_change
+import { SessionStatus } from "@/session/status" // kappacode_change
+import { KappaSessions } from "@/kappa-sessions/kappa-sessions" // kappacode_change - provide KappaSessions.Service so the notify_user tool's init resolves
+import { Git } from "@/git" // kappacode_change
 import { BackgroundJob } from "@/background/job"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import * as ToolNetwork from "@/kilocode/sandbox/network" // kilocode_change
-import { MemoryService } from "@kappacode/kappa-memory/effect/service" // kilocode_change
+import * as ToolNetwork from "@/kappacode/sandbox/network" // kappacode_change
+import { MemoryService } from "@kappacode/kappa-memory/effect/service" // kappacode_change
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { RepositoryCache } from "@opencode-ai/core/repository-cache" // kilocode_change
-import { RipgrepBinary } from "@opencode-ai/core/ripgrep/binary" // kilocode_change
-import { AppProcess } from "@opencode-ai/core/process" // kilocode_change
+import { RepositoryCache } from "@opencode-ai/core/repository-cache" // kappacode_change
+import { RipgrepBinary } from "@opencode-ai/core/ripgrep/binary" // kappacode_change
+import { AppProcess } from "@opencode-ai/core/process" // kappacode_change
 import { MCP } from "@/mcp"
 import { PermissionV1 } from "@opencode-ai/core/v1/permission"
 import { McpCatalog } from "@/mcp/catalog"
-import { InstanceRef } from "@/effect/instance-ref" // kilocode_change
+import { InstanceRef } from "@/effect/instance-ref" // kappacode_change
 
 export function webSearchEnabled(
   providerID: ProviderV2.ID,
   flags = { exa: Flag.KILO_ENABLE_EXA, parallel: Flag.KILO_ENABLE_PARALLEL },
 ) {
   return (
-    providerID === ProviderV2.ID.kappa || // kilocode_change
+    providerID === ProviderV2.ID.kappa || // kappacode_change
     providerID === ProviderV2.ID.make("opencode-go") ||
     flags.exa ||
     flags.parallel
@@ -109,16 +109,16 @@ export interface Interface {
   readonly ids: () => Effect.Effect<string[]>
   readonly all: () => Effect.Effect<Tool.Def[]>
   readonly named: () => Effect.Effect<{ task: TaskDef; read: ReadDef }>
-  // kilocode_change start
+  // kappacode_change start
   readonly tools: (model: {
     providerID: ProviderV2.ID
     modelID: ModelV2.ID
     family?: string
     agent: Agent.Info
     permission?: PermissionV1.Ruleset
-    networkRestricted?: boolean // kilocode_change - hide network-backed code-mode catalogs in restricted sessions
+    networkRestricted?: boolean // kappacode_change - hide network-backed code-mode catalogs in restricted sessions
   }) => Effect.Effect<Tool.Def[]>
-  // kilocode_change end
+  // kappacode_change end
 }
 
 export class Service extends Context.Service<Service, Interface>()("@opencode/ToolRegistry") {}
@@ -143,12 +143,12 @@ const layer = Layer.effect(
     const plan = yield* PlanExitTool
     const webfetch = yield* WebFetchTool
     const websearch = yield* WebSearchTool
-    const clone = yield* RepoCloneTool // kilocode_change
-    const overview = yield* RepoOverviewTool // kilocode_change
-    // kilocode_change start - self-context tools
+    const clone = yield* RepoCloneTool // kappacode_change
+    const overview = yield* RepoOverviewTool // kappacode_change
+    // kappacode_change start - self-context tools
     const contextInfoTool = yield* ContextInfoTool
     const compactTool = yield* CompactTool
-    // kilocode_change end
+    // kappacode_change end
     const shell = yield* ShellTool
     const globtool = yield* GlobTool
     const writetool = yield* WriteTool
@@ -157,22 +157,22 @@ const layer = Layer.effect(
     const patchtool = yield* ApplyPatchTool
     const skilltool = yield* SkillTool
     const agent = yield* Agent.Service
-    // kilocode_change start
+    // kappacode_change start
     const suggesttool = yield* SuggestTool
     const manager = Option.getOrUndefined(yield* Effect.serviceOption(AgentManager.Service))
     const notebook = Option.getOrUndefined(yield* Effect.serviceOption(Notebook.Service))
-    const kiloToolInfos = yield* KiloToolRegistry.infos(manager, notebook).pipe(Effect.provide(MemoryService.layer))
-    // kilocode_change end
+    const kappaToolInfos = yield* KappaToolRegistry.infos(manager, notebook).pipe(Effect.provide(MemoryService.layer))
+    // kappacode_change end
     const codeMode = flags.experimentalCodeMode ? yield* Effect.promise(() => import("./code-mode")) : undefined
 
     const state = yield* InstanceState.make<State>(
       Effect.fn("ToolRegistry.state")(function* (ctx) {
-        // kilocode_change start - Code Mode can also be enabled from the Kilo config toggle
-        const kiloCfg = yield* config.get()
-        const mode = codeMode ?? (yield* Effect.promise(() => KiloCodeMode.load(flags, kiloCfg)))
+        // kappacode_change start - Code Mode can also be enabled from the Kappa config toggle
+        const kappaCfg = yield* config.get()
+        const mode = codeMode ?? (yield* Effect.promise(() => KappaCodeMode.load(flags, kappaCfg)))
         const codeModeTool = mode
           ? yield* mode.CodeModeTool.pipe(
-              // kilocode_change end
+              // kappacode_change end
               Effect.provideService(MCP.Service, mcp),
               Effect.provideService(Agent.Service, agents),
               Effect.provideService(Session.Service, sessions),
@@ -180,7 +180,7 @@ const layer = Layer.effect(
               Effect.provideService(Truncate.Service, truncate),
               Effect.provideService(InstanceRef, ctx),
             )
-          : undefined // kilocode_change - initialize code mode with the active instance context
+          : undefined // kappacode_change - initialize code mode with the active instance context
         const custom: Tool.Def[] = []
 
         function fromPlugin(id: string, def: ToolDefinition): Tool.Def {
@@ -264,12 +264,12 @@ const layer = Layer.effect(
           }
         }
 
-        // kilocode_change start
-        const cfg = kiloCfg
+        // kappacode_change start
+        const cfg = kappaCfg
         const global = yield* config.getGlobal()
-        const indexing = KiloToolRegistry.indexing(cfg, global)
-        // kilocode_change end
-        const questionEnabled = ["app", "cli", "desktop", "vscode"].includes(flags.client) || flags.enableQuestionTool // kilocode_change: add vscode client
+        const indexing = KappaToolRegistry.indexing(cfg, global)
+        // kappacode_change end
+        const questionEnabled = ["app", "cli", "desktop", "vscode"].includes(flags.client) || flags.enableQuestionTool // kappacode_change: add vscode client
 
         const tool = yield* Effect.all({
           invalid: Tool.init(invalid),
@@ -283,31 +283,31 @@ const layer = Layer.effect(
           fetch: Tool.init(webfetch),
           todo: Tool.init(todo),
           search: Tool.init(websearch),
-          clone: Tool.init(clone), // kilocode_change
-          overview: Tool.init(overview), // kilocode_change
+          clone: Tool.init(clone), // kappacode_change
+          overview: Tool.init(overview), // kappacode_change
           skill: Tool.init(skilltool),
           patch: Tool.init(patchtool),
           question: Tool.init(question),
           lsp: Tool.init(lsptool),
-          contextInfo: Tool.init(contextInfoTool), // kilocode_change
-          compact: Tool.init(compactTool), // kilocode_change
+          contextInfo: Tool.init(contextInfoTool), // kappacode_change
+          compact: Tool.init(compactTool), // kappacode_change
           plan: Tool.init(plan),
           suggest: Tool.init(suggesttool),
-          ...(codeModeTool ? { execute: Tool.init(codeModeTool) } : {}), // kilocode_change
+          ...(codeModeTool ? { execute: Tool.init(codeModeTool) } : {}), // kappacode_change
         })
 
-        // kilocode_change start
-        const kappa = yield* KiloToolRegistry.build(kiloToolInfos, {
+        // kappacode_change start
+        const kappa = yield* KappaToolRegistry.build(kappaToolInfos, {
           agent: agents,
           truncate,
           indexing: indexing ?? false,
         })
-        // kilocode_change end
+        // kappacode_change end
 
         return {
           custom,
-          // kilocode_change start
-          builtin: KiloToolRegistry.describe(
+          // kappacode_change start
+          builtin: KappaToolRegistry.describe(
             [
               tool.invalid,
               ...(questionEnabled ? [tool.question] : []),
@@ -321,19 +321,19 @@ const layer = Layer.effect(
               tool.fetch,
               tool.todo,
               tool.search,
-              ...(flags.experimentalScout ? [tool.clone, tool.overview] : []), // kilocode_change
+              ...(flags.experimentalScout ? [tool.clone, tool.overview] : []), // kappacode_change
               tool.skill,
               tool.patch,
               tool.plan,
               ...(["cli", "vscode"].includes(flags.client) ? [tool.suggest] : []),
-              ...KiloToolRegistry.extra(kappa, cfg, flags),
+              ...KappaToolRegistry.extra(kappa, cfg, flags),
               ...(tool.execute ? [tool.execute] : []),
               ...(flags.experimentalLspTool ? [tool.lsp] : []),
-              ...(flags.experimentalContextTools ? [tool.contextInfo, tool.compact] : []), // kilocode_change
+              ...(flags.experimentalContextTools ? [tool.contextInfo, tool.compact] : []), // kappacode_change
             ],
             kappa,
           ),
-          // kilocode_change end
+          // kappacode_change end
           task: tool.task,
           read: tool.read,
         }
@@ -342,7 +342,7 @@ const layer = Layer.effect(
 
     const all: Interface["all"] = Effect.fn("ToolRegistry.all")(function* () {
       const s = yield* InstanceState.get(state)
-      return [...s.builtin.map(ToolNetwork.builtin), ...s.custom] as Tool.Def[] // kilocode_change
+      return [...s.builtin.map(ToolNetwork.builtin), ...s.custom] as Tool.Def[] // kappacode_change
     })
 
     const ids: Interface["ids"] = Effect.fn("ToolRegistry.ids")(function* () {
@@ -368,45 +368,45 @@ const layer = Layer.effect(
       input: {
         agent: Agent.Info
         permission?: PermissionV1.Ruleset
-        networkRestricted?: boolean // kilocode_change
+        networkRestricted?: boolean // kappacode_change
       },
       cfg: Config.Info,
     ) {
-      // kilocode_change - reuse the config already fetched by the caller
-      if (input.networkRestricted) return // kilocode_change
-      // kilocode_change start - Code Mode can also be enabled from the Kilo config toggle
-      const mode = codeMode ?? (yield* Effect.promise(() => KiloCodeMode.load(flags, cfg)))
+      // kappacode_change - reuse the config already fetched by the caller
+      if (input.networkRestricted) return // kappacode_change
+      // kappacode_change start - Code Mode can also be enabled from the Kappa config toggle
+      const mode = codeMode ?? (yield* Effect.promise(() => KappaCodeMode.load(flags, cfg)))
       if (!mode) return
-      // kilocode_change end
+      // kappacode_change end
       const ruleset = Permission.merge(input.agent.permission, input.permission ?? [])
       const tools = Permission.visibleTools(yield* mcp.tools(), ruleset)
       if (Object.keys(tools).length === 0) return
-      // kilocode_change start - describe the catalog with the resolved Code Mode module
+      // kappacode_change start - describe the catalog with the resolved Code Mode module
       return mode.describeCatalog(tools, Object.keys(yield* mcp.clients()).map(McpCatalog.sanitize))
-      // kilocode_change end
+      // kappacode_change end
     })
 
     const tools: Interface["tools"] = Effect.fn("ToolRegistry.tools")(function* (input) {
-      const cfg = yield* config.get() // kilocode_change
+      const cfg = yield* config.get() // kappacode_change
       const filtered = (yield* all()).filter((tool) => {
-        if (!KiloToolRegistry.available(tool)) return false // kilocode_change
+        if (!KappaToolRegistry.available(tool)) return false // kappacode_change
         if (tool.id === WebSearchTool.id) {
-          if (cfg.web_search === true) return true // kilocode_change
+          if (cfg.web_search === true) return true // kappacode_change
           return webSearchEnabled(input.providerID, { exa: flags.enableExa, parallel: flags.enableParallel })
         }
 
-        const usePatch = KiloToolRegistry.usePatch(input) // kilocode_change
+        const usePatch = KappaToolRegistry.usePatch(input) // kappacode_change
         if (tool.id === ApplyPatchTool.id) return usePatch
-        if (tool.id === EditTool.id) return !usePatch // kilocode_change
+        if (tool.id === EditTool.id) return !usePatch // kappacode_change
 
         return true
       })
-      const kiloFiltered = yield* KiloToolRegistry.applyVisibility(filtered) // kilocode_change
+      const kappaFiltered = yield* KappaToolRegistry.applyVisibility(filtered) // kappacode_change
 
       const codeModeDescription = filtered.some((tool) => tool.id === "execute")
-        ? yield* describeCodeMode(input, cfg) // kilocode_change - pass the config fetched above
+        ? yield* describeCodeMode(input, cfg) // kappacode_change - pass the config fetched above
         : undefined
-      const visible = kiloFiltered.filter((tool) => tool.id !== "execute" || codeModeDescription) // kilocode_change
+      const visible = kappaFiltered.filter((tool) => tool.id !== "execute" || codeModeDescription) // kappacode_change
 
       return yield* Effect.forEach(
         visible,
@@ -421,7 +421,7 @@ const layer = Layer.effect(
             output.parameters === tool.parameters || output.jsonSchema !== tool.jsonSchema
               ? output.jsonSchema
               : undefined
-          // kilocode_change start
+          // kappacode_change start
           const result = {
             id: tool.id,
             description: [
@@ -437,7 +437,7 @@ const layer = Layer.effect(
             formatValidationError: tool.formatValidationError,
           }
           return ToolNetwork.isBuiltin(tool) ? ToolNetwork.builtin(result) : result
-          // kilocode_change end
+          // kappacode_change end
         }),
         { concurrency: "unbounded" },
       )
@@ -452,7 +452,7 @@ const layer = Layer.effect(
   }),
 )
 
-export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kilocode_change - build from the LayerNode graph
+export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kappacode_change - build from the LayerNode graph
 
 function isZodType(value: unknown): value is z.ZodType {
   return typeof value === "object" && value !== null && "_zod" in value
@@ -530,7 +530,7 @@ function isJsonSchemaObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value)
 }
 
-// kilocode_change start - preserve Kilo registry dependencies and sandbox-aware HTTP in the upstream node graph
+// kappacode_change start - preserve Kappa registry dependencies and sandbox-aware HTTP in the upstream node graph
 const network = LayerNode.make({ service: HttpClient.HttpClient, layer: ToolNetwork.httpLayer, deps: [] })
 
 export const node = LayerNode.suspend(() =>
@@ -545,7 +545,7 @@ export const node = LayerNode.suspend(() =>
       Agent.node,
       Skill.node,
       Session.node,
-      SessionCompaction.node, // kilocode_change - compaction service for the experimental compact tool
+      SessionCompaction.node, // kappacode_change - compaction service for the experimental compact tool
       BackgroundJob.node,
       SessionDrain.node,
       Provider.node,
@@ -565,16 +565,16 @@ export const node = LayerNode.suspend(() =>
       Git.node,
       Bus.node,
       Auth.node,
-      Env.node, // kilocode_change - websearch resolves its config via Env.Service
+      Env.node, // kappacode_change - websearch resolves its config via Env.Service
       SessionStatus.node,
       AgentManager.node,
       Notebook.node,
       RepositoryCache.node,
-      KiloSessions.node,
-      Wakeup.node, // kilocode_change - provides Wakeup.Service to the schedule_wakeup/cancel_wakeup tools
+      KappaSessions.node,
+      Wakeup.node, // kappacode_change - provides Wakeup.Service to the schedule_wakeup/cancel_wakeup tools
     ],
   }),
 )
-// kilocode_change end
+// kappacode_change end
 
 export * as ToolRegistry from "./registry"

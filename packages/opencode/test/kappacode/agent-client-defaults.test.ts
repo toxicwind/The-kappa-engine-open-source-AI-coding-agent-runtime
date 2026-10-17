@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import * as KiloAgent from "@/kappacode/agent"
+import * as KappaAgent from "@/kappacode/agent"
 import { Permission } from "@/permission"
 
 const flags = { experimentalSharedAgentBoard: false }
@@ -17,7 +17,7 @@ function withClient<T>(client: string, fn: () => T): T {
 
 function editDefault(client: string) {
   return withClient(client, () =>
-    KiloAgent.prepare({}, flags).defaultsPatch.findLast((rule) => rule.permission === "edit"),
+    KappaAgent.prepare({}, flags).defaultsPatch.findLast((rule) => rule.permission === "edit"),
   )
 }
 
@@ -33,7 +33,7 @@ describe("client-keyed agent permission defaults", () => {
 
   test("user edit permission overrides the jetbrains default", () => {
     withClient("jetbrains", () => {
-      const defaults = KiloAgent.prepare({}, flags).defaultsPatch
+      const defaults = KappaAgent.prepare({}, flags).defaultsPatch
 
       const allowEdit = Permission.merge(defaults, Permission.fromConfig({ edit: "allow" }))
       expect(Permission.evaluate("edit", "src/x.ts", allowEdit).action).toBe("allow")

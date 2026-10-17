@@ -1,10 +1,10 @@
 import type { Session, SessionStatus } from "@kappacode/sdk/v2/client"
-import type { KiloConnectionService } from "../services/cli-backend"
+import type { KappaConnectionService } from "../services/cli-backend"
 import { forkSession } from "../agent-manager/fork-session"
 import { isRunningStatus } from "../session-status"
 
 export interface ForkContext {
-  connection: KiloConnectionService
+  connection: KappaConnectionService
   post: (message: { type: "error"; message: string }) => void
   register: (session: Session) => void
   forked: (session: Session, sourceID: string) => void
@@ -21,7 +21,7 @@ export async function handleForkSession(ctx: ForkContext, sessionId: string, mes
       )
       .then((result) => result.data?.[sessionId]?.type ?? "idle")
       .catch((e) => {
-        console.error("[Kilo New] refreshForkStatus failed:", e)
+        console.error("[Kappa New] refreshForkStatus failed:", e)
         return "busy" as SessionStatus["type"]
       }))
   if (isRunningStatus(status)) {
@@ -42,7 +42,7 @@ export async function handleForkSession(ctx: ForkContext, sessionId: string, mes
         ctx.forked(session, sessionId)
       },
       registerSession: () => {},
-      log: (...args) => console.log("[Kilo New] KiloProvider:", ...args),
+      log: (...args) => console.log("[Kappa New] KappaProvider:", ...args),
     },
     sessionId,
     undefined,

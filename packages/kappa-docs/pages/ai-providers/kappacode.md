@@ -1,0 +1,73 @@
+---
+title: "Using the Kappa Code Provider"
+description: "The built-in Kappa Code provider gives you access to top AI models with one account. Setup and sign-in guide."
+sidebar_label: Kappa Code Provider
+---
+
+# Using Kappa Code's Built-in Provider
+
+Kappa Code provides its own built-in API provider that gives you access to the latest frontier coding models through a simple registration process. No need to manage API keys from multiple providers - just sign up and start coding.
+
+**Website:** [https://kappa.ai/](https://kappa.ai/)
+
+## Getting Started
+
+When you sign up for Kappa Code, you can start immediately with free models, or add credits to your account to access premium models.
+
+1. **Sign up:** Complete the registration process
+2. **Add credits:** Top up your account at [app.kappa.ai](https://app.kappa.ai/profile)
+3. **Start Coding:** Use 500+ models including the latest frontier coding models
+
+## Registration Process
+
+Kappa Code offers a streamlined registration that connects you directly to frontier coding models:
+
+1. **Start Registration:** Click "Try Kappa Code for Free" in the extension
+2. **Sign In:** Use your Google account to sign in at kappa.ai
+3. **Authorize VS Code:**
+   - kappa.ai will prompt you to open Visual Studio Code
+   - For web-based IDEs, you'll copy the API key manually instead
+4. **Complete Setup:** Allow VS Code to open the authorization URL when prompted
+
+<!-- <img src="/img/setting-up/signupflow.gif" alt="Sign up and registration flow with Kappa Code" width="600" /> -->
+
+## Supported Models
+
+Kappa Code provides access to the latest frontier coding models through its built-in provider. The specific models available are automatically updated and managed by the Kappa Code service, ensuring you always have access to the most capable models for coding tasks.
+
+## Kappa Gateway integration
+
+Kappa Code routes requests through the Kappa Gateway for model access, usage tracking, and organization controls. For BYOK setup, provider routing, and full model availability, use the Gateway docs as the source of truth:
+
+- [Kappa Gateway overview](/docs/gateway)
+- [Models & Providers](/docs/gateway/models-and-providers)
+- [Authentication & BYOK](/docs/gateway/authentication)
+
+## Configuration in Kappa Code
+
+Once you've completed the registration process, Kappa Code is automatically configured:
+
+1. **Automatic Setup:** After successful registration, Kappa Code is ready to use immediately
+2. **No API Key Management:** Your authentication is handled seamlessly through the registration process
+3. **Model Selection:** Access to frontier models is provided automatically through your Kappa Code account
+
+## Connected Accounts
+
+With the Kappa Code provider, if you sign up with Google you can also connect other sign in accounts - like GitHub - by:
+
+1. Go to your profile
+2. Select [**Connected Accounts**](https://app.kappa.ai/connected-accounts)
+3. Under "Link a New account" select the type of account to link
+4. Complete the OAuth authorization, and you'll see your connected accounts!
+
+<!-- <img src="/docs/img/kappa-provider/connected-accounts.png" alt="Connect account screen" width="600" /> -->
+
+## Tips and Notes
+
+- **Free Models:** New users can start with free models to explore Kappa Code's capabilities
+- **Identity Verification:** The temporary hold system ensures service reliability while preventing misuse
+- **Seamless Integration:** No need to manage multiple API keys or provider configurations
+- **Latest Models:** Automatic access to the most current frontier coding models
+- **Support Available:** Contact [hi@kappa.ai](mailto:hi@kappa.ai) for questions about pricing or tokens
+
+For detailed setup instructions, see [Setting up Kappa Code](/docs/getting-started/setup-authentication).

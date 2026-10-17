@@ -1,4 +1,4 @@
-import type { KiloConnectionService } from "../services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 import { AgentManagerOrchestrationBridge } from "./orchestration-bridge"
 import type { ProjectContexts } from "./project/contexts"
 import type { ProjectContext } from "./project/context"
@@ -9,7 +9,7 @@ import type { PRStatus } from "./types"
 import { initContextState } from "./project/init"
 
 export interface OrchestrationBridgeDeps {
-  connectionService: KiloConnectionService
+  connectionService: KappaConnectionService
   contexts: ProjectContexts
   projectScope: ProjectScope
   getRoot: () => string | undefined

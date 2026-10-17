@@ -1,7 +1,7 @@
 import { Effect } from "effect"
 import { define } from "../internal"
 import { Integration } from "../../integration"
-import { ProviderV2 } from "../../provider" // kilocode_change
+import { ProviderV2 } from "../../provider" // kappacode_change
 
 export const LLMGatewayPlugin = define({
   id: "llmgateway",
@@ -14,14 +14,14 @@ export const LLMGatewayPlugin = define({
           if (item.provider.api.type !== "aisdk") continue
           if (item.provider.api.package !== "@ai-sdk/openai-compatible") continue
           if (item.provider.api.url !== "https://api.llmgateway.io/v1") continue
-          if (item.provider.id !== ProviderV2.ID.make("llmgateway")) continue // kilocode_change
+          if (item.provider.id !== ProviderV2.ID.make("llmgateway")) continue // kappacode_change
           if (!(yield* integrations.get(Integration.ID.make(item.provider.id)))) continue
           evt.provider.update(item.provider.id, (provider) => {
             provider.request.headers["HTTP-Referer"] = "https://kappa.ai/"
-            // kilocode_change start
-            provider.request.headers["X-Title"] = "Kilo Code"
+            // kappacode_change start
+            provider.request.headers["X-Title"] = "Kappa Code"
             provider.request.headers["X-Source"] = "kappa"
-            // kilocode_change end
+            // kappacode_change end
           })
         }
       }),

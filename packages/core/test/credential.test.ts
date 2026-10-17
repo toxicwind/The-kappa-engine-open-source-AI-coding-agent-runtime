@@ -1,17 +1,17 @@
 import path from "path"
-import { Database as SQLite } from "bun:sqlite" // kilocode_change
+import { Database as SQLite } from "bun:sqlite" // kappacode_change
 import { describe, expect } from "bun:test"
-import { eq } from "drizzle-orm" // kilocode_change
+import { eq } from "drizzle-orm" // kappacode_change
 import { Effect, Layer } from "effect"
 import { Credential } from "@opencode-ai/core/credential"
-import { CredentialTable } from "@opencode-ai/core/credential/sql" // kilocode_change
+import { CredentialTable } from "@opencode-ai/core/credential/sql" // kappacode_change
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Integration } from "@opencode-ai/core/integration"
-// kilocode_change start
+// kappacode_change start
 import { Database } from "@opencode-ai/core/database/database"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Global } from "@opencode-ai/core/global"
-// kilocode_change end
+// kappacode_change end
 import { tmpdir } from "./fixture/tmpdir"
 import { it } from "./lib/effect"
 
@@ -20,11 +20,11 @@ function localLayer(directory: string) {
     [Database.node, Database.layerFromPath(path.join(directory, "credential.db")).pipe(Layer.fresh)],
     [Global.node, Global.layerWith({ data: directory })],
   ]).pipe(
-    Layer.fresh, // kilocode_change - rebuild so process-local credentials are re-read
+    Layer.fresh, // kappacode_change - rebuild so process-local credentials are re-read
   )
 }
 
-// kilocode_change start
+// kappacode_change start
 function importer(dir: string, store: Database.Interface) {
   return Credential.legacyImportLayer.pipe(
     Layer.provide(Layer.succeed(Database.Service, store)),
@@ -32,7 +32,7 @@ function importer(dir: string, store: Database.Interface) {
     Layer.provide(Global.layerWith({ data: dir })),
   )
 }
-// kilocode_change end
+// kappacode_change end
 
 describe("Credential", () => {
   it.live("stores, updates, lists, and removes credentials", () =>
@@ -66,13 +66,13 @@ describe("Credential", () => {
     ),
   )
 
-  // kilocode_change start - process-provided credentials remain isolated from durable storage
+  // kappacode_change start - process-provided credentials remain isolated from durable storage
   it.live("keeps valid KILO_AUTH_CONTENT credentials and isolated mutations process-local", () =>
     Effect.acquireUseRelease(
       Effect.sync(() => {
         const previous = process.env.KILO_AUTH_CONTENT
         process.env.KILO_AUTH_CONTENT = JSON.stringify({
-          kilocode: {
+          kappacode: {
             type: "oauth",
             refresh: "refresh",
             access: "access",
@@ -95,11 +95,11 @@ describe("Credential", () => {
               const service = yield* Credential.Service
               const all = yield* service.all()
               expect(all).toHaveLength(2)
-              const kilocode = Integration.ID.make("kappacode")
-              const listed = yield* service.list(kilocode)
+              const kappacode = Integration.ID.make("kappacode")
+              const listed = yield* service.list(kappacode)
               expect(listed).toHaveLength(1)
               expect(listed[0]).toMatchObject({
-                integrationID: kilocode,
+                integrationID: kappacode,
                 label: "Environment",
                 value: {
                   type: "oauth",
@@ -111,15 +111,15 @@ describe("Credential", () => {
               })
 
               const created = yield* service.create({
-                integrationID: kilocode,
+                integrationID: kappacode,
                 label: "Temporary",
                 value: Credential.Key.make({ type: "key", key: "temporary" }),
               })
-              expect(yield* service.list(kilocode)).toEqual([created])
+              expect(yield* service.list(kappacode)).toEqual([created])
               yield* service.update(created.id, { label: "Updated" })
-              expect((yield* service.list(kilocode))[0]?.label).toBe("Updated")
+              expect((yield* service.list(kappacode))[0]?.label).toBe("Updated")
               yield* service.remove(created.id)
-              expect(yield* service.list(kilocode)).toEqual([])
+              expect(yield* service.list(kappacode)).toEqual([])
 
               delete process.env.KILO_AUTH_CONTENT
               const stored = yield* Effect.gen(function* () {
@@ -335,5 +335,5 @@ describe("Credential", () => {
       ),
     ),
   )
-  // kilocode_change end
+  // kappacode_change end
 })

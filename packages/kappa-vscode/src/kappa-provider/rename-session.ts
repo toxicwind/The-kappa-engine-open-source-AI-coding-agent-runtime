@@ -1,8 +1,8 @@
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import { parseSessionTitle } from "../shared/session-title"
 
 export async function renameSession(input: {
-  client: KiloClient | null
+  client: KappaClient | null
   sessionID: string
   title: unknown
   directory: string

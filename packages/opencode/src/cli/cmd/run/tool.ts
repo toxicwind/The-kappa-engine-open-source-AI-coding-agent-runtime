@@ -1,4 +1,4 @@
-// Per-tool display rules shared across `kappa run` output paths. // kilocode_change
+// Per-tool display rules shared across `kappa run` output paths. // kappacode_change
 //
 // Each known tool (bash, edit, write, task, etc.) has a ToolRule that controls
 // five display hooks:

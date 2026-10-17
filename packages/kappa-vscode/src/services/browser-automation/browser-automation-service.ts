@@ -1,11 +1,11 @@
 import * as vscode from "vscode"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
-import type { KiloConnectionService } from "../cli-backend"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
+import type { KappaConnectionService } from "../cli-backend"
 import { playwrightCommand } from "./settings"
 import { canonicalizePath, samePath } from "../../agent-manager/project/paths"
 
 /**
- * Manages the built-in Playwright MCP browser server for ordinary Kilo sessions.
+ * Manages the built-in Playwright MCP browser server for ordinary Kappa sessions.
  *
  * This is independent from the Agent Manager browser broker. It must not read
  * Agent Manager settings, and Agent Manager must not read its settings.
@@ -19,7 +19,7 @@ export class BrowserAutomationService implements vscode.Disposable {
   private disposed = false
 
   constructor(
-    private readonly connectionService: KiloConnectionService,
+    private readonly connectionService: KappaConnectionService,
     private readonly wait = 15_000,
   ) {
     this.disposables.push(
@@ -95,7 +95,7 @@ export class BrowserAutomationService implements vscode.Disposable {
     const outcome = task.then(
       () => undefined,
       (error) => {
-        console.warn("[Kilo New] BrowserAutomationService: readiness failed:", error)
+        console.warn("[Kappa New] BrowserAutomationService: readiness failed:", error)
         return { error }
       },
     )
@@ -103,7 +103,7 @@ export class BrowserAutomationService implements vscode.Disposable {
     const result = await Promise.race([outcome, limit.promise])
     if (result === "timeout") {
       console.warn(
-        "[Kilo New] BrowserAutomationService: readiness timed out, submitting without waiting for Playwright MCP",
+        "[Kappa New] BrowserAutomationService: readiness timed out, submitting without waiting for Playwright MCP",
       )
       return
     }
@@ -136,7 +136,7 @@ export class BrowserAutomationService implements vscode.Disposable {
       return
     }
     if (!vscode.workspace.isTrusted) {
-      console.warn("[Kilo New] BrowserAutomationService: Workspace is not trusted, skipping Playwright MCP")
+      console.warn("[Kappa New] BrowserAutomationService: Workspace is not trusted, skipping Playwright MCP")
       return
     }
     const dirs = this.directories()
@@ -199,7 +199,7 @@ export class BrowserAutomationService implements vscode.Disposable {
       }
     }
     if (this.registered.size > 0) return
-    if (failure) console.error("[Kilo New] BrowserAutomationService: Failed to register MCP server:", failure)
+    if (failure) console.error("[Kappa New] BrowserAutomationService: Failed to register MCP server:", failure)
   }
 
   private async unregister(dirs = [...this.registered]): Promise<void> {
@@ -213,13 +213,13 @@ export class BrowserAutomationService implements vscode.Disposable {
           )
           this.registered.delete(directory)
         } catch (error) {
-          console.error("[Kilo New] BrowserAutomationService: Failed to disconnect MCP server:", error)
+          console.error("[Kappa New] BrowserAutomationService: Failed to disconnect MCP server:", error)
         }
       }
     }
   }
 
-  private getClient(): KiloClient | null {
+  private getClient(): KappaClient | null {
     try {
       return this.connectionService.getClient()
     } catch {

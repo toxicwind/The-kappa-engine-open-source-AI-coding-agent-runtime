@@ -33,7 +33,7 @@ const providers = {
   } as unknown as Provider.Info,
   kappa: {
     id: "kappa",
-    name: "Kilo Gateway",
+    name: "Kappa Gateway",
     models: {
       "kappa/shared": { id: "kappa/shared", providerID: "kappa", name: "Shared", variants: { low: {} } },
       "kappa/only": { id: "kappa/only", providerID: "kappa", name: "Gateway Only", variants: { low: {} } },

@@ -22,7 +22,7 @@ import {
 } from "./inline-utils"
 import { FimPromptBuilder } from "./FillInTheMiddle"
 import { hasValidCredentials } from "../fim"
-import type { KiloConnectionService } from "../../cli-backend"
+import type { KappaConnectionService } from "../../cli-backend"
 import { getAutocompleteModelById } from "../../../shared/autocomplete-models"
 import { ContextRetrievalService } from "../continuedev/core/autocomplete/context/ContextRetrievalService"
 import { VsCodeIde } from "../continuedev/core/vscode-test-harness/src/VSCodeIde"
@@ -101,7 +101,7 @@ export function applyFirstLineOnly(
  * Command ID for tracking inline completion acceptance.
  * This command is executed after the user accepts an inline completion.
  */
-export const INLINE_COMPLETION_ACCEPTED_COMMAND = "kilocode.autocomplete.inline-completion.accepted"
+export const INLINE_COMPLETION_ACCEPTED_COMMAND = "kappacode.autocomplete.inline-completion.accepted"
 
 export function stringToInlineCompletions(text: string, position: vscode.Position): vscode.InlineCompletionItem[] {
   if (text === "") {
@@ -121,7 +121,7 @@ export class AutocompleteInlineCompletionProvider implements vscode.InlineComple
   private pendingRequests: PendingRequest[] = []
   private fimPromptBuilder: FimPromptBuilder
   private contextProvider: AutocompleteContextProvider
-  private connectionService: KiloConnectionService
+  private connectionService: KappaConnectionService
   private costTrackingCallback: CostTrackingCallback
   private getSettings: () => AutocompleteServiceSettings | null
   public readonly recentlyVisitedRangesService: RecentlyVisitedRangesService
@@ -150,7 +150,7 @@ export class AutocompleteInlineCompletionProvider implements vscode.InlineComple
   constructor(
     context: vscode.ExtensionContext,
     modelId: string,
-    connectionService: KiloConnectionService,
+    connectionService: KappaConnectionService,
     costTrackingCallback: CostTrackingCallback,
     getSettings: () => AutocompleteServiceSettings | null,
     workspacePath: string,

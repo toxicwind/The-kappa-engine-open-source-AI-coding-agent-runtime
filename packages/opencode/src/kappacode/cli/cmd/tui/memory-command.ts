@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2"
+import type { KappaClient } from "@kappacode/sdk/v2"
 import { MEMORY_USAGE, parseMemoryCommand, type ParsedMemoryCommand } from "@kappacode/kappa-memory/commands"
 import { errorMessage } from "@/util/error"
 
@@ -46,7 +46,7 @@ export function parseMemoryInput(input: string): MemoryCommand | undefined {
 
 export async function runMemoryCommand(input: {
   text: string
-  client: KiloClient
+  client: KappaClient
   workspace?: string
   directory?: string
   sessionID?: string

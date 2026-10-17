@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * Build the Kilo VS Code extension and launch it in a development host.
+ * Build the Kappa VS Code extension and launch it in a development host.
  *
  * Usage:
  *   bun script/launch.ts [options] [workspace]
@@ -11,11 +11,11 @@
  *   --mode dev|vsix   "dev" uses --extensionDevelopmentPath, "vsix" packages a VSIX (default: dev)
  *   --app-path PATH   Explicit path to the VS Code executable (auto-detected if omitted)
  *   --state-dir PATH  Directory for isolated VS Code user-data/extensions (default: OS temp per repo)
- *   --kappa-storage-dir PATH  Directory for isolated Kilo XDG storage
+ *   --kappa-storage-dir PATH  Directory for isolated Kappa XDG storage
  *   --isolated        Shortcut for a persistent isolated instance under <repo>/.kappa-dev
  *   --insiders        Prefer VS Code Insiders over stable
  *   --wait            Block until the VS Code window is closed
- *   --clean           Wipe isolated VS Code dirs and Kilo storage before launching
+ *   --clean           Wipe isolated VS Code dirs and Kappa storage before launching
  *   --preserve-settings  Merge defaults into existing VS Code user settings
  *   --accessible      Enable VS Code accessibility support for assistive-technology testing
  *
@@ -92,7 +92,7 @@ function expand(input: string) {
 
 const opts = parse(process.argv.slice(2))
 
-// --isolated defaults both the VS Code state and Kilo storage to <repo>/.kappa-dev
+// --isolated defaults both the VS Code state and Kappa storage to <repo>/.kappa-dev
 const isolated = opts["isolated"] === true
 const dev = join(repo, ".kappa-dev")
 
@@ -371,7 +371,7 @@ async function launch() {
 
   if (mode === "dev") {
     args.push(`--extensionDevelopmentPath=${root}`)
-    args.push("--disable-extension=kilocode.kappa-code")
+    args.push("--disable-extension=kappacode.kappa-code")
   }
 
   if (mode === "vsix") {
@@ -403,7 +403,7 @@ async function launch() {
   console.log(`[launch] Executable: ${app}`)
   console.log(`[launch] Workspace:  ${workspace}`)
   console.log(`[launch] State:      ${base}`)
-  if (kappa) console.log(`[launch] Kilo state: ${kappa}`)
+  if (kappa) console.log(`[launch] Kappa state: ${kappa}`)
   console.log(`[launch] Accessibility support: ${accessible ? "on" : "off"}`)
 
   if (blocking) {

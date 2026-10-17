@@ -39,7 +39,7 @@ async function launch(url: string) {
 
 const OpenCommand = cmd({
   command: "$0",
-  describe: "open the local Kilo Console (deprecated)",
+  describe: "open the local Kappa Console (deprecated)",
   builder: (yargs) =>
     withNetworkOptions(yargs).option("foreground", {
       alias: "f",
@@ -47,16 +47,16 @@ const OpenCommand = cmd({
       type: "boolean",
     }),
   handler: async (args) => {
-    console.warn("Kilo Console is deprecated and will be removed in a future release.")
+    console.warn("Kappa Console is deprecated and will be removed in a future release.")
     const { Daemon } = await import("@/kappacode/daemon/daemon")
     const { warnedNetworkOptions } = await import("@/kappacode/cli/port-warning")
     const run = async (signal?: AbortSignal) => {
       const opts = await warnedNetworkOptions(args)
       const daemon = await Daemon.ensure(opts, explicitNetworkOptions())
       const state = daemon.result.state
-      if (!state) throw new Error("Kilo daemon did not provide connection state")
+      if (!state) throw new Error("Kappa daemon did not provide connection state")
       if (signal?.aborted) return state
-      if (daemon.restarted) console.warn("Restarted the Kilo daemon to apply the requested network options")
+      if (daemon.restarted) console.warn("Restarted the Kappa daemon to apply the requested network options")
 
       const urls = state.urls ?? serverUrls(state.hostname, state.port)
       const consoleLocal = withCredentials(urls.local, state)
@@ -67,9 +67,9 @@ const OpenCommand = cmd({
           console.warn(`Could not open browser automatically: ${err instanceof Error ? err.message : String(err)}`)
         })
       } else {
-        console.warn("No display detected; open the Kilo Console URL manually")
+        console.warn("No display detected; open the Kappa Console URL manually")
       }
-      console.log("Kilo Console:")
+      console.log("Kappa Console:")
       console.log(`  Local:   ${consoleLocal}`)
       if (consoleNetwork) console.log(`  Network: ${consoleNetwork}`)
       return state
@@ -80,15 +80,15 @@ const OpenCommand = cmd({
     }
     await Daemon.foreground(async (signal) => {
       const state = await run(signal)
-      if (!signal.aborted) console.log("Press Ctrl+C to stop the Kilo daemon.")
+      if (!signal.aborted) console.log("Press Ctrl+C to stop the Kappa daemon.")
       return state
     })
   },
 })
 
-export const KiloConsoleCommand = cmd({
+export const KappaConsoleCommand = cmd({
   command: "console",
-  describe: "open or stop the local Kilo Console (deprecated)",
+  describe: "open or stop the local Kappa Console (deprecated)",
   builder: (yargs: Argv) => yargs.command(OpenCommand).command(StopCommand).demandCommand(),
   handler: async () => {},
 })

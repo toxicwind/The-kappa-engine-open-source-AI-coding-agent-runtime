@@ -5,7 +5,7 @@ export type RuleDecision = "approved" | "denied" | "pending"
 // Escape control and bidi/format characters when displaying a skill-shell command, so a
 // command can't repaint the prompt or use Trojan-Source reordering to make the visible text
 // differ from what executes. The webview can't import from @kappacode/cli, so this mirrors
-// displayCommand in packages/opencode/src/kilocode/skills/display.ts; keep them in sync.
+// displayCommand in packages/opencode/src/kappacode/skills/display.ts; keep them in sync.
 const CONTROL = /[\u0000-\u001f\u007f-\u009f\u200e\u200f\u2028\u2029\u202a-\u202e\u2066-\u2069]/g
 
 export function displaySkillCommand(command: string) {

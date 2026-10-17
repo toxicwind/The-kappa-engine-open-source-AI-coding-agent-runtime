@@ -1,4 +1,4 @@
-import { createKiloClient } from "@kappacode/sdk/v2"
+import { createKappaClient } from "@kappacode/sdk/v2"
 import { RGBA, type CliRenderer } from "@opentui/core"
 import type { HostPluginApi } from "@opencode-ai/tui/plugin/slots"
 import { createTuiResolvedConfig } from "./tui-runtime"
@@ -97,7 +97,7 @@ type Opts = {
   state?: {
     ready?: HostPluginApi["state"]["ready"]
     config?: HostPluginApi["state"]["config"]
-    globalConfig?: HostPluginApi["state"]["globalConfig"] // kilocode_change
+    globalConfig?: HostPluginApi["state"]["globalConfig"] // kappacode_change
     provider?: HostPluginApi["state"]["provider"]
     path?: HostPluginApi["state"]["path"]
     vcs?: HostPluginApi["state"]["vcs"]
@@ -128,7 +128,7 @@ export function createTuiPluginApi(opts: Opts = {}): HostPluginApi {
   const kv: Record<string, unknown> = {}
   const count = opts.count
   const ctrl = new AbortController()
-  const own = createKiloClient({
+  const own = createKappaClient({
     baseUrl: "http://localhost:4096",
   })
   const fallback = () => own
@@ -198,7 +198,7 @@ export function createTuiPluginApi(opts: Opts = {}): HostPluginApi {
       soundboard: {
         registerPack: (pack) => opts.attention?.soundboard?.registerPack?.(pack) ?? (() => {}),
         activate: (id, options) => opts.attention?.soundboard?.activate?.(id, options) ?? false,
-        current: () => opts.attention?.soundboard?.current?.() ?? "kappa.default", // kilocode_change
+        current: () => opts.attention?.soundboard?.current?.() ?? "kappa.default", // kappacode_change
         list: () => opts.attention?.soundboard?.list?.() ?? [],
       },
     },
@@ -304,11 +304,11 @@ export function createTuiPluginApi(opts: Opts = {}): HostPluginApi {
       get config() {
         return opts.state?.config ?? {}
       },
-      // kilocode_change start
+      // kappacode_change start
       get globalConfig() {
         return opts.state?.globalConfig ?? {}
       },
-      // kilocode_change end
+      // kappacode_change end
       get provider() {
         return opts.state?.provider ?? []
       },
@@ -323,7 +323,7 @@ export function createTuiPluginApi(opts: Opts = {}): HostPluginApi {
         get: opts.state?.session?.get ?? (() => undefined),
         diff: opts.state?.session?.diff ?? (() => []),
         todo: opts.state?.session?.todo ?? (() => []),
-        processes: opts.state?.session?.processes ?? (() => []), // kilocode_change
+        processes: opts.state?.session?.processes ?? (() => []), // kappacode_change
         messages: opts.state?.session?.messages ?? (() => []),
         status: opts.state?.session?.status ?? (() => undefined),
         permission: opts.state?.session?.permission ?? (() => []),

@@ -1,28 +1,28 @@
 /**
- * Legacy Kilo CLI migration module
+ * Legacy Kappa CLI migration module
  *
- * Migrates authentication from the legacy Kilo Code VS Code extension CLI
- * config path (~/.kilocode/cli/config.json) to the new auth.json format.
+ * Migrates authentication from the legacy Kappa Code VS Code extension CLI
+ * config path (~/.kappacode/cli/config.json) to the new auth.json format.
  */
 import fs from "fs/promises"
 import os from "os"
 import path from "path"
 
-export const LEGACY_CONFIG_PATH = path.join(os.homedir(), ".kilocode", "cli", "config.json")
+export const LEGACY_CONFIG_PATH = path.join(os.homedir(), ".kappacode", "cli", "config.json")
 
 interface LegacyProvider {
   id: string
   provider: string
-  kilocodeToken?: string
-  kilocodeModel?: string
-  kilocodeOrganizationId?: string
+  kappacodeToken?: string
+  kappacodeModel?: string
+  kappacodeOrganizationId?: string
 }
 
 interface LegacyConfig {
   providers?: LegacyProvider[]
 }
 
-interface LegacyKiloAuth {
+interface LegacyKappaAuth {
   token: string
   organizationId?: string
 }
@@ -35,34 +35,34 @@ type AuthInfo = ApiAuth | OAuthAuth
 /**
  * Extract kappa auth from legacy config
  */
-function extractKiloAuth(config: LegacyConfig): LegacyKiloAuth | undefined {
+function extractKappaAuth(config: LegacyConfig): LegacyKappaAuth | undefined {
   if (!config.providers) return undefined
 
   const provider = config.providers.find((p) => p.provider === "kappacode")
-  if (!provider?.kilocodeToken) return undefined
+  if (!provider?.kappacodeToken) return undefined
 
   return {
-    token: provider.kilocodeToken,
-    organizationId: provider.kilocodeOrganizationId,
+    token: provider.kappacodeToken,
+    organizationId: provider.kappacodeOrganizationId,
   }
 }
 
 /**
- * Migrate Kilo authentication from legacy CLI config path.
+ * Migrate Kappa authentication from legacy CLI config path.
  *
- * Checks ~/.kilocode/cli/config.json for existing kappa credentials
+ * Checks ~/.kappacode/cli/config.json for existing kappa credentials
  * and migrates them to the new auth.json format.
  *
- * @param hasKiloAuth - Callback to check if kappa auth already exists
- * @param saveKiloAuth - Callback to save the migrated auth
+ * @param hasKappaAuth - Callback to check if kappa auth already exists
+ * @param saveKappaAuth - Callback to save the migrated auth
  * @returns true if migration was performed, false otherwise
  */
-export async function migrateLegacyKiloAuth(
-  hasKiloAuth: () => Promise<boolean>,
-  saveKiloAuth: (auth: AuthInfo) => Promise<void>,
+export async function migrateLegacyKappaAuth(
+  hasKappaAuth: () => Promise<boolean>,
+  saveKappaAuth: (auth: AuthInfo) => Promise<void>,
 ): Promise<boolean> {
   // Skip if kappa auth already configured
-  if (await hasKiloAuth()) return false
+  if (await hasKappaAuth()) return false
 
   // Check if legacy config exists and parse it
   const content = await fs.readFile(LEGACY_CONFIG_PATH, "utf-8").catch(() => null)
@@ -76,13 +76,13 @@ export async function migrateLegacyKiloAuth(
   }
 
   // Extract kappa auth from legacy config
-  const legacy = extractKiloAuth(config)
+  const legacy = extractKappaAuth(config)
   if (!legacy) return false
 
   // Migrate to new format
   // Use OAuth format if organization ID present, otherwise API format
   if (legacy.organizationId) {
-    await saveKiloAuth({
+    await saveKappaAuth({
       type: "oauth",
       access: legacy.token,
       refresh: "",
@@ -90,7 +90,7 @@ export async function migrateLegacyKiloAuth(
       accountId: legacy.organizationId,
     })
   } else {
-    await saveKiloAuth({
+    await saveKappaAuth({
       type: "api",
       key: legacy.token,
     })

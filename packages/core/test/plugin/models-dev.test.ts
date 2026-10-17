@@ -24,14 +24,14 @@ const locationLayer = Layer.succeed(
   Location.Service,
   Location.Service.of(location({ directory: AbsolutePath.make(import.meta.dir) })),
 )
-// kilocode_change - Catalog pulls Credential, which imports Global.data/auth.json on startup, so
+// kappacode_change - Catalog pulls Credential, which imports Global.data/auth.json on startup, so
 // without this the suite reads the developer's real credential store.
 const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "kappa-modelsdev-test-"))
 const globalLayer = Global.layerWith({ data: dataDir })
 afterAll(() => fs.rmSync(dataDir, { recursive: true, force: true }))
 const layer = AppNodeBuilder.build(LayerNode.group([Catalog.node, Integration.node, EventV2.node]), [
   [Location.node, locationLayer],
-  [Global.node, globalLayer], // kilocode_change
+  [Global.node, globalLayer], // kappacode_change
 ])
 const it = testEffect(layer)
 

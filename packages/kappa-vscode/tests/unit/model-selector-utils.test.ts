@@ -65,8 +65,8 @@ describe("stripSubProviderPrefix", () => {
     expect(stripSubProviderPrefix("claude-3-5-sonnet")).toBe("claude-3-5-sonnet")
   })
 
-  it("does not strip 'Kilo: ' prefix", () => {
-    expect(stripSubProviderPrefix("Kilo: Auto")).toBe("Kilo: Auto")
+  it("does not strip 'Kappa: ' prefix", () => {
+    expect(stripSubProviderPrefix("Kappa: Auto")).toBe("Kappa: Auto")
     expect(stripSubProviderPrefix("kappa: Auto")).toBe("kappa: Auto")
   })
 })
@@ -81,8 +81,8 @@ describe("sanitizeName", () => {
     expect(sanitizeName("Model (FREE)")).toBe("Model")
   })
 
-  it("preserves bare trailing Free in names like 'Kilo Auto Free'", () => {
-    expect(sanitizeName("Kilo Auto Free")).toBe("Kilo Auto Free")
+  it("preserves bare trailing Free in names like 'Kappa Auto Free'", () => {
+    expect(sanitizeName("Kappa Auto Free")).toBe("Kappa Auto Free")
     expect(sanitizeName("Mixtral free")).toBe("Mixtral free")
     expect(sanitizeName("Mistral:free")).toBe("Mistral:free")
     expect(sanitizeName("Gemma-free")).toBe("Gemma-free")
@@ -119,7 +119,7 @@ describe("isFree", () => {
 })
 
 describe("isAuto", () => {
-  it("matches only Kilo Auto model ids", () => {
+  it("matches only Kappa Auto model ids", () => {
     expect(isAuto({ providerID: KILO_GATEWAY_ID, id: "kappa-auto/efficient" })).toBe(true)
     expect(isAuto({ providerID: KILO_GATEWAY_ID, id: "auto-small" })).toBe(true)
     expect(isAuto({ providerID: "anthropic", id: "kappa-auto/efficient" })).toBe(false)
@@ -195,9 +195,9 @@ describe("autoSummary", () => {
 const SEARCH_MODELS: EnrichedModel[] = [
   { id: "solar-pro", name: "Solar Pro", providerID: "nvidia", providerName: "NVIDIA" },
   { id: "gpt-5.6-sol", name: "GPT-5.6 Sol", providerID: "openai", providerName: "OpenAI" },
-  { id: "gpt-5.6-sol", name: "GPT-5.6 Sol", providerID: "kappa", providerName: "Kilo" },
+  { id: "gpt-5.6-sol", name: "GPT-5.6 Sol", providerID: "kappa", providerName: "Kappa" },
   { id: "gpt-5.6", name: "GPT-5.6", providerID: "anthropic", providerName: "Anthropic" },
-  { id: "xai/grok-4.20", name: "SpaceXAI: Grok 4.20", providerID: "kappa", providerName: "Kilo Gateway" },
+  { id: "xai/grok-4.20", name: "SpaceXAI: Grok 4.20", providerID: "kappa", providerName: "Kappa Gateway" },
 ]
 
 describe("rankModelSearch", () => {

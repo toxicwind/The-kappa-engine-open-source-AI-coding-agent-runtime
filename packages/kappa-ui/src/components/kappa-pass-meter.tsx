@@ -1,6 +1,6 @@
 import { type ComponentProps, type JSX, splitProps } from "solid-js"
 
-export interface KiloPassMeterProps extends Omit<ComponentProps<"div">, "children"> {
+export interface KappaPassMeterProps extends Omit<ComponentProps<"div">, "children"> {
   used: number
   paid: number
   bonus: number
@@ -10,7 +10,7 @@ export interface KiloPassMeterProps extends Omit<ComponentProps<"div">, "childre
   format: (value: number) => string
 }
 
-export function KiloPassMeter(props: KiloPassMeterProps) {
+export function KappaPassMeter(props: KappaPassMeterProps) {
   const [local, rest] = splitProps(props, [
     "used",
     "paid",

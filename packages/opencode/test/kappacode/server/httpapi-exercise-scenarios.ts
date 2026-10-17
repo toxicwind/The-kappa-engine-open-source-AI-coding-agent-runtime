@@ -2,7 +2,7 @@ import { Effect } from "effect"
 import { mkdir, rm } from "fs/promises"
 import path from "path"
 import { parse as parseJsonc } from "jsonc-parser"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { Database } from "@opencode-ai/core/database/database"
 import { BoardStore } from "../../../src/kappacode/board/store"
@@ -93,7 +93,7 @@ function memory(ctx: ScenarioContext) {
 
 function enable(ctx: ScenarioContext) {
   const dir = directory(ctx)
-  return Effect.promise(() => KiloMemory.enable({ ctx: { directory: dir, worktree: dir } }))
+  return Effect.promise(() => KappaMemory.enable({ ctx: { directory: dir, worktree: dir } }))
 }
 
 function board(ctx: ScenarioContext) {
@@ -369,7 +369,7 @@ export const kappaScenarios: Scenario[] = [
         const root = memory(ctx)
         yield* enable(ctx)
         yield* Effect.promise(() =>
-          KiloMemory.apply({
+          KappaMemory.apply({
             root,
             ops: [{ action: "add", key: "httpapi_forget", text: "This fact should be removed by the route." }],
           }),
@@ -403,7 +403,7 @@ export const kappaScenarios: Scenario[] = [
       Effect.gen(function* () {
         yield* enable(ctx)
         yield* Effect.promise(() =>
-          KiloMemory.apply({
+          KappaMemory.apply({
             root: memory(ctx),
             ops: [{ action: "add", key: "httpapi_show", text: "Show should expose persisted memory." }],
           }),
@@ -429,8 +429,8 @@ export const kappaScenarios: Scenario[] = [
   http.protected.get("/kappa/profile", "kappa.profile").probe({ path: "/path" }).status(401),
   http.protected.get("/kappa/auth-status", "kappa.authStatus").json(200, (body) => {
     object(body)
-    check(body.authenticated === false, "Kilo auth status should report signed out")
-    check(body.type === undefined, "Kilo auth status should not expose a credential type while signed out")
+    check(body.authenticated === false, "Kappa auth status should report signed out")
+    check(body.type === undefined, "Kappa auth status should not expose a credential type while signed out")
   }),
   http.protected.get("/kappa/modes", "kappa.modes").json(200, (body) => {
     object(body)

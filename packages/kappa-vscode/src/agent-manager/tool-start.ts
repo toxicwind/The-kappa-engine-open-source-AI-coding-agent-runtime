@@ -1,4 +1,4 @@
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import { sanitizeBranchName, versionedName } from "./branch-name"
 import type { CreateWorktreeResult } from "./WorktreeManager"
 import type { WorktreeStateManager } from "./WorktreeStateManager"
@@ -44,7 +44,7 @@ interface WorktreeCreated {
 }
 
 export interface ToolDeps {
-  getClient: () => KiloClient
+  getClient: () => KappaClient
   getRoot: () => string | undefined
   getState: () => WorktreeStateManager | undefined
   getPanel: () => PanelContext | undefined
@@ -68,7 +68,7 @@ export interface ToolDeps {
     boot?: CreationBoot,
     timing?: Timing,
   ) => Promise<Session | null>
-  sessionMetadata: (client: KiloClient, dir: string) => Promise<Record<string, unknown>>
+  sessionMetadata: (client: KappaClient, dir: string) => Promise<Record<string, unknown>>
   registerWorktreeSession: (sid: string, dir: string) => void
   notifyReady: (sid: string, result: CreateWorktreeResult, wid?: string) => void
   push: () => void
@@ -120,7 +120,7 @@ function versionedLabel(base: string | undefined, index: number, total: number):
   return base
 }
 
-async function prompt(client: KiloClient, sid: string, dir: string, task: ToolTask, source?: ToolSource) {
+async function prompt(client: KappaClient, sid: string, dir: string, task: ToolTask, source?: ToolSource) {
   const body = text(task)
   if (!body) return
   await client.session.promptAsync(
@@ -147,7 +147,7 @@ function locate(state: WorktreeStateManager, root: string, dir: string, wid: str
 
 async function local(
   deps: ToolDeps,
-  client: KiloClient,
+  client: KappaClient,
   task: ToolTask,
   directory?: string,
   source?: ToolSource,
@@ -198,7 +198,7 @@ async function local(
 
 async function worktree(
   deps: ToolDeps,
-  client: KiloClient,
+  client: KappaClient,
   task: ToolTask,
   index: number,
   total: number,

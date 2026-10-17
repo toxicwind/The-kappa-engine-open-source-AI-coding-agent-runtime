@@ -3,25 +3,25 @@ import { $ } from "bun"
 import pkg from "../package.json"
 import { Script } from "@opencode-ai/script"
 import { fileURLToPath } from "url"
-// kilocode_change start
+// kappacode_change start
 import fs from "node:fs"
 import path from "node:path"
-import { NpmPublish } from "./kilocode/npm-publish"
-import * as KiloSbom from "./kilocode/sbom"
-import * as KiloRelease from "../../../script/kilocode/release"
-import type { Manifest } from "../../../script/kilocode/sbom/index"
-// kilocode_change end
+import { NpmPublish } from "./kappacode/npm-publish"
+import * as KappaSbom from "./kappacode/sbom"
+import * as KappaRelease from "../../../script/kappacode/release"
+import type { Manifest } from "../../../script/kappacode/sbom/index"
+// kappacode_change end
 
 const dir = fileURLToPath(new URL("..", import.meta.url))
 process.chdir(dir)
 
-// kilocode_change start
+// kappacode_change start
 const evidence: Manifest.Entry[] = []
 
 /** Record SBOM evidence for one npm tarball, or an explicit failure entry. */
 async function describe(file: string | undefined, name: string, version: string) {
   const described = file
-    ? await KiloSbom.npmPackage({
+    ? await KappaSbom.npmPackage({
         file,
         name,
         release: { version, channel: Script.channel },
@@ -55,7 +55,7 @@ async function registry(name: string, version: string) {
   const filename = (out as { filename?: string }[] | undefined)?.at(0)?.filename
   return filename ? path.join(dest, filename) : undefined
 }
-// kilocode_change end
+// kappacode_change end
 
 async function published(name: string, version: string) {
   return (await $`npm view ${name}@${version} version`.nothrow()).exitCode === 0
@@ -67,21 +67,21 @@ async function publish(dir: string, name: string, version: string) {
   if (process.platform !== "win32") await $`chmod -R 755 .`.cwd(dir)
   if (await published(name, version)) {
     console.log(`already published ${name}@${version}`)
-    // kilocode_change start - a re-run must still describe what the registry
+    // kappacode_change start - a re-run must still describe what the registry
     // serves, otherwise the distribution manifest shrinks and its upload would
     // replace the complete evidence from the first run.
     await describe(await registry(name, version), name, version)
-    // kilocode_change end
+    // kappacode_change end
     return
   }
-  // kilocode_change start - remove stale tarballs so the SBOM subject and the
+  // kappacode_change start - remove stale tarballs so the SBOM subject and the
   // published bytes are provably the file this pack just wrote.
   for (const stale of await Array.fromAsync(new Bun.Glob("*.tgz").scan({ cwd: dir }))) {
     await fs.promises.rm(path.join(dir, stale), { force: true })
   }
-  // kilocode_change end
+  // kappacode_change end
   await $`bun pm pack`.cwd(dir)
-  // kilocode_change start - describe the exact tarball before publishing it, and
+  // kappacode_change start - describe the exact tarball before publishing it, and
   // publish that resolved path rather than a glob.
   const packed = await Array.fromAsync(new Bun.Glob("*.tgz").scan({ cwd: dir }))
   if (packed.length !== 1) {
@@ -96,13 +96,13 @@ async function publish(dir: string, name: string, version: string) {
     run: () => $`npm publish ${tarball} --access public --tag ${Script.channel} --provenance`.cwd(dir),
     exists: () => published(name, version),
   })
-  // kilocode_change end
+  // kappacode_change end
 }
 
 const binaries: Record<string, string> = {}
-// kilocode_change start
+// kappacode_change start
 for (const filepath of new Bun.Glob("*/*/package.json").scanSync({ cwd: "./dist" })) {
-  // kilocode_change end
+  // kappacode_change end
   const pkg = await Bun.file(`./dist/${filepath}`).json()
   binaries[pkg.name] = pkg.version
 }
@@ -113,34 +113,34 @@ await $`mkdir -p ./dist/${pkg.name}`
 await $`cp -r ./bin ./dist/${pkg.name}/bin`
 await $`cp ./script/postinstall.mjs ./dist/${pkg.name}/postinstall.mjs`
 await Bun.file(`./dist/${pkg.name}/LICENSE`).write(await Bun.file("../../LICENSE").text())
-await Bun.file(`./dist/${pkg.name}/README.md`).write(await Bun.file("./README.md").text()) // kilocode_change
+await Bun.file(`./dist/${pkg.name}/README.md`).write(await Bun.file("./README.md").text()) // kappacode_change
 
 await Bun.file(`./dist/${pkg.name}/package.json`).write(
   JSON.stringify(
     {
-      name: pkg.name, // kilocode_change
+      name: pkg.name, // kappacode_change
       bin: {
-        // kilocode_change start
+        // kappacode_change start
         kappa: `./bin/kappa`,
-        kilocode: `./bin/kappa`,
-        // kilocode_change end
+        kappacode: `./bin/kappa`,
+        // kappacode_change end
       },
       scripts: {
         postinstall: "node ./postinstall.mjs",
       },
       version: version,
       license: pkg.license,
-      keywords: pkg.keywords, // kilocode_change
-      private: pkg.private, // kilocode_change
+      keywords: pkg.keywords, // kappacode_change
+      private: pkg.private, // kappacode_change
       os: ["darwin", "linux", "win32"],
       cpu: ["arm64", "x64"],
       optionalDependencies: binaries,
-      // kilocode_change start
+      // kappacode_change start
       repository: {
         type: "git",
-        url: "https://github.com/Kilo-Org/kilocode",
+        url: "https://github.com/Kappa-Org/kappacode",
       },
-      // kilocode_change end
+      // kappacode_change end
     },
     null,
     2,
@@ -151,22 +151,22 @@ const tasks = Object.entries(binaries).map(async ([name]) => {
   await publish(`./dist/${name}`, name, binaries[name])
 })
 await Promise.all(tasks)
-await publish(`./dist/${pkg.name}`, pkg.name, version) // kilocode_change
+await publish(`./dist/${pkg.name}`, pkg.name, version) // kappacode_change
 
-const image = "ghcr.io/kappa-org/kilocode" // kilocode_change
+const image = "ghcr.io/kappa-org/kappacode" // kappacode_change
 const platforms = "linux/amd64,linux/arm64"
 const tags = [`${image}:${version}`, `${image}:${Script.channel}`]
 const tagFlags = tags.flatMap((t) => ["-t", t])
 
 // registries
 if (!Script.preview) {
-  // kilocode_change start - BuildKit attestations are requested explicitly rather
+  // kappacode_change start - BuildKit attestations are requested explicitly rather
   // than relying on defaults, and the pushed digests are captured so the image
   // SBOM describes an immutable manifest instead of a moving channel tag.
   const metadata = path.resolve("dist", "oci-metadata.json")
   await $`docker buildx build --platform ${platforms} ${tagFlags} --provenance=mode=max --sbom=true --metadata-file ${metadata} --push .`
   evidence.push(...(await describeImages(metadata)))
-  // kilocode_change end
+  // kappacode_change end
   // Calculate SHA values
   const arm64Sha = await $`sha256sum ./dist/kappa-linux-arm64.tar.gz | cut -d' ' -f1`.text().then((x) => x.trim())
   const x64Sha = await $`sha256sum ./dist/kappa-linux-x64.tar.gz | cut -d' ' -f1`.text().then((x) => x.trim())
@@ -177,7 +177,7 @@ if (!Script.preview) {
 
   // arch
   const binaryPkgbuild = [
-    "# Maintainer: kappa", // kilocode_change
+    "# Maintainer: kappa", // kappacode_change
     "",
     "pkgname='kappa-bin'",
     `pkgver=${pkgver}`,
@@ -185,28 +185,28 @@ if (!Script.preview) {
     "options=('!debug' '!strip')",
     "pkgrel=1",
     "pkgdesc='The AI coding agent built for the terminal.'",
-    "url='https://github.com/Kilo-Org/kilocode'",
+    "url='https://github.com/Kappa-Org/kappacode'",
     "arch=('aarch64' 'x86_64')",
-    "license=('MIT' 'LGPL-2.0-or-later')", // kilocode_change
+    "license=('MIT' 'LGPL-2.0-or-later')", // kappacode_change
     "provides=('kappa')",
     "conflicts=('kappa')",
     "depends=('ripgrep')",
     "",
-    `source_aarch64=("\${pkgname}_\${pkgver}_aarch64.tar.gz::https://github.com/Kilo-Org/kilocode/releases/download/v\${pkgver}\${_subver}/kappa-linux-arm64.tar.gz")`,
+    `source_aarch64=("\${pkgname}_\${pkgver}_aarch64.tar.gz::https://github.com/Kappa-Org/kappacode/releases/download/v\${pkgver}\${_subver}/kappa-linux-arm64.tar.gz")`,
     `sha256sums_aarch64=('${arm64Sha}')`,
 
-    `source_x86_64=("\${pkgname}_\${pkgver}_x86_64.tar.gz::https://github.com/Kilo-Org/kilocode/releases/download/v\${pkgver}\${_subver}/kappa-linux-x64.tar.gz")`,
+    `source_x86_64=("\${pkgname}_\${pkgver}_x86_64.tar.gz::https://github.com/Kappa-Org/kappacode/releases/download/v\${pkgver}\${_subver}/kappa-linux-x64.tar.gz")`,
     `sha256sums_x86_64=('${x64Sha}')`,
     "",
     "package() {",
-    '  install -Dm755 ./kappa "${pkgdir}/usr/lib/kappa/kappa"', // kilocode_change
-    '  install -Dm755 ./bwrap "${pkgdir}/usr/lib/kappa/bwrap"', // kilocode_change
-    '  install -Dm644 ./kappa-sandbox-mutation-worker.js "${pkgdir}/usr/lib/kappa/kappa-sandbox-mutation-worker.js"', // kilocode_change
-    '  install -dm755 "${pkgdir}/usr/bin" "${pkgdir}/usr/lib/kappa/tree-sitter" "${pkgdir}/usr/share/licenses/kappa"', // kilocode_change
-    '  cp -r ./tree-sitter/. "${pkgdir}/usr/lib/kappa/tree-sitter/"', // kilocode_change
-    '  cp -r ./licenses/. "${pkgdir}/usr/share/licenses/kappa/"', // kilocode_change
-    "  printf '%s\\n' '#!/bin/sh' 'export KILO_TREE_SITTER_WASM_DIR=/usr/lib/kappa/tree-sitter' 'exec /usr/lib/kappa/kappa \"$@\"' > \"${pkgdir}/usr/bin/kappa\"", // kilocode_change
-    '  chmod 755 "${pkgdir}/usr/bin/kappa"', // kilocode_change
+    '  install -Dm755 ./kappa "${pkgdir}/usr/lib/kappa/kappa"', // kappacode_change
+    '  install -Dm755 ./bwrap "${pkgdir}/usr/lib/kappa/bwrap"', // kappacode_change
+    '  install -Dm644 ./kappa-sandbox-mutation-worker.js "${pkgdir}/usr/lib/kappa/kappa-sandbox-mutation-worker.js"', // kappacode_change
+    '  install -dm755 "${pkgdir}/usr/bin" "${pkgdir}/usr/lib/kappa/tree-sitter" "${pkgdir}/usr/share/licenses/kappa"', // kappacode_change
+    '  cp -r ./tree-sitter/. "${pkgdir}/usr/lib/kappa/tree-sitter/"', // kappacode_change
+    '  cp -r ./licenses/. "${pkgdir}/usr/share/licenses/kappa/"', // kappacode_change
+    "  printf '%s\\n' '#!/bin/sh' 'export KILO_TREE_SITTER_WASM_DIR=/usr/lib/kappa/tree-sitter' 'exec /usr/lib/kappa/kappa \"$@\"' > \"${pkgdir}/usr/bin/kappa\"", // kappacode_change
+    '  chmod 755 "${pkgdir}/usr/bin/kappa"', // kappacode_change
     "}",
     "",
   ].join("\n")
@@ -236,49 +236,49 @@ if (!Script.preview) {
     "# frozen_string_literal: true",
     "",
     "# This file was generated by GoReleaser. DO NOT EDIT.",
-    "class Kilo < Formula", // kilocode_change
+    "class Kappa < Formula", // kappacode_change
     `  desc "The AI coding agent built for the terminal."`,
-    `  homepage "https://kappa.ai"`, // kilocode_change
+    `  homepage "https://kappa.ai"`, // kappacode_change
     `  version "${Script.version.split("-")[0]}"`,
     "",
     `  depends_on "ripgrep"`,
     "",
     "  on_macos do",
     "    if Hardware::CPU.intel?",
-    `      url "https://github.com/Kilo-Org/kilocode/releases/download/v${Script.version}/kappa-darwin-x64.zip"`,
+    `      url "https://github.com/Kappa-Org/kappacode/releases/download/v${Script.version}/kappa-darwin-x64.zip"`,
     `      sha256 "${macX64Sha}"`,
     "",
     "      def install",
-    '        libexec.install "kappa", "kappa-sandbox-mutation-worker.js", "tree-sitter"', // kilocode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kilocode_change
+    '        libexec.install "kappa", "kappa-sandbox-mutation-worker.js", "tree-sitter"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "    if Hardware::CPU.arm?",
-    `      url "https://github.com/Kilo-Org/kilocode/releases/download/v${Script.version}/kappa-darwin-arm64.zip"`,
+    `      url "https://github.com/Kappa-Org/kappacode/releases/download/v${Script.version}/kappa-darwin-arm64.zip"`,
     `      sha256 "${macArm64Sha}"`,
     "",
     "      def install",
-    '        libexec.install "kappa", "kappa-sandbox-mutation-worker.js", "tree-sitter"', // kilocode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kilocode_change
+    '        libexec.install "kappa", "kappa-sandbox-mutation-worker.js", "tree-sitter"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "  end",
     "",
     "  on_linux do",
     "    if Hardware::CPU.intel? and Hardware::CPU.is_64_bit?",
-    `      url "https://github.com/Kilo-Org/kilocode/releases/download/v${Script.version}/kappa-linux-x64.tar.gz"`,
+    `      url "https://github.com/Kappa-Org/kappacode/releases/download/v${Script.version}/kappa-linux-x64.tar.gz"`,
     `      sha256 "${x64Sha}"`,
     "      def install",
-    '        libexec.install "kappa", "bwrap", "kappa-sandbox-mutation-worker.js", "tree-sitter", "licenses"', // kilocode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kilocode_change
+    '        libexec.install "kappa", "bwrap", "kappa-sandbox-mutation-worker.js", "tree-sitter", "licenses"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "    if Hardware::CPU.arm? and Hardware::CPU.is_64_bit?",
-    `      url "https://github.com/Kilo-Org/kilocode/releases/download/v${Script.version}/kappa-linux-arm64.tar.gz"`,
+    `      url "https://github.com/Kappa-Org/kappacode/releases/download/v${Script.version}/kappa-linux-arm64.tar.gz"`,
     `      sha256 "${arm64Sha}"`,
     "      def install",
-    '        libexec.install "kappa", "bwrap", "kappa-sandbox-mutation-worker.js", "tree-sitter", "licenses"', // kilocode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kilocode_change
+    '        libexec.install "kappa", "bwrap", "kappa-sandbox-mutation-worker.js", "tree-sitter", "licenses"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "  end",
@@ -292,18 +292,18 @@ if (!Script.preview) {
     console.error("GITHUB_TOKEN is required to update homebrew tap")
     process.exit(1)
   }
-  const tap = `https://x-access-token:${token}@github.com/Kilo-Org/homebrew-tap.git` // kilocode_change
+  const tap = `https://x-access-token:${token}@github.com/Kappa-Org/homebrew-tap.git` // kappacode_change
   await $`rm -rf ./dist/homebrew-tap`
   await $`git clone ${tap} ./dist/homebrew-tap`
-  await Bun.file("./dist/homebrew-tap/kappa.rb").write(homebrewFormula) // kilocode_change
-  await $`cd ./dist/homebrew-tap && git add kappa.rb` // kilocode_change
+  await Bun.file("./dist/homebrew-tap/kappa.rb").write(homebrewFormula) // kappacode_change
+  await $`cd ./dist/homebrew-tap && git add kappa.rb` // kappacode_change
   if ((await $`cd ./dist/homebrew-tap && git diff --cached --quiet`.nothrow()).exitCode !== 0) {
     await $`cd ./dist/homebrew-tap && git commit -m "Update to v${Script.version}"`
     await $`cd ./dist/homebrew-tap && git push`
   }
 }
 
-// kilocode_change start - record which npm tarballs and container manifests this
+// kappacode_change start - record which npm tarballs and container manifests this
 // release produced. Homebrew and AUR redistribute the archives described by the
 // archive manifest, so they need no separate evidence.
 if (Script.release) {
@@ -311,7 +311,7 @@ if (Script.release) {
   // what happened to be recorded, so a missing package or image is a shortfall.
   const packages = Object.keys(binaries).length + 1
   const images = Script.preview ? 0 : platforms.split(",").length + 1
-  const described = await KiloSbom.distribution({
+  const described = await KappaSbom.distribution({
     dir: path.resolve("dist"),
     release: { version, channel: Script.channel },
     entries: evidence,
@@ -319,7 +319,7 @@ if (Script.release) {
   })
   // Evidence is a record of a release that already shipped, so a failure here is
   // reported rather than rolled back onto an npm publish that cannot be undone.
-  await KiloRelease.upload({ tag: `v${Script.version}`, files: described.files }).catch((err) =>
+  await KappaRelease.upload({ tag: `v${Script.version}`, files: described.files }).catch((err) =>
     console.error("sbom: could not publish the distribution evidence", err),
   )
 }
@@ -354,7 +354,7 @@ async function describeImages(metadata: string) {
 
   const entries: Manifest.Entry[] = []
   for (const item of [...manifests, { digest, platform: undefined }]) {
-    const described = await KiloSbom.ociImage({
+    const described = await KappaSbom.ociImage({
       reference: `${image}@${item.digest}`,
       digest: item.digest,
       platform: item.platform,
@@ -366,7 +366,7 @@ async function describeImages(metadata: string) {
     })
     entries.push(
       described?.entry ?? {
-        artifact: KiloSbom.ociName(item.digest, item.platform),
+        artifact: KappaSbom.ociName(item.digest, item.platform),
         sha256: item.digest.replace(/^sha256:/, ""),
         distribution: "oci",
         ...(item.platform ? { target: item.platform } : {}),
@@ -376,4 +376,4 @@ async function describeImages(metadata: string) {
   }
   return entries
 }
-// kilocode_change end
+// kappacode_change end

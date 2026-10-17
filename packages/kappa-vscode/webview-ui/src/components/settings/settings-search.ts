@@ -1,5 +1,5 @@
 /**
- * Search for the Kilo Settings panel.
+ * Search for the Kappa Settings panel.
  *
  * Searchable settings are derived from the i18n `*.title` keys plus a small
  * group-to-tab map, so there is no hand-maintained list to keep in sync. Adding
@@ -66,7 +66,7 @@ export const SETTINGS_TABS: SettingsTab[] = [
     conditional: true,
   },
   { id: "language", titleKey: "settings.language.title", keywords: ["locale", "translation"] },
-  { id: "aboutKiloCode", titleKey: "settings.aboutKiloCode.title", keywords: ["version", "update", "support"] },
+  { id: "aboutKappaCode", titleKey: "settings.aboutKappaCode.title", keywords: ["version", "update", "support"] },
 ]
 
 /**
@@ -74,7 +74,7 @@ export const SETTINGS_TABS: SettingsTab[] = [
  * Groups not listed here are not searchable, which keeps dialog-only keys out.
  */
 const GROUP_TABS: Record<string, string> = {
-  aboutKiloCode: "aboutKiloCode",
+  aboutKappaCode: "aboutKappaCode",
   agentBehaviour: "agentBehaviour",
   autoApprove: "autoApprove",
   autoCleanup: "checkpoints",

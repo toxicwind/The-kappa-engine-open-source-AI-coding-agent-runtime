@@ -7,7 +7,7 @@ import { EventV2 } from "@opencode-ai/core/event"
 import { it } from "../lib/effect"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 
-// Regression coverage for Kilo's OAuth attempt settlement guards: persistence
+// Regression coverage for Kappa's OAuth attempt settlement guards: persistence
 // happens before completion is exposed, and settlement is atomic with
 // cancellation, expiry, and timeouts.
 

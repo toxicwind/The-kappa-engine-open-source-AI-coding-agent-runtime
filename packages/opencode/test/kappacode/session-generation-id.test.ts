@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test"
-import { KiloSessionProcessor } from "../../src/kappacode/session/processor"
+import { KappaSessionProcessor } from "../../src/kappacode/session/processor"
 
 describe("session generation id", () => {
   test("extracts a bounded Gateway generation id", () => {
     expect(
-      KiloSessionProcessor.generationID({
+      KappaSessionProcessor.generationID({
         gateway: {
           generationId: " gen_test-123 ",
           routing: { finalProvider: "novita" },
@@ -15,9 +15,9 @@ describe("session generation id", () => {
   })
 
   test("rejects arbitrary or oversized metadata values", () => {
-    expect(KiloSessionProcessor.generationID({ gateway: { generationId: "request-secret" } })).toBeUndefined()
-    expect(KiloSessionProcessor.generationID({ gateway: { generationId: `gen_${"a".repeat(201)}` } })).toBeUndefined()
-    expect(KiloSessionProcessor.generationID({ gateway: { generationId: 42 } })).toBeUndefined()
-    expect(KiloSessionProcessor.generationID({ openai: { responseId: "gen_response" } })).toBeUndefined()
+    expect(KappaSessionProcessor.generationID({ gateway: { generationId: "request-secret" } })).toBeUndefined()
+    expect(KappaSessionProcessor.generationID({ gateway: { generationId: `gen_${"a".repeat(201)}` } })).toBeUndefined()
+    expect(KappaSessionProcessor.generationID({ gateway: { generationId: 42 } })).toBeUndefined()
+    expect(KappaSessionProcessor.generationID({ openai: { responseId: "gen_response" } })).toBeUndefined()
   })
 })

@@ -3,8 +3,8 @@ import { Schema } from "effect"
 import type { ModelMessage } from "ai"
 import { Config } from "@/config/config"
 import type { Provider } from "@/provider/provider"
-import { KiloLLM } from "@/kappacode/session/llm"
-import { KiloSessionOverflow } from "@/kappacode/session/overflow"
+import { KappaLLM } from "@/kappacode/session/llm"
+import { KappaSessionOverflow } from "@/kappacode/session/overflow"
 import type { MessageV2 } from "@/session/message-v2"
 import { isOverflow, usable } from "@/session/overflow"
 
@@ -47,7 +47,7 @@ function tokens(count: number): MessageV2.Assistant["tokens"] {
   return { input: count, output: 0, reasoning: 0, cache: { read: 0, write: 0 } }
 }
 
-describe("Kilo post-step compaction safety", () => {
+describe("Kappa post-step compaction safety", () => {
   test("ignores the configured threshold after a provider step", () => {
     const conf = cfg({ threshold_percent: 75 })
     const mdl = model({ context: 200_000, output: 32_000 })
@@ -139,14 +139,14 @@ describe("Kilo post-step compaction safety", () => {
   })
 })
 
-describe("Kilo request estimation", () => {
+describe("Kappa request estimation", () => {
   test("skips output estimation when no output cap can use it", () => {
     const mdl = model({ context: 200_000, output: 32_000 })
 
-    expect(KiloLLM.needsEstimate({ model: mdl, configured: undefined })).toBe(false)
-    expect(KiloLLM.needsEstimate({ model: mdl, configured: 0 })).toBe(false)
-    expect(KiloLLM.needsEstimate({ model: model({ context: 0, output: 32_000 }), configured: 32_000 })).toBe(false)
-    expect(KiloLLM.needsEstimate({ model: mdl, configured: 32_000 })).toBe(true)
+    expect(KappaLLM.needsEstimate({ model: mdl, configured: undefined })).toBe(false)
+    expect(KappaLLM.needsEstimate({ model: mdl, configured: 0 })).toBe(false)
+    expect(KappaLLM.needsEstimate({ model: model({ context: 0, output: 32_000 }), configured: 32_000 })).toBe(false)
+    expect(KappaLLM.needsEstimate({ model: mdl, configured: 32_000 })).toBe(true)
   })
 
   test("does not reduce output for encoded media payload size", () => {
@@ -157,10 +157,10 @@ describe("Kilo request estimation", () => {
         content: [{ type: "image", image: `data:image/png;base64,${"x".repeat(600_000)}` }],
       },
     ] satisfies ModelMessage[]
-    const usage = KiloSessionOverflow.measure({ messages, tools: {} })
+    const usage = KappaSessionOverflow.measure({ messages, tools: {} })
 
     expect(usage.raw).toBeGreaterThan(usage.normalized)
-    expect(KiloLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000, usage })).toBe(32_000)
+    expect(KappaLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000, usage })).toBe(32_000)
   })
 
   test.each(["providerMetadata", "providerOptions"] as const)(
@@ -181,12 +181,12 @@ describe("Kilo request estimation", () => {
         { role: "assistant", content: [reasoning] },
         { role: "user", content: "Continue." },
       ] satisfies ModelMessage[]
-      const usage = KiloSessionOverflow.measure({ messages, tools: {} })
+      const usage = KappaSessionOverflow.measure({ messages, tools: {} })
 
       expect(usage.raw).toBeGreaterThan(1_000_000)
       expect(usage.normalized).toBeLessThan(1_000)
       expect(
-        KiloLLM.capOutputTokens({
+        KappaLLM.capOutputTokens({
           model: mdl,
           messages,
           tools: {},
@@ -207,14 +207,14 @@ describe("Kilo request estimation", () => {
       },
     ] satisfies ModelMessage[]
 
-    expect(KiloLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })).toBeLessThan(32_000)
+    expect(KappaLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })).toBeLessThan(32_000)
   })
 
   test("still reduces output for oversized text", () => {
     const mdl = model({ context: 200_000, output: 32_000 })
     const messages = [{ role: "user" as const, content: "x".repeat(600_000) }]
 
-    const cap = KiloLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })
+    const cap = KappaLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })
     expect(cap).toBeGreaterThanOrEqual(1_024)
     expect(cap).toBeLessThan(32_000)
   })
@@ -231,10 +231,10 @@ describe("Kilo request estimation", () => {
     ] satisfies ModelMessage[]
 
     // Without reported usage the media-normalized estimate leaves output untouched.
-    expect(KiloLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })).toBe(32_000)
+    expect(KappaLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })).toBe(32_000)
 
     // With the provider-reported context size, output is capped to fit real usage.
-    expect(KiloLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000, reported: 280_000 })).toBe(
+    expect(KappaLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000, reported: 280_000 })).toBe(
       17_952,
     )
   })
@@ -243,8 +243,8 @@ describe("Kilo request estimation", () => {
     const mdl = model({ context: 200_000, output: 32_000 })
     const messages = [{ role: "user" as const, content: "x".repeat(600_000) }]
 
-    const withoutReported = KiloLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })
-    const withStaleReported = KiloLLM.capOutputTokens({
+    const withoutReported = KappaLLM.capOutputTokens({ model: mdl, messages, tools: {}, configured: 32_000 })
+    const withStaleReported = KappaLLM.capOutputTokens({
       model: mdl,
       messages,
       tools: {},
@@ -256,14 +256,14 @@ describe("Kilo request estimation", () => {
   })
 })
 
-describe("Kilo preflight compaction", () => {
+describe("Kappa preflight compaction", () => {
   test("triggers from estimated outgoing context without provider usage", () => {
     const conf = cfg({ threshold_percent: 75 })
     const mdl = model({ context: 200_000, output: 32_000 })
     const messages = [{ role: "user" as const, content: "x".repeat(600_000) }]
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -278,7 +278,7 @@ describe("Kilo preflight compaction", () => {
     const mdl = model({ context: 10_000, output: 1_000 })
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -300,7 +300,7 @@ describe("Kilo preflight compaction", () => {
     // The 500k-char payload estimates at 162.5k inflated tokens: above 75% of the
     // 200k input limit but below 75% of the 400k context window the UI displays.
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -310,7 +310,7 @@ describe("Kilo preflight compaction", () => {
     ).toBe(false)
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -329,7 +329,7 @@ describe("Kilo preflight compaction", () => {
     const mdl = model({ context: 400_000, input: 272_000, output: 128_000 })
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -346,7 +346,7 @@ describe("Kilo preflight compaction", () => {
     const mdl = model({ context: 200_000, output: 32_000 })
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -357,7 +357,7 @@ describe("Kilo preflight compaction", () => {
       }),
     ).toBe(false)
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -376,7 +376,7 @@ describe("Kilo preflight compaction", () => {
     const mdl = model({ context: 200_000, output: 32_000 })
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -395,7 +395,7 @@ describe("Kilo preflight compaction", () => {
     const mdl = model({ context: 200_000, output: 32_000 })
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -413,7 +413,7 @@ describe("Kilo preflight compaction", () => {
 
     // Report of a small prior turn; the new system message alone crosses 160k.
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -427,7 +427,7 @@ describe("Kilo preflight compaction", () => {
 
     // Without the overhead the same baseline stays below the threshold.
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -457,7 +457,7 @@ describe("Kilo preflight compaction", () => {
     }
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -469,7 +469,7 @@ describe("Kilo preflight compaction", () => {
 
     // The same payload without the system prompt stays below the threshold.
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -489,7 +489,7 @@ describe("Kilo preflight compaction", () => {
       { role: "user", content: "abcd" },
     ]
     const chars = (text: string) => Math.round(text.length / 4)
-    const stats = KiloSessionOverflow.measure({ messages, tools: {} })
+    const stats = KappaSessionOverflow.measure({ messages, tools: {} })
     expect(stats.normalized).toBe(Math.ceil((chars(JSON.stringify(messages)) + chars("[]")) * 1.3))
     expect(stats.overhead).toBe(Math.ceil((chars("[]") + chars(system)) * 1.3))
   })
@@ -508,7 +508,7 @@ describe("Kilo preflight compaction", () => {
     const history = [{ role: "assistant", content: [reasoning] }] satisfies ModelMessage[]
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -521,7 +521,7 @@ describe("Kilo preflight compaction", () => {
     // Without the large new message the same baseline stays below the threshold:
     // opaque history must not be re-inflated through the pending-content estimate.
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -538,26 +538,26 @@ describe("Kilo preflight compaction", () => {
     const finished = { id: "msg-1", tokens: tokens(150_000) }
     const cancelled = { id: "msg-2" }
 
-    expect(KiloSessionOverflow.baseline({ assistant: cancelled, finished })).toBeUndefined()
-    expect(KiloSessionOverflow.baseline({ assistant: finished, finished })).toBe(150_000)
-    expect(KiloSessionOverflow.baseline({ assistant: finished, finished: undefined })).toBeUndefined()
+    expect(KappaSessionOverflow.baseline({ assistant: cancelled, finished })).toBeUndefined()
+    expect(KappaSessionOverflow.baseline({ assistant: finished, finished })).toBe(150_000)
+    expect(KappaSessionOverflow.baseline({ assistant: finished, finished: undefined })).toBeUndefined()
   })
 
   test("ignores a report without prompt-side usage as a baseline", () => {
     // A provider returning only completion tokens yields input=0; the report
     // covers no prompt content, so growing prompts would bypass the threshold.
     const outputOnly = { id: "msg-1", tokens: { input: 0, output: 100, reasoning: 0, cache: { read: 0, write: 0 } } }
-    expect(KiloSessionOverflow.baseline({ assistant: outputOnly, finished: outputOnly })).toBeUndefined()
+    expect(KappaSessionOverflow.baseline({ assistant: outputOnly, finished: outputOnly })).toBeUndefined()
 
     // Cache-read-only input is still prompt coverage (e.g. fully cached prompt).
     const cached = { id: "msg-1", tokens: { input: 0, output: 100, reasoning: 0, cache: { read: 50, write: 0 } } }
-    expect(KiloSessionOverflow.baseline({ assistant: cached, finished: cached })).toBe(150)
+    expect(KappaSessionOverflow.baseline({ assistant: cached, finished: cached })).toBe(150)
   })
 
   test("keeps the summary guard on the reported baseline", () => {
     const summary = { id: "msg-1", summary: true, tokens: tokens(150_000) }
 
-    expect(KiloSessionOverflow.baseline({ assistant: summary, finished: summary })).toBeUndefined()
+    expect(KappaSessionOverflow.baseline({ assistant: summary, finished: summary })).toBeUndefined()
   })
 
   test("counts intervening tool output after a cancelled response", () => {
@@ -578,7 +578,7 @@ describe("Kilo preflight compaction", () => {
 
     // 600k chars alone inflate past the 160k threshold; the estimate must decide.
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -590,7 +590,7 @@ describe("Kilo preflight compaction", () => {
     // A stale baseline plus the tail-only projection stays below the threshold -
     // the exact omission this guard exists to prevent.
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -609,7 +609,7 @@ describe("Kilo preflight compaction", () => {
     const mdl = model({ context: 400_000, input: 272_000, output: 128_000 })
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -620,7 +620,7 @@ describe("Kilo preflight compaction", () => {
       }),
     ).toBe(false)
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -655,7 +655,7 @@ describe("Kilo preflight compaction", () => {
     ] satisfies ModelMessage[]
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -671,7 +671,7 @@ describe("Kilo preflight compaction", () => {
     const messages = [{ role: "user" as const, content: "x".repeat(600_000) }]
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -687,7 +687,7 @@ describe("Kilo preflight compaction", () => {
     const messages = [{ role: "user" as const, content: "x".repeat(600_000) }]
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -711,7 +711,7 @@ describe("Kilo preflight compaction", () => {
     ] satisfies ModelMessage[]
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),
@@ -729,7 +729,7 @@ describe("Kilo preflight compaction", () => {
       },
     ] satisfies ModelMessage[]
 
-    const usage = KiloSessionOverflow.measure({ messages, tools: {} })
+    const usage = KappaSessionOverflow.measure({ messages, tools: {} })
     expect(usage.normalized).toBeLessThan(100)
     expect(usage.raw).toBeGreaterThan(100_000)
   })
@@ -742,7 +742,7 @@ describe("Kilo preflight compaction", () => {
       },
     ] satisfies ModelMessage[]
 
-    const usage = KiloSessionOverflow.measure({ messages, tools: {} })
+    const usage = KappaSessionOverflow.measure({ messages, tools: {} })
     expect(usage.normalized).toBeLessThan(100)
     expect(usage.raw).toBeGreaterThan(100_000)
   })
@@ -761,7 +761,7 @@ describe("Kilo preflight compaction", () => {
     ] satisfies ModelMessage[]
 
     expect(
-      KiloSessionOverflow.shouldCompact({
+      KappaSessionOverflow.shouldCompact({
         cfg: conf,
         model: mdl,
         usable: usable({ cfg: conf, model: mdl }),

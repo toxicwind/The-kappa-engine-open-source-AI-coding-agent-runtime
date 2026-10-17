@@ -1,15 +1,15 @@
 // kappacode_change - new file
 import { describe, expect, test } from "bun:test"
-import { KiloRunAuto } from "../../src/kappacode/cli/run-auto"
+import { KappaRunAuto } from "../../src/kappacode/cli/run-auto"
 
-describe("KiloRunAuto", () => {
+describe("KappaRunAuto", () => {
   test("tracks task child sessions without allowing unrelated sessions", () => {
-    const state = KiloRunAuto.create("ses_root")
+    const state = KappaRunAuto.create("ses_root")
 
-    expect(KiloRunAuto.allowed(state, "ses_root")).toBe(true)
-    expect(KiloRunAuto.allowed(state, "ses_child")).toBe(false)
+    expect(KappaRunAuto.allowed(state, "ses_root")).toBe(true)
+    expect(KappaRunAuto.allowed(state, "ses_child")).toBe(false)
 
-    KiloRunAuto.track(state, {
+    KappaRunAuto.track(state, {
       type: "tool",
       tool: "task",
       sessionID: "ses_root",
@@ -20,21 +20,21 @@ describe("KiloRunAuto", () => {
       },
     })
 
-    expect(KiloRunAuto.allowed(state, "ses_child")).toBe(true)
-    KiloRunAuto.track(state, {
+    expect(KappaRunAuto.allowed(state, "ses_child")).toBe(true)
+    KappaRunAuto.track(state, {
       type: "tool",
       tool: "task",
       sessionID: "ses_child",
       state: { metadata: { sessionId: "ses_grandchild" } },
     })
-    expect(KiloRunAuto.allowed(state, "ses_grandchild")).toBe(true)
-    expect(KiloRunAuto.allowed(state, "ses_other")).toBe(false)
+    expect(KappaRunAuto.allowed(state, "ses_grandchild")).toBe(true)
+    expect(KappaRunAuto.allowed(state, "ses_other")).toBe(false)
   })
 
   test("ignores malformed or untrusted task metadata", () => {
-    const state = KiloRunAuto.create("ses_root")
+    const state = KappaRunAuto.create("ses_root")
 
-    KiloRunAuto.track(state, {
+    KappaRunAuto.track(state, {
       type: "tool",
       tool: "task",
       sessionID: "ses_root",
@@ -44,7 +44,7 @@ describe("KiloRunAuto", () => {
         },
       },
     })
-    KiloRunAuto.track(state, {
+    KappaRunAuto.track(state, {
       type: "tool",
       tool: "task",
       sessionID: "ses_other",
@@ -54,13 +54,13 @@ describe("KiloRunAuto", () => {
         },
       },
     })
-    KiloRunAuto.track(state, {
+    KappaRunAuto.track(state, {
       type: "text",
       sessionID: "ses_root",
       state: {},
     })
 
-    expect(KiloRunAuto.allowed(state, "ses_wrong")).toBe(false)
-    expect(KiloRunAuto.allowed(state, "")).toBe(false)
+    expect(KappaRunAuto.allowed(state, "ses_wrong")).toBe(false)
+    expect(KappaRunAuto.allowed(state, "")).toBe(false)
   })
 })

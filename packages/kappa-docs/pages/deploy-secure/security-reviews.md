@@ -5,7 +5,7 @@ description: "Manage and remediate GitHub Dependabot alerts with AI"
 
 # Security Agent
 
-Security Agent syncs dependency vulnerability alerts from selected GitHub repositories and stores them as Security Findings in Kilo. It uses AI to triage each finding and runs sandbox analysis when project-specific evidence is needed. It also helps you dismiss or remediate findings, send notifications, and review recorded activity.
+Security Agent syncs dependency vulnerability alerts from selected GitHub repositories and stores them as Security Findings in Kappa. It uses AI to triage each finding and runs sandbox analysis when project-specific evidence is needed. It also helps you dismiss or remediate findings, send notifications, and review recorded activity.
 
 Use Security Agent to identify reachable Dependabot alerts, prioritize findings, and see which findings the analysis recommends dismissing or remediating with a pull request.
 
@@ -13,9 +13,9 @@ Use Security Agent to identify reachable Dependabot alerts, prioritize findings,
 
 Before enabling Security Agent, make sure you have:
 
-1. The [Kilo GitHub App](/docs/automate/integrations#connecting-github) installed with the `vulnerability_alerts` permission.
+1. The [Kappa GitHub App](/docs/automate/integrations#connecting-github) installed with the `vulnerability_alerts` permission.
 2. [Dependabot alerts](https://docs.github.com/en/code-security/dependabot/dependabot-alerts) enabled on target repositories.
-3. Kilo Code credits for AI model usage.
+3. Kappa Code credits for AI model usage.
 
 Security Agent currently works with GitHub Dependabot alerts. If the GitHub App loses required permissions, Security Agent prompts you to re-authorize the app before syncing or analyzing findings.
 
@@ -23,7 +23,7 @@ Security Agent currently works with GitHub Dependabot alerts. If the GitHub App 
 
 1. Open Security Agent from your personal dashboard or an organization dashboard.
 2. If GitHub is not connected, connect it from the Integrations page.
-3. Choose a repository scope: all repositories available to the Kilo GitHub App or selected repositories.
+3. Choose a repository scope: all repositories available to the Kappa GitHub App or selected repositories.
 4. Turn on Security Agent.
 5. Review the General, Automation, Notifications, and SLA settings.
 
@@ -33,7 +33,7 @@ Turning on Security Agent queues an initial sync for the selected repository sco
 
 Organization members can view the Security Agent dashboard, findings, and analysis evidence. They can also trigger manual syncs, start or retry analysis, start or retry remediation, and request remediation cancellation.
 
-Organization owners and billing managers can change Security Agent settings, turn the agent on or off, dismiss findings, clear orphaned findings, and access organization audit reports. Kilo platform admins can also access these reports for audited support and operations.
+Organization owners and billing managers can change Security Agent settings, turn the agent on or off, dismiss findings, clear orphaned findings, and access organization audit reports. Kappa platform admins can also access these reports for audited support and operations.
 
 Access to organization notifications is more restricted than access to settings: Security Agent emails go only to current organization owners.
 
@@ -43,7 +43,7 @@ Security Agent processes dependency vulnerability alerts through several stages.
 
 ```mermaid
 flowchart LR
-  alert["Dependabot alert"] --> sync["Sync into Kilo"]
+  alert["Dependabot alert"] --> sync["Sync into Kappa"]
   sync --> triage["AI triage"]
   triage --> action["Dismiss, review, or remediate"]
   triage -. "When needed" .-> analysis["Sandbox analysis"]
@@ -52,7 +52,7 @@ flowchart LR
 
 Notifications and audit recording run alongside this workflow.
 
-1. **Sync** pulls Dependabot alerts from repositories in scope and stores them as Security Findings in Kilo.
+1. **Sync** pulls Dependabot alerts from repositories in scope and stores them as Security Findings in Kappa.
 2. **Triage** quickly assesses advisory metadata with AI, including package, severity, vulnerable range, patched version, and advisory text.
 3. **Sandbox analysis** uses Cloud Agent to inspect the codebase when Security Agent needs project-specific evidence.
 4. **Auto-dismiss** can dismiss findings that analysis determines are not exploitable, then sync the dismissal back to GitHub.
@@ -60,7 +60,7 @@ Notifications and audit recording run alongside this workflow.
 6. **Notifications** can email eligible recipients about new findings and SLA events.
 7. **Audit reports** show recorded Security Finding activity for a selected reporting period.
 
-Security Agent treats Dependabot alerts as source data and Kilo Security Findings as the working record. A finding can stay open even after a remediation PR exists. The finding closes only when GitHub reports it fixed or someone dismisses it.
+Security Agent treats Dependabot alerts as source data and Kappa Security Findings as the working record. A finding can stay open even after a remediation PR exists. The finding closes only when GitHub reports it fixed or someone dismisses it.
 
 ## Use the dashboard
 
@@ -186,7 +186,7 @@ You can dismiss a finding manually from its details. Manual dismissal requires a
 
 You can optionally add a comment. A manual dismissal syncs to GitHub and closes the matching Dependabot alert.
 
-When enabled, auto-dismiss automatically dismisses findings that sandbox analysis determines are not exploitable and recommends dismissing. It can also dismiss triage-only findings that recommend dismissal and meet the configured confidence threshold. Security Agent attempts to write each auto-dismissed finding back to GitHub with a `[Kilo Code auto-dismiss]` prefix. See [Configure auto-dismiss](#configure-auto-dismiss) for threshold behavior.
+When enabled, auto-dismiss automatically dismisses findings that sandbox analysis determines are not exploitable and recommends dismissing. It can also dismiss triage-only findings that recommend dismissal and meet the configured confidence threshold. Security Agent attempts to write each auto-dismissed finding back to GitHub with a `[Kappa Code auto-dismiss]` prefix. See [Configure auto-dismiss](#configure-auto-dismiss) for threshold behavior.
 
 ## Remediate findings
 
@@ -243,9 +243,9 @@ General settings include:
 |---|---|---|
 | Security Agent enabled | Off until you turn it on | Turning it on queues an initial sync for the selected repository scope. |
 | Repository selection | Selected repositories during setup | Choose all accessible repositories or selected repositories. |
-| Triage model | Kilo Efficient | Used for initial triage and exploitability recommendations. |
-| Analysis model | Kilo Efficient | Used for sandbox analysis and result extraction. |
-| Remediation model | Kilo Efficient | Used by Cloud Agent for remediation PR work. |
+| Triage model | Kappa Efficient | Used for initial triage and exploitability recommendations. |
+| Analysis model | Kappa Efficient | Used for sandbox analysis and result extraction. |
+| Remediation model | Kappa Efficient | Used by Cloud Agent for remediation PR work. |
 | Analysis mode | Auto | Auto, Shallow, or Deep. |
 
 #### Turn Security Agent on or off
@@ -258,7 +258,7 @@ Turning it off stops scheduled syncs and prevents new automatic analysis, remedi
 
 Repository scope controls which Dependabot alerts Security Agent syncs:
 
-- **All repositories** includes every repository currently available to the Kilo GitHub App.
+- **All repositories** includes every repository currently available to the Kappa GitHub App.
 - **Selected repositories** includes only the repositories you choose.
 
 Changing the scope affects future syncs and remediation eligibility. Removing a repository from scope does not close its existing findings. Open findings remain eligible for SLA tracking until they are fixed, dismissed, superseded, or deleted. If the GitHub App can no longer access a repository, its findings become orphaned and can be removed through [Clear orphaned findings](#clear-orphaned-findings).
@@ -271,7 +271,7 @@ Security Agent uses a separate model for each stage:
 - The Analysis model runs sandbox analysis and extracts the result.
 - The Remediation model is used by Cloud Agent to prepare remediation pull requests.
 
-Kilo Efficient is the default for all three stages. You can change each model independently. The model recorded in finding details is the model used when that analysis or remediation attempt ran. AI triage, sandbox analysis, and remediation consume Kilo Code credits.
+Kappa Efficient is the default for all three stages. You can change each model independently. The model recorded in finding details is the model used when that analysis or remediation attempt ran. AI triage, sandbox analysis, and remediation consume Kappa Code credits.
 
 #### Choose an analysis mode
 
@@ -309,7 +309,7 @@ Auto-analysis is off by default. When enabled, it queues open findings that are 
 - **Medium and above** analyzes medium, high, and critical findings.
 - **All severities** analyzes every finding, including findings whose severity is unknown.
 
-Without Include existing findings, previously synced findings are not added to the automatic-analysis backlog. Turning on Include existing findings queues eligible open findings that already exist in Kilo. Re-enabling Auto-analysis while Include existing findings remains on also checks that backlog. This can use additional credits.
+Without Include existing findings, previously synced findings are not added to the automatic-analysis backlog. Turning on Include existing findings queues eligible open findings that already exist in Kappa. Re-enabling Auto-analysis while Include existing findings remains on also checks that backlog. This can use additional credits.
 
 The selected [analysis mode](#choose-an-analysis-mode) controls the depth of each automatic analysis. Auto-analysis shares per-owner analysis capacity with manual analysis, so a large backlog may take time to finish.
 
@@ -329,7 +329,7 @@ Auto-dismiss uses the confidence threshold only for triage-only findings that AI
 
 The confidence threshold does not apply after sandbox analysis. When sandbox analysis determines that a finding is not exploitable and recommends dismissal, Auto-dismiss can dismiss it regardless of confidence. Enabling Auto-dismiss does not start analysis by itself; it applies when an analysis produces an eligible result.
 
-Security Agent records the dismissal in Kilo and attempts to sync it to GitHub with a `[Kilo Code auto-dismiss]` prefix. A GitHub write-back failure does not reopen the local finding. See [Dismiss findings](#dismiss-findings) for manual dismissal behavior.
+Security Agent records the dismissal in Kappa and attempts to sync it to GitHub with a `[Kappa Code auto-dismiss]` prefix. A GitHub write-back failure does not reopen the local finding. See [Dismiss findings](#dismiss-findings) for manual dismissal behavior.
 
 ### Notifications
 
@@ -337,14 +337,14 @@ The Notifications tab controls New-finding Notifications.
 
 | Setting | Default | Notes |
 |---|---|---|
-| New-finding Notifications | Off | Sends an email when Kilo first inserts an eligible open finding. |
+| New-finding Notifications | Off | Sends an email when Kappa first inserts an eligible open finding. |
 | New-finding minimum severity | High and above | Critical only, High and above, Medium and above, or Low and above. |
 
 #### New-finding notifications
 
-A New-finding Notification is eligible only when Kilo first inserts an open finding whose severity meets the configured minimum. Severity thresholds are cumulative: for example, High and above includes high and critical findings. Later updates, severity changes, and reopening do not make an existing finding new again. Lowering the severity threshold also does not replay earlier findings.
+A New-finding Notification is eligible only when Kappa first inserts an open finding whose severity meets the configured minimum. Severity thresholds are cumulative: for example, High and above includes high and critical findings. Later updates, severity changes, and reopening do not make an existing finding new again. Lowering the severity threshold also does not replay earlier findings.
 
-Existing Dependabot alerts discovered during the first Security Agent sync count as new because that sync is the first time Kilo inserts them. Enabling New-finding Notifications later does not replay those historical insertions.
+Existing Dependabot alerts discovered during the first Security Agent sync count as new because that sync is the first time Kappa inserts them. Enabling New-finding Notifications later does not replay those historical insertions.
 
 For a personal Security Agent, emails go to the owning user. For an organization Security Agent, they go only to current organization owners. Members and billing managers receive these notifications only if they are also organization owners. See [Notification delivery](#notification-delivery) for delivery checks and deduplication behavior.
 
@@ -383,7 +383,7 @@ Email notification kinds:
 
 | Kind | When eligible |
 |---|---|
-| New-finding Notification | Kilo first inserts an eligible open finding. |
+| New-finding Notification | Kappa first inserts an eligible open finding. |
 | SLA Warning Notification | Eligible open finding enters configured warning window before persisted SLA deadline. |
 | SLA Breach Notification | Eligible open finding reaches or passes persisted SLA deadline. |
 
@@ -391,15 +391,15 @@ A finding that is already breached does not receive a stale warning. A warning s
 
 Security Agent creates at most one notification of each kind per finding and recipient. Syncs and sweeps do not intentionally create duplicate notification events. Sent notifications are not replayed when settings change.
 
-Delivery is asynchronous. Before sending an email, Kilo rechecks the current finding state, Security Agent settings, severity thresholds, SLA state, and recipient authorization. Kilo cancels unsent notification work if the finding is fixed, dismissed, superseded, deleted, or no longer meets the configured threshold, or if the recipient is no longer authorized.
+Delivery is asynchronous. Before sending an email, Kappa rechecks the current finding state, Security Agent settings, severity thresholds, SLA state, and recipient authorization. Kappa cancels unsent notification work if the finding is fixed, dismissed, superseded, deleted, or no longer meets the configured threshold, or if the recipient is no longer authorized.
 
 Email subjects are:
 
 | Kind | Subject |
 |---|---|
-| New finding | Kilo Security Agent: New finding |
-| SLA warning | Kilo Security Agent: SLA warning |
-| SLA breach | Kilo Security Agent: SLA breached |
+| New finding | Kappa Security Agent: New finding |
+| SLA warning | Kappa Security Agent: SLA warning |
+| SLA breach | Kappa Security Agent: SLA breached |
 
 Emails include finding severity, repository, title, description, CVE/GHSA/CVSS metadata when available, the SLA deadline for SLA emails, a link to Security Agent findings, and a link to the relevant notification settings.
 
@@ -412,11 +412,11 @@ The audit report shows Security Finding activity recorded for an owner during a 
 
 You can also open the audit report in the mobile app to see the report period and each finding's recorded activity.
 
-The audit report is based on activity recorded by Kilo. It does not prove that every historical event is present, show repository scan coverage, or provide aggregate SLA compliance.
+The audit report is based on activity recorded by Kappa. It does not prove that every historical event is present, show repository scan coverage, or provide aggregate SLA compliance.
 
 ### Report period and filters
 
-By default, the report covers the last 90 calendar days, ending today. A reporting period cannot exceed 90 inclusive calendar days. Kilo rejects future or reversed ranges.
+By default, the report covers the last 90 calendar days, ending today. A reporting period cannot exceed 90 inclusive calendar days. Kappa rejects future or reversed ranges.
 
 Filters:
 
@@ -433,13 +433,13 @@ For each matching finding group, filters retain the complete timeline within the
 
 The report starts with summary counts for findings, events, superseded findings, and severity. It then groups activity by Security Finding, combining relevant repository, package, advisory, status, and SLA context with a timeline for the selected period.
 
-Each timeline event shows when Kilo recorded or applied the activity, who or what performed it, and the evidence needed to understand the outcome. Superseded and deleted findings retain their recorded identity and lifecycle context.
+Each timeline event shows when Kappa recorded or applied the activity, who or what performed it, and the evidence needed to understand the outcome. Superseded and deleted findings retain their recorded identity and lifecycle context.
 
 ### Reportable activity
 
 The audit report includes material Security Finding activity recorded during the selected period:
 
-- a finding imported into Kilo;
+- a finding imported into Kappa;
 - a severity change;
 - a status change, including reopened and fixed;
 - manual dismissal, auto-dismissal, supersession, or deletion;
@@ -449,13 +449,13 @@ The audit report includes material Security Finding activity recorded during the
 
 The audit report excludes reads, page views, unchanged sync observations, queue claims, heartbeats, and retries with no new finding-level outcome. It also excludes notification delivery history, repository scan-coverage appendices, configuration timelines, and report-generation events within the report itself.
 
-If a report query fails, times out, or exceeds its budget, Kilo returns no report content rather than partial results. Choose a shorter reporting period and generate the report again.
+If a report query fails, times out, or exceeds its budget, Kappa returns no report content rather than partial results. Choose a shorter reporting period and generate the report again.
 
 ### Report access
 
 Personal audit reports are available to the owning user.
 
-Organization audit reports are available to organization owners, billing managers, and Kilo platform admins. Under current route permissions, organization members who are not owners or billing managers can use other Security Agent surfaces but cannot access organization audit reports.
+Organization audit reports are available to organization owners, billing managers, and Kappa platform admins. Under current route permissions, organization members who are not owners or billing managers can use other Security Agent surfaces but cannot access organization audit reports.
 
 Security Agent does not need to be enabled to view an existing report. The report page is available after GitHub integration and the initial Security Agent configuration have been set up. Setup-only states redirect to Settings.
 

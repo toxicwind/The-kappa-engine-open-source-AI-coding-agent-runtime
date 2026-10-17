@@ -37,7 +37,7 @@ const init = Effect.gen(function* () {
   return yield* info.init()
 })
 
-describe("Kilo grep signal-to-noise controls", () => {
+describe("Kappa grep signal-to-noise controls", () => {
   it.instance("preserves the default match output", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance

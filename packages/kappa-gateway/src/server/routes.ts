@@ -1,15 +1,15 @@
 /**
- * Kilo Gateway specific routes
- * Handles profile fetching and organization management for Kilo Gateway provider
+ * Kappa Gateway specific routes
+ * Handles profile fetching and organization management for Kappa Gateway provider
  *
- * This factory function accepts OpenCode dependencies to create Kilo-specific routes
+ * This factory function accepts OpenCode dependencies to create Kappa-specific routes
  */
 
-import { fetchKilocodeNotifications, KilocodeNotificationSchema } from "../api/notifications.js"
-import { fetchKiloImageModels } from "../api/models.js"
+import { fetchKappacodeNotifications, KappacodeNotificationSchema } from "../api/notifications.js"
+import { fetchKappaImageModels } from "../api/models.js"
 import { fetchOrganizationModes, clearModesCache } from "../api/modes.js"
 import { KILO_API_BASE, HEADER_FEATURE, HEADER_ORGANIZATIONID } from "../api/constants.js"
-import { buildKiloHeaders } from "../headers.js"
+import { buildKappaHeaders } from "../headers.js"
 import type { ImportDeps, DrizzleDb } from "../cloud-sessions.js"
 import {
   fetchCloudSession,
@@ -38,7 +38,7 @@ type Auth = any
 type ModelCache = { clear: (providerID: string) => void | Promise<void> }
 type Z = any
 
-interface KiloRoutesDeps extends ImportDeps {
+interface KappaRoutesDeps extends ImportDeps {
   Hono: new () => Hono
   describeRoute: DescribeRoute
   validator: Validator
@@ -51,18 +51,18 @@ interface KiloRoutesDeps extends ImportDeps {
 }
 
 /**
- * Create Kilo Gateway routes with OpenCode dependencies injected
+ * Create Kappa Gateway routes with OpenCode dependencies injected
  *
  * @example
  * ```typescript
- * import { createKiloRoutes } from "@kappacode/kappa-gateway"
+ * import { createKappaRoutes } from "@kappacode/kappa-gateway"
  * import { Hono } from "hono"
  * import { describeRoute, validator, resolver } from "hono-openapi"
  * import z from "zod"
  * import { errors } from "../error"
  * import { Auth } from "../../auth"
  *
- * export const KiloRoutes = createKiloRoutes({
+ * export const KappaRoutes = createKappaRoutes({
  *   Hono,
  *   describeRoute,
  *   validator,
@@ -73,7 +73,7 @@ interface KiloRoutesDeps extends ImportDeps {
  * })
  * ```
  */
-export function createKiloRoutes(deps: KiloRoutesDeps) {
+export function createKappaRoutes(deps: KappaRoutesDeps) {
   const {
     Hono,
     describeRoute,
@@ -113,7 +113,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
     balance: z.number(),
   })
 
-  const KiloPassState = z.object({
+  const KappaPassState = z.object({
     currentPeriodBaseCreditsUsd: z.number(),
     currentPeriodUsageUsd: z.number(),
     currentPeriodBonusCreditsUsd: z.number(),
@@ -123,7 +123,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
   const ProfileWithBalance = z.object({
     profile: Profile,
     balance: Balance.nullable(),
-    kiloPass: KiloPassState.nullable(),
+    kappaPass: KappaPassState.nullable(),
     currentOrgId: z.string().nullable(),
   })
 
@@ -178,8 +178,8 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
     .get(
       "/profile",
       describeRoute({
-        summary: "Get Kilo Gateway profile",
-        description: "Fetch user profile and organizations from Kilo Gateway",
+        summary: "Get Kappa Gateway profile",
+        description: "Fetch user profile and organizations from Kappa Gateway",
         operationId: "kappa.profile",
         responses: {
           200: {
@@ -198,15 +198,15 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           return c.json(await getProfile(Auth))
         } catch (err) {
           if (!(err instanceof UnauthorizedError)) throw err
-          return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+          return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
         }
       },
     )
     .post(
       "/organization",
       describeRoute({
-        summary: "Update Kilo Gateway organization",
-        description: "Switch to a different Kilo Gateway organization",
+        summary: "Update Kappa Gateway organization",
+        description: "Switch to a different Kappa Gateway organization",
         operationId: "kappa.organization.set",
         responses: {
           200: {
@@ -242,7 +242,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           )
         } catch (err) {
           if (!(err instanceof UnauthorizedError)) throw err
-          return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+          return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
         }
       },
     )
@@ -323,7 +323,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       "/fim",
       describeRoute({
         summary: "FIM completion",
-        description: "Proxy a Fill-in-the-Middle completion request to the Kilo Gateway",
+        description: "Proxy a Fill-in-the-Middle completion request to the Kappa Gateway",
         operationId: "kappa.fim",
         responses: {
           200: {
@@ -392,7 +392,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       "/audio/transcriptions",
       describeRoute({
         summary: "Speech to text transcription",
-        description: "Proxy an audio transcription request to the Kilo Gateway",
+        description: "Proxy an audio transcription request to the Kappa Gateway",
         operationId: "kappa.audio.transcriptions",
         responses: {
           200: {
@@ -421,7 +421,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       ),
       async (c: any) => {
         const proxy = await getProxyAuth()
-        if (!proxy.auth) return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+        if (!proxy.auth) return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
 
         if (!proxy.token) return c.json({ error: "No valid token found" }, 401)
 
@@ -429,7 +429,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
         const headers = {
           "Content-Type": "application/json",
           Authorization: `Bearer ${proxy.token}`,
-          ...buildKiloHeaders(undefined, { kilocodeOrganizationId: proxy.organizationId }),
+          ...buildKappaHeaders(undefined, { kappacodeOrganizationId: proxy.organizationId }),
           [HEADER_FEATURE]: "vscode-extension",
         }
 
@@ -453,7 +453,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       "/models/images",
       describeRoute({
         summary: "Image generation models",
-        description: "List image-capable models from the Kilo Gateway OpenRouter passthrough",
+        description: "List image-capable models from the Kappa Gateway OpenRouter passthrough",
         operationId: "kappa.models.images",
         responses: {
           200: {
@@ -474,9 +474,9 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           const proxy = await getProxyAuth()
           if (!proxy.auth || !proxy.token) throw new UnauthorizedError()
 
-          const result = await fetchKiloImageModels({
-            kilocodeToken: proxy.token,
-            kilocodeOrganizationId: proxy.organizationId,
+          const result = await fetchKappaImageModels({
+            kappacodeToken: proxy.token,
+            kappacodeOrganizationId: proxy.organizationId,
           })
           if (result.error) {
             if (result.error.kind === "unauthorized") throw new UnauthorizedError()
@@ -485,7 +485,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           return c.json(result.models)
         } catch (err) {
           if (!(err instanceof UnauthorizedError)) throw err
-          return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+          return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
         }
       },
     )
@@ -494,7 +494,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       describeRoute({
         summary: "Image generation",
         description:
-          "Proxy an image generation request (chat-completions with modalities) to the Kilo Gateway OpenRouter passthrough",
+          "Proxy an image generation request (chat-completions with modalities) to the Kappa Gateway OpenRouter passthrough",
         operationId: "kappa.image.generations",
         responses: {
           200: {
@@ -511,14 +511,14 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       validator("json", z.object({ body: z.unknown() }).passthrough()),
       async (c: any) => {
         const proxy = await getProxyAuth()
-        if (!proxy.auth) return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+        if (!proxy.auth) return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
         if (!proxy.token) return c.json({ error: "No valid token found" }, 401)
 
         const payload = c.req.valid("json")
         const headers = {
           "Content-Type": "application/json",
           Authorization: `Bearer ${proxy.token}`,
-          ...buildKiloHeaders(undefined, { kilocodeOrganizationId: proxy.organizationId }),
+          ...buildKappaHeaders(undefined, { kappacodeOrganizationId: proxy.organizationId }),
           [HEADER_FEATURE]: "vscode-extension",
         }
 
@@ -541,15 +541,15 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
     .get(
       "/notifications",
       describeRoute({
-        summary: "Get Kilo notifications",
-        description: "Fetch notifications from Kilo Gateway for CLI display",
+        summary: "Get Kappa notifications",
+        description: "Fetch notifications from Kappa Gateway for CLI display",
         operationId: "kappa.notifications",
         responses: {
           200: {
             description: "Notifications list",
             content: {
               "application/json": {
-                schema: resolver(z.array(KilocodeNotificationSchema)),
+                schema: resolver(z.array(KappacodeNotificationSchema)),
               },
             },
           },
@@ -564,7 +564,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       "/cloud/session/:id",
       describeRoute({
         summary: "Get cloud session",
-        description: "Fetch full session data from the Kilo cloud for preview",
+        description: "Fetch full session data from the Kappa cloud for preview",
         operationId: "kappa.cloud.session.get",
         responses: {
           200: {
@@ -582,7 +582,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       async (c: any) => {
         try {
           const auth = await Auth.get("kappa")
-          if (!auth) return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+          if (!auth) return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
           const token = auth.type === "api" ? auth.key : auth.type === "oauth" ? auth.access : undefined
           if (!token) return c.json({ error: "No valid token found" }, 401)
 
@@ -591,7 +591,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           if (!result.ok) return c.json({ error: result.error }, result.status)
           return c.json(result.data)
         } catch (err: any) {
-          console.error("[Kilo Gateway] cloud/session/get: unhandled error", err?.message ?? err)
+          console.error("[Kappa Gateway] cloud/session/get: unhandled error", err?.message ?? err)
           return c.json({ error: "Internal error" }, 500)
         }
       },
@@ -625,7 +625,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           const { sessionId } = c.req.valid("json")
 
           const auth = await Auth.get("kappa")
-          if (!auth) return c.json({ error: "Not authenticated with Kilo" }, 401)
+          if (!auth) return c.json({ error: "Not authenticated with Kappa" }, 401)
           const token = auth.type === "api" ? auth.key : auth.type === "oauth" ? auth.access : undefined
           if (!token) return c.json({ error: "No valid token found" }, 401)
 
@@ -650,7 +650,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           return c.json(info)
         } catch (err: any) {
           if (err instanceof SessionImportValidationError) return c.json({ error: "Invalid export data" }, 400)
-          console.error("[Kilo Gateway] cloud/session/import: unhandled error", err?.message ?? err)
+          console.error("[Kappa Gateway] cloud/session/import: unhandled error", err?.message ?? err)
           return c.json({ error: "Internal error" }, 500)
         }
       },
@@ -659,7 +659,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       "/cloud-sessions",
       describeRoute({
         summary: "Get cloud sessions",
-        description: "Fetch cloud CLI sessions from Kilo API",
+        description: "Fetch cloud CLI sessions from Kappa API",
         operationId: "kappa.cloudSessions",
         responses: {
           200: {
@@ -697,7 +697,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
       async (c: any) => {
         try {
           const auth = await Auth.get("kappa")
-          if (!auth) return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
+          if (!auth) return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
 
           const token = auth.type === "api" ? auth.key : auth.type === "oauth" ? auth.access : undefined
           if (!token) return c.json({ error: "No valid token found" }, 401)
@@ -705,7 +705,7 @@ export function createKiloRoutes(deps: KiloRoutesDeps) {
           return c.json(await getCloudSessions(token, c.req.valid("query")))
         } catch (err: any) {
           if (err instanceof GatewayError) return c.json({ error: err.message }, err.status as any)
-          console.error("[Kilo Gateway] cloud-sessions: unhandled error", err?.message ?? err)
+          console.error("[Kappa Gateway] cloud-sessions: unhandled error", err?.message ?? err)
           return c.json({ error: "Internal error" }, 500)
         }
       },

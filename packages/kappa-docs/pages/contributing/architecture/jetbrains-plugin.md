@@ -1,11 +1,11 @@
 ---
 title: "JetBrains Plugin Architecture"
-description: "Architecture of the Kilo JetBrains split-mode plugin"
+description: "Architecture of the Kappa JetBrains split-mode plugin"
 ---
 
 # JetBrains Plugin Architecture
 
-The JetBrains plugin (`packages/kappa-jetbrains/`) is a split-mode Swing client of [Kilo CLI runtime](/docs/contributing/architecture/cli-runtime). Frontend module renders IDE UI. Backend module owns project-local logic and one bundled `kappa serve` server. Shared module defines cross-process RPC contracts and serializable payloads.
+The JetBrains plugin (`packages/kappa-jetbrains/`) is a split-mode Swing client of [Kappa CLI runtime](/docs/contributing/architecture/cli-runtime). Frontend module renders IDE UI. Backend module owns project-local logic and one bundled `kappa serve` server. Shared module defines cross-process RPC contracts and serializable payloads.
 
 {% callout type="info" title="Scope" %}
 This page describes repository-defined plugin architecture and development checks. It does not claim Marketplace rollout state or remote-host deployment configuration.
@@ -33,12 +33,12 @@ flowchart LR
   subgraph backend ["JetBrains backend"]
     rpcImpl["RPC providers"]
     app["Backend app service"]
-    conn["KiloConnectionService"]
+    conn["KappaConnectionService"]
     workspaces["Directory workspace cache"]
     cli["Extracted kappa serve --port 0"]
   end
 
-  runtime["Kilo CLI runtime"]
+  runtime["Kappa CLI runtime"]
 
   swing --> rpcClient --> rpcImpl --> app
   app --> conn --> cli --> runtime
@@ -51,10 +51,10 @@ Shared RPC surfaces separate app, workspace, session, and migration behavior.
 
 | Contract | Scope | Examples |
 |---|---|---|
-| `KiloAppRpcApi` | Application | Connect, state flow, health, retry, restart, reinstall, model state, profile, login, telemetry |
-| `KiloWorkspaceRpcApi` | Directory | Resolve real backend project directory, workspace state flow, reload, file lookup, open file |
-| `KiloSessionRpcApi` | Session and directory | Create/list sessions, prompt, stream events, permission and question replies, config update |
-| `KiloMigrationRpcApi` | Legacy migration | Detect, run, and observe migration state |
+| `KappaAppRpcApi` | Application | Connect, state flow, health, retry, restart, reinstall, model state, profile, login, telemetry |
+| `KappaWorkspaceRpcApi` | Directory | Resolve real backend project directory, workspace state flow, reload, file lookup, open file |
+| `KappaSessionRpcApi` | Session and directory | Create/list sessions, prompt, stream events, permission and question replies, config update |
+| `KappaMigrationRpcApi` | Legacy migration | Detect, run, and observe migration state |
 
 Frontend calls RPC from coroutines, not Event Dispatch Thread (EDT). Swing creation, mutation, and access remain on EDT. Long-lived RPC calls and flows should use JetBrains durable patterns so UI can survive reconnect and backend restart.
 
@@ -144,17 +144,17 @@ For plugin icon creation, modification, or review, use the `icon-jetbrains` skil
 
 ## Source map
 
-Paths below are relative to [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode).
+Paths below are relative to [`Kappa-Org/kappacode`](https://github.com/Kappa-Org/kappacode).
 
 | Concern | Source path |
 |---|---|
 | Split modules | `packages/kappa-jetbrains/settings.gradle.kts` and module XML descriptors |
 | Contributor constraints | `packages/kappa-jetbrains/AGENTS.md` and the `jetbrains-ui`/`jetbrains-session`/`jetbrains-arch`/`jetbrains-dev` skills under `.kappa/skills/` |
-| CLI lifecycle | `packages/kappa-jetbrains/backend/src/main/kotlin/ai/kilocode/backend/cli/KiloBackendCliManager.kt` |
-| Connection recovery | `packages/kappa-jetbrains/backend/src/main/kotlin/ai/kilocode/backend/app/KiloBackendConnectionService.kt` |
-| Workspace cache | `packages/kappa-jetbrains/backend/src/main/kotlin/ai/kilocode/backend/workspace/KiloBackendWorkspaceManager.kt` |
+| CLI lifecycle | `packages/kappa-jetbrains/backend/src/main/kotlin/ai/kappacode/backend/cli/KappaBackendCliManager.kt` |
+| Connection recovery | `packages/kappa-jetbrains/backend/src/main/kotlin/ai/kappacode/backend/app/KappaBackendConnectionService.kt` |
+| Workspace cache | `packages/kappa-jetbrains/backend/src/main/kotlin/ai/kappacode/backend/workspace/KappaBackendWorkspaceManager.kt` |
 | Kotlin client generation | `packages/kappa-jetbrains/backend/build.gradle.kts` |
-| RPC contracts | `packages/kappa-jetbrains/shared/src/main/kotlin/ai/kilocode/rpc/` |
+| RPC contracts | `packages/kappa-jetbrains/shared/src/main/kotlin/ai/kappacode/rpc/` |
 
 ## Related pages
 

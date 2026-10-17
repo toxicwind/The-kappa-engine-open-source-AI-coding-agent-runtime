@@ -4,20 +4,20 @@ import { Config } from "../config/config"
 import { ConfigMCPV1 as ConfigMCP } from "@opencode-ai/core/v1/config/mcp"
 import * as Log from "@opencode-ai/core/util/log"
 import { Filesystem } from "../util/filesystem"
-import { KilocodePaths } from "./paths"
+import { KappacodePaths } from "./paths"
 
 export namespace McpMigrator {
   const log = Log.create({ service: "kappacode.mcp-migrator" })
 
-  // Remote transport types used by the Kilocode extension
+  // Remote transport types used by the Kappacode extension
   const REMOTE_TYPES = new Set(["streamable-http", "sse"])
 
-  function isRemote(server: KilocodeMcpServer): boolean {
+  function isRemote(server: KappacodeMcpServer): boolean {
     return !!server.type && REMOTE_TYPES.has(server.type)
   }
 
-  // Kilocode MCP server structure
-  export interface KilocodeMcpServer {
+  // Kappacode MCP server structure
+  export interface KappacodeMcpServer {
     command?: string
     args?: string[]
     env?: Record<string, string>
@@ -29,8 +29,8 @@ export namespace McpMigrator {
     headers?: Record<string, string>
   }
 
-  export interface KilocodeMcpSettings {
-    mcpServers: Record<string, KilocodeMcpServer>
+  export interface KappacodeMcpSettings {
+    mcpServers: Record<string, KappacodeMcpServer>
   }
 
   export interface MigrationResult {
@@ -39,19 +39,19 @@ export namespace McpMigrator {
     skipped: Array<{ name: string; reason: string }>
   }
 
-  export async function readMcpSettings(filepath: string): Promise<KilocodeMcpSettings | null> {
+  export async function readMcpSettings(filepath: string): Promise<KappacodeMcpSettings | null> {
     if (!(await Filesystem.exists(filepath))) return null
 
     try {
       const content = await fs.readFile(filepath, "utf-8")
-      return JSON.parse(content) as KilocodeMcpSettings
+      return JSON.parse(content) as KappacodeMcpSettings
     } catch (err) {
       log.warn("failed to parse MCP settings file, skipping", { filepath, error: err })
       return null
     }
   }
 
-  export function convertServer(name: string, server: KilocodeMcpServer): ConfigMCP.Info | null {
+  export function convertServer(name: string, server: KappacodeMcpServer): ConfigMCP.Info | null {
     if (isRemote(server)) {
       if (!server.url) {
         log.warn("remote MCP server missing url, skipping", { name })
@@ -93,11 +93,11 @@ export namespace McpMigrator {
     const skipped: Array<{ name: string; reason: string }> = []
     const mcp: Record<string, ConfigMCP.Info> = {}
 
-    const allServers: Array<{ name: string; server: KilocodeMcpServer }> = []
+    const allServers: Array<{ name: string; server: KappacodeMcpServer }> = []
 
     if (!options?.skipGlobalPaths) {
       // 1. VSCode extension global storage (primary location for global MCP settings)
-      const vscodeSettingsPath = path.join(KilocodePaths.vscodeGlobalStorage(), "settings", "mcp_settings.json")
+      const vscodeSettingsPath = path.join(KappacodePaths.vscodeGlobalStorage(), "settings", "mcp_settings.json")
       const vscodeSettings = await readMcpSettings(vscodeSettingsPath)
       if (vscodeSettings?.mcpServers) {
         for (const [name, server] of Object.entries(vscodeSettings.mcpServers)) {
@@ -123,7 +123,7 @@ export namespace McpMigrator {
     }
 
     // Deduplicate by name (later entries win - project overrides global)
-    const serversByName = new Map<string, KilocodeMcpServer>()
+    const serversByName = new Map<string, KappacodeMcpServer>()
     for (const { name, server } of allServers) {
       serversByName.set(name, server)
     }
@@ -147,7 +147,7 @@ export namespace McpMigrator {
   }
 
   /**
-   * Load Kilocode MCP servers and return them as an opencode config partial.
+   * Load Kappacode MCP servers and return them as an opencode config partial.
    * This function handles all logging internally, so callers just need to merge the result.
    */
   export async function loadMcpConfig(

@@ -17,7 +17,7 @@ import type { GitOps } from "../../src/agent-manager/GitOps"
 import type { Host } from "../../src/agent-manager/host"
 
 const ROOT = path.resolve(import.meta.dir, "../..")
-const KILO_PROVIDER_FILE = path.join(ROOT, "src/KiloProvider.ts")
+const KILO_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
 const EDIT_PREVIEW_PANEL_FILE = path.join(ROOT, "webview-ui/agent-manager/EditPreviewPanel.tsx")
 const CSS_FILES = [
   path.join(ROOT, "webview-ui/agent-manager/agent-manager.css"),
@@ -1019,7 +1019,7 @@ describe("Agent Manager Webview — non-git sessionsLoaded fix", () => {
   const tsx = readAllTsx()
 
   /**
-   * Regression: when isGitRepo is false, the Kilo server never sends a
+   * Regression: when isGitRepo is false, the Kappa server never sends a
    * "sessionsLoaded" message, so the skeleton was stuck forever.
    * The fix must set sessionsLoaded(true) when receiving a state message
    * with isGitRepo === false.
@@ -1037,10 +1037,10 @@ describe("Agent Manager Webview — non-git sessionsLoaded fix", () => {
 })
 
 // ---------------------------------------------------------------------------
-// KiloProvider — pendingSessionRefresh race condition fix
+// KappaProvider — pendingSessionRefresh race condition fix
 // ---------------------------------------------------------------------------
 
-describe("KiloProvider — pending session refresh on reconnect", () => {
+describe("KappaProvider — pending session refresh on reconnect", () => {
   const provider = fs.readFileSync(KILO_PROVIDER_FILE, "utf-8")
   const utils = fs.readFileSync(path.join(ROOT, "src/kappa-provider-utils.ts"), "utf-8")
 
@@ -1319,7 +1319,7 @@ describe("Shared webview provider shell", () => {
     expect(rich).toContain('window.addEventListener("kappa:save-image", save)')
     ordered(session, [
       "IndexingProvider",
-      "KiloEmbeddingModelsProvider",
+      "KappaEmbeddingModelsProvider",
       "ImageModelsProvider",
       "NotificationsProvider",
       "SessionProvider",

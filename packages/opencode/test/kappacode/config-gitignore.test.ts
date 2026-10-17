@@ -1,6 +1,6 @@
 // kappacode_change - new file
 //
-// Kilo uses Npm.Service (arborist) for dependency installation and may write
+// Kappa uses Npm.Service (arborist) for dependency installation and may write
 // a .gitignore inside the .kappa config dir. Users may have pnpm or yarn as
 // their system package manager, which can produce lockfiles in the .kappa/
 // config directory. These must be ignored so they don't appear as untracked

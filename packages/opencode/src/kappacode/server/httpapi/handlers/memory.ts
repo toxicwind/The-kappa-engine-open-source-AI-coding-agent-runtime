@@ -4,7 +4,7 @@ import { InstanceState } from "@/effect/instance-state"
 import { MemoryError } from "@kappacode/kappa-memory/effect/errors"
 import { MemoryContract } from "@kappacode/kappa-memory/effect/httpapi"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
-import { KiloToolRegistry } from "@/kappacode/tool/registry"
+import { KappaToolRegistry } from "@/kappacode/tool/registry"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import {
   MemoryConfigurePayload,
@@ -20,7 +20,7 @@ function api<T>(effect: Effect.Effect<T, MemoryError>) {
 }
 
 function invalidate<T extends { root: string }>(input: T) {
-  KiloToolRegistry.invalidateMemoryEnabled(input.root)
+  KappaToolRegistry.invalidateMemoryEnabled(input.root)
   return input
 }
 

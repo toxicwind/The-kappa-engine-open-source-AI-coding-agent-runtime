@@ -150,7 +150,7 @@ export interface ModelSelectorBaseProps {
 }
 
 export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
-  const { connected, models, findModel, kiloUnavailable } = useProvider()
+  const { connected, models, findModel, kappaUnavailable } = useProvider()
   const language = useLanguage()
   const vscode = useVSCode()
   // Session context is optional — ModelSelectorBase is also used in Settings
@@ -232,7 +232,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
     window.addEventListener("mouseup", onUp)
   }
 
-  // Only show models from Kilo Gateway or connected providers.
+  // Only show models from Kappa Gateway or connected providers.
   // kappa-auto/small is excluded unless includeAutoSmall is explicitly true.
   const available = (m: EnrichedModel, c: string[]) =>
     (props.includeAutoSmall || !isSmall(m)) && (m.providerID === KILO_GATEWAY_ID || c.includes(m.providerID))
@@ -823,7 +823,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
       hasProviders(),
       {
         select: language.t("dialog.model.select.title"),
-        noProviders: kiloUnavailable()
+        noProviders: kappaUnavailable()
           ? language.t("dialog.model.unavailable")
           : language.t("dialog.model.noProviders"),
         notSet: language.t("dialog.model.notSet"),

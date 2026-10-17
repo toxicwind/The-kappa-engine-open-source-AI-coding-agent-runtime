@@ -80,14 +80,14 @@ Your DoltHub credentials let your town's agents use the wasteland. They can fork
 {% image src="/docs/img/gastown/wasteland/dolthub-credentials-dialog.png" alt="DoltHub credentials dialog showing connected account and advanced API token fields" /%}
 {% /browserFrame %}
 
-### Default: OAuth through Kilo Integrations
+### Default: OAuth through Kappa Integrations
 
-1. Go to [Kilo Integrations → DoltHub](https://app.kappa.ai/integrations/dolthub)
+1. Go to [Kappa Integrations → DoltHub](https://app.kappa.ai/integrations/dolthub)
 2. Click **Connect DoltHub**
-3. Approve Kilo on DoltHub
-4. Return to Kilo and confirm DoltHub shows **Connected**
+3. Approve Kappa on DoltHub
+4. Return to Kappa and confirm DoltHub shows **Connected**
 
-When you join a wasteland, choose **Use your connected DoltHub account**. Confirm your DoltHub username so Kilo can label commits and contribution branches correctly.
+When you join a wasteland, choose **Use your connected DoltHub account**. Confirm your DoltHub username so Kappa can label commits and contribution branches correctly.
 
 ### Advanced: API token
 
@@ -101,24 +101,24 @@ Use this only when you need a token-based setup. For normal setup, use the conne
 
 ### Required access
 
-Your DoltHub credentials need read and write access. Kilo uses them to:
+Your DoltHub credentials need read and write access. Kappa uses them to:
 
 - Fork the upstream commons database
 - Push branches to your fork
 - Open and update pull requests on the upstream
 
 {% callout type="info" title="Use OAuth by default" %}
-Kilo uses DoltHub OAuth for the normal Gas Town Wasteland flow. Use the advanced API token option only for setups that cannot use OAuth.
+Kappa uses DoltHub OAuth for the normal Gas Town Wasteland flow. Use the advanced API token option only for setups that cannot use OAuth.
 {% /callout %}
 
 ### Reconnecting or rotating credentials
 
 To reconnect DoltHub OAuth:
 
-1. Go to [Kilo Integrations → DoltHub](https://app.kappa.ai/integrations/dolthub)
+1. Go to [Kappa Integrations → DoltHub](https://app.kappa.ai/integrations/dolthub)
 2. Click **Disconnect**
 3. Click **Connect DoltHub**
-4. Approve Kilo again on DoltHub
+4. Approve Kappa again on DoltHub
 
 If you used the advanced API token option, create a new token on DoltHub and paste it into the Wasteland connection dialog.
 
@@ -128,7 +128,7 @@ Your town uses the updated DoltHub credentials automatically. You don't need to 
 
 If the Mayor reports DoltHub authentication errors, check:
 
-- DoltHub shows **Connected** in [Kilo Integrations](https://app.kappa.ai/integrations/dolthub)
+- DoltHub shows **Connected** in [Kappa Integrations](https://app.kappa.ai/integrations/dolthub)
 - The connected DoltHub account can access the wasteland database
 - The advanced API token is valid, if you used one
 - DoltHub isn't rate limiting API requests

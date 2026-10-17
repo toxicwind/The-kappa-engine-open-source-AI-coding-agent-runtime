@@ -5,10 +5,10 @@ import * as Log from "@opencode-ai/core/util/log"
 import { Effect } from "effect"
 import path from "path"
 import { Process } from "@/util/process"
-import { KiloSnapshotMaterialize } from "./materialize"
-import { KiloSnapshotPrepare } from "./prepare"
+import { KappaSnapshotMaterialize } from "./materialize"
+import { KappaSnapshotPrepare } from "./prepare"
 
-export namespace KiloSnapshotCleanup {
+export namespace KappaSnapshotCleanup {
   const log = Log.create({ service: "snapshot.cleanup" })
 
   export interface Input {
@@ -133,7 +133,7 @@ export namespace KiloSnapshotCleanup {
     // A prepared repository that was never tracked keeps its seed artifacts but has
     // nothing materializing, so cleanup may remove it. Preparation clears this marker
     // before it starts materializing.
-    if (names.has(KiloSnapshotPrepare.MARKER)) return false
+    if (names.has(KappaSnapshotPrepare.MARKER)) return false
     if (names.has("seed-objects")) return true
 
     const objects = root.find((entry) => entry.name === "objects")
@@ -160,7 +160,7 @@ export namespace KiloSnapshotCleanup {
   const release = Effect.fnUntraced(function* (fs: FSUtil.Interface, directory: string, gitdir: string) {
     if (!(yield* inspect(fs, path.join(directory, ".git"))).exists) return
     const result = yield* Effect.promise(() =>
-      Process.run(["git", "update-ref", "-d", KiloSnapshotMaterialize.ref(gitdir)], { cwd: directory, nothrow: true }),
+      Process.run(["git", "update-ref", "-d", KappaSnapshotMaterialize.ref(gitdir)], { cwd: directory, nothrow: true }),
     )
     if (result.code !== 0)
       log.warn("failed to release snapshot seed pin", { directory, stderr: result.stderr.toString() })

@@ -1,4 +1,4 @@
-import type { KiloClient, Session } from "@kappacode/sdk/v2/client"
+import type { KappaClient, Session } from "@kappacode/sdk/v2/client"
 import { getErrorMessage } from "../kappa-provider-utils"
 import { TelemetryProxy, TelemetryEventName } from "../services/telemetry"
 import type { WorktreeStateManager } from "./WorktreeStateManager"
@@ -6,7 +6,7 @@ import { PLATFORM } from "./constants"
 import { recordForkHandoff } from "./fork-handoff"
 
 export interface ForkContext {
-  getClient: () => KiloClient
+  getClient: () => KappaClient
   state: WorktreeStateManager | undefined
   directory: string | undefined
   postError: (message: string) => void
@@ -29,7 +29,7 @@ export async function forkSession(
   worktreeId?: string,
   messageId?: string,
 ): Promise<null> {
-  let client: KiloClient
+  let client: KappaClient
   try {
     client = ctx.getClient()
   } catch (err) {

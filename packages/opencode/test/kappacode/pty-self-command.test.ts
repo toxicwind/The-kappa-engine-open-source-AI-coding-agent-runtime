@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KiloPtySelfCommand } from "../../src/kappacode/pty/self-command"
+import { KappaPtySelfCommand } from "../../src/kappacode/pty/self-command"
 
 describe("pty self-command", () => {
   test("does not forward bundled bun entrypoints", () => {
@@ -10,21 +10,21 @@ describe("pty self-command", () => {
       cwd: "/tmp",
     }
 
-    const cmd = KiloPtySelfCommand.command(proc)
+    const cmd = KappaPtySelfCommand.command(proc)
     expect(cmd).toStrictEqual({ command: "/tmp/kappa", args: [] })
-    expect(KiloPtySelfCommand.resolve({ command: "kappa", cwd: "/tmp/project" }, cmd)).toStrictEqual({
+    expect(KappaPtySelfCommand.resolve({ command: "kappa", cwd: "/tmp/project" }, cmd)).toStrictEqual({
       command: "/tmp/kappa",
       args: [],
       cwd: "/tmp/project",
     })
     expect(
-      KiloPtySelfCommand.command({
+      KappaPtySelfCommand.command({
         ...proc,
         argv: ["C:/tmp/kappa.exe", "B:/~BUN/root/src/index.js"],
       }).args,
     ).toStrictEqual([])
     expect(
-      KiloPtySelfCommand.command({
+      KappaPtySelfCommand.command({
         ...proc,
         argv: ["C:/tmp/kappa.exe", "b:\\~BUN\\root\\src\\index.js"],
       }).args,
@@ -32,7 +32,7 @@ describe("pty self-command", () => {
   })
 
   test("forwards source entrypoints", () => {
-    const cmd = KiloPtySelfCommand.command({
+    const cmd = KappaPtySelfCommand.command({
       argv: ["/tmp/bun", "/tmp/kappa/src/index.ts"],
       execArgv: ["--conditions=browser", "--cwd", "packages/opencode"],
       execPath: "/tmp/bun",
@@ -43,7 +43,7 @@ describe("pty self-command", () => {
       args: ["--conditions=browser", "/tmp/kappa/src/index.ts"],
       cwd: "/tmp/kappa",
     })
-    expect(KiloPtySelfCommand.resolve({ command: "kappa", cwd: "/tmp/project" }, cmd)).toStrictEqual({
+    expect(KappaPtySelfCommand.resolve({ command: "kappa", cwd: "/tmp/project" }, cmd)).toStrictEqual({
       command: "/tmp/bun",
       args: ["--conditions=browser", "/tmp/kappa/src/index.ts", "/tmp/project"],
       cwd: "/tmp/kappa",

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KiloRpc } from "../../../src/kappacode/util/rpc"
+import { KappaRpc } from "../../../src/kappacode/util/rpc"
 
 /**
  * Drives the real transport over a pair of ports, so the worker side runs the actual
@@ -45,59 +45,59 @@ function bound(value: string) {
 describe("worker rpc", () => {
   test("replays requests posted before listen installs a handler", async () => {
     using wire = channel()
-    KiloRpc.arm()
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(wire.parent)
+    KappaRpc.arm()
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(wire.parent)
 
     // Issued while the worker is still "starting": upstream dropped these outright.
     const inflight = client.call("echo", "queued")
-    KiloRpc.listen({ echo: (input: string) => `got ${input}` })
+    KappaRpc.listen({ echo: (input: string) => `got ${input}` })
 
     expect(await inflight).toBe("got queued")
   })
 
   test("resolves requests that arrive after the handler is ready", async () => {
     using wire = channel()
-    KiloRpc.arm()
-    KiloRpc.listen({ echo: (input: string) => `got ${input}` })
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(wire.parent)
+    KappaRpc.arm()
+    KappaRpc.listen({ echo: (input: string) => `got ${input}` })
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(wire.parent)
 
     expect(await client.call("echo", "live")).toBe("got live")
   })
 
   test("rejects when the worker method throws instead of hanging", async () => {
     using wire = channel()
-    KiloRpc.arm()
-    KiloRpc.listen({
+    KappaRpc.arm()
+    KappaRpc.listen({
       boom: () => {
         throw new Error("handler exploded")
       },
     })
-    const client = KiloRpc.client<{ boom: (input: undefined) => never }>(wire.parent)
+    const client = KappaRpc.client<{ boom: (input: undefined) => never }>(wire.parent)
 
     await expect(client.call("boom", undefined)).rejects.toThrow(/worker rpc failed: handler exploded/)
   })
 
   test("rejects when the worker rejects asynchronously", async () => {
     using wire = channel()
-    KiloRpc.arm()
-    KiloRpc.listen({ boom: async () => Promise.reject(new Error("async exploded")) })
-    const client = KiloRpc.client<{ boom: (input: undefined) => never }>(wire.parent)
+    KappaRpc.arm()
+    KappaRpc.listen({ boom: async () => Promise.reject(new Error("async exploded")) })
+    const client = KappaRpc.client<{ boom: (input: undefined) => never }>(wire.parent)
 
     await expect(client.call("boom", undefined)).rejects.toThrow(/worker rpc failed: async exploded/)
   })
 
   test("rejects an unknown method instead of hanging", async () => {
     using wire = channel()
-    KiloRpc.arm()
-    KiloRpc.listen({ known: () => "ok" })
-    const client = KiloRpc.client<{ missing: (input: undefined) => never }>(wire.parent)
+    KappaRpc.arm()
+    KappaRpc.listen({ known: () => "ok" })
+    const client = KappaRpc.client<{ missing: (input: undefined) => never }>(wire.parent)
 
     await expect(client.call("missing", undefined)).rejects.toThrow(/unknown method missing/)
   })
 
   test("delivers events to subscribers", async () => {
     using wire = channel()
-    const client = KiloRpc.client<{ noop: (input: undefined) => void }>(wire.parent)
+    const client = KappaRpc.client<{ noop: (input: undefined) => void }>(wire.parent)
     const seen: string[] = []
     const off = client.on<string>("tick", (data) => seen.push(data))
 
@@ -110,10 +110,10 @@ describe("worker rpc", () => {
 
   test("recovers when the worker was ready before the client attached", async () => {
     using wire = channel()
-    KiloRpc.arm()
+    KappaRpc.arm()
     // Worker announces itself with nobody listening, so that announcement is lost.
-    KiloRpc.listen({ echo: (input: string) => input })
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(wire.parent)
+    KappaRpc.listen({ echo: (input: string) => input })
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(wire.parent)
 
     // The client's probe has to recover readiness, otherwise both sides wait forever.
     expect(await client.call("echo", "first")).toBe("first")
@@ -135,7 +135,7 @@ describe("worker rpc", () => {
         wire.parent.onmessage = handler
       },
     }
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(parent)
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(parent)
     const requests = () => seen.filter((data) => JSON.parse(data).type === "rpc.request")
 
     const inflight = client.call("echo", "waiting")
@@ -143,8 +143,8 @@ describe("worker rpc", () => {
     // the compiled worker is still evaluating its imports and silently drops messages.
     expect(requests()).toEqual([])
 
-    KiloRpc.arm()
-    KiloRpc.listen({ echo: (input: string) => `got ${input}` })
+    KappaRpc.arm()
+    KappaRpc.listen({ echo: (input: string) => `got ${input}` })
 
     expect(await inflight).toBe("got waiting")
     expect(requests().length).toBe(1)
@@ -154,7 +154,7 @@ describe("worker rpc", () => {
     using wire = channel()
     using _ = bound("150")
     // The worker side never calls listen, so rpc.ready never arrives.
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(wire.parent)
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(wire.parent)
 
     await expect(client.call("echo", "lost")).rejects.toThrow(/never became ready within 150ms/)
   })
@@ -162,7 +162,7 @@ describe("worker rpc", () => {
   test("rejects calls made after the ready bound already elapsed", async () => {
     using wire = channel()
     using _ = bound("100")
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(wire.parent)
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(wire.parent)
 
     await expect(client.call("echo", "first")).rejects.toThrow(/never became ready/)
     // The bound has fired and cleared its timer, so a later call has nothing left to reject
@@ -173,13 +173,13 @@ describe("worker rpc", () => {
   test("recovers when the worker becomes ready after the bound elapsed", async () => {
     using wire = channel()
     using _ = bound("100")
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(wire.parent)
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(wire.parent)
 
     await expect(client.call("echo", "early")).rejects.toThrow(/never became ready/)
 
     // A late worker is still usable, so the client must stop failing new calls.
-    KiloRpc.arm()
-    KiloRpc.listen({ echo: (input: string) => `got ${input}` })
+    KappaRpc.arm()
+    KappaRpc.listen({ echo: (input: string) => `got ${input}` })
 
     expect(await client.call("echo", "late")).toBe("got late")
   })
@@ -194,9 +194,9 @@ describe("worker rpc", () => {
     using _ = bound(value)
     // Number("") is 0 and Number("not-a-number") is NaN; either fires setTimeout on the next
     // tick, which would fail every call the moment the client is created.
-    const client = KiloRpc.client<{ echo: (input: string) => string }>(wire.parent)
-    KiloRpc.arm()
-    KiloRpc.listen({ echo: (input: string) => `got ${input}` })
+    const client = KappaRpc.client<{ echo: (input: string) => string }>(wire.parent)
+    KappaRpc.arm()
+    KappaRpc.listen({ echo: (input: string) => `got ${input}` })
 
     expect(await client.call("echo", "fine")).toBe("got fine")
   })

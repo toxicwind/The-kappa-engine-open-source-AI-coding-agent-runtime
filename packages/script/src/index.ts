@@ -16,7 +16,7 @@ const expectedBunVersionRange = `^${expectedBunVersion}`
 if (!semver.satisfies(process.versions.bun, expectedBunVersionRange)) {
   throw new Error(`This script requires bun@${expectedBunVersionRange}, but you are using bun@${process.versions.bun}`)
 }
-// kilocode_change start
+// kappacode_change start
 const env = {
   KILO_CHANNEL: process.env["KILO_CHANNEL"],
   KILO_BUMP: process.env["KILO_BUMP"],
@@ -24,19 +24,19 @@ const env = {
   KILO_RELEASE: process.env["KILO_RELEASE"],
   KILO_PRE_RELEASE: process.env["KILO_PRE_RELEASE"],
 }
-// kilocode_change end
+// kappacode_change end
 const CHANNEL = await (async () => {
-  if (env.KILO_CHANNEL) return env.KILO_CHANNEL // kilocode_change
-  // kilocode_change start - publish to "rc" channel for pre-releases
+  if (env.KILO_CHANNEL) return env.KILO_CHANNEL // kappacode_change
+  // kappacode_change start - publish to "rc" channel for pre-releases
   if (env.KILO_PRE_RELEASE === "true") return "rc"
-  // kilocode_change end
-  if (env.KILO_BUMP) return "latest" // kilocode_change
-  if (env.KILO_VERSION && !env.KILO_VERSION.startsWith("0.0.0-")) return "latest" // kilocode_change
-  return await $`git branch --show-current`.text().then((x) => x.trim().replace(/[^0-9A-Za-z-]/g, "-")) // kilocode_change
+  // kappacode_change end
+  if (env.KILO_BUMP) return "latest" // kappacode_change
+  if (env.KILO_VERSION && !env.KILO_VERSION.startsWith("0.0.0-")) return "latest" // kappacode_change
+  return await $`git branch --show-current`.text().then((x) => x.trim().replace(/[^0-9A-Za-z-]/g, "-")) // kappacode_change
 })()
 const IS_PREVIEW = CHANNEL !== "latest"
 
-// kilocode_change start - shared helpers for version computation
+// kappacode_change start - shared helpers for version computation
 function parseVersion(input: string) {
   const match = input.trim().match(/^v?(\d+)\.(\d+)\.(\d+)$/)
   if (!match) return
@@ -87,24 +87,24 @@ function bumpVersion(current: string, type: string) {
   if (type === "minor") return `${version.major}.${version.minor + 1}.0`
   return `${version.major}.${version.minor}.${version.patch + 1}`
 }
-// kilocode_change end
+// kappacode_change end
 
 const VERSION = await (async () => {
   if (env.KILO_VERSION) return env.KILO_VERSION
   if (IS_PREVIEW) {
-    // kilocode_change start - rc releases use plain semver required by VS Code Marketplace
+    // kappacode_change start - rc releases use plain semver required by VS Code Marketplace
     if (env.KILO_BUMP && env.KILO_PRE_RELEASE === "true") {
       const current = await fetchHighest()
       return bumpVersion(current, env.KILO_BUMP.toLowerCase())
     }
-    // kilocode_change end
+    // kappacode_change end
     return `0.0.0-${CHANNEL}-${new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "")}`
   }
-  const version = await fetchHighest() // kilocode_change
-  return bumpVersion(version, env.KILO_BUMP?.toLowerCase() ?? "patch") // kilocode_change
+  const version = await fetchHighest() // kappacode_change
+  return bumpVersion(version, env.KILO_BUMP?.toLowerCase() ?? "patch") // kappacode_change
 })()
 
-// kilocode_change start
+// kappacode_change start
 const team = [
   "actions-user",
   "alexkgold",
@@ -120,7 +120,7 @@ const team = [
   "emilieschario",
   "eshurakov",
   "evanjacobson",
-  "Helix-Kilo",
+  "Helix-Kappa",
   "iscekic",
   "jeanduplessis",
   "jobrietbergen",
@@ -129,12 +129,12 @@ const team = [
   "kappa-code-bot",
   "kappa-code-bot[bot]",
   "kappa-maintainer[bot]",
-  "kilocode-bot",
+  "kappacode-bot",
   "kiloconnect-lite[bot]",
   "kiloconnect[bot]",
   "kirillk",
   "lambertjosh",
-  "marius-kilocode",
+  "marius-kappacode",
   "olearycrew",
   "pandemicsyn",
   "pedroheyerdahl",
@@ -143,7 +143,7 @@ const team = [
   "St0rmz1",
   "suhailkc2025",
 ]
-// kilocode_change end
+// kappacode_change end
 
 export const Script = {
   get channel() {
@@ -162,4 +162,4 @@ export const Script = {
     return team
   },
 }
-console.log(`kappa script`, JSON.stringify(Script, null, 2)) // kilocode_change
+console.log(`kappa script`, JSON.stringify(Script, null, 2)) // kappacode_change

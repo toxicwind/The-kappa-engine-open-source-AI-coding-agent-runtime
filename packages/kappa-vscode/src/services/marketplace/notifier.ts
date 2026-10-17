@@ -4,7 +4,7 @@ import { MarketplaceService } from "."
 import { fetchMarketplaceData, type MarketplaceActionContext } from "./actions"
 import { selectSuggestions, showSuggestionNotification, suggestionSlug } from "./notify"
 import { filenamePatterns, matchesPattern } from "./relevance"
-import type { KiloConnectionService } from "../cli-backend"
+import type { KappaConnectionService } from "../cli-backend"
 import type { MarketplaceItem } from "./types"
 
 const DISMISSED_KEY = "kappa.marketplace.dismissedSuggestions"
@@ -30,7 +30,7 @@ export class MarketplaceNotifier implements vscode.Disposable {
   private patterns: string[] = []
 
   constructor(
-    private readonly connection: KiloConnectionService,
+    private readonly connection: KappaConnectionService,
     private readonly context: vscode.ExtensionContext,
     private readonly install: MarketplaceItemHandler,
     private readonly details: MarketplaceItemHandler,
@@ -112,7 +112,7 @@ export class MarketplaceNotifier implements vscode.Disposable {
   private async scan(): Promise<void> {
     const generation = ++this.generation
     const data = await fetchMarketplaceData(this.ctx, this.project(), this.directory()).catch((err: unknown) => {
-      console.warn("[Kilo New] Marketplace suggestion scan failed:", err)
+      console.warn("[Kappa New] Marketplace suggestion scan failed:", err)
       return undefined
     })
     if (!data || generation !== this.generation) return

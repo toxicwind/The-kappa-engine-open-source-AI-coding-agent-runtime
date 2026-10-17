@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from "bun:test"
-import { KiloShutdown } from "../../src/kappacode/cli/shutdown"
+import { KappaShutdown } from "../../src/kappacode/cli/shutdown"
 
 const calls: string[] = []
 const timeouts: Array<number | undefined> = []
@@ -37,7 +37,7 @@ mock.module("@kappacode/kappa-telemetry", () => ({
 mock.module("@kappacode/kappa-gateway", () => ({
   ENV_FEATURE: "KILO_FEATURE",
   ENV_VERSION: "KILO_VERSION",
-  async migrateLegacyKiloAuth() {
+  async migrateLegacyKappaAuth() {
     calls.push("auth:migrate")
   },
 }))
@@ -52,7 +52,7 @@ mock.module("@/effect/app-runtime", () => ({
 }))
 
 mock.module("@/kappacode/log", () => ({
-  KiloLog: {
+  KappaLog: {
     async init() {
       calls.push("log")
     },
@@ -106,7 +106,7 @@ for (const path of [
   "@/cli/cmd/config",
 ]) {
   mock.module(path, () => ({
-    KiloConsoleCommand: { command: "console", handler() {} },
+    KappaConsoleCommand: { command: "console", handler() {} },
     CloudCommand: { command: "cloud", handler() {} },
     RollCallCommand: { command: "roll-call", handler() {} },
     ProfileCommand: { command: "profile", handler() {} },
@@ -120,7 +120,7 @@ for (const path of [
 
 /** Same mock body as the kappa-sessions module mock used by setup.ts's drain task. */
 function registerDrain() {
-  KiloShutdown.register(async () => {
+  KappaShutdown.register(async () => {
     drainCalls += 1
     calls.push("drain")
   })
@@ -129,16 +129,16 @@ function registerDrain() {
 /**
  * Install a drain task for this test only. Clears any leftover registry entries first
  * (setup.ts's one-time module-scope registration, or a prior test) so assertions do not
- * depend on declaration order or on whether an earlier test already ran KiloShutdown.run().
+ * depend on declaration order or on whether an earlier test already ran KappaShutdown.run().
  */
 async function installDrain() {
-  await KiloShutdown.run()
+  await KappaShutdown.run()
   calls.length = 0
   drainCalls = 0
   registerDrain()
 }
 
-describe("KiloCli.shutdown", () => {
+describe("KappaCli.shutdown", () => {
   beforeEach(() => {
     calls.length = 0
     timeouts.length = 0
@@ -154,9 +154,9 @@ describe("KiloCli.shutdown", () => {
 
   test("does not load unused ingest shutdown work", async () => {
     process.exitCode = 0
-    const { KiloCli } = await import("../../src/kappacode/cli/setup")
+    const { KappaCli } = await import("../../src/kappacode/cli/setup")
 
-    await expect(KiloCli.shutdown()).resolves.toBeUndefined()
+    await expect(KappaCli.shutdown()).resolves.toBeUndefined()
 
     expect(drainCalls).toBe(0)
     expect(timeouts).toEqual([2000])
@@ -167,10 +167,10 @@ describe("KiloCli.shutdown", () => {
   test("keeps telemetry shutdown timeout best-effort and still disposes instances", async () => {
     err = "Timeout while shutting down PostHog. Some events may not have been sent."
     process.exitCode = 0
-    const { KiloCli } = await import("../../src/kappacode/cli/setup")
+    const { KappaCli } = await import("../../src/kappacode/cli/setup")
     await installDrain()
 
-    await expect(KiloCli.shutdown()).resolves.toBeUndefined()
+    await expect(KappaCli.shutdown()).resolves.toBeUndefined()
 
     expect(timeouts).toEqual([2000])
     expect(calls).toEqual(["track:0", "session", "telemetry", "drain", "dispose"])
@@ -179,10 +179,10 @@ describe("KiloCli.shutdown", () => {
 
   test("preserves failing command exit status", async () => {
     process.exitCode = 1
-    const { KiloCli } = await import("../../src/kappacode/cli/setup")
+    const { KappaCli } = await import("../../src/kappacode/cli/setup")
     await installDrain()
 
-    await KiloCli.shutdown()
+    await KappaCli.shutdown()
 
     expect(timeouts).toEqual([2000])
     expect(calls).toEqual(["track:1", "session", "telemetry", "drain", "dispose"])
@@ -190,12 +190,12 @@ describe("KiloCli.shutdown", () => {
   })
 
   test("skips lifecycle work for parsed informational flags", async () => {
-    const { KiloCli } = await import("../../src/kappacode/cli/setup")
+    const { KappaCli } = await import("../../src/kappacode/cli/setup")
     await installDrain()
 
     for (const flag of ["help", "version"] as const) {
-      await KiloCli.bootstrap({ [flag]: true })
-      await KiloCli.shutdown()
+      await KappaCli.bootstrap({ [flag]: true })
+      await KappaCli.shutdown()
     }
 
     expect(calls).toEqual([])

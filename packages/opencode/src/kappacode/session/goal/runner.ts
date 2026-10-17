@@ -16,14 +16,14 @@ import type { CommandInput, PromptInput } from "@/session/prompt"
 import { SessionRunState } from "@/session/run-state"
 import { MessageID, PartID, SessionID } from "@/session/schema"
 import { Suggestion } from "@/kappacode/suggestion"
-import { KiloSessionControl } from "../control"
+import { KappaSessionControl } from "../control"
 import { GoalState } from "./state"
 import { GoalLink } from "./link"
 import { GoalPolicy } from "./policy"
 import { GoalInstructions } from "./instructions"
 import { SessionDrain } from "../drain"
-import { KiloSessionPrompt } from "../prompt"
-import { KiloSessionPromptQueue } from "../prompt-queue"
+import { KappaSessionPrompt } from "../prompt"
+import { KappaSessionPromptQueue } from "../prompt-queue"
 import { isRecord } from "@/util/record"
 
 export namespace Goal {
@@ -131,7 +131,7 @@ export namespace Goal {
       if (!isRecord(data) || typeof data.sessionID !== "string") return
       const state = owned.get(SessionID.make(data.sessionID))
       if (!state) return
-      const base = KiloSessionPromptQueue.active(SessionID.make(data.sessionID))
+      const base = KappaSessionPromptQueue.active(SessionID.make(data.sessionID))
       const active = base && state.bases.has(base)
       if (matches(event, Permission.Event.Replied)) {
         if (active && event.data.reply === "reject") blocked = true
@@ -150,7 +150,7 @@ export namespace Goal {
         const info = event.data.info
         if (info.role !== "assistant" || info.summary) return
         if (state.message?.id !== info.id) {
-          const owner = KiloSessionPromptQueue.owner(info.sessionID, info.parentID)
+          const owner = KappaSessionPromptQueue.owner(info.sessionID, info.parentID)
           if (!owner || !state.bases.has(owner) || info.time.completed != null) return
           if (info.sessionID === id) parents.add(info.parentID)
           state.message = { id: info.id }
@@ -208,14 +208,14 @@ export namespace Goal {
 
   export function make(ops: {
     create: (input: PromptInput) => Effect.Effect<Effect.Effect<SessionV1.WithParts>>
-    prompt: (input: PromptInput, ticket: KiloSessionControl.Ticket) => Effect.Effect<SessionV1.WithParts, unknown>
+    prompt: (input: PromptInput, ticket: KappaSessionControl.Ticket) => Effect.Effect<SessionV1.WithParts, unknown>
     cancel: (id: SessionID, preserve?: boolean) => Effect.Effect<void>
     control: {
       begin: (
         id: SessionID,
         resume: boolean,
-        prior?: KiloSessionControl.Ticket,
-      ) => Effect.Effect<KiloSessionControl.Ticket>
+        prior?: KappaSessionControl.Ticket,
+      ) => Effect.Effect<KappaSessionControl.Ticket>
     }
   }) {
     return Effect.gen(function* () {
@@ -339,7 +339,7 @@ export namespace Goal {
         snapshotInitialization?: "wait"
         note?: string
         current: () => boolean
-        ticket: KiloSessionControl.Ticket
+        ticket: KappaSessionControl.Ticket
         cancelled: Effect.Effect<never>
       }) {
         const bridge = yield* EffectBridge.make()
@@ -474,7 +474,7 @@ export namespace Goal {
               // Keep the goal active and loop again after the user's turn
               // instead of settling the goal to paused. A blocked or failed
               // goal turn still wins, matching the documented pause rules.
-              const preempted = KiloSessionPromptQueue.consumeSuperseded(input.id, messageID)
+              const preempted = KappaSessionPromptQueue.consumeSuperseded(input.id, messageID)
               yield* drain.wait(input.id).pipe(Effect.raceFirst(input.cancelled))
               if (cycle.blocked()) {
                 yield* settle(
@@ -600,7 +600,7 @@ export namespace Goal {
           if (intent && !intent.current()) return yield* Effect.interrupt
           // Resolve attachments without changing the transcript, model, or running goal.
           const prepared = starting
-            ? yield* KiloSessionPrompt.intake(
+            ? yield* KappaSessionPrompt.intake(
                 id,
                 ops
                   .create({
@@ -735,7 +735,7 @@ export namespace Goal {
           })
           return yield* (
             starting
-              ? KiloSessionPrompt.intake(
+              ? KappaSessionPrompt.intake(
                   id,
                   Effect.suspend(() => (valid() ? work : Effect.interrupt)),
                 )

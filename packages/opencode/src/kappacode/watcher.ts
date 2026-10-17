@@ -10,7 +10,7 @@ import { Cause, Context, Effect, Exit, Layer, Scope } from "effect"
 
 const log = Log.create({ service: "kappacode-watcher" })
 
-export namespace KilocodeWatcher {
+export namespace KappacodeWatcher {
   export interface Interface {
     readonly init: () => Effect.Effect<void>
   }
@@ -56,7 +56,7 @@ export namespace KilocodeWatcher {
         Scope.provide(child)(locations.contextEffect(ref(ctx.directory)))
 
       return Service.of({
-        init: Effect.fn("KilocodeWatcher.init")(function* () {
+        init: Effect.fn("KappacodeWatcher.init")(function* () {
           const ctx = yield* InstanceState.context
           if (ctx.project.vcs !== "git" || active.has(ctx.directory)) return
 

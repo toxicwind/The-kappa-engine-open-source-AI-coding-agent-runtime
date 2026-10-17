@@ -1,4 +1,4 @@
-// Regression tests for Kilo-Org/kappacode#12326.
+// Regression tests for Kappa-Org/kappacode#12326.
 //
 // tree-sitter-powershell dropped commands containing a bare `--` (for example
 // `git checkout -- <file>`) into ERROR nodes instead of command nodes, so the

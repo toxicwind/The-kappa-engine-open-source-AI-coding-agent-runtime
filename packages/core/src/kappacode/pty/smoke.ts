@@ -1,5 +1,5 @@
 import { Shell } from "../../shell"
-import { KiloPtyTermination } from "./termination"
+import { KappaPtyTermination } from "./termination"
 import { spawn } from "#pty"
 
 const TIMEOUT = 30_000
@@ -78,7 +78,7 @@ export async function smoke(file = Shell.preferred(), args: string[] = []) {
   })
   let stopped = false
   try {
-    await KiloPtyTermination.terminate(active)
+    await KappaPtyTermination.terminate(active)
     stopped = true
   } finally {
     if (!stopped) active.kill()

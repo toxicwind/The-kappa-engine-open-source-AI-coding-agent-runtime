@@ -12,7 +12,7 @@ function makeContext(cache: MigrationCache, sent: unknown[] = []): MigrationCont
   return {
     client: null,
     extensionContext: {
-      globalStorageUri: { fsPath: "/storage/kilocode.kappa-code" },
+      globalStorageUri: { fsPath: "/storage/kappacode.kappa-code" },
       get secrets() {
         throw new Error("Roo import must not access SecretStorage")
       },

@@ -33,9 +33,9 @@ The reference commons is [`hop/wl-commons`](https://www.dolthub.com/repositories
 | **Administrator** | Posts wanted items, manages members and validators, moderates the board, configures federation settings. |
 | **Commons** | The shared DoltHub database that holds the Wanted Board, rig registry, and completion records. Every rig forks from and syncs with the commons. |
 
-## Why Use It Through Gas Town by Kilo?
+## Why Use It Through Gas Town by Kappa?
 
-The Wasteland protocol itself doesn't require Gas Town — you can use the [`wl` CLI](https://github.com/gastownhall/wasteland) directly. But running it through Gas Town by Kilo gives you:
+The Wasteland protocol itself doesn't require Gas Town — you can use the [`wl` CLI](https://github.com/gastownhall/wasteland) directly. But running it through Gas Town by Kappa gives you:
 
 - **Conversational protocol handling** — Your Mayor handles claiming, submitting evidence, and posting wanted items. You just ask in natural language.
 - **Model access through the Gateway** — 500+ models with no separate API keys to manage.

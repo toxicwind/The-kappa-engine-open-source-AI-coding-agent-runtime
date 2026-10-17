@@ -66,7 +66,7 @@ function copyText(text: string): Promise<boolean> {
   return (navigator.clipboard?.writeText(text) ?? Promise.reject(new Error("Clipboard unavailable"))).then(
     () => true,
     (err) => {
-      console.error("[Kilo New] Failed to copy text:", err)
+      console.error("[Kappa New] Failed to copy text:", err)
       return false
     },
   )

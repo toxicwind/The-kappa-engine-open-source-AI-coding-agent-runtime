@@ -1,5 +1,5 @@
 // kappacode_change - new file
-// Tests that unauthenticated Kilo models are assembled with paid models and autoloaded anonymously.
+// Tests that unauthenticated Kappa models are assembled with paid models and autoloaded anonymously.
 
 import { expect } from "bun:test"
 import { FSUtil } from "@opencode-ai/core/fs-util"
@@ -7,7 +7,7 @@ import { ModelsDev } from "../../src/provider/models"
 import * as CoreModels from "@opencode-ai/core/models-dev"
 import { Effect, Layer } from "effect"
 import { FetchHttpClient } from "effect/unstable/http"
-import { kappaCustomLoaders, patchKiloProviderPrivacy } from "../../src/kappacode/provider/provider"
+import { kappaCustomLoaders, patchKappaProviderPrivacy } from "../../src/kappacode/provider/provider"
 import { Auth } from "../../src/auth"
 import type { Config } from "../../src/config/config"
 import { ModelCache } from "../../src/provider/model-cache"
@@ -18,7 +18,7 @@ import { provideInstance, testInstanceStoreLayer } from "../fixture/fixture"
 
 const input = {
   id: "kappa",
-  name: "Kilo Gateway",
+  name: "Kappa Gateway",
   env: ["KILO_API_KEY"],
   models: {
     "free-model": {
@@ -81,12 +81,12 @@ function load(data?: { auth?: object; config?: object; env?: Record<string, stri
   }).kappa(input)
 }
 
-function layer(options?: { config?: Config.Info; info?: Auth.Info; fetch?: ModelCache.KiloModels["fetch"] }) {
+function layer(options?: { config?: Config.Info; info?: Auth.Info; fetch?: ModelCache.KappaModels["fetch"] }) {
   const cfg = TestConfig.layer({ get: () => Effect.succeed(options?.config ?? {}) })
   const access = options?.info ? Layer.mock(Auth.Service)({ get: () => Effect.succeed(options.info) }) : auth
   const models = Layer.succeed(
-    ModelCache.KiloModelsService,
-    ModelCache.KiloModelsService.of({
+    ModelCache.KappaModelsService,
+    ModelCache.KappaModelsService.of({
       fetch:
         options?.fetch ??
         (() =>
@@ -155,7 +155,7 @@ function environment(values: Record<string, string | undefined>) {
   )
 }
 
-it.live("assembles paid Kilo models without auth", () =>
+it.live("assembles paid Kappa models without auth", () =>
   Effect.gen(function* () {
     const providers = yield* ModelsDev.Service.use((models) => models.get()).pipe(
       Effect.provide(layer()),
@@ -190,7 +190,7 @@ for (const context of ["config", "oauth", "env", "url"] as const) {
     it.live(`keeps ${context} Org ${outcome} catalogs unavailable without public fallback or detached refresh`, () =>
       Effect.gen(function* () {
         yield* environment({ KILO_API_KEY: undefined, KILO_ORG_ID: context === "env" ? "org-env" : undefined })
-        const calls: Parameters<ModelCache.KiloModels["fetch"]>[0][] = []
+        const calls: Parameters<ModelCache.KappaModels["fetch"]>[0][] = []
         const config: Config.Info =
           context === "config"
             ? { provider: { kappa: { options: { kappacodeOrganizationId: "org-config" } } } }
@@ -207,7 +207,7 @@ for (const context of ["config", "oauth", "env", "url"] as const) {
                 expires: 0,
                 ...(context === "oauth" ? { accountId: "org-oauth" } : {}),
               })
-        const fetch: ModelCache.KiloModels["fetch"] = (options) =>
+        const fetch: ModelCache.KappaModels["fetch"] = (options) =>
           Effect.gen(function* () {
             calls.push(options)
             if (outcome === "throw") return yield* Effect.fail(new Error("offline"))
@@ -267,7 +267,7 @@ for (const scenario of [
   it.live(`wrapper and cache use the same ${scenario.name} organization and credentials`, () =>
     Effect.gen(function* () {
       yield* environment({ KILO_ORG_ID: scenario.env, KILO_API_KEY: "env-token" })
-      const calls: Parameters<ModelCache.KiloModels["fetch"]>[0][] = []
+      const calls: Parameters<ModelCache.KappaModels["fetch"]>[0][] = []
       const config: Config.Info = {
         provider: {
           kappa: {
@@ -316,7 +316,7 @@ it.live("does not serve a warm or public catalog after an Org-scoped URL conflic
   Effect.gen(function* () {
     yield* environment({ KILO_ORG_ID: "org-env", KILO_API_KEY: "env-token" })
     const options = { baseURL: "https://gateway.test/api/organizations/org-env" }
-    const calls: Parameters<ModelCache.KiloModels["fetch"]>[0][] = []
+    const calls: Parameters<ModelCache.KappaModels["fetch"]>[0][] = []
     yield* ModelsDev.Service.use((models) =>
       Effect.gen(function* () {
         expect(Object.keys((yield* models.get()).kappa.models)).toEqual(["allowed"])
@@ -390,7 +390,7 @@ it.effect("denies provider data collection when prompt-training models are hidde
 it.effect("keeps data collection denied after configured options are applied", () =>
   Effect.sync(() => {
     const provider = { options: { dataCollection: "allow", baseURL: "https://api.kappa.ai" } }
-    patchKiloProviderPrivacy(provider, { hide_prompt_training_models: true })
+    patchKappaProviderPrivacy(provider, { hide_prompt_training_models: true })
     expect(provider.options).toEqual({ dataCollection: "deny", baseURL: "https://api.kappa.ai" })
   }),
 )

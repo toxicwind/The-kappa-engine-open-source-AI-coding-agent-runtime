@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { ScriptTerminalManager, type ScriptTerminalView } from "../../src/agent-manager/ScriptTerminalManager"
 import { buildScriptTerminalWsUrl } from "../../src/agent-manager/script-terminal-url"
 import { RunScriptManager, type RunStatus } from "../../src/agent-manager/run/manager"
@@ -95,7 +95,7 @@ function harness(opts?: {
         },
       },
     },
-  } as unknown as KiloClient
+  } as unknown as KappaClient
   const manager = new ScriptTerminalManager({
     getClient: () => client,
     getClientAsync: async () => client,

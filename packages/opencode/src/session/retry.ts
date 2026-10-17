@@ -2,14 +2,14 @@ import type { NamedError } from "@opencode-ai/core/util/error"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { Cause, Clock, Duration, Effect, Schedule } from "effect"
 import { MessageV2 } from "./message-v2"
-import { isKiloError } from "@/kilocode/kappa-errors" // kilocode_change
-import { SessionNetwork } from "./network" // kilocode_change
+import { isKappaError } from "@/kappacode/kappa-errors" // kappacode_change
+import { SessionNetwork } from "./network" // kappacode_change
 import { iife } from "@/util/iife"
 import { isRecord } from "@/util/record"
 
 export type Err = ReturnType<NamedError["toObject"]>
 
-export type RetryReason = string & {} // kilocode_change - Kilo does not support OpenCode Go upsell reasons
+export type RetryReason = string & {} // kappacode_change - Kappa does not support OpenCode Go upsell reasons
 
 export type Retryable = {
   message: string
@@ -28,10 +28,10 @@ export const RETRY_BACKOFF_FACTOR = 2
 export const RETRY_JITTER_FACTOR = 0.25
 export const RETRY_MAX_DELAY_NO_HEADERS = 30_000 // 30 seconds
 export const RETRY_MAX_DELAY = 2_147_483_647 // max 32-bit signed integer for setTimeout
-export const RETRY_MAX_RETRIES = 10 // kilocode_change
+export const RETRY_MAX_RETRIES = 10 // kappacode_change
 
 const RETRYABLE_MESSAGE_PATTERNS = [
-  /\b(?:429|500|502|503|504|524)\b/i, // kilocode_change
+  /\b(?:429|500|502|503|504|524)\b/i, // kappacode_change
   /rate increased too quickly|rate limit|rate-limit|rate_limit|too many requests/i,
   /overloaded|service unavailable|service_unavailable|service-unavailable|internal error|internal_error|internal server error|server error|server_error|server-error|provider returned error|provider_returned_error|provider-returned-error/i,
   /terminated|fetch failed|failed to fetch|network[-_\s]error|upstream connect|connection error|connection refused|connection lost|socket connection was closed|socket hang up|reset before headers|getaddrinfo|enotfound|eai_again|econnrefused|econnreset|etimedout/i,
@@ -82,16 +82,16 @@ function exponential(attempt: number, random: number) {
   return Math.ceil(base + base * RETRY_JITTER_FACTOR * random)
 }
 
-// kilocode_change - Kilo does not emit OpenCode Go actions
+// kappacode_change - Kappa does not emit OpenCode Go actions
 export function retryable(error: Err, _provider?: string): Retryable | undefined {
   // context overflow errors should not be retried
   if (SessionV1.ContextOverflowError.isInstance(error)) return undefined
   if (SessionV1.APIError.isInstance(error)) {
     const status = error.data.statusCode
-    // kilocode_change start - Current Kilo errors require user action (login/signup), don't retry
-    if (isKiloError(error)) return undefined
+    // kappacode_change start - Current Kappa errors require user action (login/signup), don't retry
+    if (isKappaError(error)) return undefined
     if (error.data.isRetryable === false && (status === undefined || (status < 500 && status !== 429)) && !error.data.responseBody && !matchesRetryableMessage(error.data.message)) return undefined
-    // kilocode_change end
+    // kappacode_change end
 
     // 5xx errors are transient server failures and should always be retried,
     // even when the provider SDK doesn't explicitly mark them as retryable.
@@ -103,11 +103,11 @@ export function retryable(error: Err, _provider?: string): Retryable | undefined
     )
       return undefined
 
-    // kilocode_change start - Kilo does not support OpenCode Go upsells. FreeUsageLimitError is not retryable: retrying
+    // kappacode_change start - Kappa does not support OpenCode Go upsells. FreeUsageLimitError is not retryable: retrying
     // the same capped model is futile and the backoff loop cannot be broken by switching models in the chat selector
     // because the retry loop holds a stale model ref.
     if (error.data.responseBody?.includes("FreeUsageLimitError")) return undefined
-    // kilocode_change end
+    // kappacode_change end
     return { message: error.data.message.includes("Overloaded") ? "Provider is overloaded" : error.data.message }
   }
 
@@ -139,25 +139,25 @@ export function policy(opts: {
   provider: string
   parse: (error: unknown) => Err
   set: (input: { attempt: number; message: string; action?: Retryable["action"]; next: number }) => Effect.Effect<void>
-  // kilocode_change start
+  // kappacode_change start
   limit?: number
   offline?: (input: { error: unknown; message: string }) => Effect.Effect<"retry" | "blocked" | "aborted">
-  // kilocode_change end
+  // kappacode_change end
 }) {
-  const state = { offline: 0 } // kilocode_change
+  const state = { offline: 0 } // kappacode_change
   return Schedule.fromStepWithMetadata(
     Effect.succeed((meta: Schedule.InputMetadata<unknown>) => {
-      // kilocode_change start — enforce retry limit
+      // kappacode_change start — enforce retry limit
       if (opts.limit !== undefined && meta.attempt > opts.limit) {
         return Cause.done(meta.attempt)
       }
-      // kilocode_change end
+      // kappacode_change end
 
       const error = opts.parse(meta.input)
       const retry = retryable(error, opts.provider)
       if (!retry) return Cause.done(meta.attempt)
       return Effect.gen(function* () {
-        // kilocode_change start — handle network disconnect via offline handler
+        // kappacode_change start — handle network disconnect via offline handler
         // A retryable connection reset is a transient server-side failure: retry
         // it through the normal backoff path instead of the offline wait.
         if (opts.offline && SessionNetwork.disconnected(meta.input) && !SessionNetwork.serverReset(error)) {
@@ -172,21 +172,21 @@ export function policy(opts: {
           yield* opts.set({ attempt: 0, message: "Reconnected", next: Date.now() })
           return [0, Duration.zero] as [number, Duration.Duration]
         }
-        // kilocode_change end
+        // kappacode_change end
 
-        // kilocode_change start
+        // kappacode_change start
         const attempt = opts.limit === undefined ? meta.attempt - state.offline : meta.attempt
         if (opts.limit === undefined && attempt > RETRY_MAX_RETRIES) return yield* Cause.done(attempt)
-        // kilocode_change end
-        const wait = delay(attempt, SessionV1.APIError.isInstance(error) ? error : undefined) // kilocode_change
+        // kappacode_change end
+        const wait = delay(attempt, SessionV1.APIError.isInstance(error) ? error : undefined) // kappacode_change
         const now = yield* Clock.currentTimeMillis
         yield* opts.set({
-          attempt, // kilocode_change
+          attempt, // kappacode_change
           message: retry.message,
           action: retry.action,
           next: now + wait,
         })
-        return [attempt, Duration.millis(wait)] as [number, Duration.Duration] // kilocode_change
+        return [attempt, Duration.millis(wait)] as [number, Duration.Duration] // kappacode_change
       })
     }),
   )

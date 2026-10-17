@@ -1,5 +1,5 @@
 /**
- * Kilo-specific overrides for the provider dialog.
+ * Kappa-specific overrides for the provider dialog.
  *
  * Exports constants and renderers consumed by the shared upstream
  * `dialog-provider.tsx` so the upstream diff stays minimal.
@@ -8,8 +8,8 @@
 import type { JSX } from "solid-js"
 import type { RGBA } from "@opentui/core"
 import type { ProviderAuthAuthorization } from "@kappacode/sdk/v2"
-import { KiloAutoMethod } from "@/kilocode/components/dialog-kappa-auto-method"
-export { selectProvider } from "@/kilocode/anaconda-desktop/tui/setup"
+import { KappaAutoMethod } from "@/kappacode/components/dialog-kappa-auto-method"
+export { selectProvider } from "@/kappacode/anaconda-desktop/tui/setup"
 
 // ---------------------------------------------------------------------------
 // Failed-state gutter/description helpers
@@ -83,7 +83,7 @@ export const LOCAL_API_KEY_PLACEHOLDER = "local"
 // ---------------------------------------------------------------------------
 
 /**
- * If the provider is Kilo Gateway, renders the custom `KiloAutoMethod`
+ * If the provider is Kappa Gateway, renders the custom `KappaAutoMethod`
  * component that handles device-auth + org selection.
  *
  * Returns `undefined` for every other provider so the caller can fall
@@ -100,7 +100,7 @@ export function renderAutoMethod(opts: {
 }): (() => JSX.Element) | undefined {
   if (opts.providerID !== "kappa") return undefined
   return () => (
-    <KiloAutoMethod
+    <KappaAutoMethod
       providerID={opts.providerID}
       title={opts.title}
       index={opts.index}
@@ -118,7 +118,7 @@ export function renderAutoMethod(opts: {
 
 /**
  * Returns a custom description element for the API-key dialog when the
- * provider is Kilo Gateway. Returns `undefined` otherwise.
+ * provider is Kappa Gateway. Returns `undefined` otherwise.
  */
 export function renderApiDescription(
   providerID: string,
@@ -135,7 +135,7 @@ export function renderApiDescription(
   return () => (
     <box gap={1}>
       <text fg={theme.textMuted}>
-        Kilo Gateway gives you access to all the best coding models at the cheapest prices with a single API key.
+        Kappa Gateway gives you access to all the best coding models at the cheapest prices with a single API key.
       </text>
       <text fg={theme.text}>
         Go to <span style={{ fg: theme.primary }}>https://kappa.ai/gateway</span> to get a key

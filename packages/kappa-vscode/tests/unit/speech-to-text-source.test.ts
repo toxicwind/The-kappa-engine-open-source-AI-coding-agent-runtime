@@ -8,14 +8,14 @@ import {
 } from "../../src/speech-to-text/source"
 import { fetchSpeechToTextModels, parseCustomCatalog } from "../../src/speech-to-text/catalog"
 import { transcribeSpeech } from "../../src/speech-to-text/transcribe"
-import type { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import type { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 import {
   canUseSpeechToText,
   hasCustomSpeechToTextSource,
   selectedSpeechToTextModel,
 } from "../../webview-ui/src/components/speech-to-text/availability"
 
-const offline = { getServerConfig: () => undefined } as unknown as KiloConnectionService
+const offline = { getServerConfig: () => undefined } as unknown as KappaConnectionService
 
 const seen: { path?: string; auth?: string | null; model?: string; file?: string } = {}
 
@@ -79,7 +79,7 @@ describe("speech-to-text custom source", () => {
     })
   })
 
-  it("posts audio directly to the source instead of the Kilo backend", async () => {
+  it("posts audio directly to the source instead of the Kappa backend", async () => {
     const result = await transcribeSpeech(
       offline,
       { model: "whisper-1", data: Buffer.from("audio").toString("base64"), format: "m4a" },
@@ -94,7 +94,7 @@ describe("speech-to-text custom source", () => {
     expect(result).toEqual({ ok: true, text: "hello there" })
   })
 
-  it("reports a rejected custom key without asking for a Kilo sign-in", async () => {
+  it("reports a rejected custom key without asking for a Kappa sign-in", async () => {
     const denied = `http://localhost:${server.port}/denied`
     const result = await transcribeSpeech(offline, { data: "", format: "m4a" }, "", undefined, {
       baseUrl: denied,
@@ -109,9 +109,9 @@ describe("speech-to-text custom source", () => {
     )
   })
 
-  it("still requires the Kilo backend without a custom source", async () => {
+  it("still requires the Kappa backend without a custom source", async () => {
     const result = await transcribeSpeech(offline, { data: "", format: "m4a" }, "")
-    expect(result).toEqual({ ok: false, error: "Not connected to the Kilo backend", code: "not_connected" })
+    expect(result).toEqual({ ok: false, error: "Not connected to the Kappa backend", code: "not_connected" })
   })
 
   it("parses list and data shaped catalogs and rejects empty ones", () => {

@@ -13,7 +13,7 @@ import { Plugin } from "../../src/plugin"
 import { Session } from "../../src/session/session"
 import { SessionPrompt } from "../../src/session/prompt"
 import { SessionSummary } from "../../src/session/summary"
-import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { KappaSessions } from "../../src/kappa-sessions/kappa-sessions"
 import { BoardStore } from "../../src/kappacode/board/store"
 import { BoardNotice } from "../../src/kappacode/board/notice"
 import { BoardContext } from "../../src/kappacode/board/context"
@@ -102,7 +102,7 @@ const it = testEffect(
     [Plugin.node, plugin],
     [LSP.node, lsp],
     [MCP.node, mcp],
-    [KiloSessions.node, KiloSessions.testLayer],
+    [KappaSessions.node, KappaSessions.testLayer],
   ]),
 )
 

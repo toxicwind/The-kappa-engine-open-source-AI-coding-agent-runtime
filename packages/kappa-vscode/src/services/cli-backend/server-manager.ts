@@ -56,22 +56,22 @@ export class ServerManager {
    * Get or start the server instance
    */
   async getServer(): Promise<ServerInstance> {
-    console.log("[Kilo New] ServerManager: 🔍 getServer called")
+    console.log("[Kappa New] ServerManager: 🔍 getServer called")
     if (this.instance) {
-      console.log("[Kilo New] ServerManager: ♻️ Returning existing instance:", { port: this.instance.port })
+      console.log("[Kappa New] ServerManager: ♻️ Returning existing instance:", { port: this.instance.port })
       return this.instance
     }
 
     if (this.startupPromise) {
-      console.log("[Kilo New] ServerManager: ⏳ Startup already in progress, waiting...")
+      console.log("[Kappa New] ServerManager: ⏳ Startup already in progress, waiting...")
       return this.startupPromise
     }
 
-    console.log("[Kilo New] ServerManager: 🚀 Starting new server instance...")
+    console.log("[Kappa New] ServerManager: 🚀 Starting new server instance...")
     this.startupPromise = this.startServer()
     try {
       this.instance = await this.startupPromise
-      console.log("[Kilo New] ServerManager: ✅ Server started successfully:", { port: this.instance.port })
+      console.log("[Kappa New] ServerManager: ✅ Server started successfully:", { port: this.instance.port })
       return this.instance
     } finally {
       this.startupPromise = null
@@ -81,8 +81,8 @@ export class ServerManager {
   private async startServer(): Promise<ServerInstance> {
     const password = crypto.randomBytes(32).toString("hex")
     const cliPath = this.getCliPath()
-    console.log("[Kilo New] ServerManager: 📍 CLI path:", cliPath)
-    console.log("[Kilo New] ServerManager: 🔐 Generated password (length):", password.length)
+    console.log("[Kappa New] ServerManager: 📍 CLI path:", cliPath)
+    console.log("[Kappa New] ServerManager: 🔐 Generated password (length):", password.length)
 
     // Verify the CLI binary exists
     if (!fs.existsSync(cliPath)) {
@@ -92,12 +92,12 @@ export class ServerManager {
     }
 
     const stat = fs.statSync(cliPath)
-    console.log("[Kilo New] ServerManager: 📄 CLI isFile:", stat.isFile())
-    console.log("[Kilo New] ServerManager: 📄 CLI mode (octal):", (stat.mode & 0o777).toString(8))
+    console.log("[Kappa New] ServerManager: 📄 CLI isFile:", stat.isFile())
+    console.log("[Kappa New] ServerManager: 📄 CLI mode (octal):", (stat.mode & 0o777).toString(8))
 
     const extraEnv = await this.env?.()
     return new Promise((resolve, reject) => {
-      console.log("[Kilo New] ServerManager: 🎬 Spawning CLI process:", cliPath, ["serve", "--port", "0"])
+      console.log("[Kappa New] ServerManager: 🎬 Spawning CLI process:", cliPath, ["serve", "--port", "0"])
       const cfg = vscode.workspace.getConfiguration("kappa-code.new")
       const claudeCompat = cfg.get<boolean>("claudeCodeCompat", false)
       const claudeMigration = resolveClaudeMigrationEnv(
@@ -152,7 +152,7 @@ export class ServerManager {
           KILO_PARENT_PID: String(process.pid),
           KILO_CLIENT: "vscode",
           KILO_ENABLE_QUESTION_TOOL: "true",
-          KILOCODE_FEATURE: "vscode-extension",
+          KAPPACODE_FEATURE: "vscode-extension",
           ...indexingEnv,
           KILO_TELEMETRY_LEVEL: vscode.env.isTelemetryEnabled ? "all" : "off",
           KILO_APP_NAME: "kappa-code",
@@ -161,8 +161,8 @@ export class ServerManager {
           KILO_MACHINE_ID: vscode.env.machineId,
           KILO_APP_VERSION: this.context.extension.packageJSON.version,
           KILO_VSCODE_VERSION: vscode.version,
-          KILOCODE_VERSION: this.context.extension.packageJSON.version,
-          KILOCODE_EDITOR_NAME: `${vscode.env.appName} ${vscode.version}`,
+          KAPPACODE_VERSION: this.context.extension.packageJSON.version,
+          KAPPACODE_EDITOR_NAME: `${vscode.env.appName} ${vscode.version}`,
           ...(!claudeCompat && { KILO_DISABLE_CLAUDE_CODE: "true" }),
           ...resolveTreeSitterEnv(this.context.extensionPath),
           ...bwrapEnv,
@@ -172,7 +172,7 @@ export class ServerManager {
         stdio: ["ignore", "pipe", "pipe"],
         detached: true,
       })
-      console.log("[Kilo New] ServerManager: 📦 Process spawned with PID:", serverProcess.pid)
+      console.log("[Kappa New] ServerManager: 📦 Process spawned with PID:", serverProcess.pid)
 
       let resolved = false
       let output = ""
@@ -180,26 +180,26 @@ export class ServerManager {
 
       serverProcess.stdout?.on("data", (data: Buffer) => {
         const chunk = data.toString()
-        console.log("[Kilo New] ServerManager: 📥 CLI Server stdout:", chunk)
+        console.log("[Kappa New] ServerManager: 📥 CLI Server stdout:", chunk)
 
         const state = scanServerPort(output, chunk, STARTUP_OUTPUT_LIMIT)
         output = state.output
         const port = state.port
         if (port !== null && !resolved) {
           resolved = true
-          console.log("[Kilo New] ServerManager: 🎯 Port detected:", port)
+          console.log("[Kappa New] ServerManager: 🎯 Port detected:", port)
           resolve({ port, password, process: serverProcess })
         }
       })
 
       serverProcess.stderr?.on("data", (data: Buffer) => {
         const errorOutput = data.toString()
-        console.error("[Kilo New] ServerManager: ⚠️ CLI Server stderr:", errorOutput)
+        console.error("[Kappa New] ServerManager: ⚠️ CLI Server stderr:", errorOutput)
         stderrLines.push(errorOutput)
       })
 
       serverProcess.on("error", (err: NodeJS.ErrnoException) => {
-        console.error("[Kilo New] ServerManager: ❌ Process error:", err)
+        console.error("[Kappa New] ServerManager: ❌ Process error:", err)
         if (!resolved) {
           const spawnErr = err as NodeJS.ErrnoException & { spawnargs?: string[] }
           const code = err.code || err.name || "UNKNOWN"
@@ -218,7 +218,7 @@ export class ServerManager {
       })
 
       serverProcess.on("exit", (code, signal) => {
-        console.warn("[Kilo New] ServerManager: 🛑 Process exited:", { code, signal })
+        console.warn("[Kappa New] ServerManager: 🛑 Process exited:", { code, signal })
         if (this.instance?.process === serverProcess) {
           this.instance = null
           this.onExit?.(code, signal)
@@ -234,7 +234,7 @@ export class ServerManager {
 
       setTimeout(() => {
         if (!resolved) {
-          console.error(`[Kilo New] ServerManager: ⏰ Server startup timeout (${STARTUP_TIMEOUT_SECONDS}s)`)
+          console.error(`[Kappa New] ServerManager: ⏰ Server startup timeout (${STARTUP_TIMEOUT_SECONDS}s)`)
           ServerManager.killProcess(serverProcess)
           const { userMessage, userDetails } = toErrorMessage(
             t("server.startupTimeout", { seconds: STARTUP_TIMEOUT_SECONDS }),
@@ -251,7 +251,7 @@ export class ServerManager {
     // Always use the bundled binary from the extension directory
     const binName = process.platform === "win32" ? "kappa.exe" : "kappa"
     const cliPath = path.join(this.context.extensionPath, "bin", binName)
-    console.log("[Kilo New] ServerManager: 📦 Using CLI path:", cliPath)
+    console.log("[Kappa New] ServerManager: 📦 Using CLI path:", cliPath)
     return cliPath
   }
 
@@ -283,14 +283,14 @@ export class ServerManager {
     const proc = this.instance.process
     this.instance = null
 
-    console.log("[Kilo New] ServerManager: 🔴 Disposing — sending SIGTERM to process group, PID:", proc.pid)
+    console.log("[Kappa New] ServerManager: 🔴 Disposing — sending SIGTERM to process group, PID:", proc.pid)
     ServerManager.killProcess(proc, "SIGTERM")
 
     // SIGKILL fallback after 5s. Ensures the process tree dies even if SIGTERM is ignored
     // or Instance.disposeAll() hangs past the serve.ts shutdown timeout.
     const timer = setTimeout(() => {
       if (proc.exitCode === null) {
-        console.warn("[Kilo New] ServerManager: ⚠️ Process did not exit after SIGTERM, sending SIGKILL")
+        console.warn("[Kappa New] ServerManager: ⚠️ Process did not exit after SIGTERM, sending SIGKILL")
         ServerManager.killProcess(proc, "SIGKILL")
       }
     }, 5000)

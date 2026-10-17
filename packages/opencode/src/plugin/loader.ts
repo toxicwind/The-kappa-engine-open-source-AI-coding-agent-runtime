@@ -11,8 +11,8 @@ import {
 import { ConfigPlugin } from "@/config/plugin"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
-import { isIndexingPlugin } from "@kappacode/kappa-indexing/detect" // kilocode_change
-import { isAtomicChatPlugin } from "@/kilocode/atomic-chat-feature" // kilocode_change
+import { isIndexingPlugin } from "@kappacode/kappa-indexing/detect" // kappacode_change
+import { isAtomicChatPlugin } from "@/kappacode/atomic-chat-feature" // kappacode_change
 
 export namespace PluginLoader {
   // A normalized plugin declaration derived from config before any filesystem or npm work happens.
@@ -161,8 +161,8 @@ export namespace PluginLoader {
 
     // Deprecated plugin packages are silently ignored because they are now built in.
     if (plan.deprecated) return { retry: false }
-    if (isIndexingPlugin(candidate.plan.spec)) return { retry: false } // kilocode_change
-    if (isAtomicChatPlugin(candidate.plan.spec)) return { retry: false } // kilocode_change
+    if (isIndexingPlugin(candidate.plan.spec)) return { retry: false } // kappacode_change
+    if (isAtomicChatPlugin(candidate.plan.spec)) return { retry: false } // kappacode_change
     report?.start?.(candidate, retry)
 
     const resolved = await resolve(plan, kind)

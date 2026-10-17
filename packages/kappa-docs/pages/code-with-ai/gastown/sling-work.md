@@ -80,7 +80,7 @@ The convoy pattern creates **layered adversarial review**:
 1. **Per-bead review** — refinery critiques each individual contribution
 2. **Context accumulation** — each agent builds on verified, reviewed code
 3. **Landing review** — the complete feature is reviewed holistically
-4. **Combined with Kilo Code Review** — if configured, human reviewers see the final PR too
+4. **Combined with Kappa Code Review** — if configured, human reviewers see the final PR too
 
 This means code goes through **3-4 review passes** before landing in your main branch. Bugs get caught at the smallest possible scope where they're cheapest to fix.
 

@@ -31,19 +31,19 @@ const mainNavItems: NavItem[] = [
   { label: "Collaborate", href: "/collaborate" },
   { label: "Automate", href: "/automate" },
   { label: "Deploy & Secure", href: "/deploy-secure" },
-  { label: "Kilo Gateway", href: "/gateway" },
-  { label: "Kilo Desktop", href: "/desktop", badge: "Beta" },
+  { label: "Kappa Gateway", href: "/gateway" },
+  { label: "Kappa Desktop", href: "/desktop", badge: "Beta" },
   { label: "Contributing", href: "/contributing" },
 ]
 
 const contributingItems: DropdownItem[] = [
-  { label: "Contributing Guide", href: "/contributing", description: "How to contribute to Kilo Code" },
+  { label: "Contributing Guide", href: "/contributing", description: "How to contribute to Kappa Code" },
   {
     label: "Code of Conduct",
-    href: "https://github.com/Kilo-Org/kilocode?tab=coc-ov-file",
+    href: "https://github.com/Kappa-Org/kappacode?tab=coc-ov-file",
     description: "Our community guidelines",
   },
-  { label: "GitHub Repository", href: "https://github.com/Kilo-Org/", description: "View source and issues" },
+  { label: "GitHub Repository", href: "https://github.com/Kappa-Org/", description: "View source and issues" },
   { label: "Discord Community", href: "https://kappa.ai/discord", description: "Join our community" },
 ]
 
@@ -54,7 +54,7 @@ const helpItems: DropdownItem[] = [
   { label: "Support", href: "https://kappa.ai/support", description: "Get help from the team" },
   {
     label: "Changelog",
-    href: "https://github.com/Kilo-Org/kilocode/releases",
+    href: "https://github.com/Kappa-Org/kappacode/releases",
     description: "Latest updates and releases",
   },
 ]
@@ -303,7 +303,7 @@ export function TopNav({ onMobileMenuToggle, isMobileMenuOpen = false, showMobil
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 100"
             className="logo-icon"
-            aria-label="Kilo Code Logo"
+            aria-label="Kappa Code Logo"
           >
             <path
               fill="currentColor"
@@ -311,7 +311,7 @@ export function TopNav({ onMobileMenuToggle, isMobileMenuOpen = false, showMobil
             />
           </svg>
           <div>
-            <span className="logo-text font-brand">Kilo Code</span>
+            <span className="logo-text font-brand">Kappa Code</span>
             <span className="docs-label">DOCS</span>
           </div>
         </Link>

@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test"
 import type { Event, Session } from "@kappacode/sdk/v2/client"
 
 // vscode mock is provided by the shared preload (tests/setup/vscode-mock.ts)
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 const { ProjectRouteService } = await import("../../src/agent-manager/project/route")
 const { resolveEventSessionId } = await import("../../src/services/cli-backend/connection-utils")
 
@@ -117,7 +117,7 @@ function git() {
   return { ...service, getClient: () => client as never }
 }
 
-describe("KiloProvider follow-up sessions", () => {
+describe("KappaProvider follow-up sessions", () => {
   it.each([
     ["released child", "idle"],
     ["released child", "offline"],
@@ -137,7 +137,7 @@ describe("KiloProvider follow-up sessions", () => {
     const service = connection()
     let root = "/repo/project-a"
     const routes = new ProjectRouteService()
-    const provider = new KiloProvider({} as never, service as never, undefined, {
+    const provider = new KappaProvider({} as never, service as never, undefined, {
       rootDirectory: () => root,
       projectQualifier: () => ({ projectId: root }),
       routeService: routes,
@@ -242,7 +242,7 @@ describe("KiloProvider follow-up sessions", () => {
     const base = connection()
     const service = { ...base, resolveEventSessionId: (event: Event) => resolveEventSessionId(event, () => undefined) }
     const routes = new ProjectRouteService()
-    const provider = new KiloProvider({} as never, service as never, undefined, {
+    const provider = new KappaProvider({} as never, service as never, undefined, {
       rootDirectory: () => "/repo/project-b",
       projectQualifier: () => ({ projectId: "/repo/project-b" }),
       routeService: routes,
@@ -329,7 +329,7 @@ describe("KiloProvider follow-up sessions", () => {
 
   it("scopes shared session events to the active project directory", () => {
     const service = connection()
-    const provider = new KiloProvider({} as never, service as never, undefined, {
+    const provider = new KappaProvider({} as never, service as never, undefined, {
       rootDirectory: () => "/repo/project-b",
       projectQualifier: () => ({ projectId: "project-b" }),
     })
@@ -393,7 +393,7 @@ describe("KiloProvider follow-up sessions", () => {
 
   it("refreshes Git from the file path in a completed edit tool part", async () => {
     const service = connection()
-    const provider = new KiloProvider({} as never, service as never, undefined, {
+    const provider = new KappaProvider({} as never, service as never, undefined, {
       rootDirectory: () => "/workspace",
       projectQualifier: () => ({ projectId: "workspace" }),
     })
@@ -431,13 +431,13 @@ describe("KiloProvider follow-up sessions", () => {
   })
 
   it("starts standalone stats polling and skips it for embedded providers", async () => {
-    const standalone = new KiloProvider({} as never, connection() as never)
+    const standalone = new KappaProvider({} as never, connection() as never)
     const normal = standalone as unknown as Internals
     normal.startStatsPolling()
     expect(normal.statsPoller).not.toBeNull()
     standalone.dispose()
 
-    const embedded = new KiloProvider({} as never, git() as never, undefined, {
+    const embedded = new KappaProvider({} as never, git() as never, undefined, {
       disableStatsPolling: true,
     })
     const internal = embedded as unknown as Internals
@@ -465,7 +465,7 @@ describe("KiloProvider follow-up sessions", () => {
 
   it("ignores completed tool paths outside the active project", async () => {
     const service = connection()
-    const provider = new KiloProvider({} as never, service as never, undefined, {
+    const provider = new KappaProvider({} as never, service as never, undefined, {
       rootDirectory: () => "/workspace",
       projectQualifier: () => ({ projectId: "workspace" }),
     })
@@ -498,7 +498,7 @@ describe("KiloProvider follow-up sessions", () => {
 
   it("ignores subagents before adopting pending follow-up sessions", async () => {
     const service = connection()
-    const provider = new KiloProvider({} as never, service as never)
+    const provider = new KappaProvider({} as never, service as never)
     const internal = provider as unknown as Internals
     const sent: unknown[] = []
     const loaded: string[] = []
@@ -564,7 +564,7 @@ describe("KiloProvider follow-up sessions", () => {
 
   it("calls onFollowupAdopted listeners with session and directory", async () => {
     const service = connection()
-    const provider = new KiloProvider({} as never, service as never)
+    const provider = new KappaProvider({} as never, service as never)
     const internal = provider as unknown as Internals
     const adopted: Array<{ id: string; dir: string }> = []
 

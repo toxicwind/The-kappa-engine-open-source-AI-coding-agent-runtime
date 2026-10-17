@@ -10,7 +10,7 @@ export function rooted(value: string): boolean {
   return /^[\\/](?![\\/])/.test(value)
 }
 
-export const resolve = Effect.fn("KilocodeSkillPaths.resolve")(function* (
+export const resolve = Effect.fn("KappacodeSkillPaths.resolve")(function* (
   expanded: string,
   directory: string,
   isDir: (dir: string) => Effect.Effect<boolean>,

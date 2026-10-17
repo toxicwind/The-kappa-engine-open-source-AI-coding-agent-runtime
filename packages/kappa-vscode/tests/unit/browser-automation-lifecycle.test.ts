@@ -2,16 +2,16 @@ import { afterEach, beforeEach, describe, expect, test } from "bun:test"
 import * as vscode from "vscode"
 import { realpathSync } from "node:fs"
 import { tmpdir } from "node:os"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
-import type { KiloConnectionService } from "../../src/services/cli-backend"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
+import type { KappaConnectionService } from "../../src/services/cli-backend"
 import { BrowserAutomationService } from "../../src/services/browser-automation/browser-automation-service"
 
 describe("Playwright MCP lifecycle", () => {
   const descriptors = Object.getOwnPropertyDescriptors(vscode.workspace)
   const listeners = new Set<() => Promise<void>>()
-  const events = new Set<Parameters<KiloConnectionService["onEvent"]>[0]>()
+  const events = new Set<Parameters<KappaConnectionService["onEvent"]>[0]>()
   let service: BrowserAutomationService
-  let connection: KiloConnectionService
+  let connection: KappaConnectionService
   let enabled: boolean
   let connected: boolean
   let failed: boolean
@@ -78,9 +78,9 @@ describe("Playwright MCP lifecycle", () => {
           down.delete(directory)
         },
       },
-    } as unknown as KiloClient
+    } as unknown as KappaClient
     connection = {
-      onEvent: (listener: Parameters<KiloConnectionService["onEvent"]>[0]) => {
+      onEvent: (listener: Parameters<KappaConnectionService["onEvent"]>[0]) => {
         events.add(listener)
         return () => events.delete(listener)
       },
@@ -88,7 +88,7 @@ describe("Playwright MCP lifecycle", () => {
         if (!connected) throw new Error("Disconnected")
         return client
       },
-    } as KiloConnectionService
+    } as KappaConnectionService
     service = new BrowserAutomationService(connection)
   })
 

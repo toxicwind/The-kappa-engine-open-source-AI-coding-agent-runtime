@@ -1,4 +1,4 @@
-import { KiloShutdown } from "@/kappacode/cli/shutdown"
+import { KappaShutdown } from "@/kappacode/cli/shutdown"
 import { futureDue } from "@/kappacode/session/scheduled"
 import { GoalLink } from "@/kappacode/session/goal/link"
 import { GoalState } from "@/kappacode/session/goal/state"
@@ -94,7 +94,7 @@ export namespace Wakeup {
         for (const fiber of cronTimers.values()) fiber.interruptUnsafe()
         cronTimers.clear()
       }
-      const unregister = KiloShutdown.register(stop)
+      const unregister = KappaShutdown.register(stop)
       yield* Effect.addFinalizer(() =>
         Effect.sync(() => {
           unregister()

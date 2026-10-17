@@ -15,7 +15,7 @@
 | `kappa serve` | starts a headless kappa server |
 | `kappa models [provider]` | list all available models |
 | `kappa roll-call <filter>` | batch-test text models matching a filter for connectivity and latency |
-| `kappa profile` | show Kilo account profile |
+| `kappa profile` | show Kappa account profile |
 | `kappa stats` | show token usage and cost statistics |
 | `kappa export [sessionID]` | export session data as JSON |
 | `kappa import <file>` | import session data from JSON file or URL |
@@ -24,7 +24,7 @@
 | `kappa session` | manage sessions |
 | `kappa remote` | enable remote connection for real-time session relay |
 | `kappa daemon` | manage the local kappa daemon |
-| `kappa console` | open or stop the local Kilo Console (deprecated) |
+| `kappa console` | open or stop the local Kappa Console (deprecated) |
 | `kappa cloud` | run Cloud Agent tasks |
 | `kappa db` | database tools |
 | `kappa config` | configuration tools |

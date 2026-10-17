@@ -33,7 +33,7 @@ import { setTimeout as sleep } from "node:timers/promises"
 import { Process } from "@/util/process"
 import { parseGitHubRemote } from "@/util/repository"
 import { Effect } from "effect"
-import { GitHubSecurity } from "@/kilocode/security/github" // kilocode_change
+import { GitHubSecurity } from "@/kappacode/security/github" // kappacode_change
 import { extractResponseText, formatPromptTooLargeError } from "./github.shared"
 
 type GitHubAuthor = {
@@ -141,9 +141,9 @@ type IssueQueryResponse = {
   }
 }
 
-const AGENT_USERNAME = "kiloconnect[bot]" // kilocode_change
+const AGENT_USERNAME = "kiloconnect[bot]" // kappacode_change
 const AGENT_REACTION = "eyes"
-const WORKFLOW_FILE = ".github/workflows/kappa.yml" // kilocode_change
+const WORKFLOW_FILE = ".github/workflows/kappa.yml" // kappacode_change
 
 // Event categories for routing
 // USER_EVENTS: triggered by user actions, have actor/issueId, support reactions/comments
@@ -201,9 +201,9 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
             `    1. Commit the \`${WORKFLOW_FILE}\` file and push`,
             step2,
             "",
-            "    3. Go to a GitHub issue and comment `/kappa summarize` to see the agent in action", // kilocode_change
+            "    3. Go to a GitHub issue and comment `/kappa summarize` to see the agent in action", // kappacode_change
             "",
-            "   Learn more about the GitHub agent - https://kappa.ai/docs/code-with-ai/platforms/github", // kilocode_change
+            "   Learn more about the GitHub agent - https://kappa.ai/docs/code-with-ai/platforms/github", // kappacode_change
           ].join("\n"),
         )
       }
@@ -229,7 +229,7 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
 
       async function promptProvider() {
         const priority: Record<string, number> = {
-          kappa: 0, // kilocode_change
+          kappa: 0, // kappacode_change
           anthropic: 1,
           openai: 2,
           google: 3,
@@ -287,7 +287,7 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
         if (installation) return s.stop("GitHub app already installed")
 
         // Open browser
-        const url = "https://github.com/apps/kiloconnect" // kilocode_change
+        const url = "https://github.com/apps/kiloconnect" // kappacode_change
         const command =
           process.platform === "darwin"
             ? `open "${url}"`
@@ -323,27 +323,27 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
         s.stop("Installed GitHub app")
 
         async function getInstallation() {
-          // kilocode_change start - updated to new endpoint
+          // kappacode_change start - updated to new endpoint
           return await fetch(`https://api.kappa.ai/api/integrations/github/check-installation?owner=${app.owner}`)
             .then((res) => res.json())
             .then((data) => data.installation)
-          // kilocode_change end
+          // kappacode_change end
         }
       }
 
       async function addWorkflowFiles() {
-        // kilocode_change start - updated workflow template with Kilo branding and gateway secrets
+        // kappacode_change start - updated workflow template with Kappa branding and gateway secrets
         const providerEnvStr =
           provider === "amazon-bedrock"
             ? ""
             : providers[provider].env.map((e) => `\n          ${e}: \${{ secrets.${e} }}`).join("")
 
-        const kiloGatewayEnv =
+        const kappaGatewayEnv =
           provider === "kappa"
             ? `\n          KILO_API_KEY: \${{ secrets.KILO_API_KEY }}\n          KILO_ORG_ID: \${{ secrets.KILO_ORG_ID }}`
             : ""
 
-        const envStr = providerEnvStr || kiloGatewayEnv ? `\n        env:${providerEnvStr}${kiloGatewayEnv}` : ""
+        const envStr = providerEnvStr || kappaGatewayEnv ? `\n        env:${providerEnvStr}${kappaGatewayEnv}` : ""
 
         await Filesystem.write(
           path.join(app.root, WORKFLOW_FILE),
@@ -374,12 +374,12 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Run Kilo
-        uses: Kilo-Org/kilocode/github@latest${envStr}
+      - name: Run Kappa
+        uses: Kappa-Org/kappacode/github@latest${envStr}
         with:
           model: ${provider}/${model}`,
         )
-        // kilocode_change end
+        // kappacode_change end
 
         prompts.log.success(`Added workflow file: "${WORKFLOW_FILE}"`)
       }
@@ -440,7 +440,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
         ? (payload as IssueCommentEvent | IssuesEvent).issue.number
         : (payload as PullRequestEvent | PullRequestReviewCommentEvent).pull_request.number
     const runUrl = `/${owner}/${repo}/actions/runs/${runId}`
-    const shareBaseUrl = isMock ? "https://dev.kappa.ai" : "https://kappa.ai" // kilocode_change
+    const shareBaseUrl = isMock ? "https://dev.kappa.ai" : "https://kappa.ai" // kappacode_change
 
     let appToken: string
     let octoRest: Octokit
@@ -510,7 +510,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
         await addReaction(commentType)
       }
 
-      // Setup kappa session // kilocode_change
+      // Setup kappa session // kappacode_change
       const repoData = await fetchRepo()
       session = await runLocalEffect(
         sessionSvc.create({
@@ -520,13 +520,13 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
               action: "deny",
               pattern: "*",
             },
-            // kilocode_change start
+            // kappacode_change start
             {
               permission: "suggest",
               action: "deny",
               pattern: "*",
             },
-            // kilocode_change end
+            // kappacode_change end
           ],
         }),
       )
@@ -537,7 +537,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
         await runLocalEffect(sessionShare.share(session.id))
         return session.id.slice(-8)
       })()
-      console.log("kappa session", session.id) // kilocode_change
+      console.log("kappa session", session.id) // kappacode_change
 
       // Handle event types:
       // REPO_EVENTS (schedule, workflow_dispatch): no issue/PR context, output to logs/PR only
@@ -714,7 +714,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
 
     function normalizeOidcBaseUrl(): string {
       const value = process.env["OIDC_BASE_URL"]
-      if (!value) return "https://api.kappa.ai" // kilocode_change
+      if (!value) return "https://api.kappa.ai" // kappacode_change
       return value.replace(/\/+$/, "")
     }
 
@@ -763,7 +763,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
       }
 
       const reviewContext = getReviewCommentContext()
-      const mentions = (process.env["MENTIONS"] || "/kappa,/kc") // kilocode_change
+      const mentions = (process.env["MENTIONS"] || "/kappa,/kc") // kappacode_change
         .split(",")
         .map((m) => m.trim().toLowerCase())
         .filter(Boolean)
@@ -810,10 +810,10 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
       let offset = 0
       for (const m of matches) {
         const tag = m[0]
-        // kilocode_change start - only fetch canonical GitHub attachment routes
+        // kappacode_change start - only fetch canonical GitHub attachment routes
         const url = GitHubSecurity.attachment(m[1])
         if (!url) continue
-        // kilocode_change end
+        // kappacode_change end
         const start = m.index
         const filename = path.basename(url)
 
@@ -917,7 +917,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
     }
 
     async function chat(message: string, files: PromptFiles = []) {
-      console.log("Sending message to kappa...") // kilocode_change
+      console.log("Sending message to kappa...") // kappacode_change
 
       return runLocalEffect(
         Effect.gen(function* () {
@@ -1005,7 +1005,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
 
     async function getOidcToken() {
       try {
-        return await core.getIDToken("kappa-github-action") // kilocode_change
+        return await core.getIDToken("kappa-github-action") // kappacode_change
       } catch (error) {
         console.error("Failed to get OIDC token:", error instanceof Error ? error.message : error)
         throw new Error(
@@ -1016,7 +1016,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
     }
 
     async function exchangeForAppToken(token: string) {
-      // kilocode_change start - updated endpoint URLs per new API structure
+      // kappacode_change start - updated endpoint URLs per new API structure
       const response = token.startsWith("github_pat_")
         ? await fetch(`${oidcBaseUrl}/api/integrations/github/exchange-token-with-pat`, {
             method: "POST",
@@ -1032,7 +1032,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
               Authorization: `Bearer ${token}`,
             },
           })
-      // kilocode_change end
+      // kappacode_change end
 
       if (!response.ok) {
         throw new Error(
@@ -1110,9 +1110,9 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
         .join("")
       if (type === "schedule" || type === "dispatch") {
         const hex = crypto.randomUUID().slice(0, 6)
-        return `kappa/${type}-${hex}-${timestamp}` // kilocode_change
+        return `kappa/${type}-${hex}-${timestamp}` // kappacode_change
       }
-      return `kappa/${type}${issueId}-${timestamp}` // kilocode_change
+      return `kappa/${type}${issueId}-${timestamp}` // kappacode_change
     }
 
     async function pushToNewBranch(summary: string, branch: string, commit: boolean, isSchedule: boolean) {
@@ -1377,10 +1377,10 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
     }
 
     function footer(opts?: { image?: boolean }) {
-      // kilocode_change start - simplified footer with text branding (no image backend yet)
+      // kappacode_change start - simplified footer with text branding (no image backend yet)
       const share = shareId ? `[kappa session](${shareBaseUrl}/s/${shareId})&nbsp;&nbsp;|&nbsp;&nbsp;` : ""
-      return `\n\n---\n*Powered by [Kilo](https://kappa.ai)*&nbsp;&nbsp;|&nbsp;&nbsp;${share}[github run](${runUrl})`
-      // kilocode_change end
+      return `\n\n---\n*Powered by [Kappa](https://kappa.ai)*&nbsp;&nbsp;|&nbsp;&nbsp;${share}[github run](${runUrl})`
+      // kappacode_change end
     }
 
     async function fetchRepo() {
@@ -1440,7 +1440,7 @@ query($owner: String!, $repo: String!, $number: Int!) {
       return [
         "<github_action_context>",
         "You are running as a GitHub Action. Important:",
-        "- Git push and PR creation are handled AUTOMATICALLY by the kappa infrastructure after your response", // kilocode_change
+        "- Git push and PR creation are handled AUTOMATICALLY by the kappa infrastructure after your response", // kappacode_change
         "- Do NOT include warnings or disclaimers about GitHub tokens, workflow permissions, or PR creation capabilities",
         "- Do NOT suggest manual steps for creating PRs or pushing code - this happens automatically",
         "- Focus only on the code changes and your analysis/response",
@@ -1580,7 +1580,7 @@ query($owner: String!, $repo: String!, $number: Int!) {
       return [
         "<github_action_context>",
         "You are running as a GitHub Action. Important:",
-        "- Git push and PR creation are handled AUTOMATICALLY by the kappa infrastructure after your response", // kilocode_change
+        "- Git push and PR creation are handled AUTOMATICALLY by the kappa infrastructure after your response", // kappacode_change
         "- Do NOT include warnings or disclaimers about GitHub tokens, workflow permissions, or PR creation capabilities",
         "- Do NOT suggest manual steps for creating PRs or pushing code - this happens automatically",
         "- Focus only on the code changes and your analysis/response",

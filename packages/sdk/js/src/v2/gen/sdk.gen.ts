@@ -151,107 +151,107 @@ import type {
   InstanceDisposeResponses,
   InstanceReloadErrors,
   InstanceReloadResponses,
-  KiloAudioTranscriptionsErrors,
-  KiloAudioTranscriptionsResponses,
-  KiloAuthStatusErrors,
-  KiloAuthStatusResponses,
-  KiloCloudSessionGetErrors,
-  KiloCloudSessionGetResponses,
-  KiloCloudSessionImportErrors,
-  KiloCloudSessionImportResponses,
-  KiloCloudSessionsErrors,
-  KiloCloudSessionsResponses,
-  KilocodeAgentManagerListErrors,
-  KilocodeAgentManagerListResponses,
-  KilocodeAgentManagerRejectErrors,
-  KilocodeAgentManagerRejectResponses,
-  KilocodeAgentManagerReplyErrors,
-  KilocodeAgentManagerReplyResponses,
-  KilocodeBackgroundJobCancelErrors,
-  KilocodeBackgroundJobCancelResponses,
-  KilocodeBackgroundJobPromoteErrors,
-  KilocodeBackgroundJobPromoteResponses,
-  KilocodeBackgroundJobsErrors,
-  KilocodeBackgroundJobsResponses,
-  KilocodeCommandFilesErrors,
-  KilocodeCommandFilesResponses,
-  KilocodeDrainSessionErrors,
-  KilocodeDrainSessionResponses,
-  KilocodeHeapSnapshotErrors,
-  KilocodeHeapSnapshotResponses,
-  KilocodeMarketplaceInstallErrors,
-  KilocodeMarketplaceInstallResponses,
-  KilocodeMarketplaceListErrors,
-  KilocodeMarketplaceListResponses,
-  KilocodeMarketplaceRemoveErrors,
-  KilocodeMarketplaceRemoveResponses,
-  KilocodeMigrateDiscoverErrors,
-  KilocodeMigrateDiscoverResponses,
-  KilocodeMigrateSessionsErrors,
-  KilocodeMigrateSessionsResponses,
-  KilocodeNotebookListErrors,
-  KilocodeNotebookListResponses,
-  KilocodeNotebookRejectErrors,
-  KilocodeNotebookRejectResponses,
-  KilocodeNotebookReplyErrors,
-  KilocodeNotebookReplyResponses,
-  KilocodeProviderUsageGetErrors,
-  KilocodeProviderUsageGetResponses,
-  KilocodeProviderUsageRefreshErrors,
-  KilocodeProviderUsageRefreshResponses,
-  KilocodeRemoveAgentErrors,
-  KilocodeRemoveAgentResponses,
-  KilocodeRemoveCommandErrors,
-  KilocodeRemoveCommandResponses,
-  KilocodeRemoveSkillErrors,
-  KilocodeRemoveSkillResponses,
-  KilocodeRemoveSnapshotErrors,
-  KilocodeRemoveSnapshotResponses,
-  KilocodeResetSessionBoardErrors,
-  KilocodeResetSessionBoardResponses,
-  KilocodeResumeSessionErrors,
-  KilocodeResumeSessionResponses,
-  KilocodeRetentionCancelErrors,
-  KilocodeRetentionCancelResponses,
-  KilocodeRetentionRunErrors,
-  KilocodeRetentionRunResponses,
-  KilocodeRetentionStatusErrors,
-  KilocodeRetentionStatusResponses,
-  KilocodeSessionBoardErrors,
-  KilocodeSessionBoardResponses,
-  KilocodeSessionImportMessageErrors,
-  KilocodeSessionImportMessageResponses,
-  KilocodeSessionImportPartErrors,
-  KilocodeSessionImportPartResponses,
-  KilocodeSessionImportProjectErrors,
-  KilocodeSessionImportProjectResponses,
-  KilocodeSessionImportSessionErrors,
-  KilocodeSessionImportSessionResponses,
-  KilocodeSessionModelUsageErrors,
-  KilocodeSessionModelUsageResponses,
-  KilocodeSnapshotPrepareErrors,
-  KilocodeSnapshotPrepareResponses,
-  KilocodeTeardownWorktreeErrors,
-  KilocodeTeardownWorktreeResponses,
-  KilocodeWakeupsErrors,
-  KilocodeWakeupsResponses,
-  KiloEditErrors,
-  KiloEditResponses,
-  KiloFimErrors,
-  KiloFimResponse,
-  KiloFimResponses,
-  KiloModelsImagesErrors,
-  KiloModelsImagesResponses,
-  KiloModelsTranscriptionsErrors,
-  KiloModelsTranscriptionsResponses,
-  KiloModesErrors,
-  KiloModesResponses,
-  KiloNotificationsErrors,
-  KiloNotificationsResponses,
-  KiloOrganizationSetErrors,
-  KiloOrganizationSetResponses,
-  KiloProfileErrors,
-  KiloProfileResponses,
+  KappaAudioTranscriptionsErrors,
+  KappaAudioTranscriptionsResponses,
+  KappaAuthStatusErrors,
+  KappaAuthStatusResponses,
+  KappaCloudSessionGetErrors,
+  KappaCloudSessionGetResponses,
+  KappaCloudSessionImportErrors,
+  KappaCloudSessionImportResponses,
+  KappaCloudSessionsErrors,
+  KappaCloudSessionsResponses,
+  KappacodeAgentManagerListErrors,
+  KappacodeAgentManagerListResponses,
+  KappacodeAgentManagerRejectErrors,
+  KappacodeAgentManagerRejectResponses,
+  KappacodeAgentManagerReplyErrors,
+  KappacodeAgentManagerReplyResponses,
+  KappacodeBackgroundJobCancelErrors,
+  KappacodeBackgroundJobCancelResponses,
+  KappacodeBackgroundJobPromoteErrors,
+  KappacodeBackgroundJobPromoteResponses,
+  KappacodeBackgroundJobsErrors,
+  KappacodeBackgroundJobsResponses,
+  KappacodeCommandFilesErrors,
+  KappacodeCommandFilesResponses,
+  KappacodeDrainSessionErrors,
+  KappacodeDrainSessionResponses,
+  KappacodeHeapSnapshotErrors,
+  KappacodeHeapSnapshotResponses,
+  KappacodeMarketplaceInstallErrors,
+  KappacodeMarketplaceInstallResponses,
+  KappacodeMarketplaceListErrors,
+  KappacodeMarketplaceListResponses,
+  KappacodeMarketplaceRemoveErrors,
+  KappacodeMarketplaceRemoveResponses,
+  KappacodeMigrateDiscoverErrors,
+  KappacodeMigrateDiscoverResponses,
+  KappacodeMigrateSessionsErrors,
+  KappacodeMigrateSessionsResponses,
+  KappacodeNotebookListErrors,
+  KappacodeNotebookListResponses,
+  KappacodeNotebookRejectErrors,
+  KappacodeNotebookRejectResponses,
+  KappacodeNotebookReplyErrors,
+  KappacodeNotebookReplyResponses,
+  KappacodeProviderUsageGetErrors,
+  KappacodeProviderUsageGetResponses,
+  KappacodeProviderUsageRefreshErrors,
+  KappacodeProviderUsageRefreshResponses,
+  KappacodeRemoveAgentErrors,
+  KappacodeRemoveAgentResponses,
+  KappacodeRemoveCommandErrors,
+  KappacodeRemoveCommandResponses,
+  KappacodeRemoveSkillErrors,
+  KappacodeRemoveSkillResponses,
+  KappacodeRemoveSnapshotErrors,
+  KappacodeRemoveSnapshotResponses,
+  KappacodeResetSessionBoardErrors,
+  KappacodeResetSessionBoardResponses,
+  KappacodeResumeSessionErrors,
+  KappacodeResumeSessionResponses,
+  KappacodeRetentionCancelErrors,
+  KappacodeRetentionCancelResponses,
+  KappacodeRetentionRunErrors,
+  KappacodeRetentionRunResponses,
+  KappacodeRetentionStatusErrors,
+  KappacodeRetentionStatusResponses,
+  KappacodeSessionBoardErrors,
+  KappacodeSessionBoardResponses,
+  KappacodeSessionImportMessageErrors,
+  KappacodeSessionImportMessageResponses,
+  KappacodeSessionImportPartErrors,
+  KappacodeSessionImportPartResponses,
+  KappacodeSessionImportProjectErrors,
+  KappacodeSessionImportProjectResponses,
+  KappacodeSessionImportSessionErrors,
+  KappacodeSessionImportSessionResponses,
+  KappacodeSessionModelUsageErrors,
+  KappacodeSessionModelUsageResponses,
+  KappacodeSnapshotPrepareErrors,
+  KappacodeSnapshotPrepareResponses,
+  KappacodeTeardownWorktreeErrors,
+  KappacodeTeardownWorktreeResponses,
+  KappacodeWakeupsErrors,
+  KappacodeWakeupsResponses,
+  KappaEditErrors,
+  KappaEditResponses,
+  KappaFimErrors,
+  KappaFimResponse,
+  KappaFimResponses,
+  KappaModelsImagesErrors,
+  KappaModelsImagesResponses,
+  KappaModelsTranscriptionsErrors,
+  KappaModelsTranscriptionsResponses,
+  KappaModesErrors,
+  KappaModesResponses,
+  KappaNotificationsErrors,
+  KappaNotificationsResponses,
+  KappaOrganizationSetErrors,
+  KappaOrganizationSetResponses,
+  KappaProfileErrors,
+  KappaProfileResponses,
   LocationRef,
   LspStatusErrors,
   LspStatusResponses,
@@ -683,7 +683,7 @@ class HeyApiRegistry<T> {
   get(key?: string): T {
     const instance = this.instances.get(key ?? this.defaultKey)
     if (!instance) {
-      throw new Error(`No SDK client found. Create one with "new KiloClient()" to fix this error.`)
+      throw new Error(`No SDK client found. Create one with "new KappaClient()" to fix this error.`)
     }
     return instance
   }
@@ -798,7 +798,7 @@ export class App extends HeyApiClient {
   /**
    * List agents
    *
-   * Get a list of all available AI agents in the Kilo system.
+   * Get a list of all available AI agents in the Kappa system.
    */
   public agents<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -828,7 +828,7 @@ export class App extends HeyApiClient {
   /**
    * List skills
    *
-   * Get a list of all available skills in the Kilo system.
+   * Get a list of all available skills in the Kappa system.
    */
   public skills<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -903,7 +903,7 @@ export class Capabilities extends HeyApiClient {
   /**
    * Get experimental capabilities
    *
-   * Get experimental features enabled on the Kilo server.
+   * Get experimental features enabled on the Kappa server.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1007,7 +1007,7 @@ export class Console extends HeyApiClient {
   /**
    * Switch active Console org
    *
-   * Persist a new active Console account/org selection for the current local Kilo state.
+   * Persist a new active Console account/org selection for the current local Kappa state.
    */
   public switchOrg<ThrowOnError extends boolean = false>(
     parameters: {
@@ -1048,7 +1048,7 @@ export class Session extends HeyApiClient {
   /**
    * List sessions
    *
-   * Get a list of all Kilo sessions across projects, sorted by most recently updated. Archived sessions are excluded by default.
+   * Get a list of all Kappa sessions across projects, sorted by most recently updated. Archived sessions are excluded by default.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1529,7 +1529,7 @@ export class Config extends HeyApiClient {
   /**
    * Get global configuration
    *
-   * Retrieve the current global Kilo configuration settings and preferences.
+   * Retrieve the current global Kappa configuration settings and preferences.
    */
   public get<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<GlobalConfigGetResponses, GlobalConfigGetErrors, ThrowOnError>({
@@ -1541,7 +1541,7 @@ export class Config extends HeyApiClient {
   /**
    * Update global configuration
    *
-   * Update global Kilo configuration settings and preferences.
+   * Update global Kappa configuration settings and preferences.
    */
   public update<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1567,7 +1567,7 @@ export class Global extends HeyApiClient {
   /**
    * Get health
    *
-   * Get health information about the Kilo server.
+   * Get health information about the Kappa server.
    */
   public health<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<GlobalHealthResponses, GlobalHealthErrors, ThrowOnError>({
@@ -1579,7 +1579,7 @@ export class Global extends HeyApiClient {
   /**
    * Get global events
    *
-   * Subscribe to global events from the Kilo system using server-sent events.
+   * Subscribe to global events from the Kappa system using server-sent events.
    */
   public event<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError, GlobalEventResponse>) {
     return (options?.client ?? this.client).sse.get<GlobalEventResponses, GlobalEventErrors, ThrowOnError>({
@@ -1591,7 +1591,7 @@ export class Global extends HeyApiClient {
   /**
    * Dispose instance
    *
-   * Clean up and dispose all Kilo instances, releasing all resources.
+   * Clean up and dispose all Kappa instances, releasing all resources.
    */
   public dispose<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).post<GlobalDisposeResponses, GlobalDisposeErrors, ThrowOnError>({
@@ -1666,7 +1666,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Get configuration
    *
-   * Retrieve the current Kilo configuration settings and preferences.
+   * Retrieve the current Kappa configuration settings and preferences.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1696,7 +1696,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Update configuration
    *
-   * Update Kilo configuration settings and preferences.
+   * Update Kappa configuration settings and preferences.
    */
   public update<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1937,7 +1937,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Get project rules
    *
-   * List project instruction files used by Kilo and return their current contents.
+   * List project instruction files used by Kappa and return their current contents.
    */
   public rules<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -2038,7 +2038,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Update model state
    *
-   * Patch TUI-compatible model selections shared with Kilo Console.
+   * Patch TUI-compatible model selections shared with Kappa Console.
    */
   public modelStateUpdate<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -2187,7 +2187,7 @@ export class Worktree extends HeyApiClient {
   /**
    * List worktrees
    *
-   * List all git worktrees for the current project and whether Kilo manages them.
+   * List all git worktrees for the current project and whether Kappa manages them.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -2591,7 +2591,7 @@ export class Instance extends HeyApiClient {
   /**
    * Dispose instance
    *
-   * Clean up and dispose the current Kilo instance, releasing all resources.
+   * Clean up and dispose the current Kappa instance, releasing all resources.
    */
   public dispose<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -2653,7 +2653,7 @@ export class Path extends HeyApiClient {
   /**
    * Get paths
    *
-   * Retrieve the current working directory and related path information for the Kilo instance.
+   * Retrieve the current working directory and related path information for the Kappa instance.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -2855,7 +2855,7 @@ export class Command extends HeyApiClient {
   /**
    * List commands
    *
-   * Get a list of all available commands in the Kilo system.
+   * Get a list of all available commands in the Kappa system.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3347,7 +3347,7 @@ export class Project extends HeyApiClient {
   /**
    * List all projects
    *
-   * Get a list of projects that have been opened with Kilo.
+   * Get a list of projects that have been opened with Kappa.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3377,7 +3377,7 @@ export class Project extends HeyApiClient {
   /**
    * Get current project
    *
-   * Retrieve the currently active project that Kilo is working with.
+   * Retrieve the currently active project that Kappa is working with.
    */
   public current<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3544,7 +3544,7 @@ export class Pty extends HeyApiClient {
   /**
    * List PTY sessions
    *
-   * Get a list of all active pseudo-terminal (PTY) sessions managed by Kilo.
+   * Get a list of all active pseudo-terminal (PTY) sessions managed by Kappa.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -4278,7 +4278,7 @@ export class Session2 extends HeyApiClient {
   /**
    * List sessions
    *
-   * Get a list of all Kilo sessions, sorted by most recently updated.
+   * Get a list of all Kappa sessions, sorted by most recently updated.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -4320,7 +4320,7 @@ export class Session2 extends HeyApiClient {
   /**
    * Create session
    *
-   * Create a new Kilo session for interacting with AI assistants and managing conversations.
+   * Create a new Kappa session for interacting with AI assistants and managing conversations.
    */
   public create<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -4441,7 +4441,7 @@ export class Session2 extends HeyApiClient {
   /**
    * Get session
    *
-   * Retrieve detailed information about a specific Kilo session.
+   * Retrieve detailed information about a specific Kappa session.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters: {
@@ -6711,9 +6711,9 @@ export class Indexing extends HeyApiClient {
   }
 
   /**
-   * List Kilo embedding models
+   * List Kappa embedding models
    *
-   * Retrieve the embedding models available through the active Kilo account.
+   * Retrieve the embedding models available through the active Kappa account.
    */
   public models<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6782,7 +6782,7 @@ export class Audio extends HeyApiClient {
   /**
    * Speech to text transcription
    *
-   * Proxy an audio transcription request to the Kilo Gateway
+   * Proxy an audio transcription request to the Kappa Gateway
    */
   public transcriptions<ThrowOnError extends boolean = false>(
     parameters: {
@@ -6816,8 +6816,8 @@ export class Audio extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KiloAudioTranscriptionsResponses,
-      KiloAudioTranscriptionsErrors,
+      KappaAudioTranscriptionsResponses,
+      KappaAudioTranscriptionsErrors,
       ThrowOnError
     >({
       url: "/kappa/audio/transcriptions",
@@ -6836,7 +6836,7 @@ export class Models extends HeyApiClient {
   /**
    * Image generation models
    *
-   * List image-capable models from the Kilo Gateway OpenRouter passthrough
+   * List image-capable models from the Kappa Gateway OpenRouter passthrough
    */
   public images<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6856,7 +6856,7 @@ export class Models extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KiloModelsImagesResponses, KiloModelsImagesErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<KappaModelsImagesResponses, KappaModelsImagesErrors, ThrowOnError>({
       url: "/kappa/models/images",
       ...options,
       ...params,
@@ -6866,7 +6866,7 @@ export class Models extends HeyApiClient {
   /**
    * Speech-to-text models
    *
-   * List transcription-capable models from the Kilo Gateway catalog
+   * List transcription-capable models from the Kappa Gateway catalog
    */
   public transcriptions<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6887,8 +6887,8 @@ export class Models extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KiloModelsTranscriptionsResponses,
-      KiloModelsTranscriptionsErrors,
+      KappaModelsTranscriptionsResponses,
+      KappaModelsTranscriptionsErrors,
       ThrowOnError
     >({
       url: "/kappa/models/transcriptions",
@@ -6900,9 +6900,9 @@ export class Models extends HeyApiClient {
 
 export class Organization extends HeyApiClient {
   /**
-   * Update Kilo Gateway organization
+   * Update Kappa Gateway organization
    *
-   * Switch to a different Kilo Gateway organization
+   * Switch to a different Kappa Gateway organization
    */
   public set<ThrowOnError extends boolean = false>(
     parameters: {
@@ -6924,7 +6924,7 @@ export class Organization extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).post<KiloOrganizationSetResponses, KiloOrganizationSetErrors, ThrowOnError>(
+    return (options?.client ?? this.client).post<KappaOrganizationSetResponses, KappaOrganizationSetErrors, ThrowOnError>(
       {
         url: "/kappa/organization",
         ...options,
@@ -6943,7 +6943,7 @@ export class Session3 extends HeyApiClient {
   /**
    * Get cloud session
    *
-   * Fetch full session data from the Kilo cloud for preview
+   * Fetch full session data from the Kappa cloud for preview
    */
   public get<ThrowOnError extends boolean = false>(
     parameters: {
@@ -6965,7 +6965,7 @@ export class Session3 extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KiloCloudSessionGetResponses, KiloCloudSessionGetErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<KappaCloudSessionGetResponses, KappaCloudSessionGetErrors, ThrowOnError>({
       url: "/kappa/cloud/session/{id}",
       ...options,
       ...params,
@@ -6998,8 +6998,8 @@ export class Session3 extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KiloCloudSessionImportResponses,
-      KiloCloudSessionImportErrors,
+      KappaCloudSessionImportResponses,
+      KappaCloudSessionImportErrors,
       ThrowOnError
     >({
       url: "/kappa/cloud/session/import",
@@ -7021,11 +7021,11 @@ export class Cloud extends HeyApiClient {
   }
 }
 
-export class Kilo extends HeyApiClient {
+export class Kappa extends HeyApiClient {
   /**
-   * Get Kilo Gateway profile
+   * Get Kappa Gateway profile
    *
-   * Fetch user profile and organizations from Kilo Gateway
+   * Fetch user profile and organizations from Kappa Gateway
    */
   public profile<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -7045,7 +7045,7 @@ export class Kilo extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KiloProfileResponses, KiloProfileErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<KappaProfileResponses, KappaProfileErrors, ThrowOnError>({
       url: "/kappa/profile",
       ...options,
       ...params,
@@ -7053,9 +7053,9 @@ export class Kilo extends HeyApiClient {
   }
 
   /**
-   * Get Kilo authentication status
+   * Get Kappa authentication status
    *
-   * Check whether a locally stored Kilo credential can authenticate Gateway requests
+   * Check whether a locally stored Kappa credential can authenticate Gateway requests
    */
   public authStatus<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -7075,7 +7075,7 @@ export class Kilo extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KiloAuthStatusResponses, KiloAuthStatusErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<KappaAuthStatusResponses, KappaAuthStatusErrors, ThrowOnError>({
       url: "/kappa/auth-status",
       ...options,
       ...params,
@@ -7105,7 +7105,7 @@ export class Kilo extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KiloModesResponses, KiloModesErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<KappaModesResponses, KappaModesErrors, ThrowOnError>({
       url: "/kappa/modes",
       ...options,
       ...params,
@@ -7115,7 +7115,7 @@ export class Kilo extends HeyApiClient {
   /**
    * FIM completion
    *
-   * Proxy a Fill-in-the-Middle completion request to the Kilo Gateway
+   * Proxy a Fill-in-the-Middle completion request to the Kappa Gateway
    */
   public fim<ThrowOnError extends boolean = false>(
     parameters: {
@@ -7128,7 +7128,7 @@ export class Kilo extends HeyApiClient {
       maxTokens?: number
       temperature?: number
     },
-    options?: Options<never, ThrowOnError, KiloFimResponse>,
+    options?: Options<never, ThrowOnError, KappaFimResponse>,
   ) {
     const params = buildClientParams(
       [parameters],
@@ -7147,7 +7147,7 @@ export class Kilo extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).sse.post<KiloFimResponses, KiloFimErrors, ThrowOnError>({
+    return (options?.client ?? this.client).sse.post<KappaFimResponses, KappaFimErrors, ThrowOnError>({
       url: "/kappa/fim",
       ...options,
       ...params,
@@ -7207,7 +7207,7 @@ export class Kilo extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).post<KiloEditResponses, KiloEditErrors, ThrowOnError>({
+    return (options?.client ?? this.client).post<KappaEditResponses, KappaEditErrors, ThrowOnError>({
       url: "/kappa/edit",
       ...options,
       ...params,
@@ -7220,9 +7220,9 @@ export class Kilo extends HeyApiClient {
   }
 
   /**
-   * Get Kilo notifications
+   * Get Kappa notifications
    *
-   * Fetch notifications from Kilo Gateway for CLI display
+   * Fetch notifications from Kappa Gateway for CLI display
    */
   public notifications<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -7242,7 +7242,7 @@ export class Kilo extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KiloNotificationsResponses, KiloNotificationsErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<KappaNotificationsResponses, KappaNotificationsErrors, ThrowOnError>({
       url: "/kappa/notifications",
       ...options,
       ...params,
@@ -7252,7 +7252,7 @@ export class Kilo extends HeyApiClient {
   /**
    * Get cloud sessions
    *
-   * Fetch cloud CLI sessions from Kilo API
+   * Fetch cloud CLI sessions from Kappa API
    */
   public cloudSessions<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -7278,7 +7278,7 @@ export class Kilo extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KiloCloudSessionsResponses, KiloCloudSessionsErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<KappaCloudSessionsResponses, KappaCloudSessionsErrors, ThrowOnError>({
       url: "/kappa/cloud-sessions",
       ...options,
       ...params,
@@ -7331,11 +7331,11 @@ export class Heap extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeHeapSnapshotResponses,
-      KilocodeHeapSnapshotErrors,
+      KappacodeHeapSnapshotResponses,
+      KappacodeHeapSnapshotErrors,
       ThrowOnError
     >({
-      url: "/kilocode/heap/snapshot",
+      url: "/kappacode/heap/snapshot",
       ...options,
       ...params,
     })
@@ -7367,11 +7367,11 @@ export class Marketplace extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeMarketplaceListResponses,
-      KilocodeMarketplaceListErrors,
+      KappacodeMarketplaceListResponses,
+      KappacodeMarketplaceListErrors,
       ThrowOnError
     >({
-      url: "/kilocode/marketplace",
+      url: "/kappacode/marketplace",
       ...options,
       ...params,
     })
@@ -7380,7 +7380,7 @@ export class Marketplace extends HeyApiClient {
   /**
    * Install a marketplace item
    *
-   * Install a marketplace MCP server, agent, skill, or plugin into project or global Kilo config.
+   * Install a marketplace MCP server, agent, skill, or plugin into project or global Kappa config.
    */
   public install<ThrowOnError extends boolean = false>(
     parameters: {
@@ -7409,11 +7409,11 @@ export class Marketplace extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeMarketplaceInstallResponses,
-      KilocodeMarketplaceInstallErrors,
+      KappacodeMarketplaceInstallResponses,
+      KappacodeMarketplaceInstallErrors,
       ThrowOnError
     >({
-      url: "/kilocode/marketplace/install",
+      url: "/kappacode/marketplace/install",
       ...options,
       ...params,
       headers: {
@@ -7427,7 +7427,7 @@ export class Marketplace extends HeyApiClient {
   /**
    * Remove a marketplace item
    *
-   * Remove a marketplace MCP server, agent, skill, or plugin from project or global Kilo config.
+   * Remove a marketplace MCP server, agent, skill, or plugin from project or global Kappa config.
    */
   public remove<ThrowOnError extends boolean = false>(
     parameters: {
@@ -7452,11 +7452,11 @@ export class Marketplace extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeMarketplaceRemoveResponses,
-      KilocodeMarketplaceRemoveErrors,
+      KappacodeMarketplaceRemoveResponses,
+      KappacodeMarketplaceRemoveErrors,
       ThrowOnError
     >({
-      url: "/kilocode/marketplace/remove",
+      url: "/kappacode/marketplace/remove",
       ...options,
       ...params,
       headers: {
@@ -7493,11 +7493,11 @@ export class Snapshot extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeSnapshotPrepareResponses,
-      KilocodeSnapshotPrepareErrors,
+      KappacodeSnapshotPrepareResponses,
+      KappacodeSnapshotPrepareErrors,
       ThrowOnError
     >({
-      url: "/kilocode/snapshot/prepare",
+      url: "/kappacode/snapshot/prepare",
       ...options,
       ...params,
     })
@@ -7529,11 +7529,11 @@ export class ProviderUsage extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeProviderUsageGetResponses,
-      KilocodeProviderUsageGetErrors,
+      KappacodeProviderUsageGetResponses,
+      KappacodeProviderUsageGetErrors,
       ThrowOnError
     >({
-      url: "/kilocode/provider-usage",
+      url: "/kappacode/provider-usage",
       ...options,
       ...params,
     })
@@ -7563,11 +7563,11 @@ export class ProviderUsage extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeProviderUsageRefreshResponses,
-      KilocodeProviderUsageRefreshErrors,
+      KappacodeProviderUsageRefreshResponses,
+      KappacodeProviderUsageRefreshErrors,
       ThrowOnError
     >({
-      url: "/kilocode/provider-usage/refresh",
+      url: "/kappacode/provider-usage/refresh",
       ...options,
       ...params,
     })
@@ -7599,11 +7599,11 @@ export class Notebook extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeNotebookListResponses,
-      KilocodeNotebookListErrors,
+      KappacodeNotebookListResponses,
+      KappacodeNotebookListErrors,
       ThrowOnError
     >({
-      url: "/kilocode/notebook",
+      url: "/kappacode/notebook",
       ...options,
       ...params,
     })
@@ -7637,11 +7637,11 @@ export class Notebook extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeNotebookReplyResponses,
-      KilocodeNotebookReplyErrors,
+      KappacodeNotebookReplyResponses,
+      KappacodeNotebookReplyErrors,
       ThrowOnError
     >({
-      url: "/kilocode/notebook/{requestID}/reply",
+      url: "/kappacode/notebook/{requestID}/reply",
       ...options,
       ...params,
       headers: {
@@ -7680,11 +7680,11 @@ export class Notebook extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeNotebookRejectResponses,
-      KilocodeNotebookRejectErrors,
+      KappacodeNotebookRejectResponses,
+      KappacodeNotebookRejectErrors,
       ThrowOnError
     >({
-      url: "/kilocode/notebook/{requestID}/reject",
+      url: "/kappacode/notebook/{requestID}/reject",
       ...options,
       ...params,
       headers: {
@@ -7721,11 +7721,11 @@ export class AgentManager extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeAgentManagerListResponses,
-      KilocodeAgentManagerListErrors,
+      KappacodeAgentManagerListResponses,
+      KappacodeAgentManagerListErrors,
       ThrowOnError
     >({
-      url: "/kilocode/agent-manager",
+      url: "/kappacode/agent-manager",
       ...options,
       ...params,
     })
@@ -7759,11 +7759,11 @@ export class AgentManager extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeAgentManagerReplyResponses,
-      KilocodeAgentManagerReplyErrors,
+      KappacodeAgentManagerReplyResponses,
+      KappacodeAgentManagerReplyErrors,
       ThrowOnError
     >({
-      url: "/kilocode/agent-manager/{requestID}/reply",
+      url: "/kappacode/agent-manager/{requestID}/reply",
       ...options,
       ...params,
       headers: {
@@ -7802,11 +7802,11 @@ export class AgentManager extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeAgentManagerRejectResponses,
-      KilocodeAgentManagerRejectErrors,
+      KappacodeAgentManagerRejectResponses,
+      KappacodeAgentManagerRejectErrors,
       ThrowOnError
     >({
-      url: "/kilocode/agent-manager/{requestID}/reject",
+      url: "/kappacode/agent-manager/{requestID}/reject",
       ...options,
       ...params,
       headers: {
@@ -7845,11 +7845,11 @@ export class BackgroundJob extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeBackgroundJobCancelResponses,
-      KilocodeBackgroundJobCancelErrors,
+      KappacodeBackgroundJobCancelResponses,
+      KappacodeBackgroundJobCancelErrors,
       ThrowOnError
     >({
-      url: "/kilocode/background-jobs/{jobID}/cancel",
+      url: "/kappacode/background-jobs/{jobID}/cancel",
       ...options,
       ...params,
     })
@@ -7881,11 +7881,11 @@ export class BackgroundJob extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeBackgroundJobPromoteResponses,
-      KilocodeBackgroundJobPromoteErrors,
+      KappacodeBackgroundJobPromoteResponses,
+      KappacodeBackgroundJobPromoteErrors,
       ThrowOnError
     >({
-      url: "/kilocode/background-jobs/{jobID}/promote",
+      url: "/kappacode/background-jobs/{jobID}/promote",
       ...options,
       ...params,
     })
@@ -7917,11 +7917,11 @@ export class Retention extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeRetentionStatusResponses,
-      KilocodeRetentionStatusErrors,
+      KappacodeRetentionStatusResponses,
+      KappacodeRetentionStatusErrors,
       ThrowOnError
     >({
-      url: "/kilocode/retention",
+      url: "/kappacode/retention",
       ...options,
       ...params,
     })
@@ -7953,11 +7953,11 @@ export class Retention extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeRetentionRunResponses,
-      KilocodeRetentionRunErrors,
+      KappacodeRetentionRunResponses,
+      KappacodeRetentionRunErrors,
       ThrowOnError
     >({
-      url: "/kilocode/retention/run",
+      url: "/kappacode/retention/run",
       ...options,
       ...params,
       headers: {
@@ -7992,11 +7992,11 @@ export class Retention extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeRetentionCancelResponses,
-      KilocodeRetentionCancelErrors,
+      KappacodeRetentionCancelResponses,
+      KappacodeRetentionCancelErrors,
       ThrowOnError
     >({
-      url: "/kilocode/retention/cancel",
+      url: "/kappacode/retention/cancel",
       ...options,
       ...params,
     })
@@ -8005,9 +8005,9 @@ export class Retention extends HeyApiClient {
 
 export class Migrate extends HeyApiClient {
   /**
-   * Migrate external sessions into Kilo
+   * Migrate external sessions into Kappa
    *
-   * Discover Claude Code and OpenAI Codex JSONL transcripts for a directory and migrate them into new Kilo sessions, one session per transcript. Sources that were already migrated are skipped, so calling this repeatedly is a no-op once everything has landed.
+   * Discover Claude Code and OpenAI Codex JSONL transcripts for a directory and migrate them into new Kappa sessions, one session per transcript. Sources that were already migrated are skipped, so calling this repeatedly is a no-op once everything has landed.
    */
   public sessions<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -8040,11 +8040,11 @@ export class Migrate extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeMigrateSessionsResponses,
-      KilocodeMigrateSessionsErrors,
+      KappacodeMigrateSessionsResponses,
+      KappacodeMigrateSessionsErrors,
       ThrowOnError
     >({
-      url: "/kilocode/migrate/sessions",
+      url: "/kappacode/migrate/sessions",
       ...options,
       ...params,
       headers: {
@@ -8083,11 +8083,11 @@ export class Migrate extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeMigrateDiscoverResponses,
-      KilocodeMigrateDiscoverErrors,
+      KappacodeMigrateDiscoverResponses,
+      KappacodeMigrateDiscoverErrors,
       ThrowOnError
     >({
-      url: "/kilocode/migrate/sessions/discover",
+      url: "/kappacode/migrate/sessions/discover",
       ...options,
       ...params,
       headers: {
@@ -8148,11 +8148,11 @@ export class SessionImport extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeSessionImportProjectResponses,
-      KilocodeSessionImportProjectErrors,
+      KappacodeSessionImportProjectResponses,
+      KappacodeSessionImportProjectErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session-import/project",
+      url: "/kappacode/session-import/project",
       ...options,
       ...params,
       headers: {
@@ -8244,11 +8244,11 @@ export class SessionImport extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeSessionImportSessionResponses,
-      KilocodeSessionImportSessionErrors,
+      KappacodeSessionImportSessionResponses,
+      KappacodeSessionImportSessionErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session-import/session",
+      url: "/kappacode/session-import/session",
       ...options,
       ...params,
       headers: {
@@ -8336,11 +8336,11 @@ export class SessionImport extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeSessionImportMessageResponses,
-      KilocodeSessionImportMessageErrors,
+      KappacodeSessionImportMessageResponses,
+      KappacodeSessionImportMessageErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session-import/message",
+      url: "/kappacode/session-import/message",
       ...options,
       ...params,
       headers: {
@@ -8468,11 +8468,11 @@ export class SessionImport extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeSessionImportPartResponses,
-      KilocodeSessionImportPartErrors,
+      KappacodeSessionImportPartResponses,
+      KappacodeSessionImportPartErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session-import/part",
+      url: "/kappacode/session-import/part",
       ...options,
       ...params,
       headers: {
@@ -8484,7 +8484,7 @@ export class SessionImport extends HeyApiClient {
   }
 }
 
-export class Kilocode extends HeyApiClient {
+export class Kappacode extends HeyApiClient {
   /**
    * Resume an interrupted session
    *
@@ -8515,11 +8515,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeResumeSessionResponses,
-      KilocodeResumeSessionErrors,
+      KappacodeResumeSessionResponses,
+      KappacodeResumeSessionErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session/{sessionID}/resume",
+      url: "/kappacode/session/{sessionID}/resume",
       ...options,
       ...params,
       headers: {
@@ -8558,11 +8558,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeDrainSessionResponses,
-      KilocodeDrainSessionErrors,
+      KappacodeDrainSessionResponses,
+      KappacodeDrainSessionErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session/{sessionID}/drain",
+      url: "/kappacode/session/{sessionID}/drain",
       ...options,
       ...params,
       headers: {
@@ -8603,11 +8603,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeSessionBoardResponses,
-      KilocodeSessionBoardErrors,
+      KappacodeSessionBoardResponses,
+      KappacodeSessionBoardErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session/{sessionID}/board",
+      url: "/kappacode/session/{sessionID}/board",
       ...options,
       ...params,
     })
@@ -8641,11 +8641,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeResetSessionBoardResponses,
-      KilocodeResetSessionBoardErrors,
+      KappacodeResetSessionBoardResponses,
+      KappacodeResetSessionBoardErrors,
       ThrowOnError
     >({
-      url: "/kilocode/session/{sessionID}/board/reset",
+      url: "/kappacode/session/{sessionID}/board/reset",
       ...options,
       ...params,
       headers: {
@@ -8680,11 +8680,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeCommandFilesResponses,
-      KilocodeCommandFilesErrors,
+      KappacodeCommandFilesResponses,
+      KappacodeCommandFilesErrors,
       ThrowOnError
     >({
-      url: "/kilocode/command/files",
+      url: "/kappacode/command/files",
       ...options,
       ...params,
     })
@@ -8716,11 +8716,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeRemoveCommandResponses,
-      KilocodeRemoveCommandErrors,
+      KappacodeRemoveCommandResponses,
+      KappacodeRemoveCommandErrors,
       ThrowOnError
     >({
-      url: "/kilocode/command/remove",
+      url: "/kappacode/command/remove",
       ...options,
       ...params,
       headers: {
@@ -8756,9 +8756,9 @@ export class Kilocode extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).post<KilocodeRemoveSkillResponses, KilocodeRemoveSkillErrors, ThrowOnError>(
+    return (options?.client ?? this.client).post<KappacodeRemoveSkillResponses, KappacodeRemoveSkillErrors, ThrowOnError>(
       {
-        url: "/kilocode/skill/remove",
+        url: "/kappacode/skill/remove",
         ...options,
         ...params,
         headers: {
@@ -8797,9 +8797,9 @@ export class Kilocode extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).post<KilocodeRemoveAgentResponses, KilocodeRemoveAgentErrors, ThrowOnError>(
+    return (options?.client ?? this.client).post<KappacodeRemoveAgentResponses, KappacodeRemoveAgentErrors, ThrowOnError>(
       {
-        url: "/kilocode/agent/remove",
+        url: "/kappacode/agent/remove",
         ...options,
         ...params,
         headers: {
@@ -8837,11 +8837,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeRemoveSnapshotResponses,
-      KilocodeRemoveSnapshotErrors,
+      KappacodeRemoveSnapshotResponses,
+      KappacodeRemoveSnapshotErrors,
       ThrowOnError
     >({
-      url: "/kilocode/snapshot/remove",
+      url: "/kappacode/snapshot/remove",
       ...options,
       ...params,
       headers: {
@@ -8878,11 +8878,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<
-      KilocodeTeardownWorktreeResponses,
-      KilocodeTeardownWorktreeErrors,
+      KappacodeTeardownWorktreeResponses,
+      KappacodeTeardownWorktreeErrors,
       ThrowOnError
     >({
-      url: "/kilocode/worktree/teardown",
+      url: "/kappacode/worktree/teardown",
       ...options,
       ...params,
       headers: {
@@ -8919,8 +8919,8 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeSessionModelUsageResponses,
-      KilocodeSessionModelUsageErrors,
+      KappacodeSessionModelUsageResponses,
+      KappacodeSessionModelUsageErrors,
       ThrowOnError
     >({
       url: "/session/{sessionID}/model-usage",
@@ -8955,11 +8955,11 @@ export class Kilocode extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<
-      KilocodeBackgroundJobsResponses,
-      KilocodeBackgroundJobsErrors,
+      KappacodeBackgroundJobsResponses,
+      KappacodeBackgroundJobsErrors,
       ThrowOnError
     >({
-      url: "/kilocode/background-jobs",
+      url: "/kappacode/background-jobs",
       ...options,
       ...params,
     })
@@ -8988,8 +8988,8 @@ export class Kilocode extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KilocodeWakeupsResponses, KilocodeWakeupsErrors, ThrowOnError>({
-      url: "/kilocode/wakeups",
+    return (options?.client ?? this.client).get<KappacodeWakeupsResponses, KappacodeWakeupsErrors, ThrowOnError>({
+      url: "/kappacode/wakeups",
       ...options,
       ...params,
     })
@@ -9075,7 +9075,7 @@ export class AnacondaDesktop extends HeyApiClient {
       AnacondaDesktopStatusErrors,
       ThrowOnError
     >({
-      url: "/kilocode/anaconda-desktop/status",
+      url: "/kappacode/anaconda-desktop/status",
       ...options,
       ...params,
     })
@@ -9106,7 +9106,7 @@ export class AnacondaDesktop extends HeyApiClient {
     )
     return (options?.client ?? this.client).post<AnacondaDesktopOpenResponses, AnacondaDesktopOpenErrors, ThrowOnError>(
       {
-        url: "/kilocode/anaconda-desktop/open",
+        url: "/kappacode/anaconda-desktop/open",
         ...options,
         ...params,
       },
@@ -9116,7 +9116,7 @@ export class AnacondaDesktop extends HeyApiClient {
   /**
    * Synchronize Anaconda Desktop provider
    *
-   * Discover the active local inference server and replace Kilo provider authentication metadata.
+   * Discover the active local inference server and replace Kappa provider authentication metadata.
    */
   public sync<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -9140,7 +9140,7 @@ export class AnacondaDesktop extends HeyApiClient {
     )
     return (options?.client ?? this.client).post<AnacondaDesktopSyncResponses, AnacondaDesktopSyncErrors, ThrowOnError>(
       {
-        url: "/kilocode/anaconda-desktop/sync",
+        url: "/kappacode/anaconda-desktop/sync",
         ...options,
         ...params,
         headers: {
@@ -10462,7 +10462,7 @@ export class Session4 extends HeyApiClient {
   /**
    * List active sessions
    *
-   * Retrieve foreground Session drains currently owned by this Kilo process. Sessions absent from the result are inactive.
+   * Retrieve foreground Session drains currently owned by this Kappa process. Sessions absent from the result are inactive.
    */
   public active<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<V2SessionActiveResponses, V2SessionActiveErrors, ThrowOnError>({
@@ -10731,7 +10731,7 @@ export class Session4 extends HeyApiClient {
   /**
    * Interrupt session execution
    *
-   * Interrupt active execution owned by this Kilo process. Idle interruption is a no-op.
+   * Interrupt active execution owned by this Kappa process. Idle interruption is a no-op.
    */
   public interrupt<ThrowOnError extends boolean = false>(
     parameters: {
@@ -12048,12 +12048,12 @@ export class V2 extends HeyApiClient {
   }
 }
 
-export class KiloClient extends HeyApiClient {
-  public static readonly __registry = new HeyApiRegistry<KiloClient>()
+export class KappaClient extends HeyApiClient {
+  public static readonly __registry = new HeyApiRegistry<KappaClient>()
 
   constructor(args?: { client?: Client; key?: string }) {
     super(args)
-    KiloClient.__registry.set(this, args?.key)
+    KappaClient.__registry.set(this, args?.key)
   }
 
   private _auth?: Auth
@@ -12216,14 +12216,14 @@ export class KiloClient extends HeyApiClient {
     return (this._indexing ??= new Indexing({ client: this.client }))
   }
 
-  private _kilo?: Kilo
-  get kappa(): Kilo {
-    return (this._kilo ??= new Kilo({ client: this.client }))
+  private _kilo?: Kappa
+  get kappa(): Kappa {
+    return (this._kilo ??= new Kappa({ client: this.client }))
   }
 
-  private _kilocode?: Kilocode
-  get kilocode(): Kilocode {
-    return (this._kilocode ??= new Kilocode({ client: this.client }))
+  private _kappacode?: Kappacode
+  get kappacode(): Kappacode {
+    return (this._kappacode ??= new Kappacode({ client: this.client }))
   }
 
   private _anacondaDesktop?: AnacondaDesktop

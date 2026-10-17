@@ -4,7 +4,7 @@ import type { LLMEvent } from "@opencode-ai/llm"
 import type { Logger } from "@opencode-ai/core/util/log"
 import type { Provider } from "@/provider/provider"
 import { ProviderTransform } from "@/provider/transform"
-import { KiloSessionOverflow } from "./overflow"
+import { KappaSessionOverflow } from "./overflow"
 
 const SAFETY = 2048
 const MIN_OUTPUT = 1024
@@ -15,7 +15,7 @@ const CLAUDE = new Set([
   "@ai-sdk/google-vertex/anthropic",
 ])
 
-export namespace KiloLLM {
+export namespace KappaLLM {
   // Stream failures and interruptions propagate while text deltas are collected.
   export function text(stream: Stream.Stream<LLMEvent, unknown>) {
     return stream.pipe(
@@ -98,7 +98,7 @@ export namespace KiloLLM {
     messages: ModelMessage[]
     tools: Record<string, { description?: string; inputSchema?: unknown }>
     configured: number | undefined
-    usage?: ReturnType<typeof KiloSessionOverflow.measure>
+    usage?: ReturnType<typeof KappaSessionOverflow.measure>
     reported?: number
   }): number | undefined {
     if (input.configured == null) return input.configured
@@ -108,7 +108,7 @@ export namespace KiloLLM {
 
     const estimated =
       input.usage?.normalized ??
-      KiloSessionOverflow.measure({ messages: input.messages, tools: input.tools }).normalized
+      KappaSessionOverflow.measure({ messages: input.messages, tools: input.tools }).normalized
     const tokens = Math.max(input.reported ?? 0, estimated)
     const available = context - tokens - SAFETY
     // If available is ≤0 the input alone exceeds context — return the original

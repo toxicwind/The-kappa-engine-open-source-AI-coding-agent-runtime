@@ -52,7 +52,7 @@ const kappa = { id: "kappa" } as Provider.Info
 // Calculated cost for the `model()` + `baseUsage` pair: 1M input * $3 + 100k output * $15 = 3 + 1.5
 const fallback = 3 + 1.5
 
-describe("KiloSession.providerCost — Anthropic Messages / OpenAI Responses", () => {
+describe("KappaSession.providerCost — Anthropic Messages / OpenAI Responses", () => {
   test("uses preserved AI SDK raw usage cost_details", () => {
     const result = SessionNs.getUsage({
       model: model(),
@@ -89,7 +89,7 @@ describe("KiloSession.providerCost — Anthropic Messages / OpenAI Responses", (
   })
 })
 
-describe("KiloSession.providerCost — Vercel AI Gateway", () => {
+describe("KappaSession.providerCost — Vercel AI Gateway", () => {
   test("uses metadata.gateway.marketCost", () => {
     const result = SessionNs.getUsage({
       model: model(),
@@ -98,7 +98,7 @@ describe("KiloSession.providerCost — Vercel AI Gateway", () => {
       metadata: {
         gateway: {
           // Strings, exactly as emitted by the AI Gateway. `cost` is the gateway fee,
-          // which Kilo doesn't pass on to end users — must be ignored.
+          // which Kappa doesn't pass on to end users — must be ignored.
           cost: "0",
           marketCost: "0.35349075",
         },
@@ -124,7 +124,7 @@ describe("KiloSession.providerCost — Vercel AI Gateway", () => {
   })
 })
 
-describe("KiloSession.providerCost — OpenRouter chat completions", () => {
+describe("KappaSession.providerCost — OpenRouter chat completions", () => {
   const openrouterModel = () =>
     createModel({
       context: 100_000,
@@ -208,7 +208,7 @@ describe("KiloSession.providerCost — OpenRouter chat completions", () => {
     expect(result.cost).toBe(0.0123)
   })
 
-  test("prefers upstream_inference_cost for the Kilo provider", () => {
+  test("prefers upstream_inference_cost for the Kappa provider", () => {
     const result = SessionNs.getUsage({
       model: model(),
       provider: kappa,
@@ -227,7 +227,7 @@ describe("KiloSession.providerCost — OpenRouter chat completions", () => {
   })
 })
 
-describe("KiloSession.providerCost — fallback", () => {
+describe("KappaSession.providerCost — fallback", () => {
   test("falls back to calculated cost when no provider cost is reported", () => {
     const result = SessionNs.getUsage({
       model: model(),

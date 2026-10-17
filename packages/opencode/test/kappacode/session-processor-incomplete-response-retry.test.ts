@@ -14,7 +14,7 @@ import { Config } from "../../src/config/config"
 import { RuntimeFlags } from "../../src/effect/runtime-flags"
 import { EventV2Bridge } from "../../src/event-v2-bridge"
 import { Image } from "../../src/image/image"
-import { KiloSessionProcessor } from "../../src/kappacode/session/processor"
+import { KappaSessionProcessor } from "../../src/kappacode/session/processor"
 import { Permission } from "../../src/permission"
 import { Plugin } from "../../src/plugin"
 import { ProviderError } from "../../src/provider/error"
@@ -288,7 +288,7 @@ describe("session processor incomplete response retry", () => {
           const error = ctx.handle.message.error
           expect(MessageV2.APIError.isInstance(error)).toBe(true)
           if (!MessageV2.APIError.isInstance(error)) throw new Error("expected API error")
-          expect(error.data.message).toBe(KiloSessionProcessor.INCOMPLETE_RESPONSE_MESSAGE)
+          expect(error.data.message).toBe(KappaSessionProcessor.INCOMPLETE_RESPONSE_MESSAGE)
           expect(error.data.responseHeaders?.["x-vercel-id"]).toBe("final-id")
           expect(yield* MessageV2.parts(ctx.msg.id)).toEqual([])
         }),
@@ -458,7 +458,7 @@ describe("session processor incomplete response retry", () => {
           const usage = new Usage({})
           yield* ctx.test.reply(
             LLMEvent.stepStart({ index: 0 }),
-            LLMEvent.toolCall({ id: "call", name: "web_search", input: { query: "Kilo" }, providerExecuted: true }),
+            LLMEvent.toolCall({ id: "call", name: "web_search", input: { query: "Kappa" }, providerExecuted: true }),
             LLMEvent.toolResult({
               id: "call",
               name: "web_search",

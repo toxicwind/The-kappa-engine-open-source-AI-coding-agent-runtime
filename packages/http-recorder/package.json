@@ -7,11 +7,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kilo-Org/kilocode.git",
+    "url": "git+https://github.com/Kappa-Org/kappacode.git",
     "directory": "packages/http-recorder"
   },
-  "homepage": "https://github.com/Kilo-Org/kilocode/tree/main/packages/http-recorder",
-  "bugs": "https://github.com/Kilo-Org/kilocode/issues",
+  "homepage": "https://github.com/Kappa-Org/kappacode/tree/main/packages/http-recorder",
+  "bugs": "https://github.com/Kappa-Org/kappacode/issues",
   "keywords": [
     "effect",
     "http",

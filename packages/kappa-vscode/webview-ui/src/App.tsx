@@ -370,13 +370,13 @@ const AppContent: Component = () => {
     setCurrentView("newTask")
   }
 
-  const handleKiloModel = (message: { type?: string }) => {
-    if (message.type === "selectKiloModel") setCurrentView("newTask")
+  const handleKappaModel = (message: { type?: string }) => {
+    if (message.type === "selectKappaModel") setCurrentView("newTask")
   }
 
   const open = (message: { type?: string; sessionID?: string }) => {
     if (message.type !== "openSession" || !message.sessionID) return
-    console.log("[Kilo New] App: opening local session:", message.sessionID)
+    console.log("[Kappa New] App: opening local session:", message.sessionID)
     if (tabs) tabs.open(message.sessionID, { scrollToBottom: true })
     if (!tabs) session.selectSession(message.sessionID, { scrollToBottom: true })
     setCurrentView("newTask")
@@ -386,11 +386,11 @@ const AppContent: Component = () => {
     const handler = (event: MessageEvent) => {
       const message = event.data
       if (message?.type === "action" && message.action) {
-        console.log("[Kilo New] App: 🎬 action:", message.action)
+        console.log("[Kappa New] App: 🎬 action:", message.action)
         handleViewAction(message.action)
       }
       if (message?.type === "navigate" && message.view && VALID_VIEWS.has(message.view)) {
-        console.log("[Kilo New] App: 🧭 navigate:", message.view, message.tab ? `tab=${message.tab}` : "")
+        console.log("[Kappa New] App: 🧭 navigate:", message.view, message.tab ? `tab=${message.tab}` : "")
         if (message.tab) setSettingsTab(message.tab)
         if (message.subtab) setSettingsSubtab(message.subtab)
         if (message.focus) setSettingsFocus((prev) => ({ token: (prev?.token ?? 0) + 1, value: message.focus! }))
@@ -399,12 +399,12 @@ const AppContent: Component = () => {
         vscode.postMessage({ type: "settingsTabChanged", tab: message.tab })
       }
       if (message?.type === "openCloudSession" && message.sessionId) {
-        console.log("[Kilo New] App: ☁️ openCloudSession:", message.sessionId)
+        console.log("[Kappa New] App: ☁️ openCloudSession:", message.sessionId)
         session.selectCloudSession(message.sessionId)
         setCurrentView("newTask")
       }
       open(message)
-      handleKiloModel(message)
+      handleKappaModel(message)
       handleForked(message)
       routeChatInput(
         message,
@@ -413,7 +413,7 @@ const AppContent: Component = () => {
         (msg) => window.postMessage(msg, window.origin),
       )
       if (message?.type === "viewSubAgentSession" && message.sessionID) {
-        console.log("[Kilo New] App: 🔍 viewSubAgentSession:", message.sessionID)
+        console.log("[Kappa New] App: 🔍 viewSubAgentSession:", message.sessionID)
         session.setCurrentSessionID(message.sessionID)
         setCurrentView("subAgentViewer")
       }
@@ -436,7 +436,7 @@ const AppContent: Component = () => {
     <SidebarEmptyState onSelectSession={handleSelectSession} onShowHistory={() => setCurrentView("history")} />
   )
 
-  // Set synchronously in the webview HTML by KiloProvider so it's available
+  // Set synchronously in the webview HTML by KappaProvider so it's available
   // before this component ever mounts (see buildWebviewHtml/_getHtmlForWebview).
   // False for dedicated single-purpose panels (Settings, Profile, Sub-Agent
   // Viewer) always, and for the Sidebar/"Open in Tab" outside Cursor — real

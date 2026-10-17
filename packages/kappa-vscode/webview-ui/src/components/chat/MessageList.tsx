@@ -30,7 +30,7 @@ import { TranscriptRowView } from "./TranscriptRow"
 import { createRowHandoff } from "./transcript-row-handoff"
 import { RevertBanner } from "./RevertBanner"
 import { AccountSwitcher } from "../shared/AccountSwitcher"
-import { KiloNotifications } from "./KiloNotifications"
+import { KappaNotifications } from "./KappaNotifications"
 import { TurnOutcome } from "../shared/TurnOutcome"
 import { QuestionDock } from "./QuestionDock"
 import { Virtualizer, type VirtualizerHandle } from "virtua/solid"
@@ -869,7 +869,7 @@ export const MessageList: Component<MessageListProps> = (props) => {
         <div class="welcome-header" data-slot="welcome-header">
           <AccountSwitcher class="account-switcher-welcome" />
           <Show when={!props.introduction || props.readonly}>
-            <KiloNotifications sessionID={props.sessionID} />
+            <KappaNotifications sessionID={props.sessionID} />
           </Show>
         </div>
       </Show>

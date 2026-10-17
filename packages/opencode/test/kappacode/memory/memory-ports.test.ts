@@ -15,7 +15,7 @@ import { MemoryModel, MemorySession } from "../../../src/kappacode/memory/ports"
 import { MemoryTurn } from "../../../src/kappacode/memory/turn"
 import { installMemoryRuntime } from "../../../src/kappacode/memory/runtime"
 import { InstanceRef } from "../../../src/effect/instance-ref"
-import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { KappaMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { Global } from "@opencode-ai/core/global"
 import path from "path"
@@ -556,7 +556,7 @@ describe("memory turn", () => {
       await provideTestInstance({
         directory: tmp.path,
         fn: async (ctx) => {
-          await KiloMemory.enable({ ctx })
+          await KappaMemory.enable({ ctx })
           await Effect.runPromise(
             MemoryTurn.close({
               sessionID,

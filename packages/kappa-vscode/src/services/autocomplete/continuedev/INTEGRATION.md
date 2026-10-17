@@ -1,8 +1,8 @@
-# ContinueDev Integration with Kilocode
+# ContinueDev Integration with Kappacode
 
 ## Current Status
 
-The ContinueDev library is **fully integrated** into the Kilocode monorepo as a TypeScript service component located at `src/services/continuedev/`.
+The ContinueDev library is **fully integrated** into the Kappacode monorepo as a TypeScript service component located at `src/services/continuedev/`.
 
 **Integration Type**: Pure source code library - no independent build configuration or package management.
 
@@ -11,9 +11,9 @@ The ContinueDev library is **fully integrated** into the Kilocode monorepo as a 
 ### This Library IS:
 
 - ✅ A **TypeScript source code library** providing autocomplete and NextEdit functionality
-- ✅ **Fully managed** by Kilocode's pnpm workspace
-- ✅ **Part of Kilocode's build system** - uses parent TypeScript config, vitest, and tooling
-- ✅ **Tested via Kilocode's test suite** - integrated into the main test workflow
+- ✅ **Fully managed** by Kappacode's pnpm workspace
+- ✅ **Part of Kappacode's build system** - uses parent TypeScript config, vitest, and tooling
+- ✅ **Tested via Kappacode's test suite** - integrated into the main test workflow
 
 ### This Library IS NOT:
 
@@ -43,19 +43,19 @@ src/services/continuedev/
 └── README.md              # Overview
 ```
 
-**Note**: No package.json, tsconfig.json, or other build configuration files exist in this directory. All dependencies and configuration are managed by the parent Kilocode project.
+**Note**: No package.json, tsconfig.json, or other build configuration files exist in this directory. All dependencies and configuration are managed by the parent Kappacode project.
 
 ## Development Workflow
 
 ### Working with ContinueDev Code
 
-Since this library is fully integrated into Kilocode:
+Since this library is fully integrated into Kappacode:
 
-1. **Clone Kilocode repository**:
+1. **Clone Kappacode repository**:
 
    ```bash
-   git clone https://github.com/kilocode/kilocode.git
-   cd kilocode
+   git clone https://github.com/kappacode/kappacode.git
+   cd kappacode
    ```
 
 2. **Install all dependencies**:
@@ -64,12 +64,12 @@ Since this library is fully integrated into Kilocode:
    pnpm install
    ```
 
-   This installs all dependencies for the entire Kilocode monorepo, including those needed by continuedev.
+   This installs all dependencies for the entire Kappacode monorepo, including those needed by continuedev.
 
 3. **Run tests**:
 
    ```bash
-   # Run all Kilocode tests (includes continuedev tests)
+   # Run all Kappacode tests (includes continuedev tests)
    cd src && npx vitest run
 
    # Run specific continuedev test file
@@ -79,19 +79,19 @@ Since this library is fully integrated into Kilocode:
 4. **Type checking**:
 
    ```bash
-   # Check types for entire Kilocode project (includes continuedev)
+   # Check types for entire Kappacode project (includes continuedev)
    pnpm check-types
    ```
 
 5. **Make code changes**:
    - Edit files directly in `src/services/continuedev/`
-   - Follow Kilocode's coding standards and practices
+   - Follow Kappacode's coding standards and practices
    - Add tests as needed
    - Ensure all tests pass before submitting
 
 ## Testing
 
-The continuedev library includes **857 tests** that are part of Kilocode's test suite:
+The continuedev library includes **857 tests** that are part of Kappacode's test suite:
 
 - Autocomplete tests (~400 tests)
 - NextEdit tests (~210 tests)
@@ -99,18 +99,18 @@ The continuedev library includes **857 tests** that are part of Kilocode's test 
 - Integration tests (86 VSCode test harness tests)
 - Diff algorithm tests (~80 tests)
 
-All tests run via Kilocode's vitest configuration from the `src/` directory.
+All tests run via Kappacode's vitest configuration from the `src/` directory.
 
 ## Dependencies
 
-All dependencies required by continuedev are specified in Kilocode's root `package.json`. Key dependencies include:
+All dependencies required by continuedev are specified in Kappacode's root `package.json`. Key dependencies include:
 
 - LLM SDKs: `openai`, `@anthropic-ai/sdk`, `@google/generative-ai`, `@aws-sdk/*`
 - Tree-sitter: `web-tree-sitter` and language grammars
 - Utilities: `diff`, `cross-fetch`, `lru-cache`
 - Testing: `vitest`, `@types/node`
 
-These are installed automatically when you run `pnpm install` in the Kilocode project.
+These are installed automatically when you run `pnpm install` in the Kappacode project.
 
 ## Historical Context
 
@@ -121,7 +121,7 @@ This library was extracted from the Continue project in October 2025 through a m
 1. **Initial Extraction** - Removed all non-autocomplete/NextEdit code from Continue
 2. **Package Consolidation** - Merged internal @continuedev/\* packages into a single codebase
 3. **Test Migration** - Migrated from Jest to Vitest, consolidated test infrastructure
-4. **Monorepo Integration** - Fully integrated into Kilocode's pnpm workspace
+4. **Monorepo Integration** - Fully integrated into Kappacode's pnpm workspace
 5. **Final Cleanup** - Removed all independent tooling and configuration
 
 The detailed history of this process is documented in the [`legacy_code_rewrite/`](legacy_code_rewrite/) directory (49 numbered files).
@@ -138,19 +138,19 @@ The detailed history of this process is documented in the [`legacy_code_rewrite/
 
 ### Why This Structure?
 
-This library is organized as a **service component** within Kilocode because:
+This library is organized as a **service component** within Kappacode because:
 
-1. **Reusability**: The code can be used by different parts of Kilocode
-2. **Isolation**: Clear separation from Kilocode-specific code
+1. **Reusability**: The code can be used by different parts of Kappacode
+2. **Isolation**: Clear separation from Kappacode-specific code
 3. **Maintenance**: Easier to track and update code extracted from Continue
 4. **Testing**: Comprehensive test suite validates functionality independently
 
 ### Integration Points
 
-ContinueDev code is used by Kilocode through standard TypeScript imports:
+ContinueDev code is used by Kappacode through standard TypeScript imports:
 
 ```typescript
-// In Kilocode code:
+// In Kappacode code:
 import { CompletionProvider } from "../services/continuedev/core/autocomplete/CompletionProvider"
 import { NextEditProvider } from "../services/continuedev/core/nextEdit/NextEditProvider"
 ```
@@ -159,9 +159,9 @@ No special build steps or package linking required - it's just TypeScript code i
 
 ## Contributing
 
-To contribute to the continuedev library within Kilocode:
+To contribute to the continuedev library within Kappacode:
 
-1. Follow Kilocode's contribution guidelines
+1. Follow Kappacode's contribution guidelines
 2. Ensure all tests pass: `cd src && npx vitest run`
 3. Add tests for new features in the appropriate test files
 4. Follow existing code style and TypeScript patterns
@@ -169,7 +169,7 @@ To contribute to the continuedev library within Kilocode:
 
 ## Summary
 
-The ContinueDev library provides battle-tested autocomplete and NextEdit functionality from the Continue project, fully integrated into Kilocode's monorepo. It contains pure TypeScript source code without independent tooling, making it a seamless part of the Kilocode development workflow.
+The ContinueDev library provides battle-tested autocomplete and NextEdit functionality from the Continue project, fully integrated into Kappacode's monorepo. It contains pure TypeScript source code without independent tooling, making it a seamless part of the Kappacode development workflow.
 
 For technical details, see [`ARCHITECTURE.md`](ARCHITECTURE.md).  
 For usage examples, see [`EXAMPLES.md`](EXAMPLES.md).  

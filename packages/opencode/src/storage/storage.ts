@@ -3,7 +3,7 @@ import path from "path"
 import { Global } from "@opencode-ai/core/global"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect, Exit, Layer, Option, RcMap, Schema, Context, TxReentrantLock } from "effect"
-import { Fiber, Scope } from "effect" // kilocode_change
+import { Fiber, Scope } from "effect" // kappacode_change
 import { NonNegativeInt } from "@opencode-ai/core/schema"
 import { Git } from "@/git"
 
@@ -211,7 +211,7 @@ const MIGRATIONS: Migration[] = [
   }),
 ]
 
-// kilocode_change start - the storage root is injectable so tests can point Storage at a
+// kappacode_change start - the storage root is injectable so tests can point Storage at a
 // temporary directory instead of remapping FSUtil paths under Global.Path.data. The
 // default (production) root is unchanged and resolved lazily on first use. Note for
 // callers of layerFromDir: migration 1 walks `../project` relative to this directory,
@@ -226,9 +226,9 @@ const make = (root?: string) =>
         lookup: () => TxReentrantLock.make(),
         idleTimeToLive: 0,
       })
-      // kilocode_change - run the one-time init in the layer scope. Effect.cached keeps the first
+      // kappacode_change - run the one-time init in the layer scope. Effect.cached keeps the first
       // exit, so a first caller that was interrupted during init made every later call fail.
-      const scope = yield* Scope.Scope // kilocode_change
+      const scope = yield* Scope.Scope // kappacode_change
       const boot = yield* Effect.cached(
         Effect.gen(function* () {
           const dir = root ?? path.join(Global.Path.data, "storage")
@@ -249,12 +249,12 @@ const make = (root?: string) =>
             yield* fs.writeWithDirs(marker, String(i + 1))
           }
           return { dir }
-        }).pipe(Effect.forkIn(scope)), // kilocode_change
+        }).pipe(Effect.forkIn(scope)), // kappacode_change
       )
-      // kilocode_change - callers only wait for the init fiber, so an interrupted caller cannot stop or poison it
+      // kappacode_change - callers only wait for the init fiber, so an interrupted caller cannot stop or poison it
       const state = Effect.uninterruptibleMask((restore) =>
         boot.pipe(Effect.flatMap((fiber) => restore(Fiber.join(fiber)))),
-      ) // kilocode_change
+      ) // kappacode_change
 
       const fail = (target: string): Effect.Effect<never, NotFoundError> =>
         Effect.fail(new NotFoundError({ message: `Resource not found: ${target}` }))
@@ -338,10 +338,10 @@ const make = (root?: string) =>
 
 const layer = make()
 
-// kilocode_change start
+// kappacode_change start
 /** Storage rooted at an explicit directory — for tests and multi-instance isolation. */
 export const layerFromDir = (dir: string) => make(dir)
-// kilocode_change end
+// kappacode_change end
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [FSUtil.node, Git.node] })
 

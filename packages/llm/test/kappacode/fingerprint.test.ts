@@ -4,11 +4,11 @@ import { Headers, HttpClient, HttpClientRequest, HttpClientResponse } from "effe
 import { RequestExecutor } from "../../src/route"
 import { it } from "../lib/effect"
 
-// Kilo browser-fingerprint transport. A request tagged with the Kilo marker
+// Kappa browser-fingerprint transport. A request tagged with the Kappa marker
 // header is forwarded with Chrome-aligned headers (upstream sees a browser
 // signature for Cloudflare-guarded providers like freeinference 403 1010) and
 // the marker header itself is stripped before it reaches the wire.
-describe("Kilo fingerprint transport", () => {
+describe("Kappa fingerprint transport", () => {
   const captureLayer = (seen: Ref.Ref<Record<string, string> | undefined>) =>
     RequestExecutor.layer.pipe(
       Layer.provide(

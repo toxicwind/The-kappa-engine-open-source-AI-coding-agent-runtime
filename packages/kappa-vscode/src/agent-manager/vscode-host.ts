@@ -14,8 +14,8 @@ import type { PRMergeMethod } from "./types"
 import { ProjectRouteService } from "./project/route"
 import { repoName, validateCloneUrl } from "./project/clone"
 import { samePath } from "./project/paths"
-import type { KiloConnectionService } from "../services/cli-backend"
-import { KiloProvider } from "../KiloProvider"
+import type { KappaConnectionService } from "../services/cli-backend"
+import { KappaProvider } from "../KappaProvider"
 import { PLATFORM, SNAPSHOT_INITIALIZATION } from "./constants"
 import { keybindings, watchKeybindings } from "../kappa-provider/shortcut-context"
 import { DiffVirtualProvider } from "../DiffVirtualProvider"
@@ -43,7 +43,7 @@ export class VscodeHost implements Host {
 
   constructor(
     private readonly extensionUri: vscode.Uri,
-    private readonly connectionService: KiloConnectionService,
+    private readonly connectionService: KappaConnectionService,
     private readonly context: vscode.ExtensionContext,
     private readonly remoteService: RemoteStatusService,
     private readonly caffeination?: Pick<CaffeinationService, "getState" | "onChange" | "setEnabled">,
@@ -128,7 +128,7 @@ export class VscodeHost implements Host {
       frameSrc: ["localhost", "127.0.0.1"].map((host) => `http://${host}:*`).join(" "),
     })
 
-    const provider = new KiloProvider(this.extensionUri, this.connectionService, this.context, {
+    const provider = new KappaProvider(this.extensionUri, this.connectionService, this.context, {
       tabTitle: (title) => {
         panel.title = title
       },
@@ -269,7 +269,7 @@ export class VscodeHost implements Host {
       const res = await client.session.list({ directory: dir, roots: true }, { throwOnError: true })
       return res.data
     } catch (err) {
-      console.warn(`[Kilo New] Agent Manager: failed to list project sessions for ${dir}:`, err)
+      console.warn(`[Kappa New] Agent Manager: failed to list project sessions for ${dir}:`, err)
       return []
     }
   }
@@ -482,7 +482,7 @@ export class VscodeHost implements Host {
 
   revealInOS(path: string): void {
     if (vscode.env.remoteName) {
-      console.warn(`[Kilo New] Cannot reveal ${path} in the OS file manager on a remote workspace`)
+      console.warn(`[Kappa New] Cannot reveal ${path} in the OS file manager on a remote workspace`)
       return
     }
     void vscode.commands.executeCommand("revealFileInOS", vscode.Uri.file(path))

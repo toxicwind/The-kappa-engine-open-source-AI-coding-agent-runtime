@@ -1,7 +1,7 @@
 import path from "path"
 import { realpathSync, statSync } from "fs"
 import { Global } from "@opencode-ai/core/global"
-import { KilocodeConfigOverlay } from "@/kappacode/config/overlay"
+import { KappacodeConfigOverlay } from "@/kappacode/config/overlay"
 import type { Scope } from "./schema"
 
 export function isSafeId(id: string) {
@@ -11,8 +11,8 @@ export function isSafeId(id: string) {
 }
 
 export async function configPath(scope: Scope, directory: string, worktree?: string) {
-  if (scope === "global") return KilocodeConfigOverlay.globalTarget()
-  return KilocodeConfigOverlay.projectTarget({ directory, worktree })
+  if (scope === "global") return KappacodeConfigOverlay.globalTarget()
+  return KappacodeConfigOverlay.projectTarget({ directory, worktree })
 }
 
 function canonical(dir: string) {
@@ -96,7 +96,7 @@ export function configRoot(scope: Scope, directory: string) {
  */
 export async function scopeRoot(scope: Scope, directory: string, worktree?: string) {
   if (scope === "global") return Global.Path.config
-  const file = await KilocodeConfigOverlay.projectTarget({ directory, worktree })
+  const file = await KappacodeConfigOverlay.projectTarget({ directory, worktree })
   const dir = path.dirname(file)
   return dir.endsWith(`${path.sep}.kappa`) || dir.endsWith(`${path.sep}.kappacode`) ? path.dirname(dir) : dir
 }

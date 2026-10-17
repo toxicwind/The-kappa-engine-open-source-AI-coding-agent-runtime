@@ -1,8 +1,8 @@
 /**
- * Contract tests for Kilo-specific fields on QuestionOption / QuestionInfo.
+ * Contract tests for Kappa-specific fields on QuestionOption / QuestionInfo.
  *
  * packages/opencode/src/question/index.ts is a shared upstream file.
- * Two Kilo additions to the Option schema have been silently dropped by
+ * Two Kappa additions to the Option schema have been silently dropped by
  * upstream merges more than once:
  *
  *   1. labelKey / descriptionKey  — lost during the opencode v1.3.x
@@ -27,7 +27,7 @@ import { Info, Option, Prompt } from "../../src/question"
 
 const SOURCE = path.resolve(import.meta.dir, "../../../schema/src/v1/question.ts")
 
-describe("QuestionOption schema — Kilo-specific field contract", () => {
+describe("QuestionOption schema — Kappa-specific field contract", () => {
   test("question defaults survive tool and wire schemas and omit undefined", () => {
     const raw = {
       question: "Choose a format",

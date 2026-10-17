@@ -1,14 +1,14 @@
 ---
-title: "Kilo Cloud Security Architecture"
-description: "Security architecture overview for Kilo Cloud"
+title: "Kappa Cloud Security Architecture"
+description: "Security architecture overview for Kappa Cloud"
 ---
 
-# Kilo Cloud Security Architecture
+# Kappa Cloud Security Architecture
 
-This page gives contributors and customer security reviewers a high-level view of Kilo Cloud security architecture. It covers logical topology, trust boundaries, data flows, persistence, execution isolation, external integrations, and shared responsibility.
+This page gives contributors and customer security reviewers a high-level view of Kappa Cloud security architecture. It covers logical topology, trust boundaries, data flows, persistence, execution isolation, external integrations, and shared responsibility.
 
 {% callout type="info" title="Static source scope" %}
-This overview is based on deployable code and configuration in open-source `Kilo-Org/cloud` repository. Static source does not prove live production enablement, rollout percentages, exact regions, retention enforcement, backup policy, WAF rules, credential rotation, or vendor settings. Validate those against live production inventory before making contractual, production, or compliance claims.
+This overview is based on deployable code and configuration in open-source `Kappa-Org/cloud` repository. Static source does not prove live production enablement, rollout percentages, exact regions, retention enforcement, backup policy, WAF rules, credential rotation, or vendor settings. Validate those against live production inventory before making contractual, production, or compliance claims.
 {% /callout %}
 
 {% callout type="info" title="How to use this page" %}
@@ -17,7 +17,7 @@ Cloud contributors should read [Cloud Platform](/docs/contributing/architecture/
 
 ## Executive overview
 
-Kilo Cloud combines web control plane with Cloudflare-hosted services and scoped execution environments.
+Kappa Cloud combines web control plane with Cloudflare-hosted services and scoped execution environments.
 
 - Browser, editor, and mobile clients connect to public application, gateway, and event surfaces.
 - Vercel-hosted Next.js application provides account management, organization authorization, billing, product configuration, and API orchestration.
@@ -45,7 +45,7 @@ flowchart LR
   subgraph control["Control and service layer"]
     web["Web and API application"]
     workers["Cloud service Workers"]
-    chat["Kilo Chat / Event Service / Notifications"]
+    chat["Kappa Chat / Event Service / Notifications"]
     async["Queues and Durable Objects"]
   end
 
@@ -110,13 +110,13 @@ flowchart LR
 | Workers to persistence | Relational records, Durable Object state, queue messages, objects, and telemetry | Scoped identifiers, schema validation, service-specific authorization, and feature storage separation |
 | Control plane to Cloud Agent | Repository metadata, task input, credentials, and runtime configuration | Policy-selected sandbox identity, session-specific paths, and just-in-time scoped credentials |
 | Gas Town to Wasteland | Collaborative orchestration operations | `WASTELAND_SERVICE` binding and separate Wasteland Durable Objects |
-| Kilo Cloud to third parties | Repository operations, model requests, billing, notifications, and telemetry | Provider credentials, opt-in where applicable, scoped tokens, and feature-specific routing |
+| Kappa Cloud to third parties | Repository operations, model requests, billing, notifications, and telemetry | Provider credentials, opt-in where applicable, scoped tokens, and feature-specific routing |
 
 ## Identity and access
 
 Web control plane uses JWT-backed application sessions and supports multiple sign-in methods. Repository-supported providers include Google, Apple, GitHub, GitLab, Discord, LinkedIn OpenID Connect, Anaconda, WorkOS enterprise SSO, and email magic links.
 
-Kilo Cloud uses several authorization contexts:
+Kappa Cloud uses several authorization contexts:
 
 - Browser sessions for web product use.
 - Signed bearer tokens for non-browser clients and selected cloud services.
@@ -234,7 +234,7 @@ sequenceDiagram
   participant Ticket as Event Service ticket API
   participant Events as Event Service
   participant Session as UserSessionDO
-  participant Chat as Kilo Chat conversation-state DOs
+  participant Chat as Kappa Chat conversation-state DOs
   participant Notify as NotificationChannelDO
   participant Expo
   participant Queue as Receipt queue
@@ -258,7 +258,7 @@ sequenceDiagram
   end
 ```
 
-Kilo Chat binds to Event Service and Notifications. Event Service consumes one-time tickets before WebSocket upgrade and places connections in per-user Durable Objects. Notifications service uses per-user Durable Objects, checks presence context for conversation pushes, sends Expo push, and processes delayed receipts. See [Chat, events, and notifications](/docs/contributing/architecture/cloud-platform#chat-events-and-notifications) for canonical service topology.
+Kappa Chat binds to Event Service and Notifications. Event Service consumes one-time tickets before WebSocket upgrade and places connections in per-user Durable Objects. Notifications service uses per-user Durable Objects, checks presence context for conversation pushes, sends Expo push, and processes delayed receipts. See [Chat, events, and notifications](/docs/contributing/architecture/cloud-platform#chat-events-and-notifications) for canonical service topology.
 
 ### Gas Town and Wasteland
 
@@ -321,7 +321,7 @@ Higher-order agent outcome analysis is roadmap work unless separate source prove
 
 ## Privacy logging and retention
 
-Kilo Cloud includes user soft-delete flows that anonymize direct user PII, invalidate auth material, delete many user-owned records and integrations, remove selected object-storage content, and request deletion from selected downstream services. Financial, audit, anti-abuse, and product-specific records can have retention exceptions.
+Kappa Cloud includes user soft-delete flows that anonymize direct user PII, invalidate auth material, delete many user-owned records and integrations, remove selected object-storage content, and request deletion from selected downstream services. Financial, audit, anti-abuse, and product-specific records can have retention exceptions.
 
 Operational telemetry can contain customer-linked identifiers and diagnostic content. Telemetry-enabled product surfaces can also submit assistant-response feedback with limited correlation metadata. Production access, filtering, retention, and vendor config remain required review areas. Pay special attention to mobile diagnostics, replay masking, screenshots, object storage, Durable Object state, vector stores, analytical stores, runtime volumes, and backups.
 
@@ -329,7 +329,7 @@ Data paths vary by product and enabled integration. State residency and retentio
 
 ## Shared responsibility
 
-Kilo Cloud provides platform controls for auth, scoped authorization, internal-service separation, durable coordination, execution isolation, and protected handling of supported secrets.
+Kappa Cloud provides platform controls for auth, scoped authorization, internal-service separation, durable coordination, execution isolation, and protected handling of supported secrets.
 
 Customers remain responsible for decisions that expand enabled trust boundaries:
 

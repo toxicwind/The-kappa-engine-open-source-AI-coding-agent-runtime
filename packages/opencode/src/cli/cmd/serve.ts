@@ -9,7 +9,7 @@ export const ServeCommand = effectCmd({
   describe: "starts a headless kappa server",
   // Server loads instances per-request via x-kappa-directory header — no
   // need for an ambient project InstanceContext at startup.
-  instance: false, // kilocode_change
+  instance: false, // kappacode_change
   handler: Effect.fn("Cli.serve")(function* (args) {
     const { Server } = yield* Effect.promise(() => import("../../server/server"))
     if (!Flag.KILO_SERVER_PASSWORD) {
@@ -18,19 +18,19 @@ export const ServeCommand = effectCmd({
     const opts = yield* resolveNetworkOptions(args)
     const server = yield* Effect.promise(() => Server.listen(opts))
 
-    // kilocode_change start
+    // kappacode_change start
     const urls = server.urls
 
     console.log(`kappa server listening on ${urls.bind}`)
     if (urls.local !== urls.bind) console.log(`  Local:   ${urls.local}`)
     if (urls.network) console.log(`  Network: ${urls.network}`)
-    // kilocode_change end
+    // kappacode_change end
 
-    // kilocode_change start - graceful signal shutdown
+    // kappacode_change start - graceful signal shutdown
     // yield* Effect.never
     const { InstanceRuntime } = yield* Effect.promise(() => import("../../project/instance-runtime"))
-    const { startParentWatchdog } = yield* Effect.promise(() => import("../../kilocode/parent-watchdog"))
-    const { KiloSessions } = yield* Effect.promise(() => import("@/kappa-sessions/kappa-sessions"))
+    const { startParentWatchdog } = yield* Effect.promise(() => import("../../kappacode/parent-watchdog"))
+    const { KappaSessions } = yield* Effect.promise(() => import("@/kappa-sessions/kappa-sessions"))
     yield* Effect.promise(
       () =>
         new Promise<void>((resolve) => {
@@ -45,7 +45,7 @@ export const ServeCommand = effectCmd({
             const timeout = setTimeout(() => process.exit(1), 5000)
             timeout.unref()
             try {
-              await KiloSessions.drainIngestForShutdown() // kilocode_change
+              await KappaSessions.drainIngestForShutdown() // kappacode_change
               await InstanceRuntime.disposeAllInstances()
               await server.stop(true)
             } finally {
@@ -58,6 +58,6 @@ export const ServeCommand = effectCmd({
           process.once("SIGHUP", shutdown)
         }),
     )
-    // kilocode_change end
+    // kappacode_change end
   }),
 })

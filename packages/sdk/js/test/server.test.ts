@@ -1,4 +1,4 @@
-// kilocode_change start - Tests for KILO_CONFIG_CONTENT merging
+// kappacode_change start - Tests for KILO_CONFIG_CONTENT merging
 import { describe, test, expect, beforeEach, afterEach } from "bun:test"
 import { buildConfigEnv } from "../src/server"
 
@@ -41,7 +41,7 @@ describe("buildConfigEnv", () => {
   })
 
   test("preserves existing KILO_CONFIG_CONTENT when spawning with new config", () => {
-    // Simulate Kilocode having injected modes via KILO_CONFIG_CONTENT
+    // Simulate Kappacode having injected modes via KILO_CONFIG_CONTENT
     process.env.KILO_CONFIG_CONTENT = JSON.stringify({
       agent: {
         translate: { mode: "primary", prompt: "You are a translator" },
@@ -108,4 +108,4 @@ describe("buildConfigEnv", () => {
     expect(parsed.plugin).toEqual(["plugin-a", "plugin-b", "plugin-c"])
   })
 })
-// kilocode_change end
+// kappacode_change end

@@ -9,7 +9,7 @@ import * as AnacondaDesktop from "@/kappacode/anaconda-desktop/service"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
 import { AppNodeBuilderV1 } from "@/effect/app-node-builder-v1" // kappacode_change - defaultLayer aliases are gone
 
-import { KiloViewers } from "@/kappacode/presence/service" // kappacode_change
+import { KappaViewers } from "@/kappacode/presence/service" // kappacode_change
 import { agentBuilderHandlers } from "./handlers/agent-builder"
 import { anacondaDesktopHandlers } from "./handlers/anaconda-desktop"
 import { backgroundProcessHandlers } from "./handlers/background-process"
@@ -66,7 +66,7 @@ export function provideListener(opts?: CorsOptions) {
     corsVaryFix,
     fenceLayer,
     cors,
-    KiloViewers.defaultLayer, // kappacode_change
+    KappaViewers.defaultLayer, // kappacode_change
     AppNodeBuilderV1.build(EffectFlock.node),
     FetchHttpClient.layer,
     HttpServer.layerServices,

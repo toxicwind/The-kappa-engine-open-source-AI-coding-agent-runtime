@@ -33,10 +33,10 @@ describe("reason", () => {
   })
 
   test("says nothing was searched when indexing is disabled", () => {
-    const text = reason(status({ state: "Disabled", message: "Enable it in Kilo Settings." }))
+    const text = reason(status({ state: "Disabled", message: "Enable it in Kappa Settings." }))
     expect(text).toContain("disabled for this project")
     expect(text).toContain("nothing was searched")
-    expect(text).toContain("Enable it in Kilo Settings.")
+    expect(text).toContain("Enable it in Kappa Settings.")
   })
 
   test("says nothing was searched when indexing failed", () => {

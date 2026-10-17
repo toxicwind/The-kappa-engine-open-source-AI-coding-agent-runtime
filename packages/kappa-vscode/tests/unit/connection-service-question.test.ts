@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test"
-import { KiloConnectionService } from "../../src/services/cli-backend/connection-service"
+import { KappaConnectionService } from "../../src/services/cli-backend/connection-service"
 
-describe("KiloConnectionService permission routing", () => {
+describe("KappaConnectionService permission routing", () => {
   test("invalidates recovery when permission events arrive or routes are cleared", () => {
-    const service = new KiloConnectionService({} as ConstructorParameters<typeof KiloConnectionService>[0])
+    const service = new KappaConnectionService({} as ConstructorParameters<typeof KappaConnectionService>[0])
     const handler = service as unknown as {
       handlePermissionEvent(event: unknown, directory?: string): void
     }
@@ -28,7 +28,7 @@ describe("KiloConnectionService permission routing", () => {
   })
 
   test("keeps live permission routes and claims when a session is temporarily pruned", async () => {
-    const service = new KiloConnectionService({} as ConstructorParameters<typeof KiloConnectionService>[0])
+    const service = new KappaConnectionService({} as ConstructorParameters<typeof KappaConnectionService>[0])
     const gate = Promise.withResolvers<{
       kind: "resolved"
       sessionID: string
@@ -49,7 +49,7 @@ describe("KiloConnectionService permission routing", () => {
   })
 
   test("clears permission state after a session is deleted", async () => {
-    const service = new KiloConnectionService({} as ConstructorParameters<typeof KiloConnectionService>[0])
+    const service = new KappaConnectionService({} as ConstructorParameters<typeof KappaConnectionService>[0])
     const gate = Promise.withResolvers<{
       kind: "resolved"
       sessionID: string
@@ -71,9 +71,9 @@ describe("KiloConnectionService permission routing", () => {
   })
 })
 
-describe("KiloConnectionService question routing", () => {
+describe("KappaConnectionService question routing", () => {
   test.each([undefined, { _tag: "NotFound" }])("invalidates recovery after draining (%j)", async (error) => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const client = {
       permission: {
         list: async () => ({ data: [] }),
@@ -103,7 +103,7 @@ describe("KiloConnectionService question routing", () => {
   })
 
   test("records and clears request origins from SSE events", () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     const handler = service as unknown as {
       handleQuestionEvent(event: unknown, directory?: string): void
     }
@@ -132,7 +132,7 @@ describe("KiloConnectionService question routing", () => {
   })
 
   test("prunes stale origins only for successfully scanned directories", () => {
-    const service = new KiloConnectionService({} as any)
+    const service = new KappaConnectionService({} as any)
     service.recordQuestionDirectory("que_active", "/tmp/scanned")
     service.recordQuestionDirectory("que_stale", "/tmp/scanned")
     service.recordQuestionDirectory("que_unknown", "/tmp/failed")

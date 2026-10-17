@@ -1,19 +1,19 @@
 ---
 title: "Contributing"
-description: "Contribute to Kilo Code"
+description: "Contribute to Kappa Code"
 ---
 
 # Contributing Overview
 
-Kilo Code is an open-source project that welcomes contributions from developers of all skill levels. This guide will help you get started with contributing to Kilo Code, whether you're fixing bugs, adding features, improving documentation, or sharing custom modes.
+Kappa Code is an open-source project that welcomes contributions from developers of all skill levels. This guide will help you get started with contributing to Kappa Code, whether you're fixing bugs, adding features, improving documentation, or sharing custom modes.
 
 ## Ways to Contribute
 
-There are many ways to contribute to Kilo Code:
+There are many ways to contribute to Kappa Code:
 
 1. **Code Contributions**: Implement new features or fix bugs
 2. **Documentation**: Improve existing docs or create new guides
-3. **Marketplace Contributions**: Create and share custom modes, skills, and MCP servers via the [Kilo Marketplace](https://github.com/Kilo-Org/kappa-marketplace)
+3. **Marketplace Contributions**: Create and share custom modes, skills, and MCP servers via the [Kappa Marketplace](https://github.com/Kappa-Org/kappa-marketplace)
 4. **Bug Reports**: Report issues you encounter
 5. **Feature Requests**: Suggest new features or improvements
 6. **Community Support**: Help other users in the community
@@ -24,7 +24,7 @@ Setting Up the Development Environment is described in details on the [Developme
 
 ## Understanding the Architecture
 
-Before diving into the code, we recommend reviewing the [Architecture Overview](/docs/contributing/architecture) to understand how the different components of Kilo Code fit together.
+Before diving into the code, we recommend reviewing the [Architecture Overview](/docs/contributing/architecture) to understand how the different components of Kappa Code fit together.
 
 ## Development Workflow
 
@@ -50,7 +50,7 @@ git checkout -b docs/your-change-description
 
 ### Contribution Ownership and AI Assistance
 
-AI and coding agents are welcome in Kilo contributions. Contributors still own the work they submit: you must personally understand the change, test it appropriately, be able to explain the diff, and understand how it interacts with the affected package and the rest of the repo.
+AI and coding agents are welcome in Kappa contributions. Contributors still own the work they submit: you must personally understand the change, test it appropriately, be able to explain the diff, and understand how it interacts with the affected package and the rest of the repo.
 
 When using an agent, start it from the repository root so the root `AGENTS.md` is available. If you work in a package with its own guidance, check and follow the package-specific `AGENTS.md` or contributor docs too.
 
@@ -93,7 +93,7 @@ Skip the changeset only for internal refactors, CI tweaks, test-only changes, or
 
 - Regenerate `packages/sdk/js/` with `./script/generate.ts` after changing server endpoints.
 - Run `bun run script/extract-source-links.ts` after adding or changing guarded URLs in `packages/kappa-vscode/`, `packages/kappa-vscode/webview-ui/`, or `packages/opencode/src/`.
-- When editing shared `packages/opencode/` files, keep Kilo changes small and mark Kilo-only edits with `// kilocode_change` for a single line or `// kilocode_change start` / `// kilocode_change end` for a block. Do not add these markers inside `kilocode`-named paths.
+- When editing shared `packages/opencode/` files, keep Kappa changes small and mark Kappa-only edits with `// kappacode_change` for a single line or `// kappacode_change start` / `// kappacode_change end` for a block. Do not add these markers inside `kappacode`-named paths.
 
 ### Testing Your Changes
 
@@ -102,7 +102,7 @@ Use the current Bun commands in the [Development Environment](/docs/contributing
 Key reminders:
 
 - Do **not** run `bun test` from the repo root. The root test script intentionally exits with failure so tests run from the package that owns them.
-- Use the root [TESTING.md](https://github.com/Kilo-Org/kilocode/blob/main/TESTING.md) guide for backend/API validation with `bun dev serve` and `curl`-based requests.
+- Use the root [TESTING.md](https://github.com/Kappa-Org/kappacode/blob/main/TESTING.md) guide for backend/API validation with `bun dev serve` and `curl`-based requests.
 - Regenerate the SDK with `./script/generate.ts` from the repo root after changing server endpoints.
 - Manually verify extension behavior with `bun run extension`.
 - For manual documentation validation, preview the affected page and check changed links and rendered content.
@@ -121,7 +121,7 @@ Follow the issue-first policy by linking the relevant issue when you open a PR. 
    git push origin your-branch-name
    ```
 
-2. Go to the [Kilo Code repository](https://github.com/Kilo-Org/kilocode)
+2. Go to the [Kappa Code repository](https://github.com/Kappa-Org/kappacode)
 
 3. Click "New Pull Request" and select "compare across forks"
 
@@ -155,11 +155,11 @@ Maintainers may close issues or PRs that disregard the contribution guide, bypas
 
 ## Bug Bounties
 
-Kilo has bug bounties. To be eligible, make sure your GitHub account is connected in your Kilo account.
+Kappa has bug bounties. To be eligible, make sure your GitHub account is connected in your Kappa account.
 
-## Contributing to the Kilo Marketplace
+## Contributing to the Kappa Marketplace
 
-The [Kilo Marketplace](https://github.com/Kilo-Org/kappa-marketplace) is a community-driven repository of agent tooling that extends Kilo Code's capabilities. You can contribute:
+The [Kappa Marketplace](https://github.com/Kappa-Org/kappa-marketplace) is a community-driven repository of agent tooling that extends Kappa Code's capabilities. You can contribute:
 
 - **Skills**: Modular workflows and domain expertise that teach agents how to perform specific tasks
 - **MCP Servers**: Standardized integrations that connect agents to external tools and services
@@ -171,7 +171,7 @@ To contribute:
 
 2. Test your contribution thoroughly
 
-3. Submit a pull request to the [Kilo Marketplace repository](https://github.com/Kilo-Org/kappa-marketplace)
+3. Submit a pull request to the [Kappa Marketplace repository](https://github.com/Kappa-Org/kappa-marketplace)
 
 ## Engineering Specs
 
@@ -201,27 +201,27 @@ Documentation improvements are highly valued contributions:
 
 ## Community Guidelines
 
-When participating in the Kilo Code community:
+When participating in the Kappa Code community:
 
 - Be respectful and inclusive
 - Provide constructive feedback
 - Help newcomers get started
-- Follow the [Code of Conduct](https://github.com/Kilo-Org/kilocode/blob/main/CODE_OF_CONDUCT.md)
+- Follow the [Code of Conduct](https://github.com/Kappa-Org/kappacode/blob/main/CODE_OF_CONDUCT.md)
 
 ## Getting Help
 
 If you need help with your contribution:
 
 - Join our [Discord community](https://kappa.ai/discord) for real-time support
-- Ask questions on [GitHub Discussions](https://github.com/Kilo-Org/kilocode/discussions)
-- Visit our [Reddit community](https://www.reddit.com/r/kilocode)
+- Ask questions on [GitHub Discussions](https://github.com/Kappa-Org/kappacode/discussions)
+- Visit our [Reddit community](https://www.reddit.com/r/kappacode)
 
 ## Recognition
 
-All contributors are valued members of the Kilo Code community. Contributors are recognized in:
+All contributors are valued members of the Kappa Code community. Contributors are recognized in:
 
 - Release notes
 - The project's README
 - The contributors list on GitHub
 
-Thank you for contributing to Kilo Code and helping make AI-powered coding assistance better for everyone!
+Thank you for contributing to Kappa Code and helping make AI-powered coding assistance better for everyone!

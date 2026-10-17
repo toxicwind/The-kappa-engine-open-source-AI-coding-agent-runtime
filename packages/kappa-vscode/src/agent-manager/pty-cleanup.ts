@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import type { ScriptTerminalManager } from "./ScriptTerminalManager"
 import type { SessionTerminalManager } from "./SessionTerminalManager"
 import type { TerminalRouter } from "./terminal-routing"
@@ -24,13 +24,13 @@ export async function block(target: string, blocked: Map<string, number>, create
  * takes close to a second in large repositories when the instance is not loaded yet.
  */
 export async function teardown(
-  getClient: (directory: string) => Promise<KiloClient>,
+  getClient: (directory: string) => Promise<KappaClient>,
   root: string | undefined,
   directory: string,
 ): Promise<void> {
   if (!root) throw new Error(`No project root to tear down ${directory}`)
   const client = await getClient(root)
-  const result = await client.kilocode.teardownWorktree({ directory: root, worktree: directory })
+  const result = await client.kappacode.teardownWorktree({ directory: root, worktree: directory })
   if (result.error) throw result.error
 }
 
@@ -41,7 +41,7 @@ export async function acquirePtyCleanup(
     terminals: TerminalRouter
     integrated: SessionTerminalManager
     scripts: ScriptTerminalManager
-    getClient: (directory: string) => Promise<KiloClient>
+    getClient: (directory: string) => Promise<KappaClient>
   },
 ) {
   const releases = await Promise.all([

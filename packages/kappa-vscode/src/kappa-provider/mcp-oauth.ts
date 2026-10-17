@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { t } from "../services/i18n"
 import type { McpAuthResult } from "../services/mcp-auth"
 
@@ -56,7 +56,7 @@ export function notifyResetFailed(name: string): void {
 }
 
 export async function connectMcpServer(
-  client: KiloClient,
+  client: KappaClient,
   name: string,
   directory: string,
   refreshStatus: () => Promise<void>,
@@ -65,13 +65,13 @@ export async function connectMcpServer(
     await client.mcp.connect({ name, directory })
     await refreshStatus()
   } catch (error) {
-    console.error("[Kilo New] Failed to connect MCP:", name, error)
+    console.error("[Kappa New] Failed to connect MCP:", name, error)
     await refreshStatus()
   }
 }
 
 export async function disconnectMcpServer(
-  client: KiloClient,
+  client: KappaClient,
   name: string,
   directory: string,
   refreshStatus: () => Promise<void>,
@@ -80,7 +80,7 @@ export async function disconnectMcpServer(
     await client.mcp.disconnect({ name, directory })
     await refreshStatus()
   } catch (error) {
-    console.error("[Kilo New] Failed to disconnect MCP:", name, error)
+    console.error("[Kappa New] Failed to disconnect MCP:", name, error)
     await refreshStatus()
   }
 }

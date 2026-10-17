@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kappacode/sdk/v2/client"
+import type { KappaClient } from "@kappacode/sdk/v2/client"
 import { sameDirectory } from "../kappa-provider-utils"
 
 type State = {
@@ -27,7 +27,7 @@ function confirm(state: State, dir: string, desired: boolean) {
 }
 
 /** Ensure a new session uses the selected sandbox state before its first prompt. */
-export async function ensureSandbox(client: KiloClient, sid: string, dir: string, desired: boolean): Promise<State> {
+export async function ensureSandbox(client: KappaClient, sid: string, dir: string, desired: boolean): Promise<State> {
   const sandbox = client.sandbox
   const { data: current } = await sandbox.status({ sessionID: sid, directory: dir }, { throwOnError: true })
   routed(current, dir)

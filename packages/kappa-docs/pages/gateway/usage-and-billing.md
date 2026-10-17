@@ -1,11 +1,11 @@
 ---
 title: "Usage & Billing"
-description: "Understand how the Kilo AI Gateway tracks costs, manages balances, and enforces organization-level spending controls."
+description: "Understand how the Kappa AI Gateway tracks costs, manages balances, and enforces organization-level spending controls."
 ---
 
 # Usage & Billing
 
-The Kilo AI Gateway tracks usage and costs for every request with microdollar precision (1 USD = 1,000,000 microdollars). This enables accurate billing even for very low-cost requests.
+The Kappa AI Gateway tracks usage and costs for every request with microdollar precision (1 USD = 1,000,000 microdollars). This enables accurate billing even for very low-cost requests.
 
 ## How billing works
 
@@ -28,15 +28,15 @@ Costs are determined by the upstream provider's pricing based on token usage:
 ### Free and BYOK requests
 
 - **Free models**: Models tagged with `:free` have zero cost -- usage is tracked but not billed
-- **BYOK requests**: When using your own API key, the cost is set to $0 on Kilo's side. You pay the provider directly based on your agreement with them
+- **BYOK requests**: When using your own API key, the cost is set to $0 on Kappa's side. You pay the provider directly based on your agreement with them
 
 ## Balance management
 
-Model inference is deducted from your balance at the upstream provider's rate with no markup. A 5% payment-processing fee applies when you purchase Kilo credits; the fee is charged separately and does not increase your balance. For example, $1 of purchased credits funds $1 of usage.
+Model inference is deducted from your balance at the upstream provider's rate with no markup. A 5% payment-processing fee applies when you purchase Kappa credits; the fee is charged separately and does not increase your balance. For example, $1 of purchased credits funds $1 of usage.
 
 ### Individual accounts
 
-Your account balance is the difference between total credits purchased and total usage. Check your balance in the [Kilo dashboard](https://app.kappa.ai).
+Your account balance is the difference between total credits purchased and total usage. Check your balance in the [Kappa dashboard](https://app.kappa.ai).
 
 When your balance reaches zero, requests to paid models will return HTTP 402 with a link to add credits:
 

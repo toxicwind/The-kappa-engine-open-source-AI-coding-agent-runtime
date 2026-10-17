@@ -2,9 +2,9 @@
  * Pure helpers for shaping the feedback telemetry payload.
  *
  * Payload rules:
- * - Non-Kilo-Gateway providers: providerID, modelID, variant?, rating, previousRating? only.
+ * - Non-Kappa-Gateway providers: providerID, modelID, variant?, rating, previousRating? only.
  *   No session or message IDs — they can't be correlated to upstream data.
- * - Kilo Gateway providers: add sessionID, messageID, parentMessageID. The
+ * - Kappa Gateway providers: add sessionID, messageID, parentMessageID. The
  *   gateway can join parentMessageID against its `x-kappa-request` header logs.
  */
 
@@ -20,7 +20,7 @@ export interface RateInput {
   next: Rating | null
 }
 
-export function isKiloGateway(providerID: string): boolean {
+export function isKappaGateway(providerID: string): boolean {
   return providerID === "kappa"
 }
 
@@ -32,7 +32,7 @@ export function buildFeedbackProperties(input: RateInput, previousRating?: Ratin
   }
   if (input.variant) properties.variant = input.variant
   if (previousRating) properties.previousRating = previousRating
-  if (isKiloGateway(input.providerID)) {
+  if (isKappaGateway(input.providerID)) {
     properties.sessionID = input.sessionID
     properties.messageID = input.messageID
     properties.parentMessageID = input.parentMessageID

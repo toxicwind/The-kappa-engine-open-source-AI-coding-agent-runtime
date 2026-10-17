@@ -7,8 +7,8 @@ import type { ConfigPermissionV1 as ConfigPermission } from "@opencode-ai/core/v
 export namespace IgnoreMigrator {
   const log = Log.create({ service: "kappacode.ignore-migrator" })
 
-  const KILOCODEIGNORE_FILE = ".kappacodeignore"
-  const GLOBAL_KILOCODEIGNORE = path.join(os.homedir(), ".kappacode", KILOCODEIGNORE_FILE)
+  const KAPPACODEIGNORE_FILE = ".kappacodeignore"
+  const GLOBAL_KAPPACODEIGNORE = path.join(os.homedir(), ".kappacode", KAPPACODEIGNORE_FILE)
 
   export interface IgnorePattern {
     pattern: string
@@ -155,7 +155,7 @@ export namespace IgnoreMigrator {
 
     // 1. Load global .kappacodeignore (lower priority)
     if (!options.skipGlobalPaths) {
-      const globalPatterns = await loadIgnoreFile(GLOBAL_KILOCODEIGNORE, "global")
+      const globalPatterns = await loadIgnoreFile(GLOBAL_KAPPACODEIGNORE, "global")
       allPatterns.push(...globalPatterns)
 
       if (globalPatterns.length > 0) {
@@ -164,7 +164,7 @@ export namespace IgnoreMigrator {
     }
 
     // 2. Load project .kappacodeignore (higher priority - added last)
-    const projectIgnorePath = path.join(options.projectDir, KILOCODEIGNORE_FILE)
+    const projectIgnorePath = path.join(options.projectDir, KAPPACODEIGNORE_FILE)
     const projectPatterns = await loadIgnoreFile(projectIgnorePath, "project")
     allPatterns.push(...projectPatterns)
 

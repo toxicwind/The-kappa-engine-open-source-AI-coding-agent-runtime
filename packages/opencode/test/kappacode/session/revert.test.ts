@@ -12,7 +12,7 @@ import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
 import { Hash } from "@opencode-ai/core/util/hash"
 import { MessageV2 } from "@/session/message-v2"
 import { Instance } from "@/kappacode/instance"
-import { KiloSessionRevert } from "@/kappacode/session/revert"
+import { KappaSessionRevert } from "@/kappacode/session/revert"
 import { SessionRevert } from "@/session/revert"
 import { MessageID, PartID } from "@/session/schema"
 import { Session } from "@/session/session"
@@ -527,7 +527,7 @@ describe("workspace revert status", () => {
           yield* item.revert.revert({ sessionID: item.session.id, messageID: item.user.id })
           expect(yield* Effect.promise(() => fs.readFile(item.protected, "utf8"))).toBe("before")
 
-          yield* KiloSessionRevert.restore(item.snapshot, item.after, item.patch.files).pipe(provideInstance(dir))
+          yield* KappaSessionRevert.restore(item.snapshot, item.after, item.patch.files).pipe(provideInstance(dir))
 
           expect(
             yield* Effect.promise(() =>
@@ -579,7 +579,7 @@ describe("workspace revert status", () => {
           const item = yield* setup(dir)
           const lock = yield* plantLock()
 
-          const outcome = yield* KiloSessionRevert.apply(
+          const outcome = yield* KappaSessionRevert.apply(
             item.snapshot,
             item.after,
             item.patch.files,

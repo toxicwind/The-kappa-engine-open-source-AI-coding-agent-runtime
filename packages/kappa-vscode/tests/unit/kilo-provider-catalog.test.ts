@@ -3,7 +3,7 @@ import type { Config } from "@kappacode/sdk/v2/client"
 import type { AuthContext } from "../../src/kappa-provider/handlers/auth"
 import { createCatalogRetry } from "../../src/kappa-provider/catalog-retry"
 
-const { KiloProvider } = await import("../../src/KiloProvider")
+const { KappaProvider } = await import("../../src/KappaProvider")
 
 const external = { id: "external", name: "External", models: { model: { id: "model" } } }
 const catalog = (org: string) => ({
@@ -11,7 +11,7 @@ const catalog = (org: string) => ({
     all: [
       {
         id: "kappa",
-        name: "Kilo Gateway",
+        name: "Kappa Gateway",
         models: { [`${org}/first`]: { id: `${org}/first` }, [`${org}/model`]: { id: `${org}/model` } },
       },
       external,
@@ -45,7 +45,7 @@ function setup(list: () => Promise<ReturnType<typeof catalog>>, org: () => strin
     global: { config: { get: async () => ({ data: {} }) } },
     experimental: { capabilities: { get: async () => ({ data: {} }) } },
   }
-  const provider = new KiloProvider(
+  const provider = new KappaProvider(
     {} as never,
     { getClient: () => client, resolveEventSessionId: () => undefined } as never,
   )
@@ -70,8 +70,8 @@ function setup(list: () => Promise<ReturnType<typeof catalog>>, org: () => strin
   return { internal, messages, client, reloads }
 }
 
-describe("KiloProvider catalog refresh", () => {
-  it("invalidates cached Kilo data before another account refresh", async () => {
+describe("KappaProvider catalog refresh", () => {
+  it("invalidates cached Kappa data before another account refresh", async () => {
     const { internal, messages } = setup(
       async () => catalog("org"),
       () => "org",
@@ -264,7 +264,7 @@ describe("KiloProvider catalog refresh", () => {
     expect(internal.cachedProvidersMessage).toBeNull()
   })
 
-  it("flags an organization's failed Kilo catalog and refetches until it recovers", async () => {
+  it("flags an organization's failed Kappa catalog and refetches until it recovers", async () => {
     let failed = true
     const { internal, messages } = setup(
       async () =>
@@ -284,7 +284,7 @@ describe("KiloProvider catalog refresh", () => {
     })
 
     await internal.fetchAndSendProviders()
-    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kiloUnavailable: true })
+    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kappaUnavailable: true })
     expect(scheduled).toHaveLength(1)
 
     failed = false
@@ -292,13 +292,13 @@ describe("KiloProvider catalog refresh", () => {
     await internal.providersRefresh
     expect(messages.at(-1)).toMatchObject({
       type: "providersLoaded",
-      kiloUnavailable: false,
+      kappaUnavailable: false,
       providers: { kappa: { models: { "org/model": { id: "org/model" } } } },
     })
     expect(scheduled).toHaveLength(1)
   })
 
-  it("keeps retrying after a failed refetch while the Kilo catalog stays unavailable", async () => {
+  it("keeps retrying after a failed refetch while the Kappa catalog stays unavailable", async () => {
     const steps = ["failed", "reject", "recovered"]
     const { internal, messages } = setup(
       async () => {
@@ -323,18 +323,18 @@ describe("KiloProvider catalog refresh", () => {
     })
 
     await internal.fetchAndSendProviders()
-    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kiloUnavailable: true })
+    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kappaUnavailable: true })
     scheduled.at(0)?.()
     await internal.providersRefresh
     expect(scheduled).toHaveLength(2)
 
     scheduled.at(1)?.()
     await internal.providersRefresh
-    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kiloUnavailable: false })
+    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kappaUnavailable: false })
     expect(scheduled).toHaveLength(2)
   })
 
-  it("does not flag a failed Kilo catalog outside an organization", async () => {
+  it("does not flag a failed Kappa catalog outside an organization", async () => {
     const { internal, messages } = setup(
       async () => ({
         data: { all: [external], connected: ["external"], default: { external: "model" }, failed: ["kappa"] },
@@ -342,7 +342,7 @@ describe("KiloProvider catalog refresh", () => {
       () => "",
     )
     await internal.fetchAndSendProviders()
-    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kiloUnavailable: false })
+    expect(messages.at(-1)).toMatchObject({ type: "providersLoaded", kappaUnavailable: false })
   })
 
   it("refreshes providers when the model catalog is refreshed", async () => {

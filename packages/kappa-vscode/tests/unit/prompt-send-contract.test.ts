@@ -7,7 +7,7 @@
  * permission counts, never question counts — guarantees that a pending question
  * cannot re-block the prompt input.
  *
- * Protects against accidental removal during Kilo development.
+ * Protects against accidental removal during Kappa development.
  */
 
 import { describe, it, expect } from "bun:test"
@@ -22,7 +22,7 @@ const CHATVIEW_FILE = path.join(ROOT, "webview-ui/src/components/chat/ChatView.t
 const AGENT_MANAGER_FILE = path.join(ROOT, "webview-ui/agent-manager/AgentManagerApp.tsx")
 const PROMPT_UTILS_FILE = path.join(ROOT, "webview-ui/src/components/chat/prompt-input-utils.ts")
 const PROMPT_FILE = path.join(ROOT, "webview-ui/src/components/chat/PromptInput.tsx")
-const KILOPROVIDER_FILE = path.join(ROOT, "src/KiloProvider.ts")
+const KILOPROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
 const CLOUD_SESSION_FILE = path.join(ROOT, "src/kappa-provider/handlers/cloud-session.ts")
 const CONNECTION_SERVICE_FILE = path.join(ROOT, "src/services/cli-backend/connection-service.ts")
 
@@ -251,7 +251,7 @@ describe("handleSessionDeleted draft cleanup contract", () => {
   })
 })
 
-describe("KiloProvider pruneDeletedSession contract", () => {
+describe("KappaProvider pruneDeletedSession contract", () => {
   const source = readFile(KILOPROVIDER_FILE)
 
   it("drops sessionStatusMap entries alongside the other per-session caches", () => {
@@ -743,11 +743,11 @@ describe("sent browser feedback rendering contract", () => {
   })
 })
 
-describe("KiloConnectionService pruneSession contract", () => {
+describe("KappaConnectionService pruneSession contract", () => {
   const source = readFile(CONNECTION_SERVICE_FILE)
 
   it("drops the deleted session from attached and visible Maps", () => {
-    // KiloProvider's pruneDeletedSession calls connectionService.pruneSession.
+    // KappaProvider's pruneDeletedSession calls connectionService.pruneSession.
     // Without clearing attached/visible entries whose value is the deleted id,
     // the backend keeps receiving the dead session id and any background tab
     // opener stays registered for it.

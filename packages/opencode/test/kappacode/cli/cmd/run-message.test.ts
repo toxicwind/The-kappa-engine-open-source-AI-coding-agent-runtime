@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
-import { KiloRun } from "../../../../src/kappacode/cli/cmd/run"
-import { buildRunMessage } from "../../../../src/kappacode/cli/cmd/run-message"
+import { KappaRun } from "../../../../../src/kappacode/cli/cmd/run"
+import { buildRunMessage } from "../../../../../src/kappacode/cli/cmd/run-message"
 
-describe("KiloRun", () => {
+describe("KappaRun", () => {
   test("prefers a configured command over an endpoint-backed built-in", async () => {
     const sdk = {
       command: {
@@ -10,7 +10,7 @@ describe("KiloRun", () => {
       },
     }
 
-    expect(await KiloRun.resolveBuiltin(sdk as never, "compact", "/tmp/project")).toBeUndefined()
+    expect(await KappaRun.resolveBuiltin(sdk as never, "compact", "/tmp/project")).toBeUndefined()
   })
 
   test("resolves an endpoint-backed built-in when no configured command matches", async () => {
@@ -20,7 +20,7 @@ describe("KiloRun", () => {
       },
     }
 
-    expect(await KiloRun.resolveBuiltin(sdk as never, "compact", "/tmp/project")).toBe("compact")
+    expect(await KappaRun.resolveBuiltin(sdk as never, "compact", "/tmp/project")).toBe("compact")
   })
 
   test("uses the resumed session model for compaction", async () => {
@@ -34,7 +34,7 @@ describe("KiloRun", () => {
       },
     }
 
-    await KiloRun.runBuiltin(
+    await KappaRun.runBuiltin(
       sdk as never,
       "ses_test",
       "compact",

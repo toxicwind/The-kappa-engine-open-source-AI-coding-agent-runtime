@@ -109,7 +109,7 @@ describe("Claude global configuration migration", () => {
     }
   })
 
-  test("preserves existing Kilo files and never retries after completion", async () => {
+  test("preserves existing Kappa files and never retries after completion", async () => {
     await using tmp = await tmpdir()
     const home = path.join(tmp.path, "home")
     const config = path.join(tmp.path, "config")
@@ -166,10 +166,10 @@ describe("Claude global configuration migration", () => {
       })
       const notice = await ClaudeMigration.notification({ state })
       expect(notice?.message).toContain(
-        "Global CLAUDE.md: Kilo already has AGENTS.md; existing instructions were kept.",
+        "Global CLAUDE.md: Kappa already has AGENTS.md; existing instructions were kept.",
       )
       expect(notice?.message).toContain('Skill "unsafe": it contains additional files')
-      expect(notice?.message).toContain('MCP server "existing": Kilo already has an MCP server with that name')
+      expect(notice?.message).toContain('MCP server "existing": Kappa already has an MCP server with that name')
       expect(notice?.message).toContain("merge skipped instructions or skills manually")
       expect(notice?.message).toContain("this migration runs once.\nOriginal Claude files")
       await fs.writeFile(path.join(home, ".claude", "CLAUDE.md"), "changed source")

@@ -24,17 +24,17 @@ const testMcpHandlers = HttpApiBuilder.group(TestHttpApi, "mcp", (handlers) =>
         Effect.succeed({ authorizationUrl: "https://auth.example/start", oauthState: "state-123" }),
       )
       .handle("authCallback", () => Effect.die("unexpected MCP authCallback"))
-      // kilocode_change start
+      // kappacode_change start
       .handle("authAuthenticate", (ctx) =>
         Effect.succeed({ status: "failed" as const, error: ctx.payload?.external ? "external" : "server" }),
       )
-      // kilocode_change end
-      .handle("authCancel", () => Effect.succeed({ success: true as const })) // kilocode_change
+      // kappacode_change end
+      .handle("authCancel", () => Effect.succeed({ success: true as const })) // kappacode_change
       .handle("authRemove", () => Effect.die("unexpected MCP authRemove"))
       .handle("connect", () => Effect.die("unexpected MCP connect"))
-      .handle("disconnect", () => Effect.die("unexpected MCP disconnect")) // kilocode_change
-      .handle("readResource", () => Effect.die("unexpected MCP readResource")) // kilocode_change
-      .handle("callTool", () => Effect.die("unexpected MCP callTool")), // kilocode_change
+      .handle("disconnect", () => Effect.die("unexpected MCP disconnect")) // kappacode_change
+      .handle("readResource", () => Effect.die("unexpected MCP readResource")) // kappacode_change
+      .handle("callTool", () => Effect.die("unexpected MCP callTool")), // kappacode_change
   ),
 )
 
@@ -78,7 +78,7 @@ describe("mcp HttpApi OAuth", () => {
     }),
   )
 
-  // kilocode_change start - external browser and cancellation endpoint contracts
+  // kappacode_change start - external browser and cancellation endpoint contracts
   it.live("keeps an empty authenticate body compatible with existing clients", () =>
     Effect.gen(function* () {
       const response = yield* HttpClientRequest.post(McpPaths.authAuthenticate.replace(":name", "demo")).pipe(
@@ -112,5 +112,5 @@ describe("mcp HttpApi OAuth", () => {
       expect(yield* response.json).toEqual({ success: true })
     }),
   )
-  // kilocode_change end
+  // kappacode_change end
 })

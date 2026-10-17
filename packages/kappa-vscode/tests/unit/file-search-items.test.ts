@@ -58,12 +58,12 @@ describe("mergeFileSearchItems", () => {
   it("normalizes Windows separators for matching and output", () => {
     const result = mergeFileSearchItems({
       query: "kappa-vscode",
-      files: ["packages\\kappa-vscode\\src\\KiloProvider.ts"],
+      files: ["packages\\kappa-vscode\\src\\KappaProvider.ts"],
       folders: ["packages\\kappa-vscode\\"],
     })
     expect(result).toEqual([
       { path: "packages/kappa-vscode/", type: "folder" },
-      { path: "packages/kappa-vscode/src/KiloProvider.ts", type: "file" },
+      { path: "packages/kappa-vscode/src/KappaProvider.ts", type: "file" },
     ])
   })
 

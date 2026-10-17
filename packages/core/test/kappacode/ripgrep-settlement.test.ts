@@ -79,7 +79,7 @@ const layer = (binary: string, filepath = Effect.succeed(binary)) =>
     [RipgrepBinary.node, Layer.succeed(RipgrepBinary.Service, RipgrepBinary.Service.of({ filepath }))],
   ] as const)
 
-describe("Kilo ripgrep settlement", () => {
+describe("Kappa ripgrep settlement", () => {
   it.effect(
     "starts the glob deadline after cached binary initialization",
     Effect.acquireUseRelease(

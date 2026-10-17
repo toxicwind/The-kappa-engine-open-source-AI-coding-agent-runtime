@@ -6,14 +6,14 @@ import photonWasm from "@silvia-odwyer/photon-node/photon_rs_bg.wasm" with { typ
 import { Context, Effect, Layer, Schema } from "effect"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { sniffAttachmentMime } from "@/util/media" // kilocode_change - decode by content, like Photon does
+import { sniffAttachmentMime } from "@/util/media" // kappacode_change - decode by content, like Photon does
 
-export const MAX_BASE64_BYTES = 5 * 1024 * 1024 // kilocode_change - share user file pre-read limit
+export const MAX_BASE64_BYTES = 5 * 1024 * 1024 // kappacode_change - share user file pre-read limit
 const MAX_WIDTH = 2000
 const MAX_HEIGHT = 2000
 const AUTO_RESIZE = true
 const JPEG_QUALITIES = [80, 85, 70, 55, 40]
-// kilocode_change start - preserve valid in-limit images when Photon is unavailable; exported for the HTTP-boundary precheck in kilocode/session/attachment.ts
+// kappacode_change start - preserve valid in-limit images when Photon is unavailable; exported for the HTTP-boundary precheck in kappacode/session/attachment.ts
 export function dimensions(mime: string, data: Buffer) {
   if (
     mime === "image/png" &&
@@ -70,7 +70,7 @@ export function dimensions(mime: string, data: Buffer) {
  * Whether these bytes are a raster our decoder can actually open, judged by content rather than
  * by the declared mime -- Photon's `new_from_byteslice` sniffs the format itself, so an image
  * labelled with the wrong raster mime still loads. Shared with the HTTP-boundary precheck in
- * `kilocode/session/attachment.ts` so the boundary and `fallback` below cannot drift apart and
+ * `kappacode/session/attachment.ts` so the boundary and `fallback` below cannot drift apart and
  * start disagreeing about what is acceptable.
  */
 export function decodable(mime: string, data: Buffer) {
@@ -110,7 +110,7 @@ export function fallback(
     })
   return input
 }
-// kilocode_change end
+// kappacode_change end
 export class ResizerUnavailableError extends Schema.TaggedErrorClass<ResizerUnavailableError>()(
   "ImageResizerUnavailableError",
   {},
@@ -163,7 +163,7 @@ const layer = Layer.effect(
       Effect.sync(() => {
         const wasm = path.isAbsolute(photonWasm) ? photonWasm : fileURLToPath(new URL(photonWasm, import.meta.url))
         ;(globalThis as typeof globalThis & { __OPENCODE_PHOTON_WASM_PATH?: string }).__OPENCODE_PHOTON_WASM_PATH = wasm
-        ;(globalThis as typeof globalThis & { __KILOCODE_PHOTON_WASM_PATH?: string }).__KILOCODE_PHOTON_WASM_PATH = wasm
+        ;(globalThis as typeof globalThis & { __KAPPACODE_PHOTON_WASM_PATH?: string }).__KAPPACODE_PHOTON_WASM_PATH = wasm
       }).pipe(
         Effect.andThen(() => Effect.tryPromise(() => import("@silvia-odwyer/photon-node"))),
         Effect.tapError((error) => Effect.logWarning("failed to load photon", { error })),

@@ -92,12 +92,12 @@ async function resolveProjectId(dir: string): Promise<string | undefined> {
   return getProjectIdFromGit(dir)
 }
 
-export namespace KiloProjectID {
+export namespace KappaProjectID {
   export interface Interface {
     readonly get: () => Effect.Effect<string | undefined>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kappacode/KiloProjectID") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/KappaProjectID") {}
 
   export const layer = Layer.effect(
     Service,
@@ -118,12 +118,12 @@ export namespace KiloProjectID {
   export const defaultLayer = layer
 }
 
-const { runPromise } = makeRuntime(KiloProjectID.Service, KiloProjectID.defaultLayer)
+const { runPromise } = makeRuntime(KappaProjectID.Service, KappaProjectID.defaultLayer)
 
 /**
  * Get the project ID for the current Instance context (cached per-project)
  * @returns Normalized project ID or undefined
  */
-export async function getKiloProjectId(): Promise<string | undefined> {
+export async function getKappaProjectId(): Promise<string | undefined> {
   return runPromise((svc) => svc.get())
 }

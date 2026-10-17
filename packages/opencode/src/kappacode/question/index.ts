@@ -2,17 +2,17 @@ import { Deferred, Effect } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import * as Log from "@opencode-ai/core/util/log"
 import { SessionID } from "@/session/schema"
-import { KiloSessionPromptQueue } from "@/kappacode/session/prompt-queue"
+import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
 import type { Info } from "@/question"
 
 /**
- * Kilo-specific helpers for the shared `@/question` module.
+ * Kappa-specific helpers for the shared `@/question` module.
  *
  * Extracted here so the upstream file keeps just the import, an Interface entry
  * for `dismissAll`, and one-liner calls at the use sites — minimising the
  * surface area that conflicts with upstream.
  */
-export namespace KiloQuestion {
+export namespace KappaQuestion {
   const log = Log.create({ service: "question" })
 
   export function normalize(info: Info): Info {
@@ -83,7 +83,7 @@ export namespace KiloQuestion {
    */
   export const guardFollowup = <E>(sessionID: SessionID, makeError: () => E) =>
     Effect.gen(function* () {
-      if (!KiloSessionPromptQueue.hasFollowup(sessionID)) return
+      if (!KappaSessionPromptQueue.hasFollowup(sessionID)) return
       log.info("auto-dismissed — followup queued", { sessionID })
       return yield* Effect.fail(makeError())
     })

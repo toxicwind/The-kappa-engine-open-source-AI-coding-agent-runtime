@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, mock } from "bun:test"
-import { createKiloClient } from "@kappacode/sdk/v2/client"
+import { createKappaClient } from "@kappacode/sdk/v2/client"
 import * as vscode from "vscode"
 import { MarketplaceService } from "../../src/services/marketplace"
 import {
@@ -20,7 +20,7 @@ import type { MarketplaceItem } from "../../webview-ui/src/types/marketplace"
 const project = "/repo"
 const storage = vscode.Uri.file("/storage")
 const local = `${project}/.kappa/mcp.json`
-const legacy = `${project}/.kilocode/mcp.json`
+const legacy = `${project}/.kappacode/mcp.json`
 const global = `${storage.fsPath}/settings/mcp_settings.json`
 const item: McpMarketplaceItem = {
   id: "memory",
@@ -205,15 +205,15 @@ describe("Marketplace companion skill payloads", () => {
           directory: url.searchParams.get("directory"),
           body: request.method === "POST" ? await request.json() : undefined,
         })
-        if (url.pathname === "/kilocode/marketplace")
+        if (url.pathname === "/kappacode/marketplace")
           return Response.json({ items: [mcp], installed: { project: {}, global: {} } })
-        if (url.pathname === "/kilocode/marketplace/install") return Response.json(result)
-        if (url.pathname === "/kilocode/marketplace/remove") return Response.json({ success: true, slug: mcp.id })
+        if (url.pathname === "/kappacode/marketplace/install") return Response.json(result)
+        if (url.pathname === "/kappacode/marketplace/remove") return Response.json({ success: true, slug: mcp.id })
         return new Response(null, { status: 404 })
       },
     })
     const service = new MarketplaceService()
-    const client = createKiloClient({ baseUrl: server.url.href })
+    const client = createKappaClient({ baseUrl: server.url.href })
     const extensions = Object.getOwnPropertyDescriptor(vscode.extensions, "all")
     try {
       Object.defineProperty(vscode.extensions, "all", { configurable: true, value: [] })
@@ -224,16 +224,16 @@ describe("Marketplace companion skill payloads", () => {
       expect(await service.install(client, loaded, options, project)).toEqual(result)
       expect(await service.remove(client, loaded, scope, project)).toEqual({ success: true, slug: mcp.id })
       expect(calls).toEqual([
-        { method: "GET", path: "/kilocode/marketplace", directory: project, body: undefined },
+        { method: "GET", path: "/kappacode/marketplace", directory: project, body: undefined },
         {
           method: "POST",
-          path: "/kilocode/marketplace/install",
+          path: "/kappacode/marketplace/install",
           directory: project,
           body: { item: mcp, ...options },
         },
         {
           method: "POST",
-          path: "/kilocode/marketplace/remove",
+          path: "/kappacode/marketplace/remove",
           directory: project,
           body: { item: { id: mcp.id, type: "mcp" }, scope },
         },
@@ -309,7 +309,7 @@ describe("Marketplace agent removal", () => {
     const remove = mock(async () => ({ data: true }))
     const dispose = mock(async () => ({}))
     const getClientAsync = mock(async () => ({
-      kilocode: { removeAgent: remove },
+      kappacode: { removeAgent: remove },
       global: { config: { update: mock(async () => ({})) } },
       instance: { dispose },
     }))
@@ -326,7 +326,7 @@ describe("Marketplace agent removal", () => {
 
   it("returns a failure when the authoritative removal rejects the agent", async () => {
     const getClientAsync = mock(async () => ({
-      kilocode: { removeAgent: mock(async () => ({ error: { message: "Agent is still configured" } })) },
+      kappacode: { removeAgent: mock(async () => ({ error: { message: "Agent is still configured" } })) },
       instance: { dispose: mock(async () => ({})) },
     }))
     const ctx = {
@@ -341,7 +341,7 @@ describe("Marketplace agent removal", () => {
 
   it("uses friendly fallbacks for empty backend errors", async () => {
     const remove = mock(async () => ({ error: new Error("") }))
-    const getClientAsync = mock(async () => ({ kilocode: { removeAgent: remove } }))
+    const getClientAsync = mock(async () => ({ kappacode: { removeAgent: remove } }))
     const ctx = {
       connection: { getClientAsync },
       marketplace: { remove: mock(async () => ({ success: true, slug: agent.id })) },

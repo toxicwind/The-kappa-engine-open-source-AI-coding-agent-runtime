@@ -3,9 +3,9 @@ export type { FileSystemEntry as LocationFileSystemEntry } from "./gen/types.gen
 
 import { createClient } from "./gen/client/client.gen.js"
 import { type Config } from "./gen/client/types.gen.js"
-import { KiloClient } from "./gen/sdk.gen.js"
+import { KappaClient } from "./gen/sdk.gen.js"
 import { wrapClientError } from "../error-interceptor.js"
-export { type Config as KiloClientConfig, KiloClient }
+export { type Config as KappaClientConfig, KappaClient }
 
 function pick(value: string | null, fallback?: string, encode?: (value: string) => string) {
   if (!value) return
@@ -47,7 +47,7 @@ function rewrite(request: Request, values: { directory?: string; workspace?: str
   return next
 }
 
-export function createKiloClient(config?: Config & { directory?: string; experimental_workspaceID?: string }) {
+export function createKappaClient(config?: Config & { directory?: string; experimental_workspaceID?: string }) {
   if (!config?.fetch) {
     const customFetch: any = (req: any) => {
       // Pass duplex in the init arg so it survives VS Code's proxy-agent
@@ -98,5 +98,5 @@ export function createKiloClient(config?: Config & { directory?: string; experim
     return response
   })
   client.interceptors.error.use(wrapClientError)
-  return new KiloClient({ client })
+  return new KappaClient({ client })
 }

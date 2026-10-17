@@ -10,7 +10,7 @@
     "customConditions": ["browser"],
     "paths": {
       "@/*": ["./src/*"],
-      "@tui/*": ["../tui/src/*"], // kilocode_change - extracted TUI imports used by Kilo-owned components
+      "@tui/*": ["../tui/src/*"], // kappacode_change - extracted TUI imports used by Kappa-owned components
       "@test/*": ["./test/*"]
     }
   }

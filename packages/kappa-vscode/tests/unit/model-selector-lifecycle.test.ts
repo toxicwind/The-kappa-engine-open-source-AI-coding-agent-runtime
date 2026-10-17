@@ -75,7 +75,7 @@ function check(code: string) {
       const [favorites, setFavorites] = createSignal([{ providerID: "kappa", modelID: "alpha" }])
       const [usage, setUsage] = createSignal({ "kappa/bravo": { count: 7, lastUsed: 10 } })
       const [recent, setRecent] = createSignal([])
-      provider = { models, connected, findModel: (selection) => models().find((item) => item.providerID === selection?.providerID && item.id === selection?.modelID), kiloUnavailable: () => false }
+      provider = { models, connected, findModel: (selection) => models().find((item) => item.providerID === selection?.providerID && item.id === selection?.modelID), kappaUnavailable: () => false }
       session = {
         favoriteModels: () => { stats.favorites++; return favorites() },
         modelUsageHistory: () => { stats.usage++; return usage() },

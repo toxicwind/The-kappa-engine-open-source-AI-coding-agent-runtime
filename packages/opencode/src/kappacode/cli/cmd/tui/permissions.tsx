@@ -1,6 +1,6 @@
 import type { PermissionRequest } from "@kappacode/sdk/v2"
 import { useTheme } from "@tui/context/theme"
-import { MemoryPermissionRegistry } from "@/kilocode/cli/cmd/tui/routes/session/memory-permission"
+import { MemoryPermissionRegistry } from "@/kappacode/cli/cmd/tui/routes/session/memory-permission"
 
 function MemoryBody(props: { request: PermissionRequest }) {
   const { theme } = useTheme()

@@ -1,6 +1,6 @@
 // kappacode_change - new file
 
-// Kilo stores internal/UI-only metadata on an agent's `options` record:
+// Kappa stores internal/UI-only metadata on an agent's `options` record:
 //   - `id`:          mode identifier used to recognize built-in modes (see session/prompt.ts)
 //   - `displayName`: human-readable name for org/marketplace modes
 //   - `source`:      origin marker ("organization" | "global" | "project")
@@ -18,7 +18,7 @@ export const INTERNAL_OPTION_KEYS = ["id", "displayName", "source", "reference",
 
 const internal: ReadonlySet<string> = new Set(INTERNAL_OPTION_KEYS)
 
-// Returns a shallow copy of `options` with Kilo-internal metadata keys removed.
+// Returns a shallow copy of `options` with Kappa-internal metadata keys removed.
 // Used at the provider-request boundary so agent metadata never leaks into the
 // request body. The original `options` object is left untouched.
 export function stripInternalOptions(options: Record<string, any>): Record<string, any> {

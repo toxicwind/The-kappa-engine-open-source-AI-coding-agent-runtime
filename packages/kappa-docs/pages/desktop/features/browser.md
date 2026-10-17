@@ -1,6 +1,6 @@
 ---
 title: "In-app browser"
-description: "Browse the web next to your chat, including pages the agent opens for you, in Kilo Desktop."
+description: "Browse the web next to your chat, including pages the agent opens for you, in Kappa Desktop."
 ---
 
 # In-app browser

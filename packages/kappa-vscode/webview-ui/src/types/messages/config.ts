@@ -123,7 +123,7 @@ export interface IndexingConfig {
   fileExtensions?: string[]
 }
 
-export type KiloEmbeddingModel = {
+export type KappaEmbeddingModel = {
   id: string
   name: string
   dimension: number
@@ -131,9 +131,9 @@ export type KiloEmbeddingModel = {
   note?: string
 }
 
-export type KiloEmbeddingModelCatalog = {
+export type KappaEmbeddingModelCatalog = {
   defaultModel: string
-  models: KiloEmbeddingModel[]
+  models: KappaEmbeddingModel[]
   aliases: Record<string, string>
 }
 

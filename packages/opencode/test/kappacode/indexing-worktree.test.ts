@@ -2,7 +2,7 @@ import { afterEach, describe, expect, test } from "bun:test"
 import { mkdir } from "node:fs/promises"
 import path from "node:path"
 import type { Config } from "../../src/config/config"
-import { KiloIndexing } from "../../src/kappacode/indexing"
+import { KappaIndexing } from "../../src/kappacode/indexing"
 import { IndexingWorker } from "../../src/kappacode/indexing-worker-client"
 import { disposeAllInstances, provideTestInstance, tmpdir } from "../fixture/fixture"
 
@@ -57,9 +57,9 @@ describe("indexing worktrees", () => {
     await provideTestInstance({
       directory: worktree,
       fn: async () => {
-        await KiloIndexing.search("worktree")
-        expect((await KiloIndexing.current()).state).toBe("Complete")
-        expect(await KiloIndexing.available()).toBe(true)
+        await KappaIndexing.search("worktree")
+        expect((await KappaIndexing.current()).state).toBe("Complete")
+        expect(await KappaIndexing.available()).toBe(true)
       },
     })
 
@@ -88,9 +88,9 @@ describe("indexing worktrees", () => {
     await provideTestInstance({
       directory,
       fn: async () => {
-        await KiloIndexing.search("ordinary directory")
-        expect((await KiloIndexing.current()).state).toBe("Complete")
-        expect(await KiloIndexing.available()).toBe(true)
+        await KappaIndexing.search("ordinary directory")
+        expect((await KappaIndexing.current()).state).toBe("Complete")
+        expect(await KappaIndexing.available()).toBe(true)
       },
     })
 

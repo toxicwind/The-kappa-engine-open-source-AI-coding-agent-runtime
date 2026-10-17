@@ -7,7 +7,7 @@ import { Agent } from "@/agent/agent"
 import { Session } from "@/session/session"
 import type { MessageV2 } from "@/session/message-v2"
 import type { Tool } from "@/tool/tool"
-import { KiloSessionPrompt } from "@/kappacode/session/prompt"
+import { KappaSessionPrompt } from "@/kappacode/session/prompt"
 import { BoardEnabled } from "./enabled"
 import { BoardStore } from "./store"
 import { BoardNotice } from "./notice"
@@ -43,7 +43,7 @@ export namespace BoardContext {
   export function allowed(input: Pick<Input, "session" | "agent" | "user">) {
     return (
       input.user.tools?.board_read !== false &&
-      Permission.evaluate("board_read", "*", input.agent.permission, KiloSessionPrompt.guardPermissions(input))
+      Permission.evaluate("board_read", "*", input.agent.permission, KappaSessionPrompt.guardPermissions(input))
         .action === "allow"
     )
   }

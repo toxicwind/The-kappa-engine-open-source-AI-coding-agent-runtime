@@ -65,7 +65,7 @@ export interface ExecBufferResult {
 /**
  * Fixed SSH command injected by {@link nonInteractiveEnv} when the user has
  * not already configured their own. Exported so callers can check whether a
- * `GIT_SSH_COMMAND` originated from Kilo (safe) or was inherited from the
+ * `GIT_SSH_COMMAND` originated from Kappa (safe) or was inherited from the
  * parent process (untrusted).
  */
 export const KILO_NON_INTERACTIVE_SSH_COMMAND = "ssh -o BatchMode=yes"
@@ -114,11 +114,11 @@ export function nonInteractiveEnv(): NodeJS.ProcessEnv {
 }
 
 /**
- * True when `env.GIT_SSH_COMMAND` is the fixed value Kilo sets, rather than
+ * True when `env.GIT_SSH_COMMAND` is the fixed value Kappa sets, rather than
  * an inherited one from the parent process. Use this to decide whether it's
  * safe to pass `allowUnsafeSshCommand: true` to simple-git.
  */
-export function isKiloOwnedSshCommand(env: NodeJS.ProcessEnv): boolean {
+export function isKappaOwnedSshCommand(env: NodeJS.ProcessEnv): boolean {
   return env.GIT_SSH_COMMAND === KILO_NON_INTERACTIVE_SSH_COMMAND
 }
 

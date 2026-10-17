@@ -1,15 +1,15 @@
-import type { KiloClient, McpStatus } from "@kappacode/sdk/v2/client"
+import type { KappaClient, McpStatus } from "@kappacode/sdk/v2/client"
 import * as vscode from "vscode"
 import type { SSEPayload } from "../cli-backend/sdk-sse-adapter"
 import { needsAuthNames } from "./status"
 
 /**
- * The subset of `KiloConnectionService` the auth service depends on.
- * `KiloConnectionService` satisfies this structurally — kept narrow so
+ * The subset of `KappaConnectionService` the auth service depends on.
+ * `KappaConnectionService` satisfies this structurally — kept narrow so
  * tests can supply a fake without constructing a real connection.
  */
 export interface McpAuthConnection {
-  getClientAsync(dir?: string): Promise<KiloClient>
+  getClientAsync(dir?: string): Promise<KappaClient>
   onEvent(listener: (event: SSEPayload, directory?: string) => void): () => void
 }
 
@@ -52,7 +52,7 @@ function busyKey(dir: string, name: string): string {
  * post-install prompt are all pure consumers of this service so they agree
  * on which servers need sign-in and whether one is in progress.
  *
- * Mirrors `KiloMcpAuthService` from the JetBrains plugin (packages/kappa-jetbrains).
+ * Mirrors `KappaMcpAuthService` from the JetBrains plugin (packages/kappa-jetbrains).
  */
 export class McpAuthService {
   private connection: McpAuthConnection
@@ -277,7 +277,7 @@ export class McpAuthService {
   }
 
   private start(): void {
-    // Defensive: some callers (notably test doubles for KiloConnectionService)
+    // Defensive: some callers (notably test doubles for KappaConnectionService)
     // implement only the client-fetching surface, not events. Skipping the
     // subscription there is harmless — it only handles authorization URLs,
     // which those callers don't exercise.
@@ -322,7 +322,7 @@ export class McpAuthService {
     try {
       return await block()
     } catch (error) {
-      console.error(`[Kilo New] McpAuthService: ${message} failed:`, error)
+      console.error(`[Kappa New] McpAuthService: ${message} failed:`, error)
       return fallback
     }
   }
@@ -344,4 +344,4 @@ function errorText(error: unknown): string | undefined {
   return undefined
 }
 
-export type { KiloClient }
+export type { KappaClient }

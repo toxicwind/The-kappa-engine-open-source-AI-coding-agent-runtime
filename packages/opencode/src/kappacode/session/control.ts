@@ -2,7 +2,7 @@ import { Effect, Latch } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import type { SessionID } from "@/session/schema"
 
-export namespace KiloSessionControl {
+export namespace KappaSessionControl {
   export type AbortScope = "session" | "tree"
   export type Ticket = { current: () => boolean; running: () => boolean }
 
@@ -21,7 +21,7 @@ export namespace KiloSessionControl {
 
   export const make = Effect.gen(function* () {
     const state = yield* InstanceState.make(() => Effect.succeed(new Map<SessionID, State>()))
-    const get = Effect.fn("KiloSessionControl.get")(function* (id: SessionID) {
+    const get = Effect.fn("KappaSessionControl.get")(function* (id: SessionID) {
       const data = yield* InstanceState.get(state)
       const existing = data.get(id)
       if (existing) return existing
@@ -30,7 +30,7 @@ export namespace KiloSessionControl {
       return next
     })
 
-    const begin = Effect.fn("KiloSessionControl.begin")(function* (id: SessionID, resume: boolean, prior?: Ticket) {
+    const begin = Effect.fn("KappaSessionControl.begin")(function* (id: SessionID, resume: boolean, prior?: Ticket) {
       const data = yield* get(id)
       if (resume) {
         while (data.stopping > 0) yield* data.ready.await
@@ -66,7 +66,7 @@ export namespace KiloSessionControl {
     // Whether the session is between a stop and the next resuming prompt. A
     // synthetic background prompt does not clear it, so a caller that cannot
     // accept a dropped turn (a scheduled wakeup) reads this first.
-    const paused = Effect.fn("KiloSessionControl.paused")(function* (id: SessionID) {
+    const paused = Effect.fn("KappaSessionControl.paused")(function* (id: SessionID) {
       return (yield* get(id)).paused
     })
 

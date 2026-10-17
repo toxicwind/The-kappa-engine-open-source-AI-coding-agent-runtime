@@ -31,7 +31,7 @@ afterEach(async () => {
   await disposeAllInstances()
 })
 
-describe("Kilo experimental HttpApi", () => {
+describe("Kappa experimental HttpApi", () => {
   it.instance(
     "uses model family metadata for experimental editing tools",
     () =>

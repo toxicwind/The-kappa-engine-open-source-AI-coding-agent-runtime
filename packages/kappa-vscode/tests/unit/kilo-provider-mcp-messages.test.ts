@@ -1,6 +1,6 @@
 import { describe, expect, it, mock } from "bun:test"
 import { mcpAuth } from "../../src/services/mcp-auth"
-import { KiloProvider } from "../../src/KiloProvider"
+import { KappaProvider } from "../../src/KappaProvider"
 
 type Internals = {
   handleMcpMessage(message: unknown): Promise<boolean>
@@ -19,7 +19,7 @@ function actions() {
     getClient: () => undefined,
     getClientAsync: async () => ({}),
   } as never
-  const provider = new KiloProvider({} as never, connection)
+  const provider = new KappaProvider({} as never, connection)
   const internal = provider as unknown as Internals
   const calls: string[] = []
   const auth = mcpAuth(connection)
@@ -42,14 +42,14 @@ function actions() {
 }
 
 /**
- * MCP messages are routed ahead of KiloProvider's main message switch (to keep
+ * MCP messages are routed ahead of KappaProvider's main message switch (to keep
  * that function inside its complexity budget), so the routing table itself is
  * the contract worth locking down: every MCP message type must be claimed, and
  * nothing else may be.
  */
 function setup() {
   const calls: string[] = []
-  const provider = new KiloProvider(
+  const provider = new KappaProvider(
     {} as never,
     {
       getClient: () => undefined,
@@ -71,7 +71,7 @@ function setup() {
   return { internal, calls }
 }
 
-describe("KiloProvider MCP message routing", () => {
+describe("KappaProvider MCP message routing", () => {
   it("claims every MCP message type", async () => {
     const { internal } = setup()
     for (const type of [
@@ -156,7 +156,7 @@ describe("KiloProvider MCP message routing", () => {
       getClientAsync: async () => client,
       onEvent: () => () => {},
     }
-    const provider = new KiloProvider({} as never, connection as never)
+    const provider = new KappaProvider({} as never, connection as never)
     const internal = provider as unknown as Internals
     const messages: string[] = []
     ;(internal as unknown as { postMessage(message: unknown): void }).postMessage = (message) =>

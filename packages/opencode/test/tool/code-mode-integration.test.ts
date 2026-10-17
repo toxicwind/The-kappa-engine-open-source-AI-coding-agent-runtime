@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, test } from "bun:test" // kilocode_change
+import { afterAll, beforeAll, describe, expect, test } from "bun:test" // kappacode_change
 import { CodeModeTool, describeCatalog } from "@/tool/code-mode"
 import { McpCatalog } from "@/mcp/catalog"
 import { Agent } from "@/agent/agent"
@@ -17,11 +17,11 @@ import {
   ListToolsRequestSchema,
   type Tool as MCPToolDef,
 } from "@modelcontextprotocol/sdk/types.js"
-import { Cause, Effect, Exit, Layer, ManagedRuntime } from "effect" // kilocode_change
-import { InstanceRef } from "@/effect/instance-ref" // kilocode_change
-import { TestConfig } from "../fixture/config" // kilocode_change
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kilocode_change
-import { Database } from "@opencode-ai/core/database/database" // kilocode_change
+import { Cause, Effect, Exit, Layer, ManagedRuntime } from "effect" // kappacode_change
+import { InstanceRef } from "@/effect/instance-ref" // kappacode_change
+import { TestConfig } from "../fixture/config" // kappacode_change
+import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
+import { Database } from "@opencode-ai/core/database/database" // kappacode_change
 
 const PNG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
 
@@ -123,8 +123,8 @@ function handleCall(name: string, args: Record<string, unknown>) {
 
 let tool: Awaited<ReturnType<typeof buildTool>>["tool"]
 let description: string
-let dispose = () => Promise.resolve() // kilocode_change
-let runEffect = <A, E>(effect: Effect.Effect<A, E>) => Effect.runPromise(effect) // kilocode_change
+let dispose = () => Promise.resolve() // kappacode_change
+let runEffect = <A, E>(effect: Effect.Effect<A, E>) => Effect.runPromise(effect) // kappacode_change
 
 async function buildTool() {
   const server = new Server({ name: SERVER, version: "1.0.0" }, { capabilities: { tools: {} } })
@@ -141,7 +141,7 @@ async function buildTool() {
   const listed = (await client.listTools()).tools as MCPToolDef[]
   const mcpTools: Record<string, MCP.McpTool> = {}
   for (const def of listed) {
-    mcpTools[McpCatalog.toolName(SERVER, def.name)] = { def, client: client as unknown as Client, clientName: SERVER } // kilocode_change
+    mcpTools[McpCatalog.toolName(SERVER, def.name)] = { def, client: client as unknown as Client, clientName: SERVER } // kappacode_change
   }
 
   const layer = Layer.mergeAll(
@@ -160,23 +160,23 @@ async function buildTool() {
     }),
     TestConfig.layer({
       get: () => Effect.succeed({ sandbox: { enabled: false, network: "deny" } }),
-    }), // kilocode_change - production code mode captures config for sandbox policy
-    Layer.succeed(InstanceRef, { directory: process.cwd(), worktree: process.cwd(), project: {} as any }), // kilocode_change
-    AppNodeBuilder.build(Database.node), // kilocode_change - sandbox state uses the session database
+    }), // kappacode_change - production code mode captures config for sandbox policy
+    Layer.succeed(InstanceRef, { directory: process.cwd(), worktree: process.cwd(), project: {} as any }), // kappacode_change
+    AppNodeBuilder.build(Database.node), // kappacode_change - sandbox state uses the session database
   )
-  const runtime = ManagedRuntime.make(layer) // kilocode_change
-  dispose = () => runtime.dispose() // kilocode_change
-  runEffect = (effect) => runtime.runPromise(effect) // kilocode_change
+  const runtime = ManagedRuntime.make(layer) // kappacode_change
+  dispose = () => runtime.dispose() // kappacode_change
+  runEffect = (effect) => runtime.runPromise(effect) // kappacode_change
   return {
-    tool: await runtime.runPromise(CodeModeTool.pipe(Effect.flatMap(Tool.init))), // kilocode_change
+    tool: await runtime.runPromise(CodeModeTool.pipe(Effect.flatMap(Tool.init))), // kappacode_change
     description: describeCatalog(mcpTools, [SERVER]),
   }
 }
 
-const run = (code: string) => runEffect(tool.execute({ code }, ctx)) // kilocode_change
+const run = (code: string) => runEffect(tool.execute({ code }, ctx)) // kappacode_change
 // Program failures die at the tool boundary; recover the defect for message assertions.
 const runFailed = async (code: string) => {
-  const exit = await runEffect(tool.execute({ code }, ctx).pipe(Effect.exit)) // kilocode_change
+  const exit = await runEffect(tool.execute({ code }, ctx).pipe(Effect.exit)) // kappacode_change
   if (Exit.isSuccess(exit)) throw new Error("expected the tool to fail")
   return Cause.squash(exit.cause) as Error
 }
@@ -188,7 +188,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  await dispose() // kilocode_change
+  await dispose() // kappacode_change
 })
 
 describe("code mode integration (real MCP server)", () => {

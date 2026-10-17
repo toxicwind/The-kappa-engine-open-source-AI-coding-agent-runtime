@@ -2,7 +2,7 @@
 import { expect, test } from "bun:test"
 import { RGBA } from "@opentui/core"
 import { testRender } from "@opentui/solid"
-import { ModelRow, UsageRow } from "@/kilocode/plugins/sidebar-usage-row"
+import { ModelRow, UsageRow } from "@/kappacode/plugins/sidebar-usage-row"
 
 test("model costs align with usage values", async () => {
   const app = await testRender(

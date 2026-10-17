@@ -74,7 +74,7 @@ describe("cli.error", () => {
       "Model not found: anthropic/claude-sonet-4",
       "Did you mean: claude-sonnet-4",
       "Try: `kappa models` to list available models",
-      "Or check your kappa.json provider/model names", // kilocode_change
+      "Or check your kappa.json provider/model names", // kappacode_change
     ].join("\n")
 
     expect(FormatError({ name: "ProviderModelNotFoundError", data })).toBe(expected)

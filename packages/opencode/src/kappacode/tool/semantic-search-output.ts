@@ -20,7 +20,7 @@ export function scope(root: string, prefix?: string): string {
 /**
  * Explain an empty result set in terms of index state.
  *
- * `KiloIndexing.search` returns `[]` when the index is disabled, unbuilt, or
+ * `KappaIndexing.search` returns `[]` when the index is disabled, unbuilt, or
  * broken, which is indistinguishable from a genuine miss. Left unexplained, a
  * model reads "no results" as "this code does not exist" and acts on it.
  */
