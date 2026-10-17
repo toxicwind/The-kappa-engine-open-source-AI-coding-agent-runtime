@@ -429,7 +429,12 @@ export namespace KiloSessionProcessor {
 
   export function observe(attempt: Attempt, event: LLMEvent) {
     if (event.type === "text-delta" && event.text.trim()) attempt.text = true
-    if (event.type === "reasoning-delta" && event.text.trim()) attempt.reasoning = true
+    if (event.type === "reasoning-delta" && event.text.trim()) {
+      attempt.reasoning = true
+      // Reasoning content IS output text for models like glm-5.3-flash and
+      // nemotron-3-super that return content: null with reasoning_content
+      attempt.text = true
+    }
     if (event.type === "tool-call" || event.type === "tool-result" || event.type === "tool-error") attempt.tool = true
     if (event.type === "step-finish") {
       attempt.finished = true
