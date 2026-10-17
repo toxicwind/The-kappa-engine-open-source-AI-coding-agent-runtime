@@ -6,7 +6,7 @@ import { Context, Effect, Layer } from "effect"
 export class ReferenceReconciler extends Context.Service<
   ReferenceReconciler,
   Effect.Effect<void, never, Location.Service | PluginV2.Service | Reference.Service>
->()("@kilocode/ReferenceReconciler") {}
+>()("@kappacode/ReferenceReconciler") {}
 
 export const noop = Layer.succeed(ReferenceReconciler, Effect.void)
 

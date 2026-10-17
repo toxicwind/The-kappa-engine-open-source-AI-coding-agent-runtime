@@ -12,7 +12,7 @@
  *   - whitespace-only     : only diff is whitespace
  *   - small-diff          : <= --review-limit non-marker diff lines
  *   - large-diff          : > --review-limit non-marker diff lines (skipped)
- *   - upstream-missing    : file does not exist upstream (kilo-only, skipped)
+ *   - upstream-missing    : file does not exist upstream (kappa-only, skipped)
  *   - local-missing       : file tracked by git but missing locally (skipped)
  *   - binary-identical    : binary file already matches (skipped)
  *   - binary-diff         : binary file differs (skipped; use reset-to-upstream.ts
@@ -49,7 +49,7 @@ interface Entry extends ClassifyResult {
 }
 
 const KILO_ONLY_PATHSPECS = [
-  ":(exclude,glob)packages/kilo-*/**",
+  ":(exclude,glob)packages/kappa-*/**",
   ":(exclude,glob)**/kilocode/**",
   ":(exclude)script/upstream",
 ]

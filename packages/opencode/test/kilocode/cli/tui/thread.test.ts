@@ -18,7 +18,7 @@ afterEach(() => {
   mock.restore()
 })
 
-describe("kilo tui thread", () => {
+describe("kappa tui thread", () => {
   test("starts fresh sessions without requesting session validation", async () => {
     await expect(validate({ url: "http://127.0.0.1:0" })).resolves.toBeUndefined()
   })
@@ -135,7 +135,7 @@ describe("kilo tui thread", () => {
     expect(resolveThreadDirectory(".", root.path, pkg)).toBe(pkg)
   })
 
-  test("uses kilo-dev caller directory when running through package cwd", async () => {
+  test("uses kappa-dev caller directory when running through package cwd", async () => {
     await using root = await tmpdir()
     const pkg = path.join(root.path, "packages", "opencode")
     await fs.mkdir(pkg, { recursive: true })
@@ -203,7 +203,7 @@ describe("kilo tui thread", () => {
       fetch(request) {
         const route = `${request.method} ${new URL(request.url).pathname}`
         calls.push(route)
-        if (route === "POST /kilo/cloud/session/import") return Response.json({ id: local })
+        if (route === "POST /kappa/cloud/session/import") return Response.json({ id: local })
         if (route === `GET /session/${local}`) return Response.json({ id: local })
         return new Response(null, { status: 404 })
       },
@@ -217,7 +217,7 @@ describe("kilo tui thread", () => {
         hostname: url.hostname,
         port: Number(url.port),
         url: url.origin,
-        username: "kilo",
+        username: "kappa",
         password: "test",
         token: "test",
         version: "test",
@@ -225,7 +225,7 @@ describe("kilo tui thread", () => {
         log: path.join(root.path, "daemon.log"),
       },
     })
-    const args = { port: 0, hostname: "127.0.0.1", mdns: false, "mdns-domain": "kilo.local", cors: [] }
+    const args = { port: 0, hostname: "127.0.0.1", mdns: false, "mdns-domain": "kappa.local", cors: [] }
     const start: Parameters<typeof KiloTuiThreadDaemon.attach>[0]["start"] = async (input) => {
       opened.push(input.args.sessionID)
     }
@@ -238,7 +238,7 @@ describe("kilo tui thread", () => {
         start,
       })
 
-      expect(calls).toEqual(["POST /kilo/cloud/session/import", `GET /session/${local}`])
+      expect(calls).toEqual(["POST /kappa/cloud/session/import", `GET /session/${local}`])
       expect(opened).toEqual([local])
     } finally {
       daemon.mockRestore()
@@ -249,9 +249,9 @@ describe("kilo tui thread", () => {
     const seen: string[] = []
     const started: string[] = []
 
-    mock.module("@kilocode/sdk/v2", () => ({
+    mock.module("@kappacode/sdk/v2", () => ({
       createKiloClient: () => ({
-        kilo: {
+        kappa: {
           cloud: {
             session: {
               import: async (input: { sessionId: string }) => {

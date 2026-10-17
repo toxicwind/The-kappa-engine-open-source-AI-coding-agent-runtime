@@ -83,7 +83,7 @@ When a provider ships a non-HTTP transport (OpenAI's WebSocket Responses backend
 **Browser-fingerprint transport (Kilo fork feature).** For Cloudflare-guarded
 providers (e.g. `freeinference.org` keyed `403 1010`), a provider opts into a
 Chrome TLS/HTTP2 fingerprint via `HttpOptions.fingerprint` (`http.fingerprint`).
-The route transport tags the request with `x-kilo-fingerprint`; `RequestExecutor`
+The route transport tags the request with `x-kappa-fingerprint`; `RequestExecutor`
 strips that marker and injects Chrome-aligned headers before the wire
 (markers live in shared `executor.ts`, guarded by `kilocode_change`). Coverage
 is in `test/kilocode/fingerprint.test.ts` (Kilo-owned). On Bun the native fetch

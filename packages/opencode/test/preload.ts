@@ -54,7 +54,7 @@ const testManagedConfigDir = path.join(dir, "managed")
 process.env["KILO_TEST_MANAGED_CONFIG_DIR"] = testManagedConfigDir
 
 // Write the cache version file to prevent global/index.ts from clearing the cache
-const cacheDir = path.join(dir, "cache", "kilo")
+const cacheDir = path.join(dir, "cache", "kappa")
 await fs.mkdir(cacheDir, { recursive: true })
 await fs.writeFile(path.join(cacheDir, "version"), "21")
 
@@ -102,7 +102,7 @@ installMemoryRuntime() // kilocode_change
 // path resolvers (core Database.path and the v1 client in src/storage/db.ts) honor KILO_DB
 // verbatim when it is ":memory:", so asserting the resolved core path after all preload
 // imports catches env mutations, import-order regressions, and channel/absolute fallbacks
-// that would silently point tests at the real database under ~/.local/share/kilo.
+// that would silently point tests at the real database under ~/.local/share/kappa.
 // (Do not name the database file here: database-reset-safety.test.ts scans test sources
 // for the file name next to removal calls, and this file legitimately contains fs.rm.)
 if (process.env["KILO_DB"] !== ":memory:") {

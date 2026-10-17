@@ -6,7 +6,7 @@ import {
   getCloudSessions,
   getOrganizationId,
   getToken,
-} from "@kilocode/kilo-gateway"
+} from "@kappacode/kappa-gateway"
 import {
   HEADER_FEATURE,
   KILO_API_BASE,
@@ -16,11 +16,11 @@ import {
   fetchKiloPassState,
   fetchOrganizationModes,
   fetchProfile,
-} from "@kilocode/kilo-gateway"
-import { DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget } from "@kilocode/kilo-gateway/fim"
-import { DIRECT_EDIT_ENV, extractFencedBody, resolveEditTarget } from "@kilocode/kilo-gateway/edit"
-import { buildMercuryEditPrompt } from "@kilocode/kilo-gateway/edit-prompt"
-import { buildKiloHeaders } from "@kilocode/kilo-gateway"
+} from "@kappacode/kappa-gateway"
+import { DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget } from "@kappacode/kappa-gateway/fim"
+import { DIRECT_EDIT_ENV, extractFencedBody, resolveEditTarget } from "@kappacode/kappa-gateway/edit"
+import { buildMercuryEditPrompt } from "@kappacode/kappa-gateway/edit-prompt"
+import { buildKiloHeaders } from "@kappacode/kappa-gateway"
 import { Effect, Schema } from "effect"
 import * as Stream from "effect/Stream"
 import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
@@ -39,10 +39,10 @@ import { Instance } from "@/kilocode/instance"
 import { InstanceStore } from "@/project/instance-store"
 import { ModelCache } from "@/provider/model-cache"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
-import { AudioTranscriptionsBody, CloudSessionImportError, EditBody, FimBody } from "../groups/kilo-gateway"
+import { AudioTranscriptionsBody, CloudSessionImportError, EditBody, FimBody } from "../groups/kappa-gateway"
 
 const FIM_TIMEOUT_MS = 30_000
-const log = Log.create({ service: "kilo-gateway" })
+const log = Log.create({ service: "kappa-gateway" })
 
 function jsonError(error: string, status: number) {
   return HttpServerResponse.jsonUnsafe({ error }, { status })
@@ -52,7 +52,7 @@ function logError(route: string, err: unknown) {
   log.error("unhandled error", { route, err })
 }
 
-export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo", (handlers) =>
+export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa", (handlers) =>
   Effect.gen(function* () {
     const auth = yield* Auth.Service
     const config = yield* Config.Service
@@ -63,7 +63,7 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
     const storage = yield* Storage.Service
 
     const profile = Effect.fn("KiloGatewayHttpApi.profile")(function* () {
-      const info = yield* auth.get("kilo").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
+      const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
       if (!info || info.type !== "oauth") return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
       const currentOrgId = info.accountId ?? null
@@ -80,9 +80,9 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
     })
 
     const authStatus = Effect.fn("KiloGatewayHttpApi.authStatus")(function* () {
-      const info = yield* auth.get("kilo").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
+      const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
       const cfg = yield* config.get()
-      const organizationId = catalogOrganization(cfg.provider?.kilo?.options, info)
+      const organizationId = catalogOrganization(cfg.provider?.kappa?.options, info)
       const type = getToken(info) && (info?.type === "api" || info?.type === "oauth") ? info.type : undefined
       return {
         authenticated: !!type,
@@ -92,7 +92,7 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
     })
 
     const proxyAuth = Effect.fn("KiloGatewayHttpApi.proxyAuth")(function* () {
-      const info = yield* auth.get("kilo").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
+      const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
       return {
         auth: info,
         token: getToken(info),
@@ -101,7 +101,7 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
     })
 
     const modes = Effect.fn("KiloGatewayHttpApi.modes")(function* () {
-      const info = yield* auth.get("kilo").pipe(Effect.catch(() => Effect.succeed(undefined)))
+      const info = yield* auth.get("kappa").pipe(Effect.catch(() => Effect.succeed(undefined)))
       if (!info || info.type !== "oauth" || !info.access || !info.accountId) return { modes: [] }
 
       const org = info.accountId
@@ -113,15 +113,15 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
 
     const fim = Effect.fn("KiloGatewayHttpApi.fim")(function* (ctx: { payload: typeof FimBody.Type }) {
       const target = resolveFimTarget(ctx.payload.provider, ctx.payload.model)
-      const info = target.provider === "kilo" ? yield* proxyAuth() : undefined
+      const info = target.provider === "kappa" ? yield* proxyAuth() : undefined
       const token = yield* Effect.gen(function* () {
-        if (target.provider === "kilo") return info?.token
+        if (target.provider === "kappa") return info?.token
         const item = yield* auth.get(target.provider).pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
         if (item?.type === "api") return item.key
         return DIRECT_FIM_ENV[target.provider].map((key) => process.env[key]).find(Boolean)
       })
 
-      if (target.provider === "kilo" && !info?.auth) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
+      if (target.provider === "kappa" && !info?.auth) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
       if (!token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
       const request = yield* HttpServerRequest.HttpServerRequest
@@ -138,10 +138,10 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
-                ...(target.provider === "kilo"
+                ...(target.provider === "kappa"
                   ? buildKiloHeaders(undefined, { kilocodeOrganizationId: info?.organizationId })
                   : {}),
-                ...(target.provider === "kilo" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
+                ...(target.provider === "kappa" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
               },
               signal,
               body: JSON.stringify({
@@ -189,17 +189,17 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
 
     const edit = Effect.fn("KiloGatewayHttpApi.edit")(function* (ctx: { payload: typeof EditBody.Type }) {
       const target = resolveEditTarget(ctx.payload.provider, ctx.payload.model)
-      if (target.provider === "kilo" && !target.url) {
+      if (target.provider === "kappa" && !target.url) {
         return yield* Effect.fail(new HttpApiError.BadRequest({}))
       }
-      const proxy = target.provider === "kilo" ? yield* proxyAuth() : undefined
+      const proxy = target.provider === "kappa" ? yield* proxyAuth() : undefined
       const token = yield* Effect.gen(function* () {
-        if (target.provider === "kilo") return proxy?.token
+        if (target.provider === "kappa") return proxy?.token
         const item = yield* auth.get(target.provider).pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
         if (item?.type === "api") return item.key
         return DIRECT_EDIT_ENV[target.provider].map((key) => process.env[key]).find(Boolean)
       })
-      if (target.provider === "kilo" && !proxy?.auth) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
+      if (target.provider === "kappa" && !proxy?.auth) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
       if (!token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
       const request = yield* HttpServerRequest.HttpServerRequest
@@ -228,10 +228,10 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
-              ...(target.provider === "kilo"
+              ...(target.provider === "kappa"
                 ? buildKiloHeaders(undefined, { kilocodeOrganizationId: proxy?.organizationId })
                 : {}),
-              ...(target.provider === "kilo" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
+              ...(target.provider === "kappa" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
             },
             signal,
             body: JSON.stringify({
@@ -326,7 +326,7 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
       const claude = yield* Effect.promise(() => ClaudeMigration.notification())
       const append = <T>(list: T[]) => [...list, ...(notice ? [notice] : []), ...(claude ? [claude] : [])]
 
-      const info = yield* auth.get("kilo").pipe(Effect.catch(() => Effect.succeed(undefined)))
+      const info = yield* auth.get("kappa").pipe(Effect.catch(() => Effect.succeed(undefined)))
       const token = getToken(info)
       if (!token) return append([])
 
@@ -340,11 +340,11 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
     })
 
     const organization = Effect.fn("KiloGatewayHttpApi.organization")(function* (ctx) {
-      const info = yield* auth.get("kilo").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
+      const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
       if (!info || info.type !== "oauth") return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
       yield* auth
-        .set("kilo", {
+        .set("kappa", {
           type: "oauth",
           refresh: info.refresh,
           access: info.access,
@@ -353,14 +353,14 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
         })
         .pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
 
-      yield* cache.clear("kilo")
+      yield* cache.clear("kappa")
       clearModesCache()
       yield* store.disposeAll().pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
       return true
     })
 
     const cloudSessions = Effect.fn("KiloGatewayHttpApi.cloudSessions")(function* (ctx) {
-      const info = yield* auth.get("kilo").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
+      const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.BadRequest({})))
       const token = getToken(info)
       if (!token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 
@@ -385,7 +385,7 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
     })
 
     const cloudSession = Effect.fn("KiloGatewayHttpApi.cloudSession")(function* (ctx) {
-      const info = yield* auth.get("kilo").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
+      const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new HttpApiError.Unauthorized({})))
       const token = getToken(info)
       if (!token) return yield* Effect.fail(new HttpApiError.Unauthorized({}))
 

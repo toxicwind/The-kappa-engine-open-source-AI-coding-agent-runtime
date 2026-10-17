@@ -1,4 +1,4 @@
-# @kilocode/cli
+# @kappacode/cli
 
 ## 7.8.10
 
@@ -44,7 +44,7 @@
 
 - [#14906](https://github.com/Kilo-Org/kilocode/pull/14906) [`2dd87e7`](https://github.com/Kilo-Org/kilocode/commit/2dd87e7bb0695da44500bd04384a5d0da56dbd80) - Expose a custom or plugin command named `goal` as `/goal:command` instead of dropping it. `/goal` still starts a session goal, and the configuration warning now names the alias so the command stays reachable.
 
-- [#14970](https://github.com/Kilo-Org/kilocode/pull/14970) [`296b9de`](https://github.com/Kilo-Org/kilocode/commit/296b9de6e54dacabfb85c128fbc3c51fc342cfd0) - Respect `permission` settings from global and project `kilo.jsonc` in the JetBrains plugin. Edits now follow your configured `permission.edit` value instead of being forced to ask, and the Auto-Approve settings page reflects the effective level.
+- [#14970](https://github.com/Kilo-Org/kilocode/pull/14970) [`296b9de`](https://github.com/Kilo-Org/kilocode/commit/296b9de6e54dacabfb85c128fbc3c51fc342cfd0) - Respect `permission` settings from global and project `kappa.jsonc` in the JetBrains plugin. Edits now follow your configured `permission.edit` value instead of being forced to ask, and the Auto-Approve settings page reflects the effective level.
 
 - [#13593](https://github.com/Kilo-Org/kilocode/pull/13593) [`1f093ff`](https://github.com/Kilo-Org/kilocode/commit/1f093ffed0ae99d91bbbc949eac6d4f180d39cfc) Thanks [@maphew](https://github.com/maphew)! - Log structural diagnostics (message part sequences, tool-call/result pairing, schema issue paths) when the AI SDK rejects an assembled request, instead of failing with a bare `ModelMessage[] schema` error.
 
@@ -52,7 +52,7 @@
 
 - [#14812](https://github.com/Kilo-Org/kilocode/pull/14812) [`b4b51f2`](https://github.com/Kilo-Org/kilocode/commit/b4b51f25269027451c293a665471095a43300b6b) - Keep slash commands working when a plugin or your config defines a command named `goal`. Such a command clashes with Kilo's own `/goal` and used to hide every slash command, including `/init`, `/review`, and your own, leaving autocomplete empty. The clashing command is now skipped and reported as a configuration warning, so the CLI, VS Code, and JetBrains all tell you which command was ignored and why, while the rest keep working. A command list that fails to load also shows a warning in the CLI instead of silently showing no commands.
 
-- [#14830](https://github.com/Kilo-Org/kilocode/pull/14830) [`e38a045`](https://github.com/Kilo-Org/kilocode/commit/e38a045c636cfa0201f6d8c1dbcd7c5875099197) Thanks [@abdulhusainahk](https://github.com/abdulhusainahk)! - Force `kilo serve` to exit after five seconds if graceful shutdown stalls, so editor shutdown cannot leave the backend running indefinitely.
+- [#14830](https://github.com/Kilo-Org/kilocode/pull/14830) [`e38a045`](https://github.com/Kilo-Org/kilocode/commit/e38a045c636cfa0201f6d8c1dbcd7c5875099197) Thanks [@abdulhusainahk](https://github.com/abdulhusainahk)! - Force `kappa serve` to exit after five seconds if graceful shutdown stalls, so editor shutdown cannot leave the backend running indefinitely.
 
 - [#14816](https://github.com/Kilo-Org/kilocode/pull/14816) [`3ad45fd`](https://github.com/Kilo-Org/kilocode/commit/3ad45fdcfa7ed4bb5ef743c4568aedc7813cdf18) Thanks [@kr1shna-exe](https://github.com/kr1shna-exe)! - Reduce the work done on every agent step in long sessions once the request passes the payload pruning limit. The session transcript is no longer reloaded and re-serialized after pruning, and pruning no longer reads the whole session history again. Plan mode also keeps its plan file instructions on those steps.
 
@@ -63,7 +63,7 @@
 - [#13955](https://github.com/Kilo-Org/kilocode/pull/13955) [`bb652c5`](https://github.com/Kilo-Org/kilocode/commit/bb652c56b7d4a1ea4aac72a1cb0283bfe9242422) Thanks [@rakshith1928](https://github.com/rakshith1928)! - Fix permission and question prompts disappearing when switching sessions in the TUI. Approval prompts for running subagents and sessions now persist across session switches and are restored when switching back, so sessions are never left blocked on an unanswered prompt.
 
 - Updated dependencies [[`0a5c6df`](https://github.com/Kilo-Org/kilocode/commit/0a5c6df3486d897d142752173545a1d153b8cdaa)]:
-  - @kilocode/kilo-indexing@7.8.9
+  - @kappacode/kappa-indexing@7.8.9
   - @opencode-ai/server@7.8.9
   - @opencode-ai/tui@7.8.9
   - @opencode-ai/ui@7.8.9
@@ -80,7 +80,7 @@
 
 - [#14724](https://github.com/Kilo-Org/kilocode/pull/14724) [`c9632e4`](https://github.com/Kilo-Org/kilocode/commit/c9632e495115ec9f4592842b02335c2a61149645) - Support client-driven MCP OAuth authorization, preserve credentials when cancelling sign-in, and classify recoverable authentication failures as requiring sign-in.
 
-- [#14781](https://github.com/Kilo-Org/kilocode/pull/14781) [`fffcf0e`](https://github.com/Kilo-Org/kilocode/commit/fffcf0e2ac3ae821a953e1956cc316d35b4a24ce) Thanks [@eborjaa](https://github.com/eborjaa)! - Choose a separate model for automatic project memory saves with the new `memory_model` setting in `kilo.jsonc`. When it is unset or unavailable, memory keeps using the session model.
+- [#14781](https://github.com/Kilo-Org/kilocode/pull/14781) [`fffcf0e`](https://github.com/Kilo-Org/kilocode/commit/fffcf0e2ac3ae821a953e1956cc316d35b4a24ce) Thanks [@eborjaa](https://github.com/eborjaa)! - Choose a separate model for automatic project memory saves with the new `memory_model` setting in `kappa.jsonc`. When it is unset or unavailable, memory keeps using the session model.
 
 - [#14701](https://github.com/Kilo-Org/kilocode/pull/14701) [`d627b31`](https://github.com/Kilo-Org/kilocode/commit/d627b3185589fe671748b0b651d7a1c61bbb7795) Thanks [@calebnorman](https://github.com/calebnorman)! - Press Esc twice in a subagent view to stop that subagent and anything it started while the parent session keeps working, the same as Stop on a VS Code task card. The parent is told the user stopped it, so it no longer starts a replacement subagent right away. Leaving the TUI from a subagent view now needs a second press of the exit key.
 
@@ -115,9 +115,9 @@
 - [#14860](https://github.com/Kilo-Org/kilocode/pull/14860) [`2d209e6`](https://github.com/Kilo-Org/kilocode/commit/2d209e6d3ea3b7f20d1f36013eca8f21a663dbec) - Fix the TUI starting up to a permanently blank screen. A request sent to the TUI's worker before it finished starting was dropped, and the TUI then waited for a reply that never came, with no error and no timeout. Worker requests are now queued until the worker is ready, worker-side failures are reported instead of silently swallowed, and a worker that never answers fails with a clear message.
 
 - Updated dependencies [[`07b18a1`](https://github.com/Kilo-Org/kilocode/commit/07b18a1a250ac7b1b257e4571e7b6050e3abd092)]:
-  - @kilocode/kilo-gateway@7.8.4
-  - @kilocode/kilo-indexing@7.8.4
-  - @kilocode/kilo-telemetry@7.8.4
+  - @kappacode/kappa-gateway@7.8.4
+  - @kappacode/kappa-indexing@7.8.4
+  - @kappacode/kappa-telemetry@7.8.4
   - @opencode-ai/server@7.8.4
   - @opencode-ai/tui@7.8.4
   - @opencode-ai/ui@7.8.4
@@ -147,8 +147,8 @@
 - [#14679](https://github.com/Kilo-Org/kilocode/pull/14679) [`9076f03`](https://github.com/Kilo-Org/kilocode/commit/9076f03018fe3f3b4fd4707fb6a4da3ec6530301) - Restrict session PR linking, automatic recording, and background polling to CLI backends. VS Code, Agent Manager, JetBrains, and other clients keep their existing PR integrations without running the separate session-link mechanism, including when controlled from mobile.
 
 - Updated dependencies [[`463cbed`](https://github.com/Kilo-Org/kilocode/commit/463cbedaa6f17ebf6f4fbcc276a338259f348b63), [`d6426d0`](https://github.com/Kilo-Org/kilocode/commit/d6426d047505e2a90bd910d13aab51f6eb4a2b6f)]:
-  - @kilocode/kilo-indexing@7.8.2
-  - @kilocode/kilo-telemetry@7.8.2
+  - @kappacode/kappa-indexing@7.8.2
+  - @kappacode/kappa-telemetry@7.8.2
   - @opencode-ai/server@7.8.2
   - @opencode-ai/tui@7.8.2
   - @opencode-ai/ui@7.8.2
@@ -198,15 +198,15 @@
 - [#14480](https://github.com/Kilo-Org/kilocode/pull/14480) [`5e05988`](https://github.com/Kilo-Org/kilocode/commit/5e05988b17ced03fb040476c8748c86eae992e31) - Deliver plan completion questions to directory-scoped clients such as JetBrains without requiring a reconnect.
 
 - Updated dependencies [[`c06228d`](https://github.com/Kilo-Org/kilocode/commit/c06228d6a0090307331a572d726348b7ad3df722)]:
-  - @kilocode/sdk@7.8.0
-  - @kilocode/plugin@7.7.10
+  - @kappacode/sdk@7.8.0
+  - @kappacode/plugin@7.7.10
   - @opencode-ai/tui@7.7.10
   - @opencode-ai/ui@7.7.10
-  - @kilocode/kilo-gateway@7.7.10
-  - @kilocode/kilo-indexing@7.7.10
-  - @kilocode/plugin-atomic-chat@7.7.10
+  - @kappacode/kappa-gateway@7.7.10
+  - @kappacode/kappa-indexing@7.7.10
+  - @kappacode/plugin-atomic-chat@7.7.10
   - @opencode-ai/server@7.7.10
-  - @kilocode/kilo-telemetry@7.7.10
+  - @kappacode/kappa-telemetry@7.7.10
 
 ## 7.7.9
 
@@ -226,11 +226,11 @@
 
 - [#14318](https://github.com/Kilo-Org/kilocode/pull/14318) [`5edf432`](https://github.com/Kilo-Org/kilocode/commit/5edf432c2f4a34f333ff4e498e111d6f854cbe95) - An empty compaction response no longer replaces the conversation; the CLI reports that compaction did not run and lets you retry with /compact.
 
-- [#14315](https://github.com/Kilo-Org/kilocode/pull/14315) [`3fbb454`](https://github.com/Kilo-Org/kilocode/commit/3fbb454a4c3efdbf613a54212520c7a1990c970b) - Link a session to its pull request reliably, on GitHub, GitLab and Bitbucket. An explicit link (`link_pr`, `kilo pr link`, or the app's set-PR-link action) always wins, and a check every 5 minutes asks the session's own git host whether an open pull request exists for its branch. A stale link is cleared when that check finds the pull request no longer open, so the app row updates when the pull request closes.
+- [#14315](https://github.com/Kilo-Org/kilocode/pull/14315) [`3fbb454`](https://github.com/Kilo-Org/kilocode/commit/3fbb454a4c3efdbf613a54212520c7a1990c970b) - Link a session to its pull request reliably, on GitHub, GitLab and Bitbucket. An explicit link (`link_pr`, `kappa pr link`, or the app's set-PR-link action) always wins, and a check every 5 minutes asks the session's own git host whether an open pull request exists for its branch. A stale link is cleared when that check finds the pull request no longer open, so the app row updates when the pull request closes.
 
 - [#14492](https://github.com/Kilo-Org/kilocode/pull/14492) [`43f5d55`](https://github.com/Kilo-Org/kilocode/commit/43f5d5551a77ccb1140388bd62f08c74510da2c0) - Fix git-hosted Marketplace plugins so `~/` repository paths resolve, a failed clone leaves no staging directory, and POSIX paths that contain a backslash are preserved. The plugin install dialog no longer describes every plugin as an npm plugin.
 
-- [#14196](https://github.com/Kilo-Org/kilocode/pull/14196) [`49df20f`](https://github.com/Kilo-Org/kilocode/commit/49df20fc74661e237df91f4a83d2b22560663e86) - Fix `kilo mcp auth` failing at the last step when another Kilo process touches the same MCP server while the browser tab is open: the OAuth flow now keeps its own state and PKCE verifier instead of reading them back from the process-shared `mcp-auth.json`, and every remaining failure names the step that failed (the token exchange, the browser authorization, a timeout, or a superseded authorization attempt). Running `kilo mcp auth` for the same server at the same time in two terminals now works too: the newer attempt takes the local callback listener over, the later browser tab completes, and the earlier command reports that it was replaced.
+- [#14196](https://github.com/Kilo-Org/kilocode/pull/14196) [`49df20f`](https://github.com/Kilo-Org/kilocode/commit/49df20fc74661e237df91f4a83d2b22560663e86) - Fix `kappa mcp auth` failing at the last step when another Kilo process touches the same MCP server while the browser tab is open: the OAuth flow now keeps its own state and PKCE verifier instead of reading them back from the process-shared `mcp-auth.json`, and every remaining failure names the step that failed (the token exchange, the browser authorization, a timeout, or a superseded authorization attempt). Running `kappa mcp auth` for the same server at the same time in two terminals now works too: the newer attempt takes the local callback listener over, the later browser tab completes, and the earlier command reports that it was replaced.
 
 - [#13513](https://github.com/Kilo-Org/kilocode/pull/13513) [`3add597`](https://github.com/Kilo-Org/kilocode/commit/3add59707346f6f14f33c3dd6e7c4132d578e301) - Adopt OpenCode v1.18.19 through v1.18.20 improvements, including subagent error and permission handling in non-interactive runs, network and stream error retry coverage, Cerebras completion limit handling, Cloudflare AI Gateway support, and TUI reasoning status updates.
 
@@ -241,15 +241,15 @@
 - [#14484](https://github.com/Kilo-Org/kilocode/pull/14484) [`065bc5c`](https://github.com/Kilo-Org/kilocode/commit/065bc5c2e7a0779853f6231a215f2a1990c5fdd3) - Keep session costs complete after reopening paginated conversations, including nested subagents without counting their parents or siblings.
 
 - Updated dependencies [[`065bc5c`](https://github.com/Kilo-Org/kilocode/commit/065bc5c2e7a0779853f6231a215f2a1990c5fdd3)]:
-  - @kilocode/sdk@7.7.8
-  - @kilocode/plugin@7.7.8
+  - @kappacode/sdk@7.7.8
+  - @kappacode/plugin@7.7.8
   - @opencode-ai/tui@7.7.8
   - @opencode-ai/ui@7.7.8
-  - @kilocode/kilo-gateway@7.7.8
-  - @kilocode/kilo-indexing@7.7.8
-  - @kilocode/plugin-atomic-chat@7.7.8
+  - @kappacode/kappa-gateway@7.7.8
+  - @kappacode/kappa-indexing@7.7.8
+  - @kappacode/plugin-atomic-chat@7.7.8
   - @opencode-ai/server@7.7.8
-  - @kilocode/kilo-telemetry@7.7.8
+  - @kappacode/kappa-telemetry@7.7.8
 
 ## 7.7.7
 
@@ -286,15 +286,15 @@
 - [#14284](https://github.com/Kilo-Org/kilocode/pull/14284) [`bab87b4`](https://github.com/Kilo-Org/kilocode/commit/bab87b4abe6c05aa44e0cc6332422fc7bff56017) - Stop denying read-only bash commands in Ask, Plan, and Explore modes when a shell operator is only literal text, such as `grep "=>"`, `rg "foo|bar"`, or `cat <<'EOF'` bodies, or when output is discarded with `2>/dev/null` or `2>&1`. Real file redirects, pipes, chaining, and command substitution are still denied.
 
 - Updated dependencies [[`d8eaefd`](https://github.com/Kilo-Org/kilocode/commit/d8eaefdf1d84fa6779c8cb1634ef516948d76f06)]:
-  - @kilocode/sdk@7.7.5
-  - @kilocode/plugin@7.7.5
+  - @kappacode/sdk@7.7.5
+  - @kappacode/plugin@7.7.5
   - @opencode-ai/tui@7.7.5
   - @opencode-ai/ui@7.7.5
-  - @kilocode/kilo-gateway@7.7.5
-  - @kilocode/kilo-indexing@7.7.5
-  - @kilocode/plugin-atomic-chat@7.7.5
+  - @kappacode/kappa-gateway@7.7.5
+  - @kappacode/kappa-indexing@7.7.5
+  - @kappacode/plugin-atomic-chat@7.7.5
   - @opencode-ai/server@7.7.5
-  - @kilocode/kilo-telemetry@7.7.5
+  - @kappacode/kappa-telemetry@7.7.5
 
 ## 7.7.4
 
@@ -310,13 +310,13 @@
 
 - [#14225](https://github.com/Kilo-Org/kilocode/pull/14225) [`88d2315`](https://github.com/Kilo-Org/kilocode/commit/88d23150b6b0a5f24d120f7ebe5ce43b0c95a718) - Prevent failed status notifications from leaving completed sessions marked busy and blocking reload.
 
-- [#14195](https://github.com/Kilo-Org/kilocode/pull/14195) [`864831e`](https://github.com/Kilo-Org/kilocode/commit/864831efaa6d3565a23d342db46d1f3fbdac7a72) - Keep the pull request link a session reports available to `kilo pr status` after the session exits, so GitLab merge requests and Bitbucket pull requests link the same way GitHub pull requests do.
+- [#14195](https://github.com/Kilo-Org/kilocode/pull/14195) [`864831e`](https://github.com/Kilo-Org/kilocode/commit/864831efaa6d3565a23d342db46d1f3fbdac7a72) - Keep the pull request link a session reports available to `kappa pr status` after the session exits, so GitLab merge requests and Bitbucket pull requests link the same way GitHub pull requests do.
 
 - [#14195](https://github.com/Kilo-Org/kilocode/pull/14195) [`864831e`](https://github.com/Kilo-Org/kilocode/commit/864831efaa6d3565a23d342db46d1f3fbdac7a72) - Link CLI sessions to GitLab merge requests and Bitbucket pull requests, not only GitHub PRs.
 
 - [#14223](https://github.com/Kilo-Org/kilocode/pull/14223) [`13e05d0`](https://github.com/Kilo-Org/kilocode/commit/13e05d06696f6de8c4e56e104f12f28b4fe8d26a) - Allow read-only `gh` commands such as `gh pr view` and `gh issue list` in Plan and Ask modes and the Explore agent without a prompt.
 
-- [#14214](https://github.com/Kilo-Org/kilocode/pull/14214) [`a728fbf`](https://github.com/Kilo-Org/kilocode/commit/a728fbf8f3d209ee8631d9fa8ea6d0afbe6f919d) - Log the remote sessions `kilo remote` runs: one line when a session starts and one when it ends, with the session id, start time, model, working directory, exit reason and duration.
+- [#14214](https://github.com/Kilo-Org/kilocode/pull/14214) [`a728fbf`](https://github.com/Kilo-Org/kilocode/commit/a728fbf8f3d209ee8631d9fa8ea6d0afbe6f919d) - Log the remote sessions `kappa remote` runs: one line when a session starts and one when it ends, with the session id, start time, model, working directory, exit reason and duration.
 
 - [#14226](https://github.com/Kilo-Org/kilocode/pull/14226) [`9f45df5`](https://github.com/Kilo-Org/kilocode/commit/9f45df567e1b77090d1f28925e42eecb16ae566c) - Explain sandbox escalation prompts accurately: approval runs the whole command outside the sandbox for that command only, and Bash allow rules and auto-approve never cover it.
 
@@ -326,7 +326,7 @@
 
 ### Major Changes
 
-- [#14209](https://github.com/Kilo-Org/kilocode/pull/14209) [`3eaf47b`](https://github.com/Kilo-Org/kilocode/commit/3eaf47ba52179d385a1945c0be323c5d8fa2b4ee) - Remove KiloClaw: the VS Code chat panel and sidebar button, the `/kiloclaw` TUI command and chat view, the Kilo Chat client and token handling, and the `kilo.claw.status` and `kilo.claw.chatCredentials` gateway endpoints.
+- [#14209](https://github.com/Kilo-Org/kilocode/pull/14209) [`3eaf47b`](https://github.com/Kilo-Org/kilocode/commit/3eaf47ba52179d385a1945c0be323c5d8fa2b4ee) - Remove KiloClaw: the VS Code chat panel and sidebar button, the `/kiloclaw` TUI command and chat view, the Kilo Chat client and token handling, and the `kappa.claw.status` and `kappa.claw.chatCredentials` gateway endpoints.
 
 ### Minor Changes
 
@@ -341,15 +341,15 @@
 - [#14201](https://github.com/Kilo-Org/kilocode/pull/14201) [`5bf040e`](https://github.com/Kilo-Org/kilocode/commit/5bf040ea69cda7d53641acca8977037fef779792) - Load skills from `skills.paths` entries written with a leading slash, such as `/.github/skills`, by falling back to the project root when no such directory exists at the filesystem root. Show skills in the VS Code slash menu under their own Skills group and list a skill that shares a name with a command as `/name:skill`.
 
 - Updated dependencies [[`3eaf47b`](https://github.com/Kilo-Org/kilocode/commit/3eaf47ba52179d385a1945c0be323c5d8fa2b4ee)]:
-  - @kilocode/kilo-gateway@8.0.0
-  - @kilocode/sdk@8.0.0
-  - @kilocode/kilo-indexing@7.7.3
-  - @kilocode/kilo-telemetry@7.7.3
-  - @kilocode/plugin@7.7.3
+  - @kappacode/kappa-gateway@8.0.0
+  - @kappacode/sdk@8.0.0
+  - @kappacode/kappa-indexing@7.7.3
+  - @kappacode/kappa-telemetry@7.7.3
+  - @kappacode/plugin@7.7.3
   - @opencode-ai/tui@7.7.3
   - @opencode-ai/ui@7.7.3
   - @opencode-ai/server@7.7.3
-  - @kilocode/plugin-atomic-chat@7.7.3
+  - @kappacode/plugin-atomic-chat@7.7.3
 
 ## 7.7.2
 
@@ -397,7 +397,7 @@
 
 - [#14075](https://github.com/Kilo-Org/kilocode/pull/14075) [`fdf1bca`](https://github.com/Kilo-Org/kilocode/commit/fdf1bca9d9ac4b1371fc25ea895ab6ee48f91cd1) - Detect the session pull-request link from local git signals, the PR URL a session prints in its own output, and at most one REST lookup, so Kilo no longer burns the GitHub GraphQL rate limit probing for a PR on a timer.
 
-- [#13192](https://github.com/Kilo-Org/kilocode/pull/13192) [`1e73d38`](https://github.com/Kilo-Org/kilocode/commit/1e73d3862489c23e5937f51fc02d2e21b99c6b74) Thanks [@maphew](https://github.com/maphew)! - Only route auxiliary tasks (session titles, commit messages, branch names) to the cloud kilo-auto/small model when kilo credentials are configured; otherwise fall back to the session's own model so offline and local-only setups keep working.
+- [#13192](https://github.com/Kilo-Org/kilocode/pull/13192) [`1e73d38`](https://github.com/Kilo-Org/kilocode/commit/1e73d3862489c23e5937f51fc02d2e21b99c6b74) Thanks [@maphew](https://github.com/maphew)! - Only route auxiliary tasks (session titles, commit messages, branch names) to the cloud kappa-auto/small model when kappa credentials are configured; otherwise fall back to the session's own model so offline and local-only setups keep working.
 
 - [#14115](https://github.com/Kilo-Org/kilocode/pull/14115) [`f40394f`](https://github.com/Kilo-Org/kilocode/commit/f40394f07a92e7fc3441b03485096d08777212ed) - Start the first snapshot of a new worktree several times faster. Seeding now reuses the checkout's index state instead of re-hashing every file, snapshot preparation reconciles the working tree before the first prompt arrives, and repacking snapshot objects waits until the snapshot repository is idle instead of blocking the tool steps of the running turn.
 
@@ -460,15 +460,15 @@
 - [#13945](https://github.com/Kilo-Org/kilocode/pull/13945) [`9db9718`](https://github.com/Kilo-Org/kilocode/commit/9db971865f3f95d8150b6fde1b307026402f4edb) - Prevent interrupted snapshot progress from poisoning future prompts, and skip snapshot lock waits when snapshots are disabled.
 
 - Updated dependencies [[`b5cf426`](https://github.com/Kilo-Org/kilocode/commit/b5cf426158d86573eb0eeb08d754231d813f2d64), [`4d2d800`](https://github.com/Kilo-Org/kilocode/commit/4d2d8001e550c39cfb871f83943b1d5411fd5234)]:
-  - @kilocode/sdk@8.0.0
-  - @kilocode/plugin@7.5.17
+  - @kappacode/sdk@8.0.0
+  - @kappacode/plugin@7.5.17
   - @opencode-ai/tui@7.5.17
   - @opencode-ai/ui@7.5.17
-  - @kilocode/kilo-gateway@7.5.17
-  - @kilocode/kilo-indexing@7.5.17
-  - @kilocode/plugin-atomic-chat@7.5.17
+  - @kappacode/kappa-gateway@7.5.17
+  - @kappacode/kappa-indexing@7.5.17
+  - @kappacode/plugin-atomic-chat@7.5.17
   - @opencode-ai/server@7.5.17
-  - @kilocode/kilo-telemetry@7.5.17
+  - @kappacode/kappa-telemetry@7.5.17
 
 ## 7.5.16
 
@@ -486,7 +486,7 @@
 
 - [#13868](https://github.com/Kilo-Org/kilocode/pull/13868) [`66053ef`](https://github.com/Kilo-Org/kilocode/commit/66053ef651ad70747a8b9313b50dfa7a68b5d514) - Load recent messages faster when opening large sessions, speed up token-usage totals across child sessions, and keep older history available on demand.
 
-- [#13896](https://github.com/Kilo-Org/kilocode/pull/13896) [`6275016`](https://github.com/Kilo-Org/kilocode/commit/627501673a4df40708e4b9e7384cf5f9e850860a) Thanks [@esc](https://github.com/esc)! - Fix `kilo session list --all` crashing with "undefined is not an object" instead of listing sessions across all projects.
+- [#13896](https://github.com/Kilo-Org/kilocode/pull/13896) [`6275016`](https://github.com/Kilo-Org/kilocode/commit/627501673a4df40708e4b9e7384cf5f9e850860a) Thanks [@esc](https://github.com/esc)! - Fix `kappa session list --all` crashing with "undefined is not an object" instead of listing sessions across all projects.
 
 - [#13855](https://github.com/Kilo-Org/kilocode/pull/13855) [`d75ae54`](https://github.com/Kilo-Org/kilocode/commit/d75ae546bcee5f484cece2a7a59bb723de77e569) - Restore Home and End cursor movement while editing session prompts.
 
@@ -528,7 +528,7 @@
 
 - [#13730](https://github.com/Kilo-Org/kilocode/pull/13730) [`64123bc`](https://github.com/Kilo-Org/kilocode/commit/64123bc8a9706df100b949e48118e278d88ca9be) - Show the target session and full outgoing prompt when asking permission to send a prompt through Agent Manager.
 
-- [#13763](https://github.com/Kilo-Org/kilocode/pull/13763) [`86c1928`](https://github.com/Kilo-Org/kilocode/commit/86c1928c4a380e014e95b9e05e30ca1557c4fb42) - Bound the piped-stdin wait of `kilo run` when the prompt comes from argv, so a launcher-held-open stdin pipe cannot hang the boot.
+- [#13763](https://github.com/Kilo-Org/kilocode/pull/13763) [`86c1928`](https://github.com/Kilo-Org/kilocode/commit/86c1928c4a380e014e95b9e05e30ca1557c4fb42) - Bound the piped-stdin wait of `kappa run` when the prompt comes from argv, so a launcher-held-open stdin pipe cannot hang the boot.
 
 - [#13744](https://github.com/Kilo-Org/kilocode/pull/13744) [`4b85267`](https://github.com/Kilo-Org/kilocode/commit/4b85267aedde11c6992034c237464588ae192922) - Let subagents continue and return their findings when a tool permission is denied, without allowing the denied operation.
 
@@ -548,22 +548,22 @@
 
 - [#13729](https://github.com/Kilo-Org/kilocode/pull/13729) [`b8e1dae`](https://github.com/Kilo-Org/kilocode/commit/b8e1daecebd779b11cf63114b47d62b625876978) - Keep balance lookup errors in the CLI log instead of printing them over the terminal interface.
 
-- [#13578](https://github.com/Kilo-Org/kilocode/pull/13578) [`961bae3`](https://github.com/Kilo-Org/kilocode/commit/961bae3463d697714a889aefc021fcd5c8631cfd) Thanks [@maphew](https://github.com/maphew)! - Use standard CLI keybinds for multiple-choice questions in `kilo run`: Space toggles an option and Enter advances to the next question (or the review tab). Previously Enter toggled, which made it easy to submit before finishing a selection.
+- [#13578](https://github.com/Kilo-Org/kilocode/pull/13578) [`961bae3`](https://github.com/Kilo-Org/kilocode/commit/961bae3463d697714a889aefc021fcd5c8631cfd) Thanks [@maphew](https://github.com/maphew)! - Use standard CLI keybinds for multiple-choice questions in `kappa run`: Space toggles an option and Enter advances to the next question (or the review tab). Previously Enter toggled, which made it easy to submit before finishing a selection.
 
 - [#13732](https://github.com/Kilo-Org/kilocode/pull/13732) [`beb84eb`](https://github.com/Kilo-Org/kilocode/commit/beb84eb506a3f6f3af9ce9ff2d28df8b260114f6) - Show session titles and agent icons in board communication routes, with readable long-name tooltips and each message body shown once. Expose available agent execution state and report inactive or unknown recipients without implying delivery or reading.
 
 - [#13736](https://github.com/Kilo-Org/kilocode/pull/13736) [`2f500b0`](https://github.com/Kilo-Org/kilocode/commit/2f500b05a15ac6d0ad896908095f8657a9f9b580) - Clarify when agents should share discoveries and read updates while the experimental shared agent board is enabled.
 
 - Updated dependencies [[`bbc26e4`](https://github.com/Kilo-Org/kilocode/commit/bbc26e425a6c75ec012ae6fc739e21320ec3a8a7), [`8c077fb`](https://github.com/Kilo-Org/kilocode/commit/8c077fbee7fa253c53201dbbf2161b1423cce724), [`ce274e6`](https://github.com/Kilo-Org/kilocode/commit/ce274e6762255e2318a477dd225f629ed6708e17), [`b8e1dae`](https://github.com/Kilo-Org/kilocode/commit/b8e1daecebd779b11cf63114b47d62b625876978), [`c0eba39`](https://github.com/Kilo-Org/kilocode/commit/c0eba39ef5cfdd96ce2e220850c091dc9473f848)]:
-  - @kilocode/kilo-indexing@7.5.10
-  - @kilocode/kilo-gateway@7.5.10
-  - @kilocode/sdk@7.6.0
-  - @kilocode/kilo-telemetry@7.5.10
-  - @kilocode/plugin@7.5.10
+  - @kappacode/kappa-indexing@7.5.10
+  - @kappacode/kappa-gateway@7.5.10
+  - @kappacode/sdk@7.6.0
+  - @kappacode/kappa-telemetry@7.5.10
+  - @kappacode/plugin@7.5.10
   - @opencode-ai/tui@7.5.10
   - @opencode-ai/ui@7.5.10
   - @opencode-ai/server@7.5.10
-  - @kilocode/plugin-atomic-chat@7.5.10
+  - @kappacode/plugin-atomic-chat@7.5.10
 
 ## 7.5.9
 
@@ -610,15 +610,15 @@
 - [#12642](https://github.com/Kilo-Org/kilocode/pull/12642) [`95c731e`](https://github.com/Kilo-Org/kilocode/commit/95c731e9d97bfb7046f04159188cc2b5e6e04f0a) Thanks [@noobezlol](https://github.com/noobezlol)! - Respect deleted bash permission overrides after upgrading.
 
 - Updated dependencies [[`7c845aa`](https://github.com/Kilo-Org/kilocode/commit/7c845aa0ec8a0ff46f25cff26545260c0126c3f7), [`dd390c1`](https://github.com/Kilo-Org/kilocode/commit/dd390c1930d0cc548fe997ed20c0f2be7967fd30), [`6624c1a`](https://github.com/Kilo-Org/kilocode/commit/6624c1a2b07c0a7871532b0b5175d01a03c6e61e)]:
-  - @kilocode/sdk@7.6.0
-  - @kilocode/plugin@7.5.7
+  - @kappacode/sdk@7.6.0
+  - @kappacode/plugin@7.5.7
   - @opencode-ai/tui@7.5.7
   - @opencode-ai/ui@7.5.7
-  - @kilocode/kilo-gateway@7.5.7
-  - @kilocode/kilo-indexing@7.5.7
-  - @kilocode/plugin-atomic-chat@7.5.7
+  - @kappacode/kappa-gateway@7.5.7
+  - @kappacode/kappa-indexing@7.5.7
+  - @kappacode/plugin-atomic-chat@7.5.7
   - @opencode-ai/server@7.5.7
-  - @kilocode/kilo-telemetry@7.5.7
+  - @kappacode/kappa-telemetry@7.5.7
 
 ## 7.5.6
 
@@ -654,14 +654,14 @@
 
 - Updated dependencies [[`13a9673`](https://github.com/Kilo-Org/kilocode/commit/13a9673d08cfc69eebb89898861a1ee80278f226), [`f5a7a1d`](https://github.com/Kilo-Org/kilocode/commit/f5a7a1d61bf7eaaa7bc307a976f6f56150fa6264), [`f9ddb78`](https://github.com/Kilo-Org/kilocode/commit/f9ddb78b17714075ab4f5d1ccb26f2cdbcd644bf), [`34b10a6`](https://github.com/Kilo-Org/kilocode/commit/34b10a672b3048ed53477a1019f08832b522db2d), [`8cb1931`](https://github.com/Kilo-Org/kilocode/commit/8cb1931275b1df6d145b8a283cef550ae2851e29)]:
   - @opencode-ai/ui@7.5.6
-  - @kilocode/sdk@7.5.6
-  - @kilocode/kilo-indexing@7.5.6
+  - @kappacode/sdk@7.5.6
+  - @kappacode/kappa-indexing@7.5.6
   - @opencode-ai/tui@7.5.6
-  - @kilocode/plugin@7.5.6
+  - @kappacode/plugin@7.5.6
   - @opencode-ai/server@7.5.6
-  - @kilocode/kilo-gateway@7.5.6
-  - @kilocode/plugin-atomic-chat@7.5.6
-  - @kilocode/kilo-telemetry@7.5.6
+  - @kappacode/kappa-gateway@7.5.6
+  - @kappacode/plugin-atomic-chat@7.5.6
+  - @kappacode/kappa-telemetry@7.5.6
 
 ## 7.5.5
 
@@ -705,7 +705,7 @@
 
 - [#13349](https://github.com/Kilo-Org/kilocode/pull/13349) [`1761172`](https://github.com/Kilo-Org/kilocode/commit/17611729e29ad2aff84e7ac4d3e15c6612c66dd3) - Prevent encrypted reasoning state from incorrectly reducing the output token budget for long-running sessions.
 
-- [#13365](https://github.com/Kilo-Org/kilocode/pull/13365) [`98ea338`](https://github.com/Kilo-Org/kilocode/commit/98ea338c829e0cb2e4b155c9a248dab08ec5727f) - Prefer PowerShell 7 over legacy Windows PowerShell 5.1 when running agent commands on Windows. PowerShell 7 installs are now found even when `pwsh` is missing from PATH, Agent Manager setup and run scripts launch pwsh when available, and an explicit `shell` in kilo.json still overrides detection.
+- [#13365](https://github.com/Kilo-Org/kilocode/pull/13365) [`98ea338`](https://github.com/Kilo-Org/kilocode/commit/98ea338c829e0cb2e4b155c9a248dab08ec5727f) - Prefer PowerShell 7 over legacy Windows PowerShell 5.1 when running agent commands on Windows. PowerShell 7 installs are now found even when `pwsh` is missing from PATH, Agent Manager setup and run scripts launch pwsh when available, and an explicit `shell` in kappa.json still overrides detection.
 
 - [#13412](https://github.com/Kilo-Org/kilocode/pull/13412) [`4ca951c`](https://github.com/Kilo-Org/kilocode/commit/4ca951c88508ab259ebf5f02990145524dce06d9) - Improve CLI cold and warm startup time.
 
@@ -723,7 +723,7 @@
 
 ### Minor Changes
 
-- [#13137](https://github.com/Kilo-Org/kilocode/pull/13137) [`90a93a7`](https://github.com/Kilo-Org/kilocode/commit/90a93a7aa25950d5894fa67f6e4e6545ef55017c) - Add `kilo pr link <url>`, `kilo pr unlink`, and `kilo pr status` to link the current worktree to a pull request. The checkout command moves to `kilo pr checkout <number>`; `kilo pr <number>` no longer checks out a PR.
+- [#13137](https://github.com/Kilo-Org/kilocode/pull/13137) [`90a93a7`](https://github.com/Kilo-Org/kilocode/commit/90a93a7aa25950d5894fa67f6e4e6545ef55017c) - Add `kappa pr link <url>`, `kappa pr unlink`, and `kappa pr status` to link the current worktree to a pull request. The checkout command moves to `kappa pr checkout <number>`; `kappa pr <number>` no longer checks out a PR.
 
 ### Patch Changes
 
@@ -757,23 +757,23 @@
 
 - [#13214](https://github.com/Kilo-Org/kilocode/pull/13214) [`e1bcb32`](https://github.com/Kilo-Org/kilocode/commit/e1bcb320d94efe6ed8abf7c33fe6475a67a2e1e7) - Remove the experimental task-aware tool-output pruning feature and its related settings and indicators.
 
-- [#13199](https://github.com/Kilo-Org/kilocode/pull/13199) [`6131ed2`](https://github.com/Kilo-Org/kilocode/commit/6131ed269f37ae8e258c1b91929c3170a4cf2767) - Keep `kilo upgrade` on the Kilo CLI release channel when GitHub's latest release is a JetBrains release.
+- [#13199](https://github.com/Kilo-Org/kilocode/pull/13199) [`6131ed2`](https://github.com/Kilo-Org/kilocode/commit/6131ed269f37ae8e258c1b91929c3170a4cf2767) - Keep `kappa upgrade` on the Kilo CLI release channel when GitHub's latest release is a JetBrains release.
 
 - [#13178](https://github.com/Kilo-Org/kilocode/pull/13178) [`86af8dd`](https://github.com/Kilo-Org/kilocode/commit/86af8dd7c700fcb6229f28471126b5e7b0f6f654) - Prompt for explicit, one-shot approval before mutating Git commands run outside the sandbox.
 
 - [#13103](https://github.com/Kilo-Org/kilocode/pull/13103) [`591772d`](https://github.com/Kilo-Org/kilocode/commit/591772d92875762460636b42233ad1ad552e8596) - Use provider model catalogs instead of hardcoded model-name heuristics for reasoning variants.
 
-- [#13170](https://github.com/Kilo-Org/kilocode/pull/13170) [`3acb1ec`](https://github.com/Kilo-Org/kilocode/commit/3acb1ec38693e7f75bb38e832a23ace097c7440a) - Keep recently used Kilo Gateway models visible in the TUI picker, and find them when filtering by kilo.
+- [#13170](https://github.com/Kilo-Org/kilocode/pull/13170) [`3acb1ec`](https://github.com/Kilo-Org/kilocode/commit/3acb1ec38693e7f75bb38e832a23ace097c7440a) - Keep recently used Kilo Gateway models visible in the TUI picker, and find them when filtering by kappa.
 
 - [#13247](https://github.com/Kilo-Org/kilocode/pull/13247) [`0d5d334`](https://github.com/Kilo-Org/kilocode/commit/0d5d334480bc2093a12b27a34b03cac88cf33422) - Fix TUI sessions where new turns stopped appearing until the session was reopened
 
 - Updated dependencies [[`f39e163`](https://github.com/Kilo-Org/kilocode/commit/f39e1631855859222966350bd5fae373b9877297)]:
-  - @kilocode/kilo-gateway@8.0.0
+  - @kappacode/kappa-gateway@8.0.0
   - @opencode-ai/server@7.4.23
   - @opencode-ai/tui@7.4.23
   - @opencode-ai/ui@7.4.23
-  - @kilocode/kilo-indexing@7.4.23
-  - @kilocode/kilo-telemetry@7.4.23
+  - @kappacode/kappa-indexing@7.4.23
+  - @kappacode/kappa-telemetry@7.4.23
 
 ## 7.4.22
 
@@ -781,13 +781,13 @@
 
 - [#13084](https://github.com/Kilo-Org/kilocode/pull/13084) [`5c97b48`](https://github.com/Kilo-Org/kilocode/commit/5c97b481d233d294859bcb737448661910fd4916) - Remove the built-in experimental Morph WarpGrep codebase search tool and ignore its retired configuration flag.
 
-- [#12809](https://github.com/Kilo-Org/kilocode/pull/12809) [`907f7df`](https://github.com/Kilo-Org/kilocode/commit/907f7dfcf398e6ce44d8ee59dc031b3a1da5464f) Thanks [@bagatao-anaconda](https://github.com/bagatao-anaconda)! - Add `kilo --worktree <name>` to create (or reuse) a git worktree and start the TUI there, placed at `.kilo/worktrees/<name>` alongside worktrees created by the VS Code extension's Agent Manager. Also adds `kilo worktree create/list/remove` for managing worktrees without launching the TUI, and a `/worktree` command in the TUI to list and remove them. Resuming an explicit `--session <id>` now tries to restart in the worktree the session was originally created in, if it still exists.
+- [#12809](https://github.com/Kilo-Org/kilocode/pull/12809) [`907f7df`](https://github.com/Kilo-Org/kilocode/commit/907f7dfcf398e6ce44d8ee59dc031b3a1da5464f) Thanks [@bagatao-anaconda](https://github.com/bagatao-anaconda)! - Add `kappa --worktree <name>` to create (or reuse) a git worktree and start the TUI there, placed at `.kappa/worktrees/<name>` alongside worktrees created by the VS Code extension's Agent Manager. Also adds `kappa worktree create/list/remove` for managing worktrees without launching the TUI, and a `/worktree` command in the TUI to list and remove them. Resuming an explicit `--session <id>` now tries to restart in the worktree the session was originally created in, if it still exists.
 
 ### Patch Changes
 
 - [#13102](https://github.com/Kilo-Org/kilocode/pull/13102) [`f4cba05`](https://github.com/Kilo-Org/kilocode/commit/f4cba053a0ad9ef177f4c1c2ec845420e959f063) Thanks [@quanzhuo](https://github.com/quanzhuo)! - Preserve the selected session agent when sending headless prompts without an explicit agent.
 
-- [#12388](https://github.com/Kilo-Org/kilocode/pull/12388) [`c8e9c3b`](https://github.com/Kilo-Org/kilocode/commit/c8e9c3bf8f942c4ad40678bbc19ec541ef5c5928) Thanks [@rakshith1928](https://github.com/rakshith1928)! - Surface the underlying reason when `kilo --cloud-fork` fails to import a cloud session (HTTP status, server message, or fetch error) in both the user-visible message and the DEBUG log stream.
+- [#12388](https://github.com/Kilo-Org/kilocode/pull/12388) [`c8e9c3b`](https://github.com/Kilo-Org/kilocode/commit/c8e9c3bf8f942c4ad40678bbc19ec541ef5c5928) Thanks [@rakshith1928](https://github.com/rakshith1928)! - Surface the underlying reason when `kappa --cloud-fork` fails to import a cloud session (HTTP status, server message, or fetch error) in both the user-visible message and the DEBUG log stream.
 
 - [#13100](https://github.com/Kilo-Org/kilocode/pull/13100) [`753d560`](https://github.com/Kilo-Org/kilocode/commit/753d5609859f2b646c404392e71ca048714f61dd) - Support structured AWS access keys and Google Cloud service-account JSON when connecting Bedrock and Vertex AI in VS Code.
 
@@ -886,9 +886,9 @@
   - TUI Improvements: Redesigned crash screen, model picker sorted by release date, bindable diff viewer and Move Session commands, main-branch diff source, and inline skill load errors.
   - TUI Bugfixes: File autocomplete is scoped to the session, multi-day durations format correctly, and root sessions load in the session switcher.
 
-- [#12442](https://github.com/Kilo-Org/kilocode/pull/12442) [`6b8c736`](https://github.com/Kilo-Org/kilocode/commit/6b8c736dc1c97544467f6edf8026d271149e4164) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Add a privacy mode that blurs PII in the TUI (personal balance, Kilo Pass usage, etc.) and requires confirmation before `/profile` reveals email, name, balance, and team. Toggle with the new `/privacy` command or by setting `privacy_mode` in `kilo.json`. The `kilo profile` CLI command is unaffected.
+- [#12442](https://github.com/Kilo-Org/kilocode/pull/12442) [`6b8c736`](https://github.com/Kilo-Org/kilocode/commit/6b8c736dc1c97544467f6edf8026d271149e4164) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Add a privacy mode that blurs PII in the TUI (personal balance, Kilo Pass usage, etc.) and requires confirmation before `/profile` reveals email, name, balance, and team. Toggle with the new `/privacy` command or by setting `privacy_mode` in `kappa.json`. The `kappa profile` CLI command is unaffected.
 
-- [#12897](https://github.com/Kilo-Org/kilocode/pull/12897) [`e83b25e`](https://github.com/Kilo-Org/kilocode/commit/e83b25e8d93ee9c236514e4562f828b2e5f858e4) - Fix high CPU and runaway memory growth in the JetBrains background `kilo serve` process on macOS by no longer eagerly starting native file watchers, matching the VS Code backend.
+- [#12897](https://github.com/Kilo-Org/kilocode/pull/12897) [`e83b25e`](https://github.com/Kilo-Org/kilocode/commit/e83b25e8d93ee9c236514e4562f828b2e5f858e4) - Fix high CPU and runaway memory growth in the JetBrains background `kappa serve` process on macOS by no longer eagerly starting native file watchers, matching the VS Code backend.
 
 - [#12884](https://github.com/Kilo-Org/kilocode/pull/12884) [`c9199cb`](https://github.com/Kilo-Org/kilocode/commit/c9199cb529fd24be5d7deaa2cffc853d251ebbca) - Show a concise retryable message when concurrent Kilo processes temporarily lock the SQLite database instead of printing the full server error trace.
 
@@ -896,7 +896,7 @@
 
 - [#12950](https://github.com/Kilo-Org/kilocode/pull/12950) [`d03d579`](https://github.com/Kilo-Org/kilocode/commit/d03d579fa2c1c3588b53a9f6ed47ebfc1856aa0a) - Avoid printing an error when closing the TUI cancels in-flight startup refreshes.
 
-- [#12978](https://github.com/Kilo-Org/kilocode/pull/12978) [`1406d71`](https://github.com/Kilo-Org/kilocode/commit/1406d719e36afd6d98d60b9fe54fa79b51e6b294) - Remove unsupported `kilo web` CLI command.
+- [#12978](https://github.com/Kilo-Org/kilocode/pull/12978) [`1406d71`](https://github.com/Kilo-Org/kilocode/commit/1406d719e36afd6d98d60b9fe54fa79b51e6b294) - Remove unsupported `kappa web` CLI command.
 
 - [#12947](https://github.com/Kilo-Org/kilocode/pull/12947) [`154b1ae`](https://github.com/Kilo-Org/kilocode/commit/154b1ae53ca1a4bca1aa4c43f4ef95fe6cafaa75) - Prevent concurrent Kilo startups from rewriting unchanged credentials, retry transient database locks, and redact bound values from database errors.
 
@@ -905,10 +905,10 @@
 - [#13047](https://github.com/Kilo-Org/kilocode/pull/13047) [`e48c534`](https://github.com/Kilo-Org/kilocode/commit/e48c534978e5864662f9f155815c029cfe549f30) - Separate autocomplete item names from their descriptions in the TUI.
 
 - Updated dependencies [[`fdc4665`](https://github.com/Kilo-Org/kilocode/commit/fdc46654c5860c01276d7034ba715f779b163bca), [`48c4a4a`](https://github.com/Kilo-Org/kilocode/commit/48c4a4af227572011bf44c172ab0ae86e0c2a429)]:
-  - @kilocode/kilo-memory@7.4.21
-  - @kilocode/kilo-gateway@7.4.21
-  - @kilocode/kilo-indexing@7.4.21
-  - @kilocode/kilo-telemetry@7.4.21
+  - @kappacode/kappa-memory@7.4.21
+  - @kappacode/kappa-gateway@7.4.21
+  - @kappacode/kappa-indexing@7.4.21
+  - @kappacode/kappa-telemetry@7.4.21
   - @opencode-ai/server@7.4.21
   - @opencode-ai/tui@7.4.21
   - @opencode-ai/ui@7.4.21
@@ -926,13 +926,13 @@
 - [#12846](https://github.com/Kilo-Org/kilocode/pull/12846) [`8c84f8a`](https://github.com/Kilo-Org/kilocode/commit/8c84f8ae5ef17a6e69a66cdd06680c6bf4e91db7) - Support project agent and command directory symlinks explicitly allowed by global Markdown source permissions.
 
 - Updated dependencies [[`39f65ef`](https://github.com/Kilo-Org/kilocode/commit/39f65efa8bc85490462b8a71ff0b7dddb1035d6a)]:
-  - @kilocode/kilo-telemetry@7.4.20
+  - @kappacode/kappa-telemetry@7.4.20
 
 ## 7.4.19
 
 ### Minor Changes
 
-- [#12728](https://github.com/Kilo-Org/kilocode/pull/12728) [`6b27a26`](https://github.com/Kilo-Org/kilocode/commit/6b27a26f929f570275e26529189b4d2fc3c392cf) Thanks [@bagatao-anaconda](https://github.com/bagatao-anaconda)! - Show why a tool call was auto-approved or denied in the TUI, and record the denial reason on the tool call metadata (visible in `kilo export`) alongside the existing auto-approval reason.
+- [#12728](https://github.com/Kilo-Org/kilocode/pull/12728) [`6b27a26`](https://github.com/Kilo-Org/kilocode/commit/6b27a26f929f570275e26529189b4d2fc3c392cf) Thanks [@bagatao-anaconda](https://github.com/bagatao-anaconda)! - Show why a tool call was auto-approved or denied in the TUI, and record the denial reason on the tool call metadata (visible in `kappa export`) alongside the existing auto-approval reason.
 
 - [#12816](https://github.com/Kilo-Org/kilocode/pull/12816) [`63a38f5`](https://github.com/Kilo-Org/kilocode/commit/63a38f5c7ae8fb08af1461b143a7c0f6b8dbc680) - A second identical large paste expands its collapsed prompt placeholder.
 
@@ -964,7 +964,7 @@
 
 - [#12682](https://github.com/Kilo-Org/kilocode/pull/12682) [`ed9e132`](https://github.com/Kilo-Org/kilocode/commit/ed9e132bd89557af41df19ea6b82936d098f0140) - Reduce CLI startup time by deferring Kilo-specific module loading until commands actually run, caching the telemetry profile lookup across invocations, and uploading telemetry in the background so process exit is not delayed by a network round trip
 
-- [#12687](https://github.com/Kilo-Org/kilocode/pull/12687) [`624b589`](https://github.com/Kilo-Org/kilocode/commit/624b5890f10bc0f60c50a191cd7bc82fac9574d0) - Fix settings snapping back to their previous value after being cleared to "Not set" when multiple config files exist (e.g. both `kilo.json` and `kilo.jsonc`)
+- [#12687](https://github.com/Kilo-Org/kilocode/pull/12687) [`624b589`](https://github.com/Kilo-Org/kilocode/commit/624b5890f10bc0f60c50a191cd7bc82fac9574d0) - Fix settings snapping back to their previous value after being cleared to "Not set" when multiple config files exist (e.g. both `kappa.json` and `kappa.jsonc`)
 
 - [#12701](https://github.com/Kilo-Org/kilocode/pull/12701) [`89caab9`](https://github.com/Kilo-Org/kilocode/commit/89caab9e0cf65b33c73542e9eaae986583952563) - Mark Kilo Console as deprecated and direct users to supported session and settings workflows.
 
@@ -974,7 +974,7 @@
 
 - [#12698](https://github.com/Kilo-Org/kilocode/pull/12698) [`1d1630b`](https://github.com/Kilo-Org/kilocode/commit/1d1630b3462caa16716af608deaff14ea0e155a5) - Report Bash commands terminated by a signal with the conventional 128 + signum exit code (e.g. 139 for SIGSEGV) instead of hanging until the command timeout.
 
-- [#12605](https://github.com/Kilo-Org/kilocode/pull/12605) [`d579774`](https://github.com/Kilo-Org/kilocode/commit/d5797749608bd2824b24774a04fe7fadfd47b6d6) - Non-interactive `kilo run` no longer reports success for runs that did not complete. A plain
+- [#12605](https://github.com/Kilo-Org/kilocode/pull/12605) [`d579774`](https://github.com/Kilo-Org/kilocode/commit/d5797749608bd2824b24774a04fe7fadfd47b6d6) - Non-interactive `kappa run` no longer reports success for runs that did not complete. A plain
   headless run (neither `--auto` nor `--dangerously-skip-permissions`) in which the CLI
   auto-rejected at least one permission ask now exits 1 with a stderr diagnostic naming the cause,
   and a run whose session errors mid-stream now prints that diagnostic to stderr under
@@ -993,8 +993,8 @@
 - [#12723](https://github.com/Kilo-Org/kilocode/pull/12723) [`a1ad65e`](https://github.com/Kilo-Org/kilocode/commit/a1ad65e5229156bfa7d404fcbaa98ad70462197f) - Retry transient locked-file errors (EPERM/EACCES/EBUSY) on Windows when atomically saving config and other files. Background plugin installs and Windows Defender/indexer can briefly hold the temp file during the rename step, which previously surfaced as a 500 error. A short backoff now retries the rename so config writes succeed without surfacing the contention.
 
 - Updated dependencies [[`ed9e132`](https://github.com/Kilo-Org/kilocode/commit/ed9e132bd89557af41df19ea6b82936d098f0140), [`0d923d0`](https://github.com/Kilo-Org/kilocode/commit/0d923d0ef56d42cd7eb6d1e2d5fc58c7b508a80b), [`304c75e`](https://github.com/Kilo-Org/kilocode/commit/304c75e600cfbb0ec52b9c11e60b5782e4af5a37)]:
-  - @kilocode/kilo-telemetry@7.4.18
-  - @kilocode/kilo-memory@7.4.18
+  - @kappacode/kappa-telemetry@7.4.18
+  - @kappacode/kappa-memory@7.4.18
 
 ## 7.4.17
 
@@ -1014,7 +1014,7 @@
 
 - [#12545](https://github.com/Kilo-Org/kilocode/pull/12545) [`b2735bf`](https://github.com/Kilo-Org/kilocode/commit/b2735bfbc9df170274a12ec4786106dacb61090f) - Fix session transcripts losing their final messages when the CLI exits — pending uploads are now flushed on shutdown and as soon as a session closes.
 
-- [#12470](https://github.com/Kilo-Org/kilocode/pull/12470) [`c0ebf98`](https://github.com/Kilo-Org/kilocode/commit/c0ebf987789ab6fa070106219ebc8c46cd0105af) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Route the websearch tool's Exa requests through the Kilo proxy when signed into Kilo. The MCP-Exa transport is preserved as a fallback for users who set `EXA_API_KEY` or are not authenticated. A new `KILO_WEBSEARCH_PROVIDER=kilo-exa` env override forces the Kilo proxy path. Results are capped at 10.
+- [#12470](https://github.com/Kilo-Org/kilocode/pull/12470) [`c0ebf98`](https://github.com/Kilo-Org/kilocode/commit/c0ebf987789ab6fa070106219ebc8c46cd0105af) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Route the websearch tool's Exa requests through the Kilo proxy when signed into Kilo. The MCP-Exa transport is preserved as a fallback for users who set `EXA_API_KEY` or are not authenticated. A new `KILO_WEBSEARCH_PROVIDER=kappa-exa` env override forces the Kilo proxy path. Results are capped at 10.
 
 - [#12460](https://github.com/Kilo-Org/kilocode/pull/12460) [`51d8031`](https://github.com/Kilo-Org/kilocode/commit/51d8031c9997bd5478bcde715562169f732d04d4) - Changes from opencode v1.17.5 to v1.17.9 upstream:
   - Core Bugfixes: Improved MCP server compatibility by declaring Kilo's supported client capabilities.
@@ -1043,7 +1043,7 @@
 
 - [#12585](https://github.com/Kilo-Org/kilocode/pull/12585) [`a0a760e`](https://github.com/Kilo-Org/kilocode/commit/a0a760e00e915a800125f03db7e08381ddc63e2a) - Fix bash permission rules being bypassed on PowerShell for commands containing a bare `--` such as `git checkout -- <file>`. Commands the shell parser cannot parse now get checked against their raw command text instead of executing without a permission check.
 
-- [#12505](https://github.com/Kilo-Org/kilocode/pull/12505) [`bcf8b8b`](https://github.com/Kilo-Org/kilocode/commit/bcf8b8b9a852969ee842783e33a7fe32f9b3c3b8) - Emit each agent event once from `kilo run --format json`.
+- [#12505](https://github.com/Kilo-Org/kilocode/pull/12505) [`bcf8b8b`](https://github.com/Kilo-Org/kilocode/commit/bcf8b8b9a852969ee842783e33a7fe32f9b3c3b8) - Emit each agent event once from `kappa run --format json`.
 
 - [#12593](https://github.com/Kilo-Org/kilocode/pull/12593) [`160b066`](https://github.com/Kilo-Org/kilocode/commit/160b06661acc5f04b21221ab6578c468325f64c5) - Prevent the VS Code backend from eagerly starting native file watchers for every Agent Manager worktree.
 
@@ -1063,11 +1063,11 @@
 
 - [#12370](https://github.com/Kilo-Org/kilocode/pull/12370) [`b367105`](https://github.com/Kilo-Org/kilocode/commit/b367105c8d648c8e05b62c2d27a28a95a4772f61) Thanks [@hdcodedev](https://github.com/hdcodedev)! - Support deleting queued chat messages from the VS Code chat before they run.
 
-- [#12327](https://github.com/Kilo-Org/kilocode/pull/12327) [`aa22680`](https://github.com/Kilo-Org/kilocode/commit/aa22680feef2d8b9e1a60ddae4280cedb2cf78f0) - `kilo remote` instances now advertise themselves on the relay heartbeat. Each heartbeat carries the host's hostname, the project directory name, and the CLI build version, and each session entry advertises the platform it was created on. The cloud relay learns about a freshly-connected instance immediately (no 10s wait for the first timer tick), and the advertisement is race-safe across the explicit `kilo remote` command and bootstrap auto-enable (`KILO_REMOTE=1` / `remote_control` config). Legacy CLIs that send neither field remain wire-compatible.
+- [#12327](https://github.com/Kilo-Org/kilocode/pull/12327) [`aa22680`](https://github.com/Kilo-Org/kilocode/commit/aa22680feef2d8b9e1a60ddae4280cedb2cf78f0) - `kappa remote` instances now advertise themselves on the relay heartbeat. Each heartbeat carries the host's hostname, the project directory name, and the CLI build version, and each session entry advertises the platform it was created on. The cloud relay learns about a freshly-connected instance immediately (no 10s wait for the first timer tick), and the advertisement is race-safe across the explicit `kappa remote` command and bootstrap auto-enable (`KILO_REMOTE=1` / `remote_control` config). Legacy CLIs that send neither field remain wire-compatible.
 
 - [#12394](https://github.com/Kilo-Org/kilocode/pull/12394) [`e72238a`](https://github.com/Kilo-Org/kilocode/commit/e72238a6655bb495e24c588fa047b5b162da8f1e) - Support file attachments in remote CLI sessions.
 
-- [#11849](https://github.com/Kilo-Org/kilocode/pull/11849) [`fe01f53`](https://github.com/Kilo-Org/kilocode/commit/fe01f53e2bddbadc51736ff81dcc2e022fe6f27f) - Run asynchronous Cloud Agent tasks with repository, model, mode, and organization defaults through `kilo cloud`. Add `--stream` to `kilo cloud start` to print admission output and then stream WebSocket events as JSONL until completion or inactivity ends the stream.
+- [#11849](https://github.com/Kilo-Org/kilocode/pull/11849) [`fe01f53`](https://github.com/Kilo-Org/kilocode/commit/fe01f53e2bddbadc51736ff81dcc2e022fe6f27f) - Run asynchronous Cloud Agent tasks with repository, model, mode, and organization defaults through `kappa cloud`. Add `--stream` to `kappa cloud start` to print admission output and then stream WebSocket events as JSONL until completion or inactivity ends the stream.
 
 - [#12456](https://github.com/Kilo-Org/kilocode/pull/12456) [`3d648d7`](https://github.com/Kilo-Org/kilocode/commit/3d648d7fcdc186f86b2c63ab842e70acb1f0aee2) - Reference past chats inline with `@` in the prompt. Typing `@` now surfaces a "Past chats" option that opens a searchable picker of previous sessions (scoped to the current workspace/worktree, searched like the Agent Manager session search); selecting one attaches that session's transcript as context so the model can build on a prior conversation. Clicking the mention opens that session. Available in the CLI TUI and the VS Code extension.
 
@@ -1094,14 +1094,14 @@
 - [#12488](https://github.com/Kilo-Org/kilocode/pull/12488) [`c25f041`](https://github.com/Kilo-Org/kilocode/commit/c25f041eb3922defc4dadb9ad7b2f8c8edb74fbd) - Show the request ID when a model response ends without a finish reason.
 
 - Updated dependencies [[`2fcb137`](https://github.com/Kilo-Org/kilocode/commit/2fcb137ebcbf9101ca655804d0a61af2f222bbc5), [`f715e2f`](https://github.com/Kilo-Org/kilocode/commit/f715e2f5fa4db5abe5c734e1c360e8da3367f3e5), [`dcc0d64`](https://github.com/Kilo-Org/kilocode/commit/dcc0d64a3249bdd3aa27d564759253126ff9a5fe)]:
-  - @kilocode/sdk@7.5.0
-  - @kilocode/kilo-gateway@7.4.16
-  - @kilocode/plugin@7.4.16
+  - @kappacode/sdk@7.5.0
+  - @kappacode/kappa-gateway@7.4.16
+  - @kappacode/plugin@7.4.16
   - @opencode-ai/tui@7.4.16
   - @opencode-ai/ui@7.4.16
-  - @kilocode/kilo-indexing@7.4.16
-  - @kilocode/kilo-telemetry@7.4.16
-  - @kilocode/plugin-atomic-chat@7.4.16
+  - @kappacode/kappa-indexing@7.4.16
+  - @kappacode/kappa-telemetry@7.4.16
+  - @kappacode/plugin-atomic-chat@7.4.16
   - @opencode-ai/server@7.4.16
 
 ## 7.4.15
@@ -1117,7 +1117,7 @@
 - [#12414](https://github.com/Kilo-Org/kilocode/pull/12414) [`badf70d`](https://github.com/Kilo-Org/kilocode/commit/badf70dcedc9559769969c34aff9a63fcc9bdb5f) - Keep Linux sandbox setup working when a writable directory contains an unreadable subdirectory (for example a folder with mode 600); unreadable subdirectories are now protected with a read-only mount instead of failing every sandboxed tool call with an access error.
 
 - Updated dependencies [[`28d015f`](https://github.com/Kilo-Org/kilocode/commit/28d015f8fefd166348e4d4eb0b4c2ae0aa011a03)]:
-  - @kilocode/kilo-memory@7.4.14
+  - @kappacode/kappa-memory@7.4.14
 
 ## 7.4.13
 
@@ -1146,9 +1146,9 @@
 - [#12335](https://github.com/Kilo-Org/kilocode/pull/12335) [`99227f6`](https://github.com/Kilo-Org/kilocode/commit/99227f67478b44b06a18935792bd655c774f174a) Thanks [@shssoichiro](https://github.com/shssoichiro)! - Start the TUI from standalone CLI installations without requiring project-local OpenTUI dependencies.
 
 - Updated dependencies [[`084bcea`](https://github.com/Kilo-Org/kilocode/commit/084bceadaedf193568ccf71256bd299c0d11e90c), [`c081f58`](https://github.com/Kilo-Org/kilocode/commit/c081f582abecaba98a303069140d014a9ee90ca9), [`ff703fb`](https://github.com/Kilo-Org/kilocode/commit/ff703fba621e35a4a5d8e4801620502228cca5bf)]:
-  - @kilocode/kilo-gateway@7.4.12
-  - @kilocode/kilo-indexing@7.5.0
-  - @kilocode/kilo-telemetry@7.4.12
+  - @kappacode/kappa-gateway@7.4.12
+  - @kappacode/kappa-indexing@7.5.0
+  - @kappacode/kappa-telemetry@7.4.12
   - @opencode-ai/server@7.4.12
   - @opencode-ai/tui@7.4.9
   - @opencode-ai/ui@7.4.12
@@ -1174,15 +1174,15 @@
 - [#12267](https://github.com/Kilo-Org/kilocode/pull/12267) [`e3124d3`](https://github.com/Kilo-Org/kilocode/commit/e3124d31472b8fa652418fae9e583ef2b29c16e9) - Retry incomplete model responses that end without final output or tool activity while preserving partial answers and completed tools.
 
 - Updated dependencies [[`319f159`](https://github.com/Kilo-Org/kilocode/commit/319f159ac333d18855a72ddb1fa61ed471ebf2d9), [`30e7ec4`](https://github.com/Kilo-Org/kilocode/commit/30e7ec4ab45fac724b41ec0b4342e272e7f584d2), [`bd69158`](https://github.com/Kilo-Org/kilocode/commit/bd69158131aafdcc2f44aede22b573c2b0432f21)]:
-  - @kilocode/kilo-gateway@7.4.10
-  - @kilocode/kilo-memory@7.5.0
-  - @kilocode/sdk@7.5.0
-  - @kilocode/kilo-indexing@7.4.10
-  - @kilocode/kilo-telemetry@7.4.10
-  - @kilocode/plugin@7.4.10
+  - @kappacode/kappa-gateway@7.4.10
+  - @kappacode/kappa-memory@7.5.0
+  - @kappacode/sdk@7.5.0
+  - @kappacode/kappa-indexing@7.4.10
+  - @kappacode/kappa-telemetry@7.4.10
+  - @kappacode/plugin@7.4.10
   - @opencode-ai/ui@7.4.10
   - @opencode-ai/server@7.4.10
-  - @kilocode/plugin-atomic-chat@7.4.10
+  - @kappacode/plugin-atomic-chat@7.4.10
 
 ## 7.4.9
 
@@ -1225,14 +1225,14 @@
 - [#11424](https://github.com/Kilo-Org/kilocode/pull/11424) [`3a4438e`](https://github.com/Kilo-Org/kilocode/commit/3a4438e748f80a23bd33eb4aa824d3dffb3d588a) - Stop active Agent Manager sessions and their subagents when a session tab or the Agent Manager tab closes.
 
 - Updated dependencies [[`6a3e5f3`](https://github.com/Kilo-Org/kilocode/commit/6a3e5f39011e4b1a63ab5d0ae0dbf8195ea29d4c), [`227c65d`](https://github.com/Kilo-Org/kilocode/commit/227c65d1004fc1f48e71335cc574a2e6986c4893), [`3ba4c33`](https://github.com/Kilo-Org/kilocode/commit/3ba4c33544451076bd5ecb3b698e74ede0434c82)]:
-  - @kilocode/sdk@7.4.8
-  - @kilocode/kilo-indexing@7.4.8
-  - @kilocode/plugin@7.4.8
+  - @kappacode/sdk@7.4.8
+  - @kappacode/kappa-indexing@7.4.8
+  - @kappacode/plugin@7.4.8
   - @opencode-ai/ui@7.4.8
-  - @kilocode/kilo-gateway@7.4.8
-  - @kilocode/plugin-atomic-chat@7.4.8
+  - @kappacode/kappa-gateway@7.4.8
+  - @kappacode/plugin-atomic-chat@7.4.8
   - @opencode-ai/server@7.4.2
-  - @kilocode/kilo-telemetry@7.4.8
+  - @kappacode/kappa-telemetry@7.4.8
 
 ## 7.4.7
 
@@ -1262,9 +1262,9 @@
 
 - [#12148](https://github.com/Kilo-Org/kilocode/pull/12148) [`77f7983`](https://github.com/Kilo-Org/kilocode/commit/77f7983995bcf52debe03ed9209dc56ba3153c31) Thanks [@umi008](https://github.com/umi008)! - Install the latest stable CLI release when newer non-CLI or prerelease releases exist.
 
-- [#12167](https://github.com/Kilo-Org/kilocode/pull/12167) [`988a92e`](https://github.com/Kilo-Org/kilocode/commit/988a92eae99e453f5a4fe260b0894d93b7271de9) - Fix `kilo upgrade` for curl installs resolving the wrong latest version
+- [#12167](https://github.com/Kilo-Org/kilocode/pull/12167) [`988a92e`](https://github.com/Kilo-Org/kilocode/commit/988a92eae99e453f5a4fe260b0894d93b7271de9) - Fix `kappa upgrade` for curl installs resolving the wrong latest version
 
-  The upgrade command's version resolution for curl-detected installations used GitHub's `/releases/latest` endpoint, which now returns JetBrains plugin releases (e.g. `jetbrains/v7.0.4`) instead of the latest CLI release. This caused `kilo upgrade` to fail for curl installs. Version resolution now uses the npm `latest` dist-tag, matching the install script fix.
+  The upgrade command's version resolution for curl-detected installations used GitHub's `/releases/latest` endpoint, which now returns JetBrains plugin releases (e.g. `jetbrains/v7.0.4`) instead of the latest CLI release. This caused `kappa upgrade` to fail for curl installs. Version resolution now uses the npm `latest` dist-tag, matching the install script fix.
 
 - [#11837](https://github.com/Kilo-Org/kilocode/pull/11837) [`654e10e`](https://github.com/Kilo-Org/kilocode/commit/654e10e25b320fc4518dec192e3fb63137b47182) Thanks [@mjnaderi](https://github.com/mjnaderi)! - Show the Kilo Gateway rate-limit message when login has too many pending authorization requests.
 
@@ -1280,18 +1280,18 @@
 
 - [#12087](https://github.com/Kilo-Org/kilocode/pull/12087) [`1f99fb2`](https://github.com/Kilo-Org/kilocode/commit/1f99fb2332b398f8f5066587c970454e7c9d49f9) - Stop explicitly directing GPT and Codex models to delegate tasks to subagents.
 
-- [#12105](https://github.com/Kilo-Org/kilocode/pull/12105) [`e0bfed3`](https://github.com/Kilo-Org/kilocode/commit/e0bfed308ce7906e4d9ca923e82eda1c20cefd2b) - Shut down the headless `kilo serve` process automatically when the editor client that launched it exits without a clean signal, preventing orphaned CLI processes.
+- [#12105](https://github.com/Kilo-Org/kilocode/pull/12105) [`e0bfed3`](https://github.com/Kilo-Org/kilocode/commit/e0bfed308ce7906e4d9ca923e82eda1c20cefd2b) - Shut down the headless `kappa serve` process automatically when the editor client that launched it exits without a clean signal, preventing orphaned CLI processes.
 
 - [#12092](https://github.com/Kilo-Org/kilocode/pull/12092) [`94b553b`](https://github.com/Kilo-Org/kilocode/commit/94b553b91b130d996ce833e168e579df51a14957) - Show detailed GPT-5.6 reasoning summaries and avoid expandable blank panels when a provider returns only a summary title.
 
 - Updated dependencies [[`039b73d`](https://github.com/Kilo-Org/kilocode/commit/039b73dfaefe93452501a48914eaeeb2f83c572b), [`1e0b25a`](https://github.com/Kilo-Org/kilocode/commit/1e0b25a134a11c03494d5871be3e43a6881f1d87)]:
-  - @kilocode/kilo-indexing@7.4.6
-  - @kilocode/sdk@7.5.0
-  - @kilocode/plugin@7.4.6
+  - @kappacode/kappa-indexing@7.4.6
+  - @kappacode/sdk@7.5.0
+  - @kappacode/plugin@7.4.6
   - @opencode-ai/ui@7.4.6
-  - @kilocode/kilo-gateway@7.4.6
-  - @kilocode/plugin-atomic-chat@7.4.6
-  - @kilocode/kilo-telemetry@7.4.6
+  - @kappacode/kappa-gateway@7.4.6
+  - @kappacode/plugin-atomic-chat@7.4.6
+  - @kappacode/kappa-telemetry@7.4.6
 
 ## 7.4.4
 
@@ -1302,13 +1302,13 @@
 ### Patch Changes
 
 - Updated dependencies [[`394af39`](https://github.com/Kilo-Org/kilocode/commit/394af39c64b2920fa8c84f14670f213820cef2ec)]:
-  - @kilocode/sdk@7.5.0
-  - @kilocode/plugin@7.4.4
+  - @kappacode/sdk@7.5.0
+  - @kappacode/plugin@7.4.4
   - @opencode-ai/ui@7.4.4
-  - @kilocode/kilo-gateway@7.4.4
-  - @kilocode/kilo-indexing@7.4.4
-  - @kilocode/plugin-atomic-chat@7.4.4
-  - @kilocode/kilo-telemetry@7.4.4
+  - @kappacode/kappa-gateway@7.4.4
+  - @kappacode/kappa-indexing@7.4.4
+  - @kappacode/plugin-atomic-chat@7.4.4
+  - @kappacode/kappa-telemetry@7.4.4
 
 ## 7.4.2
 
@@ -1328,7 +1328,7 @@
 
 - [#12033](https://github.com/Kilo-Org/kilocode/pull/12033) [`9fc1a1d`](https://github.com/Kilo-Org/kilocode/commit/9fc1a1d94c29236ce0d949e9a6b2fefc70afaab8) - Show a clear "No changes found to generate a commit message for" error instead of a generic "Unexpected server error" when there is nothing to commit. The endpoint now returns a typed 422, and the extension surfaces the real message directly.
 
-- [#11886](https://github.com/Kilo-Org/kilocode/pull/11886) [`b793bf7`](https://github.com/Kilo-Org/kilocode/commit/b793bf788f20e5d96898c0565916af7bc71a5683) - Harden config credential substitution against untrusted project config. Environment references (`{env:VAR}`) now resolve only in trusted config (global config, `KILO_CONFIG`, `KILO_CONFIG_CONTENT`, and org/MDM-managed config); a project-committed `kilo.json` / `opencode.json` can no longer use them. File references (`{file:...}`) still work in project config but are confined to the project root, so absolute paths, `../` traversal, and symlink escapes are rejected. This closes a path where a malicious repository could exfiltrate local secrets to an attacker-controlled `baseURL`.
+- [#11886](https://github.com/Kilo-Org/kilocode/pull/11886) [`b793bf7`](https://github.com/Kilo-Org/kilocode/commit/b793bf788f20e5d96898c0565916af7bc71a5683) - Harden config credential substitution against untrusted project config. Environment references (`{env:VAR}`) now resolve only in trusted config (global config, `KILO_CONFIG`, `KILO_CONFIG_CONTENT`, and org/MDM-managed config); a project-committed `kappa.json` / `opencode.json` can no longer use them. File references (`{file:...}`) still work in project config but are confined to the project root, so absolute paths, `../` traversal, and symlink escapes are rejected. This closes a path where a malicious repository could exfiltrate local secrets to an attacker-controlled `baseURL`.
 
 - [#12002](https://github.com/Kilo-Org/kilocode/pull/12002) [`885a994`](https://github.com/Kilo-Org/kilocode/commit/885a994106741ea7caf59c051812cd7521f4cf2c) - Defer Agent Manager automatic branch naming until the conversation shows a durable task. The first user message no longer renames the branch; naming waits for a second message (up to four) or for the worktree to contain changes, and renames only run while the session is idle. Read-only verification questions (for example "is X fixed?") no longer claim the branch name.
 
@@ -1344,17 +1344,17 @@
 
 - [#11506](https://github.com/Kilo-Org/kilocode/pull/11506) [`5135d2e`](https://github.com/Kilo-Org/kilocode/commit/5135d2e2434c075ccdc5c688dd01aec2a087ec7c) Thanks [@mvanhorn](https://github.com/mvanhorn)! - Show live session spend in the TUI sidebar while an assistant turn is still running.
 
-- [#12034](https://github.com/Kilo-Org/kilocode/pull/12034) [`64c9b7e`](https://github.com/Kilo-Org/kilocode/commit/64c9b7e42ff329d31998ea0f7cb01df6a981dcf3) - Show a dismissible notification when a leftover opencode config directory is found. Kilo no longer falls back to opencode configuration, so the notice points you to move `.opencode` config into a `.kilo` directory (or the global kilo config dir). Dismiss it once and it won't return unless the directory is still present.
+- [#12034](https://github.com/Kilo-Org/kilocode/pull/12034) [`64c9b7e`](https://github.com/Kilo-Org/kilocode/commit/64c9b7e42ff329d31998ea0f7cb01df6a981dcf3) - Show a dismissible notification when a leftover opencode config directory is found. Kilo no longer falls back to opencode configuration, so the notice points you to move `.opencode` config into a `.kappa` directory (or the global kappa config dir). Dismiss it once and it won't return unless the directory is still present.
 
 - Updated dependencies [[`b976b5a`](https://github.com/Kilo-Org/kilocode/commit/b976b5a0137b6fa6c7959d5c8a548478efee1d1e), [`22b9f7f`](https://github.com/Kilo-Org/kilocode/commit/22b9f7fd932043722096919aabb08109901f01de), [`61b9e09`](https://github.com/Kilo-Org/kilocode/commit/61b9e0935cb3314acdabb4d3237b95395bfffb06), [`adcbe0f`](https://github.com/Kilo-Org/kilocode/commit/adcbe0f37321704abdc0994d4e1f78919c9bfa5a)]:
-  - @kilocode/sdk@7.5.0
-  - @kilocode/kilo-memory@7.5.0
-  - @kilocode/kilo-indexing@7.4.2
-  - @kilocode/kilo-gateway@7.4.2
-  - @kilocode/plugin@7.4.2
+  - @kappacode/sdk@7.5.0
+  - @kappacode/kappa-memory@7.5.0
+  - @kappacode/kappa-indexing@7.4.2
+  - @kappacode/kappa-gateway@7.4.2
+  - @kappacode/plugin@7.4.2
   - @opencode-ai/ui@7.4.2
-  - @kilocode/kilo-telemetry@7.4.2
-  - @kilocode/plugin-atomic-chat@7.4.2
+  - @kappacode/kappa-telemetry@7.4.2
+  - @kappacode/plugin-atomic-chat@7.4.2
 
 ## 7.4.1
 
@@ -1362,7 +1362,7 @@
 
 - [#11887](https://github.com/Kilo-Org/kilocode/pull/11887) [`51dc189`](https://github.com/Kilo-Org/kilocode/commit/51dc189682107615d6af3fc6306d64fa3d5dafd8) - Require authentication before enabling allow-everything permissions over HTTP.
 
-- [#11923](https://github.com/Kilo-Org/kilocode/pull/11923) [`fda4e17`](https://github.com/Kilo-Org/kilocode/commit/fda4e1756b3de46da3ac2081d440969a32ae5a59) - Fail subagent permission prompts in headless `kilo run` immediately instead of hanging forever, and approve subagent permission prompts under `--dangerously-skip-permissions`
+- [#11923](https://github.com/Kilo-Org/kilocode/pull/11923) [`fda4e17`](https://github.com/Kilo-Org/kilocode/commit/fda4e1756b3de46da3ac2081d440969a32ae5a59) - Fail subagent permission prompts in headless `kappa run` immediately instead of hanging forever, and approve subagent permission prompts under `--dangerously-skip-permissions`
 
 ## 7.4.0
 
@@ -1428,9 +1428,9 @@
 
 - [#11526](https://github.com/Kilo-Org/kilocode/pull/11526) [`579a787`](https://github.com/Kilo-Org/kilocode/commit/579a787047632ad15fc1ca90aabd7e1d1edd5a7c) - Run Windows PowerShell tool commands without `-EncodedCommand` to reduce antivirus false positives.
 
-- [#11505](https://github.com/Kilo-Org/kilocode/pull/11505) [`55203c3`](https://github.com/Kilo-Org/kilocode/commit/55203c3a2c2110aac874069e46a4d96e1a5e2958) Thanks [@shssoichiro](https://github.com/shssoichiro)! - Create the default `.kilo/plans` directory automatically when Plan mode starts.
+- [#11505](https://github.com/Kilo-Org/kilocode/pull/11505) [`55203c3`](https://github.com/Kilo-Org/kilocode/commit/55203c3a2c2110aac874069e46a4d96e1a5e2958) Thanks [@shssoichiro](https://github.com/shssoichiro)! - Create the default `.kappa/plans` directory automatically when Plan mode starts.
 
-- [#11601](https://github.com/Kilo-Org/kilocode/pull/11601) [`2404009`](https://github.com/Kilo-Org/kilocode/commit/2404009bc005ef4971580f1da859147aa60be265) - Fix `kilo upgrade` for curl installs by pointing at the install script instead of the install landing page.
+- [#11601](https://github.com/Kilo-Org/kilocode/pull/11601) [`2404009`](https://github.com/Kilo-Org/kilocode/commit/2404009bc005ef4971580f1da859147aa60be265) - Fix `kappa upgrade` for curl installs by pointing at the install script instead of the install landing page.
 
 - [#11798](https://github.com/Kilo-Org/kilocode/pull/11798) [`1d798a1`](https://github.com/Kilo-Org/kilocode/commit/1d798a106f315dc3c1c4c78382eff7a6bd23343b) - Fix opening KiloClaw from the CLI and VS Code slash commands.
 
@@ -1438,7 +1438,7 @@
 
 - [#11721](https://github.com/Kilo-Org/kilocode/pull/11721) [`be1f77d`](https://github.com/Kilo-Org/kilocode/commit/be1f77d4320603efbbfab0587a1dc0d9ec911001) Thanks [@johnnyeric](https://github.com/johnnyeric)! - Expose Kilo Pass state on the Kilo profile API contract.
 
-- [#11638](https://github.com/Kilo-Org/kilocode/pull/11638) [`117a0d6`](https://github.com/Kilo-Org/kilocode/commit/117a0d623346ba76e6efa1fa67a8ee94df89792e) - Stop loading `.opencode` config directories and use `.kilo` instead, while retaining `.kilocode` as a legacy fallback.
+- [#11638](https://github.com/Kilo-Org/kilocode/pull/11638) [`117a0d6`](https://github.com/Kilo-Org/kilocode/commit/117a0d623346ba76e6efa1fa67a8ee94df89792e) - Stop loading `.opencode` config directories and use `.kappa` instead, while retaining `.kilocode` as a legacy fallback.
 
 - [#11646](https://github.com/Kilo-Org/kilocode/pull/11646) [`61bbc34`](https://github.com/Kilo-Org/kilocode/commit/61bbc34eb261a27d2c56c8196a050929f8ef4e63) - Release disconnected event streams so long-running servers do not retain queued session diffs.
 
@@ -1457,13 +1457,13 @@
 - [#11746](https://github.com/Kilo-Org/kilocode/pull/11746) [`5080c78`](https://github.com/Kilo-Org/kilocode/commit/5080c78e628b2598f01f9c5d9685d767340dec29) - Include session-tree IDs in model usage API responses and show full task token usage with a provider-grouped model breakdown in the VS Code session header.
 
 - Updated dependencies [[`7b2063f`](https://github.com/Kilo-Org/kilocode/commit/7b2063f35440fd65e9ec2d38fd656da960ff48b6), [`123a939`](https://github.com/Kilo-Org/kilocode/commit/123a9395d2ec645c3dc247170188f42bbf7c9333), [`dcd2ae3`](https://github.com/Kilo-Org/kilocode/commit/dcd2ae3adb46f5a813451d9165ee075c91124003), [`1d798a1`](https://github.com/Kilo-Org/kilocode/commit/1d798a106f315dc3c1c4c78382eff7a6bd23343b), [`be1f77d`](https://github.com/Kilo-Org/kilocode/commit/be1f77d4320603efbbfab0587a1dc0d9ec911001), [`be3ae82`](https://github.com/Kilo-Org/kilocode/commit/be3ae82962bff96b7caff4cc66424bcef3f41e84), [`9b0c45c`](https://github.com/Kilo-Org/kilocode/commit/9b0c45ca382186a246e0f23ffe0c1c4efeaace24), [`2638e06`](https://github.com/Kilo-Org/kilocode/commit/2638e06ffbeff598672b671837380ef282f9f34c), [`5080c78`](https://github.com/Kilo-Org/kilocode/commit/5080c78e628b2598f01f9c5d9685d767340dec29)]:
-  - @kilocode/sdk@7.4.0
-  - @kilocode/kilo-gateway@7.3.55
-  - @kilocode/plugin@7.3.55
+  - @kappacode/sdk@7.4.0
+  - @kappacode/kappa-gateway@7.3.55
+  - @kappacode/plugin@7.3.55
   - @opencode-ai/ui@7.3.55
-  - @kilocode/kilo-indexing@7.3.55
-  - @kilocode/kilo-telemetry@7.3.55
-  - @kilocode/plugin-atomic-chat@7.3.55
+  - @kappacode/kappa-indexing@7.3.55
+  - @kappacode/kappa-telemetry@7.3.55
+  - @kappacode/plugin-atomic-chat@7.3.55
 
 ## 7.3.54
 
@@ -1482,9 +1482,9 @@
 - [#11533](https://github.com/Kilo-Org/kilocode/pull/11533) [`15f42d4`](https://github.com/Kilo-Org/kilocode/commit/15f42d4bec51bbb127636738275f36fdc07e7b33) - Restore bounded text-file reads and keep zero-limit pagination and Unicode truncation from producing unusable tool output.
 
 - Updated dependencies [[`6c55c28`](https://github.com/Kilo-Org/kilocode/commit/6c55c28ec345a6d90d2d7a4e345abf962f208e29)]:
-  - @kilocode/kilo-gateway@7.3.53
-  - @kilocode/kilo-indexing@7.3.53
-  - @kilocode/kilo-telemetry@7.3.53
+  - @kappacode/kappa-gateway@7.3.53
+  - @kappacode/kappa-indexing@7.3.53
+  - @kappacode/kappa-telemetry@7.3.53
   - @opencode-ai/ui@7.3.53
 
 ## 7.3.52
@@ -1536,9 +1536,9 @@
 
 ### Minor Changes
 
-- [#11478](https://github.com/Kilo-Org/kilocode/pull/11478) [`9611c8b`](https://github.com/Kilo-Org/kilocode/commit/9611c8b1ef2d623f7c486c5a0019ee0f590ce02d) - Support stopping the daemon with `kilo console stop` and keeping console or daemon commands attached with `--foreground`
+- [#11478](https://github.com/Kilo-Org/kilocode/pull/11478) [`9611c8b`](https://github.com/Kilo-Org/kilocode/commit/9611c8b1ef2d623f7c486c5a0019ee0f590ce02d) - Support stopping the daemon with `kappa console stop` and keeping console or daemon commands attached with `--foreground`
 
-- [#10005](https://github.com/Kilo-Org/kilocode/pull/10005) [`1d030dc`](https://github.com/Kilo-Org/kilocode/commit/1d030dcbbb6782181af684c8321b7349682bba5f) - Support `kilo run --command compact` and `--command summarize` to compact the current session, matching the TUI's `/compact` and `/summarize` slash commands.
+- [#10005](https://github.com/Kilo-Org/kilocode/pull/10005) [`1d030dc`](https://github.com/Kilo-Org/kilocode/commit/1d030dcbbb6782181af684c8321b7349682bba5f) - Support `kappa run --command compact` and `--command summarize` to compact the current session, matching the TUI's `/compact` and `/summarize` slash commands.
 
 ## 7.3.50
 
@@ -1567,13 +1567,13 @@
 - [#11453](https://github.com/Kilo-Org/kilocode/pull/11453) [`f7e68d1`](https://github.com/Kilo-Org/kilocode/commit/f7e68d19d9d8b23b087d3c7c92d487abced8d7ec) - Limit completion sounds to parent agent sessions.
 
 - Updated dependencies [[`ccec216`](https://github.com/Kilo-Org/kilocode/commit/ccec2162383a6f378ed5e62d630720607d185209), [`2c9e72c`](https://github.com/Kilo-Org/kilocode/commit/2c9e72c14a87387199fd42546746bbea30aa1570), [`f7e68d1`](https://github.com/Kilo-Org/kilocode/commit/f7e68d19d9d8b23b087d3c7c92d487abced8d7ec)]:
-  - @kilocode/kilo-gateway@7.4.0
-  - @kilocode/sdk@7.3.50
-  - @kilocode/kilo-indexing@7.3.50
-  - @kilocode/kilo-telemetry@7.3.50
-  - @kilocode/plugin@7.3.50
+  - @kappacode/kappa-gateway@7.4.0
+  - @kappacode/sdk@7.3.50
+  - @kappacode/kappa-indexing@7.3.50
+  - @kappacode/kappa-telemetry@7.3.50
+  - @kappacode/plugin@7.3.50
   - @opencode-ai/ui@7.3.50
-  - @kilocode/plugin-atomic-chat@7.3.50
+  - @kappacode/plugin-atomic-chat@7.3.50
 
 ## 7.3.49
 
@@ -1642,7 +1642,7 @@
   - TUI Bugfixes: Fixed thinking mode defaults so reasoning starts collapsed consistently.
   - TUI Bugfixes: Limited session quick-switching to pinned sessions.
   - TUI Bugfixes: Fixed Markdown table rendering in chat output.
-  - TUI Bugfixes: Fixed `kilo run --agent` resolving project-local agents.
+  - TUI Bugfixes: Fixed `kappa run --agent` resolving project-local agents.
   - TUI Bugfixes: Fixed async commands losing the active instance context, which could break agent generation and GitHub-driven runs.
 
 - [#11356](https://github.com/Kilo-Org/kilocode/pull/11356) [`326ff35`](https://github.com/Kilo-Org/kilocode/commit/326ff351460342f93b0bf97f0beb6383357c5d05) - Changes from opencode v1.15.4 to v1.15.9 upstream:
@@ -1730,13 +1730,13 @@
 - [#10758](https://github.com/Kilo-Org/kilocode/pull/10758) [`e511b23`](https://github.com/Kilo-Org/kilocode/commit/e511b230ab87c3b1a594a7e1ac12e44a096a813f) Thanks [@cooper-oai](https://github.com/cooper-oai)! - Prevent concurrent Kilo processes from reusing a ChatGPT Codex refresh token.
 
 - Updated dependencies [[`9211000`](https://github.com/Kilo-Org/kilocode/commit/9211000aadd909f0d46746604c3e963966a59660), [`2fa0890`](https://github.com/Kilo-Org/kilocode/commit/2fa0890928f7dd060125ad4f4083b8bd2bf3e69b), [`973d02c`](https://github.com/Kilo-Org/kilocode/commit/973d02cfd15b3bf3eefefe92e7fb61059eba26f7), [`66af690`](https://github.com/Kilo-Org/kilocode/commit/66af6907005b99bb39a0869b35dfe1ec180cc0b5)]:
-  - @kilocode/kilo-indexing@7.4.0
-  - @kilocode/sdk@7.4.0
-  - @kilocode/plugin@7.3.47
+  - @kappacode/kappa-indexing@7.4.0
+  - @kappacode/sdk@7.4.0
+  - @kappacode/plugin@7.3.47
   - @opencode-ai/ui@7.3.47
-  - @kilocode/kilo-gateway@7.3.47
-  - @kilocode/plugin-atomic-chat@7.3.47
-  - @kilocode/kilo-telemetry@7.3.47
+  - @kappacode/kappa-gateway@7.3.47
+  - @kappacode/plugin-atomic-chat@7.3.47
+  - @kappacode/kappa-telemetry@7.3.47
 
 ## 7.3.46
 
@@ -1758,7 +1758,7 @@
 
 - [#11152](https://github.com/Kilo-Org/kilocode/pull/11152) [`b23d3df`](https://github.com/Kilo-Org/kilocode/commit/b23d3dfd756461ae02e2ed2872aded09d65dc1af) - Allow Escape to stop Agent Manager prompts while their sessions are still starting.
 
-- [#11138](https://github.com/Kilo-Org/kilocode/pull/11138) [`e354305`](https://github.com/Kilo-Org/kilocode/commit/e35430580be89361304c4b599ccd7eeb62fce7c1) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Restart the daemon when `kilo console` or `kilo daemon start` receives explicit network options that don't match the running daemon, instead of silently ignoring the requested settings.
+- [#11138](https://github.com/Kilo-Org/kilocode/pull/11138) [`e354305`](https://github.com/Kilo-Org/kilocode/commit/e35430580be89361304c4b599ccd7eeb62fce7c1) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Restart the daemon when `kappa console` or `kappa daemon start` receives explicit network options that don't match the running daemon, instead of silently ignoring the requested settings.
 
 ## 7.3.44
 
@@ -1780,7 +1780,7 @@
 
 - [#11075](https://github.com/Kilo-Org/kilocode/pull/11075) [`e17ce0c`](https://github.com/Kilo-Org/kilocode/commit/e17ce0c9ecaf4cc4cad3e0fd99b28bef561705fc) - Speed up large session forks by retaining final task outcomes instead of duplicating resumable subagent histories, and load completed task details only when expanded.
 
-- [#11143](https://github.com/Kilo-Org/kilocode/pull/11143) [`12144cf`](https://github.com/Kilo-Org/kilocode/commit/12144cf8275200a7dd8e29cf478c39504da59b04) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Warn when `kilo console` or `kilo daemon` is invoked with an explicit `--port` outside the discovery range (4097–4116).
+- [#11143](https://github.com/Kilo-Org/kilocode/pull/11143) [`12144cf`](https://github.com/Kilo-Org/kilocode/commit/12144cf8275200a7dd8e29cf478c39504da59b04) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Warn when `kappa console` or `kappa daemon` is invoked with an explicit `--port` outside the discovery range (4097–4116).
 
 - [#11006](https://github.com/Kilo-Org/kilocode/pull/11006) [`69a0b38`](https://github.com/Kilo-Org/kilocode/commit/69a0b384e6c61d190241087f88f2be4312e7517e) - Refresh connected provider model lists when the models catalog updates.
 
@@ -1807,9 +1807,9 @@
 - [#11031](https://github.com/Kilo-Org/kilocode/pull/11031) [`28a26b1`](https://github.com/Kilo-Org/kilocode/commit/28a26b11c133686a4656af8be21af619c919301a) - Restore streamed responses in the CLI TUI and move code indexing status into the session sidebar.
 
 - Updated dependencies [[`a16e82a`](https://github.com/Kilo-Org/kilocode/commit/a16e82a77abf883c2c07c11464d50e08a518acd7), [`9c279a1`](https://github.com/Kilo-Org/kilocode/commit/9c279a16b4a14fc117f34d7aa19e771149031931), [`57bef8a`](https://github.com/Kilo-Org/kilocode/commit/57bef8ae68793c9b627ba0400b596bf932311e17), [`b75af0d`](https://github.com/Kilo-Org/kilocode/commit/b75af0de8865234a745f71eac03bf2bdea2271b4)]:
-  - @kilocode/kilo-indexing@7.4.0
-  - @kilocode/kilo-gateway@7.3.43
-  - @kilocode/kilo-telemetry@7.3.43
+  - @kappacode/kappa-indexing@7.4.0
+  - @kappacode/kappa-gateway@7.3.43
+  - @kappacode/kappa-telemetry@7.3.43
   - @opencode-ai/ui@7.3.43
 
 ## 7.3.42
@@ -1853,9 +1853,9 @@
 - [#11010](https://github.com/Kilo-Org/kilocode/pull/11010) [`a130641`](https://github.com/Kilo-Org/kilocode/commit/a13064167df50862e9a4a8622e092ac518110281) - Compact sessions at the configured context percentage before sending an oversized provider request.
 
 - Updated dependencies [[`b0a4f03`](https://github.com/Kilo-Org/kilocode/commit/b0a4f0391106a837b78200e6de52621a6872b890)]:
-  - @kilocode/kilo-gateway@7.4.0
-  - @kilocode/kilo-indexing@7.3.41
-  - @kilocode/kilo-telemetry@7.3.41
+  - @kappacode/kappa-gateway@7.4.0
+  - @kappacode/kappa-indexing@7.3.41
+  - @kappacode/kappa-telemetry@7.3.41
 
 ## 7.3.40
 
@@ -1871,7 +1871,7 @@
 
 - [#10901](https://github.com/Kilo-Org/kilocode/pull/10901) [`a8a8dd8`](https://github.com/Kilo-Org/kilocode/commit/a8a8dd87247a700e83d8b9cbedc7a4a26cdea602) - Prevent icon images fetched from the web from causing provider request errors.
 
-- [#10933](https://github.com/Kilo-Org/kilocode/pull/10933) [`a0eb3b7`](https://github.com/Kilo-Org/kilocode/commit/a0eb3b7cb6e06a6d9d625169eaefaffb4b4f7095) - Write strict JSON when adding MCP servers to `kilo.json` configuration files.
+- [#10933](https://github.com/Kilo-Org/kilocode/pull/10933) [`a0eb3b7`](https://github.com/Kilo-Org/kilocode/commit/a0eb3b7cb6e06a6d9d625169eaefaffb4b4f7095) - Write strict JSON when adding MCP servers to `kappa.json` configuration files.
 
 - [#10924](https://github.com/Kilo-Org/kilocode/pull/10924) [`189f251`](https://github.com/Kilo-Org/kilocode/commit/189f251866fb9e2971384377d1494b03e6d8889d) - Temporarily disable free-model session and Git workspace data export.
 
@@ -1915,24 +1915,24 @@
 
 - [#10849](https://github.com/Kilo-Org/kilocode/pull/10849) [`a6b005d`](https://github.com/Kilo-Org/kilocode/commit/a6b005dfede302731dcbb00ac74e744333db9104) - Restore Cloud Agent transcripts in VS Code session previews and stop cloud session previews or continuation from loading indefinitely when a request stalls.
 
-- [#10883](https://github.com/Kilo-Org/kilocode/pull/10883) [`1cdc398`](https://github.com/Kilo-Org/kilocode/commit/1cdc39856f461b4dc183fe5b273b7fc1314b9a64) - Restore `kilo console` startup in packaged CLI builds.
+- [#10883](https://github.com/Kilo-Org/kilocode/pull/10883) [`1cdc398`](https://github.com/Kilo-Org/kilocode/commit/1cdc39856f461b4dc183fe5b273b7fc1314b9a64) - Restore `kappa console` startup in packaged CLI builds.
 
 - [#10863](https://github.com/Kilo-Org/kilocode/pull/10863) [`35aa9bb`](https://github.com/Kilo-Org/kilocode/commit/35aa9bbbb38557df292f105fd5324bf37807f518) - Restore Kilo Gateway-backed Mercury Next Edit completions.
 
 - [#10829](https://github.com/Kilo-Org/kilocode/pull/10829) [`e64c1fb`](https://github.com/Kilo-Org/kilocode/commit/e64c1fb65ec6895f7e97786f52806195f25606c0) - Restore full-session forks in Agent Manager after the HTTP API migration.
 
 - Updated dependencies [[`fc4cf10`](https://github.com/Kilo-Org/kilocode/commit/fc4cf10b0a65ec2b2949dd695ebec6ebb619cd15), [`a6b005d`](https://github.com/Kilo-Org/kilocode/commit/a6b005dfede302731dcbb00ac74e744333db9104)]:
-  - @kilocode/sdk@7.3.23
-  - @kilocode/kilo-gateway@7.3.23
-  - @kilocode/plugin@7.3.23
-  - @kilocode/kilo-indexing@7.3.23
-  - @kilocode/kilo-telemetry@7.3.23
+  - @kappacode/sdk@7.3.23
+  - @kappacode/kappa-gateway@7.3.23
+  - @kappacode/plugin@7.3.23
+  - @kappacode/kappa-indexing@7.3.23
+  - @kappacode/kappa-telemetry@7.3.23
 
 ## 7.3.21
 
 ### Minor Changes
 
-- [#10298](https://github.com/Kilo-Org/kilocode/pull/10298) [`ac7e46d`](https://github.com/Kilo-Org/kilocode/commit/ac7e46d67a7015469bf2edeb573c284308ea05d5) Thanks [@Githubguy132010](https://github.com/Githubguy132010)! - Add a `kilo profile` command for checking the active Kilo account or team balance.
+- [#10298](https://github.com/Kilo-Org/kilocode/pull/10298) [`ac7e46d`](https://github.com/Kilo-Org/kilocode/commit/ac7e46d67a7015469bf2edeb573c284308ea05d5) Thanks [@Githubguy132010](https://github.com/Githubguy132010)! - Add a `kappa profile` command for checking the active Kilo account or team balance.
 
 - [#10310](https://github.com/Kilo-Org/kilocode/pull/10310) [`c265fa4`](https://github.com/Kilo-Org/kilocode/commit/c265fa4c4ef18204f8e2741c66953c24bf012f2a) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Show running spinner in subagent footer to indicate when subagent is processing
 
@@ -1954,7 +1954,7 @@
 
 - [#10789](https://github.com/Kilo-Org/kilocode/pull/10789) [`316a662`](https://github.com/Kilo-Org/kilocode/commit/316a6627dc9eccd40bf7aa45366fca40b35f1879) - Fix queued plan prompts stalling in VS Code after a completed turn.
 
-- [#9499](https://github.com/Kilo-Org/kilocode/pull/9499) [`c1c3af8`](https://github.com/Kilo-Org/kilocode/commit/c1c3af8bf42e911d9d2a2cf06937fdf056d851d2) Thanks [@truffle-dev](https://github.com/truffle-dev)! - Fix empty TUI session list when launching kilo from inside a git submodule. `git worktree list --porcelain` reports the submodule's gitdir (`<repo>/.git/modules/<sub>`) instead of the working tree, so the worktree-family filter dropped every session whose directory was the actual submodule path. Include `Instance.worktree` in the returned set so submodule sessions stay in scope.
+- [#9499](https://github.com/Kilo-Org/kilocode/pull/9499) [`c1c3af8`](https://github.com/Kilo-Org/kilocode/commit/c1c3af8bf42e911d9d2a2cf06937fdf056d851d2) Thanks [@truffle-dev](https://github.com/truffle-dev)! - Fix empty TUI session list when launching kappa from inside a git submodule. `git worktree list --porcelain` reports the submodule's gitdir (`<repo>/.git/modules/<sub>`) instead of the working tree, so the worktree-family filter dropped every session whose directory was the actual submodule path. Include `Instance.worktree` in the returned set so submodule sessions stay in scope.
 
 ## 7.3.18
 
@@ -1999,11 +1999,11 @@
 - [#10618](https://github.com/Kilo-Org/kilocode/pull/10618) [`dcfadac`](https://github.com/Kilo-Org/kilocode/commit/dcfadac83ed45a109a402a2f71f4d214347804f1) - Prevent saved global indexing provider changes from temporarily reverting in active workspaces.
 
 - Updated dependencies [[`117691e`](https://github.com/Kilo-Org/kilocode/commit/117691e4d6fe48f91223bb7d7e24103c67cde73f), [`db38888`](https://github.com/Kilo-Org/kilocode/commit/db388889e867021c6bae42cbd03df6b67941b208)]:
-  - @kilocode/kilo-indexing@7.3.13
-  - @kilocode/sdk@7.3.13
-  - @kilocode/kilo-gateway@7.4.0
-  - @kilocode/plugin@7.3.13
-  - @kilocode/kilo-telemetry@7.3.13
+  - @kappacode/kappa-indexing@7.3.13
+  - @kappacode/sdk@7.3.13
+  - @kappacode/kappa-gateway@7.4.0
+  - @kappacode/plugin@7.3.13
+  - @kappacode/kappa-telemetry@7.3.13
 
 ## 7.3.11
 
@@ -2052,7 +2052,7 @@
 ### Patch Changes
 
 - Updated dependencies [[`205e22e`](https://github.com/Kilo-Org/kilocode/commit/205e22ee4672305d3cb2e0c34b607a4950f8f4e8)]:
-  - @kilocode/kilo-indexing@7.3.5
+  - @kappacode/kappa-indexing@7.3.5
 
 ## 7.3.3
 
@@ -2095,17 +2095,17 @@
 - [#10197](https://github.com/Kilo-Org/kilocode/pull/10197) [`1ea86fb`](https://github.com/Kilo-Org/kilocode/commit/1ea86fb6e15cbe486cb0af6f26995d0b1b2745a2) - Prevent Kilo Gateway Responses requests from replaying transient provider item IDs when request storage is disabled.
 
 - Updated dependencies [[`4860e65`](https://github.com/Kilo-Org/kilocode/commit/4860e654ca1cc46c4e99acc3f40d4f1302e34944), [`1af7973`](https://github.com/Kilo-Org/kilocode/commit/1af79731a8ed925f1f69aa536ba90a53b89e8dfb), [`1ea86fb`](https://github.com/Kilo-Org/kilocode/commit/1ea86fb6e15cbe486cb0af6f26995d0b1b2745a2), [`f5dc95b`](https://github.com/Kilo-Org/kilocode/commit/f5dc95b99394c17ad7140bb034bc15a0f9de60b6)]:
-  - @kilocode/sdk@7.3.0
-  - @kilocode/kilo-gateway@7.3.0
-  - @kilocode/plugin@7.2.53
-  - @kilocode/kilo-indexing@7.2.53
-  - @kilocode/kilo-telemetry@7.2.53
+  - @kappacode/sdk@7.3.0
+  - @kappacode/kappa-gateway@7.3.0
+  - @kappacode/plugin@7.2.53
+  - @kappacode/kappa-indexing@7.2.53
+  - @kappacode/kappa-telemetry@7.2.53
 
 ## 7.2.51
 
 ### Patch Changes
 
-- [#10121](https://github.com/Kilo-Org/kilocode/pull/10121) [`9963b02`](https://github.com/Kilo-Org/kilocode/commit/9963b0271a78244f773e6192721376618d0a3549) Thanks [@shssoichiro](https://github.com/shssoichiro)! - Auto-approve Task subagent tool permissions when running `kilo run --auto`.
+- [#10121](https://github.com/Kilo-Org/kilocode/pull/10121) [`9963b02`](https://github.com/Kilo-Org/kilocode/commit/9963b0271a78244f773e6192721376618d0a3549) Thanks [@shssoichiro](https://github.com/shssoichiro)! - Auto-approve Task subagent tool permissions when running `kappa run --auto`.
 
 - [#10114](https://github.com/Kilo-Org/kilocode/pull/10114) [`0676243`](https://github.com/Kilo-Org/kilocode/commit/0676243df3afcd97fa7fc40da3c8bf9b092156c3) Thanks [@shssoichiro](https://github.com/shssoichiro)! - Remove `--dangerously-skip-permissions` CLI flag which did nothing
 
@@ -2134,7 +2134,7 @@
 - [#10060](https://github.com/Kilo-Org/kilocode/pull/10060) [`0cc0415`](https://github.com/Kilo-Org/kilocode/commit/0cc04158d0cd256ddce306bd330af3c3a328f8be) - Harden markdown rendering against malicious HTML by picking up the latest DOMPurify security fixes.
 
 - Updated dependencies [[`924f034`](https://github.com/Kilo-Org/kilocode/commit/924f034e12f3455f8cb69bb112541f887f4adfe5)]:
-  - @kilocode/kilo-indexing@7.2.48
+  - @kappacode/kappa-indexing@7.2.48
 
 ## 7.2.47
 
@@ -2156,7 +2156,7 @@
 
 ### Minor Changes
 
-- [#9764](https://github.com/Kilo-Org/kilocode/pull/9764) [`9886674`](https://github.com/Kilo-Org/kilocode/commit/98866740afd7f6c2fd06fecda1ffc69c1703974e) - Migrate KiloClaw chat to the new kilo-chat backend. Replaces the single-channel Stream Chat integration with a multi-conversation experience that matches the web UX at app.kilo.ai/claw/kilo-chat: conversation list, reactions, typing indicators, editing, and action approvals. The TUI continues to render a single chat view backed by the user's primary conversation.
+- [#9764](https://github.com/Kilo-Org/kilocode/pull/9764) [`9886674`](https://github.com/Kilo-Org/kilocode/commit/98866740afd7f6c2fd06fecda1ffc69c1703974e) - Migrate KiloClaw chat to the new kappa-chat backend. Replaces the single-channel Stream Chat integration with a multi-conversation experience that matches the web UX at app.kappa.ai/claw/kappa-chat: conversation list, reactions, typing indicators, editing, and action approvals. The TUI continues to render a single chat view backed by the user's primary conversation.
 
 - [#9718](https://github.com/Kilo-Org/kilocode/pull/9718) [`dcaccf3`](https://github.com/Kilo-Org/kilocode/commit/dcaccf38658415819b72390255b9f6555e4795e5) - Rate assistant responses with thumbs up/down. Click the thumbs buttons next to the copy button on any assistant message, or press `<leader>=` / `<leader>-` in the terminal UI. Only shown when telemetry is enabled; feedback is sent to Kilo to help improve model and prompt quality.
 
@@ -2175,11 +2175,11 @@
 - [#9921](https://github.com/Kilo-Org/kilocode/pull/9921) [`e5e9d0b`](https://github.com/Kilo-Org/kilocode/commit/e5e9d0ba37bd1065aea5a9a83834c6749121e5bd) - Remove custom providers from settings when disconnecting them so they do not reappear after being disabled and re-enabled.
 
 - Updated dependencies [[`9886674`](https://github.com/Kilo-Org/kilocode/commit/98866740afd7f6c2fd06fecda1ffc69c1703974e), [`e5e9d0b`](https://github.com/Kilo-Org/kilocode/commit/e5e9d0ba37bd1065aea5a9a83834c6749121e5bd)]:
-  - @kilocode/kilo-gateway@7.3.0
-  - @kilocode/sdk@7.3.0
-  - @kilocode/kilo-indexing@7.2.43
-  - @kilocode/kilo-telemetry@7.2.43
-  - @kilocode/plugin@7.2.43
+  - @kappacode/kappa-gateway@7.3.0
+  - @kappacode/sdk@7.3.0
+  - @kappacode/kappa-indexing@7.2.43
+  - @kappacode/kappa-telemetry@7.2.43
+  - @kappacode/plugin@7.2.43
 
 ## 7.2.42
 
@@ -2215,7 +2215,7 @@
 
 - [#9838](https://github.com/Kilo-Org/kilocode/pull/9838) [`f499257`](https://github.com/Kilo-Org/kilocode/commit/f499257c3287274473db801edba1852dbcdbd92a) - Honor approved external directory read access in Ask and Plan modes.
 
-- [#9778](https://github.com/Kilo-Org/kilocode/pull/9778) [`33476e5`](https://github.com/Kilo-Org/kilocode/commit/33476e50508f39c232731613fd9d74a7aa19e748) - Show an "Initializing snapshot…" line in the chat while the initial snapshot is running on very large repositories, and add an interactive prompt when it stalls. After 10 seconds (configurable via `KILO_SNAPSHOT_TRACK_TIMEOUT_MS`) the prompt asks whether to keep waiting or disable snapshots for the project; choosing to disable writes `"snapshot": false` to `.kilo/kilo.json` so future sessions skip snapshots entirely.
+- [#9778](https://github.com/Kilo-Org/kilocode/pull/9778) [`33476e5`](https://github.com/Kilo-Org/kilocode/commit/33476e50508f39c232731613fd9d74a7aa19e748) - Show an "Initializing snapshot…" line in the chat while the initial snapshot is running on very large repositories, and add an interactive prompt when it stalls. After 10 seconds (configurable via `KILO_SNAPSHOT_TRACK_TIMEOUT_MS`) the prompt asks whether to keep waiting or disable snapshots for the project; choosing to disable writes `"snapshot": false` to `.kappa/kappa.json` so future sessions skip snapshots entirely.
 
 - [#9833](https://github.com/Kilo-Org/kilocode/pull/9833) [`614bca7`](https://github.com/Kilo-Org/kilocode/commit/614bca7cff862ec96e4707a97f43b540210ab699) - Prevent macOS Spotlight from indexing Kilo-generated data directories.
 
@@ -2237,7 +2237,7 @@
 
 - [#9746](https://github.com/Kilo-Org/kilocode/pull/9746) [`80535d4`](https://github.com/Kilo-Org/kilocode/commit/80535d4ed6266888988a66ca28706260ee89e533) - Avoid repeated command approval prompts when multiple sessions request the same saved command permission, without widening bash permission matching.
 
-- [#9460](https://github.com/Kilo-Org/kilocode/pull/9460) [`26e4c11`](https://github.com/Kilo-Org/kilocode/commit/26e4c1148f4e7a734bb8e535e02a1a9ad75be584) - Scope the custom commit message prompt to the current project. Setting it in the VS Code settings now writes to the workspace's `kilo.json` so different repositories can have different conventions, instead of silently applying globally. Also fixes the project-level config update endpoint, which previously wrote to a file that wasn't loaded.
+- [#9460](https://github.com/Kilo-Org/kilocode/pull/9460) [`26e4c11`](https://github.com/Kilo-Org/kilocode/commit/26e4c1148f4e7a734bb8e535e02a1a9ad75be584) - Scope the custom commit message prompt to the current project. Setting it in the VS Code settings now writes to the workspace's `kappa.json` so different repositories can have different conventions, instead of silently applying globally. Also fixes the project-level config update endpoint, which previously wrote to a file that wasn't loaded.
 
 - [#9626](https://github.com/Kilo-Org/kilocode/pull/9626) [`5dbf91c`](https://github.com/Kilo-Org/kilocode/commit/5dbf91cc167c16e04bb41e8af68108f8865a18c8) - Honor allowed read-only external-directory access to Kilo config paths without repeated permission prompts.
 
@@ -2263,7 +2263,7 @@
 
 - [#9450](https://github.com/Kilo-Org/kilocode/pull/9450) [`2032fe4`](https://github.com/Kilo-Org/kilocode/commit/2032fe4c4e574aa0664a1ab91e34633ce5b261f9) - Fix a session hang that could occur when multiple Kilo panels showed the same permission prompt, or when a subagent's permission was replied to from the wrong worktree. Replies are now routed to the exact CLI instance that holds the pending permission, and stale/unknown permissions surface a clear error so the UI doesn't leave buttons permanently disabled.
 
-- [#9635](https://github.com/Kilo-Org/kilocode/pull/9635) [`cbe5510`](https://github.com/Kilo-Org/kilocode/commit/cbe55103b10cda881ab39f2932a856f4ea36fce3) - Rename the published Docker image from `ghcr.io/kilo-org/kilo` to `ghcr.io/kilo-org/kilocode` so it lives alongside the active `kilocode` repo instead of the archived `kilo` one.
+- [#9635](https://github.com/Kilo-Org/kilocode/pull/9635) [`cbe5510`](https://github.com/Kilo-Org/kilocode/commit/cbe55103b10cda881ab39f2932a856f4ea36fce3) - Rename the published Docker image from `ghcr.io/kappa-org/kappa` to `ghcr.io/kappa-org/kilocode` so it lives alongside the active `kilocode` repo instead of the archived `kappa` one.
 
 - [#9628](https://github.com/Kilo-Org/kilocode/pull/9628) [`6130a3e`](https://github.com/Kilo-Org/kilocode/commit/6130a3ea66c6a323710fdc2d325fac87011f6b85) - Show paid Kilo models to signed-out users so selecting one prompts them to log in.
 
@@ -2274,9 +2274,9 @@
 - [#9603](https://github.com/Kilo-Org/kilocode/pull/9603) [`4145e48`](https://github.com/Kilo-Org/kilocode/commit/4145e48e82d862178102386cd8a1c874b9415696) - Improve Windows worktree cleanup reliability when file handles are released slowly.
 
 - Updated dependencies [[`28a0eae`](https://github.com/Kilo-Org/kilocode/commit/28a0eae4b0b940482222f6671a6885b575b2ad9c), [`6130a3e`](https://github.com/Kilo-Org/kilocode/commit/6130a3ea66c6a323710fdc2d325fac87011f6b85)]:
-  - @kilocode/kilo-indexing@7.1.4
-  - @kilocode/kilo-gateway@7.2.27
-  - @kilocode/kilo-telemetry@7.2.27
+  - @kappacode/kappa-indexing@7.1.4
+  - @kappacode/kappa-gateway@7.2.27
+  - @kappacode/kappa-telemetry@7.2.27
 
 ## 7.2.26
 
@@ -2295,8 +2295,8 @@
 - [#9526](https://github.com/Kilo-Org/kilocode/pull/9526) [`c8113f2`](https://github.com/Kilo-Org/kilocode/commit/c8113f27b190f5c08ce642da57d68646132e1828) - Fix multi-turn DeepSeek reasoning round-tripping on OpenRouter by bumping `@openrouter/ai-sdk-provider` to 2.8.1 in both the CLI and Kilo Gateway packages and letting the SDK handle reasoning details, plus pulling in upstream DeepSeek variant, reasoning-effort, and assistant-reasoning fixes. New DeepSeek conversations are fixed; existing sessions that already stored empty reasoning metadata may still need to be restarted.
 
 - Updated dependencies [[`c8113f2`](https://github.com/Kilo-Org/kilocode/commit/c8113f27b190f5c08ce642da57d68646132e1828)]:
-  - @kilocode/kilo-gateway@7.2.25
-  - @kilocode/kilo-telemetry@7.2.25
+  - @kappacode/kappa-gateway@7.2.25
+  - @kappacode/kappa-telemetry@7.2.25
 
 ## 7.2.23
 
@@ -2341,8 +2341,8 @@
 ### Patch Changes
 
 - Updated dependencies [[`3b73cf4`](https://github.com/Kilo-Org/kilocode/commit/3b73cf474ee7bd81ac1cb4a0153906059f3a2d3a)]:
-  - @kilocode/kilo-gateway@7.2.19
-  - @kilocode/kilo-telemetry@7.2.19
+  - @kappacode/kappa-gateway@7.2.19
+  - @kappacode/kappa-telemetry@7.2.19
 
 ## 7.2.18
 
@@ -2367,14 +2367,14 @@
 - [#9170](https://github.com/Kilo-Org/kilocode/pull/9170) [`297b988`](https://github.com/Kilo-Org/kilocode/commit/297b988a211933e106bf2864518e3542587d3f0b) - Update `@ai-sdk/amazon-bedrock` to 4.0.96 and `@ai-sdk/google-vertex` to 4.0.112, both of which include Opus 4.7 support with `xhigh` adaptive thinking effort
 
 - Updated dependencies [[`8b90eec`](https://github.com/Kilo-Org/kilocode/commit/8b90eec6d0852305ae4379088b1003c1d4e74e6a), [`448dba8`](https://github.com/Kilo-Org/kilocode/commit/448dba8ca595ff95220ab660cbc93ca40b90a19b)]:
-  - @kilocode/kilo-gateway@7.3.0
-  - @kilocode/kilo-telemetry@7.2.15
+  - @kappacode/kappa-gateway@7.3.0
+  - @kappacode/kappa-telemetry@7.2.15
 
 ## 7.2.14
 
 ### Patch Changes
 
-- [#9118](https://github.com/Kilo-Org/kilocode/pull/9118) [`343455b`](https://github.com/Kilo-Org/kilocode/commit/343455b87895a0551760b5710b1ffe58fae21efd) - Respect per-agent model selections when an agent has a `model` configured in `kilo.jsonc`. Switching the model for such an agent now sticks across agent switches and CLI restarts. To pick up a newly edited agent default, re-select the model once (or clear `~/.local/share/kilo/storage/model.json`).
+- [#9118](https://github.com/Kilo-Org/kilocode/pull/9118) [`343455b`](https://github.com/Kilo-Org/kilocode/commit/343455b87895a0551760b5710b1ffe58fae21efd) - Respect per-agent model selections when an agent has a `model` configured in `kappa.jsonc`. Switching the model for such an agent now sticks across agent switches and CLI restarts. To pick up a newly edited agent default, re-select the model once (or clear `~/.local/share/kappa/storage/model.json`).
 
 - [#9067](https://github.com/Kilo-Org/kilocode/pull/9067) [`959a8b4`](https://github.com/Kilo-Org/kilocode/commit/959a8b498de6efd28756683162296dd40eb9b454) - Fix "assistant prefill" errors when a user queues a prompt while the previous turn is still streaming. The queued message no longer lands in the middle of the prior turn's history, so the next request always ends with the user prompt.
 
@@ -2384,13 +2384,13 @@
 
 ### Patch Changes
 
-- [#9068](https://github.com/Kilo-Org/kilocode/pull/9068) [`e65c2d9`](https://github.com/Kilo-Org/kilocode/commit/e65c2d99c0d234d3dc1dff2e75e58e22bea8ce7f) Thanks [@kilo-code-bot](https://github.com/apps/kilo-code-bot)! - Hide Kilo Gateway models that do not support tool calling from the model list.
+- [#9068](https://github.com/Kilo-Org/kilocode/pull/9068) [`e65c2d9`](https://github.com/Kilo-Org/kilocode/commit/e65c2d99c0d234d3dc1dff2e75e58e22bea8ce7f) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Hide Kilo Gateway models that do not support tool calling from the model list.
 
-- [#9069](https://github.com/Kilo-Org/kilocode/pull/9069) [`e60c326`](https://github.com/Kilo-Org/kilocode/commit/e60c3263191c5746bea6bd93cd291c28f5d1ab0f) Thanks [@kilo-code-bot](https://github.com/apps/kilo-code-bot)! - Support adaptive reasoning for Claude Opus 4.7 and expose the `xhigh` effort level for adaptive Anthropic models
+- [#9069](https://github.com/Kilo-Org/kilocode/pull/9069) [`e60c326`](https://github.com/Kilo-Org/kilocode/commit/e60c3263191c5746bea6bd93cd291c28f5d1ab0f) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Support adaptive reasoning for Claude Opus 4.7 and expose the `xhigh` effort level for adaptive Anthropic models
 
 - Updated dependencies [[`e65c2d9`](https://github.com/Kilo-Org/kilocode/commit/e65c2d99c0d234d3dc1dff2e75e58e22bea8ce7f)]:
-  - @kilocode/kilo-gateway@7.2.12
-  - @kilocode/kilo-telemetry@7.2.12
+  - @kappacode/kappa-gateway@7.2.12
+  - @kappacode/kappa-telemetry@7.2.12
 
 ## 7.2.11
 
@@ -2398,7 +2398,7 @@
 
 - [#8898](https://github.com/Kilo-Org/kilocode/pull/8898) [`4a69a3e`](https://github.com/Kilo-Org/kilocode/commit/4a69a3e0d11a041827c1c68e1a47f84ed0f4c893) - Fixed default model falling back to the free model after login or org switch by invalidating cached provider state when auth changes.
 
-- [#8996](https://github.com/Kilo-Org/kilocode/pull/8996) [`58ff01a`](https://github.com/Kilo-Org/kilocode/commit/58ff01a2bcac172ae93e4213046a3e9c6c353f59) Thanks [@kilo-code-bot](https://github.com/apps/kilo-code-bot)! - Include pnpm-lock.yaml and yarn.lock in the .kilo/.gitignore so lockfiles from alternative package managers don't appear as untracked files
+- [#8996](https://github.com/Kilo-Org/kilocode/pull/8996) [`58ff01a`](https://github.com/Kilo-Org/kilocode/commit/58ff01a2bcac172ae93e4213046a3e9c6c353f59) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Include pnpm-lock.yaml and yarn.lock in the .kappa/.gitignore so lockfiles from alternative package managers don't appear as untracked files
 
 - [`4937759`](https://github.com/Kilo-Org/kilocode/commit/4937759bf46737a9300d4effedd627676ab4ca68) - Merged upstream opencode changes from v1.3.10:
   - Subagent tool calls stay clickable while pending
@@ -2417,5 +2417,5 @@
 - [#9047](https://github.com/Kilo-Org/kilocode/pull/9047) [`bea8878`](https://github.com/Kilo-Org/kilocode/commit/bea88788f4530f57d210b98cd7205168cd8f9ae9) - Continue queued follow-up prompts after the active session turn finishes.
 
 - Updated dependencies [[`4d2f553`](https://github.com/Kilo-Org/kilocode/commit/4d2f55343b7403625c60de09460d01ab8ae268f7)]:
-  - @kilocode/kilo-gateway@7.2.11
-  - @kilocode/kilo-telemetry@7.2.11
+  - @kappacode/kappa-gateway@7.2.11
+  - @kappacode/kappa-telemetry@7.2.11

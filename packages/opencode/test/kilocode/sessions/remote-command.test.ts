@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { RemoteCommand } from "../../../src/kilo-sessions/remote-command"
-import { RemoteExit } from "../../../src/kilo-sessions/remote-exit"
+import { RemoteCommand } from "../../../src/kappa-sessions/remote-command"
+import { RemoteExit } from "../../../src/kappa-sessions/remote-exit"
 import type { Info as SessionInfo } from "../../../src/session/session"
 import { MessageV2 } from "../../../src/session/message-v2"
 import { MessageID, SessionID } from "../../../src/session/schema"
@@ -55,7 +55,7 @@ describe("RemoteCommand", () => {
       command: "review",
       arguments: "  main\nkeep spacing  ",
       messageID: "msg_remote",
-      model: { providerID: "kilo", modelID: "anthropic/claude-sonnet-4" },
+      model: { providerID: "kappa", modelID: "anthropic/claude-sonnet-4" },
       variant: "high",
     }
 
@@ -79,7 +79,7 @@ describe("RemoteCommand", () => {
         name: "review",
         description: "Review changes",
         agent: "reviewer",
-        model: "kilo/review-model",
+        model: "kappa/review-model",
         source: "command",
         hints: ["$ARGUMENTS"],
         subtask: true,
@@ -128,7 +128,7 @@ describe("RemoteCommand", () => {
           name: "review",
           description: "Review changes",
           agent: "reviewer",
-          model: "kilo/review-model",
+          model: "kappa/review-model",
           source: "command",
           hints: ["$ARGUMENTS"],
           subtask: true,
@@ -190,7 +190,7 @@ describe("RemoteCommand", () => {
       prompt: { loop: async () => {} },
     })
     // kilocode_change - K1 W1: canExitSession is true even when the synthetic
-    // `/exit` entry is absent (e.g. a headless `kilo remote` host has no
+    // `/exit` entry is absent (e.g. a headless `kappa remote` host has no
     // RemoteExit callback, so `/exit` is gated off — but the host still
     // interprets `exit_cli` as session-detach).
     const baseList = await remote.list()

@@ -91,7 +91,7 @@ export function createChatParamsHook(toastNotifier: ToastNotifier) {
               ]
             : [
                 "1. Ensure Atomic Chat is running",
-                "2. Verify the API URL in kilo.json matches Atomic Chat settings",
+                "2. Verify the API URL in kappa.json matches Atomic Chat settings",
                 "3. Retry your request",
               ],
         similarModels: similarModels.map((item) => ({

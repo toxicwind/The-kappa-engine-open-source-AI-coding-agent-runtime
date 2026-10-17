@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from "bun:test"
 
-const entry = "file:///tmp/kilo-cache/node_modules/@lancedb/lancedb/dist/index.js"
-const add = mock(async () => ({ directory: "/tmp/kilo-cache", entrypoint: entry }))
+const entry = "file:///tmp/kappa-cache/node_modules/@lancedb/lancedb/dist/index.js"
+const add = mock(async () => ({ directory: "/tmp/kappa-cache", entrypoint: entry }))
 const real = await import("@opencode-ai/core/npm")
 
 mock.module("@opencode-ai/core/npm", () => ({
@@ -20,7 +20,7 @@ describe("LanceDBRuntime", () => {
     const { LanceDBRuntime } = await import("../../src/kilocode/lancedb")
     LanceDBRuntime.clear()
     add.mockClear()
-    add.mockImplementation(async () => ({ directory: "/tmp/kilo-cache", entrypoint: entry }))
+    add.mockImplementation(async () => ({ directory: "/tmp/kappa-cache", entrypoint: entry }))
   })
 
   afterEach(async () => {
@@ -120,7 +120,7 @@ describe("LanceDBRuntime", () => {
       .mockImplementationOnce(async () => {
         throw new Error("install failed")
       })
-      .mockImplementationOnce(async () => ({ directory: "/tmp/kilo-cache", entrypoint: entry }))
+      .mockImplementationOnce(async () => ({ directory: "/tmp/kappa-cache", entrypoint: entry }))
 
     await expect(LanceDBRuntime.ensure("lancedb")).rejects.toThrow("install failed")
     expect(process.env[env]).toBeUndefined()

@@ -46,7 +46,7 @@ const testAllow: Record<string, { count: number; reason: string }> = {
     count: 4,
     reason: "production default snapshot hooks require the shared runtime and instance context",
   },
-  "kilocode/kilo-sessions.test.ts": {
+  "kilocode/kappa-sessions.test.ts": {
     count: 49,
     reason:
       "K1 W1: real integration test for SessionStatus→detach→heartbeat-fence; " +
@@ -123,7 +123,7 @@ const testAllow: Record<string, { count: number; reason: string }> = {
   "tool/recall.test.ts": { count: 11, reason: "existing runtime integration test" },
 }
 
-const owned = (file: string) => file.startsWith("kilocode/") || file.startsWith("kilo-sessions/")
+const owned = (file: string) => file.startsWith("kilocode/") || file.startsWith("kappa-sessions/")
 const hits: Array<{ file: string; line: number }> = []
 const glob = new Bun.Glob("**/*.ts")
 // Bun.Glob returns backslash-separated paths on Windows; the allowlists use forward slashes.

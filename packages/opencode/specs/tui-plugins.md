@@ -5,7 +5,7 @@ Technical reference for the current TUI plugin system.
 ## Overview
 
 - TUI plugin config lives in `tui.json`.
-- Author package entrypoint is `@kilocode/plugin/tui`.
+- Author package entrypoint is `@kappacode/plugin/tui`.
 - Internal plugins load inside the CLI app the same way external TUI plugins do.
 - Package plugins can be installed from CLI or TUI.
 - v1 plugin modules are target-exclusive: a module can export `server` or `tui`, never both.
@@ -18,7 +18,7 @@ Example:
 
 ```json
 {
-  "$schema": "https://app.kilo.ai/tui.json",
+  "$schema": "https://app.kappa.ai/tui.json",
   "theme": "smoke-theme",
   "leader_timeout": 2000,
   "keybinds": {
@@ -35,7 +35,7 @@ Example:
     "notifications": true,
     "sound": true,
     "volume": 0.4,
-    "sound_pack": "kilo.default",
+    "sound_pack": "kappa.default",
     "sounds": {
       "error": "/Users/me/sounds/error.mp3"
     }
@@ -68,14 +68,14 @@ Example:
 
 Package entrypoint:
 
-- Import types from `@kilocode/plugin/tui`.
-- `@kilocode/plugin` exports `./tui` and declares optional peer deps on `@opentui/core` and `@opentui/solid`.
+- Import types from `@kappacode/plugin/tui`.
+- `@kappacode/plugin` exports `./tui` and declares optional peer deps on `@opentui/core` and `@opentui/solid`.
 
 Minimal module shape:
 
 ```tsx
 /** @jsxImportSource @opentui/solid */
-import type { TuiPlugin, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginModule } from "@kappacode/plugin/tui"
 
 const tui: TuiPlugin = async (api, options, meta) => {
   api.keymap.registerLayer({
@@ -191,12 +191,12 @@ npm plugins can declare a version compatibility range in `package.json` using th
 
 - Install flow is shared by CLI and TUI in `src/plugin/install.ts`.
 - Shared helpers are `installPlugin`, `readPluginManifest`, and `patchPluginConfig`.
-- `kilo plugin <module>` and TUI install both run install → manifest read → config patch.
-- Alias: `kilo plug <module>`.
+- `kappa plugin <module>` and TUI install both run install → manifest read → config patch.
+- Alias: `kappa plug <module>`.
 - `-g` / `--global` writes into the global config dir.
 - Local installs resolve target dir inside `patchPluginConfig`.
-- For local scope, path is `<worktree>/.kilo` only when VCS is git and `worktree !== "/"`; otherwise `<directory>/.kilo`.
-- Root-worktree fallback (`worktree === "/"` uses `<directory>/.kilo`) is covered by regression tests.
+- For local scope, path is `<worktree>/.kappa` only when VCS is git and `worktree !== "/"`; otherwise `<directory>/.kappa`.
+- Root-worktree fallback (`worktree === "/"` uses `<directory>/.kappa`) is covered by regression tests.
 - `patchPluginConfig` applies all detected targets (`server` and/or `tui`) in one call.
 - `patchPluginConfig` returns structured result unions (`ok`, `code`, fields by error kind) instead of custom thrown errors.
 - `patchPluginConfig` serializes per-target config writes with `Flock.acquire(...)`.
@@ -213,14 +213,14 @@ npm plugins can declare a version compatibility range in `package.json` using th
 - There is no uninstall, list, or update CLI command for external plugins.
 - Local file plugins are configured directly in `tui.json`.
 
-When `plugin` entries exist in a writable `.kilo` or legacy `.kilocode` directory, or `KILO_CONFIG_DIR`, Kilo installs `@kilocode/plugin` into that directory and writes:
+When `plugin` entries exist in a writable `.kappa` or legacy `.kilocode` directory, or `KILO_CONFIG_DIR`, Kilo installs `@kappacode/plugin` into that directory and writes:
 
 - `package.json`
 - `bun.lock`
 - `node_modules/`
 - `.gitignore`
 
-That is what makes local config-scoped plugins able to import `@kilocode/plugin/tui`.
+That is what makes local config-scoped plugins able to import `@kappacode/plugin/tui`.
 
 ## TUI plugin API
 
@@ -323,7 +323,7 @@ Mode pushes are automatically tracked by the plugin runtime. If a plugin is disa
 - `api.keys` exposes host-formatted shortcut display helpers for plugin UI.
 - `formatSequence(parts)` formats parsed key sequence parts using the host's display policy.
 - `formatBindings(bindings)` formats binding lists and returns `undefined` when there is nothing to show.
-- For generic config-to-bindings helpers, import `createBindingLookup` from `@kilocode/plugin/tui`.
+- For generic config-to-bindings helpers, import `createBindingLookup` from `@kappacode/plugin/tui`.
 
 ### Attention
 
@@ -338,7 +338,7 @@ Mode pushes are automatically tracked by the plugin runtime. If a plugin is disa
 - `api.attention.soundboard.registerPack({ id, name?, sounds })` registers a sound pack and returns a disposer. Relative paths resolve from the plugin root and are cleaned up on plugin deactivation.
 - `api.attention.soundboard.activate(id, { persist })` selects the active pack. `persist: true` writes the selected pack id to TUI KV state, not `tui.json`.
 - `api.attention.soundboard.current()` and `list()` expose the active/registered packs for plugin UX.
-- Config `attention.sounds` overrides active-pack sounds by slot. Failed loads fall back to the active pack and then `kilo.default`.
+- Config `attention.sounds` overrides active-pack sounds by slot. Failed loads fall back to the active pack and then `kappa.default`.
 - The host strips ANSI/control characters and collapses newlines before sending text to the terminal notification API.
 - Terminal and OS settings decide whether a requested notification is visibly displayed.
 - Prefer privacy-safe messages such as `"A question needs your input"`; avoid full commands, paths, prompts, errors, secrets, or file contents unless the plugin intentionally exposes them.
@@ -413,7 +413,7 @@ Theme install behavior:
 - If the theme name already exists, install is skipped unless plugin metadata state is `updated`.
 - On `updated`, host skips rewrite when tracked `mtime`/`size` is unchanged.
 - When a theme already exists and state is not `updated`, host can still persist theme metadata when destination already exists.
-- Local plugins persist installed themes under `.kilo/themes`, or under `themes` beside a config source in `.kilo` or legacy `.kilocode`.
+- Local plugins persist installed themes under `.kappa/themes`, or under `themes` beside a config source in `.kappa` or legacy `.kilocode`.
 - Global plugins persist installed themes under the global `themes` dir.
 - Invalid or unreadable theme files are ignored.
 
@@ -538,4 +538,4 @@ The plugin manager is exposed as a command with title `Plugins` and value `plugi
 
 ## Current in-repo examples
 
-The upstream `.opencode` smoke fixtures remain in the repository for OpenCode compatibility, but Kilo does not auto-load them. Kilo-local examples must live under `.kilo` or legacy `.kilocode`.
+The upstream `.opencode` smoke fixtures remain in the repository for OpenCode compatibility, but Kilo does not auto-load them. Kilo-local examples must live under `.kappa` or legacy `.kilocode`.

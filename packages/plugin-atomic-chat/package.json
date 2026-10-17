@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@kilocode/plugin-atomic-chat",
+  "name": "@kappacode/plugin-atomic-chat",
   "version": "7.8.10",
   "description": "Kilo Code plugin for Atomic Chat: auto-detection and dynamic model discovery (OpenAI-compatible local API)",
   "type": "module",
@@ -18,7 +18,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@kilocode/plugin": "workspace:*"
+    "@kappacode/plugin": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node22": "catalog:",

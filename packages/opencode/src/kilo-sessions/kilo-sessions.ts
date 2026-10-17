@@ -12,23 +12,23 @@ import { Storage } from "@/storage/storage"
 import * as Log from "@opencode-ai/core/util/log"
 import { Auth } from "@/auth"
 import { makeRuntime } from "@/effect/run-service"
-import { IngestQueue } from "@/kilo-sessions/ingest-queue"
-import { IngestDrain } from "@/kilo-sessions/ingest-drain"
-import { clearInFlightCache, withInFlightCache } from "@/kilo-sessions/inflight-cache"
-import type * as SDK from "@kilocode/sdk/v2"
+import { IngestQueue } from "@/kappa-sessions/ingest-queue"
+import { IngestDrain } from "@/kappa-sessions/ingest-drain"
+import { clearInFlightCache, withInFlightCache } from "@/kappa-sessions/inflight-cache"
+import type * as SDK from "@kappacode/sdk/v2"
 import z from "zod"
 import { Context, Effect, Layer, Schema } from "effect"
-import { KILO_API_BASE } from "@kilocode/kilo-gateway"
+import { KILO_API_BASE } from "@kappacode/kappa-gateway"
 import { Config } from "@/config/config"
 import { InstanceState } from "@/effect/instance-state"
 import { Instance } from "@/kilocode/instance"
 import { Vcs } from "@/project/vcs"
 import { Git } from "@/git"
 import { simpleGit } from "simple-git"
-import { RemoteWS } from "@/kilo-sessions/remote-ws"
-import { RemoteSender } from "@/kilo-sessions/remote-sender"
-import { RemoteProtocol } from "@/kilo-sessions/remote-protocol"
-import { buildInstanceAdvertisement } from "@/kilo-sessions/instance-advertisement"
+import { RemoteWS } from "@/kappa-sessions/remote-ws"
+import { RemoteSender } from "@/kappa-sessions/remote-sender"
+import { RemoteProtocol } from "@/kappa-sessions/remote-protocol"
+import { buildInstanceAdvertisement } from "@/kappa-sessions/instance-advertisement"
 import {
   clearSessionLink,
   enabled as prEnabled,
@@ -36,23 +36,23 @@ import {
   pruneLegacyWorktreeLinks,
   recordPrCreate,
   recordPush,
-} from "@/kilo-sessions/pr-link"
-import type { SessionPrLink } from "@/kilo-sessions/pr-link"
-import { refreshPrLink, startPrLinkPoll } from "@/kilo-sessions/pr-link-poller"
-import { AttachedState } from "@/kilo-sessions/attached-state"
-import { RemoteSessionLog } from "@/kilo-sessions/remote-session-log"
+} from "@/kappa-sessions/pr-link"
+import type { SessionPrLink } from "@/kappa-sessions/pr-link"
+import { refreshPrLink, startPrLinkPoll } from "@/kappa-sessions/pr-link-poller"
+import { AttachedState } from "@/kappa-sessions/attached-state"
+import { RemoteSessionLog } from "@/kappa-sessions/remote-session-log"
 import {
   clear as clearRenameMarks,
   consumeAutoTitle,
   consumeRenameAdoption,
   markAutoTitle,
   markRenameAdopted,
-} from "@/kilo-sessions/rename-adoptions"
+} from "@/kappa-sessions/rename-adoptions"
 import { KiloSessionTitle } from "@/kilocode/session/title"
 import { resolveDerivedSessionStatus, type DerivedSessionStatus } from "@/kilocode/session/scheduled"
 import { Wakeup } from "@/kilocode/wakeup"
 import { SessionStatus } from "@/session/status"
-import { Telemetry } from "@kilocode/kilo-telemetry"
+import { Telemetry } from "@kappacode/kappa-telemetry"
 import { Question } from "@/question"
 import { Permission } from "@/permission"
 import { withTimeout } from "@/util/timeout"
@@ -70,7 +70,7 @@ async function provide<R>(input: { directory: string; fn: () => R }): Promise<R>
 export namespace KiloSessions {
   export const Event = {
     RemoteStatusChanged: BusEvent.define(
-      "kilo-sessions.remote-status-changed",
+      "kappa-sessions.remote-status-changed",
       Schema.Struct({
         enabled: Schema.Boolean,
         connected: Schema.Boolean,
@@ -91,23 +91,23 @@ export namespace KiloSessions {
     ) => Effect.Effect<{ ok: true } | { ok: false; reason: string }, never>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kilocode/KiloSessions") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/KiloSessions") {}
 
-  const log = Log.create({ service: "kilo-sessions" })
+  const log = Log.create({ service: "kappa-sessions" })
   const attachedLog = { warn: (msg: string, meta?: unknown) => log.warn(msg, meta as never) }
   const runtime = makeRuntime(Auth.Service, Auth.defaultLayer)
 
   const Uuid = z.uuid()
   type Uuid = z.infer<typeof Uuid>
 
-  const tokenValidKeyTemplate = "kilo-sessions:token-valid:"
+  const tokenValidKeyTemplate = "kappa-sessions:token-valid:"
   let tokenValidKey = tokenValidKeyTemplate + "unknown"
 
-  const tokenKey = "kilo-sessions:token"
-  const orgKey = "kilo-sessions:org"
-  const clientKey = "kilo-sessions:client"
-  const gitUrlKeyPrefix = "kilo-sessions:git-url:"
-  const gitBranchKeyPrefix = "kilo-sessions:git-branch:"
+  const tokenKey = "kappa-sessions:token"
+  const orgKey = "kappa-sessions:org"
+  const clientKey = "kappa-sessions:client"
+  const gitUrlKeyPrefix = "kappa-sessions:git-url:"
+  const gitBranchKeyPrefix = "kappa-sessions:git-branch:"
 
   const ttlMs = 10_000
 
@@ -198,7 +198,7 @@ export namespace KiloSessions {
 
   async function kilocodeToken() {
     return withInFlightCache(tokenKey, ttlMs, async () => {
-      const auth = await runtime.runPromise((svc) => svc.get("kilo"))
+      const auth = await runtime.runPromise((svc) => svc.get("kappa"))
       if (auth?.type === "api" && auth.key.length > 0) return auth.key
       if (auth?.type === "oauth" && auth.access.length > 0) return auth.access
       if (auth?.type === "wellknown" && auth.token.length > 0) return auth.token
@@ -302,7 +302,7 @@ export namespace KiloSessions {
   KiloShutdown.register(drainIngest)
 
   // Process-level, like the ingest drain: every exit path (Ctrl-C on
-  // `kilo remote`, TUI quit) closes the remote sessions this run started and
+  // `kappa remote`, TUI quit) closes the remote sessions this run started and
   // still hosts, so a finished run always leaves an end line for what ran.
   KiloShutdown.register(() => RemoteSessionLog.endAll(log, "shutdown"))
 
@@ -320,7 +320,7 @@ export namespace KiloSessions {
   let enabling: Promise<void> | undefined
   let remoteSeq = 0
   // kilocode_change - K1 W1: module-level instance advertisement flag.
-  // `enableRemote` can be triggered either by the explicit `kilo remote` command
+  // `enableRemote` can be triggered either by the explicit `kappa remote` command
   // or by bootstrap auto-enable (`KILO_REMOTE=1` / `remote_control` config); it
   // is idempotent/coalescing, so passing an {instance} arg on one specific call
   // would race with whichever call happens first. A module-level flag flipped
@@ -975,12 +975,12 @@ export namespace KiloSessions {
     enabling = (async () => {
       const token = await kilocodeToken()
       if (!token) {
-        throw new Error("Unable to enable remote: no Kilo credentials found. Run `kilo auth login`.")
+        throw new Error("Unable to enable remote: no Kilo credentials found. Run `kappa auth login`.")
       }
 
       const valid = await authValid(token)
       if (valid === false) {
-        throw new Error("Unable to enable remote: invalid or expired Kilo credentials. Run `kilo auth login`.")
+        throw new Error("Unable to enable remote: invalid or expired Kilo credentials. Run `kappa auth login`.")
       }
       if (valid === undefined) throw new Error("Unable to enable remote: failed to verify Kilo credentials.")
 
@@ -989,8 +989,8 @@ export namespace KiloSessions {
         .replace(/^http:\/\//, "ws://")
 
       const [{ RemoteWS }, { RemoteSender }] = await Promise.all([
-        import("@/kilo-sessions/remote-ws"),
-        import("@/kilo-sessions/remote-sender"),
+        import("@/kappa-sessions/remote-ws"),
+        import("@/kappa-sessions/remote-sender"),
       ])
 
       // Capture directory so the heartbeat timer can re-enter the Instance context
@@ -1129,7 +1129,7 @@ export namespace KiloSessions {
         log,
         onOpen: () => {
           void Bus.publish(Instance.current, Event.RemoteStatusChanged, { enabled: true, connected: true })
-          // kilocode_change - K1 W1: on reconnect, a headless `kilo remote` host
+          // kilocode_change - K1 W1: on reconnect, a headless `kappa remote` host
           // preserves its module-level advertisement flag but would otherwise not
           // be re-advertised until the next periodic heartbeat (up to ~10s).
           // Fire one immediate out-of-band heartbeat when the flag is set.
@@ -1261,7 +1261,7 @@ export namespace KiloSessions {
   // kilocode_change - K1 W1: instance advertisement setter.
   // Idempotent. If a remote connection is already established when the flag is
   // flipped (typical for the race between bootstrap auto-enable and the
-  // explicit `kilo remote` command — `enableRemote` itself is coalescing), we
+  // explicit `kappa remote` command — `enableRemote` itself is coalescing), we
   // fire one out-of-band heartbeat so the cloud side learns about the
   // instance without waiting for the next 10s timer tick.
   export function setInstanceAdvertisement(advertisement: RemoteProtocol.InstanceAdvertisement) {
@@ -1276,7 +1276,7 @@ export namespace KiloSessions {
   }
 
   // Test-only: the advertisement flag is intentionally one-way in production
-  // (once a process runs `kilo remote`, it keeps advertising for its whole
+  // (once a process runs `kappa remote`, it keeps advertising for its whole
   // lifetime, including across a transient disableRemote/enableRemote
   // reconnect cycle — disableRemote() deliberately does not clear it). Tests
   // that assert the "unset" default must reset the module-level flag
@@ -1362,7 +1362,7 @@ export namespace KiloSessions {
   // kilocode_change - K1 W1: count of "owned" sessions (presence ∪ pending).
   // Used to drive the last-interactive-session exit decision: zero remaining
   // + a registered RemoteExit callback => invoke it after the ACK can flush;
-  // zero remaining + no callback (kilo remote) => keep host alive. Sessions
+  // zero remaining + no callback (kappa remote) => keep host alive. Sessions
   // remain => stay alive regardless of callback state.
   export function ownedRemoteSessionCount(): number {
     return attachedState.union().size
@@ -1476,7 +1476,7 @@ export namespace KiloSessions {
 
     const client = await getClient()
     if (!client) {
-      throw new Error("Unable to share session: no Kilo credentials found. Run `kilo auth login`.")
+      throw new Error("Unable to share session: no Kilo credentials found. Run `kappa auth login`.")
     }
 
     const current = (await get(sessionId).catch(() => undefined)) ?? (await create(sessionId))
@@ -1500,7 +1500,7 @@ export namespace KiloSessions {
       throw new Error(`Unable to share session ${sessionId}: server did not return a share token`)
     }
 
-    const url = `https://app.kilo.ai/s/${result.share_token}`
+    const url = `https://app.kappa.ai/s/${result.share_token}`
 
     await save(sessionId, {
       ...current,
@@ -1521,7 +1521,7 @@ export namespace KiloSessions {
 
     const client = await getClient()
     if (!client) {
-      throw new Error("Unable to unshare session: no Kilo credentials found. Run `kilo auth login`.")
+      throw new Error("Unable to unshare session: no Kilo credentials found. Run `kappa auth login`.")
     }
 
     log.info("unsharing", { sessionId })
@@ -1843,7 +1843,7 @@ export namespace KiloSessions {
     const override = sessionId ? KiloSession.resolvePlatform(sessionId) : undefined
     const platform = override || process.env["KILO_PLATFORM"] || "cli"
     const orgId = await getOrgId(sessionId, info)
-    // Repository metadata follows the session's own directory (a `kilo remote`
+    // Repository metadata follows the session's own directory (a `kappa remote`
     // host launched outside the selected repository must still publish the
     // session's repo); directory-less sessions fall back to the launch worktree
     // when an instance context exists, else to "no git metadata".
@@ -1873,7 +1873,7 @@ export namespace KiloSessions {
     if (isUuid(env)) return env
 
     return withInFlightCache(orgKey, ttlMs, async () => {
-      const auth = await runtime.runPromise((svc) => svc.get("kilo"))
+      const auth = await runtime.runPromise((svc) => svc.get("kappa"))
       if (auth?.type === "oauth" && isUuid(auth.accountId)) return auth.accountId
       return undefined
     })

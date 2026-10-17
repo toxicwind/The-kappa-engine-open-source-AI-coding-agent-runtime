@@ -11,7 +11,7 @@ import { SessionStatus } from "@/session/status"
 import path from "path"
 
 /**
- * Backend-owned session retention. The policy lives in kilo.json
+ * Backend-owned session retention. The policy lives in kappa.json
  * (`retention.enabled` / `retention.maxAgeDays`), selection and deletion run
  * here against the machine-wide database, and clients only trigger a pass or
  * read the last-run state. Deletion is fail-closed: a pass does nothing unless

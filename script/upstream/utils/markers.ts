@@ -403,7 +403,7 @@ function patch(out: string): Diff {
 }
 
 export async function changed(base: Text, head: Text, opts?: { ignoreWhitespace?: boolean }): Promise<Diff> {
-  const dir = await mkdtemp(path.join(tmpdir(), "kilo-markers-"))
+  const dir = await mkdtemp(path.join(tmpdir(), "kappa-markers-"))
   const left = path.join(dir, "upstream")
   const right = path.join(dir, "current")
 

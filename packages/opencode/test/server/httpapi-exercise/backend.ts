@@ -134,7 +134,7 @@ function toAuthProbeRequest(scenario: ActiveScenario, credentials: "missing" | "
   const headers = {
     ...(spec.body === undefined ? {} : { "content-type": "application/json" }),
     ...spec.headers,
-    ...(credentials === "valid" ? { authorization: basic("kilo", "secret") } : {}), // kilocode_change
+    ...(credentials === "valid" ? { authorization: basic("kappa", "secret") } : {}), // kilocode_change
   }
   return new Request(new URL(spec.path, "http://localhost"), {
     method: scenario.method,

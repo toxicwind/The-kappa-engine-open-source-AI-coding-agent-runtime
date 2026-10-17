@@ -1400,7 +1400,7 @@ export const layer = Layer.effect(
         { message: info, parts: resolvedParts },
       )
 
-      // kilocode_change - kilo normalizes images inside resolvePart, so there is no separate normalization pass here (unlike upstream)
+      // kilocode_change - kappa normalizes images inside resolvePart, so there is no separate normalization pass here (unlike upstream)
       const parts = resolvedParts
 
       const parsed = decodeMessageInfo(info, { errors: "all", propertyOrder: "original" })

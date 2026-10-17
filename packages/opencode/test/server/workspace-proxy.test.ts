@@ -141,8 +141,8 @@ describe("HttpApi workspace proxy", () => {
       const request = HttpServerRequest.fromWeb(
         new Request("http://localhost/test", {
           headers: {
-            "x-kilo-directory": "/secret/path",
-            "x-kilo-workspace": "ws_123",
+            "x-kappa-directory": "/secret/path",
+            "x-kappa-workspace": "ws_123",
             "x-custom": "preserved",
           },
         }),
@@ -150,8 +150,8 @@ describe("HttpApi workspace proxy", () => {
       const httpClient = yield* HttpClient.HttpClient
       yield* HttpApiProxy.http(httpClient, `${url}/test`, { "x-injected": "extra" }, request)
 
-      expect(forwarded["x-kilo-directory"]).toBeUndefined()
-      expect(forwarded["x-kilo-workspace"]).toBeUndefined()
+      expect(forwarded["x-kappa-directory"]).toBeUndefined()
+      expect(forwarded["x-kappa-workspace"]).toBeUndefined()
       expect(forwarded["x-custom"]).toBe("preserved")
       expect(forwarded["x-injected"]).toBe("extra")
     }),

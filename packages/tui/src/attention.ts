@@ -9,7 +9,7 @@ import type {
   TuiAttentionSoundName,
   TuiAttentionSoundPack,
   TuiAttentionSoundPackInfo,
-} from "@kilocode/plugin/tui"
+} from "@kappacode/plugin/tui"
 import { AttentionSoundName, type TuiConfig } from "./config"
 import { Schema } from "effect"
 import stripAnsi from "strip-ansi"
@@ -39,7 +39,7 @@ type TuiAttentionHost = TuiAttention & {
 }
 
 const DEFAULT_TITLE = "Kilo" // kilocode_change
-const DEFAULT_PACK_ID = "kilo.default" // kilocode_change
+const DEFAULT_PACK_ID = "kappa.default" // kilocode_change
 const KV_SOUND_PACK = "attention_sound_pack"
 const TITLE_LIMIT = 80
 const MESSAGE_LIMIT = 240

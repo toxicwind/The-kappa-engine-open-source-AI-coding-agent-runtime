@@ -9,7 +9,7 @@ import { Global } from "@opencode-ai/core/global"
 import { Filesystem } from "@/util/filesystem"
 import * as ConfigPaths from "@/config/paths"
 
-const TUI_SCHEMA_URL = "https://app.kilo.ai/tui.json" // kilocode_change
+const TUI_SCHEMA_URL = "https://app.kappa.ai/tui.json" // kilocode_change
 
 const decodeTheme = Schema.decodeUnknownOption(Schema.String)
 const decodeRecord = Schema.decodeUnknownOption(Schema.Record(Schema.String, Schema.Unknown))
@@ -124,14 +124,14 @@ async function backupAndStripLegacy(file: string, source: string) {
 }
 
 async function opencodeFiles(input: { directories: string[]; cwd: string }) {
-  // kilocode_change start: use kilo directory everywhere
+  // kilocode_change start: use kappa directory everywhere
   const project = Flag.KILO_DISABLE_PROJECT_CONFIG
     ? []
-    : await Filesystem.findUp(["kilo.json", "kilo.jsonc"], input.cwd, undefined, { rootFirst: true })
-  const files = [...project, ...ConfigPaths.fileInDirectory(Global.Path.config, "kilo")]
+    : await Filesystem.findUp(["kappa.json", "kappa.jsonc"], input.cwd, undefined, { rootFirst: true })
+  const files = [...project, ...ConfigPaths.fileInDirectory(Global.Path.config, "kappa")]
   // kilocode_change end
   for (const dir of unique(input.directories)) {
-    files.push(...ConfigPaths.fileInDirectory(dir, "kilo"))
+    files.push(...ConfigPaths.fileInDirectory(dir, "kappa"))
   }
   if (Flag.KILO_CONFIG) files.push(Flag.KILO_CONFIG)
 

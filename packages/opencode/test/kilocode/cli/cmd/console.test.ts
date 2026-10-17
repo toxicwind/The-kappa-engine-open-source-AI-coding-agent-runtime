@@ -8,7 +8,7 @@ function opts(input: Partial<Daemon.Network> = {}): Daemon.Options {
     hostname: "127.0.0.1",
     port: 4097,
     mdns: false,
-    mdnsDomain: "kilo.local",
+    mdnsDomain: "kappa.local",
     cors: [],
     ...input,
   }
@@ -21,7 +21,7 @@ function state(input: Partial<Daemon.Network> = {}) {
     hostname: options.hostname,
     port: options.port,
     url: `http://${options.hostname}:${options.port}`,
-    username: "kilo",
+    username: "kappa",
     password: "secret",
     token: "token",
     version: "test",
@@ -70,7 +70,7 @@ describe("console daemon startup", () => {
   test("detects every explicit network option form", () => {
     expect(
       explicitNetworkOptions([
-        "kilo",
+        "kappa",
         "console",
         "--port=4321",
         "--hostname",
@@ -81,7 +81,7 @@ describe("console daemon startup", () => {
         "https://example.com",
       ]),
     ).toStrictEqual(["port", "hostname", "mdns", "mdnsDomain", "cors"])
-    expect(explicitNetworkOptions(["kilo", "console", "--", "--port=4321"])).toStrictEqual([])
+    expect(explicitNetworkOptions(["kappa", "console", "--", "--port=4321"])).toStrictEqual([])
   })
 
   test("matches every explicit network option", () => {
@@ -100,7 +100,7 @@ describe("console daemon startup", () => {
   })
 
   test("rejects legacy fixed-password daemon state", () => {
-    expect(Daemon.matches({ ...state(), password: "kilo" }, opts(), [])).toBe(false)
+    expect(Daemon.matches({ ...state(), password: "kappa" }, opts(), [])).toBe(false)
   })
 
   test("supports daemon state written before network options were persisted", () => {

@@ -38,7 +38,7 @@ describe("CommandPlugin.Plugin", () => {
       })
       expect((yield* command.get("init"))?.template).toContain("`/repo`")
       expect((yield* command.get("init"))?.template).toContain("future Kilo sessions") // kilocode_change
-      expect((yield* command.get("init"))?.template).toContain("`kilo.json`") // kilocode_change
+      expect((yield* command.get("init"))?.template).toContain("`kappa.json`") // kilocode_change
       expect((yield* command.get("init"))?.template).not.toContain("OpenCode") // kilocode_change
       expect(yield* command.get("review")).toMatchObject({
         name: "review",

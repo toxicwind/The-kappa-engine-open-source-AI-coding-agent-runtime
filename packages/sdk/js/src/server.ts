@@ -65,7 +65,7 @@ export async function createKiloServer(options?: ServerOptions) {
   const args = [`serve`, `--hostname=${options.hostname}`, `--port=${options.port}`]
   if (options.config?.logLevel) args.push(`--log-level=${options.config.logLevel}`)
 
-  const proc = launch(`kilo`, args, {
+  const proc = launch(`kappa`, args, {
     // kilocode_change
     env: {
       ...process.env,
@@ -88,7 +88,7 @@ export async function createKiloServer(options?: ServerOptions) {
       const lines = output.split("\n")
       for (const line of lines) {
         // kilocode_change start
-        if (line.startsWith("kilo server listening")) {
+        if (line.startsWith("kappa server listening")) {
           // kilocode_change end
           const match = line.match(/on\s+(https?:\/\/[^\s]+)/)
           if (!match) {
@@ -151,7 +151,7 @@ export function createKiloTui(options?: TuiOptions) {
     args.push(`--agent=${options.agent}`)
   }
 
-  const proc = launch(`kilo`, args, {
+  const proc = launch(`kappa`, args, {
     // kilocode_change
     stdio: "inherit",
     windowsHide: true,

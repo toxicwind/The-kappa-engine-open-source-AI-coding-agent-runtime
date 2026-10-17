@@ -48,7 +48,7 @@ export function assertWritable(filename: string, trusted: string = Global.Path.d
         cause = err
       }
       if (writable(file)) {
-        // visible trail: if files keep losing their write bit, something outside kilo is doing it
+        // visible trail: if files keep losing their write bit, something outside kappa is doing it
         log.warn("repaired read-only database file", { file })
         continue
       }

@@ -9,7 +9,7 @@ export interface PackageMapping {
 }
 
 export interface MergeConfig {
-  /** Package name mappings from opencode to kilo */
+  /** Package name mappings from opencode to kappa */
   packageMappings: PackageMapping[]
 
   /** Files to always keep Kilo's version (never take upstream changes) */
@@ -57,10 +57,10 @@ export interface MergeConfig {
 
 export const defaultConfig: MergeConfig = {
   packageMappings: [
-    { from: "opencode-ai", to: "@kilocode/cli" },
-    { from: "@opencode-ai/cli", to: "@kilocode/cli" },
-    { from: "@opencode-ai/sdk", to: "@kilocode/sdk" },
-    { from: "@opencode-ai/plugin", to: "@kilocode/plugin" },
+    { from: "opencode-ai", to: "@kappacode/cli" },
+    { from: "@opencode-ai/cli", to: "@kappacode/cli" },
+    { from: "@opencode-ai/sdk", to: "@kappacode/sdk" },
+    { from: "@opencode-ai/plugin", to: "@kappacode/plugin" },
   ],
 
   keepOurs: [
@@ -125,12 +125,12 @@ export const defaultConfig: MergeConfig = {
     ".github/workflows/close-prs.yml",
     ".github/workflows/opencode.yml",
     ".github/workflows/publish-vscode.yml",
-    // Upstream PR cleanup is replaced by .github/workflows/kilo-auto-close.yml
+    // Upstream PR cleanup is replaced by .github/workflows/kappa-auto-close.yml
     "script/github/close-prs.ts",
     // VS Code example configs (Kilo ships real .vscode/* files)
     ".vscode/launch.example.json",
     ".vscode/settings.example.json",
-    // Nix files for packages Kilo has removed / replaced with nix/kilo.nix
+    // Nix files for packages Kilo has removed / replaced with nix/kappa.nix
     "nix/desktop.nix",
     "nix/opencode.nix",
     // opencode CLI bin (Kilo uses its own build output)
@@ -215,13 +215,13 @@ export const defaultConfig: MergeConfig = {
   kiloDirectories: [
     "packages/opencode/src/kilocode",
     "packages/opencode/test/kilocode",
-    "packages/kilo-gateway",
-    "packages/kilo-telemetry",
-    "packages/kilo-vscode",
-    "packages/kilo-jetbrains",
-    "packages/kilo-ui",
-    "packages/kilo-docs",
-    "packages/kilo-i18n",
+    "packages/kappa-gateway",
+    "packages/kappa-telemetry",
+    "packages/kappa-vscode",
+    "packages/kappa-jetbrains",
+    "packages/kappa-ui",
+    "packages/kappa-docs",
+    "packages/kappa-i18n",
     "script/upstream",
   ],
 

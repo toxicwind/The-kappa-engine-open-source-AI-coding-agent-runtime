@@ -7,7 +7,7 @@ const mode = process.argv[2]
 const dir = process.argv[3]
 if (!mode || !dir) throw new Error("Expected mode and data directory")
 
-const file = path.join(dir, "kilo.db")
+const file = path.join(dir, "kappa.db")
 
 if (mode === "seed") {
   const sqlite = new SQLite(file)

@@ -278,7 +278,7 @@ async function compatUpstream(message: string): Promise<string | null> {
 }
 
 function compatTag(message: string): string | null {
-  const prefix = "refactor: kilo compat for "
+  const prefix = "refactor: kappa compat for "
   if (!message.startsWith(prefix)) return null
   return message.slice(prefix.length).trim().split(/\s+/)[0] ?? null
 }
@@ -327,7 +327,7 @@ async function candidate(line: string): Promise<Candidate | null> {
 }
 
 export async function findLatestCompatCommit(base: string, target: string): Promise<CompatBase | null> {
-  const grep = "^refactor: kilo compat for "
+  const grep = "^refactor: kappa compat for "
   const result = await $`git log --format=%H%x00%s --grep=${grep} ${base}`.quiet().nothrow()
   if (result.exitCode !== 0) {
     throw new Error(`Failed to search compatibility commits: ${result.stderr.toString()}`)
@@ -471,7 +471,7 @@ async function reset(dir: string): Promise<void> {
  */
 export async function trainRerere(grep: string): Promise<number> {
   const head = (await $`git rev-parse --verify HEAD`.text()).trim()
-  const dir = join(tmpdir(), `kilo-rerere-train-${randomUUID()}`)
+  const dir = join(tmpdir(), `kappa-rerere-train-${randomUUID()}`)
 
   let learned = 0
 

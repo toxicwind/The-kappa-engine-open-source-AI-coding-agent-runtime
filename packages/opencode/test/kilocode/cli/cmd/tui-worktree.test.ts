@@ -26,7 +26,7 @@ describe("ensureGitExclude", () => {
     const excludePath = path.join(tmp.path, ".git", "info", "exclude")
     await Filesystem.write(excludePath, "")
     await ensureGitExclude(tmp.path)
-    expect(await Filesystem.readText(excludePath)).toContain(".kilo/worktrees/")
+    expect(await Filesystem.readText(excludePath)).toContain(".kappa/worktrees/")
   })
 
   test("preserves existing content and adds a newline before the new entry", async () => {
@@ -36,7 +36,7 @@ describe("ensureGitExclude", () => {
     await ensureGitExclude(tmp.path)
     const content = await Filesystem.readText(excludePath)
     expect(content).toContain("*.log")
-    expect(content).toContain(".kilo/worktrees/")
+    expect(content).toContain(".kappa/worktrees/")
   })
 
   test("is idempotent when the entry already exists", async () => {
@@ -46,7 +46,7 @@ describe("ensureGitExclude", () => {
     await ensureGitExclude(tmp.path)
     await ensureGitExclude(tmp.path)
     const content = await Filesystem.readText(excludePath)
-    expect(content.match(/\.kilo\/worktrees\//g)?.length).toBe(1)
+    expect(content.match(/\.kappa\/worktrees\//g)?.length).toBe(1)
   })
 
   test("does not throw when .git/info is missing", async () => {

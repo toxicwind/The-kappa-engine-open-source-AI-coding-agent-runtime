@@ -85,7 +85,7 @@ export async function validate(input: unknown) {
   const meta = bom.metadata
   if (typeof meta !== "object" || meta === null) return [...issues, "metadata is required"]
   const tools: Record_[] = meta.tools?.components ?? []
-  if (!tools.some((tool) => tool?.name === "kilo-sbom")) {
+  if (!tools.some((tool) => tool?.name === "kappa-sbom")) {
     issues.push("metadata.tools.components must record the generating tool")
   }
 

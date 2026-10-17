@@ -11,7 +11,7 @@ test("agent info export omits prompt options and permissions", () => {
     prompt: "custom proprietary prompt",
     options: { apiKey: "secret" },
     permission: { bash: "allow" },
-    model: { providerID: "kilo", modelID: "free" },
+    model: { providerID: "kappa", modelID: "free" },
     variant: "fast",
   } as never)
 
@@ -21,7 +21,7 @@ test("agent info export omits prompt options and permissions", () => {
     description: "writes code",
     mode: "primary",
     native: true,
-    model: { providerID: "kilo", modelID: "free" },
+    model: { providerID: "kappa", modelID: "free" },
     variant: "fast",
   })
 })

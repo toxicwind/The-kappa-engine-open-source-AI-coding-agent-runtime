@@ -6,7 +6,7 @@ import type { Snapshot } from "@/snapshot"
 
 export namespace KiloSnapshotPrepare {
   /** Marks a repository whose seed finished before any snapshot was tracked. */
-  export const MARKER = "kilo-prepared"
+  export const MARKER = "kappa-prepared"
 
   // Snapshot repositories hash worktree bytes as-is and never run a filesystem monitor.
   // The index and untracked-cache settings keep per-step scans cheap in large worktrees.
@@ -47,7 +47,7 @@ export namespace KiloSnapshotPrepare {
         input.gitdir,
         "for-each-ref",
         "--format=%(refname)",
-        "refs/kilo/snapshots",
+        "refs/kappa/snapshots",
       ])
       if (refs.code === 0 && !refs.text.trim()) return false
       if (refs.code === 0) yield* input.fs.remove(marker)

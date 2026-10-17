@@ -1,6 +1,6 @@
 /** @jsxImportSource @opentui/solid */
 import { describe, expect, test } from "bun:test"
-import type { BackgroundProcessInfo, GlobalEvent, Session } from "@kilocode/sdk/v2"
+import type { BackgroundProcessInfo, GlobalEvent, Session } from "@kappacode/sdk/v2"
 import { normalizeSyncEvent } from "@tui/context/event"
 import { json, mount, wait } from "../../../tui/test/cli/cmd/tui/sync-fixture"
 
@@ -292,8 +292,8 @@ describe("TUI sync event wire format", () => {
                 path: { cwd: "/tmp/opencode", root: "/tmp/opencode" },
                 cost: 0,
                 tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
-                modelID: "kilo-auto/free",
-                providerID: "kilo",
+                modelID: "kappa-auto/free",
+                providerID: "kappa",
                 time: { created: 1 },
               },
             },
@@ -376,7 +376,7 @@ describe("TUI sync event wire format", () => {
                 sessionID,
                 role: "user",
                 agent: "code",
-                model: { providerID: "kilo", modelID: "kilo-auto/free" },
+                model: { providerID: "kappa", modelID: "kappa-auto/free" },
                 time: { created: 2 },
               },
             },

@@ -10,7 +10,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { createKiloClient } from "@kilocode/sdk/v2"
+import { createKiloClient } from "@kappacode/sdk/v2"
 import { validateSession } from "../../src/cli/tui/validate-session"
 import { InstanceBootstrap } from "../../src/project/bootstrap"
 import { InstanceStore } from "../../src/project/instance-store"
@@ -294,7 +294,7 @@ function writeStandardFiles(dir: string) {
 function writeProjectSkill(dir: string) {
   return FSUtil.Service.use((fs) =>
     fs.writeWithDirs(
-      path.join(dir, ".kilo", "skills", "project-rest-skill", "SKILL.md"), // kilocode_change
+      path.join(dir, ".kappa", "skills", "project-rest-skill", "SKILL.md"), // kilocode_change
       `---
 name: project-rest-skill
 description: A project skill visible to REST API prompts.
@@ -423,12 +423,12 @@ describe("HttpApi SDK", () => {
         expect(url.searchParams.get("workspace")).toBe(workspaceID)
         expect(url.searchParams.get("location[directory]")).toBe(directory)
         expect(url.searchParams.get("location[workspace]")).toBe(workspaceID)
-        expect(request!.headers.has("x-kilo-directory")).toBe(false)
-        expect(request!.headers.has("x-kilo-workspace")).toBe(false)
+        expect(request!.headers.has("x-kappa-directory")).toBe(false)
+        expect(request!.headers.has("x-kappa-workspace")).toBe(false)
 
         // kilocode_change start - encoded legacy directory headers still route on payload requests
         const legacy = yield* client("raw", undefined, {
-          headers: { "x-kilo-directory": encodeURIComponent(directory) },
+          headers: { "x-kappa-directory": encodeURIComponent(directory) },
         })
         const legacySession = yield* call(() => legacy.v2.session.create({ agent: "build" }))
         expect(legacySession.response!.status).toBe(200)
@@ -525,15 +525,15 @@ describe("HttpApi SDK", () => {
       Effect.gen(function* () {
         const missingSdk = yield* client("raw", directory, { password: "secret" })
         const missing = yield* capture(() => missingSdk.file.read({ path: "hello.txt" }))
-        // kilocode_change start - match Hono AuthMiddleware username default ("kilo")
+        // kilocode_change start - match Hono AuthMiddleware username default ("kappa")
         const badSdk = yield* client("raw", directory, {
           password: "secret",
-          headers: { authorization: authorization("kilo", "wrong") },
+          headers: { authorization: authorization("kappa", "wrong") },
         })
         const bad = yield* capture(() => badSdk.file.read({ path: "hello.txt" }))
         const goodSdk = yield* client("raw", directory, {
           password: "secret",
-          headers: { authorization: authorization("kilo", "secret") },
+          headers: { authorization: authorization("kappa", "secret") },
         })
         const good = yield* capture(() => goodSdk.file.read({ path: "hello.txt" }))
         // kilocode_change end

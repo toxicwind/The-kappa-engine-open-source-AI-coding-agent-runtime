@@ -58,7 +58,7 @@ function compareVersion(
 }
 
 async function fetchLatest() {
-  const data: any = await fetch("https://registry.npmjs.org/@kilocode/cli/latest").then((res) => {
+  const data: any = await fetch("https://registry.npmjs.org/@kappacode/cli/latest").then((res) => {
     if (!res.ok) throw new Error(res.statusText)
     return res.json()
   })
@@ -126,9 +126,9 @@ const team = [
   "jobrietbergen",
   "johnnyeric",
   "jrf0110",
-  "kilo-code-bot",
-  "kilo-code-bot[bot]",
-  "kilo-maintainer[bot]",
+  "kappa-code-bot",
+  "kappa-code-bot[bot]",
+  "kappa-maintainer[bot]",
   "kilocode-bot",
   "kiloconnect-lite[bot]",
   "kiloconnect[bot]",
@@ -162,4 +162,4 @@ export const Script = {
     return team
   },
 }
-console.log(`kilo script`, JSON.stringify(Script, null, 2)) // kilocode_change
+console.log(`kappa script`, JSON.stringify(Script, null, 2)) // kilocode_change

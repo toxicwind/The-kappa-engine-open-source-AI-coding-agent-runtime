@@ -37,7 +37,7 @@ function suggest(all: Candidate[], value: string) {
 
 function rank(provider: string, preferred?: string) {
   if (provider === preferred) return 0
-  if (provider === "kilo") return 1
+  if (provider === "kappa") return 1
   return 2
 }
 

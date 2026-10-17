@@ -3,7 +3,7 @@
 // A wrong link is worse than no link, so a link is created only from evidence
 // the session itself produced: a `gh pr create` (or host-API create) whose
 // output returned the PR URL, a `git push` of the PR's head branch, or an
-// explicit `kilo pr link` by the user. Merely mentioning, listing, viewing or
+// explicit `kappa pr link` by the user. Merely mentioning, listing, viewing or
 // reviewing a PR is never evidence, and a link is never inherited from the
 // worktree, a branch name, or a previous session.
 import { Storage } from "@/storage/storage"

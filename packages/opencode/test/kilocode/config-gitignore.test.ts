@@ -1,8 +1,8 @@
 // kilocode_change - new file
 //
 // Kilo uses Npm.Service (arborist) for dependency installation and may write
-// a .gitignore inside the .kilo config dir. Users may have pnpm or yarn as
-// their system package manager, which can produce lockfiles in the .kilo/
+// a .gitignore inside the .kappa config dir. Users may have pnpm or yarn as
+// their system package manager, which can produce lockfiles in the .kappa/
 // config directory. These must be ignored so they don't appear as untracked
 // files in the user's project.
 
@@ -57,11 +57,11 @@ const testLayer = AppNodeBuilder.build(Config.node, [
   [LayerNodePlatform.httpClient, Layer.succeed(HttpClient.HttpClient, unexpectedHttp)],
 ]).pipe(Layer.provideMerge(infra))
 
-test(".gitignore in .kilo config dir includes pnpm and yarn lockfile patterns", async () => {
+test(".gitignore in .kappa config dir includes pnpm and yarn lockfile patterns", async () => {
   await using tmp = await tmpdir()
   const dir = path.join(tmp.path, "a")
-  const kilo = path.join(dir, ".kilo")
-  await fs.mkdir(kilo, { recursive: true })
+  const kappa = path.join(dir, ".kappa")
+  await fs.mkdir(kappa, { recursive: true })
 
   await provideTestInstance({
     directory: dir,
@@ -70,7 +70,7 @@ test(".gitignore in .kilo config dir includes pnpm and yarn lockfile patterns", 
     },
   })
 
-  const ignore = await Filesystem.readText(path.join(kilo, ".gitignore"))
+  const ignore = await Filesystem.readText(path.join(kappa, ".gitignore"))
   expect(ignore).toContain("pnpm-lock.yaml")
   expect(ignore).toContain("yarn.lock")
 })

@@ -54,14 +54,14 @@ describe("HttpApi instance route authorization", () => {
   test("requires configured auth before opening the instance event stream", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
     const server = app({ password: "secret" })
-    const headers = { "x-kilo-directory": tmp.path }
+    const headers = { "x-kappa-directory": tmp.path }
 
     const missing = await server.request(EventPaths.event, { headers })
     await cancelBody(missing)
     expect(missing.status).toBe(401)
 
     const authed = await server.request(EventPaths.event, {
-      headers: { ...headers, authorization: basic("kilo", "secret") }, // kilocode_change - Kilo username default
+      headers: { ...headers, authorization: basic("kappa", "secret") }, // kilocode_change - Kilo username default
     })
     await cancelBody(authed)
     expect(authed.status).toBe(200)
@@ -71,14 +71,14 @@ describe("HttpApi instance route authorization", () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
     const server = app({ password: "secret" })
     const route = PtyPaths.connect.replace(":ptyID", PtyID.ascending())
-    const headers = { "x-kilo-directory": tmp.path }
+    const headers = { "x-kappa-directory": tmp.path }
 
     const missing = await server.request(route, { headers })
     await cancelBody(missing)
     expect(missing.status).toBe(401)
 
     const authed = await server.request(route, {
-      headers: { ...headers, authorization: basic("kilo", "secret") }, // kilocode_change - Kilo username default
+      headers: { ...headers, authorization: basic("kappa", "secret") }, // kilocode_change - Kilo username default
     })
     await cancelBody(authed)
     expect(authed.status).toBe(404)

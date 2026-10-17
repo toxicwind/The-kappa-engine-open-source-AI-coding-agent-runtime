@@ -17,10 +17,10 @@ export const LLMGatewayPlugin = define({
           if (item.provider.id !== ProviderV2.ID.make("llmgateway")) continue // kilocode_change
           if (!(yield* integrations.get(Integration.ID.make(item.provider.id)))) continue
           evt.provider.update(item.provider.id, (provider) => {
-            provider.request.headers["HTTP-Referer"] = "https://kilo.ai/"
+            provider.request.headers["HTTP-Referer"] = "https://kappa.ai/"
             // kilocode_change start
             provider.request.headers["X-Title"] = "Kilo Code"
-            provider.request.headers["X-Source"] = "kilo"
+            provider.request.headers["X-Source"] = "kappa"
             // kilocode_change end
           })
         }

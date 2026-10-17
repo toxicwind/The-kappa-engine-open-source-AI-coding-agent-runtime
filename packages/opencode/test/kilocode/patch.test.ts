@@ -64,7 +64,7 @@ describe("Patch encoding preservation", () => {
   let dir: string
 
   beforeEach(async () => {
-    dir = await fs.mkdtemp(path.join(tmpdir(), "kilo-patch-"))
+    dir = await fs.mkdtemp(path.join(tmpdir(), "kappa-patch-"))
   })
 
   afterEach(async () => {

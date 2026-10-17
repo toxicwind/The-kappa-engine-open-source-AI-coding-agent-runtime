@@ -3,12 +3,12 @@ import { Effect, Schema } from "effect"
 import { Global } from "@opencode-ai/core/global"
 import path from "path"
 import * as KiloAgent from "@/kilocode/agent"
-import { KiloMemory } from "@kilocode/kilo-memory/effect"
-import { MemoryTool } from "@kilocode/kilo-memory/tool"
+import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { MemoryTool } from "@kappacode/kappa-memory/tool"
 import { MemorySaveTool } from "@/kilocode/tool/memory-save"
 import { MessageID, SessionID } from "@/session/schema"
 import { Permission } from "@/permission"
-import { RemoteSender } from "@/kilo-sessions/remote-sender"
+import { RemoteSender } from "@/kappa-sessions/remote-sender"
 import type { Tool } from "@/tool/tool"
 import { resetDatabase } from "../../fixture/db"
 import { provideTestInstance, tmpdir } from "../../fixture/fixture"
@@ -53,7 +53,7 @@ async function withConfig<T>(dir: string, fn: () => Promise<T> | T) {
   const prior = Global.Path.config
   const data = Global.Path.data
   ;(Global.Path as { config: string }).config = dir
-  ;(Global.Path as { data: string }).data = path.basename(dir) === ".kilo" ? path.dirname(dir) : dir
+  ;(Global.Path as { data: string }).data = path.basename(dir) === ".kappa" ? path.dirname(dir) : dir
   try {
     return await fn()
   } finally {
@@ -110,15 +110,15 @@ describe("kilo_memory_save", () => {
   })
 
   test("defaults mutating memory tool permission to ask", () => {
-    const kilo = KiloAgent.prepare({}, { experimentalSharedAgentBoard: false })
+    const kappa = KiloAgent.prepare({}, { experimentalSharedAgentBoard: false })
 
-    expect(Permission.evaluate("kilo_memory_recall", "typed", kilo.defaultsPatch).action).toBe("ask")
-    expect(Permission.evaluate("kilo_memory_save", "remember", kilo.defaultsPatch).action).toBe("ask")
+    expect(Permission.evaluate("kilo_memory_recall", "typed", kappa.defaultsPatch).action).toBe("ask")
+    expect(Permission.evaluate("kilo_memory_save", "remember", kappa.defaultsPatch).action).toBe("ask")
   })
 
   test("remembers, corrects, and forgets explicit project memory", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const asks: Request[] = []
       const gate = approved(asks)
@@ -178,7 +178,7 @@ describe("kilo_memory_save", () => {
 
   test("does not save when project memory is disabled", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const result = await execute(dir.path, { action: "remember", text: "Do not write while disabled." })
 
       expect(result.title).toBe("Kilo memory: disabled")
@@ -188,7 +188,7 @@ describe("kilo_memory_save", () => {
 
   test("does not mutate project memory when permission is denied", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const asks: Request[] = []
       const gate = denied(asks)
@@ -257,7 +257,7 @@ describe("kilo_memory_save", () => {
 
   test("declines user-level memory but saves project conventions", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
 
@@ -293,7 +293,7 @@ describe("kilo_memory_save", () => {
 
   test("handles malformed save inputs without corrupting memory files", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
 

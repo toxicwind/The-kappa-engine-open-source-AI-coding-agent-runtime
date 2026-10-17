@@ -82,7 +82,7 @@ describe("HttpApi memory", () => {
     const send = (method: string, route: string, body?: unknown) =>
       api.request(route, {
         method,
-        headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
         ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       })
     const json = async (method: string, route: string, body?: unknown) => {
@@ -185,7 +185,7 @@ describe("HttpApi memory", () => {
     const send = (method: string, route: string) =>
       api.request(route, {
         method,
-        headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
       })
 
     expect(await Effect.runPromise(KiloToolRegistry.memoryToolsEnabled({ ctx }))).toBe(false)
@@ -206,7 +206,7 @@ describe("HttpApi memory", () => {
     const send = (dir: string, method: string, route: string, body?: unknown) =>
       api.request(route, {
         method,
-        headers: { "content-type": "application/json", "x-kilo-directory": dir },
+        headers: { "content-type": "application/json", "x-kappa-directory": dir },
         ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       })
     const json = async (dir: string, method: string, route: string, body?: unknown) => {
@@ -247,7 +247,7 @@ describe("HttpApi memory", () => {
     const send = (method: string, route: string, body?: unknown) =>
       api.request(route, {
         method,
-        headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
         ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       })
 
@@ -276,7 +276,7 @@ describe("HttpApi memory", () => {
     const send = (method: string, route: string, body?: unknown) =>
       api.request(route, {
         method,
-        headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
         ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       })
     const json = async (method: string, route: string, body?: unknown) => {

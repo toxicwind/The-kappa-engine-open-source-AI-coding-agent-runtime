@@ -68,7 +68,7 @@ describe("buildRunMessage", () => {
   })
 
   test("passes args['--'] through verbatim without wrap-quote (#9622)", () => {
-    // `kilo run -- "- Who are you?"` - yargs+populate-- captures the leading-dash
+    // `kappa run -- "- Who are you?"` - yargs+populate-- captures the leading-dash
     // phrase as a single atom in args["--"]. The assembler must NOT wrap it,
     // because the user typed `--` precisely to opt out of further parsing.
     expect(buildRunMessage([], ["- Who are you?"])).toBe("- Who are you?")

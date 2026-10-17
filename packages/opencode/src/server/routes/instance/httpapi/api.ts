@@ -35,7 +35,7 @@ import { ConfigConsoleApi } from "@/kilocode/server/httpapi/groups/config-consol
 import { EnhancePromptApi } from "@/kilocode/server/httpapi/groups/enhance-prompt"
 import { IndexingApi } from "@/kilocode/server/httpapi/groups/indexing"
 import { InstanceReloadApi } from "@/kilocode/server/httpapi/groups/instance-reload"
-import { KiloGatewayApi } from "@/kilocode/server/httpapi/groups/kilo-gateway"
+import { KiloGatewayApi } from "@/kilocode/server/httpapi/groups/kappa-gateway"
 import { KilocodeApi } from "@/kilocode/server/httpapi/groups/kilocode"
 import { MigrateApi } from "@/kilocode/server/httpapi/groups/migrate"
 import { NetworkApi } from "@/kilocode/server/httpapi/groups/network"

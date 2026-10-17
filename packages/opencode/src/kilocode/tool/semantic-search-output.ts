@@ -1,4 +1,4 @@
-import type { IndexingStatus } from "@kilocode/kilo-indexing/status"
+import type { IndexingStatus } from "@kappacode/kappa-indexing/status"
 
 /**
  * Output text for `semantic_search`.

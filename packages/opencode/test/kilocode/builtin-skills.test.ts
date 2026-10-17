@@ -33,21 +33,21 @@ it.instance(
   () =>
     Effect.gen(function* () {
       const skill = yield* Skill.Service
-      const item = yield* skill.get("kilo-config")
+      const item = yield* skill.get("kappa-config")
       expect(item).toBeDefined()
-      expect(item!.name).toBe("kilo-config")
+      expect(item!.name).toBe("kappa-config")
       expect(item!.location).toBe(Skill.BUILTIN_LOCATION)
-      expect(item!.content).toContain("kilo")
+      expect(item!.content).toContain("kappa")
     }),
   { git: true },
 )
 
 it.instance(
-  "kilo-config is protected from removal",
+  "kappa-config is protected from removal",
   () =>
     Effect.gen(function* () {
       const skill = yield* Skill.Service
-      const item = yield* skill.get("kilo-config")
+      const item = yield* skill.get("kappa-config")
       expect(item).toBeDefined()
       expect(KiloSkill.builtin(item!.location)).toBe(true)
     }),
@@ -59,16 +59,16 @@ it.instance(
   () =>
     Effect.gen(function* () {
       const instance = yield* TestInstance
-      const dir = path.join(instance.directory, ".kilo", "skill", "kilo-config")
+      const dir = path.join(instance.directory, ".kappa", "skill", "kappa-config")
       yield* Effect.promise(() =>
         Bun.write(
           path.join(dir, "SKILL.md"),
           `---
-name: kilo-config
-description: User override of kilo-config.
+name: kappa-config
+description: User override of kappa-config.
 ---
 
-# Custom kilo-config
+# Custom kappa-config
 
 User-provided content.
 `,
@@ -76,11 +76,11 @@ User-provided content.
       )
 
       const skill = yield* Skill.Service
-      const item = yield* skill.get("kilo-config")
+      const item = yield* skill.get("kappa-config")
       expect(item).toBeDefined()
-      expect(item!.description).toBe("User override of kilo-config.")
+      expect(item!.description).toBe("User override of kappa-config.")
       expect(item!.location).not.toBe(Skill.BUILTIN_LOCATION)
-      expect(item!.location).toContain(path.join("skill", "kilo-config", "SKILL.md"))
+      expect(item!.location).toContain(path.join("skill", "kappa-config", "SKILL.md"))
     }),
   { git: true },
 )

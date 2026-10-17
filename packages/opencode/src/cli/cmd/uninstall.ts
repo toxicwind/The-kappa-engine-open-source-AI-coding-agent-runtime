@@ -25,7 +25,7 @@ interface RemovalTargets {
 
 export const UninstallCommand = {
   command: "uninstall",
-  describe: "uninstall kilo and remove all related files", // kilocode_change
+  describe: "uninstall kappa and remove all related files", // kilocode_change
   builder: (yargs: Argv) =>
     yargs
       .option("keep-config", {
@@ -130,13 +130,13 @@ async function showRemovalSummary(targets: RemovalTargets, method: Installation.
 
   if (method !== "curl" && method !== "unknown") {
     const cmds: Record<string, string> = {
-      npm: "npm uninstall -g @kilocode/cli", // kilocode_change
-      pnpm: "pnpm uninstall -g @kilocode/cli", // kilocode_change
-      bun: "bun remove -g @kilocode/cli", // kilocode_change
-      yarn: "yarn global remove @kilocode/cli", // kilocode_change
+      npm: "npm uninstall -g @kappacode/cli", // kilocode_change
+      pnpm: "pnpm uninstall -g @kappacode/cli", // kilocode_change
+      bun: "bun remove -g @kappacode/cli", // kilocode_change
+      yarn: "yarn global remove @kappacode/cli", // kilocode_change
       brew: `brew uninstall ${KiloBrew.name}`, // kilocode_change
-      choco: "choco uninstall kilo", // kilocode_change
-      scoop: "scoop uninstall kilo", // kilocode_change
+      choco: "choco uninstall kappa", // kilocode_change
+      scoop: "scoop uninstall kappa", // kilocode_change
     }
     prompts.log.info(`  ✓ Package: ${cmds[method] || method}`)
   }
@@ -181,13 +181,13 @@ async function executeUninstall(method: Installation.Method, targets: RemovalTar
 
   if (method !== "curl" && method !== "unknown") {
     const cmds: Record<string, string[]> = {
-      npm: ["npm", "uninstall", "-g", "@kilocode/cli"], // kilocode_change
-      pnpm: ["pnpm", "uninstall", "-g", "@kilocode/cli"], // kilocode_change
-      bun: ["bun", "remove", "-g", "@kilocode/cli"], // kilocode_change
-      yarn: ["yarn", "global", "remove", "@kilocode/cli"], // kilocode_change
+      npm: ["npm", "uninstall", "-g", "@kappacode/cli"], // kilocode_change
+      pnpm: ["pnpm", "uninstall", "-g", "@kappacode/cli"], // kilocode_change
+      bun: ["bun", "remove", "-g", "@kappacode/cli"], // kilocode_change
+      yarn: ["yarn", "global", "remove", "@kappacode/cli"], // kilocode_change
       brew: ["brew", "uninstall", KiloBrew.name], // kilocode_change
-      choco: ["choco", "uninstall", "kilo"], // kilocode_change
-      scoop: ["scoop", "uninstall", "kilo"], // kilocode_change
+      choco: ["choco", "uninstall", "kappa"], // kilocode_change
+      scoop: ["scoop", "uninstall", "kappa"], // kilocode_change
     }
 
     const cmd = cmds[method]
@@ -209,7 +209,7 @@ async function executeUninstall(method: Installation.Method, targets: RemovalTar
     prompts.log.info(`  rm "${targets.binary}"`)
 
     const binDir = path.dirname(targets.binary)
-    if (binDir.includes(".opencode") || binDir.includes(".kilo")) {
+    if (binDir.includes(".opencode") || binDir.includes(".kappa")) {
       // kilocode_change
       prompts.log.info(`  rmdir "${binDir}" 2>/dev/null`)
     }
@@ -261,12 +261,12 @@ async function getShellConfigFile(): Promise<string | null> {
     if (!exists) continue
 
     const content = await Filesystem.readText(file).catch(() => "")
-    // kilocode_change start - detect both opencode and kilo markers
+    // kilocode_change start - detect both opencode and kappa markers
     if (
       content.includes("# opencode") ||
       content.includes(".opencode/bin") ||
-      content.includes("# kilo") ||
-      content.includes(".kilo/bin")
+      content.includes("# kappa") ||
+      content.includes(".kappa/bin")
     ) {
       return file
     }
@@ -286,22 +286,22 @@ async function cleanShellConfig(file: string) {
   for (const line of lines) {
     const trimmed = line.trim()
 
-    // kilocode_change start - clean both opencode and kilo markers
-    if (trimmed === "# opencode" || trimmed === "# kilo") {
+    // kilocode_change start - clean both opencode and kappa markers
+    if (trimmed === "# opencode" || trimmed === "# kappa") {
       skip = true
       continue
     }
 
     if (skip) {
       skip = false
-      if (trimmed.includes(".opencode/bin") || trimmed.includes(".kilo/bin") || trimmed.includes("fish_add_path")) {
+      if (trimmed.includes(".opencode/bin") || trimmed.includes(".kappa/bin") || trimmed.includes("fish_add_path")) {
         continue
       }
     }
 
     if (
-      (trimmed.startsWith("export PATH=") && (trimmed.includes(".opencode/bin") || trimmed.includes(".kilo/bin"))) ||
-      (trimmed.startsWith("fish_add_path") && (trimmed.includes(".opencode") || trimmed.includes(".kilo")))
+      (trimmed.startsWith("export PATH=") && (trimmed.includes(".opencode/bin") || trimmed.includes(".kappa/bin"))) ||
+      (trimmed.startsWith("fish_add_path") && (trimmed.includes(".opencode") || trimmed.includes(".kappa")))
     ) {
       continue
     }

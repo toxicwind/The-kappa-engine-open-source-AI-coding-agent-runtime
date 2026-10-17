@@ -1,7 +1,7 @@
 import { Effect } from "effect"
 import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
 import { EffectBridge } from "@/effect/bridge"
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions"
+import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 
 export const remoteHandlers = HttpApiBuilder.group(InstanceHttpApi, "remote", (handlers) =>

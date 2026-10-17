@@ -5,14 +5,14 @@ import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Auth } from "../../../src/auth"
 import { Bus } from "../../../src/bus"
 import type { Config } from "../../../src/config/config"
-import { clearInFlightCache } from "../../../src/kilo-sessions/inflight-cache"
+import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
 import { Session } from "../../../src/session/session"
 import { TestConfig } from "../../fixture/config"
 import { testEffect } from "../../lib/effect"
 import { InstanceStore } from "../../../src/project/instance-store"
 import { TestInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
 
-const KiloSessions = (await import("../../../src/kilo-sessions/kilo-sessions")).KiloSessions
+const KiloSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KiloSessions
 
 let originalNotificationTimeout: string | undefined
 
@@ -44,9 +44,9 @@ function layer(overrides: Partial<Config.Interface> = {}) {
 }
 
 function reset(...tokens: string[]) {
-  clearInFlightCache("kilo-sessions:token")
-  clearInFlightCache("kilo-sessions:client")
-  for (const token of tokens) clearInFlightCache(`kilo-sessions:token-valid:${token}`)
+  clearInFlightCache("kappa-sessions:token")
+  clearInFlightCache("kappa-sessions:client")
+  for (const token of tokens) clearInFlightCache(`kappa-sessions:token-valid:${token}`)
 }
 
 it.instance("dedicated immediate POST hits ingest path with an agent_notification item", () => {
@@ -99,7 +99,7 @@ it.instance("dedicated immediate POST hits ingest path with an agent_notificatio
     Effect.ensuring(
       Effect.gen(function* () {
         const auth = yield* Auth.Service
-        yield* auth.remove("kilo").pipe(Effect.orDie)
+        yield* auth.remove("kappa").pipe(Effect.orDie)
         if (originalKey === undefined) delete process.env.KILO_API_KEY
         else process.env.KILO_API_KEY = originalKey
         if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
@@ -146,7 +146,7 @@ it.instance("2xx ingest response returns ok:true", () => {
     Effect.ensuring(
       Effect.gen(function* () {
         const auth = yield* Auth.Service
-        yield* auth.remove("kilo").pipe(Effect.orDie)
+        yield* auth.remove("kappa").pipe(Effect.orDie)
         if (originalKey === undefined) delete process.env.KILO_API_KEY
         else process.env.KILO_API_KEY = originalKey
         if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
@@ -206,7 +206,7 @@ it.instance("non-2xx ingest response returns ok:false with no retry", () => {
     Effect.ensuring(
       Effect.gen(function* () {
         const auth = yield* Auth.Service
-        yield* auth.remove("kilo").pipe(Effect.orDie)
+        yield* auth.remove("kappa").pipe(Effect.orDie)
         if (originalKey === undefined) delete process.env.KILO_API_KEY
         else process.env.KILO_API_KEY = originalKey
         if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
@@ -244,7 +244,7 @@ it.instance("unauthenticated returns not_connected", () => {
     Effect.ensuring(
       Effect.gen(function* () {
         const auth = yield* Auth.Service
-        yield* auth.remove("kilo").pipe(Effect.orDie)
+        yield* auth.remove("kappa").pipe(Effect.orDie)
         if (originalKey === undefined) delete process.env.KILO_API_KEY
         else process.env.KILO_API_KEY = originalKey
         if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
@@ -292,7 +292,7 @@ it.instance("bounded timeout: stalled auth step returns not_connected within tim
     Effect.ensuring(
       Effect.gen(function* () {
         const auth = yield* Auth.Service
-        yield* auth.remove("kilo").pipe(Effect.orDie)
+        yield* auth.remove("kappa").pipe(Effect.orDie)
         if (originalKey === undefined) delete process.env.KILO_API_KEY
         else process.env.KILO_API_KEY = originalKey
         if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
@@ -377,7 +377,7 @@ it.instance("coalescing: sendAgentNotification awaits in-flight bootstrap for a 
     Effect.ensuring(
       Effect.gen(function* () {
         const auth = yield* Auth.Service
-        yield* auth.remove("kilo").pipe(Effect.orDie)
+        yield* auth.remove("kappa").pipe(Effect.orDie)
         if (originalKey === undefined) delete process.env.KILO_API_KEY
         else process.env.KILO_API_KEY = originalKey
         if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
@@ -470,7 +470,7 @@ it.instance("coalescing: bootstrapInflight stores the real promise and concurren
     Effect.ensuring(
       Effect.gen(function* () {
         const auth = yield* Auth.Service
-        yield* auth.remove("kilo").pipe(Effect.orDie)
+        yield* auth.remove("kappa").pipe(Effect.orDie)
         if (originalKey === undefined) delete process.env.KILO_API_KEY
         else process.env.KILO_API_KEY = originalKey
         if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL

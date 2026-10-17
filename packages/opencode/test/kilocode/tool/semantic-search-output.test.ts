@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import type { IndexingStatus } from "@kilocode/kilo-indexing/status"
+import type { IndexingStatus } from "@kappacode/kappa-indexing/status"
 import { empty, reason, scope } from "@/kilocode/tool/semantic-search-output"
 
 function status(over: Partial<IndexingStatus>): IndexingStatus {

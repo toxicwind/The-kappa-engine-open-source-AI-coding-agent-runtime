@@ -30,7 +30,7 @@ function req(dir: string, input: string, init?: RequestInit) {
   return Server.Default().app.request(input, {
     ...init,
     headers: {
-      "x-kilo-directory": dir,
+      "x-kappa-directory": dir,
       ...init?.headers,
     },
   })
@@ -44,7 +44,7 @@ function request(target: ReturnType<typeof app>, dir: string, input: string, ini
   return target.request(input, {
     ...init,
     headers: {
-      "x-kilo-directory": dir,
+      "x-kappa-directory": dir,
       ...init?.headers,
     },
   })
@@ -58,7 +58,7 @@ describe("agent builder routes", () => {
       scope: "project",
       description: "Review code",
       mode: "subagent",
-      model: "kilo/gpt-5.5",
+      model: "kappa/gpt-5.5",
       tools: ["read", "grep"],
       prompt: "Review the current diff and report risks.",
     }
@@ -83,7 +83,7 @@ describe("agent builder routes", () => {
 
     expect(saved.status).toBe(200)
     const output = (await saved.json()) as Output
-    expect(output.path).toBe(path.join(tmp.path, ".kilo", "agent", "reviewer.md"))
+    expect(output.path).toBe(path.join(tmp.path, ".kappa", "agent", "reviewer.md"))
     expect(await Bun.file(output.path).text()).toBe(output.markdown)
 
     const agents = (await (await req(tmp.path, "/agent")).json()) as Agent[]
@@ -107,7 +107,7 @@ describe("agent builder routes", () => {
     expect(saved.status).toBe(200)
     const output = (await saved.json()) as Output
     expect(output.id).toBe("canonical")
-    expect(output.path).toBe(path.join(tmp.path, ".kilo", "agent", "canonical.md"))
+    expect(output.path).toBe(path.join(tmp.path, ".kappa", "agent", "canonical.md"))
     expect(await Bun.file(output.path).exists()).toBe(true)
   })
 
@@ -153,7 +153,7 @@ describe("agent builder routes", () => {
       })
 
       expect(saved.status).toBe(400)
-      expect(await Bun.file(path.join(tmp.path, ".kilo", "agent", "bad:id.md")).exists()).toBe(false)
+      expect(await Bun.file(path.join(tmp.path, ".kappa", "agent", "bad:id.md")).exists()).toBe(false)
     })
   }
 

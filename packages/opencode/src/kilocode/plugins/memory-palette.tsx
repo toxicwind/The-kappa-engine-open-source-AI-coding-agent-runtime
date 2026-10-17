@@ -1,8 +1,8 @@
-import type { TuiPlugin } from "@kilocode/plugin/tui"
+import type { TuiPlugin } from "@kappacode/plugin/tui"
 import type { InternalTuiPlugin } from "@/plugin/tui/internal"
 import { DialogMemoryHelp } from "@/kilocode/cli/cmd/tui/component/dialog-memory"
 
-const id = "internal:kilo-memory-palette"
+const id = "internal:kappa-memory-palette"
 
 const tui: TuiPlugin = async (api) => {
   api.keymap.registerLayer({

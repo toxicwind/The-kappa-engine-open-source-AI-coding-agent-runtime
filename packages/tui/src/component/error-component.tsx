@@ -227,7 +227,7 @@ function buildIssueURL(message: string, stack: string) {
   // kilocode_change start
   const url = new URL("https://github.com/Kilo-Org/kilocode/issues/new?template=bug-report.yml")
   url.searchParams.set("title", `Kilo TUI crash: ${message}`)
-  url.searchParams.set("kilo-version", InstallationVersion)
+  url.searchParams.set("kappa-version", InstallationVersion)
   // kilocode_change end
   url.searchParams.set("os", describeOS())
   url.searchParams.set("terminal", describeTerminal())

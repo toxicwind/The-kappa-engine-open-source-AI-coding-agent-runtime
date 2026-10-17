@@ -1,14 +1,14 @@
 import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from "bun:test"
 import { Effect, Schema } from "effect"
 import { Global } from "@opencode-ai/core/global"
-import { MemoryFiles } from "@kilocode/kilo-memory/store"
-import { MemorySchema } from "@kilocode/kilo-memory/schema"
-import { MemoryTool } from "@kilocode/kilo-memory/tool"
+import { MemoryFiles } from "@kappacode/kappa-memory/store"
+import { MemorySchema } from "@kappacode/kappa-memory/schema"
+import { MemoryTool } from "@kappacode/kappa-memory/tool"
 import path from "path"
-import { KiloMemory } from "@kilocode/kilo-memory/effect"
+import { KiloMemory } from "@kappacode/kappa-memory/effect"
 import { MemoryRecallTool } from "@/kilocode/tool/memory-recall"
 import { MessageID, SessionID } from "@/session/schema"
-import { RemoteSender } from "@/kilo-sessions/remote-sender"
+import { RemoteSender } from "@/kappa-sessions/remote-sender"
 import type { Tool } from "@/tool/tool"
 import { resetDatabase } from "../../fixture/db"
 import { provideTestInstance, tmpdir } from "../../fixture/fixture"
@@ -55,7 +55,7 @@ async function withConfig<T>(dir: string, fn: () => Promise<T> | T) {
   const prior = Global.Path.config
   const data = Global.Path.data
   ;(Global.Path as { config: string }).config = dir
-  ;(Global.Path as { data: string }).data = path.basename(dir) === ".kilo" ? path.dirname(dir) : dir
+  ;(Global.Path as { data: string }).data = path.basename(dir) === ".kappa" ? path.dirname(dir) : dir
   try {
     return await fn()
   } finally {
@@ -108,7 +108,7 @@ describe("kilo_memory_recall", () => {
 
   test("does not prompt for permission when memory is disabled", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
       await KiloMemory.disable({ ctx: memory })
@@ -122,7 +122,7 @@ describe("kilo_memory_recall", () => {
 
   test("shows typed memory hits separately from session digests", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       await KiloMemory.apply({
@@ -133,7 +133,7 @@ describe("kilo_memory_recall", () => {
             file: "environment.md",
             section: "Commands",
             key: "vscode_tests",
-            text: "Run VS Code unit tests from packages/kilo-vscode with bun run test:unit.",
+            text: "Run VS Code unit tests from packages/kappa-vscode with bun run test:unit.",
           },
           {
             action: "add",
@@ -178,7 +178,7 @@ describe("kilo_memory_recall", () => {
 
   test("digest sessionID recall returns full summaries while index stays brief", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       const tail = "OPENCODE_FULL_DETAIL_AFTER_480"
@@ -209,7 +209,7 @@ describe("kilo_memory_recall", () => {
 
   test("catalog mode lists all stored keys with optional filter", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       await KiloMemory.apply({
@@ -220,14 +220,14 @@ describe("kilo_memory_recall", () => {
             file: "project.md",
             section: "Facts",
             key: "kilo_was_originally_a_fork",
-            text: "kilo was originally a fork of roo and has a kilocode-legacy repo",
+            text: "kappa was originally a fork of roo and has a kilocode-legacy repo",
           },
           {
             action: "add",
             file: "environment.md",
             section: "Commands",
             key: "vscode_tests",
-            text: "Run VS Code unit tests from packages/kilo-vscode with bun run test:unit.",
+            text: "Run VS Code unit tests from packages/kappa-vscode with bun run test:unit.",
           },
         ],
       })
@@ -244,7 +244,7 @@ describe("kilo_memory_recall", () => {
 
   test("catalog mode truncates multi-byte content by byte budget", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       await MemoryFiles.writeSource(
@@ -270,7 +270,7 @@ describe("kilo_memory_recall", () => {
 
   test("catalog mode lists saved session digests", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
       await KiloMemory.recordSession({
@@ -304,7 +304,7 @@ describe("kilo_memory_recall", () => {
 
   test("digest mode does not fall back to another session when id is missing", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
       await KiloMemory.recordSession({
@@ -323,7 +323,7 @@ describe("kilo_memory_recall", () => {
 
   test("digest recall honors the requested saved session id", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
       await KiloMemory.recordSession({
@@ -355,7 +355,7 @@ describe("kilo_memory_recall", () => {
 
   test("typed and search modes require a topic query", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
       await KiloMemory.apply({
@@ -376,7 +376,7 @@ describe("kilo_memory_recall", () => {
 
   test("digest mode does not read the active session id", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       await KiloMemory.recordSession({
@@ -397,7 +397,7 @@ describe("kilo_memory_recall", () => {
 
   test("digest browsing keeps non-empty continuation-style digests", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       await KiloMemory.enable({ ctx: memory })
       await KiloMemory.recordSession({
@@ -425,7 +425,7 @@ describe("kilo_memory_recall", () => {
 
   test("typed mode uses recency as a tiebreaker", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       await KiloMemory.apply({
@@ -457,7 +457,7 @@ describe("kilo_memory_recall", () => {
 
   test("search mode renders typed and digest memory without catalog mode", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       await KiloMemory.apply({
@@ -493,7 +493,7 @@ describe("kilo_memory_recall", () => {
 
   test("handles large unmatched recall queries without returning stored memory", async () => {
     await using dir = await tmpdir({ git: true })
-    await withConfig(path.join(dir.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(dir.path, "global", ".kappa"), async () => {
       const memory = { directory: dir.path, worktree: dir.path }
       const enabled = await KiloMemory.enable({ ctx: memory })
       await KiloMemory.apply({

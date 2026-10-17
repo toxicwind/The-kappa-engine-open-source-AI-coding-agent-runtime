@@ -22,8 +22,8 @@ function rewrite(request: Request, values: { directory?: string; workspace?: str
   let changed = false
 
   for (const [name, key] of [
-    ["x-kilo-directory", "directory"],
-    ["x-kilo-workspace", "workspace"],
+    ["x-kappa-directory", "directory"],
+    ["x-kappa-workspace", "workspace"],
   ] as const) {
     const value = pick(
       request.headers.get(name),
@@ -42,8 +42,8 @@ function rewrite(request: Request, values: { directory?: string; workspace?: str
   if (!changed) return request
 
   const next = new Request(url, request)
-  next.headers.delete("x-kilo-directory")
-  next.headers.delete("x-kilo-workspace")
+  next.headers.delete("x-kappa-directory")
+  next.headers.delete("x-kappa-workspace")
   return next
 }
 
@@ -67,14 +67,14 @@ export function createKiloClient(config?: Config & { directory?: string; experim
   if (config?.directory) {
     config.headers = {
       ...config.headers,
-      "x-kilo-directory": encodeURIComponent(config.directory),
+      "x-kappa-directory": encodeURIComponent(config.directory),
     }
   }
 
   if (config?.experimental_workspaceID) {
     config.headers = {
       ...config.headers,
-      "x-kilo-workspace": config.experimental_workspaceID,
+      "x-kappa-workspace": config.experimental_workspaceID,
     }
   }
 

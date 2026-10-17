@@ -1,4 +1,4 @@
-import type { Hooks, PluginInput } from "@kilocode/plugin"
+import type { Hooks, PluginInput } from "@kappacode/plugin"
 
 export async function CerebrasPlugin(_input: PluginInput): Promise<Hooks> {
   return {

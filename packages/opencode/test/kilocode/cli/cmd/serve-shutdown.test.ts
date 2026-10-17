@@ -75,7 +75,7 @@ process.stdin.once("data", () => process.emit("SIGTERM"))
   try {
     const url = await ready.promise
     // Load a real instance so shutdown reaches the registered disposer.
-    const response = await fetch(`${url}/path`, { headers: { "x-kilo-directory": tmp.path } })
+    const response = await fetch(`${url}/path`, { headers: { "x-kappa-directory": tmp.path } })
     expect(response.status).toBe(200)
     await response.arrayBuffer()
     // Windows cannot deliver POSIX signals; exercise the same handler via stdin there.

@@ -26,11 +26,11 @@ const source = `export function summarize(input: readonly number[]) {
   return Object.freeze(result)
 }
 `
-const first = "packages/kilo-example/src/first.ts"
-const second = "packages/kilo-example/src/second.tsx"
+const first = "packages/kappa-example/src/first.ts"
+const second = "packages/kappa-example/src/second.tsx"
 
 async function fixture(files: Record<string, string>, run: (root: string) => Promise<void>) {
-  const root = await mkdtemp(join(tmpdir(), "kilo-duplication-test-"))
+  const root = await mkdtemp(join(tmpdir(), "kappa-duplication-test-"))
   try {
     for (const [name, content] of Object.entries(files)) {
       const file = join(root, name)
@@ -100,7 +100,7 @@ test(
       await Bun.write(join(root, first), `\n\n\n${source}`)
       const shifted = await scan(root)
       expect(compare(shifted.findings, exceptions)).toEqual([])
-      const third = "packages/kilo-example/src/third.ts"
+      const third = "packages/kappa-example/src/third.ts"
       await Bun.write(join(root, third), source)
       const copied = await scan(root)
       expect(compare(copied.findings, exceptions)).toContainEqual(expect.stringContaining("Unclassified duplication"))
@@ -154,16 +154,16 @@ test(
       {
         [first]: source,
         "packages/ui/src/upstream.ts": source,
-        "packages/kilo-example/src/fixtures/copy.ts": source,
-        "packages/kilo-example/src/i18n/en.ts": source,
-        "packages/kilo-example/src/copy.test.ts": source,
-        "packages/kilo-example/src/copy.gen.ts": source,
-        "packages/kilo-example/src/copy.d.ts": source,
-        "packages/kilo-i18n/src/en.ts": source,
-        "packages/kilo-docs/src/copy.ts": source,
-        "packages/kilo-jetbrains/src/first.ts": source,
-        "packages/kilo-jetbrains/src/second.tsx": source,
-        "packages/kilo-vscode/src/services/autocomplete/continuedev/copy.ts": source,
+        "packages/kappa-example/src/fixtures/copy.ts": source,
+        "packages/kappa-example/src/i18n/en.ts": source,
+        "packages/kappa-example/src/copy.test.ts": source,
+        "packages/kappa-example/src/copy.gen.ts": source,
+        "packages/kappa-example/src/copy.d.ts": source,
+        "packages/kappa-i18n/src/en.ts": source,
+        "packages/kappa-docs/src/copy.ts": source,
+        "packages/kappa-jetbrains/src/first.ts": source,
+        "packages/kappa-jetbrains/src/second.tsx": source,
+        "packages/kappa-vscode/src/services/autocomplete/continuedev/copy.ts": source,
       },
       async (root) => {
         const result = await scan(root)
@@ -204,8 +204,8 @@ test(
     const css = `.box {\n${Array.from({ length: 20 }, (_, index) => `  --shade-${index}: rgb(${index}, 0, 0);`).join("\n")}\n}\n`
     await fixture(
       {
-        "packages/kilo-example/src/first.css": css,
-        "packages/kilo-example/src/second.css": css,
+        "packages/kappa-example/src/first.css": css,
+        "packages/kappa-example/src/second.css": css,
       },
       async (root) => {
         const result = await scan(root)
@@ -242,7 +242,7 @@ test(
       const baseline = Bun.file(join(root, "script/kilocode-duplication-allowlist.json"))
       const initial = await baseline.text()
       expect((await invoke()).code).toBe(0)
-      const third = join(root, "packages/kilo-example/src/third.ts")
+      const third = join(root, "packages/kappa-example/src/third.ts")
       await Bun.write(third, source)
       const failed = await invoke()
       expect(failed.code).toBe(1)

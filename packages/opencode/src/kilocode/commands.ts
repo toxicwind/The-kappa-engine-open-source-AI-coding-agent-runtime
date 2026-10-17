@@ -42,7 +42,7 @@ const CompletionCommand = {
 }
 
 // Dev-only commands are spread in conditionally so release builds omit them
-// from `kilo help --all` and the docs table. They're also guarded the same way
+// from `kappa help --all` and the docs table. They're also guarded the same way
 // at the yargs registration site in src/index.ts, so the commands-in-sync
 // regex in test/kilocode/help.test.ts sees DevSetup/DevAlias on neither side.
 const dev = InstallationBuildKind === "release" ? [] : [DevSetupCommand, DevAliasCommand]

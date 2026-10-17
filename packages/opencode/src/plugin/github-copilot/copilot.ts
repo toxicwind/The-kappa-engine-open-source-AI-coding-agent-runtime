@@ -1,5 +1,5 @@
-import type { Hooks, PluginInput } from "@kilocode/plugin"
-import type { Model } from "@kilocode/sdk/v2"
+import type { Hooks, PluginInput } from "@kappacode/plugin"
+import type { Model } from "@kappacode/sdk/v2"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { iife } from "@/util/iife"
 import { setTimeout as sleep } from "node:timers/promises"

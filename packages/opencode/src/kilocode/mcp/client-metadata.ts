@@ -1,1 +1,1 @@
-export const clientMetadataUrl = "https://kilo.ai/docs/oauth/kilo/client.json"
+export const clientMetadataUrl = "https://kappa.ai/docs/oauth/kappa/client.json"

@@ -20,8 +20,8 @@ function caps(opts: { input?: Partial<typeof base.input>; output?: Partial<typeo
 describe("formatTable", () => {
   test("formats simple table correctly", () => {
     const rows = [
-      ["kilo/test-model", "YES", "Hello!", "1000ms"],
-      ["kilo/another-model", "NO", "(Error)", "500ms"],
+      ["kappa/test-model", "YES", "Hello!", "1000ms"],
+      ["kappa/another-model", "NO", "(Error)", "500ms"],
     ]
     const result = formatTable(rows, 120)
 

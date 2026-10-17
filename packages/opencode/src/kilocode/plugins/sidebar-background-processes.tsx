@@ -1,7 +1,7 @@
-import type { TuiPlugin, TuiPluginApi, TuiPluginModule, TuiSidebarBackgroundProcessItem } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule, TuiSidebarBackgroundProcessItem } from "@kappacode/plugin/tui"
 import { createMemo, createSignal, For, Show } from "solid-js"
 
-const id = "internal:kilo-sidebar-background-processes"
+const id = "internal:kappa-sidebar-background-processes"
 
 function short(text: string, max = 34) {
   if (text.length <= max) return text

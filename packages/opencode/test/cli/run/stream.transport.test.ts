@@ -1,6 +1,6 @@
 // kilocode_change - new file
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import { KiloClient, type GlobalEvent } from "@kilocode/sdk/v2"
+import { KiloClient, type GlobalEvent } from "@kappacode/sdk/v2"
 import { createSessionTransport } from "@/cli/cmd/run/stream.transport"
 import type { FooterApi, FooterEvent, LocalReplayRow, RunFilePart, StreamCommit } from "@/cli/cmd/run/types"
 

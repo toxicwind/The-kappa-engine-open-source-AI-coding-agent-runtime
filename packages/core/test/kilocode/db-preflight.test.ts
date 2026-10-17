@@ -27,7 +27,7 @@ function createWalDb(file: string) {
 }
 
 // leaves committed-but-uncheckpointed frames in the WAL by SIGKILLing the writer,
-// reproducing the state a crashed kilo process leaves behind
+// reproducing the state a crashed kappa process leaves behind
 async function createWalDbWithPendingFrames(file: string) {
   const script = [
     `const { Database } = require("bun:sqlite")`,
@@ -53,15 +53,15 @@ describe("DbPreflight", () => {
 
   test("accepts a writable database", async () => {
     await using tmp = await tmpdir()
-    const file = path.join(tmp.path, "kilo.db")
+    const file = path.join(tmp.path, "kappa.db")
     createWalDb(file)
     expect(() => DbPreflight.assertWritable(file)).not.toThrow()
   })
 
-  test("names the offending file for a read-only sidecar outside the kilo data dir", async () => {
+  test("names the offending file for a read-only sidecar outside the kappa data dir", async () => {
     if (skip) return
     await using tmp = await tmpdir()
-    const file = path.join(tmp.path, "kilo.db")
+    const file = path.join(tmp.path, "kappa.db")
     // a clean close deletes the sidecars on some platforms; a killed writer always leaves them
     await createWalDbWithPendingFrames(file)
     chmodSync(`${file}-wal`, 0o444)
@@ -72,7 +72,7 @@ describe("DbPreflight", () => {
   test("repairs read-only files inside the trusted dir", async () => {
     if (skip) return
     await using tmp = await tmpdir()
-    const file = path.join(tmp.path, "kilo.db")
+    const file = path.join(tmp.path, "kappa.db")
     await createWalDbWithPendingFrames(file)
     chmodSync(file, 0o444)
     chmodSync(`${file}-wal`, 0o444)
@@ -84,7 +84,7 @@ describe("DbPreflight", () => {
   test("reports a missing directory as missing, not as read-only", async () => {
     await using tmp = await tmpdir()
     const dir = path.join(tmp.path, "absent")
-    const file = path.join(dir, "kilo.db")
+    const file = path.join(dir, "kappa.db")
     expect(() => DbPreflight.assertWritable(file)).toThrow(`Database directory does not exist: ${dir}`)
   })
 
@@ -92,7 +92,7 @@ describe("DbPreflight", () => {
     if (skip) return
     await using tmp = await tmpdir()
     const dir = path.join(tmp.path, "locked")
-    const file = path.join(dir, "kilo.db")
+    const file = path.join(dir, "kappa.db")
     await Bun.write(path.join(dir, ".keep"), "")
     chmodSync(dir, 0o555)
     try {
@@ -105,7 +105,7 @@ describe("DbPreflight", () => {
   test("pending WAL frames with a read-only sidecar fail with the actionable error, and repair recovers the data", async () => {
     if (skip) return
     await using tmp = await tmpdir()
-    const file = path.join(tmp.path, "kilo.db")
+    const file = path.join(tmp.path, "kappa.db")
     await createWalDbWithPendingFrames(file)
     chmodSync(`${file}-wal`, 0o444)
 

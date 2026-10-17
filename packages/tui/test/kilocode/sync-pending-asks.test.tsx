@@ -1,6 +1,6 @@
 /** @jsxImportSource @opentui/solid */
 import { expect, test } from "bun:test"
-import type { GlobalEvent, PermissionRequest, QuestionRequest, Session } from "@kilocode/sdk/v2"
+import type { GlobalEvent, PermissionRequest, QuestionRequest, Session } from "@kappacode/sdk/v2"
 import { tmpdir } from "../fixture/fixture"
 import { json, mount, wait } from "../cli/cmd/tui/sync-fixture"
 

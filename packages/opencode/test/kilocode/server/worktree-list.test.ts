@@ -46,7 +46,7 @@ describe("Kilo Console worktree listing", () => {
       Effect.gen(function* () {
         const test = yield* TestInstance
         const server = yield* serve()
-        const directory = path.join(test.directory, ".kilo", "worktrees", "console-list")
+        const directory = path.join(test.directory, ".kappa", "worktrees", "console-list")
         yield* Effect.promise(() =>
           $`git worktree add --quiet -b console-list ${directory} HEAD`.cwd(test.directory).quiet(),
         )

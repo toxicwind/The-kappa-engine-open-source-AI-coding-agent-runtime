@@ -1,6 +1,6 @@
 // kilocode_change - new file
-// Supports `kilo --worktree <name>` (create/reuse a git worktree before the TUI
-// starts, placed at `.kilo/worktrees/<name>` to match Agent Manager's own
+// Supports `kappa --worktree <name>` (create/reuse a git worktree before the TUI
+// starts, placed at `.kappa/worktrees/<name>` to match Agent Manager's own
 // worktrees) and resuming an explicit `--session <id>` in the worktree it was
 // created in.
 import path from "path"
@@ -12,9 +12,9 @@ import { errorMessage } from "@/util/error"
 
 const log = Log.create({ service: "kilocode.tui-worktree" })
 
-// Matches packages/kilo-vscode/src/agent-manager/WorktreeManager.ts's placement
-// and its ensureGitExclude(), keeping `.kilo/worktrees/` out of `git status`.
-const KILO_WORKTREE_DIR = ".kilo/worktrees"
+// Matches packages/kappa-vscode/src/agent-manager/WorktreeManager.ts's placement
+// and its ensureGitExclude(), keeping `.kappa/worktrees/` out of `git status`.
+const KILO_WORKTREE_DIR = ".kappa/worktrees"
 
 // Exported for tests.
 export async function ensureGitExclude(root: string) {
@@ -94,7 +94,7 @@ function waitForWorktreeEvent(
   return { promise: deferred.promise, cancel: cleanup }
 }
 
-// Exported for `kilo worktree create` (worktree.ts), which calls this and
+// Exported for `kappa worktree create` (worktree.ts), which calls this and
 // exits instead of going on to launch the TUI.
 export async function resolveWorktree(name: string, root: string, timeoutMs = 10 * 60_000) {
   const { Worktree } = await import("@/worktree")
@@ -107,7 +107,7 @@ export async function resolveWorktree(name: string, root: string, timeoutMs = 10
   return withInstance(root, async (run) => {
     const ctx = await run(InstanceState.context)
     // ctx.worktree is whichever checkout the command runs in. Creating under
-    // it unconditionally would nest `.kilo/worktrees/<name>` inside another
+    // it unconditionally would nest `.kappa/worktrees/<name>` inside another
     // worktree and branch off that worktree's HEAD instead of the primary
     // checkout's — refuse rather than get this wrong.
     const primary = await run(primaryWorktree(ctx.worktree))

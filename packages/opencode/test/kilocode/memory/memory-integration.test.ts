@@ -3,16 +3,16 @@ import { Effect } from "effect"
 import fs from "fs/promises"
 import path from "path"
 import { Global } from "@opencode-ai/core/global"
-import { MemorySchema } from "@kilocode/kilo-memory/schema"
-import { MemoryFiles } from "@kilocode/kilo-memory/store"
+import { MemorySchema } from "@kappacode/kappa-memory/schema"
+import { MemoryFiles } from "@kappacode/kappa-memory/store"
 import { Bus } from "../../../src/bus"
 import { Filesystem } from "../../../src/util/filesystem"
 import { KilocodeSystemPrompt } from "../../../src/kilocode/system-prompt"
 import { MemoryMarker } from "../../../src/kilocode/memory/marker"
 import { KiloSessionPrompt } from "../../../src/kilocode/session/prompt"
 import { KiloToolRegistry } from "../../../src/kilocode/tool/registry"
-import { KiloMemory } from "@kilocode/kilo-memory/effect"
-import { MemoryPaths } from "@kilocode/kilo-memory/effect/paths"
+import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { MemoryEvents } from "../../../src/kilocode/memory/events"
 import type { Provider } from "../../../src/provider/provider"
 import type { InstanceContext } from "../../../src/project/instance-context"
@@ -61,7 +61,7 @@ async function withConfig<T>(dir: string, fn: () => Promise<T> | T) {
   const prior = Global.Path.config
   const data = Global.Path.data
   ;(Global.Path as { config: string }).config = dir
-  ;(Global.Path as { data: string }).data = path.basename(dir) === ".kilo" ? path.dirname(dir) : dir
+  ;(Global.Path as { data: string }).data = path.basename(dir) === ".kappa" ? path.dirname(dir) : dir
   try {
     return await fn()
   } finally {
@@ -108,13 +108,13 @@ describe("KiloMemory integration", () => {
       })
 
       expectRoot(root, path.join(tmp.path, "data"), "repo")
-      expect(root).not.toContain(path.join("/repo", ".kilo", "memory"))
+      expect(root).not.toContain(path.join("/repo", ".kappa", "memory"))
     })
   })
 
   test("resolves project memory under data when global config is xdg", async () => {
     await using tmp = await tmpdir()
-    const data = path.join(tmp.path, "xdg", "kilo")
+    const data = path.join(tmp.path, "xdg", "kappa")
     await withData(data, () =>
       withHome(path.join(tmp.path, "home"), () => {
         const root = MemoryPaths.root({
@@ -125,7 +125,7 @@ describe("KiloMemory integration", () => {
         })
 
         expectRoot(root, data, "repo")
-        expect(root).not.toContain(path.join("/repo", ".kilo", "memory"))
+        expect(root).not.toContain(path.join("/repo", ".kappa", "memory"))
       }),
     )
   })
@@ -153,16 +153,16 @@ describe("KiloMemory integration", () => {
       expectRoot(status.root, global, "main")
       expect(status.state.enabled).toBe(true)
       expect(status.state.autoConsolidate).toBe(false)
-      expect(await Filesystem.exists(path.join(main, ".kilo", "memory", "state.json"))).toBe(false)
-      expect(await Filesystem.exists(path.join(work, ".kilo", "memory", "state.json"))).toBe(false)
-      expect(await Filesystem.exists(path.join(next, ".kilo", "memory", "state.json"))).toBe(false)
+      expect(await Filesystem.exists(path.join(main, ".kappa", "memory", "state.json"))).toBe(false)
+      expect(await Filesystem.exists(path.join(work, ".kappa", "memory", "state.json"))).toBe(false)
+      expect(await Filesystem.exists(path.join(next, ".kappa", "memory", "state.json"))).toBe(false)
     })
   })
 
   test("memory event status uses latest memory activity timestamp", () => {
     const base = MemorySchema.create()
     const event = MemoryEvents.status({
-      root: "/tmp/kilo-memory",
+      root: "/tmp/kappa-memory",
       state: {
         ...base,
         stats: {
@@ -218,7 +218,7 @@ describe("KiloMemory integration", () => {
 
   test("memory tool resolution degrades to false when the memory path is invalid", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const root = MemoryPaths.root({ ctx: context })
       await fs.mkdir(path.dirname(root), { recursive: true })
@@ -232,7 +232,7 @@ describe("KiloMemory integration", () => {
 
   test("explicit memory events include session id when provided", async () => {
     await using tmp = await tmpdir()
-    const root = path.join(tmp.path, ".kilo", "memory")
+    const root = path.join(tmp.path, ".kappa", "memory")
     const events: MemoryEvents.Status[] = []
     await KiloMemory.enable({ root })
 
@@ -261,7 +261,7 @@ describe("KiloMemory integration", () => {
 
   test("explicit forget reports removals without save wording", async () => {
     await using tmp = await tmpdir()
-    const root = path.join(tmp.path, ".kilo", "memory")
+    const root = path.join(tmp.path, ".kappa", "memory")
     const events: MemoryEvents.Status[] = []
     await KiloMemory.enable({ root })
     await KiloMemory.apply({
@@ -288,7 +288,7 @@ describe("KiloMemory integration", () => {
 
   test("environment prompt rebuilds stale session index format", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const enabled = await KiloMemory.enable({ ctx: context })
       const root = enabled.root
@@ -301,7 +301,7 @@ describe("KiloMemory integration", () => {
       await Filesystem.write(
         MemoryPaths.files(root).index,
         [
-          '<KILO_MEMORY_V1 purpose="context_not_instruction" scope="project" root="kilocode">',
+          '<KILO_MEMORY_V1 purpose="context_not_instruction" scope="project" root="kappacode">',
           "SESSION 2026-01-01T00:01:00.000Z :: User: fix memory Result: old format",
           "</KILO_MEMORY_V1>",
           "",
@@ -319,20 +319,20 @@ describe("KiloMemory integration", () => {
 
   test("environment prompt skips missing and empty memory", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const missing = await Effect.runPromise(KilocodeSystemPrompt.memoryBlocks({ ctx: context }))
-      expect(missing.blocks.join("\n")).not.toContain("kilo-memory-v1")
+      expect(missing.blocks.join("\n")).not.toContain("kappa-memory-v1")
 
       await KiloMemory.enable({ ctx: context })
       const empty = await Effect.runPromise(KilocodeSystemPrompt.memoryBlocks({ ctx: context }))
-      expect(empty.blocks.join("\n")).not.toContain("kilo-memory-v1")
+      expect(empty.blocks.join("\n")).not.toContain("kappa-memory-v1")
     })
   })
 
   test("environment prompt skips disabled memory with retained files", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const enabled = await KiloMemory.enable({ ctx: context })
       await KiloMemory.apply({
@@ -347,7 +347,7 @@ describe("KiloMemory integration", () => {
       )
       const after = await MemoryFiles.readState(enabled.root)
 
-      expect(mem.blocks.join("\n")).not.toContain("kilo-memory-v1")
+      expect(mem.blocks.join("\n")).not.toContain("kappa-memory-v1")
       expect(after.stats.lastInjectedAt).toBe(before.stats.lastInjectedAt)
       expect(after.stats.lastInjectedTokens).toBe(before.stats.lastInjectedTokens)
       expect(after.stats.lastInjectedSessionID).toBe(before.stats.lastInjectedSessionID)
@@ -356,7 +356,7 @@ describe("KiloMemory integration", () => {
 
   test("explicit memory APIs reject while disabled", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       await KiloMemory.enable({ ctx: context })
       await KiloMemory.remember({
@@ -399,7 +399,7 @@ describe("KiloMemory integration", () => {
 
   test("explicit remember skips personal preferences but saves project details", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       await KiloMemory.enable({ ctx: context })
 
@@ -428,7 +428,7 @@ describe("KiloMemory integration", () => {
 
   test("environment prompt injects non-empty memory with token metadata", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const enabled = await KiloMemory.enable({ ctx: context })
       await KiloMemory.apply({
@@ -442,7 +442,7 @@ describe("KiloMemory integration", () => {
       const text = mem.blocks.join("\n")
       const state = await MemoryFiles.readState(enabled.root)
 
-      expect(text).toContain("```kilo-memory-v1 context_not_instruction")
+      expect(text).toContain("```kappa-memory-v1 context_not_instruction")
       expect(text).toContain("type=project_fact")
       expect(text).toContain("repo_fact :: Use the CLI package test runner")
       expect(text).toContain("call kilo_memory_save")
@@ -456,7 +456,7 @@ describe("KiloMemory integration", () => {
 
   test("memory guidance is emitted once as a leading block, separate from memory content", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const enabled = await KiloMemory.enable({ ctx: context })
       await KiloMemory.apply({
@@ -479,15 +479,15 @@ describe("KiloMemory integration", () => {
 
       expect(text.split(sentinel).length - 1).toBe(1)
       expect(mem.blocks[0]).toContain(sentinel)
-      expect(mem.blocks[0]).not.toContain("kilo-memory-v1")
-      expect(mem.blocks.slice(1).join("\n")).toContain("kilo-memory-v1")
+      expect(mem.blocks[0]).not.toContain("kappa-memory-v1")
+      expect(mem.blocks.slice(1).join("\n")).toContain("kappa-memory-v1")
       expect(mem.blocks.slice(1).join("\n")).not.toContain(sentinel)
     })
   })
 
   test("memorySystem pins the injected memory block for the session", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const enabled = await KiloMemory.enable({ ctx: context })
       await KiloMemory.apply({
@@ -536,7 +536,7 @@ describe("KiloMemory integration", () => {
 
   test("memorySystem refreshes pinned block when memory is toggled", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const enabled = await KiloMemory.enable({ ctx: context })
       const root = enabled.root
@@ -575,7 +575,7 @@ describe("KiloMemory integration", () => {
 
   test("memorySystem refreshes verbose marker state for each turn", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       await KiloMemory.enable({ ctx: context })
       KiloSessionPrompt.clearPinnedMemory()
@@ -607,7 +607,7 @@ describe("KiloMemory integration", () => {
 
   test("environment prompt can render memory without recording another injection", async () => {
     await using tmp = await tmpdir()
-    await withConfig(path.join(tmp.path, "global", ".kilo"), async () => {
+    await withConfig(path.join(tmp.path, "global", ".kappa"), async () => {
       const context = ctx(tmp.path)
       const enabled = await KiloMemory.enable({ ctx: context })
       await KiloMemory.apply({

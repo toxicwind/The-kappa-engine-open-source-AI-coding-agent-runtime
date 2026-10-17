@@ -7,7 +7,7 @@ import { KiloSessionPrompt } from "../../src/kilocode/session/prompt"
 function planAgentPermission() {
   const planEdit = [
     { permission: "edit", pattern: "*", action: "deny" as const },
-    { permission: "edit", pattern: ".kilo/plans/*.md", action: "allow" as const },
+    { permission: "edit", pattern: ".kappa/plans/*.md", action: "allow" as const },
     { permission: "edit", pattern: "plans/*.md", action: "allow" as const },
   ]
   return [
@@ -90,7 +90,7 @@ describe("KiloSessionPrompt.buildAskRuleset", () => {
     const editRules = ruleset.filter((rule) => rule.permission === "edit")
     expect(editRules as PermissionProvenance.SourcedRule[]).toEqual([
       { permission: "edit", pattern: "*", action: "deny", source: "agent" },
-      { permission: "edit", pattern: ".kilo/plans/*.md", action: "allow", source: "agent" },
+      { permission: "edit", pattern: ".kappa/plans/*.md", action: "allow", source: "agent" },
       { permission: "edit", pattern: "plans/*.md", action: "allow", source: "agent" },
     ])
   })
@@ -134,7 +134,7 @@ describe("KiloSessionPrompt.buildAskRuleset", () => {
     const editRules = (hardRuleset ?? []).filter((rule) => rule.permission === "edit")
     expect(editRules).toEqual([
       { permission: "edit", pattern: "*", action: "deny" },
-      { permission: "edit", pattern: ".kilo/plans/*.md", action: "allow" },
+      { permission: "edit", pattern: ".kappa/plans/*.md", action: "allow" },
       { permission: "edit", pattern: "plans/*.md", action: "allow" },
     ])
   })

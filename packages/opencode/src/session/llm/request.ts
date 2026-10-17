@@ -23,8 +23,8 @@ import {
   HEADER_PROJECTID,
   HEADER_MACHINEID,
   HEADER_TASKID,
-} from "@kilocode/kilo-gateway"
-import { Identity } from "@kilocode/kilo-telemetry"
+} from "@kappacode/kappa-gateway"
+import { Identity } from "@kappacode/kappa-telemetry"
 import { KiloSession } from "@/kilocode/session"
 import { stripInternalOptions } from "@/kilocode/agent/options"
 import { KilocodeSystemPrompt } from "@/kilocode/system-prompt"
@@ -179,8 +179,8 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
     },
   )
 
-  // kilocode_change start - resolve project ID and machine ID for kilo provider
-  const isKilo = input.model.api.npm === "@kilocode/kilo-gateway"
+  // kilocode_change start - resolve project ID and machine ID for kappa provider
+  const isKilo = input.model.api.npm === "@kappacode/kappa-gateway"
   const kiloProjectId = yield* isKilo
     ? Effect.promise(() => getKiloProjectId().catch(() => undefined))
     : Effect.succeed(undefined)
@@ -255,7 +255,7 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
             "User-Agent": USER_AGENT,
             ...(input.model.providerID !== "anthropic" ? DEFAULT_HEADERS : undefined), // kilocode_change
           }),
-      // kilocode_change start - headers for kilo provider
+      // kilocode_change start - headers for kappa provider
       ...(isKilo && input.agent.name ? { "x-kilocode-mode": input.agent.name.toLowerCase() } : {}),
       ...(isKilo && kiloProjectId ? { [HEADER_PROJECTID]: kiloProjectId } : {}),
       ...(isKilo && machineId ? { [HEADER_MACHINEID]: machineId } : {}),

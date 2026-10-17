@@ -89,14 +89,14 @@ describe("skill", () => {
   )
 
   // kilocode_change start
-  it.live("discovers skills from .kilo/skill/ directory", () =>
+  it.live("discovers skills from .kappa/skill/ directory", () =>
     // kilocode_change end
     provideTmpdirInstance(
       (dir) =>
         Effect.gen(function* () {
           yield* Effect.promise(() =>
             Bun.write(
-              path.join(dir, ".kilo", "skill", "test-skill", "SKILL.md"),
+              path.join(dir, ".kappa", "skill", "test-skill", "SKILL.md"),
               `---
 name: test-skill
 description: A test skill for verification.
@@ -129,7 +129,7 @@ Instructions here.
           Effect.gen(function* () {
             yield* Effect.promise(() =>
               Bun.write(
-                path.join(dir, ".kilo", "skill", "dir-skill", "SKILL.md"), // kilocode_change: .kilo is primary
+                path.join(dir, ".kappa", "skill", "dir-skill", "SKILL.md"), // kilocode_change: .kappa is primary
                 `---
 name: dir-skill
 description: Skill for dirs test.
@@ -142,7 +142,7 @@ description: Skill for dirs test.
 
             const skill = yield* Skill.Service
             const dirs = yield* skill.dirs()
-            expect(dirs).toContain(path.join(dir, ".kilo", "skill", "dir-skill")) // kilocode_change: .kilo is primary
+            expect(dirs).toContain(path.join(dir, ".kappa", "skill", "dir-skill")) // kilocode_change: .kappa is primary
             expect(dirs.length).toBe(1)
           }),
         ),
@@ -151,7 +151,7 @@ description: Skill for dirs test.
   )
 
   // kilocode_change start
-  it.live("discovers multiple skills from .kilo/skill/ directory", () =>
+  it.live("discovers multiple skills from .kappa/skill/ directory", () =>
     // kilocode_change end
     provideTmpdirInstance(
       (dir) =>
@@ -159,7 +159,7 @@ description: Skill for dirs test.
           yield* Effect.promise(() =>
             Promise.all([
               Bun.write(
-                path.join(dir, ".kilo", "skill", "skill-one", "SKILL.md"),
+                path.join(dir, ".kappa", "skill", "skill-one", "SKILL.md"),
                 `---
 name: skill-one
 description: First test skill.
@@ -169,7 +169,7 @@ description: First test skill.
 `,
               ),
               Bun.write(
-                path.join(dir, ".kilo", "skill", "skill-two", "SKILL.md"),
+                path.join(dir, ".kappa", "skill", "skill-two", "SKILL.md"),
                 `---
 name: skill-two
 description: Second test skill.
@@ -197,7 +197,7 @@ description: Second test skill.
         Effect.gen(function* () {
           yield* Effect.promise(() =>
             Bun.write(
-              path.join(dir, ".kilo", "skill", "no-frontmatter", "SKILL.md"), // kilocode_change: .kilo is primary
+              path.join(dir, ".kappa", "skill", "no-frontmatter", "SKILL.md"), // kilocode_change: .kappa is primary
               `# No Frontmatter
 
 Just some content without YAML frontmatter.
@@ -216,11 +216,11 @@ Just some content without YAML frontmatter.
     provideTmpdirInstance(
       (dir) =>
         Effect.gen(function* () {
-          // kilocode_change start - load .kilo skills without falling back to .opencode
+          // kilocode_change start - load .kappa skills without falling back to .opencode
           yield* Effect.promise(() =>
             Promise.all([
               Bun.write(
-                path.join(dir, ".kilo", "skill", "manual-skill", "SKILL.md"),
+                path.join(dir, ".kappa", "skill", "manual-skill", "SKILL.md"),
                 `---
 name: manual-skill
 ---
@@ -521,10 +521,10 @@ description: A skill in the .agents/skills directory.
               ),
               // kilocode_change start
               Bun.write(
-                path.join(dir, ".kilo", "skill", "opencode-skill", "SKILL.md"),
+                path.join(dir, ".kappa", "skill", "opencode-skill", "SKILL.md"),
                 `---
 name: opencode-skill
-description: A skill in the .kilo/skill directory.
+description: A skill in the .kappa/skill directory.
 ---
 
 # OpenCode Skill
@@ -570,20 +570,20 @@ description: A skill in the .agents/skills directory.
               ),
               // kilocode_change start
               Bun.write(
-                path.join(dir, ".kilo", "skill", "agent-skill", "SKILL.md"),
+                path.join(dir, ".kappa", "skill", "agent-skill", "SKILL.md"),
                 `---
 name: opencode-skill
-description: A skill in the .kilo/skill directory.
+description: A skill in the .kappa/skill directory.
 ---
 
 # OpenCode Skill
 `,
               ),
               Bun.write(
-                path.join(dir, ".kilo", "skills", "agent-skill", "SKILL.md"),
+                path.join(dir, ".kappa", "skills", "agent-skill", "SKILL.md"),
                 `---
 name: opencode-skill
-description: A skill in the .kilo/skills directory.
+description: A skill in the .kappa/skills directory.
 ---
 
 # OpenCode Skill

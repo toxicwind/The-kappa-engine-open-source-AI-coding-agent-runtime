@@ -39,7 +39,7 @@ const themeSource: ThemeSource = {
     const directories = [Global.Path.config]
     for (let current = process.cwd(); ; current = path.dirname(current)) {
       // kilocode_change start - discover Kilo config roots, not OpenCode roots
-      directories.push(path.join(current, ".kilocode"), path.join(current, ".kilo"))
+      directories.push(path.join(current, ".kilocode"), path.join(current, ".kappa"))
       // kilocode_change end
       if (path.dirname(current) === current) break
     }
@@ -103,7 +103,7 @@ const [store, setStore] = createStore<State>({
   themes: allThemes(),
   mode: "dark",
   lock: undefined,
-  active: "kilo", // kilocode_change
+  active: "kappa", // kilocode_change
   ready: false,
 })
 
@@ -128,8 +128,8 @@ export const { use: useTheme, provider: ThemeProvider } = createSimpleContext({
         if (!lock && pick(kv.get("theme_mode")) !== undefined) kv.set("theme_mode", undefined)
         draft.mode = mode
         draft.lock = lock
-        const active = config.theme ?? kv.get("theme", "kilo") // kilocode_change
-        draft.active = typeof active === "string" ? active : "kilo" // kilocode_change
+        const active = config.theme ?? kv.get("theme", "kappa") // kilocode_change
+        draft.active = typeof active === "string" ? active : "kappa" // kilocode_change
         draft.ready = false
       }),
     )
@@ -151,7 +151,7 @@ export const { use: useTheme, provider: ThemeProvider } = createSimpleContext({
             }, {}),
           )
         })
-        .catch(() => setStore("active", "kilo")) // kilocode_change
+        .catch(() => setStore("active", "kappa")) // kilocode_change
     }
 
     onMount(() => {
@@ -170,7 +170,7 @@ export const { use: useTheme, provider: ThemeProvider } = createSimpleContext({
           if (!colors.palette[0]) {
             if (hasResolvedSystemTheme) return
             setSystemTheme(undefined)
-            if (store.active === "system") setStore("active", "kilo") // kilocode_change
+            if (store.active === "system") setStore("active", "kappa") // kilocode_change
             return
           }
           const next = store.lock ?? terminalMode(colors) ?? mode
@@ -185,7 +185,7 @@ export const { use: useTheme, provider: ThemeProvider } = createSimpleContext({
         .catch(() => {
           if (hasResolvedSystemTheme) return
           setSystemTheme(undefined)
-          if (store.active === "system") setStore("active", "kilo") // kilocode_change
+          if (store.active === "system") setStore("active", "kappa") // kilocode_change
         })
     }
 
@@ -274,7 +274,7 @@ export const { use: useTheme, provider: ThemeProvider } = createSimpleContext({
         if (theme) return resolveTheme(theme, store.mode)
       }
 
-      return resolveTheme(store.themes.kilo, store.mode) // kilocode_change
+      return resolveTheme(store.themes.kappa, store.mode) // kilocode_change
     })
 
     createEffect(() => renderer.setBackgroundColor(values().background))

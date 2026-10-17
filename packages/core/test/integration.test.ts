@@ -18,7 +18,7 @@ import { testEffect } from "./lib/effect"
 // KILO_AUTH_CONTENT is Kilo's process-local credential mode: it skips the auth.json dual-write.
 // Set it around this file only. bun shares one process across test files, so setting it at module
 // scope leaks into credential.test.ts, whose auth.json cases then read "{}" and see no credentials.
-const directory = fs.mkdtempSync(path.join(os.tmpdir(), "kilo-integration-test-"))
+const directory = fs.mkdtempSync(path.join(os.tmpdir(), "kappa-integration-test-"))
 let previous: string | undefined
 beforeAll(() => {
   previous = process.env.KILO_AUTH_CONTENT

@@ -139,8 +139,8 @@ export const GlobalApi = HttpApi.make("global").add(
       }).annotateMerge(
         OpenApi.annotations({
           identifier: "global.upgrade",
-          summary: "Upgrade kilo", // kilocode_change
-          description: "Upgrade kilo to the specified version or latest if not specified.", // kilocode_change
+          summary: "Upgrade kappa", // kilocode_change
+          description: "Upgrade kappa to the specified version or latest if not specified.", // kilocode_change
         }),
       ),
     )

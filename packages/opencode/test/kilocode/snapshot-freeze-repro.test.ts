@@ -78,7 +78,7 @@ test("pathological diffFull workload finishes quickly and does not block abort",
           expect(after).toBeTruthy()
 
           const app = Server.Default().app
-          const headers = { "x-kilo-directory": tmp.path }
+          const headers = { "x-kappa-directory": tmp.path }
           const warm = yield* Effect.promise(() =>
             Promise.resolve(app.request(`/session/${session.id}/abort`, { method: "POST", headers })),
           )

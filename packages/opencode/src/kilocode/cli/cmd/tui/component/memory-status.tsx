@@ -1,5 +1,5 @@
-import type { TuiPluginApi } from "@kilocode/plugin/tui"
-import type { Event } from "@kilocode/sdk/v2"
+import type { TuiPluginApi } from "@kappacode/plugin/tui"
+import type { Event } from "@kappacode/sdk/v2"
 import { createMemo, createResource, createSignal, onCleanup, onMount, Show } from "solid-js"
 import * as Log from "@opencode-ai/core/util/log"
 import { route } from "@/kilocode/cli/cmd/tui/memory-command"

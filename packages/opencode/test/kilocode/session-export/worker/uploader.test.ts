@@ -57,17 +57,17 @@ describe("Uploader", () => {
     const headers = new Headers(calls[0].init.headers)
     const body = calls[0].init.body as string
     expect(calls[0].input).toBe("https://example.test/ingest")
-    expect(headers.get("x-kilo-export-api-version")).toBe("1")
-    expect(headers.get("x-kilo-export-schema-version")).toBe("1")
-    expect(headers.get("x-kilo-export-agent-version")).toBe("v0")
-    expect(headers.get("x-kilo-export-root-session-id")).toBe("s1")
-    expect(headers.get("x-kilo-export-session-id")).toBe("s1")
-    expect(headers.get("x-kilo-export-seq-start")).toBe("0")
-    expect(headers.get("x-kilo-export-seq-end")).toBe("0")
-    expect(headers.get("x-kilo-export-event-count")).toBe("1")
-    expect(headers.get("x-kilo-export-content-encoding")).toBe("identity")
-    expect(headers.get("x-kilo-export-client-sent-at")).toMatch(/^\d{4}-\d{2}-\d{2}T/)
-    expect(headers.get("x-kilo-export-payload-sha256")).toBe(await sha256(body))
+    expect(headers.get("x-kappa-export-api-version")).toBe("1")
+    expect(headers.get("x-kappa-export-schema-version")).toBe("1")
+    expect(headers.get("x-kappa-export-agent-version")).toBe("v0")
+    expect(headers.get("x-kappa-export-root-session-id")).toBe("s1")
+    expect(headers.get("x-kappa-export-session-id")).toBe("s1")
+    expect(headers.get("x-kappa-export-seq-start")).toBe("0")
+    expect(headers.get("x-kappa-export-seq-end")).toBe("0")
+    expect(headers.get("x-kappa-export-event-count")).toBe("1")
+    expect(headers.get("x-kappa-export-content-encoding")).toBe("identity")
+    expect(headers.get("x-kappa-export-client-sent-at")).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+    expect(headers.get("x-kappa-export-payload-sha256")).toBe(await sha256(body))
     expect(headers.get("authorization")).toBe("Bearer local-token")
     expect(storage.pendingEvents({ now: Date.now(), limitBytes: 1_000_000 }).length).toBe(0)
     expect(telemetry.some((item) => (item as { name?: string }).name === "session_export.uploaded")).toBe(true)
@@ -110,23 +110,23 @@ describe("Uploader", () => {
     await uploader.flush("test")
     const headers = new Headers(calls[0].init.headers)
     const names = [
-      "x-kilo-export-api-version",
-      "x-kilo-export-schema-version",
-      "x-kilo-export-agent-version",
-      "x-kilo-export-surface",
-      "x-kilo-export-root-session-id",
-      "x-kilo-export-session-id",
-      "x-kilo-export-batch-id",
-      "x-kilo-export-seq-start",
-      "x-kilo-export-seq-end",
-      "x-kilo-export-event-count",
-      "x-kilo-export-payload-sha256",
-      "x-kilo-export-client-sent-at",
-      "x-kilo-export-content-encoding",
+      "x-kappa-export-api-version",
+      "x-kappa-export-schema-version",
+      "x-kappa-export-agent-version",
+      "x-kappa-export-surface",
+      "x-kappa-export-root-session-id",
+      "x-kappa-export-session-id",
+      "x-kappa-export-batch-id",
+      "x-kappa-export-seq-start",
+      "x-kappa-export-seq-end",
+      "x-kappa-export-event-count",
+      "x-kappa-export-payload-sha256",
+      "x-kappa-export-client-sent-at",
+      "x-kappa-export-content-encoding",
     ]
 
     expect(headers.get("authorization")).toBeNull()
-    expect(headers.get("x-kilo-anon-id")).toBe("install_abc")
+    expect(headers.get("x-kappa-anon-id")).toBe("install_abc")
     for (const name of names) expect(headers.get(name)).toBeTruthy()
   })
 
@@ -150,7 +150,7 @@ describe("Uploader", () => {
 
     const headers = new Headers(calls[0].init.headers)
     expect(headers.get("authorization")).toBeNull()
-    expect(headers.get("x-kilo-anon-id")).toBe("install_from_disk")
+    expect(headers.get("x-kappa-anon-id")).toBe("install_from_disk")
   })
 
   test("uploads one session per batch so key metadata can reconstruct sessions", async () => {
@@ -266,7 +266,7 @@ describe("Uploader", () => {
     await uploader.flush("test")
     const headers = new Headers(calls[0].init.headers)
     const body = JSON.parse(calls[0].init.body as string) as { surface?: string }
-    expect(headers.get("x-kilo-export-surface")).toBe("vscode-extension")
+    expect(headers.get("x-kappa-export-surface")).toBe("vscode-extension")
     expect(body.surface).toBe("vscode-extension")
   })
 

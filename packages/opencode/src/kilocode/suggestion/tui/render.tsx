@@ -2,7 +2,7 @@
 
 import { createMemo, Match, Show, Switch, type JSX } from "solid-js"
 import { useTheme } from "@tui/context/theme"
-import type { SuggestionRequest, ToolPart as MessageToolPart } from "@kilocode/sdk/v2"
+import type { SuggestionRequest, ToolPart as MessageToolPart } from "@kappacode/sdk/v2"
 import { SuggestBar } from "./bar"
 
 type InlineProps = {

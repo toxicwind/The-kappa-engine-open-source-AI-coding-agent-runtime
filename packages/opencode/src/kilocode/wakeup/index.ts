@@ -59,7 +59,7 @@ export namespace Wakeup {
     readonly cronCancel: (id: ID, sessionID?: SessionID) => Effect.Effect<CronInfo | undefined>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kilocode/Wakeup") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/Wakeup") {}
 
   const key = (info: { sessionID: SessionID; id: ID }) => ["wakeup", String(info.sessionID), String(info.id)]
   const cronKey = (info: { sessionID: SessionID; id: ID }) => ["cron", String(info.sessionID), String(info.id)]
@@ -404,7 +404,7 @@ export namespace Wakeup {
             sessionID,
             metadata: {
               ...session.metadata,
-              "kilo.goal": {
+              "kappa.goal": {
                 text: goal.text,
                 status: goal.status,
                 active: goal.active,

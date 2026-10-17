@@ -412,7 +412,7 @@ export const Event = {
 
 export function plan(input: { slug: string; time: { created: number } }, instance: InstanceContext) {
   const base = instance.project.vcs
-    ? path.join(instance.worktree, ".kilo", "plans") // kilocode_change
+    ? path.join(instance.worktree, ".kappa", "plans") // kilocode_change
     : path.join(Global.Path.data, "plans")
   return path.join(base, [input.time.created, input.slug].join("-") + ".md")
 }

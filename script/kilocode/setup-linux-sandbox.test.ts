@@ -23,7 +23,7 @@ describe.skipIf(process.platform === "win32")("Linux sandbox toolchain setup", (
   let tampered: ArrayBuffer
 
   beforeAll(async () => {
-    root = await mkdtemp(path.join(os.tmpdir(), "kilo-zig-test-"))
+    root = await mkdtemp(path.join(os.tmpdir(), "kappa-zig-test-"))
     await mkdir(path.join(root, name))
     await Bun.write(path.join(root, name, "zig"), "verified fixture")
     const proc = Bun.spawn(["tar", "-cJf", path.join(root, "fixture.tar.xz"), "-C", root, name])

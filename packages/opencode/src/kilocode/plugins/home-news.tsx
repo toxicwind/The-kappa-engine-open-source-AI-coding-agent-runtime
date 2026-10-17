@@ -1,6 +1,6 @@
-import type { TuiPlugin, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, Show } from "solid-js"
-import { KiloNews } from "@/kilocode/components/kilo-news"
+import { KiloNews } from "@/kilocode/components/kappa-news"
 
 const id = "internal:home-news"
 

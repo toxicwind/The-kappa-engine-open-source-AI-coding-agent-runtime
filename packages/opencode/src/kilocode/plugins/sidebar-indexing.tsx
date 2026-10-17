@@ -1,12 +1,12 @@
-import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js"
-import type { IndexingStatus, IndexingStatusState } from "@kilocode/kilo-indexing/status"
+import type { IndexingStatus, IndexingStatusState } from "@kappacode/kappa-indexing/status"
 import * as Log from "@opencode-ai/core/util/log"
 import { useSync } from "@tui/context/sync"
 import { formatIndexingLabel } from "../indexing-label"
 import { indexingEnabled } from "../indexing-feature"
 
-const id = "internal:kilo-sidebar-indexing"
+const id = "internal:kappa-sidebar-indexing"
 const log = Log.create({ service: "sidebar-indexing" })
 
 function tone(state: IndexingStatusState, api: TuiPluginApi) {

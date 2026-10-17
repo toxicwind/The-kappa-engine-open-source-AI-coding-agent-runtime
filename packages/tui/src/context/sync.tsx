@@ -23,7 +23,7 @@ import type {
   ConsoleState,
   BackgroundProcessInfo, // kilocode_change
   IndexingStatus, // kilocode_change
-} from "@kilocode/sdk/v2"
+} from "@kappacode/sdk/v2"
 import { createStore, produce, reconcile } from "solid-js/store"
 import { useProject } from "./project"
 import { useEvent } from "./event"

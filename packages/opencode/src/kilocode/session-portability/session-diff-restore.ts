@@ -52,7 +52,7 @@ function safe(root: string, file: string) {
 
 function apply(dir: string, diff: Diff) {
   if (!diff.patch) return false
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "kilo-session-diff-"))
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "kappa-session-diff-"))
   const file = path.join(tmp, "change.patch")
   try {
     const text = diff.patch.endsWith("\n") ? diff.patch : diff.patch + "\n"

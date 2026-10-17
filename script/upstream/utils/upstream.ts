@@ -8,7 +8,7 @@ import { isI18nFile, transformI18nContent } from "../transforms/transform-i18n"
 import { applyScriptTransforms } from "../transforms/transform-scripts"
 import { applyBrandingTransforms } from "../transforms/transform-take-theirs"
 import { applyWebTransforms } from "../transforms/transform-web"
-import { removeKiloWeb } from "../transforms/remove-kilo-web"
+import { removeKiloWeb } from "../transforms/remove-kappa-web"
 import { warn, info } from "./logger"
 import { compareVersions, parseVersion, type VersionInfo } from "./version"
 import { isAncestor } from "./git"
@@ -205,7 +205,7 @@ function workflow(file: string, text: string) {
   return text
     .replace(/github\.repository == 'anomalyco\/opencode'/g, "github.repository == 'Kilo-Org/kilocode'")
     .replace(/github\.repository == "anomalyco\/opencode"/g, 'github.repository == "Kilo-Org/kilocode"')
-    .replace(/\bopencode-ai\b/g, "@kilocode/cli")
+    .replace(/\bopencode-ai\b/g, "@kappacode/cli")
     .replace(
       /GH_REPO:\s*\$\{\{ \(github\.ref_name == 'beta' && 'anomalyco\/opencode-beta'\) \|\| github\.repository \}\}/g,
       "GH_REPO: ${{ github.repository }}",

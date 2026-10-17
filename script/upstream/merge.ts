@@ -42,7 +42,7 @@ import {
 import { transformConflictedScripts, transformAllScripts } from "./transforms/transform-scripts"
 import { transformConflictedExtensions, transformAllExtensions } from "./transforms/transform-extensions"
 import { transformConflictedWeb, transformAllWeb } from "./transforms/transform-web"
-import { transformKiloWeb } from "./transforms/remove-kilo-web"
+import { transformKiloWeb } from "./transforms/remove-kappa-web"
 import { resolveLockFileConflicts, regenerateLockFiles } from "./transforms/lock-files"
 import { writeVersion } from "./utils/upstream"
 
@@ -179,7 +179,7 @@ function logWorktrees(refs: worktree.RefInfo, input: worktree.RefInput, baseName
   logger.divider()
   logger.info("Reference worktrees:")
   logger.info(`  opencode:   ${refs.opencode} (${input.tag}, ${input.upstream.slice(0, 8)})`)
-  logger.info(`  kilo-main:  ${refs.main} (${baseName}, ${input.base.slice(0, 8)})`)
+  logger.info(`  kappa-main:  ${refs.main} (${baseName}, ${input.base.slice(0, 8)})`)
   logger.info(`  auto-merge: ${refs.auto} (${refs.branch}, ${refs.snapshot.slice(0, 8)})`)
   logger.info("")
   logger.info("Agent prompt:")
@@ -420,7 +420,7 @@ async function main() {
   const author = options.author || (await getAuthor())
   const kiloVersion = await version.getCurrentKiloVersion()
   const dirs = ["packages/ui/src/assets/icons/provider", "packages/ui/src/components/provider-icons"]
-  const kiloBranch = `${author}/kilo-opencode-${targetVersion.tag}`
+  const kiloBranch = `${author}/kappa-opencode-${targetVersion.tag}`
   const inplace = options.baseBranch === "HEAD" && currentBranch === kiloBranch
 
   logger.info("Resetting generated provider icons before checkout...")
@@ -494,7 +494,7 @@ async function main() {
     logger.success("Removed unsupported Kilo web command registration")
   }
 
-  // 6a. Transform package names (opencode-ai -> @kilocode/cli)
+  // 6a. Transform package names (opencode-ai -> @kappacode/cli)
   logger.info("Transforming package names...")
   const nameResults = await transformPackageNames({ dryRun: false, verbose: options.verbose })
   logger.success(`Transformed ${nameResults.length} files`)
@@ -575,7 +575,7 @@ async function main() {
 
   // Commit all transformations
   await git.stageAll()
-  const compatMessage = `refactor: kilo compat for ${targetVersion.tag}`
+  const compatMessage = `refactor: kappa compat for ${targetVersion.tag}`
   if (prior) {
     const transformed = await git.writeTree()
     const tree = await git.overlayCompatTree({

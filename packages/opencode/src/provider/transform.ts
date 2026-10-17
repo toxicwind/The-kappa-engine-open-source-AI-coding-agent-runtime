@@ -87,7 +87,7 @@ function sdkKey(npm: string): string | undefined {
       return "gateway"
     case "@openrouter/ai-sdk-provider":
       return "openrouter"
-    case "@kilocode/kilo-gateway": // kilocode_change
+    case "@kappacode/kappa-gateway": // kilocode_change
       return "openrouter"
     case "merge-gateway-ai-sdk-provider":
       return "mergeGateway"
@@ -385,7 +385,7 @@ function isFirstPartyBreakpointEndpoint(model: Provider.Model, options: Record<s
   if (model.providerID === "openai") return host === "openai.com" || host.endsWith(".openai.com")
   if (model.providerID === "azure" || model.providerID === "azure-cognitive-services")
     return [".azure.com", ".azure.us", ".azure.cn", ".azure-api.net"].some((s) => host.endsWith(s))
-  if (model.providerID === "kilo") return host === "api.kilo.ai" || host.endsWith(".kilo.ai")
+  if (model.providerID === "kappa") return host === "api.kappa.ai" || host.endsWith(".kappa.ai")
   return false
 }
 
@@ -393,7 +393,7 @@ function supportsPromptCacheBreakpoint(model: Provider.Model, options: Record<st
   if (isLikelyChatGPTSubscription(model)) return false
   // Only first-party OpenAI-family deployments support explicit breakpoints;
   // custom @ai-sdk/openai endpoints reject prompt_cache_breakpoint (#13285).
-  if (!["openai", "azure", "azure-cognitive-services", "kilo"].includes(model.providerID)) return false
+  if (!["openai", "azure", "azure-cognitive-services", "kappa"].includes(model.providerID)) return false
   if (!isFirstPartyBreakpointEndpoint(model, options)) return false
   const match = model.api.id.match(/gpt-(\d+)\.(\d+)/)
   if (match) {
@@ -549,7 +549,7 @@ export function message(msgs: ModelMessage[], model: Provider.Model, options: Re
   const usesAnthropicAutomaticCaching =
     options.cacheControl !== undefined &&
     (model.api.npm === "@ai-sdk/anthropic" || model.api.npm === "@ai-sdk/google-vertex/anthropic")
-  // kilocode_change start - apply caching for anthropic, alibaba, and GPT-5.6+ openai/azure/kilo-gateway
+  // kilocode_change start - apply caching for anthropic, alibaba, and GPT-5.6+ openai/azure/kappa-gateway
   if (
     (model.providerID === "anthropic" ||
       model.providerID === "google-vertex-anthropic" ||
@@ -561,7 +561,7 @@ export function message(msgs: ModelMessage[], model: Provider.Model, options: Re
       model.api.npm === "@ai-sdk/alibaba" ||
       ((model.api.npm === "@ai-sdk/openai" ||
         model.api.npm === "@ai-sdk/azure" ||
-        model.api.npm === "@kilocode/kilo-gateway") &&
+        model.api.npm === "@kappacode/kappa-gateway") &&
         supportsPromptCacheBreakpoint(model, options))) &&
     model.api.npm !== "@ai-sdk/gateway" &&
     !usesAnthropicAutomaticCaching
@@ -641,7 +641,7 @@ export function topP(model: Provider.Model) {
   if (isLing(model.api.id)) return 0.95 // kilocode_change
   if (
     ["deepseek-v4-flash-0731", "deepseek-v4-flash:0731"].some((name) => id.includes(name)) ||
-    (model.providerID === "kilo" && id.includes("deepseek-v4-flash")) || // kilocode_change
+    (model.providerID === "kappa" && id.includes("deepseek-v4-flash")) || // kilocode_change
     (id.includes("deepseek-v4-flash") && (model.providerID === "deepseek" || model.providerID.startsWith("opencode")))
   ) {
     return 0.95
@@ -852,7 +852,7 @@ function googleThinkingVariants(model: Provider.Model): Record<string, Record<st
 export function variants(model: Provider.Model): Record<string, Record<string, any>> {
   // kilocode_change start
   if (
-    ["@kilocode/kilo-gateway", "@ai-sdk/openai-compatible"].includes(model.api.npm) &&
+    ["@kappacode/kappa-gateway", "@ai-sdk/openai-compatible"].includes(model.api.npm) &&
     model.variants &&
     Object.keys(model.variants).length > 0
   ) {
@@ -1420,7 +1420,7 @@ function reasoningEffort(model: Provider.Model, effort: string) {
     case "ai-gateway-provider":
     case "merge-gateway-ai-sdk-provider":
       return { reasoningEffort: effort }
-    case "@kilocode/kilo-gateway": // kilocode_change - OpenRouter-shaped reasoning effort
+    case "@kappacode/kappa-gateway": // kilocode_change - OpenRouter-shaped reasoning effort
       return { reasoning: { effort } } // kilocode_change
     case "@ai-sdk/cohere":
     case "@ai-sdk/perplexity":
@@ -1533,7 +1533,7 @@ export function options(input: {
   if (
     input.model.api.npm === "@openrouter/ai-sdk-provider" ||
     input.model.api.npm === "@llmgateway/ai-sdk-provider" ||
-    input.model.api.npm === "@kilocode/kilo-gateway" // kilocode_change
+    input.model.api.npm === "@kappacode/kappa-gateway" // kilocode_change
   ) {
     result["usage"] = {
       include: true,
@@ -1647,7 +1647,7 @@ export function options(input: {
         input.model.api.npm === "@ai-sdk/azure" ||
         input.model.api.npm === "@ai-sdk/github-copilot" ||
         input.model.api.npm === "@openrouter/ai-sdk-provider" || // kilocode_change
-        input.model.api.npm === "@kilocode/kilo-gateway" || // kilocode_change
+        input.model.api.npm === "@kappacode/kappa-gateway" || // kilocode_change
         input.model.api.npm === "@ai-sdk/amazon-bedrock/mantle"
       ) {
         result["reasoningSummary"] = reasoningSummary(input.model) // kilocode_change
@@ -1664,7 +1664,7 @@ export function options(input: {
         input.model.api.npm === "@ai-sdk/amazon-bedrock/mantle" ||
         input.model.api.npm === "@ai-sdk/github-copilot" ||
         input.model.api.npm === "@openrouter/ai-sdk-provider" ||
-        input.model.api.npm === "@kilocode/kilo-gateway") &&
+        input.model.api.npm === "@kappacode/kappa-gateway") &&
       input.model.api.id.includes("gpt-5.") &&
       !input.model.api.id.includes("codex") &&
       !input.model.api.id.includes("-chat") &&
@@ -1700,7 +1700,7 @@ export function smallOptions(model: Provider.Model) {
       return { reasoning: { enabled: false } }
     }
   }
-  if (model.api.npm === "@kilocode/kilo-gateway") {
+  if (model.api.npm === "@kappacode/kappa-gateway") {
     // kilocode_change
     if (!model.capabilities.reasoning) return {} // kilocode_change - omit unsupported reasoning options
     return { reasoning: { enabled: true } } // kilocode_change - use the model's supported default effort
@@ -1762,7 +1762,7 @@ export function providerOptions(model: Provider.Model, options: { [x: string]: a
   }
 
   // kilocode_change start
-  if (model.api.npm === "@kilocode/kilo-gateway") {
+  if (model.api.npm === "@kappacode/kappa-gateway") {
     return kiloProviderOptions(options)
   }
   // kilocode_change end

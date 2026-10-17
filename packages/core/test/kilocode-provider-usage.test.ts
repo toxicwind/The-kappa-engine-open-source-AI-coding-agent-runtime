@@ -12,7 +12,7 @@ const provider = ProviderV2.ID.make("minimax-coding-plan")
 const chinaProvider = ProviderV2.ID.make("minimax-cn-coding-plan")
 const integration = Integration.ID.make("minimax-coding-plan")
 const chinaIntegration = Integration.ID.make("minimax-cn-coding-plan")
-const kilo = Integration.ID.make("kilo")
+const kappa = Integration.ID.make("kappa")
 
 type CatalogInput = {
   apiKey?: string
@@ -36,7 +36,7 @@ const catalog = (input?: CatalogInput) => {
       },
     })
     const kiloInfo = ProviderV2.Info.make({
-      id: ProviderV2.ID.kilo,
+      id: ProviderV2.ID.kappa,
       name: "Kilo",
       api: { type: "native", settings: {} },
       request: { headers: {}, body: organization ? { kilocodeOrganizationId: organization } : {} },
@@ -69,17 +69,17 @@ type DirectInput = string | ((id: Integration.ID) => string | undefined) | undef
 
 const directValue = (input: DirectInput, id: Integration.ID) => (typeof input === "function" ? input(id) : input)
 
-const connections = (input: DirectInput, accountID?: string, failure?: () => "global" | "china" | "kilo" | undefined) =>
+const connections = (input: DirectInput, accountID?: string, failure?: () => "global" | "china" | "kappa" | undefined) =>
   Layer.mock(Integration.Service)({
     connection: {
       active: (id) =>
         Effect.sync(() => {
           const direct = directValue(input, id)
-          return id === kilo || ((id === integration || id === chinaIntegration) && direct)
+          return id === kappa || ((id === integration || id === chinaIntegration) && direct)
             ? {
                 type: "credential" as const,
                 id: Credential.ID.make(
-                  id === kilo ? "cred_kilo" : id === chinaIntegration ? "cred_direct_cn" : "cred_direct",
+                  id === kappa ? "cred_kilo" : id === chinaIntegration ? "cred_direct_cn" : "cred_direct",
                 ),
                 label: "test",
               }
@@ -92,14 +92,14 @@ const connections = (input: DirectInput, accountID?: string, failure?: () => "gl
           const direct = directValue(input, target)
           const kind =
             connection.type === "credential" && connection.id === "cred_kilo"
-              ? "kilo"
+              ? "kappa"
               : target === chinaIntegration
                 ? "china"
                 : "global"
           if (failure?.() === kind)
             return Effect.fail(new Integration.AuthorizationError({ cause: `${kind} credential failure` }))
           return Effect.succeed(
-            kind === "kilo"
+            kind === "kappa"
               ? Credential.OAuth.make({
                   type: "oauth",
                   methodID: Integration.MethodID.make("oauth"),
@@ -183,7 +183,7 @@ const configuredLayer = (input: {
   direct?: DirectInput
   accountID?: string
   config?: CatalogInput
-  failure?: () => "global" | "china" | "kilo" | undefined
+  failure?: () => "global" | "china" | "kappa" | undefined
   transport?: ProviderUsage.TransportInterface
 }) =>
   Layer.fresh(ProviderUsage.layer).pipe(
@@ -198,7 +198,7 @@ const layer = (
   direct: DirectInput = "sk-cp-direct",
   accountID?: string,
   config?: CatalogInput,
-  failure?: () => "global" | "china" | "kilo" | undefined,
+  failure?: () => "global" | "china" | "kappa" | undefined,
 ) => configuredLayer({ calls, direct, accountID, config, failure })
 
 const it = testEffect(Layer.empty)
@@ -612,7 +612,7 @@ describe("ProviderUsage location service", () => {
       const calls = { direct: 0, cloud: 0 }
       let byokFailure = false
       let usageFailure = false
-      let credentialFailure: "kilo" | undefined
+      let credentialFailure: "kappa" | undefined
       let organization: string | undefined
       const scope = yield* Scope.make()
       const usage = Context.get(
@@ -678,7 +678,7 @@ describe("ProviderUsage location service", () => {
 
       byokFailure = false
       usageFailure = false
-      credentialFailure = "kilo"
+      credentialFailure = "kappa"
       const credential = yield* usage.get()
       expect(credential.items.find((item) => item.sourceKind === "kilo_managed")).toMatchObject({
         fetchState: "stale",

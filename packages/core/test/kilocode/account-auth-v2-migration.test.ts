@@ -56,7 +56,7 @@ describe("Credential auth-v2 migration", () => {
                 accounts: {
                   acc_first: {
                     id: "acc_first",
-                    serviceID: "kilo",
+                    serviceID: "kappa",
                     description: "first",
                     credential: {
                       type: "oauth",
@@ -68,7 +68,7 @@ describe("Credential auth-v2 migration", () => {
                   },
                   acc_second: {
                     id: "acc_second",
-                    serviceID: "kilo",
+                    serviceID: "kappa",
                     description: "second",
                     credential: {
                       type: "oauth",
@@ -79,7 +79,7 @@ describe("Credential auth-v2 migration", () => {
                     },
                   },
                 },
-                active: { kilo: "acc_second" },
+                active: { kappa: "acc_second" },
               }
               yield* Effect.promise(() => Bun.write(path.join(tmp.path, "auth-v2.json"), JSON.stringify(store)))
 
@@ -87,7 +87,7 @@ describe("Credential auth-v2 migration", () => {
                 const credentials = yield* Credential.Service
                 return {
                   all: yield* credentials.all(),
-                  list: yield* credentials.list(Integration.ID.make("kilo")),
+                  list: yield* credentials.list(Integration.ID.make("kappa")),
                 }
               }).pipe(Effect.provide(layer(tmp.path)))
 
@@ -115,7 +115,7 @@ describe("Credential auth-v2 migration", () => {
         auth.pipe(
           Effect.flatMap(() =>
             Effect.gen(function* () {
-              const integration = Integration.ID.make("kilo")
+              const integration = Integration.ID.make("kappa")
               const active = Credential.OAuth.make({
                 type: "oauth",
                 methodID: Integration.MethodID.make("oauth"),
@@ -134,7 +134,7 @@ describe("Credential auth-v2 migration", () => {
                   value: active,
                 })
                 yield* db.insert(DataMigrationTable).values({
-                  name: "credential.kilo-account-json-v2",
+                  name: "credential.kappa-account-json-v2",
                   time_completed: Date.now(),
                 })
               }).pipe(Effect.provide(database))
@@ -147,7 +147,7 @@ describe("Credential auth-v2 migration", () => {
                     accounts: {
                       acc_first: {
                         id: "acc_first",
-                        serviceID: "kilo",
+                        serviceID: "kappa",
                         description: "first",
                         credential: {
                           type: "oauth",
@@ -159,7 +159,7 @@ describe("Credential auth-v2 migration", () => {
                       },
                       acc_second: {
                         id: "acc_second",
-                        serviceID: "kilo",
+                        serviceID: "kappa",
                         description: "second",
                         credential: {
                           type: "oauth",
@@ -170,7 +170,7 @@ describe("Credential auth-v2 migration", () => {
                         },
                       },
                     },
-                    active: { kilo: "acc_second" },
+                    active: { kappa: "acc_second" },
                   }),
                 ),
               )
@@ -184,7 +184,7 @@ describe("Credential auth-v2 migration", () => {
                 return yield* db
                   .select()
                   .from(DataMigrationTable)
-                  .where(eq(DataMigrationTable.name, "credential.kilo-account-json-v3"))
+                  .where(eq(DataMigrationTable.name, "credential.kappa-account-json-v3"))
                   .get()
               }).pipe(Effect.provide(database))
 

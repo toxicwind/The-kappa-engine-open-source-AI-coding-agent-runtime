@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import type { ToolPart } from "@kilocode/sdk/v2"
+import type { ToolPart } from "@kappacode/sdk/v2"
 import { testRender } from "@opentui/solid"
 import { CodeRenderable, type Renderable } from "@opentui/core"
 import { onMount } from "solid-js"

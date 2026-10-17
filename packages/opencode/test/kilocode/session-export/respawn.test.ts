@@ -187,7 +187,7 @@ class FakeWorker {
 function request(sessionId: string, workspaceKey?: string): Parameters<typeof SessionExport.beforeRequest>[0] {
   return {
     input: {
-      model: { api: { npm: "@kilocode/kilo-gateway" }, isFree: true, providerId: "kilo", modelId: "free-1" },
+      model: { api: { npm: "@kappacode/kappa-gateway" }, isFree: true, providerId: "kappa", modelId: "free-1" },
       org: { type: "personal" },
     },
     requestMeta: {

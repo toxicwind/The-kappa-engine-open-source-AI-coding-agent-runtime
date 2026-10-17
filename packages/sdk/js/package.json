@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@kilocode/sdk",
+  "name": "@kappacode/sdk",
   "version": "7.8.10",
   "type": "module",
   "license": "MIT",

@@ -13,8 +13,8 @@ import {
   parsePrUrl,
   readSessionPrLink,
   recordSessionLink,
-} from "@/kilo-sessions/pr-link" // kilocode_change
-import { refreshPrLink } from "@/kilo-sessions/pr-link-poller" // kilocode_change
+} from "@/kappa-sessions/pr-link" // kilocode_change
+import { refreshPrLink } from "@/kappa-sessions/pr-link-poller" // kilocode_change
 
 const subcommand = "pr" // kilocode_change
 
@@ -51,7 +51,7 @@ export const PrCommand = cmd({
 
 export const PrCheckoutCommand = effectCmd({
   command: "checkout <number>",
-  describe: "fetch and checkout a GitHub PR branch, then run kilo", // kilocode_change
+  describe: "fetch and checkout a GitHub PR branch, then run kappa", // kilocode_change
   builder: (yargs) =>
     yargs.positional("number", {
       type: "number",
@@ -118,7 +118,7 @@ export const PrCheckoutCommand = effectCmd({
       }
 
       if (prInfo?.body) {
-        const sessionMatch = prInfo.body.match(/https:\/\/app\.kilo\.ai\/s\/([a-zA-Z0-9_-]+)/) // kilocode_change
+        const sessionMatch = prInfo.body.match(/https:\/\/app\.kappa\.ai\/s\/([a-zA-Z0-9_-]+)/) // kilocode_change
         if (sessionMatch) {
           const sessionUrl = sessionMatch[0]
           // kilocode_change start
@@ -142,7 +142,7 @@ export const PrCheckoutCommand = effectCmd({
 
     UI.println(`Successfully checked out PR #${prNumber} as branch '${localBranchName}'`)
     UI.println()
-    UI.println("Starting kilo...") // kilocode_change
+    UI.println("Starting kappa...") // kilocode_change
     UI.println()
 
     const run = sessionId ? [...cli, "-s", sessionId] : cli // kilocode_change
@@ -157,7 +157,7 @@ export const PrCheckoutCommand = effectCmd({
     )
     // Match legacy throw semantics — propagate as a defect so the top-level
     // index.ts catch handles it identically (exit 1, "Unexpected error" banner).
-    if (code !== 0) return yield* Effect.die(new Error(`kilo exited with code ${code}`)) // kilocode_change
+    if (code !== 0) return yield* Effect.die(new Error(`kappa exited with code ${code}`)) // kilocode_change
   }),
 })
 
@@ -168,7 +168,7 @@ export const PrCheckoutCommand = effectCmd({
 // KILO_SESSION the surrounding process exported. There is deliberately no
 // worktree or branch fallback: guessing the session recreates the fan-out that
 // linked random pull requests to sessions.
-import { enabled as prEnabled } from "@/kilo-sessions/pr-link"
+import { enabled as prEnabled } from "@/kappa-sessions/pr-link"
 
 const NO_SESSION = "No session specified. Pass --session <id> or set KILO_SESSION_ID."
 

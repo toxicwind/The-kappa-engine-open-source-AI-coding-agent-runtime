@@ -1,4 +1,4 @@
-// The two log lines `kilo remote` writes about the sessions it hosts:
+// The two log lines `kappa remote` writes about the sessions it hosts:
 // one when a session starts (id, start date, model, directory) and one when it
 // ends (id, start date, duration, exit reason).
 //
@@ -11,10 +11,10 @@ import { ProjectV2 } from "@opencode-ai/core/project"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import * as Log from "@opencode-ai/core/util/log"
-import { RemoteSender } from "../../../src/kilo-sessions/remote-sender"
-import { RemoteSessionLog } from "../../../src/kilo-sessions/remote-session-log"
-import type { RemoteWS } from "../../../src/kilo-sessions/remote-ws"
-import type { RemoteProtocol } from "../../../src/kilo-sessions/remote-protocol"
+import { RemoteSender } from "../../../src/kappa-sessions/remote-sender"
+import { RemoteSessionLog } from "../../../src/kappa-sessions/remote-session-log"
+import type { RemoteWS } from "../../../src/kappa-sessions/remote-ws"
+import type { RemoteProtocol } from "../../../src/kappa-sessions/remote-protocol"
 import { SessionID } from "../../../src/session/schema"
 import { Session } from "../../../src/session/session"
 
@@ -152,7 +152,7 @@ function lineOf(lines: Line[], message: string) {
   return lines.find(([name]) => name === message)
 }
 
-describe("kilo remote session log (two lines per session)", () => {
+describe("kappa remote session log (two lines per session)", () => {
   // The tracker is process-wide (one process = one run), so a case that starts
   // a session without ending it (e.g. a failed detach) would otherwise leak its
   // start date into whichever case runs next. Draining it through the same
@@ -167,7 +167,7 @@ describe("kilo remote session log (two lines per session)", () => {
     const id = SessionID.make("ses_remote_log_pair")
     const { attachCalls } = await runSession({
       lines,
-      created: sessionInfo(id, "/workspace/project-a", { providerID: "kilo", modelID: "claude-sonnet-4" }),
+      created: sessionInfo(id, "/workspace/project-a", { providerID: "kappa", modelID: "claude-sonnet-4" }),
     })
 
     // The create_session attach makes the relay's acceptance of the session
@@ -180,7 +180,7 @@ describe("kilo remote session log (two lines per session)", () => {
     expect(started![1]).toEqual({
       sessionID: id,
       startedAt: started![1].startedAt,
-      model: "kilo/claude-sonnet-4",
+      model: "kappa/claude-sonnet-4",
       directory: "/workspace/project-a",
     })
 
@@ -219,12 +219,12 @@ describe("kilo remote session log (two lines per session)", () => {
     await runSession({
       lines,
       created: sessionInfo(id, undefined),
-      createData: { protocolVersion: 1, model: { providerID: "kilo", modelID: "claude-sonnet-4" } },
+      createData: { protocolVersion: 1, model: { providerID: "kappa", modelID: "claude-sonnet-4" } },
       useCreateSessionId: false,
     })
 
     const started = lineOf(lines, "remote session started")
-    expect(started![1].model).toBe("kilo/claude-sonnet-4")
+    expect(started![1].model).toBe("kappa/claude-sonnet-4")
     expect(started![1].directory).toBe("/tmp/process-default")
   })
 
@@ -287,7 +287,7 @@ describe("kilo remote session log (two lines per session)", () => {
     const second = SessionID.make("ses_remote_log_shutdown_b")
     const log = captureLogger(lines)
 
-    RemoteSessionLog.start(log, { sessionID: first, model: "kilo/claude-sonnet-4", directory: "/workspace/a" })
+    RemoteSessionLog.start(log, { sessionID: first, model: "kappa/claude-sonnet-4", directory: "/workspace/a" })
     RemoteSessionLog.start(log, { sessionID: second, directory: "/workspace/b" })
     lines.length = 0
 
@@ -313,20 +313,20 @@ describe("kilo remote session log (two lines per session)", () => {
       return true
     }) as typeof process.stderr.write
     await Log.init({ print: true, level: "INFO" })
-    const log = Log.create({ service: "kilo-sessions" })
+    const log = Log.create({ service: "kappa-sessions" })
     const id = SessionID.make("ses_remote_log_rendered")
 
-    RemoteSessionLog.start(log, { sessionID: id, model: "kilo/claude-sonnet-4", directory: "/workspace/a" })
+    RemoteSessionLog.start(log, { sessionID: id, model: "kappa/claude-sonnet-4", directory: "/workspace/a" })
     await Bun.sleep(20)
     RemoteSessionLog.end(log, { sessionID: id, reason: "deleted" })
     process.stderr.write = original
 
     const out = writes.join("")
-    expect(out).toContain("service=kilo-sessions")
+    expect(out).toContain("service=kappa-sessions")
     expect(out).toContain("remote session started")
     expect(out).toContain("remote session ended")
     expect(out).toContain(`sessionID=${id}`)
-    expect(out).toContain("model=kilo/claude-sonnet-4")
+    expect(out).toContain("model=kappa/claude-sonnet-4")
     expect(out).toContain("directory=/workspace/a")
     expect(out).toContain("reason=deleted")
     expect(out).toMatch(/startedAt=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/)

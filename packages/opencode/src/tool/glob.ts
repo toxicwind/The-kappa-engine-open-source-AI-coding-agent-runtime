@@ -11,7 +11,7 @@ import { Config } from "@/config/config"
 import * as KiloGlob from "@/kilocode/tool/glob-ignored"
 // kilocode_change end
 
-// kilocode_change start — support absolute glob patterns (e.g. ~/.config/kilo/command/*.md)
+// kilocode_change start — support absolute glob patterns (e.g. ~/.config/kappa/command/*.md)
 function normalize(p: string) {
   return p.replaceAll("\\", "/")
 }

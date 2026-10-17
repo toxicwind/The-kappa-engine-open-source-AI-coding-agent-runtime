@@ -3,7 +3,7 @@ import fs from "node:fs/promises"
 import { realpathSync } from "node:fs"
 import path from "node:path"
 import { Global } from "@opencode-ai/core/global"
-import type { Profile } from "@kilocode/sandbox"
+import type { Profile } from "@kappacode/sandbox"
 import type { SessionID } from "@/session/schema"
 
 export namespace SandboxStore {
@@ -16,7 +16,7 @@ export namespace SandboxStore {
     version: number
   }
 
-  export const root = path.join(realpathSync.native(path.dirname(Global.Path.state)), "kilo-sandbox-policy")
+  export const root = path.join(realpathSync.native(path.dirname(Global.Path.state)), "kappa-sandbox-policy")
 
   function hash(value: string) {
     return createHash("sha256").update(value).digest("hex")

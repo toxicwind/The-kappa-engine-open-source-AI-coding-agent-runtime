@@ -65,6 +65,6 @@ test("prints the local IPv6 URL for wildcard binds", async () => {
   const stderr = await errors
 
   expect(output, `stdout:\n${output}\nstderr:\n${stderr}`).toMatch(
-    /kilo server listening on http:\/\/\[::\]:(\d+)\r?\n  Local:   http:\/\/\[::1\]:\1(?:\r?\n|$)/,
+    /kappa server listening on http:\/\/\[::\]:(\d+)\r?\n  Local:   http:\/\/\[::1\]:\1(?:\r?\n|$)/,
   )
 }, 30_000)

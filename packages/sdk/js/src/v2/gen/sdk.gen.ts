@@ -1601,9 +1601,9 @@ export class Global extends HeyApiClient {
   }
 
   /**
-   * Upgrade kilo
+   * Upgrade kappa
    *
-   * Upgrade kilo to the specified version or latest if not specified.
+   * Upgrade kappa to the specified version or latest if not specified.
    */
   public upgrade<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6820,7 +6820,7 @@ export class Audio extends HeyApiClient {
       KiloAudioTranscriptionsErrors,
       ThrowOnError
     >({
-      url: "/kilo/audio/transcriptions",
+      url: "/kappa/audio/transcriptions",
       ...options,
       ...params,
       headers: {
@@ -6857,7 +6857,7 @@ export class Models extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<KiloModelsImagesResponses, KiloModelsImagesErrors, ThrowOnError>({
-      url: "/kilo/models/images",
+      url: "/kappa/models/images",
       ...options,
       ...params,
     })
@@ -6891,7 +6891,7 @@ export class Models extends HeyApiClient {
       KiloModelsTranscriptionsErrors,
       ThrowOnError
     >({
-      url: "/kilo/models/transcriptions",
+      url: "/kappa/models/transcriptions",
       ...options,
       ...params,
     })
@@ -6926,7 +6926,7 @@ export class Organization extends HeyApiClient {
     )
     return (options?.client ?? this.client).post<KiloOrganizationSetResponses, KiloOrganizationSetErrors, ThrowOnError>(
       {
-        url: "/kilo/organization",
+        url: "/kappa/organization",
         ...options,
         ...params,
         headers: {
@@ -6966,7 +6966,7 @@ export class Session3 extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<KiloCloudSessionGetResponses, KiloCloudSessionGetErrors, ThrowOnError>({
-      url: "/kilo/cloud/session/{id}",
+      url: "/kappa/cloud/session/{id}",
       ...options,
       ...params,
     })
@@ -7002,7 +7002,7 @@ export class Session3 extends HeyApiClient {
       KiloCloudSessionImportErrors,
       ThrowOnError
     >({
-      url: "/kilo/cloud/session/import",
+      url: "/kappa/cloud/session/import",
       ...options,
       ...params,
       headers: {
@@ -7046,7 +7046,7 @@ export class Kilo extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<KiloProfileResponses, KiloProfileErrors, ThrowOnError>({
-      url: "/kilo/profile",
+      url: "/kappa/profile",
       ...options,
       ...params,
     })
@@ -7076,7 +7076,7 @@ export class Kilo extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<KiloAuthStatusResponses, KiloAuthStatusErrors, ThrowOnError>({
-      url: "/kilo/auth-status",
+      url: "/kappa/auth-status",
       ...options,
       ...params,
     })
@@ -7106,7 +7106,7 @@ export class Kilo extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<KiloModesResponses, KiloModesErrors, ThrowOnError>({
-      url: "/kilo/modes",
+      url: "/kappa/modes",
       ...options,
       ...params,
     })
@@ -7148,7 +7148,7 @@ export class Kilo extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).sse.post<KiloFimResponses, KiloFimErrors, ThrowOnError>({
-      url: "/kilo/fim",
+      url: "/kappa/fim",
       ...options,
       ...params,
       headers: {
@@ -7208,7 +7208,7 @@ export class Kilo extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).post<KiloEditResponses, KiloEditErrors, ThrowOnError>({
-      url: "/kilo/edit",
+      url: "/kappa/edit",
       ...options,
       ...params,
       headers: {
@@ -7243,7 +7243,7 @@ export class Kilo extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<KiloNotificationsResponses, KiloNotificationsErrors, ThrowOnError>({
-      url: "/kilo/notifications",
+      url: "/kappa/notifications",
       ...options,
       ...params,
     })
@@ -7279,7 +7279,7 @@ export class Kilo extends HeyApiClient {
       ],
     )
     return (options?.client ?? this.client).get<KiloCloudSessionsResponses, KiloCloudSessionsErrors, ThrowOnError>({
-      url: "/kilo/cloud-sessions",
+      url: "/kappa/cloud-sessions",
       ...options,
       ...params,
     })
@@ -7930,7 +7930,7 @@ export class Retention extends HeyApiClient {
   /**
    * Run session retention
    *
-   * Run one machine-wide session retention pass. Does nothing unless the retention policy is enabled in kilo.json; `force` bypasses the minimum spacing between scheduled passes, never the enable check.
+   * Run one machine-wide session retention pass. Does nothing unless the retention policy is enabled in kappa.json; `force` bypasses the minimum spacing between scheduled passes, never the enable check.
    */
   public run<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -9544,7 +9544,7 @@ export class Telemetry extends HeyApiClient {
   /**
    * Capture telemetry event
    *
-   * Forward a telemetry event to PostHog via kilo-telemetry.
+   * Forward a telemetry event to PostHog via kappa-telemetry.
    */
   public capture<ThrowOnError extends boolean = false>(
     parameters: {
@@ -12217,7 +12217,7 @@ export class KiloClient extends HeyApiClient {
   }
 
   private _kilo?: Kilo
-  get kilo(): Kilo {
+  get kappa(): Kilo {
     return (this._kilo ??= new Kilo({ client: this.client }))
   }
 

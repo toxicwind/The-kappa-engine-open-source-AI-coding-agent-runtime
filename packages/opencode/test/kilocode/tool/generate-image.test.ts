@@ -59,18 +59,18 @@ describe("generate-image response parser", () => {
 
 describe("generate-image provider resolver", () => {
   test("uses Kilo cloud when Kilo auth is present", () => {
-    const result = resolveProvider({ type: "oauth", access: "kilo-token", accountId: "org-123" }, undefined)
+    const result = resolveProvider({ type: "oauth", access: "kappa-token", accountId: "org-123" }, undefined)
     expect(result).not.toBeNull()
-    expect(result!.token).toBe("kilo-token")
+    expect(result!.token).toBe("kappa-token")
     expect(result!.organizationId).toBe("org-123")
-    expect(result!.provider).toBe("kilo")
+    expect(result!.provider).toBe("kappa")
     expect(result!.url).toContain("openrouter")
   })
 
   test("uses Kilo cloud with API key auth", () => {
-    const result = resolveProvider({ type: "api", key: "kilo-api-key" }, undefined)
-    expect(result!.token).toBe("kilo-api-key")
-    expect(result!.provider).toBe("kilo")
+    const result = resolveProvider({ type: "api", key: "kappa-api-key" }, undefined)
+    expect(result!.token).toBe("kappa-api-key")
+    expect(result!.provider).toBe("kappa")
   })
 
   test("falls back to OpenRouter with BYO key when no Kilo auth", () => {
@@ -85,9 +85,9 @@ describe("generate-image provider resolver", () => {
   })
 
   test("prefers Kilo auth over OpenRouter key", () => {
-    const result = resolveProvider({ type: "oauth", access: "kilo-token" }, "or-key")
-    expect(result!.provider).toBe("kilo")
-    expect(result!.token).toBe("kilo-token")
+    const result = resolveProvider({ type: "oauth", access: "kappa-token" }, "or-key")
+    expect(result!.provider).toBe("kappa")
+    expect(result!.token).toBe("kappa-token")
   })
 })
 

@@ -42,11 +42,11 @@ import { Skill } from "../../src/skill"
 import { Snapshot } from "../../src/snapshot"
 import { ToolRegistry } from "../../src/tool/registry"
 import { Truncate } from "../../src/tool/truncate"
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
+import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
 import { SessionResume } from "../../src/kilocode/session-resume"
 import { SessionResumeImport } from "../../src/kilocode/session-resume/import"
 import { SessionID, MessageID, PartID } from "../../src/session/schema"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service"
+import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { provideTmpdirServer, TestInstance, disposeAllInstances } from "../fixture/fixture"
 import { testEffect } from "../lib/effect"
 import { TestLLMServer } from "../lib/llm-server"
@@ -257,7 +257,7 @@ const writeText = Effect.fn("test.writeText")(function* (file: string, text: str
 const writeConfig = Effect.fn("test.writeConfig")(function* (dir: string, config: Partial<Config.Info>) {
   yield* writeText(
     path.join(dir, "opencode.json"),
-    JSON.stringify({ $schema: "https://app.kilo.ai/config.json", ...config }),
+    JSON.stringify({ $schema: "https://app.kappa.ai/config.json", ...config }),
   )
 })
 

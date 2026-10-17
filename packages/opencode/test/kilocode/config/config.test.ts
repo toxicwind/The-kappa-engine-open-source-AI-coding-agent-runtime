@@ -60,7 +60,7 @@ const saveGlobal = (config: Config.Info) =>
 const saveProject = (config: Config.Info) =>
   Effect.runPromise(Config.Service.use((svc) => svc.update(config)).pipe(Effect.scoped, Effect.provide(layer)))
 
-async function writeConfig(dir: string, config: object, name = "kilo.json") {
+async function writeConfig(dir: string, config: object, name = "kappa.json") {
   await Filesystem.write(path.join(dir, name), JSON.stringify(config))
 }
 
@@ -76,7 +76,7 @@ function decode(input: unknown): Config.Info {
 }
 
 const cfg: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     provider: "ollama",
     vectorStore: "qdrant",
@@ -133,7 +133,7 @@ describe("global config updates", () => {
 
           expect(config.model).toBe("test/model")
           expect(
-            warnings.some((warning) => warning.path.endsWith("kilo.json") && warning.message.includes("unknownField")),
+            warnings.some((warning) => warning.path.endsWith("kappa.json") && warning.message.includes("unknownField")),
           ).toBe(true)
         },
       })
@@ -251,7 +251,7 @@ describe("global config updates", () => {
         directory: tmp.path,
         fn: async () => {
           const result = await saveGlobal({ model: "test/after" })
-          const saved = await Bun.file(path.join(global.path, "kilo.json")).json()
+          const saved = await Bun.file(path.join(global.path, "kappa.json")).json()
 
           expect(saved).toMatchObject({
             model: "test/after",
@@ -334,7 +334,7 @@ describe("global config updates", () => {
             ).pipe(Effect.scoped, Effect.provide(layer)),
           )
 
-          const config = await Bun.file(path.join(globalTmp.path, "kilo.jsonc")).json()
+          const config = await Bun.file(path.join(globalTmp.path, "kappa.jsonc")).json()
           expect(Object.keys(config.permission.external_directory)).toHaveLength(10)
         },
       })
@@ -357,7 +357,7 @@ describe("project MCP trust boundaries", () => {
 
     try {
       await writeConfig(globalTmp.path, {
-        $schema: "https://app.kilo.ai/config.json",
+        $schema: "https://app.kappa.ai/config.json",
         mcp: {
           plain: {
             type: "remote",
@@ -526,7 +526,7 @@ describe("project MCP trust boundaries", () => {
 
     try {
       await writeConfig(globalTmp.path, {
-        $schema: "https://app.kilo.ai/config.json",
+        $schema: "https://app.kappa.ai/config.json",
         mcp: {
           shared: {
             type: "remote",
@@ -541,7 +541,7 @@ describe("project MCP trust boundaries", () => {
       await writeConfig(tmp.path, {
         mcp: { shared: { type: "local", command: ["echo", "local"] } },
       })
-      await writeConfig(path.join(tmp.path, ".kilo"), {
+      await writeConfig(path.join(tmp.path, ".kappa"), {
         mcp: { shared: { type: "remote", url: "https://project.example.com/mcp" } },
       })
 
@@ -598,7 +598,7 @@ describe("kilocode indexing config", () => {
 
   test("updates a project JSON config containing retired experimental flags", async () => {
     await using tmp = await tmpdir({ git: true })
-    const file = path.join(tmp.path, ".kilo", "kilo.json")
+    const file = path.join(tmp.path, ".kappa", "kappa.json")
     await Filesystem.write(
       file,
       JSON.stringify({
@@ -627,7 +627,7 @@ describe("kilocode indexing config", () => {
   test("updates a global JSONC config containing retired experimental flags", async () => {
     await using globalTmp = await tmpdir()
     await using tmp = await tmpdir()
-    const file = path.join(globalTmp.path, "kilo.jsonc")
+    const file = path.join(globalTmp.path, "kappa.jsonc")
     const prev = Global.Path.config
     ;(Global.Path as { config: string }).config = globalTmp.path
     await clear()
@@ -677,7 +677,7 @@ describe("kilocode indexing config", () => {
 
     try {
       await writeConfig(globalTmp.path, {
-        $schema: "https://app.kilo.ai/config.json",
+        $schema: "https://app.kappa.ai/config.json",
         indexing: {
           enabled: true,
           provider: "ollama",
@@ -714,7 +714,7 @@ describe("kilocode indexing config", () => {
 
     try {
       await writeConfig(globalTmp.path, {
-        $schema: "https://app.kilo.ai/config.json",
+        $schema: "https://app.kappa.ai/config.json",
         indexing: {
           enabled: true,
         },
@@ -745,7 +745,7 @@ describe("kilocode indexing config", () => {
     expect(KiloIndexing.input({ enabled: true }, { enabled: false }).enabled).toBe(true)
   })
 
-  test("creates missing project config as .kilo/kilo.jsonc", async () => {
+  test("creates missing project config as .kappa/kappa.jsonc", async () => {
     await using tmp = await tmpdir({ git: true })
 
     await provideTestInstance({
@@ -755,8 +755,8 @@ describe("kilocode indexing config", () => {
       },
     })
 
-    expect(await Bun.file(path.join(tmp.path, ".kilo", "kilo.jsonc")).exists()).toBe(true)
-    expect(await Bun.file(path.join(tmp.path, ".kilo", "kilo.json")).exists()).toBe(false)
+    expect(await Bun.file(path.join(tmp.path, ".kappa", "kappa.jsonc")).exists()).toBe(true)
+    expect(await Bun.file(path.join(tmp.path, ".kappa", "kappa.json")).exists()).toBe(false)
   })
 
   test("accepts delete sentinels for indexing model overrides", () => {
@@ -791,7 +791,7 @@ describe("kilocode sandbox config", () => {
 
     try {
       await writeConfig(globalTmp.path, {
-        $schema: "https://app.kilo.ai/config.json",
+        $schema: "https://app.kappa.ai/config.json",
         sandbox: {
           enabled: true,
           network: "deny",
@@ -877,7 +877,7 @@ describe("kilocode sandbox config", () => {
 describe("custom provider model config", () => {
   test("persists and removes reasoning across a global config reload", async () => {
     await using globalTmp = await tmpdir()
-    const file = path.join(globalTmp.path, "kilo.json")
+    const file = path.join(globalTmp.path, "kappa.json")
     const prev = Global.Path.config
     ;(Global.Path as { config: string }).config = globalTmp.path
     await clear()
@@ -972,8 +972,8 @@ describe("unset propagation across layered config files", () => {
 
   test("removes subagent_model from every global config file when unset", async () => {
     await using globalTmp = await tmpdir()
-    const json = path.join(globalTmp.path, "kilo.json")
-    const jsonc = path.join(globalTmp.path, "kilo.jsonc")
+    const json = path.join(globalTmp.path, "kappa.json")
+    const jsonc = path.join(globalTmp.path, "kappa.jsonc")
     const jsoncText = ["{", "  // Keep this comment.", '  "username": "marius"', "}", ""].join("\n")
     const prev = Global.Path.config
     ;(Global.Path as { config: string }).config = globalTmp.path
@@ -981,12 +981,12 @@ describe("unset propagation across layered config files", () => {
     await disposeAllInstances()
 
     try {
-      await writeConfig(globalTmp.path, { subagent_model: "kilo/openai/gpt-5" }, "kilo.json")
+      await writeConfig(globalTmp.path, { subagent_model: "kappa/openai/gpt-5" }, "kappa.json")
       await Filesystem.write(jsonc, jsoncText)
 
       await saveGlobal(decode({ subagent_model: null }))
 
-      // The key must be gone from the lower-precedence kilo.json as well, or
+      // The key must be gone from the lower-precedence kappa.json as well, or
       // the read chain keeps resolving it and the unset appears to do nothing.
       expect(JSON.parse(await Bun.file(json).text())).not.toHaveProperty("subagent_model")
       // The primary target had no key, so it must remain byte-identical.
@@ -1010,7 +1010,7 @@ describe("unset propagation across layered config files", () => {
     await disposeAllInstances()
 
     try {
-      await Filesystem.write(path.join(globalTmp.path, "kilo.jsonc"), '{ "username": "marius" }\n')
+      await Filesystem.write(path.join(globalTmp.path, "kappa.jsonc"), '{ "username": "marius" }\n')
       await Filesystem.write(
         opencode,
         [
@@ -1018,7 +1018,7 @@ describe("unset propagation across layered config files", () => {
           "  // Preserve this comment while clearing overrides.",
           '  "agent": {',
           '    "explore": {',
-          '      "model": "kilo/anthropic/claude-sonnet-4-6",',
+          '      "model": "kappa/anthropic/claude-sonnet-4-6",',
           '      "description": "Keep me"',
           "    }",
           "  }",
@@ -1044,20 +1044,20 @@ describe("unset propagation across layered config files", () => {
 
   test("does not rewrite sibling files on set or when the key is absent", async () => {
     await using globalTmp = await tmpdir()
-    const json = path.join(globalTmp.path, "kilo.json")
-    const jsonText = JSON.stringify({ subagent_model: "kilo/old-model", username: "marius" }, null, 2)
+    const json = path.join(globalTmp.path, "kappa.json")
+    const jsonText = JSON.stringify({ subagent_model: "kappa/old-model", username: "marius" }, null, 2)
     const prev = Global.Path.config
     ;(Global.Path as { config: string }).config = globalTmp.path
     await clear()
     await disposeAllInstances()
 
     try {
-      await Filesystem.write(path.join(globalTmp.path, "kilo.jsonc"), '{ "username": "marius" }\n')
+      await Filesystem.write(path.join(globalTmp.path, "kappa.jsonc"), '{ "username": "marius" }\n')
       await Filesystem.write(json, jsonText)
 
       // Sets only write to the primary target; lower-precedence copies stay
       // untouched and are simply shadowed by the higher-precedence value.
-      await saveGlobal(decode({ subagent_model: "kilo/new-model" }))
+      await saveGlobal(decode({ subagent_model: "kappa/new-model" }))
       expect(await Bun.file(json).text()).toBe(jsonText)
 
       // Unsetting an absent key must not rewrite the sibling either.
@@ -1073,10 +1073,10 @@ describe("unset propagation across layered config files", () => {
   test("removes subagent_model from every project config file when unset", async () => {
     await using tmp = await tmpdir({ git: true })
     await Filesystem.write(
-      path.join(tmp.path, ".kilo", "kilo.json"),
-      JSON.stringify({ subagent_model: "kilo/openai/gpt-5" }),
+      path.join(tmp.path, ".kappa", "kappa.json"),
+      JSON.stringify({ subagent_model: "kappa/openai/gpt-5" }),
     )
-    await Filesystem.write(path.join(tmp.path, ".kilo", "kilo.jsonc"), '{\n  "username": "keep"\n}\n')
+    await Filesystem.write(path.join(tmp.path, ".kappa", "kappa.jsonc"), '{\n  "username": "keep"\n}\n')
 
     await provideTestInstance({
       directory: tmp.path,
@@ -1086,10 +1086,10 @@ describe("unset propagation across layered config files", () => {
       },
     })
 
-    const json = JSON.parse(await Bun.file(path.join(tmp.path, ".kilo", "kilo.json")).text())
+    const json = JSON.parse(await Bun.file(path.join(tmp.path, ".kappa", "kappa.json")).text())
     expect(json).not.toHaveProperty("subagent_model")
     // The primary target only gained nothing; the delete was a no-op there.
-    const jsonc = JSON.parse(await Bun.file(path.join(tmp.path, ".kilo", "kilo.jsonc")).text())
+    const jsonc = JSON.parse(await Bun.file(path.join(tmp.path, ".kappa", "kappa.jsonc")).text())
     expect(jsonc).not.toHaveProperty("subagent_model")
     expect(jsonc.username).toBe("keep")
   })
@@ -1123,7 +1123,7 @@ describe("project plugin dependencies", () => {
 
   test("does not install dependencies for an ordinary project config directory", async () => {
     await sandbox(async (dir) => {
-      await writeConfig(path.join(dir, ".kilo"), { username: "kilo" })
+      await writeConfig(path.join(dir, ".kappa"), { username: "kappa" })
       const calls: Array<{ dir: string; name?: string }> = []
       const npm = Layer.mock(Npm.Service)({
         install: (dir, input) => Effect.sync(() => calls.push({ dir, name: input?.add[0]?.name })).pipe(Effect.asVoid),
@@ -1148,7 +1148,7 @@ describe("project plugin dependencies", () => {
 
   test("installs dependencies for an auto-discovered file plugin and waits for completion", async () => {
     await sandbox(async (dir) => {
-      const config = path.join(dir, ".kilo")
+      const config = path.join(dir, ".kappa")
       await Filesystem.write(path.join(config, "plugin", "local.ts"), "export default {}")
       const gate = Promise.withResolvers<void>()
       const calls: Array<{ dir: string; name?: string }> = []
@@ -1179,13 +1179,13 @@ describe("project plugin dependencies", () => {
       })
 
       expect(pending).toBe(true)
-      expect(calls).toEqual([{ dir: config, name: "@kilocode/plugin" }])
+      expect(calls).toEqual([{ dir: config, name: "@kappacode/plugin" }])
     })
   })
 
   test("installs dependencies for a file plugin declared in directory config", async () => {
     await sandbox(async (dir) => {
-      const config = path.join(dir, ".kilo")
+      const config = path.join(dir, ".kappa")
       await writeConfig(config, { plugin: ["./local.ts"] })
       await Filesystem.write(path.join(config, "local.ts"), "export default {}")
       const calls: Array<{ dir: string; name?: string }> = []
@@ -1206,14 +1206,14 @@ describe("project plugin dependencies", () => {
           ),
       })
 
-      expect(calls).toEqual([{ dir: config, name: "@kilocode/plugin" }])
+      expect(calls).toEqual([{ dir: config, name: "@kappacode/plugin" }])
     })
   })
 
   test("does not install dependencies for built-in or package plugins", async () => {
     await sandbox(async (dir) => {
-      await writeConfig(path.join(dir, ".kilo"), {
-        plugin: ["@kilocode/kilo-indexing", "opencode-gitlab-auth"],
+      await writeConfig(path.join(dir, ".kappa"), {
+        plugin: ["@kappacode/kappa-indexing", "opencode-gitlab-auth"],
       })
       const calls: string[] = []
       const npm = Layer.mock(Npm.Service)({
@@ -1239,7 +1239,7 @@ describe("project plugin dependencies", () => {
 
   test("keeps a failed file plugin dependency install non-fatal and logs a warning", async () => {
     await sandbox(async (dir) => {
-      const config = path.join(dir, ".kilo")
+      const config = path.join(dir, ".kappa")
       await writeConfig(config, { username: "loaded" })
       await Filesystem.write(path.join(config, "plugins", "local.js"), "export default {}")
       const logs: string[] = []
@@ -1249,7 +1249,7 @@ describe("project plugin dependencies", () => {
           Effect.fail(
             new Npm.InstallFailedError({
               dir,
-              add: ["@kilocode/plugin"],
+              add: ["@kappacode/plugin"],
               cause: new Error("test install failure"),
             }),
           ),
@@ -1285,7 +1285,7 @@ describe("agent config", () => {
       {
         agent: {
           explore: {
-            model: "kilo/anthropic/claude-sonnet-4-6",
+            model: "kappa/anthropic/claude-sonnet-4-6",
             variant: "high",
           },
         },
@@ -1304,7 +1304,7 @@ describe("agent config", () => {
       {
         agent: {
           explore: {
-            model: "kilo/anthropic/claude-sonnet-4-6",
+            model: "kappa/anthropic/claude-sonnet-4-6",
             variant: "high",
           },
         },
@@ -1313,12 +1313,12 @@ describe("agent config", () => {
     )
 
     expect(patch.agent?.explore?.variant).toBeNull()
-    expect(merged.agent?.explore).toEqual({ model: "kilo/anthropic/claude-sonnet-4-6" })
+    expect(merged.agent?.explore).toEqual({ model: "kappa/anthropic/claude-sonnet-4-6" })
   })
 
   test("removes agent model and variant overrides from global JSONC config", async () => {
     await using globalTmp = await tmpdir()
-    const file = path.join(globalTmp.path, "kilo.jsonc")
+    const file = path.join(globalTmp.path, "kappa.jsonc")
     const prev = Global.Path.config
     ;(Global.Path as { config: string }).config = globalTmp.path
     await clear()
@@ -1332,7 +1332,7 @@ describe("agent config", () => {
           "  // Preserve this comment while clearing overrides.",
           '  "agent": {',
           '    "explore": {',
-          '      "model": "kilo/anthropic/claude-sonnet-4-6",',
+          '      "model": "kappa/anthropic/claude-sonnet-4-6",',
           '      "variant": "high",',
           '      "description": "Keep me"',
           "    }",
@@ -1358,7 +1358,7 @@ describe("agent config", () => {
 })
 
 describe("project config directory precedence", () => {
-  test("prefers .kilo over legacy .kilocode and ignores .opencode", async () => {
+  test("prefers .kappa over legacy .kilocode and ignores .opencode", async () => {
     await using tmp = await tmpdir()
     const entries = [
       {
@@ -1373,18 +1373,18 @@ describe("project config directory precedence", () => {
       },
       {
         root: ".kilocode",
-        source: "kilocode",
+        source: "kappacode",
         config: {
-          username: "kilocode",
+          username: "kappacode",
           model: "test/kilocode",
         },
         names: ["shared", "legacy"],
       },
       {
-        root: ".kilo",
-        source: "kilo",
+        root: ".kappa",
+        source: "kappa",
         config: {
-          username: "kilo",
+          username: "kappa",
         },
         names: ["shared"],
       },
@@ -1393,7 +1393,7 @@ describe("project config directory precedence", () => {
     for (const item of entries) {
       const dir = path.join(tmp.path, item.root)
       await writeConfig(dir, {
-        $schema: "https://app.kilo.ai/config.json",
+        $schema: "https://app.kappa.ai/config.json",
         ...item.config,
       })
       for (const name of item.names) {
@@ -1414,13 +1414,13 @@ describe("project config directory precedence", () => {
       fn: async () => {
         const config = await load()
 
-        expect(config.username).toBe("kilo")
+        expect(config.username).toBe("kappa")
         expect(config.model).toBe("test/kilocode")
         expect(config.small_model).toBeUndefined()
 
         expect(config.command?.shared).toMatchObject({
-          description: "kilo command",
-          template: "kilo command template",
+          description: "kappa command",
+          template: "kappa command template",
         })
         expect(config.command?.legacy).toMatchObject({
           description: "kilocode command",
@@ -1429,8 +1429,8 @@ describe("project config directory precedence", () => {
         expect(config.command?.["opencode-only"]).toBeUndefined()
 
         expect(config.agent?.shared).toMatchObject({
-          description: "kilo agent",
-          prompt: "kilo agent prompt",
+          description: "kappa agent",
+          prompt: "kappa agent prompt",
         })
         expect(config.agent?.legacy).toMatchObject({
           description: "kilocode agent",
@@ -1440,7 +1440,7 @@ describe("project config directory precedence", () => {
 
         const plugins = JSON.stringify(config.plugin)
         expect(plugins).toContain("kilocode.ts")
-        expect(plugins).toContain("kilo.ts")
+        expect(plugins).toContain("kappa.ts")
         expect(plugins).not.toContain("opencode.ts")
       },
     })
@@ -1451,18 +1451,18 @@ describe("linked worktree config", () => {
   test("uses primary config directories as local fallbacks", async () => {
     await using primary = await tmpdir({ git: true })
     const worktree = path.join(path.dirname(primary.path), `${path.basename(primary.path)}-config-feature`)
-    await Bun.write(path.join(primary.path, "kilo.json"), JSON.stringify({ model: "test/primary" }))
-    await $`git add kilo.json`.cwd(primary.path).quiet()
+    await Bun.write(path.join(primary.path, "kappa.json"), JSON.stringify({ model: "test/primary" }))
+    await $`git add kappa.json`.cwd(primary.path).quiet()
     await $`git commit -m config`.cwd(primary.path).quiet()
     await $`git worktree add -b config-sibling-worktree ${worktree}`.cwd(primary.path).quiet()
 
     try {
-      await Bun.write(path.join(worktree, "kilo.json"), JSON.stringify({ model: "test/worktree" }))
+      await Bun.write(path.join(worktree, "kappa.json"), JSON.stringify({ model: "test/worktree" }))
       await Bun.write(
-        path.join(primary.path, ".kilo", "kilo.jsonc"),
+        path.join(primary.path, ".kappa", "kappa.jsonc"),
         JSON.stringify({ username: "primary-dir", indexing: { enabled: true } }),
       )
-      await Bun.write(path.join(worktree, ".kilo", "kilo.jsonc"), JSON.stringify({ username: "worktree-dir" }))
+      await Bun.write(path.join(worktree, ".kappa", "kappa.jsonc"), JSON.stringify({ username: "worktree-dir" }))
 
       const config = await provideTestInstance({ directory: worktree, fn: load })
 
@@ -1483,15 +1483,15 @@ describe("linked worktree config", () => {
     try {
       await Bun.write(path.join(directory, "placeholder"), "")
       await Bun.write(
-        path.join(primary.path, "packages", ".opencode", "kilo.jsonc"),
+        path.join(primary.path, "packages", ".opencode", "kappa.jsonc"),
         JSON.stringify({ snapshot: true, autoupdate: false, share: "auto", default_agent: "opencode-only" }),
       )
       await Bun.write(
-        path.join(primary.path, "packages", ".kilocode", "kilo.jsonc"),
+        path.join(primary.path, "packages", ".kilocode", "kappa.jsonc"),
         JSON.stringify({ snapshot: true, autoupdate: "notify", share: "disabled" }),
       )
-      await Bun.write(path.join(primary.path, "packages", ".kilo", "kilo.jsonc"), JSON.stringify({ snapshot: false }))
-      await Bun.write(path.join(directory, ".kilo", "kilo.jsonc"), JSON.stringify({ share: "manual" }))
+      await Bun.write(path.join(primary.path, "packages", ".kappa", "kappa.jsonc"), JSON.stringify({ snapshot: false }))
+      await Bun.write(path.join(directory, ".kappa", "kappa.jsonc"), JSON.stringify({ share: "manual" }))
 
       const config = await provideTestInstance({ directory, fn: load })
 
@@ -1509,8 +1509,8 @@ describe("linked worktree config", () => {
     await using explicit = await tmpdir()
     const worktree = path.join(path.dirname(primary.path), `${path.basename(primary.path)}-config-explicit`)
     await $`git worktree add -b config-explicit-worktree ${worktree}`.cwd(primary.path).quiet()
-    await Bun.write(path.join(primary.path, ".kilo", "kilo.jsonc"), JSON.stringify({ username: "primary-dir" }))
-    await Bun.write(path.join(explicit.path, "kilo.jsonc"), JSON.stringify({ username: "explicit-dir" }))
+    await Bun.write(path.join(primary.path, ".kappa", "kappa.jsonc"), JSON.stringify({ username: "primary-dir" }))
+    await Bun.write(path.join(explicit.path, "kappa.jsonc"), JSON.stringify({ username: "explicit-dir" }))
     const previous = process.env["KILO_CONFIG_DIR"]
     process.env["KILO_CONFIG_DIR"] = explicit.path
 
@@ -1542,7 +1542,7 @@ describe("opencode config migration notice", () => {
     await Filesystem.write(path.join(tmp.path, ".opencode", "opencode.json"), JSON.stringify({ model: "test/legacy" }))
 
     // Isolate the global config dir so a real ~/.config/opencode on the host cannot interfere.
-    await withGlobalConfig(path.join(globalTmp.path, "kilo"), () => {
+    await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
       const found = KilocodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: true })
       expect(found).toEqual([path.join(tmp.path, ".opencode")])
     })
@@ -1554,7 +1554,7 @@ describe("opencode config migration notice", () => {
     const opencodeDir = path.join(globalTmp.path, "opencode")
     await Filesystem.write(path.join(opencodeDir, "opencode.json"), JSON.stringify({ model: "test/legacy" }))
 
-    await withGlobalConfig(path.join(globalTmp.path, "kilo"), () => {
+    await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
       const found = KilocodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: true })
       expect(found).toEqual([opencodeDir])
     })
@@ -1565,7 +1565,7 @@ describe("opencode config migration notice", () => {
     await using tmp = await tmpdir()
     await Filesystem.write(path.join(tmp.path, ".opencode", "opencode.json"), JSON.stringify({ model: "test/legacy" }))
 
-    await withGlobalConfig(path.join(globalTmp.path, "kilo"), () => {
+    await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
       const found = KilocodeConfig.detectOpencodeConfig({ directory: tmp.path, scanProject: false })
       expect(found).toEqual([])
     })
@@ -1576,7 +1576,7 @@ describe("opencode config migration notice", () => {
     await using tmp = await tmpdir()
     await Filesystem.write(path.join(tmp.path, ".opencode", "opencode.json"), JSON.stringify({ model: "test/legacy" }))
 
-    await withGlobalConfig(path.join(globalTmp.path, "kilo"), () => {
+    await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
       const notice = KilocodeConfig.opencodeConfigNotification({ directory: tmp.path, scanProject: true })
       expect(notice?.id).toBe(KilocodeConfig.OPENCODE_NOTIFICATION_ID)
       expect(notice?.message).toContain(path.join(tmp.path, ".opencode"))
@@ -1589,7 +1589,7 @@ describe("opencode config migration notice", () => {
     await using globalTmp = await tmpdir()
     await using tmp = await tmpdir()
 
-    await withGlobalConfig(path.join(globalTmp.path, "kilo"), () => {
+    await withGlobalConfig(path.join(globalTmp.path, "kappa"), () => {
       const notice = KilocodeConfig.opencodeConfigNotification({ directory: tmp.path, scanProject: true })
       expect(notice).toBeUndefined()
     })
@@ -1600,12 +1600,12 @@ describe("bash permission migration", () => {
   for (const action of ["allow", "ask", "deny"] as const) {
     test(`preserves string-form ${action} permission in jsonc`, async () => {
       const input = `{
-  "$schema": "https://app.kilo.ai/config.json",
+  "$schema": "https://app.kappa.ai/config.json",
   "permission": "${action}"
 }`
       await using tmp = await tmpdir({
         init: async (dir) => {
-          await Filesystem.write(path.join(dir, "kilo.jsonc"), input)
+          await Filesystem.write(path.join(dir, "kappa.jsonc"), input)
         },
       })
 
@@ -1617,7 +1617,7 @@ describe("bash permission migration", () => {
       try {
         await KilocodeConfig.migrateBashPermission()
 
-        const file = path.join(tmp.path, "kilo.jsonc")
+        const file = path.join(tmp.path, "kappa.jsonc")
         const text = await Filesystem.readText(file)
         const parsed = ConfigParse.schema(Config.Info, ConfigParse.jsonc(text, file), file)
         expect(text).toBe(input)
@@ -1632,12 +1632,12 @@ describe("bash permission migration", () => {
 
     test(`preserves string-form ${action} permission in json`, async () => {
       const input = JSON.stringify({
-        $schema: "https://app.kilo.ai/config.json",
+        $schema: "https://app.kappa.ai/config.json",
         permission: action,
       })
       await using tmp = await tmpdir({
         init: async (dir) => {
-          await Filesystem.write(path.join(dir, "kilo.json"), input)
+          await Filesystem.write(path.join(dir, "kappa.json"), input)
         },
       })
 
@@ -1649,7 +1649,7 @@ describe("bash permission migration", () => {
       try {
         await KilocodeConfig.migrateBashPermission()
 
-        const file = path.join(tmp.path, "kilo.json")
+        const file = path.join(tmp.path, "kappa.json")
         const text = await Filesystem.readText(file)
         const parsed = ConfigParse.schema(Config.Info, ConfigParse.jsonc(text, file), file)
         expect(text).toBe(input)
@@ -1667,9 +1667,9 @@ describe("bash permission migration", () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
         await Filesystem.write(
-          path.join(dir, "kilo.jsonc"),
+          path.join(dir, "kappa.jsonc"),
           `{
-  "$schema": "https://app.kilo.ai/config.json",
+  "$schema": "https://app.kappa.ai/config.json",
   "permission": {
     "read": "allow"
   }
@@ -1686,7 +1686,7 @@ describe("bash permission migration", () => {
     try {
       await KilocodeConfig.migrateBashPermission()
 
-      const file = path.join(tmp.path, "kilo.jsonc")
+      const file = path.join(tmp.path, "kappa.jsonc")
       const text = await Filesystem.readText(file)
       const parsed = ConfigParse.schema(Config.Info, ConfigParse.jsonc(text, file), file)
       expect(parsed.permission?.read).toBe("allow")
@@ -1701,7 +1701,7 @@ describe("bash permission migration", () => {
   test("does not restore a migrated bash permission after the user deletes it", async () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
-        await writeConfig(dir, { permission: { read: "allow" } }, "kilo.jsonc")
+        await writeConfig(dir, { permission: { read: "allow" } }, "kappa.jsonc")
       },
     })
 
@@ -1711,11 +1711,11 @@ describe("bash permission migration", () => {
     await disposeAllInstances()
 
     try {
-      const file = path.join(tmp.path, "kilo.jsonc")
+      const file = path.join(tmp.path, "kappa.jsonc")
       await KilocodeConfig.migrateBashPermission()
       expect(JSON.parse(await Filesystem.readText(file)).permission.bash).toBe("allow")
 
-      await writeConfig(tmp.path, { permission: { read: "allow" } }, "kilo.jsonc")
+      await writeConfig(tmp.path, { permission: { read: "allow" } }, "kappa.jsonc")
       await KilocodeConfig.migrateBashPermission()
 
       expect(JSON.parse(await Filesystem.readText(file)).permission).toEqual({ read: "allow" })
@@ -1736,10 +1736,10 @@ describe("bash permission migration", () => {
 
     try {
       await KilocodeConfig.migrateBashPermission()
-      await writeConfig(tmp.path, { model: "test/model" }, "kilo.jsonc")
+      await writeConfig(tmp.path, { model: "test/model" }, "kappa.jsonc")
       await KilocodeConfig.migrateBashPermission()
 
-      expect(JSON.parse(await Filesystem.readText(path.join(tmp.path, "kilo.jsonc")))).toEqual({
+      expect(JSON.parse(await Filesystem.readText(path.join(tmp.path, "kappa.jsonc")))).toEqual({
         model: "test/model",
       })
     } finally {
@@ -1757,7 +1757,7 @@ describe("bash permission migration", () => {
     await disposeAllInstances()
 
     try {
-      const file = path.join(tmp.path, "kilo.jsonc")
+      const file = path.join(tmp.path, "kappa.jsonc")
       const marker = path.join(tmp.path, ".bash-permission-migrated")
       await Filesystem.write(file, "{ not valid json")
       await KilocodeConfig.migrateBashPermission()
@@ -1782,7 +1782,7 @@ describe("bash permission migration", () => {
     await disposeAllInstances()
 
     try {
-      const file = path.join(tmp.path, "kilo.jsonc")
+      const file = path.join(tmp.path, "kappa.jsonc")
       const marker = path.join(tmp.path, ".bash-permission-migrated")
       await Filesystem.write(file, JSON.stringify({ permission: { read: "allow" } }))
       await $`rm ${file}`.quiet().nothrow()
@@ -1809,12 +1809,12 @@ describe("bash permission migration", () => {
     await disposeAllInstances()
 
     try {
-      const file = path.join(tmp.path, "kilo.jsonc")
+      const file = path.join(tmp.path, "kappa.jsonc")
       const marker = path.join(tmp.path, ".bash-permission-migrated")
       await Filesystem.write(
         file,
         `{
-  "$schema": "https://app.kilo.ai/config.json",
+  "$schema": "https://app.kappa.ai/config.json",
   "permission": {
     "read": "allow",
   },

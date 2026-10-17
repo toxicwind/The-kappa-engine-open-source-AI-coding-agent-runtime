@@ -9,7 +9,7 @@ import { KiloSessionOverflow } from "./overflow"
 const SAFETY = 2048
 const MIN_OUTPUT = 1024
 const CLAUDE = new Set([
-  "@kilocode/kilo-gateway",
+  "@kappacode/kappa-gateway",
   "@ai-sdk/anthropic",
   "@ai-sdk/amazon-bedrock",
   "@ai-sdk/google-vertex/anthropic",

@@ -26,7 +26,7 @@ test("rejects {env:} in project MCP headers without reading process.env or authE
           remote: remote("https://example.com/mcp", { Authorization: "Bearer {env:SECRET}" }),
         },
       },
-      "kilo.jsonc",
+      "kappa.jsonc",
     )
 
     expect(config.mcp?.remote).toBeUndefined()
@@ -54,7 +54,7 @@ test("drops MCP with env reference and keeps siblings without env refs", async (
           good: remote("https://good.example.com/mcp", { "API-KEY": "static-literal" }),
         },
       },
-      "kilo.jsonc",
+      "kappa.jsonc",
     )
 
     expect(config.mcp?.bad).toBeUndefined()
@@ -80,7 +80,7 @@ test("ignores local MCP entries without headers", async () => {
       },
     },
   }
-  const { config, warnings } = sanitizeProjectMcpHeaders(input, "kilo.jsonc")
+  const { config, warnings } = sanitizeProjectMcpHeaders(input, "kappa.jsonc")
   expect(config).toEqual(input)
   expect(warnings).toEqual([])
 })
@@ -96,7 +96,7 @@ test("rejects residual {file:} when a sibling header triggers env check", async 
         keep: remote("https://good.example.com/mcp", { "API-KEY": "static-ok" }),
       },
     },
-    "kilo.jsonc",
+    "kappa.jsonc",
   )
 
   expect(config.mcp?.leak).toBeUndefined()
@@ -117,7 +117,7 @@ test("rejects header that only contains {file:} without env", async () => {
         keep: remote("https://good.example.com/mcp", { "API-KEY": "literal" }),
       },
     },
-    "kilo.jsonc",
+    "kappa.jsonc",
   )
 
   expect(config.mcp?.fileOnly).toBeUndefined()
@@ -135,7 +135,7 @@ test("loads remote MCP with static headers without env or file refs", async () =
         plain: remote("https://example.com/mcp", { Authorization: "Bearer static-token" }),
       },
     },
-    "kilo.jsonc",
+    "kappa.jsonc",
   )
 
   expect(warnings).toEqual([])
@@ -152,7 +152,7 @@ test("drops variable headers from partial MCP overlays without an explicit type"
     },
   } as unknown as Config.Info
 
-  const { config, warnings } = sanitizeProjectMcpHeaders(input, "kilo.jsonc")
+  const { config, warnings } = sanitizeProjectMcpHeaders(input, "kappa.jsonc")
 
   expect(config.mcp?.partial).toBeUndefined()
   expect(config.mcp?.keep).toEqual(remote("https://good.example.com/mcp"))
@@ -169,7 +169,7 @@ test("drops nested V2 mcp.servers entries with variable headers", () => {
         },
       },
     },
-    "kilo.jsonc",
+    "kappa.jsonc",
   )
 
   const servers = (config.mcp as Record<string, unknown> | undefined)?.["servers"] as
@@ -190,7 +190,7 @@ test("keeps a flat server literally named servers with literal headers", () => {
     },
   }
 
-  const { config, warnings } = sanitizeProjectMcpHeaders(input, "kilo.jsonc")
+  const { config, warnings } = sanitizeProjectMcpHeaders(input, "kappa.jsonc")
 
   expect(config).toEqual(input)
   expect(warnings).toEqual([])
@@ -204,7 +204,7 @@ test("drops a flat server literally named servers when it carries a variable hea
         keep: remote("https://good.example.com/mcp"),
       },
     },
-    "kilo.jsonc",
+    "kappa.jsonc",
   )
 
   expect(config.mcp?.servers).toBeUndefined()

@@ -27,7 +27,7 @@ const it = testEffect(env)
 
 afterAll(async () => {
   const dir = Global.Path.config
-  for (const file of ["kilo.jsonc", "kilo.json", "config.json", "opencode.json", "opencode.jsonc"]) {
+  for (const file of ["kappa.jsonc", "kappa.json", "config.json", "opencode.json", "opencode.jsonc"]) {
     await fs.rm(path.join(dir, file), { force: true }).catch(() => {})
   }
   await Effect.runPromise(
@@ -737,30 +737,30 @@ describe("saveAlwaysRules", () => {
           id: PermissionV1.ID.make("permission_saved_always"),
           sessionID: SessionID.make("session_saved_always"),
           permission: "bash",
-          patterns: ["kilo-permission-8353 test"],
-          metadata: { rules: ["kilo-permission-8353 *", "kilo-permission-8353 test"] },
-          always: ["kilo-permission-8353 *", "kilo-permission-8353 test"],
+          patterns: ["kappa-permission-8353 test"],
+          metadata: { rules: ["kappa-permission-8353 *", "kappa-permission-8353 test"] },
+          always: ["kappa-permission-8353 *", "kappa-permission-8353 test"],
           ruleset: [],
         }).pipe(Effect.forkScoped)
 
         yield* waitForPending(1)
         yield* saveAlwaysRules({
           requestID: PermissionV1.ID.make("permission_saved_always"),
-          approvedAlways: ["kilo-permission-8353 test"],
+          approvedAlways: ["kappa-permission-8353 test"],
         })
         yield* reply({ requestID: PermissionV1.ID.make("permission_saved_always"), reply: "always" })
         yield* Fiber.join(fiber)
 
         const config = yield* Config.Service
         const cfg = yield* config.get()
-        expect(cfg.permission?.bash).toMatchObject({ "kilo-permission-8353 test": "allow" })
-        expect(cfg.permission?.bash).not.toMatchObject({ "kilo-permission-8353 *": "allow" })
+        expect(cfg.permission?.bash).toMatchObject({ "kappa-permission-8353 test": "allow" })
+        expect(cfg.permission?.bash).not.toMatchObject({ "kappa-permission-8353 *": "allow" })
 
         const broad = yield* ask({
           id: PermissionV1.ID.make("permission_saved_always_broad"),
           sessionID: SessionID.make("session_saved_always"),
           permission: "bash",
-          patterns: ["kilo-permission-8353 install"],
+          patterns: ["kappa-permission-8353 install"],
           metadata: {},
           always: [],
           ruleset: [],

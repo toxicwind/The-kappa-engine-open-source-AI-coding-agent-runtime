@@ -7,7 +7,7 @@ import { tmpdir } from "../../fixture/fixture"
 
 const custom = ["latest", "beta", "prod"].includes(InstallationChannel) ? test.skip : test
 
-describe("kilo channel database paths", () => {
+describe("kappa channel database paths", () => {
   custom("falls back to the old opencode channel database", async () => {
     await using dir = await tmpdir()
     const data = Global.Path.data

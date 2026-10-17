@@ -66,8 +66,8 @@ const QueryParameterSchemas: Record<string, OpenApiSchema> = {
   "GET /find/file limit": { type: "integer", minimum: 1, maximum: 200 },
   // kilocode_change start
   "GET /experimental/session worktrees": { type: "boolean" },
-  "GET /kilo/cloud-sessions cursor": { type: "string" },
-  "GET /kilo/cloud-sessions limit": { type: "number" },
+  "GET /kappa/cloud-sessions cursor": { type: "string" },
+  "GET /kappa/cloud-sessions limit": { type: "number" },
   // kilocode_change end
   "GET /experimental/session cursor": { type: "number" },
   "GET /experimental/session limit": { type: "number" },
@@ -95,7 +95,7 @@ const PathParameterSchemas: Record<string, OpenApiSchema> = {
 
 const LegacyComponentDescriptions: Record<string, string> = {
   LogLevel: "Log level",
-  ServerConfig: "Server configuration for the kilo serve command", // kilocode_change
+  ServerConfig: "Server configuration for the kappa serve command", // kilocode_change
   LayoutConfig: "@deprecated Always uses stretch layout.",
 }
 

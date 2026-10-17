@@ -15,7 +15,7 @@ import * as Log from "@opencode-ai/core/util/log" // kilocode_change
 import { ensureProcessMetadata } from "@opencode-ai/core/util/opencode-process" // kilocode_change
 import { createWorkerRemoteExit } from "@/kilocode/cli/cmd/tui/remote-exit-worker" // kilocode_change
 import { createWorkerShutdown } from "@/cli/tui/worker-shutdown" // kilocode_change
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions" // kilocode_change
+import { KiloSessions } from "@/kappa-sessions/kappa-sessions" // kilocode_change
 import { KiloRpc } from "@/kilocode/util/rpc" // kilocode_change
 
 // kilocode_change start - queue parent requests before the await below; KiloRpc.listen replays them

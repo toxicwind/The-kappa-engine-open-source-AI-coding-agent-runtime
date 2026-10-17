@@ -10,7 +10,7 @@ import { ServerAuth } from "@/server/auth"
 
 export const AttachCommand = cmd({
   command: "attach <url>",
-  describe: "attach to a running kilo server", // kilocode_change
+  describe: "attach to a running kappa server", // kilocode_change
   builder: (yargs) =>
 
     yargs
@@ -49,7 +49,7 @@ export const AttachCommand = cmd({
       .option("username", {
         alias: ["u"],
         type: "string",
-        describe: "basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')", // kilocode_change
+        describe: "basic auth username (defaults to KILO_SERVER_USERNAME or 'kappa')", // kilocode_change
       })
       .option("mini", {
         type: "boolean",
@@ -134,7 +134,7 @@ export const AttachCommand = cmd({
     // kilocode_change start - import cloud session before TUI renders
     if (args.cloudFork && args.session) {
       UI.println("Importing session from cloud...")
-      const { createKiloClient } = await import("@kilocode/sdk/v2")
+      const { createKiloClient } = await import("@kappacode/sdk/v2")
       const sdk = createKiloClient({
         baseUrl: args.url,
         directory,

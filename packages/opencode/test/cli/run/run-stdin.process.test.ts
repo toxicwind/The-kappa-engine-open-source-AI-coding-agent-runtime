@@ -1,5 +1,5 @@
 // kilocode_change - new file
-// Subprocess regression tests for the piped-stdin read of `kilo run`.
+// Subprocess regression tests for the piped-stdin read of `kappa run`.
 //
 // Root cause: loadInput() awaited `Bun.stdin.text()` unbounded. With a
 // launcher-held-open stdin pipe (the workflow driver's spawn) the stream
@@ -13,7 +13,7 @@ import { describe, expect } from "bun:test"
 import { Effect } from "effect"
 import { cliIt } from "../../lib/cli-process"
 
-describe("kilo run piped stdin (subprocess)", () => {
+describe("kappa run piped stdin (subprocess)", () => {
   // THE regression: argv message + stdin pipe held open (never write, never
   // end). Before the fix the child blocked in `Bun.stdin.text()` and this
   // test died on the 60s bun timeout. After the fix the bounded read fires,
@@ -58,7 +58,7 @@ describe("kilo run piped stdin (subprocess)", () => {
   )
 
   // Append guard: the bound path must still append piped text that lands
-  // before the silence timer, so `kilo run main < extra` keeps both parts.
+  // before the silence timer, so `kappa run main < extra` keeps both parts.
   cliIt.concurrent(
     "appends piped text to the argv message when stdin ends before the bound fires",
     ({ llm, opencode }) =>

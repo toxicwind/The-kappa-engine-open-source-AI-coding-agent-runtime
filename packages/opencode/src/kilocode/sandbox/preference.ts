@@ -5,7 +5,7 @@ import path from "node:path"
 import { Global } from "@opencode-ai/core/global"
 
 export namespace SandboxPreference {
-  export const root = path.join(realpathSync.native(path.dirname(Global.Path.state)), "kilo-sandbox-preference")
+  export const root = path.join(realpathSync.native(path.dirname(Global.Path.state)), "kappa-sandbox-preference")
 
   function file(directory: string) {
     return path.join(root, createHash("sha256").update(directory).digest("hex") + ".json")

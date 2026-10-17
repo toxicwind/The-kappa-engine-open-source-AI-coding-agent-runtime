@@ -15,7 +15,7 @@ afterEach(async () => {
 }, 15_000)
 
 function req(dir: string, input: string) {
-  return Server.Default().app.request(input, { headers: { "x-kilo-directory": dir } })
+  return Server.Default().app.request(input, { headers: { "x-kappa-directory": dir } })
 }
 
 async function json<T>(response: Response) {
@@ -30,7 +30,7 @@ describe("reserved command name over HTTP", () => {
   test("serves the full command list and reports the clash as a config warning", async () => {
     await using tmp = await tmpdir({ git: true })
     await Bun.write(
-      path.join(tmp.path, "kilo.json"),
+      path.join(tmp.path, "kappa.json"),
       JSON.stringify({
         command: {
           goal: { template: "Plugin goal: $ARGUMENTS", description: "Plugin goal" },

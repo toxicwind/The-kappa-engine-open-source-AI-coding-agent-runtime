@@ -24,8 +24,8 @@ export function cliErrorMessage(input: unknown): string | undefined {
     return [
       `Model not found: ${field(model, "providerID")}/${field(model, "modelID")}`,
       ...(suggestions.length ? ["Did you mean: " + suggestions.join(", ")] : []),
-      "Try: `kilo models` to list available models", // kilocode_change
-      "Or check your config (kilo.json) provider/model names", // kilocode_change
+      "Try: `kappa models` to list available models", // kilocode_change
+      "Or check your config (kappa.json) provider/model names", // kilocode_change
     ].join("\n")
   }
 

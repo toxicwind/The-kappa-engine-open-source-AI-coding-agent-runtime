@@ -74,7 +74,7 @@ export namespace AgentBuilder {
   function file(ctx: Ctx, scope: Scope, id: string) {
     const root =
       scope === "global" ? Global.Path.config : ctx.worktree && ctx.worktree !== "/" ? ctx.worktree : ctx.directory
-    return path.join(root, scope === "global" ? "agent" : ".kilo/agent", `${id}.md`)
+    return path.join(root, scope === "global" ? "agent" : ".kappa/agent", `${id}.md`)
   }
 
   function markdown(input: Input) {

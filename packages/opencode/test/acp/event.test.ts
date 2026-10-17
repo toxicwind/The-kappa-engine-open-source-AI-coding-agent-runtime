@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test"
 import type { AgentSideConnection } from "@agentclientprotocol/sdk"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import type { Event, Message, KiloClient, Part, SessionMessageResponse, ToolPart } from "@kilocode/sdk/v2"
+import type { Event, Message, KiloClient, Part, SessionMessageResponse, ToolPart } from "@kappacode/sdk/v2"
 import { Effect, ManagedRuntime } from "effect"
 import { ACPEvent } from "@/acp/event"
 import * as ACPService from "@/acp/service"

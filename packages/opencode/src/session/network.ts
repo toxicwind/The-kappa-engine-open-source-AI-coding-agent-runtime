@@ -34,7 +34,7 @@ export namespace SessionNetwork {
     "UND_ERR_SOCKET",
     "ERR_SOCKET_CONNECTION_TIMEOUT",
   ])
-  const urls = ["https://kilo.ai", "https://example.com", "https://cloudflare.com/cdn-cgi/trace"]
+  const urls = ["https://kappa.ai", "https://example.com", "https://cloudflare.com/cdn-cgi/trace"]
   const POLL_MS = 3_000
   const PROBE_MS = 5_000
   const RESUME_MS = 10_000
@@ -121,7 +121,7 @@ export namespace SessionNetwork {
   }
 
   class StateService extends Context.Service<StateService, { readonly get: () => Effect.Effect<StateShape> }>()(
-    "@kilocode/SessionNetwork.State",
+    "@kappacode/SessionNetwork.State",
   ) {}
 
   const stateLayer = Layer.effect(

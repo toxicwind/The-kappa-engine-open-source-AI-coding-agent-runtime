@@ -22,7 +22,7 @@ import {
 import { remove as cleanup } from "./cleanup"
 
 const previous = Flag.KILO_DB
-const dbfile = path.join(os.tmpdir(), `kilo-prompt-steering-${process.pid}-${crypto.randomUUID()}.db`)
+const dbfile = path.join(os.tmpdir(), `kappa-prompt-steering-${process.pid}-${crypto.randomUUID()}.db`)
 const layer = LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node]))
 const prompt = LayerNode.compile(LayerNode.group([SessionPrompt.node, SessionProjector.node]))
 const runtime = makeRuntime(Session.Service, layer)

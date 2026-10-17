@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test"
-import type { Hooks } from "@kilocode/plugin"
+import type { Hooks } from "@kappacode/plugin"
 import { OAUTH_DUMMY_KEY } from "../../../src/auth"
 import { createAzureAuthHooks } from "../../../src/plugin/azure"
 

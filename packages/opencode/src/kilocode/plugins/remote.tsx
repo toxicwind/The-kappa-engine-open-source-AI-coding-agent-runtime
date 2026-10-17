@@ -1,4 +1,4 @@
-import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 import { RemoteIndicator } from "@/kilocode/remote-tui"
 
 const id = "internal:remote"
@@ -9,7 +9,7 @@ function View(props: { api: TuiPluginApi }) {
       <RemoteIndicator
         sdk={{ client: props.api.client }}
         theme={props.api.theme.current}
-        kilo={true}
+        kappa={true}
         event={props.api.event}
       />
     </box>

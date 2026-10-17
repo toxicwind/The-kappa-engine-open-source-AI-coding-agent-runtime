@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import type { Part as PartType } from "@kilocode/sdk/v2"
+import type { Part as PartType } from "@kappacode/sdk/v2"
 import { partDefaultOpen } from "./part-default-open"
 
 describe("partDefaultOpen", () => {

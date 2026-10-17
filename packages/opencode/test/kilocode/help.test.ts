@@ -32,14 +32,14 @@ import { CloudCommand } from "../../src/kilocode/cli/cmd/cloud"
 // doesn't resolve in the test environment. Only command/describe matter here.
 const TuiStub = {
   command: "$0 [project]",
-  describe: "start kilo tui",
+  describe: "start kappa tui",
   handler() {},
 }
 
 // Stand-in for AttachCommand — same reason as TuiStub above.
 const AttachStub = {
   command: "attach <url>",
-  describe: "attach to a running kilo server",
+  describe: "attach to a running kappa server",
   handler() {},
 }
 
@@ -81,23 +81,23 @@ const commands = [
   CompletionStub,
 ] as any[]
 
-describe("kilo help --all (markdown)", () => {
+describe("kappa help --all (markdown)", () => {
   test("contains ## heading for each known top-level command", async () => {
     const output = await generateHelp({ all: true, format: "md", commands })
     for (const cmd of ["run", "auth", "debug", "mcp", "session", "agent", "profile"]) {
-      expect(output).toContain(`## kilo ${cmd}`)
+      expect(output).toContain(`## kappa ${cmd}`)
     }
   })
 
   test("contains headings for nested subcommands", async () => {
     const output = await generateHelp({ all: true, format: "md", commands })
-    expect(output).toContain("kilo auth login")
-    expect(output).toContain("kilo auth logout")
-    expect(output).toContain("kilo debug config")
+    expect(output).toContain("kappa auth login")
+    expect(output).toContain("kappa auth logout")
+    expect(output).toContain("kappa debug config")
   })
 })
 
-describe("kilo help --all (text)", () => {
+describe("kappa help --all (text)", () => {
   test("does NOT contain Markdown ## headings or triple-backtick fences", async () => {
     const output = await generateHelp({ all: true, format: "text", commands })
     expect(output).not.toMatch(/^##\s/m)
@@ -107,52 +107,52 @@ describe("kilo help --all (text)", () => {
   test("still contains each command name", async () => {
     const output = await generateHelp({ all: true, format: "text", commands })
     for (const cmd of ["run", "auth", "debug", "mcp", "session", "agent", "profile"]) {
-      expect(output).toContain(`kilo ${cmd}`)
+      expect(output).toContain(`kappa ${cmd}`)
     }
   })
 })
 
-describe("kilo help <command>", () => {
-  test("kilo help auth contains auth subcommand headings", async () => {
+describe("kappa help <command>", () => {
+  test("kappa help auth contains auth subcommand headings", async () => {
     const output = await generateHelp({ command: "auth", format: "md", commands })
-    expect(output).toContain("kilo auth login")
-    expect(output).toContain("kilo auth logout")
-    expect(output).toContain("kilo auth list")
+    expect(output).toContain("kappa auth login")
+    expect(output).toContain("kappa auth logout")
+    expect(output).toContain("kappa auth list")
   })
 
-  test("kilo help auth does NOT contain run or debug headings", async () => {
+  test("kappa help auth does NOT contain run or debug headings", async () => {
     const output = await generateHelp({ command: "auth", format: "md", commands })
-    expect(output).not.toContain("## kilo run")
-    expect(output).not.toContain("## kilo debug")
+    expect(output).not.toContain("## kappa run")
+    expect(output).not.toContain("## kappa debug")
   })
 
   test("documents pr subcommands", async () => {
     const output = await generateHelp({ command: "pr", format: "md", commands })
-    expect(output).toContain("kilo pr checkout")
-    expect(output).toContain("kilo pr link")
-    expect(output).toContain("kilo pr unlink")
-    expect(output).toContain("kilo pr status")
+    expect(output).toContain("kappa pr checkout")
+    expect(output).toContain("kappa pr link")
+    expect(output).toContain("kappa pr unlink")
+    expect(output).toContain("kappa pr status")
   })
 
   test("documents console stop and foreground mode", async () => {
     const output = await generateHelp({ command: "console", format: "md", commands })
-    expect(output).toContain("kilo console stop")
+    expect(output).toContain("kappa console stop")
     expect(output).toContain("--foreground")
     expect(output).toContain("-f")
   })
 
   test("documents daemon foreground mode", async () => {
     const output = await generateHelp({ command: "daemon", format: "md", commands })
-    expect(output).toContain("kilo daemon start")
+    expect(output).toContain("kappa daemon start")
     expect(output).toContain("--foreground")
     expect(output).toContain("-f")
   })
 })
 
-describe("kilo cloud help", () => {
+describe("kappa cloud help", () => {
   async function parser() {
     const cli = yargs([])
-      .scriptName("kilo cloud")
+      .scriptName("kappa cloud")
       .exitProcess(false)
       .help()
       .fail((msg, err) => {
@@ -167,13 +167,13 @@ describe("kilo cloud help", () => {
     await expect(Promise.resolve().then(() => bare.parseAsync([]))).rejects.toThrow()
 
     const help = await (await parser()).getHelp()
-    const names = [...help.matchAll(/^\s*kilo cloud ([a-z][a-z-]*)\b/gm)].map((match) => match[1])
+    const names = [...help.matchAll(/^\s*kappa cloud ([a-z][a-z-]*)\b/gm)].map((match) => match[1])
     expect([...new Set(names)].sort()).toEqual(["result", "send", "start", "status"])
   })
 
   test("documents start prompt stdin", async () => {
     const output = await generateHelp({ command: "cloud", format: "md", commands })
-    expect(output).toContain("kilo cloud start")
+    expect(output).toContain("kappa cloud start")
     expect(output).toContain("--prompt-stdin")
   })
 })
@@ -184,7 +184,7 @@ describe("edge cases", () => {
     expect(/\x1b\[/.test(output)).toBe(false)
   })
 
-  test("kilo help nonexistent throws unknown command error", async () => {
+  test("kappa help nonexistent throws unknown command error", async () => {
     await expect(generateHelp({ command: "nonexistent", commands })).rejects.toThrow("unknown command")
   })
 })
@@ -198,13 +198,13 @@ describe("generateCommandTable", () => {
   test("contains rows for known commands", async () => {
     const output = await generateCommandTable({ commands })
     for (const name of ["run", "auth", "debug", "mcp"]) {
-      expect(output).toContain(`kilo ${name}`)
+      expect(output).toContain(`kappa ${name}`)
     }
   })
 
-  test("default command appears as kilo [project], not $0", async () => {
+  test("default command appears as kappa [project], not $0", async () => {
     const output = await generateCommandTable({ commands })
-    expect(output).toContain("`kilo [project]`")
+    expect(output).toContain("`kappa [project]`")
     expect(output).not.toContain("$0")
   })
 
@@ -215,17 +215,17 @@ describe("generateCommandTable", () => {
 
   test("skips commands with no describe", async () => {
     const output = await generateCommandTable({ commands })
-    expect(output).not.toContain("`kilo generate`")
+    expect(output).not.toContain("`kappa generate`")
   })
 
-  test("contains kilo completion row", async () => {
+  test("contains kappa completion row", async () => {
     const output = await generateCommandTable({ commands })
-    expect(output).toContain("`kilo completion`")
+    expect(output).toContain("`kappa completion`")
   })
 
-  test("contains kilo help row", async () => {
+  test("contains kappa help row", async () => {
     const output = await generateCommandTable({ commands })
-    expect(output).toContain("`kilo help")
+    expect(output).toContain("`kappa help")
   })
 })
 
@@ -235,9 +235,9 @@ describe("Kilo CLI customizations are wired into index.ts", () => {
   const SETUP = "../../src/kilocode/cli/setup.ts"
   const BARREL = "../../src/kilocode/commands.ts"
 
-  test("CLI is branded `kilo`, not `opencode`", async () => {
+  test("CLI is branded `kappa`, not `opencode`", async () => {
     const index = await file(INDEX)
-    expect(index).toContain('.scriptName("kilo")')
+    expect(index).toContain('.scriptName("kappa")')
     expect(index).not.toContain('.scriptName("opencode")')
   })
 

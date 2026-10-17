@@ -3,7 +3,7 @@
 // Bun's process object lacks `type`, so stdio transports flash a CMD window on
 // every MCP server start. We patch it before the SDK is imported.
 if (process.platform === "win32" && !("type" in process)) {
-  Object.defineProperty(process, "type", { value: "kilo-bun", configurable: true })
+  Object.defineProperty(process, "type", { value: "kappa-bun", configurable: true })
 }
 // kilocode_change end
 
@@ -104,7 +104,7 @@ export class NotFoundError extends Schema.TaggedErrorClass<NotFoundError>()("MCP
 type MCPClient = Client
 
 function createClient(directory: string) {
-  const client = new Client({ name: "kilo", version: InstallationVersion }, CLIENT_OPTIONS) // kilocode_change
+  const client = new Client({ name: "kappa", version: InstallationVersion }, CLIENT_OPTIONS) // kilocode_change
   client.setRequestHandler(ListRootsRequestSchema, () =>
     Promise.resolve({ roots: [{ uri: pathToFileURL(directory).href }] }),
   )
@@ -409,7 +409,7 @@ const layer = Layer.effect(
                 return events
                   .publish(TuiEvent.ToastShow, {
                     title: "MCP Authentication Required",
-                    message: `Server "${key}" requires authentication. Run: kilo mcp auth ${key}`, // kilocode_change
+                    message: `Server "${key}" requires authentication. Run: kappa mcp auth ${key}`, // kilocode_change
                     variant: "warning",
                     duration: 8000,
                   })
@@ -1088,7 +1088,7 @@ const layer = Layer.effect(
       const flow: PendingFlow = { transport: result.transport!, provider: result.provider }
       if (!callback.ok) {
         // A newer attempt for the same server can take this flow's callback listener over
-        // (another `kilo mcp auth` process); the replaced flow is named, not a browser failure.
+        // (another `kappa mcp auth` process); the replaced flow is named, not a browser failure.
         if (McpOAuthCallback.isReplaced(callback.error)) {
           yield* releaseFlow(mcpName, flow)
           return {

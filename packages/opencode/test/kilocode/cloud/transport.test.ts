@@ -98,7 +98,7 @@ describe("Cloud Agent transport", () => {
         message: { prompt: "Inspect the repository" },
         agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
         repository: { type: "github", repo: "Kilo-Org/kilocode" },
-        options: { createdOnPlatform: "kilo-cli" },
+        options: { createdOnPlatform: "kappa-cli" },
       })
       const send = await agent.send({
         cloudAgentSessionId: start.cloudAgentSessionId,
@@ -129,7 +129,7 @@ describe("Cloud Agent transport", () => {
           message: { prompt: "mismatch" },
           agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
           repository: { type: "github", repo: "Kilo-Org/kilocode" },
-          options: { createdOnPlatform: "kilo-cli" },
+          options: { createdOnPlatform: "kappa-cli" },
         })
         .then(
           () => new Error("Expected start correlation to fail"),
@@ -143,7 +143,7 @@ describe("Cloud Agent transport", () => {
           message: { prompt: "invalid-session" },
           agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
           repository: { type: "github", repo: "Kilo-Org/kilocode" },
-          options: { createdOnPlatform: "kilo-cli" },
+          options: { createdOnPlatform: "kappa-cli" },
         })
         .then(
           () => new Error("Expected invalid session ID to fail"),
@@ -243,7 +243,7 @@ describe("Cloud Agent transport", () => {
           message: { prompt },
           agent: { mode: "code", model: "anthropic/claude-sonnet-4" },
           repository: { type: "github", repo: "Kilo-Org/kilocode" },
-          options: { createdOnPlatform: "kilo-cli" },
+          options: { createdOnPlatform: "kappa-cli" },
         })
 
       for (const prompt of ["redirect", "oversized", "malformed", "unavailable"]) {

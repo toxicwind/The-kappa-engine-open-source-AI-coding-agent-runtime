@@ -1,5 +1,5 @@
 import { expect, spyOn, test } from "bun:test"
-import { createKiloClient, type GlobalEvent, type Session } from "@kilocode/sdk/v2"
+import { createKiloClient, type GlobalEvent, type Session } from "@kappacode/sdk/v2"
 import { createRoot, createSignal } from "solid-js"
 import { createStore, produce } from "solid-js/store"
 import { GoalSync } from "@/kilocode/cli/cmd/tui/goal-sync"
@@ -15,7 +15,7 @@ const info: Session = {
   title: "Goal session",
   version: "1",
   time: { created: 1, updated: 1 },
-  metadata: { retained: true, "kilo.goal": { text: "Keep tests passing", active: false } },
+  metadata: { retained: true, "kappa.goal": { text: "Keep tests passing", active: false } },
 }
 
 function replay(session: Session, workspace = "ws_a"): GlobalEvent {
@@ -77,16 +77,16 @@ for (const entry of [
       return json({
         ...info,
         title: "Do not replace the title",
-        metadata: { "kilo.goal": { text: "Current goal", active: entry.active } },
+        metadata: { "kappa.goal": { text: "Current goal", active: entry.active } },
       })
     }, tmp.path)
     try {
       if (entry.owner) await select(app, entry.owner)
       app.emit(
-        replay({ ...info, id: "ses_other", metadata: { "kilo.goal": { text: "Other goal", active: true } } }, "ws_b"),
+        replay({ ...info, id: "ses_other", metadata: { "kappa.goal": { text: "Other goal", active: true } } }, "ws_b"),
       )
       app.emit({
-        ...replay({ ...info, metadata: { ...info.metadata, "kilo.goal": { text: "Historical goal", active: true } } }),
+        ...replay({ ...info, metadata: { ...info.metadata, "kappa.goal": { text: "Historical goal", active: true } } }),
         workspace: entry.owner,
       })
       await wait(() => GoalState.read(app.sync.session.get(info.id)?.metadata)?.active === true)
@@ -104,7 +104,7 @@ for (const entry of [
       expect(calls.at(0)?.searchParams.get("workspace")).toBe(entry.owner ?? null)
       expect(app.sync.session.get(info.id)).toMatchObject({
         title: info.title,
-        metadata: { retained: true, "kilo.goal": { text: "Current goal", active: entry.active } },
+        metadata: { retained: true, "kappa.goal": { text: "Current goal", active: entry.active } },
       })
     } finally {
       app.app.renderer.destroy()
@@ -131,7 +131,7 @@ for (const change of ["live event", "workspace switch"]) {
     }
     const [workspace, setWorkspace] = createSignal("ws_a")
     const [store, setStore] = createStore<{ session: Session[] }>({
-      session: [{ ...info, metadata: { "kilo.goal": { text: "Current goal", active: true } } }],
+      session: [{ ...info, metadata: { "kappa.goal": { text: "Current goal", active: true } } }],
     })
     const dispose = createRoot((dispose) => {
       GoalSync.watch({ client, event }, workspace, store, (fn) => setStore(produce(fn)))
@@ -147,7 +147,7 @@ for (const change of ["live event", "workspace switch"]) {
         setWorkspace("ws_a")
       }
       reply.resolve({
-        data: { ...info, metadata: { "kilo.goal": { text: "Stale response", active: false } } },
+        data: { ...info, metadata: { "kappa.goal": { text: "Stale response", active: false } } },
         request: new Request("http://test"),
         response: json({}),
       })
@@ -174,7 +174,7 @@ test("refreshes a waiting goal even though it is inactive", async () => {
   }
   const client = createKiloClient({ baseUrl: "http://test" })
   const get = spyOn(client.session, "get").mockResolvedValue({
-    data: { ...info, metadata: { retained: true, "kilo.goal": waiting } },
+    data: { ...info, metadata: { retained: true, "kappa.goal": waiting } },
     request: new Request("http://test"),
     response: json({}),
   })
@@ -192,7 +192,7 @@ test("refreshes a waiting goal even though it is inactive", async () => {
   }
   const [workspace] = createSignal("ws_a")
   const [store, setStore] = createStore<{ session: Session[] }>({
-    session: [{ ...info, metadata: { retained: true, "kilo.goal": { ...waiting, text: "Historical goal" } } }],
+    session: [{ ...info, metadata: { retained: true, "kappa.goal": { ...waiting, text: "Historical goal" } } }],
   })
   const dispose = createRoot((dispose) => {
     GoalSync.watch({ client, event }, workspace, store, (fn) => setStore(produce(fn)))
@@ -207,6 +207,6 @@ test("refreshes a waiting goal even though it is inactive", async () => {
     dispose()
     get.mockRestore()
   }
-  expect(store.session.at(0)?.metadata).toEqual({ retained: true, "kilo.goal": waiting })
+  expect(store.session.at(0)?.metadata).toEqual({ retained: true, "kappa.goal": waiting })
   expect(handlers.size).toBe(0)
 })

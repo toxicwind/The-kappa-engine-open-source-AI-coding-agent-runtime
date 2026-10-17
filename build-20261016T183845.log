@@ -1,0 +1,16 @@
+35 |   const base = opts.deadlineS ?? Number(process.env.RF_DEADLINE ?? effectiveDeadline(cwd, 2.0));
+36 |   const deadlineS = deadlineFor(args, base); // per-command bump (first-class, policy.ts)
+37 |   const quiet = opts.quiet ?? process.env.RF_QUIET === "1";
+38 |   const t0 = performance.now();
+39 | 
+40 |   const proc = spawn(args, { stdout: "inherit", stderr: "inherit", stdin: "inherit", cwd });
+                    ^
+error: Executable not found in $PATH: "--"
+  path: "--",
+ errno: -2,
+  code: "ENOENT"
+
+      at run (/home/toxic/estate/ranch/two-sec/src/runner.ts:40:16)
+      at /home/toxic/estate/ranch/two-sec/src/cli.ts:19:11
+
+Bun v1.4.3-canary.1+bf42a525d (Linux x64)

@@ -52,7 +52,7 @@ function app(_value: boolean) {
 
 async function request(target: ReturnType<typeof app>, dir: string | undefined, input: string, init?: RequestInit) {
   const headers = {
-    ...(dir ? { "x-kilo-directory": dir } : {}),
+    ...(dir ? { "x-kappa-directory": dir } : {}),
     ...init?.headers,
   }
   const body = init?.method === "PATCH" && input === "/config/overlay" ? JSON.parse(String(init.body)) : undefined
@@ -79,7 +79,7 @@ async function json<T>(response: Response) {
 }
 
 async function config(dir: string, value: unknown) {
-  await Bun.write(path.join(dir, "kilo.json"), JSON.stringify(value, null, 2))
+  await Bun.write(path.join(dir, "kappa.json"), JSON.stringify(value, null, 2))
 }
 
 async function setGlobal(dir: string, value: Config.Info) {
@@ -183,7 +183,7 @@ describe("config overlay routes", () => {
 
   test("preserves existing unknown settings when writing recognized config", async () => {
     await using project = await tmpdir()
-    const file = path.join(project.path, "kilo.json")
+    const file = path.join(project.path, "kappa.json")
     await Bun.write(file, JSON.stringify({ future: { enabled: true } }))
     const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
 
@@ -203,7 +203,7 @@ describe("config overlay routes", () => {
     ["V2", '{ "providerID": "anthropic", "model": "claude-sonnet" }'],
   ])("preserves %s JSONC and Kilo settings when saving an unrelated setting", async (_version, model) => {
     await using project = await tmpdir()
-    const file = path.join(project.path, "kilo.jsonc")
+    const file = path.join(project.path, "kappa.jsonc")
     const before = `{
   // Keep the user's model format and Kilo settings.
   "model": ${model},
@@ -231,7 +231,7 @@ describe("config overlay routes", () => {
     "rejects invalid or unsupported config without changing the file: %j",
     async (value) => {
       await using project = await tmpdir()
-      const file = path.join(project.path, "kilo.jsonc")
+      const file = path.join(project.path, "kappa.jsonc")
       const before = JSON.stringify(value)
       await Bun.write(file, before)
 
@@ -258,15 +258,15 @@ describe("config overlay routes", () => {
     })
 
     expect(response.status).toBe(200)
-    expect(await Bun.file(path.join(project.path, ".kilo", "kilo.jsonc")).exists()).toBe(false)
+    expect(await Bun.file(path.join(project.path, ".kappa", "kappa.jsonc")).exists()).toBe(false)
   })
 
   test("removes an existing nested unset path", async () => {
     await using project = await tmpdir()
-    const file = path.join(project.path, ".kilo", "kilo.jsonc")
+    const file = path.join(project.path, ".kappa", "kappa.jsonc")
     await Filesystem.write(
       file,
-      '{\n  "$schema": "https://app.kilo.ai/config.json",\n  "indexing": {\n    "enabled": false,\n    "provider": "ollama",\n    "ollama": { "baseUrl": "http://127.0.0.1:11434" }\n  }\n}\n',
+      '{\n  "$schema": "https://app.kappa.ai/config.json",\n  "indexing": {\n    "enabled": false,\n    "provider": "ollama",\n    "ollama": { "baseUrl": "http://127.0.0.1:11434" }\n  }\n}\n',
     )
 
     const response = await req(project.path, "/config/overlay", {
@@ -306,7 +306,7 @@ describe("config overlay routes", () => {
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "project",
         expected: {
@@ -324,11 +324,11 @@ describe("config overlay routes", () => {
   test("rejects a newly created higher-priority target", async () => {
     await using project = await tmpdir()
     const before = await json<Overlay>(await req(project.path, "/config/overlay?scope=project"))
-    await Filesystem.write(path.join(project.path, "kilo.json"), "{}")
+    await Filesystem.write(path.join(project.path, "kappa.json"), "{}")
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "project",
         expected: {
@@ -349,7 +349,7 @@ describe("config overlay routes", () => {
     const update = (model: string) =>
       Server.Default().app.request("/config/overlay", {
         method: "PATCH",
-        headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": project.path },
         body: JSON.stringify({
           scope: "project",
           expected: {
@@ -364,18 +364,18 @@ describe("config overlay routes", () => {
     expect(responses.map((response) => response.status).sort()).toEqual([200, 409])
   })
 
-  test("does not report shadowing when the .kilo target outranks the root file", async () => {
+  test("does not report shadowing when the .kappa target outranks the root file", async () => {
     await using project = await tmpdir()
-    // Target resolution prefers an existing root kilo.json, but .kilo/kilo.json loads after it
-    // in the merge chain, so writing the target leaves the .kilo value effective.
-    await Filesystem.write(path.join(project.path, "kilo.json"), JSON.stringify({ model: "test/old" }))
-    await Filesystem.write(path.join(project.path, ".kilo", "kilo.json"), JSON.stringify({ model: "test/old" }))
+    // Target resolution prefers an existing root kappa.json, but .kappa/kappa.json loads after it
+    // in the merge chain, so writing the target leaves the .kappa value effective.
+    await Filesystem.write(path.join(project.path, "kappa.json"), JSON.stringify({ model: "test/old" }))
+    await Filesystem.write(path.join(project.path, ".kappa", "kappa.json"), JSON.stringify({ model: "test/old" }))
     const before = await json<Overlay>(await req(project.path, "/config/overlay?scope=project"))
-    expect(before.targets.project.path).toBe(path.join(project.path, ".kilo", "kilo.json"))
+    expect(before.targets.project.path).toBe(path.join(project.path, ".kappa", "kappa.json"))
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "project",
         expected: {
@@ -391,16 +391,16 @@ describe("config overlay routes", () => {
 
   test("reports a shadowed write when a later file in the target chain wins", async () => {
     await using project = await tmpdir()
-    // kilo.json is the target, but opencode.json sorts after it in the same directory, so it
+    // kappa.json is the target, but opencode.json sorts after it in the same directory, so it
     // shadows the write even though the user explicitly flipped the value in the UI.
-    await Filesystem.write(path.join(project.path, "kilo.json"), JSON.stringify({ permission: { bash: "ask" } }))
+    await Filesystem.write(path.join(project.path, "kappa.json"), JSON.stringify({ permission: { bash: "ask" } }))
     await Filesystem.write(path.join(project.path, "opencode.json"), JSON.stringify({ permission: { bash: "ask" } }))
     const before = await json<Overlay>(await req(project.path, "/config/overlay?scope=project"))
-    expect(before.targets.project.path).toBe(path.join(project.path, "kilo.json"))
+    expect(before.targets.project.path).toBe(path.join(project.path, "kappa.json"))
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "project",
         expected: {
@@ -424,16 +424,16 @@ describe("config overlay routes", () => {
     await using global = await tmpdir()
     await using project = await tmpdir()
     ;(Global.Path as { config: string }).config = global.path
-    // The global target prefers kilo.json, and the loader merges opencode.json after it, so
-    // an existing opencode.json value shadows every write to kilo.json.
-    await Filesystem.write(path.join(global.path, "kilo.json"), JSON.stringify({ permission: { bash: "ask" } }))
+    // The global target prefers kappa.json, and the loader merges opencode.json after it, so
+    // an existing opencode.json value shadows every write to kappa.json.
+    await Filesystem.write(path.join(global.path, "kappa.json"), JSON.stringify({ permission: { bash: "ask" } }))
     await Filesystem.write(path.join(global.path, "opencode.json"), JSON.stringify({ permission: { bash: "ask" } }))
     const before = await json<Overlay>(await req(project.path, "/config/overlay?scope=global"))
-    expect(before.targets.global.path).toBe(path.join(global.path, "kilo.json"))
+    expect(before.targets.global.path).toBe(path.join(global.path, "kappa.json"))
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "global",
         expected: {
@@ -454,7 +454,7 @@ describe("config overlay routes", () => {
   test("reports a managed file that shadows a project target not created yet", async () => {
     await using project = await tmpdir()
     await using managed = await tmpdir()
-    await Filesystem.write(path.join(managed.path, "kilo.json"), JSON.stringify({ model: "test/managed" }))
+    await Filesystem.write(path.join(managed.path, "kappa.json"), JSON.stringify({ model: "test/managed" }))
     const prev = process.env.KILO_TEST_MANAGED_CONFIG_DIR
     process.env.KILO_TEST_MANAGED_CONFIG_DIR = managed.path
     try {
@@ -480,13 +480,13 @@ describe("config overlay routes", () => {
 
   test("does not report shadowing for unrelated values in higher-priority files", async () => {
     await using project = await tmpdir()
-    await Filesystem.write(path.join(project.path, "kilo.json"), "{}")
+    await Filesystem.write(path.join(project.path, "kappa.json"), "{}")
     await Filesystem.write(path.join(project.path, "opencode.json"), JSON.stringify({ share: "disabled" }))
     const before = await json<Overlay>(await req(project.path, "/config/overlay?scope=project"))
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "project",
         expected: {
@@ -506,7 +506,7 @@ describe("config overlay routes", () => {
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "project",
         expected: {
@@ -532,13 +532,13 @@ describe("config overlay routes", () => {
     if (process.platform === "win32") return
     await using project = await tmpdir()
     await using outside = await tmpdir()
-    await Filesystem.write(path.join(outside.path, "kilo.jsonc"), "{}")
-    await symlink(outside.path, path.join(project.path, ".kilo"), "dir")
+    await Filesystem.write(path.join(outside.path, "kappa.jsonc"), "{}")
+    await symlink(outside.path, path.join(project.path, ".kappa"), "dir")
     const before = await json<Overlay>(await req(project.path, "/config/overlay?scope=project"))
 
     const response = await Server.Default().app.request("/config/overlay", {
       method: "PATCH",
-      headers: { "content-type": "application/json", "x-kilo-directory": project.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": project.path },
       body: JSON.stringify({
         scope: "project",
         expected: {
@@ -550,12 +550,12 @@ describe("config overlay routes", () => {
     })
 
     expect(response.status).toBe(400)
-    expect(await Bun.file(path.join(outside.path, "kilo.jsonc")).text()).not.toContain('"model"')
+    expect(await Bun.file(path.join(outside.path, "kappa.jsonc")).text()).not.toContain('"model"')
   })
 
   test("does not expose partial content when an atomic replacement fails", async () => {
     await using project = await tmpdir()
-    const file = path.join(project.path, "kilo.jsonc")
+    const file = path.join(project.path, "kappa.jsonc")
     await Filesystem.write(file, '{\n  "model": "test/before"\n}\n')
     const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
 
@@ -591,13 +591,13 @@ describe("config overlay routes", () => {
     })
 
     expect(result).toMatchObject({ ok: false, code: "target-not-writable" })
-    expect(await Bun.file(path.join(outside.path, "kilo.jsonc")).exists()).toBe(false)
+    expect(await Bun.file(path.join(outside.path, "kappa.jsonc")).exists()).toBe(false)
   })
 
   test("preserves restrictive config file permissions", async () => {
     if (process.platform === "win32") return
     await using project = await tmpdir()
-    const file = path.join(project.path, "kilo.jsonc")
+    const file = path.join(project.path, "kappa.jsonc")
     await Filesystem.write(file, "{}", 0o600)
     await chmod(file, 0o600)
     const target = await KilocodeConfigOverlay.target({ scope: "project", directory: project.path })
@@ -628,7 +628,7 @@ describe("config overlay routes", () => {
     expect(Object.hasOwn(patched, "prototype")).toBe(false)
   })
 
-  test("prefers .kilo over legacy .kilocode and ignores .opencode in project overlays", async () => {
+  test("prefers .kappa over legacy .kilocode and ignores .opencode in project overlays", async () => {
     await using project = await tmpdir()
     const entries = [
       {
@@ -638,19 +638,19 @@ describe("config overlay routes", () => {
       },
       {
         root: ".kilocode",
-        source: "kilocode",
-        value: { username: "kilocode", model: "test/kilocode" },
+        source: "kappacode",
+        value: { username: "kappacode", model: "test/kilocode" },
       },
       {
-        root: ".kilo",
-        source: "kilo",
-        value: { username: "kilo" },
+        root: ".kappa",
+        source: "kappa",
+        value: { username: "kappa" },
       },
     ] as const
 
     for (const item of entries) {
       const dir = path.join(project.path, item.root)
-      await Filesystem.write(path.join(dir, "kilo.json"), JSON.stringify(item.value))
+      await Filesystem.write(path.join(dir, "kappa.json"), JSON.stringify(item.value))
       await Filesystem.write(
         path.join(dir, "agent", "shared.md"),
         `---\ndescription: ${item.source} agent\nmode: subagent\n---\n${item.source} agent prompt`,
@@ -669,15 +669,15 @@ describe("config overlay routes", () => {
       sources: [],
     })
 
-    expect(body.project.username).toBe("kilo")
+    expect(body.project.username).toBe("kappa")
     expect(body.project.model).toBe("test/kilocode")
     expect(body.project.small_model).toBeUndefined()
     expect(body.project.agent?.shared).toMatchObject({
-      description: "kilo agent",
-      prompt: "kilo agent prompt",
+      description: "kappa agent",
+      prompt: "kappa agent prompt",
     })
     expect(body.project.agent?.["opencode-only"]).toBeUndefined()
-    expect(body.targets.project.path).toBe(path.join(project.path, ".kilo", "kilo.json"))
+    expect(body.targets.project.path).toBe(path.join(project.path, ".kappa", "kappa.json"))
   })
 
   test.serial("tolerates unsafe project config instead of failing the overlay", async () => {
@@ -685,7 +685,7 @@ describe("config overlay routes", () => {
     // A project config that references a file outside the project root throws during substitution.
     // The overlay must skip it and still resolve, rather than rejecting the whole request.
     await Filesystem.write(
-      path.join(project.path, ".kilo", "kilo.json"),
+      path.join(project.path, ".kappa", "kappa.json"),
       JSON.stringify({ username: "{file:/etc/passwd}" }),
     )
 
@@ -704,7 +704,7 @@ describe("config overlay routes", () => {
     await using global = await tmpdir()
     await using project = await tmpdir()
     await setGlobal(global.path, {
-      model: "kilo/global-model",
+      model: "kappa/global-model",
       permission: { bash: "ask" },
       mcp: { shared: { type: "local", command: ["node", "shared.js"], enabled: true } },
     })
@@ -834,7 +834,7 @@ describe("config overlay routes", () => {
     expect(body.fields["indexing.ollama.baseUrl"].value).toBeUndefined()
   })
 
-  test.serial("writes project indexing overrides to .kilo/kilo.jsonc", async () => {
+  test.serial("writes project indexing overrides to .kappa/kappa.jsonc", async () => {
     await using global = await tmpdir()
     await using project = await tmpdir()
     await setGlobal(global.path, { indexing: { enabled: true, provider: "openai" } })
@@ -850,11 +850,11 @@ describe("config overlay routes", () => {
       }),
     )
 
-    const file = path.join(project.path, ".kilo", "kilo.jsonc")
+    const file = path.join(project.path, ".kappa", "kappa.jsonc")
     const saved = (await Bun.file(file).json()) as { indexing: Record<string, unknown> }
     const body = await json<Overlay>(await req(project.path, "/config/overlay?scope=project"))
 
-    expect(await Bun.file(path.join(project.path, ".kilo", "kilo.json")).exists()).toBe(false)
+    expect(await Bun.file(path.join(project.path, ".kappa", "kappa.json")).exists()).toBe(false)
     expect(saved.indexing).toEqual({
       enabled: false,
       provider: "ollama",
@@ -866,8 +866,8 @@ describe("config overlay routes", () => {
 
   test.serial("removes local scalar override and falls back to global", async () => {
     await using global = await tmpdir()
-    await using project = await tmpdir({ config: { model: "kilo/project-model", username: "alice" } })
-    await setGlobal(global.path, { model: "kilo/global-model" })
+    await using project = await tmpdir({ config: { model: "kappa/project-model", username: "alice" } })
+    await setGlobal(global.path, { model: "kappa/global-model" })
 
     await json(
       await req(project.path, "/config/overlay", {
@@ -902,7 +902,7 @@ describe("config overlay routes", () => {
       }),
     )
 
-    const saved = (await Bun.file(path.join(project.path, ".kilo", "kilo.jsonc")).json()) as {
+    const saved = (await Bun.file(path.join(project.path, ".kappa", "kappa.jsonc")).json()) as {
       mcp: Record<string, unknown>
     }
     expect(Object.keys(saved.mcp)).toEqual(["local"])
@@ -912,8 +912,8 @@ describe("config overlay routes", () => {
     await using global = await tmpdir()
     await using project = await tmpdir()
     ;(Global.Path as { config: string }).config = global.path
-    await Filesystem.write(path.join(global.path, "kilo.json"), JSON.stringify({ username: "legacy" }))
-    await Filesystem.write(path.join(global.path, "kilo.jsonc"), "{\n  // Keep JSONC as the active target.\n}\n")
+    await Filesystem.write(path.join(global.path, "kappa.json"), JSON.stringify({ username: "legacy" }))
+    await Filesystem.write(path.join(global.path, "kappa.jsonc"), "{\n  // Keep JSONC as the active target.\n}\n")
 
     await json(
       await req(project.path, "/config/overlay", {
@@ -925,11 +925,11 @@ describe("config overlay routes", () => {
         }),
       }),
     )
-    const saved = ConfigParse.jsonc(await Bun.file(path.join(global.path, "kilo.jsonc")).text(), "kilo.jsonc")
+    const saved = ConfigParse.jsonc(await Bun.file(path.join(global.path, "kappa.jsonc")).text(), "kappa.jsonc")
     expect(saved).toMatchObject({
       command: { review: { model: "anthropic/claude-sonnet-4-6", variant: "high" } },
     })
-    expect(await Bun.file(path.join(global.path, "kilo.json")).json()).toMatchObject({ username: "legacy" })
+    expect(await Bun.file(path.join(global.path, "kappa.json")).json()).toMatchObject({ username: "legacy" })
   })
 
   test.serial("merges workflow overrides with a command body in the lower-precedence global file", async () => {
@@ -937,10 +937,10 @@ describe("config overlay routes", () => {
     await using project = await tmpdir()
     ;(Global.Path as { config: string }).config = global.path
     await Filesystem.write(
-      path.join(global.path, "kilo.json"),
+      path.join(global.path, "kappa.json"),
       JSON.stringify({ command: { review: { template: "Review the changes" } } }),
     )
-    await Filesystem.write(path.join(global.path, "kilo.jsonc"), '{\n  "username": "legacy"\n}\n')
+    await Filesystem.write(path.join(global.path, "kappa.jsonc"), '{\n  "username": "legacy"\n}\n')
 
     const response = await json<Overlay>(
       await req(project.path, "/config/overlay", {
@@ -975,7 +975,7 @@ describe("config overlay routes", () => {
       }),
     )
 
-    const saved = (await Bun.file(path.join(project.path, ".kilo", "kilo.jsonc")).json()) as {
+    const saved = (await Bun.file(path.join(project.path, ".kappa", "kappa.jsonc")).json()) as {
       mcp: Record<string, unknown>
     }
     expect(saved.mcp).toEqual({ shared: { enabled: false } })
@@ -1142,7 +1142,7 @@ describe("config overlay routes", () => {
     // Simulate config changing while the backend is unaware. The unrelated save below
     // must not treat that wider policy as a trusted sandbox settings update.
     await Bun.write(
-      path.join(global.path, "kilo.json"),
+      path.join(global.path, "kappa.json"),
       JSON.stringify({ sandbox: { enabled: true, network: "allow" } }, null, 2),
     )
 
@@ -1162,7 +1162,7 @@ describe("config overlay routes", () => {
     await using global = await tmpdir()
     await using project = await tmpdir()
     ;(Global.Path as { config: string }).config = global.path
-    const headers = { "x-kilo-directory": project.path }
+    const headers = { "x-kappa-directory": project.path }
     const created = await Server.Default().app.request(PtyPaths.create, {
       method: "POST",
       headers: { ...headers, "content-type": "application/json" },

@@ -62,7 +62,7 @@ for (const scenario of [
           }),
       )
       const cache = yield* ModelCache.Service
-      yield* cache.clear("kilo")
+      yield* cache.clear("kappa")
       const env = {
         KILO_AUTH_CONTENT: process.env.KILO_AUTH_CONTENT,
         KILO_API_KEY: process.env.KILO_API_KEY,
@@ -71,7 +71,7 @@ for (const scenario of [
       yield* Effect.acquireRelease(
         Effect.sync(() => {
           process.env.KILO_AUTH_CONTENT = JSON.stringify({
-            kilo: {
+            kappa: {
               type: "oauth",
               access: "test-token",
               refresh: "test-refresh",
@@ -143,10 +143,10 @@ for (const scenario of [
             config: {
               formatter: false,
               lsp: false,
-              enabled_providers: ["kilo", "external"],
+              enabled_providers: ["kappa", "external"],
               hide_prompt_training_models: true,
               provider: {
-                kilo: {
+                kappa: {
                   options: { kilocodeOrganizationId: "org-config" },
                   ...(scenario === "filtered" ? { whitelist: ["test/training"] } : {}),
                 },
@@ -163,7 +163,7 @@ for (const scenario of [
       )
       const all = yield* request("/provider", tmp.path)
       const connected = yield* request("/config/providers", tmp.path)
-      expect(yield* request("/kilo/auth-status", tmp.path)).toEqual({
+      expect(yield* request("/kappa/auth-status", tmp.path)).toEqual({
         authenticated: true,
         type: "oauth",
         organizationId: "org-env",
@@ -171,10 +171,10 @@ for (const scenario of [
       const unavailable = ["empty", "error", "unauthorized", "filtered"].includes(scenario)
       expect(models(all, "all")).toEqual(unavailable ? [] : ["test/private", "test/z-last"])
       expect(models(connected, "providers")).toEqual(unavailable ? [] : ["test/private", "test/z-last"])
-      expect(connected.default.kilo).toBe(
+      expect(connected.default.kappa).toBe(
         unavailable ? undefined : scenario === "valid" ? "test/z-last" : "test/private",
       )
-      expect(all.default.kilo).toBe(connected.default.kilo)
+      expect(all.default.kappa).toBe(connected.default.kappa)
       expect(connected.default.external).toBe("independent")
       expect(all.default.external).toBe("independent")
       expect(all.connected).toContain("external")
@@ -197,8 +197,8 @@ for (const scenario of [
               expect(models(retained, "all")).toEqual(["test/private", "test/z-last"])
               expect(models(configured, "providers")).toEqual(["test/private", "test/z-last"])
               expect(retained.connected).toEqual(all.connected)
-              expect(retained.failed).toEqual(["kilo"])
-              expect(retained.default).toEqual({ external: "independent", kilo: "test/private" })
+              expect(retained.failed).toEqual(["kappa"])
+              expect(retained.default).toEqual({ external: "independent", kappa: "test/private" })
               expect(configured.default).toEqual(retained.default)
               expect(paths.filter((path) => path.endsWith("/defaults"))).toHaveLength(2)
               expect(paths.filter((path) => path.endsWith("/models"))).toHaveLength(1)
@@ -207,8 +207,8 @@ for (const scenario of [
         )
         const recovered = yield* request("/provider", tmp.path)
         const configured = yield* request("/config/providers", tmp.path)
-        expect(recovered.default.kilo).toBe("test/z-last")
-        expect(configured.default.kilo).toBe(recovered.default.kilo)
+        expect(recovered.default.kappa).toBe("test/z-last")
+        expect(configured.default.kappa).toBe(recovered.default.kappa)
         expect(recovered.failed).toEqual([])
         expect(paths.filter((path) => path.endsWith("/defaults"))).toHaveLength(4)
       }
@@ -222,14 +222,14 @@ function record(input: unknown): input is Record<string, unknown> {
 
 function models(input: unknown, key: "all" | "providers") {
   if (!record(input) || !Array.isArray(input[key])) return []
-  const kilo = input[key].find((provider) => record(provider) && provider.id === "kilo")
-  if (!record(kilo) || !record(kilo.models)) return []
-  return Object.keys(kilo.models)
+  const kappa = input[key].find((provider) => record(provider) && provider.id === "kappa")
+  if (!record(kappa) || !record(kappa.models)) return []
+  return Object.keys(kappa.models)
 }
 
 function request(path: string, dir: string) {
   return Effect.promise(async () => {
-    const result = await Server.Default().app.request(path, { headers: { "x-kilo-directory": dir } })
+    const result = await Server.Default().app.request(path, { headers: { "x-kappa-directory": dir } })
     expect(result.status).toBe(200)
     return result.json()
   })
@@ -244,7 +244,7 @@ it.live(
   "filters prompt-training models from both provider catalogs",
   Effect.gen(function* () {
     const cache = yield* ModelCache.Service
-    yield* cache.clear("kilo")
+    yield* cache.clear("kappa")
     const server = yield* Effect.acquireRelease(
       Effect.sync(() =>
         Bun.serve({
@@ -263,9 +263,9 @@ it.live(
           config: {
             formatter: false,
             lsp: false,
-            enabled_providers: ["kilo"],
+            enabled_providers: ["kappa"],
             hide_prompt_training_models: true,
-            provider: { kilo: { options: { baseURL } } },
+            provider: { kappa: { options: { baseURL } } },
           },
         }),
       ),

@@ -67,8 +67,8 @@ export function provider(model: Provider.Model) {
     return undefined
   }
 
-  const kilo = prompt()
-  if (kilo) return kilo
+  const kappa = prompt()
+  if (kappa) return kappa
   // kilocode_change end
   if (model.api.id.includes("muse")) {
     const name = model.api.id.includes("muse-glimmer") ? "Muse Glimmer" : "Muse Spark"

@@ -6,7 +6,7 @@ describe("npm publish retry", () => {
     const calls = { run: 0, exists: 0, sleep: 0 }
 
     await NpmPublish.retry({
-      name: "@kilocode/test",
+      name: "@kappacode/test",
       version: "1.0.0",
       run: async () => {
         calls.run++
@@ -28,7 +28,7 @@ describe("npm publish retry", () => {
     const err = new Error("connection closed")
 
     await NpmPublish.retry({
-      name: "@kilocode/test",
+      name: "@kappacode/test",
       version: "1.0.0",
       run: async () => {
         calls.run++
@@ -52,7 +52,7 @@ describe("npm publish retry", () => {
     const err = new Error("registry unavailable")
 
     await NpmPublish.retry({
-      name: "@kilocode/test",
+      name: "@kappacode/test",
       version: "1.0.0",
       run: async () => {
         calls.run++
@@ -79,7 +79,7 @@ describe("npm publish retry", () => {
     const err = new Error("registry response lost")
 
     await NpmPublish.retry({
-      name: "@kilocode/test",
+      name: "@kappacode/test",
       version: "1.0.0",
       run: async () => {
         calls.run++
@@ -104,7 +104,7 @@ describe("npm publish retry", () => {
     const err = new Error("permission denied")
 
     const failure = await NpmPublish.retry({
-      name: "@kilocode/test",
+      name: "@kappacode/test",
       version: "1.0.0",
       run: async () => {
         calls.run++

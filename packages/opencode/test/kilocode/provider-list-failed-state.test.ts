@@ -52,7 +52,7 @@ beforeEach(() => {
 it.live("failedProviders returns empty array when no fetch has occurred", () =>
   ModelCache.Service.use((cache) =>
     Effect.gen(function* () {
-      expect(yield* cache.failedProviders()).not.toContain("kilo")
+      expect(yield* cache.failedProviders()).not.toContain("kappa")
     }),
   ).pipe(Effect.provide(layer())),
 )
@@ -76,9 +76,9 @@ it.live("getFailure returns undefined when fetch succeeds", () =>
     }
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        yield* cache.fetch("kilo")
-        expect(yield* cache.getFailure("kilo")).toBeUndefined()
-        expect(yield* cache.failedProviders()).not.toContain("kilo")
+        yield* cache.fetch("kappa")
+        expect(yield* cache.getFailure("kappa")).toBeUndefined()
+        expect(yield* cache.failedProviders()).not.toContain("kappa")
       }),
     ).pipe(Effect.provide(layer()))
   }),
@@ -89,9 +89,9 @@ it.live("failedProviders includes provider after auth error", () =>
     result = { models: {}, error: { kind: "unauthorized", status: 401 } }
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        yield* cache.fetch("kilo")
-        expect(yield* cache.failedProviders()).toContain("kilo")
-        expect(yield* cache.getFailure("kilo")).toMatchObject({ kind: "unauthorized", status: 401 })
+        yield* cache.fetch("kappa")
+        expect(yield* cache.failedProviders()).toContain("kappa")
+        expect(yield* cache.getFailure("kappa")).toMatchObject({ kind: "unauthorized", status: 401 })
       }),
     ).pipe(Effect.provide(layer()))
   }),
@@ -102,7 +102,7 @@ it.live("gateway rejection remains recoverable through the Effect error channel"
     error = new Error("gateway failed")
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        const models = yield* cache.fetch("kilo").pipe(Effect.catch(() => Effect.succeed({})))
+        const models = yield* cache.fetch("kappa").pipe(Effect.catch(() => Effect.succeed({})))
         expect(models).toEqual({})
       }),
     ).pipe(Effect.provide(layer()))
@@ -114,11 +114,11 @@ it.live("clear removes failure state", () =>
     result = { models: {}, error: { kind: "network" } }
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        yield* cache.fetch("kilo")
-        expect(yield* cache.failedProviders()).toContain("kilo")
-        yield* cache.clear("kilo")
-        expect(yield* cache.failedProviders()).not.toContain("kilo")
-        expect(yield* cache.getFailure("kilo")).toBeUndefined()
+        yield* cache.fetch("kappa")
+        expect(yield* cache.failedProviders()).toContain("kappa")
+        yield* cache.clear("kappa")
+        expect(yield* cache.failedProviders()).not.toContain("kappa")
+        expect(yield* cache.getFailure("kappa")).toBeUndefined()
       }),
     ).pipe(Effect.provide(layer()))
   }),
@@ -129,8 +129,8 @@ it.live("failure state is cleared when subsequent refresh succeeds", () =>
     result = { models: {}, error: { kind: "unauthorized", status: 401 } }
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        yield* cache.fetch("kilo")
-        expect(yield* cache.failedProviders()).toContain("kilo")
+        yield* cache.fetch("kappa")
+        expect(yield* cache.failedProviders()).toContain("kappa")
         result = {
           models: {
             "test/model": {
@@ -146,9 +146,9 @@ it.live("failure state is cleared when subsequent refresh succeeds", () =>
             },
           },
         }
-        yield* cache.refresh("kilo")
-        expect(yield* cache.failedProviders()).not.toContain("kilo")
-        expect(yield* cache.getFailure("kilo")).toBeUndefined()
+        yield* cache.refresh("kappa")
+        expect(yield* cache.failedProviders()).not.toContain("kappa")
+        expect(yield* cache.getFailure("kappa")).toBeUndefined()
       }),
     ).pipe(Effect.provide(layer()))
   }),

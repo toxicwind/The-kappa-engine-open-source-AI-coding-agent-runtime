@@ -99,7 +99,7 @@ const agents = Layer.mock(Agent.Service)({
   get: () => Effect.succeed(agent),
 })
 const sessions = Layer.mock(Session.Service)({
-  get: () => Effect.succeed(session("/workspace/project/.kilo/worktrees/a")),
+  get: () => Effect.succeed(session("/workspace/project/.kappa/worktrees/a")),
 })
 const permission = Layer.mock(Permission.Service)({
   ask: (input) =>
@@ -209,8 +209,8 @@ function fixture() {
     const root = yield* tmpdirScoped()
     const main = path.join(root, "main")
     const local = path.join(main, "packages", "app")
-    const a = path.join(main, ".kilo", "worktrees", "a")
-    const b = path.join(main, ".kilo", "worktrees", "b")
+    const a = path.join(main, ".kappa", "worktrees", "a")
+    const b = path.join(main, ".kappa", "worktrees", "b")
     const approved = path.join(root, "approved")
     yield* Effect.promise(() =>
       Promise.all([path.join(main, ".git"), local, a, b, approved].map((dir) => fs.mkdir(dir, { recursive: true }))),
@@ -251,7 +251,7 @@ mac("confines model-originated file mutations to the active worktree", () =>
     yield* Effect.addFinalizer(() => Effect.promise(() => fs.rm(stateDir, { recursive: true, force: true })))
 
     const allowed = yield* call(write, { filePath: active, content: "active" }, "call-active").pipe(Effect.exit)
-    const kilo = yield* call(write, { filePath: state, content: "state" }, "call-state").pipe(Effect.exit)
+    const kappa = yield* call(write, { filePath: state, content: "state" }, "call-state").pipe(Effect.exit)
     const siblingResult = yield* call(write, { filePath: sibling, content: "sibling" }, "call-sibling").pipe(
       Effect.exit,
     )
@@ -268,7 +268,7 @@ mac("confines model-originated file mutations to the active worktree", () =>
     const requested = approvals.slice(start)
 
     expect(Exit.isSuccess(allowed)).toBe(true)
-    expect(Exit.isSuccess(kilo)).toBe(true)
+    expect(Exit.isSuccess(kappa)).toBe(true)
     expect(Exit.isFailure(siblingResult)).toBe(true)
     expect(Exit.isFailure(primaryResult)).toBe(true)
     expect(Exit.isFailure(outsideResult)).toBe(true)

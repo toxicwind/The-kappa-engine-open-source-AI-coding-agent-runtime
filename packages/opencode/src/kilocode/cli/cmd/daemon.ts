@@ -52,12 +52,12 @@ function print(input: Daemon.Status, json?: boolean) {
     return
   }
   if (!input.running) {
-    console.log(input.stale ? `kilo daemon stale: ${input.reason}` : `kilo daemon not running`)
+    console.log(input.stale ? `kappa daemon stale: ${input.reason}` : `kappa daemon not running`)
     console.log(`state: ${input.file}`)
     if (input.state?.log) console.log(`log: ${input.state.log}`)
     return
   }
-  console.log(`kilo daemon running`)
+  console.log(`kappa daemon running`)
   if (input.state?.urls) {
     const urls = input.state.urls
     console.log(`local:   ${urls.local}`)
@@ -93,7 +93,7 @@ async function network(args: { [key: string]: unknown }) {
 function start(command: string) {
   return cmd({
     command,
-    describe: "start the local kilo daemon",
+    describe: "start the local kappa daemon",
     builder: (yargs) => withForeground(withJson(withNetworkOptions(yargs))),
     handler: async (args) => {
       await hold(Boolean(args.foreground), Boolean(args.json), async (signal) => {
@@ -108,10 +108,10 @@ function start(command: string) {
         if (!args.json) {
           console.log(
             result.reused
-              ? "kilo daemon already running"
+              ? "kappa daemon already running"
               : daemon.restarted
-                ? "kilo daemon restarted"
-                : "kilo daemon started",
+                ? "kappa daemon restarted"
+                : "kappa daemon started",
           )
           print(result)
         }
@@ -126,7 +126,7 @@ const StartCommand = start("start")
 
 const StatusCommand = cmd({
   command: "status",
-  describe: "show local kilo daemon status",
+  describe: "show local kappa daemon status",
   builder: (yargs) => withJson(yargs),
   handler: async (args) => {
     const { Daemon } = await import("@/kilocode/daemon/daemon")
@@ -136,7 +136,7 @@ const StatusCommand = cmd({
 
 export const StopCommand = cmd({
   command: "stop",
-  describe: "stop the local kilo daemon",
+  describe: "stop the local kappa daemon",
   builder: (yargs) => withJson(yargs),
   handler: async (args) => {
     const { Daemon } = await import("@/kilocode/daemon/daemon")
@@ -145,13 +145,13 @@ export const StopCommand = cmd({
       print(result, true)
       return
     }
-    console.log(result.stopped ? "kilo daemon stopped" : "kilo daemon not running")
+    console.log(result.stopped ? "kappa daemon stopped" : "kappa daemon not running")
   },
 })
 
 const RestartCommand = cmd({
   command: "restart",
-  describe: "restart the local kilo daemon",
+  describe: "restart the local kappa daemon",
   builder: (yargs) => withForeground(withJson(withNetworkOptions(yargs))),
   handler: async (args) => {
     await hold(Boolean(args.foreground), Boolean(args.json), async (signal) => {
@@ -163,7 +163,7 @@ const RestartCommand = cmd({
       if (signal?.aborted) return state
       if (args.json) print(result, true)
       if (!args.json) {
-        console.log("kilo daemon restarted")
+        console.log("kappa daemon restarted")
         print(result)
       }
       return state
@@ -173,7 +173,7 @@ const RestartCommand = cmd({
 
 export const DaemonCommand = cmd({
   command: "daemon",
-  describe: "manage the local kilo daemon",
+  describe: "manage the local kappa daemon",
   builder: (yargs: Argv) =>
     yargs
       .command(DefaultCommand)

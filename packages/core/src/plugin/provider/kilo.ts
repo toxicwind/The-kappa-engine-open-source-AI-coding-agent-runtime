@@ -1,12 +1,12 @@
-import { createKilo, KILO_OPENROUTER_BASE } from "@kilocode/kilo-gateway" // kilocode_change
+import { createKilo, KILO_OPENROUTER_BASE } from "@kappacode/kappa-gateway" // kilocode_change
 import { Effect } from "effect"
 import { ProviderV2 } from "../../provider" // kilocode_change
 import { define } from "../internal"
 
-const id = ProviderV2.ID.kilo // kilocode_change
+const id = ProviderV2.ID.kappa // kilocode_change
 
 export const KiloPlugin = define({
-  id: "kilo",
+  id: "kappa",
   effect: Effect.fn(function* (ctx) {
     yield* ctx.catalog.transform(
       Effect.fn(function* (evt) {
@@ -20,11 +20,11 @@ export const KiloPlugin = define({
 
             provider.api = {
               type: "aisdk",
-              package: "@kilocode/kilo-gateway",
+              package: "@kappacode/kappa-gateway",
               url: KILO_OPENROUTER_BASE,
             }
             // kilocode_change end
-            provider.request.headers["HTTP-Referer"] = "https://kilo.ai/"
+            provider.request.headers["HTTP-Referer"] = "https://kappa.ai/"
             // kilocode_change start
             provider.request.headers["X-Title"] = "Kilo Code"
             options.apiKey = token ?? "anonymous"

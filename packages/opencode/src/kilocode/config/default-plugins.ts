@@ -1,6 +1,6 @@
 import { ConfigPlugin } from "@/config/plugin"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
-import { isIndexingPlugin } from "@kilocode/kilo-indexing/detect"
+import { isIndexingPlugin } from "@kappacode/kappa-indexing/detect"
 import { ensureAtomicChatPlugin, isAtomicChatPlugin } from "@/kilocode/atomic-chat-feature"
 import { ensureIndexingPlugin, INDEXING_PLUGIN } from "@/kilocode/indexing-feature"
 

@@ -120,8 +120,8 @@ const scenarios: Scenario[] = [
   // kilocode_change start - opt into git init; the worktree assertion requires a git-backed project
   http.protected.get("/path", "path.get").inProject({ git: true }).json(200, (body, ctx) => {
     object(body)
-    check(body.directory === ctx.directory, "directory should resolve from x-kilo-directory")
-    check(body.worktree === ctx.directory, "worktree should resolve from x-kilo-directory")
+    check(body.directory === ctx.directory, "directory should resolve from x-kappa-directory")
+    check(body.worktree === ctx.directory, "worktree should resolve from x-kappa-directory")
   }),
   // kilocode_change end
   http.protected.get("/vcs", "vcs.get").inProject({ git: true }).json(),
@@ -865,7 +865,7 @@ const scenarios: Scenario[] = [
     .post("/api/pty/{ptyID}/connect-token", "v2.pty.connectToken")
     .at((ctx) => ({
       path: route("/api/pty/{ptyID}/connect-token", { ptyID: "pty_httpapi_missing" }),
-      headers: { ...ctx.headers(), "x-kilo-ticket": "1" },
+      headers: { ...ctx.headers(), "x-kappa-ticket": "1" },
     }))
     .json(404, object, "status"),
   http.protected

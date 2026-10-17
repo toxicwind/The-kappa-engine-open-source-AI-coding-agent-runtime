@@ -45,6 +45,6 @@ describe("session response metadata", () => {
   test("rejects unsafe or oversized Vercel IDs", () => {
     expect(KiloResponseMetadata.write(undefined, { "x-vercel-id": "fra1::<script>" })).toBeUndefined()
     expect(KiloResponseMetadata.write(undefined, { "x-vercel-id": "x".repeat(201) })).toBeUndefined()
-    expect(KiloResponseMetadata.read({ kilo: { vercelID: "fra1::abc\nsecret" } })).toBeUndefined()
+    expect(KiloResponseMetadata.read({ kappa: { vercelID: "fra1::abc\nsecret" } })).toBeUndefined()
   })
 })

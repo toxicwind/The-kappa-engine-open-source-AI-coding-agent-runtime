@@ -7,8 +7,8 @@ import os from "node:os"
 import path from "node:path"
 import { Effect, Stream } from "effect"
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
-import { backendSupport, run, type Profile } from "@kilocode/sandbox"
-import { CurrentProxyFactory, startProxy, type ProxyFactory } from "@kilocode/sandbox"
+import { backendSupport, run, type Profile } from "@kappacode/sandbox"
+import { CurrentProxyFactory, startProxy, type ProxyFactory } from "@kappacode/sandbox"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 
@@ -74,7 +74,7 @@ function output(command: string, args: ReadonlyArray<string>, cwd: string, polic
 }
 
 async function fixture() {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-linux-sandbox-"))
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-linux-sandbox-"))
   const project = path.join(root, "project")
   const outside = path.join(root, "outside")
   await fs.mkdir(project)
@@ -832,7 +832,7 @@ linux("rejects a Bubblewrap helper inside a writable root", async () => {
   const script = [
     'import { Effect } from "effect"',
     'import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"',
-    'import { backendSupport, run } from "@kilocode/sandbox"',
+    'import { backendSupport, run } from "@kappacode/sandbox"',
     'import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"',
     "if (!backendSupport().available) process.exit(2)",
     `const profile = { filesystem: { allowWrite: [{ path: ${JSON.stringify(root.project)}, kind: "subtree" }], denyWrite: [], denyNames: [] }, network: { mode: "allow", allowedHosts: [] }, environment: { deny: [], set: {} } }`,
@@ -871,7 +871,7 @@ linux("reports network namespace support separately and fails deny mode closed",
   const script = [
     'import { Effect } from "effect"',
     'import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"',
-    'import { backendSupport, run } from "@kilocode/sandbox"',
+    'import { backendSupport, run } from "@kappacode/sandbox"',
     'import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"',
     'const allow = backendSupport({ mode: "allow", allowedHosts: [] })',
     'const deny = backendSupport({ mode: "deny", allowedHosts: [] })',
@@ -898,7 +898,7 @@ linux("fails closed when Bubblewrap is unavailable", () => {
   const script = [
     'import { Effect } from "effect"',
     'import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"',
-    'import { backendSupport, run } from "@kilocode/sandbox"',
+    'import { backendSupport, run } from "@kappacode/sandbox"',
     'import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"',
     "if (backendSupport().available) process.exit(2)",
     'const profile = { filesystem: { allowWrite: [], denyWrite: [], denyNames: [] }, network: { mode: "allow", allowedHosts: [] }, environment: { deny: [], set: {} } }',
@@ -907,7 +907,7 @@ linux("fails closed when Bubblewrap is unavailable", () => {
   ].join("\n")
   const result = spawnSync(process.execPath, ["-e", script], {
     cwd: import.meta.dir,
-    env: { ...process.env, KILO_BWRAP_PATH: "/missing/kilo-bwrap" },
+    env: { ...process.env, KILO_BWRAP_PATH: "/missing/kappa-bwrap" },
     encoding: "utf8",
   })
   expect(result.status, result.stderr).toBe(0)

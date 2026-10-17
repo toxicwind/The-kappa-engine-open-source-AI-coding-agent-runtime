@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * kmake-test — run kilo's bun test suites live in a tmux grid.
+ * kmake-test — run kappa's bun test suites live in a tmux grid.
  *
  * Why tmux: the estate box shells source a bash-2s-shim that SIGKILLs any
  * command past the 2s run-fast deadline, killing long `bun test` runs.
@@ -32,7 +32,7 @@ const suites = [
   ["0.3", "packages/llm", `${BUN} test test/schema.test.ts`],
 ] as const
 
-const OUT = "/home/toxic/tmp/kilo-compact/kmake" // pane logs live here
+const OUT = "/home/toxic/tmp/kappa-compact/kmake" // pane logs live here
 // Login shell (project env: direnv/etc. + node_modules on PATH) — full output
 // to a per-pane log (no `2>&1`, no `| tail`).
 const paneCmd = (dir: string, cmd: string, pane: string) =>
@@ -41,7 +41,7 @@ const paneCmd = (dir: string, cmd: string, pane: string) =>
 const start = async () => {
   const wall = await $`tmux ls`.quiet().text().catch(() => "")
   if (!wall.includes(`${SESS}:`)) {
-    await $`tmux new-session -d -s ${SESS} -n kilo-tests -x 230 -y 60`.quiet()
+    await $`tmux new-session -d -s ${SESS} -n kappa-tests -x 230 -y 60`.quiet()
     await $`tmux split-window -v -t ${SESS}:0.0`.quiet() // pane 0.1
     await $`tmux split-window -h -t ${SESS}:0.0`.quiet() // pane 0.2
     await $`tmux split-window -h -t ${SESS}:0.1`.quiet() // pane 0.3

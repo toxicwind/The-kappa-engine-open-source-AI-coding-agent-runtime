@@ -2,15 +2,15 @@ import { createRequire } from "node:module"
 import fs from "node:fs/promises"
 import path from "node:path"
 
-const require = createRequire(path.resolve(import.meta.dirname, "../../../kilo-sandbox/package.json"))
+const require = createRequire(path.resolve(import.meta.dirname, "../../../kappa-sandbox/package.json"))
 
 export namespace KiloSandboxNetwork {
-  export const relay = "kilo-sandbox-network-relay.js"
-  export const seccomp = "kilo-sandbox-seccomp"
+  export const relay = "kappa-sandbox-network-relay.js"
+  export const seccomp = "kappa-sandbox-seccomp"
 
   export async function bundle() {
     const result = await Bun.build({
-      entrypoints: ["../kilo-sandbox/src/kilo-sandbox-network-relay.ts"],
+      entrypoints: ["../kappa-sandbox/src/kappa-sandbox-network-relay.ts"],
       target: "bun",
       format: "esm",
       minify: true,

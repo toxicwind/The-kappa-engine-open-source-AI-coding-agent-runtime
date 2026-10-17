@@ -223,7 +223,7 @@ describe("event HttpApi", () => {
         const sessionID = yield* Effect.promise(async () => {
           const created = await Server.Default().app.request("/session", {
             method: "POST",
-            headers: { "x-kilo-directory": directory, "content-type": "application/json" },
+            headers: { "x-kappa-directory": directory, "content-type": "application/json" },
             body: "{}",
           })
           const body = (await created.json()) as { id: string }

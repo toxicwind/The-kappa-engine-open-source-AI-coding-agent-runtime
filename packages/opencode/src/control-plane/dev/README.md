@@ -1,4 +1,4 @@
-This is a plugin to simulate a remote environment locally. Add this to `.kilo/kilo.jsonc`:
+This is a plugin to simulate a remote environment locally. Add this to `.kappa/kappa.jsonc`:
 
 ```json
   "plugin": ["../packages/opencode/src/control-plane/dev/debug-workspace-plugin.ts"],

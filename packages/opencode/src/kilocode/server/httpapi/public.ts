@@ -51,20 +51,20 @@ export function matchLegacyKiloOpenApi(input: Record<string, unknown>) {
   )
   if (limit) limit.schema = { type: "integer", minimum: 1, maximum: 50 }
 
-  const body = spec.paths?.["/kilo/organization"]?.post?.requestBody?.content?.["application/json"]?.schema
+  const body = spec.paths?.["/kappa/organization"]?.post?.requestBody?.content?.["application/json"]?.schema
   const ref = body?.$ref?.replace("#/components/schemas/", "")
   const props = ref ? spec.components?.schemas?.[ref]?.properties : body?.properties
   if (props?.organizationId) props.organizationId = nullable(props.organizationId)
 
   const json = (path: string) => spec.paths?.[path]?.get?.responses?.["200"]?.content?.["application/json"]
-  const profile = json("/kilo/profile")?.schema?.properties
+  const profile = json("/kappa/profile")?.schema?.properties
   const pass = profile?.kiloPass?.properties
   if (pass?.nextBillingAt) pass.nextBillingAt = nullable(pass.nextBillingAt)
   if (profile?.balance) profile.balance = nullable(profile.balance)
   if (profile?.kiloPass) profile.kiloPass = nullable(profile.kiloPass)
   if (profile?.currentOrgId) profile.currentOrgId = nullable(profile.currentOrgId)
 
-  const sessions = json("/kilo/cloud-sessions")?.schema?.properties
+  const sessions = json("/kappa/cloud-sessions")?.schema?.properties
   const session = sessions?.cliSessions?.items?.properties
   if (session?.title) session.title = nullable(session.title)
   if (sessions?.nextCursor) sessions.nextCursor = nullable(sessions.nextCursor)
@@ -86,7 +86,7 @@ export function matchLegacyKiloOpenApi(input: Record<string, unknown>) {
   const fields = name ? spec.components?.schemas?.[name]?.properties : update?.properties
   if (fields?.sessionID) fields.sessionID = nullable(fields.sessionID)
 
-  const fim = spec.paths?.["/kilo/fim"]?.post?.responses
+  const fim = spec.paths?.["/kappa/fim"]?.post?.responses
   if (!fim) return
   fim["200"] = {
     description: "Streaming FIM completion response",
@@ -138,9 +138,9 @@ function rebrand(value: unknown): void {
     }
     ;(value as Record<string, unknown>)[key] = item
       .replaceAll("OpenCode", "Kilo")
-      .replaceAll("opencode.local", "kilo.local")
-      .replaceAll("opencode serve", "kilo serve")
-      .replaceAll("https://opencode.ai/", "https://kilo.ai/")
+      .replaceAll("opencode.local", "kappa.local")
+      .replaceAll("opencode serve", "kappa serve")
+      .replaceAll("https://opencode.ai/", "https://kappa.ai/")
   }
 }
 

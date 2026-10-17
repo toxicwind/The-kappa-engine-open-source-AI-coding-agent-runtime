@@ -24,7 +24,7 @@ const Receipt = Schema.Struct({
 })
 type Receipt = typeof Receipt.Type
 
-const CONFIG_FILE = /^(kilo|opencode)\.jsonc?$|^config\.json$/
+const CONFIG_FILE = /^(kappa|opencode)\.jsonc?$|^config\.json$/
 
 function safe(id: string) {
   return Paths.isSafeId(id) && !id.startsWith(".") && !["__proto__", "constructor", "prototype"].includes(id)

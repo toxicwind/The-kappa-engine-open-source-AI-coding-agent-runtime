@@ -23,7 +23,7 @@ export interface Interface {
   readonly track: <A, E, R>(id: SessionID, work: Effect.Effect<A, E, R>) => Effect.Effect<A, E, R>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@kilo/SessionDrain") {}
+export class Service extends Context.Service<Service, Interface>()("@kappa/SessionDrain") {}
 
 export const layer = Layer.effect(
   Service,

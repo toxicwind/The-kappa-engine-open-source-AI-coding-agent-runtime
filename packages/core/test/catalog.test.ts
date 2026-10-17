@@ -33,7 +33,7 @@ const dataDirs: string[] = []
 // Each Layer.fresh below rebuilds Credential, which re-imports data/auth.json, so a shared directory
 // would carry credentials from one test into the next. Give every layer its own.
 const globalLayer = () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "kilo-catalog-test-"))
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "kappa-catalog-test-"))
   dataDirs.push(dir)
   return Global.layerWith({ data: dir })
 }

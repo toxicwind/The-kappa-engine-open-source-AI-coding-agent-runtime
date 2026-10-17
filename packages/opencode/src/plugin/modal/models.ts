@@ -1,4 +1,4 @@
-import type { Model } from "@kilocode/sdk/v2"
+import type { Model } from "@kappacode/sdk/v2"
 import { Schema } from "effect"
 
 const reasoningOption = Schema.Struct({

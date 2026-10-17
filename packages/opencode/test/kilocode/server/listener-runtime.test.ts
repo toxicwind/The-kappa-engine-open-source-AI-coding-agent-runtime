@@ -78,7 +78,7 @@ test("listener aborts shared parent and subagent runners", async () => {
     try {
       const response = await fetch(new URL(SessionPaths.abort.replace(":sessionID", tree.parent.id), listener.url), {
         method: "POST",
-        headers: { "x-kilo-directory": tmp.path },
+        headers: { "x-kappa-directory": tmp.path },
       })
       expect(response.status).toBe(200)
       await Promise.all([

@@ -21,7 +21,7 @@ import { ZodOverride } from "../../effect-zod"
 import {
   IndexingConfig as KiloIndexingConfig,
   IndexingSchema as KiloIndexingSchema,
-} from "@kilocode/kilo-indexing/config"
+} from "@kappacode/kappa-indexing/config"
 import z from "zod"
 // kilocode_change end
 
@@ -64,10 +64,10 @@ export const Info = Schema.Struct({
   shell: Schema.optional(Schema.String).annotate({ description: "Default shell to use for terminal and bash tool" }),
   logLevel: Schema.optional(LogLevelRef).annotate({ description: "Log level" }),
   server: Schema.optional(ConfigServerV1.Server).annotate({
-    description: "Server configuration for the kilo serve command", // kilocode_change
+    description: "Server configuration for the kappa serve command", // kilocode_change
   }),
   command: Schema.optional(Schema.Record(Schema.String, ConfigCommandV1.Info)).annotate({
-    description: "Command configuration, see https://kilo.ai/docs/customize/workflows", // kilocode_change
+    description: "Command configuration, see https://kappa.ai/docs/customize/workflows", // kilocode_change
   }),
   skills: Schema.optional(ConfigSkillsV1.Info).annotate({ description: "Additional skill folder paths" }),
   references: Schema.optional(ConfigReference.Info).annotate({
@@ -117,7 +117,7 @@ export const Info = Schema.Struct({
   // kilocode_change start
   // NOTE: Any new kilocode_change key added to Config.Info must also be mirrored in
   // apps/web/src/app/config.json/extras.ts in the cloud repo, otherwise
-  // $schema: https://app.kilo.ai/config.json will not recognize it.
+  // $schema: https://app.kappa.ai/config.json will not recognize it.
   remote_control: Schema.optional(Schema.Boolean).annotate({
     description: "Enable remote control of sessions via Kilo Cloud. Equivalent to running /remote on startup.",
   }),
@@ -247,7 +247,7 @@ export const Info = Schema.Struct({
       [Schema.Record(Schema.String, ConfigAgentV1.Info)],
     ),
     // kilocode_change start
-  ).annotate({ description: "Agent configuration, see https://kilo.ai/docs/customize/custom-subagents" }), // kilocode_change
+  ).annotate({ description: "Agent configuration, see https://kappa.ai/docs/customize/custom-subagents" }), // kilocode_change
   provider: Schema.optional(Schema.Record(Schema.String, Schema.NullOr(ConfigProviderV1.Info))).annotate({
     // kilocode_change end
     description: "Custom provider configurations and model overrides",

@@ -5,7 +5,7 @@ import type { MessageV2 } from "@/session/message-v2"
 import type { SessionPrompt } from "@/session/prompt"
 import type { Info as SessionInfo } from "@/session/session"
 import { MessageID, type SessionID } from "@/session/schema"
-import { RemoteExit } from "@/kilo-sessions/remote-exit"
+import { RemoteExit } from "@/kappa-sessions/remote-exit"
 import z from "zod"
 
 export namespace RemoteCommand {
@@ -90,7 +90,7 @@ export namespace RemoteCommand {
       commands: z.array(Info).max(MAX_COMMANDS),
       // kilocode_change - K1 W1: `canExitSession` is an INDEPENDENT producer
       // contract advertised by every CLI (interactive TUI and headless
-      // `kilo remote` alike) so the mobile client can rely on the
+      // `kappa remote` alike) so the mobile client can rely on the
       // interpretation of `exit_cli` as "detach THIS session" without having
       // to inspect the synthetic `/exit` command entry's presence (which is
       // gated on RemoteExit.get() — i.e. interactive-only — and therefore
@@ -189,7 +189,7 @@ export namespace RemoteCommand {
     // kilocode_change - K1 W1: always advertise `canExitSession: true`. This
     // is the producer contract for the new `exit_cli`-as-detach semantics
     // (independent of `exitAvailable`, which gates the synthetic `/exit`
-    // command entry on RemoteExit.get()). A headless `kilo remote` host has
+    // command entry on RemoteExit.get()). A headless `kappa remote` host has
     // no RemoteExit callback, so it does NOT emit `/exit` here — but it
     // DOES interpret `exit_cli` as a session-detach, so `canExitSession`
     // is true for both interactive and headless producers.

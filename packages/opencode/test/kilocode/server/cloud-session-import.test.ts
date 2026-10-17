@@ -43,7 +43,7 @@ const [runtime, gateway, server, fixture] = await (async () => {
   try {
     return await Promise.all([
       import("../../../src/effect/app-runtime"),
-      import("../../../src/kilocode/server/httpapi/groups/kilo-gateway"),
+      import("../../../src/kilocode/server/httpapi/groups/kappa-gateway"),
       import("../../../src/server/routes/instance/httpapi/server"),
       import("../../fixture/fixture"),
     ])
@@ -109,7 +109,7 @@ async function request(directory: string, body: unknown) {
   const fetcher = globalThis.fetch
   const token = `test-${crypto.randomUUID()}`
   bodies.set(token, body)
-  process.env.KILO_AUTH_CONTENT = JSON.stringify({ kilo: { type: "api", key: token } })
+  process.env.KILO_AUTH_CONTENT = JSON.stringify({ kappa: { type: "api", key: token } })
   globalThis.fetch = Object.assign(
     (input: URL | RequestInfo, init?: BunFetchRequestInit | RequestInit) => {
       const req = new Request(input, init)
@@ -123,7 +123,7 @@ async function request(directory: string, body: unknown) {
     return await HttpApiApp.webHandler().handler(
       new Request(`http://localhost${KiloGatewayPaths.cloudSessionImport}`, {
         method: "POST",
-        headers: { "content-type": "application/json", "x-kilo-directory": directory },
+        headers: { "content-type": "application/json", "x-kappa-directory": directory },
         body: JSON.stringify({ sessionId: "ses_cloud" }),
       }),
       HttpApiApp.context,

@@ -1,4 +1,4 @@
-import { Telemetry } from "@kilocode/kilo-telemetry"
+import { Telemetry } from "@kappacode/kappa-telemetry"
 import { Agent } from "@/agent/agent"
 import { TuiEvent } from "@/server/tui-event"
 import { Flag } from "@opencode-ai/core/flag/flag"

@@ -211,7 +211,7 @@ describe("git plugin resolution", () => {
   })
 
   test("removes the staging directory after a failed clone", async () => {
-    const token = `kilo-missing-${Date.now()}-${Math.random().toString(16).slice(2)}`
+    const token = `kappa-missing-${Date.now()}-${Math.random().toString(16).slice(2)}`
     const out = await resolveGitPluginTarget(`git:/tmp/${token}`)
     expect(out.ok).toBe(false)
     if (!out.ok) expect(out.code).toBe("clone_failed")
@@ -222,7 +222,7 @@ describe("git plugin resolution", () => {
   })
 
   test("expands a ~/ repo to the home directory before cloning", async () => {
-    const token = `kilo-missing-${Date.now()}`
+    const token = `kappa-missing-${Date.now()}`
     const out = await resolveGitPluginTarget(`git:~/${token}`)
     expect(out.ok).toBe(false)
     if (out.ok) return

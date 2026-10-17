@@ -37,7 +37,7 @@ test("config subagent routing survives a colliding primary agent markdown file",
     },
   })
   await Filesystem.write(
-    path.join(tmp.path, ".kilo", "agents", "architect.md"),
+    path.join(tmp.path, ".kappa", "agents", "architect.md"),
     [
       "---",
       "mode: primary",
@@ -70,7 +70,7 @@ test("config-only custom agent keeps its default all mode across a primary colli
     },
   })
   await Filesystem.write(
-    path.join(tmp.path, ".kilo", "agents", "architect.md"),
+    path.join(tmp.path, ".kappa", "agents", "architect.md"),
     ["---", "mode: primary", "---", "", "You are the marketplace architect."].join("\n"),
   )
 
@@ -93,7 +93,7 @@ test("higher-priority markdown can override lower-priority markdown routing", as
     ["---", "mode: subagent", "description: Lower-priority architect", "---"].join("\n"),
   )
   await Filesystem.write(
-    path.join(project, ".kilo", "agents", "architect.md"),
+    path.join(project, ".kappa", "agents", "architect.md"),
     ["---", "mode: primary", "description: Higher-priority architect", "---"].join("\n"),
   )
 

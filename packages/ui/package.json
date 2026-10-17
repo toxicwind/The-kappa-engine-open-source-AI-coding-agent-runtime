@@ -87,7 +87,7 @@
   },
   "dependencies": {
     "@kobalte/core": "catalog:",
-    "@kilocode/sdk": "workspace:*",
+    "@kappacode/sdk": "workspace:*",
     "@pierre/diffs": "catalog:",
     "@solid-primitives/event-listener": "2.4.5",
     "@solid-primitives/media": "2.3.3",

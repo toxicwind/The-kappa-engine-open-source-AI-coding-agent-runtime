@@ -177,10 +177,10 @@ describe("McpMigrator", () => {
       expect(result.skipped).toHaveLength(0)
     })
 
-    test("migrates servers from project .kilo/mcp.json", async () => {
+    test("migrates servers from project .kappa/mcp.json", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const settingsDir = path.join(dir, ".kilo")
+          const settingsDir = path.join(dir, ".kappa")
           await Bun.write(
             path.join(settingsDir, "mcp.json"),
             JSON.stringify({
@@ -207,7 +207,7 @@ describe("McpMigrator", () => {
       })
     })
 
-    test("reads from legacy .kilocode/mcp.json when .kilo/mcp.json is absent", async () => {
+    test("reads from legacy .kilocode/mcp.json when .kappa/mcp.json is absent", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
           const settingsDir = path.join(dir, ".kilocode")
@@ -237,13 +237,13 @@ describe("McpMigrator", () => {
       })
     })
 
-    // Regression: malformed .kilocode/mcp.json must not prevent .kilo/mcp.json from loading
-    test("loads .kilo/mcp.json even when .kilocode/mcp.json is malformed", async () => {
+    // Regression: malformed .kilocode/mcp.json must not prevent .kappa/mcp.json from loading
+    test("loads .kappa/mcp.json even when .kilocode/mcp.json is malformed", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
           await Bun.write(path.join(dir, ".kilocode", "mcp.json"), "{ corrupt json !!!")
           await Bun.write(
-            path.join(dir, ".kilo", "mcp.json"),
+            path.join(dir, ".kappa", "mcp.json"),
             JSON.stringify({
               mcpServers: {
                 valid: { command: "valid-cmd", args: ["--ok"] },
@@ -265,7 +265,7 @@ describe("McpMigrator", () => {
       })
     })
 
-    test(".kilo/mcp.json overrides .kilocode/mcp.json for same server name", async () => {
+    test(".kappa/mcp.json overrides .kilocode/mcp.json for same server name", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
           await Bun.write(
@@ -277,7 +277,7 @@ describe("McpMigrator", () => {
             }),
           )
           await Bun.write(
-            path.join(dir, ".kilo", "mcp.json"),
+            path.join(dir, ".kappa", "mcp.json"),
             JSON.stringify({
               mcpServers: {
                 myserver: { command: "new-cmd", args: ["new"] },
@@ -301,7 +301,7 @@ describe("McpMigrator", () => {
     test("imports disabled servers with enabled: false", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const settingsDir = path.join(dir, ".kilo")
+          const settingsDir = path.join(dir, ".kappa")
           await Bun.write(
             path.join(settingsDir, "mcp.json"),
             JSON.stringify({
@@ -335,7 +335,7 @@ describe("McpMigrator", () => {
     test("warns about alwaysAllow permissions that cannot be migrated", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const settingsDir = path.join(dir, ".kilo")
+          const settingsDir = path.join(dir, ".kappa")
           await Bun.write(
             path.join(settingsDir, "mcp.json"),
             JSON.stringify({
@@ -365,7 +365,7 @@ describe("McpMigrator", () => {
     test("migrates multiple servers correctly", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const settingsDir = path.join(dir, ".kilo")
+          const settingsDir = path.join(dir, ".kappa")
           await Bun.write(
             path.join(settingsDir, "mcp.json"),
             JSON.stringify({
@@ -409,7 +409,7 @@ describe("McpMigrator", () => {
     test("handles empty mcpServers object", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const settingsDir = path.join(dir, ".kilo")
+          const settingsDir = path.join(dir, ".kappa")
           await Bun.write(
             path.join(settingsDir, "mcp.json"),
             JSON.stringify({
@@ -428,10 +428,10 @@ describe("McpMigrator", () => {
     })
 
     // Regression: project-level MCP settings use mcp.json, not mcp_settings.json
-    test("does not read project-level .kilo/mcp_settings.json", async () => {
+    test("does not read project-level .kappa/mcp_settings.json", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const settingsDir = path.join(dir, ".kilo")
+          const settingsDir = path.join(dir, ".kappa")
           await Bun.write(
             path.join(settingsDir, "mcp_settings.json"),
             JSON.stringify({
@@ -548,7 +548,7 @@ describe("McpMigrator", () => {
       test("migrates streamable-http server from project settings", async () => {
         await using tmp = await tmpdir({
           init: async (dir) => {
-            const settingsDir = path.join(dir, ".kilo")
+            const settingsDir = path.join(dir, ".kappa")
             await Bun.write(
               path.join(settingsDir, "mcp.json"),
               JSON.stringify({
@@ -578,7 +578,7 @@ describe("McpMigrator", () => {
       test("migrates sse server from project settings", async () => {
         await using tmp = await tmpdir({
           init: async (dir) => {
-            const settingsDir = path.join(dir, ".kilo")
+            const settingsDir = path.join(dir, ".kappa")
             await Bun.write(
               path.join(settingsDir, "mcp.json"),
               JSON.stringify({
@@ -608,7 +608,7 @@ describe("McpMigrator", () => {
       test("migrates mixed stdio and remote servers", async () => {
         await using tmp = await tmpdir({
           init: async (dir) => {
-            const settingsDir = path.join(dir, ".kilo")
+            const settingsDir = path.join(dir, ".kappa")
             await Bun.write(
               path.join(settingsDir, "mcp.json"),
               JSON.stringify({
@@ -656,7 +656,7 @@ describe("McpMigrator", () => {
       test("migrates remote server with headers and auth", async () => {
         await using tmp = await tmpdir({
           init: async (dir) => {
-            const settingsDir = path.join(dir, ".kilo")
+            const settingsDir = path.join(dir, ".kappa")
             await Bun.write(
               path.join(settingsDir, "mcp.json"),
               JSON.stringify({
@@ -694,7 +694,7 @@ describe("McpMigrator", () => {
       test("imports disabled remote servers with enabled: false", async () => {
         await using tmp = await tmpdir({
           init: async (dir) => {
-            const settingsDir = path.join(dir, ".kilo")
+            const settingsDir = path.join(dir, ".kappa")
             await Bun.write(
               path.join(settingsDir, "mcp.json"),
               JSON.stringify({

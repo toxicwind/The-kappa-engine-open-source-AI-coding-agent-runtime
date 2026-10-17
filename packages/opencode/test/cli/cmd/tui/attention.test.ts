@@ -89,7 +89,7 @@ function config(attention: Partial<AttentionConfig["attention"]> = {}): Attentio
       notifications: true,
       sound: true,
       volume: 0.4,
-      sound_pack: "kilo.default", // kilocode_change
+      sound_pack: "kappa.default", // kilocode_change
       sounds: {},
       ...attention,
     },
@@ -384,7 +384,7 @@ describe("createTuiAttention", () => {
     expect(audio.loadPaths).toEqual(["/tmp/question.mp3"])
 
     dispose()
-    expect(attention.soundboard.current()).toBe("kilo.default") // kilocode_change
+    expect(attention.soundboard.current()).toBe("kappa.default") // kilocode_change
   })
 
   test("uses config sound overrides before active pack sounds and falls back on load failure", async () => {

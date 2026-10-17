@@ -23,7 +23,7 @@ import { Process } from "../../../src/util/process"
 const linux = (env: NodeJS.ProcessEnv = {}): Info => ({
   platform: "linux",
   arch: "x64",
-  home: "/home/kilo",
+  home: "/home/kappa",
   env,
 })
 
@@ -105,14 +105,14 @@ describe("Anaconda Desktop metadata", () => {
 
 describe("Anaconda Desktop platform adapters", () => {
   test("resolves official cross-platform user-data locations", () => {
-    expect(directory({ platform: "darwin", arch: "arm64", home: "/Users/kilo", env: {} })).toBe(
-      "/Users/kilo/Library/Application Support/anaconda-desktop",
+    expect(directory({ platform: "darwin", arch: "arm64", home: "/Users/kappa", env: {} })).toBe(
+      "/Users/kappa/Library/Application Support/anaconda-desktop",
     )
     expect(
-      directory({ platform: "win32", arch: "x64", home: "C:\\Users\\kilo", env: { APPDATA: "D:\\Roaming" } }),
+      directory({ platform: "win32", arch: "x64", home: "C:\\Users\\kappa", env: { APPDATA: "D:\\Roaming" } }),
     ).toBe(path.win32.join("D:\\Roaming", "anaconda-desktop"))
     expect(directory(linux({ XDG_DATA_HOME: "/data" }))).toBe("/data/anaconda-desktop")
-    expect(directory(linux())).toBe("/home/kilo/.local/share/anaconda-desktop")
+    expect(directory(linux())).toBe("/home/kappa/.local/share/anaconda-desktop")
   })
 
   test("supports only documented operating-system and architecture pairs", () => {
@@ -127,8 +127,8 @@ describe("Anaconda Desktop platform adapters", () => {
     const windows: Info = {
       platform: "win32",
       arch: "x64",
-      home: "C:\\Users\\kilo",
-      env: { LOCALAPPDATA: "C:\\Users\\kilo\\AppData\\Local" },
+      home: "C:\\Users\\kappa",
+      env: { LOCALAPPDATA: "C:\\Users\\kappa\\AppData\\Local" },
     }
     const executable = candidates(windows)[0]
     expect(command(windows, { path: executable })).toEqual([executable])

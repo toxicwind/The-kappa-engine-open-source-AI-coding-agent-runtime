@@ -16,8 +16,8 @@ function user(text: string, synthetic = false): MessageV2.WithParts {
       time: { created: Date.now() },
       agent: "code",
       model: {
-        providerID: ProviderV2.ID.make("kilo"),
-        modelID: ModelV2.ID.make("kilo-auto/small"),
+        providerID: ProviderV2.ID.make("kappa"),
+        modelID: ModelV2.ID.make("kappa-auto/small"),
       },
     },
     parts: [

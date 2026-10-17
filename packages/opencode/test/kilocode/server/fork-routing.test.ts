@@ -7,15 +7,15 @@ function url(path: string) {
 
 describe("forkTargetDirectory", () => {
   test("honors the explicit directory query on a fork request", () => {
-    expect(forkTargetDirectory("POST", url("/session/ses_abc/fork?directory=/repo/.kilo/worktrees/x"), {})).toBe(
-      "/repo/.kilo/worktrees/x",
+    expect(forkTargetDirectory("POST", url("/session/ses_abc/fork?directory=/repo/.kappa/worktrees/x"), {})).toBe(
+      "/repo/.kappa/worktrees/x",
     )
   })
 
-  test("falls back to the x-kilo-directory header when no query is present", () => {
+  test("falls back to the x-kappa-directory header when no query is present", () => {
     expect(
-      forkTargetDirectory("POST", url("/session/ses_abc/fork"), { "x-kilo-directory": "/repo/.kilo/worktrees/y" }),
-    ).toBe("/repo/.kilo/worktrees/y")
+      forkTargetDirectory("POST", url("/session/ses_abc/fork"), { "x-kappa-directory": "/repo/.kappa/worktrees/y" }),
+    ).toBe("/repo/.kappa/worktrees/y")
   })
 
   test("returns undefined when the fork request carries no target directory", () => {

@@ -12,5 +12,5 @@ export function forkTargetDirectory(
 ): string | undefined {
   if (method !== "POST") return undefined
   if (!/^\/session\/[^/]+\/fork$/.test(url.pathname)) return undefined
-  return url.searchParams.get("directory") || headers["x-kilo-directory"] || undefined
+  return url.searchParams.get("directory") || headers["x-kappa-directory"] || undefined
 }

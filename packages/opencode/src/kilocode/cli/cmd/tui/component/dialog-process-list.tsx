@@ -1,4 +1,4 @@
-import type { BackgroundProcessInfo } from "@kilocode/sdk/v2"
+import type { BackgroundProcessInfo } from "@kappacode/sdk/v2"
 import { TextAttributes, type ScrollBoxRenderable } from "@opentui/core"
 import { useTerminalDimensions } from "@opentui/solid"
 import { useDialog } from "@tui/ui/dialog"

@@ -4,7 +4,7 @@ import { Effect, Layer, Option } from "effect"
 import { NodeFileSystem, NodePath } from "@effect/platform-node"
 import path from "path"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { hasIndexingPlugin } from "@kilocode/kilo-indexing/detect"
+import { hasIndexingPlugin } from "@kappacode/kappa-indexing/detect"
 import { Account } from "../../../src/account/account"
 import { Auth } from "../../../src/auth"
 import { Config } from "../../../src/config/config"
@@ -87,7 +87,7 @@ describe("kilocode default indexing plugin", () => {
           await Filesystem.write(
             path.join(dir, "opencode.json"),
             JSON.stringify({
-              $schema: "https://app.kilo.ai/config.json",
+              $schema: "https://app.kappa.ai/config.json",
               plugin: ["global-plugin-1"],
             }),
           )

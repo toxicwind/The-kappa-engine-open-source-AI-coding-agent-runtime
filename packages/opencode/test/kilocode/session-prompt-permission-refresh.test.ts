@@ -53,8 +53,8 @@ import { Truncate } from "../../src/tool/truncate"
 import { KiloHeadless } from "../../src/kilocode/permission/headless"
 import { KiloSessionPrompt } from "../../src/kilocode/session/prompt"
 import { KiloReadObject } from "../../src/kilocode/tool/read-object"
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service"
+import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
+import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { provideTmpdirServer } from "../fixture/fixture"
 import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
 import { reply, TestLLMServer } from "../lib/llm-server"
@@ -729,7 +729,7 @@ symlinkIt(
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
         const docs = path.join(dir, "docs")
-        const outside = path.join(os.tmpdir(), `kilo-12133-${crypto.randomUUID()}.txt`)
+        const outside = path.join(os.tmpdir(), `kappa-12133-${crypto.randomUUID()}.txt`)
         const sentinel = "KILO_12133_REFERENCE_SYMLINK_SENTINEL"
         const fs = yield* FSUtil.Service
         yield* fs.ensureDir(docs)
@@ -778,7 +778,7 @@ symlinkIt(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const outside = path.join(os.tmpdir(), `kilo-12133-missing-${crypto.randomUUID()}`)
+        const outside = path.join(os.tmpdir(), `kappa-12133-missing-${crypto.randomUUID()}`)
         const fs = yield* FSUtil.Service
         yield* fs.ensureDir(outside)
         yield* Effect.addFinalizer(() => Effect.promise(() => rm(outside, { recursive: true, force: true })))
@@ -832,7 +832,7 @@ symlinkIt(
       Effect.fnUntraced(function* ({ dir }) {
         const folder = path.join(dir, "folder")
         const moved = path.join(dir, "moved")
-        const outside = path.join(os.tmpdir(), `kilo-12133-directory-${crypto.randomUUID()}`)
+        const outside = path.join(os.tmpdir(), `kappa-12133-directory-${crypto.randomUUID()}`)
         const fs = yield* FSUtil.Service
         yield* fs.ensureDir(folder)
         yield* fs.ensureDir(outside)

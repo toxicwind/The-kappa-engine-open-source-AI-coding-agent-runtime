@@ -13,13 +13,13 @@ import { Glob } from "bun"
 import path from "path"
 
 const ROOT = path.resolve(import.meta.dir, "..")
-const OUTPUT = path.join(ROOT, "packages/kilo-docs/source-links.md")
+const OUTPUT = path.join(ROOT, "packages/kappa-docs/source-links.md")
 
 const check = process.argv.includes("--check")
 
 const DIRS = [
-  path.join(ROOT, "packages/kilo-vscode/src"),
-  path.join(ROOT, "packages/kilo-vscode/webview-ui"),
+  path.join(ROOT, "packages/kappa-vscode/src"),
+  path.join(ROOT, "packages/kappa-vscode/webview-ui"),
   path.join(ROOT, "packages/opencode/src"),
 ]
 
@@ -34,8 +34,8 @@ const URL_RE = /https?:\/\/[^\s"'`)\]},;*\\<>]+/g
 const EXCLUDE_PATTERNS = [
   // Localhost and internal
   /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)/,
-  /^https?:\/\/kilo\.internal/,
-  /^https?:\/\/dev\.kilo\.ai/,
+  /^https?:\/\/kappa\.internal/,
+  /^https?:\/\/dev\.kappa\.ai/,
   /^https?:\/\/tauri\.localhost/,
   // Example/placeholder URLs
   /^https?:\/\/example\.com/,
@@ -43,7 +43,7 @@ const EXCLUDE_PATTERNS = [
   /^https?:\/\/api\.myprovider\.com/,
   /^https?:\/\/synthetic\.new/,
   // API endpoints (not user-facing)
-  /^https?:\/\/api\.kilo\.ai\/api\//,
+  /^https?:\/\/api\.kappa\.ai\/api\//,
   /^https?:\/\/supermassive-black-hole\.kiloapps\.io\/v1\/session-export\//, // kilocode_change
   /^https?:\/\/ingest\.kilosessions\.ai/,
   /^https?:\/\/api\.openai\.com/,
@@ -174,12 +174,12 @@ if (check) {
     .text()
     .catch(() => "")
   if (committed === output) {
-    console.log("packages/kilo-docs/source-links.md is up to date.")
+    console.log("packages/kappa-docs/source-links.md is up to date.")
     process.exit(0)
   }
   console.error(
     [
-      "ERROR: packages/kilo-docs/source-links.md is out of date.",
+      "ERROR: packages/kappa-docs/source-links.md is out of date.",
       "",
       "Run the following command locally and commit the result:",
       "",
@@ -191,4 +191,4 @@ if (check) {
 }
 
 await Bun.write(OUTPUT, output)
-console.log(`Wrote ${sorted.length} unique URLs to packages/kilo-docs/source-links.md`)
+console.log(`Wrote ${sorted.length} unique URLs to packages/kappa-docs/source-links.md`)

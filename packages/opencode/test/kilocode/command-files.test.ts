@@ -13,7 +13,7 @@ afterEach(async () => {
 })
 
 async function temp() {
-  const dir = await mkdtemp(path.join(os.tmpdir(), "kilo-command-files-"))
+  const dir = await mkdtemp(path.join(os.tmpdir(), "kappa-command-files-"))
   roots.push(dir)
   return dir
 }
@@ -35,13 +35,13 @@ function cmd(input: Partial<Command.Info> & Pick<Command.Info, "name">): Command
 describe("CommandFiles", () => {
   test("discovers editable command files and read-only builtins", async () => {
     const dir = await temp()
-    const file = path.join(dir, ".kilo", "command", "review.md")
+    const file = path.join(dir, ".kappa", "command", "review.md")
     await mkdir(path.dirname(file), { recursive: true })
     await writeFile(file, "---\ndescription: Review code\n---\n\nReview $ARGUMENTS")
 
     const items = await CommandFiles.discover({
       directory: dir,
-      directories: [path.join(dir, ".kilo")],
+      directories: [path.join(dir, ".kappa")],
       commands: [
         cmd({
           name: "review",
@@ -73,13 +73,13 @@ describe("CommandFiles", () => {
 
   test("maps legacy workflows to editable commands", async () => {
     const dir = await temp()
-    const file = path.join(dir, ".kilo", "workflows", "ship.md")
+    const file = path.join(dir, ".kappa", "workflows", "ship.md")
     await mkdir(path.dirname(file), { recursive: true })
     await writeFile(file, "# Ship\n\nRun release checks")
 
     const items = await CommandFiles.discover({
       directory: dir,
-      directories: [path.join(dir, ".kilo")],
+      directories: [path.join(dir, ".kappa")],
       commands: [cmd({ name: "ship", source: "command", description: "Workflow: ship" })],
     })
 
@@ -90,8 +90,8 @@ describe("CommandFiles", () => {
 
   test("prefers command file attribution over same-named legacy workflow", async () => {
     const dir = await temp()
-    const workflow = path.join(dir, ".kilo", "workflows", "ship.md")
-    const file = path.join(dir, ".kilo", "command", "ship.md")
+    const workflow = path.join(dir, ".kappa", "workflows", "ship.md")
+    const file = path.join(dir, ".kappa", "command", "ship.md")
     await mkdir(path.dirname(workflow), { recursive: true })
     await mkdir(path.dirname(file), { recursive: true })
     await writeFile(workflow, "# Legacy Ship")
@@ -99,7 +99,7 @@ describe("CommandFiles", () => {
 
     const items = await CommandFiles.discover({
       directory: dir,
-      directories: [path.join(dir, ".kilo")],
+      directories: [path.join(dir, ".kappa")],
       commands: [cmd({ name: "ship", source: "command" })],
     })
 
@@ -110,7 +110,7 @@ describe("CommandFiles", () => {
   test("discovers symlinked command files", async () => {
     const dir = await temp()
     const real = path.join(dir, "linked", "review.md")
-    const link = path.join(dir, ".kilo", "command", "review.md")
+    const link = path.join(dir, ".kappa", "command", "review.md")
     await mkdir(path.dirname(real), { recursive: true })
     await mkdir(path.dirname(link), { recursive: true })
     await writeFile(real, "Review from symlink")
@@ -118,7 +118,7 @@ describe("CommandFiles", () => {
 
     const items = await CommandFiles.discover({
       directory: dir,
-      directories: [path.join(dir, ".kilo")],
+      directories: [path.join(dir, ".kappa")],
       commands: [cmd({ name: "review", source: "command" })],
     })
 
@@ -128,7 +128,7 @@ describe("CommandFiles", () => {
 
   test("remove only accepts known editable markdown files", async () => {
     const dir = await temp()
-    const file = path.join(dir, ".kilo", "command", "ok.md")
+    const file = path.join(dir, ".kappa", "command", "ok.md")
     await mkdir(path.dirname(file), { recursive: true })
     await writeFile(file, "OK")
     const entries = [

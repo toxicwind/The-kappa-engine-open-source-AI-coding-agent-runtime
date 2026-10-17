@@ -45,7 +45,7 @@ describe("apply_patch model selection", () => {
           const agent = yield* agents.get("build")
           const registry = yield* ToolRegistry.Service
           const tools = yield* registry.tools({
-            providerID: ProviderV2.ID.make("kilo"),
+            providerID: ProviderV2.ID.make("kappa"),
             modelID: ModelV2.ID.make("routed-model"),
             family: "gpt-codex",
             agent,

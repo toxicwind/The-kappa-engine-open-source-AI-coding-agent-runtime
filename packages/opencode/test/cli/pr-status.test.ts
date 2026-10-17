@@ -4,8 +4,8 @@ import { EOL } from "node:os"
 import { Effect } from "effect"
 
 // Restore these spies after the suite so other files use real PR-link helpers.
-const realPrLink = await import("@/kilo-sessions/pr-link")
-const realPoller = await import("@/kilo-sessions/pr-link-poller")
+const realPrLink = await import("@/kappa-sessions/pr-link")
+const realPoller = await import("@/kappa-sessions/pr-link-poller")
 
 type Record = {
   link: { platform: string; prUrl: string; prNumber: number }

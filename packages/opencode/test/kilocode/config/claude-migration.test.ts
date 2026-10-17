@@ -84,7 +84,7 @@ describe("Claude global configuration migration", () => {
       expect(await fs.readFile(path.join(config, "AGENTS.md"), "utf8")).toBe(source.rules)
       expect(await fs.readFile(path.join(config, "skills", "audit", "SKILL.md"), "utf8")).toContain('name: "audit"')
 
-      const native = JSON.parse(await fs.readFile(path.join(config, "kilo.jsonc"), "utf8"))
+      const native = JSON.parse(await fs.readFile(path.join(config, "kappa.jsonc"), "utf8"))
       expect(native.mcp.local).toEqual({
         type: "local",
         command: ["npx", "-y", "example-mcp"],
@@ -130,7 +130,7 @@ describe("Claude global configuration migration", () => {
     )
     await fs.writeFile(path.join(config, "AGENTS.md"), "existing rules")
     await fs.writeFile(
-      path.join(config, "kilo.jsonc"),
+      path.join(config, "kappa.jsonc"),
       JSON.stringify({ mcp: { existing: { type: "local", command: ["keep"] } } }),
     )
 
@@ -158,7 +158,7 @@ describe("Claude global configuration migration", () => {
           expect.objectContaining({ category: "mcp", name: "imported", status: "imported" }),
         ]),
       )
-      const native = JSON.parse(await fs.readFile(path.join(config, "kilo.jsonc"), "utf8"))
+      const native = JSON.parse(await fs.readFile(path.join(config, "kappa.jsonc"), "utf8"))
       expect(native.mcp.imported).toEqual({
         type: "local",
         command: ["npx", "example-mcp"],
@@ -178,7 +178,7 @@ describe("Claude global configuration migration", () => {
       const second = await ClaudeMigration.run({ enabled: true, roots: { home, config, state } })
       expect(second.status).toBe("already-attempted")
       expect(await fs.readFile(path.join(config, "AGENTS.md"), "utf8")).toBe("existing rules")
-      expect(await fs.readFile(path.join(config, "kilo.jsonc"), "utf8")).not.toContain('"new"')
+      expect(await fs.readFile(path.join(config, "kappa.jsonc"), "utf8")).not.toContain('"new"')
     } finally {
       ;(Global.Path as { config: string }).config = previous
     }
@@ -335,7 +335,7 @@ describe("Claude global configuration migration", () => {
         expect.objectContaining({ name: "invalidRemote", reason: "mcp-url-invalid" }),
       ]),
     )
-    expect(await Bun.file(path.join(config, "kilo.jsonc")).exists()).toBe(false)
+    expect(await Bun.file(path.join(config, "kappa.jsonc")).exists()).toBe(false)
   })
 
   test("does not follow source symlinks", async () => {

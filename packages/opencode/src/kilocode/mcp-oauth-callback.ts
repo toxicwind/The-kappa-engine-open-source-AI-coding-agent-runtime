@@ -2,12 +2,12 @@ import { request, type IncomingMessage, type Server } from "http"
 
 const host = "127.0.0.1"
 
-// The callback port is a machine-wide singleton: a second `kilo mcp auth` for the same
+// The callback port is a machine-wide singleton: a second `kappa mcp auth` for the same
 // server cannot bind it while the first attempt waits for its browser tab. The newer
 // attempt asks the process that holds the listener to stand down, takes the port, and the
 // replaced flow is reported by name instead of waiting for a callback that cannot arrive.
 const TAKEOVER_QUERY = "kilo_callback_takeover"
-export const TAKEOVER_HEADER = "x-kilo-oauth-callback"
+export const TAKEOVER_HEADER = "x-kappa-oauth-callback"
 export const TAKEOVER_VALUE = "released"
 const TAKEOVER_TIMEOUT_MS = 2_000
 const TAKEOVER_RETRY_MS = 100

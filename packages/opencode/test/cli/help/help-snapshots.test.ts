@@ -9,8 +9,8 @@
 //
 // Snapshots are taken at COLUMNS=120 so wrapping is stable across
 // kilocode_change start - describe Kilo's branded CLI
-// terminal sizes. The default kilo TUI command is excluded —
-// `kilo --help` includes an ASCII banner that pulls in the install
+// terminal sizes. The default kappa TUI command is excluded —
+// `kappa --help` includes an ASCII banner that pulls in the install
 // kilocode_change end
 // version (changes per release), so we'd snapshot a moving target.
 import { describe, expect } from "bun:test"
@@ -30,11 +30,11 @@ import { normalizeForSnapshot, PATH_SEP } from "../../lib/snapshot"
 //      line-wraps onto a fresh line on Windows). `\s+` matches both forms.
 function normalize(text: string): string {
   // kilocode_change start - snapshot Kilo help independently of lifecycle logs
-  const help = text.slice(text.indexOf("kilo "))
+  const help = text.slice(text.indexOf("kappa "))
   const output = help
     .replace(/(?=INFO  \d{4}-\d{2}-\d{2}).*$/s, "")
     .replace(/ {4}(?=\[aliases: ls\])/g, "")
-    .replace(/ {4}(?=\[string\] \[default: "kilo\.local"\])/g, "")
+    .replace(/ {4}(?=\[string\] \[default: "kappa\.local"\])/g, "")
   // kilocode_change end
   // kilocode_change start - normalize the branded help output
   return normalizeForSnapshot(output, {
@@ -50,10 +50,10 @@ function normalize(text: string): string {
 }
 
 // kilocode_change start - describe Kilo's command list
-// Top-level commands. Order matches what `kilo --help` prints today;
+// Top-level commands. Order matches what `kappa --help` prints today;
 // keep it in that order so the snapshot file reads as a table of contents.
 // `completion` is intentionally excluded — it's a yargs built-in that emits
-// top-level help on `--help` and exits 1; not a real kilo command.
+// top-level help on `--help` and exits 1; not a real kappa command.
 // kilocode_change end
 const TOP_LEVEL = [
   "acp",
@@ -132,7 +132,7 @@ describe("Kilo CLI help-text snapshots", () => {
             Effect.gen(function* () {
               const result = yield* opencode.spawn([...argv, "--help"], { env: SNAPSHOT_ENV })
               if (result.exitCode !== 0) {
-                return yield* Effect.fail(`kilo ${argv.join(" ")}: exit ${result.exitCode}`) // kilocode_change
+                return yield* Effect.fail(`kappa ${argv.join(" ")}: exit ${result.exitCode}`) // kilocode_change
               }
               return { argv, result }
             }),
@@ -143,7 +143,7 @@ describe("Kilo CLI help-text snapshots", () => {
           // yargs writes --help to stderr, not stdout. Snapshotting stderr
           // means our test catches the help body; stdout for these commands
           // is expected to be empty.
-          expect(normalize(result.stderr)).toMatchSnapshot(`kilo ${argv.join(" ")} --help`) // kilocode_change
+          expect(normalize(result.stderr)).toMatchSnapshot(`kappa ${argv.join(" ")} --help`) // kilocode_change
         }
         if (failures.length > 0) {
           throw new Error(`Help text failed for:\n  ${failures.join("\n  ")}`)

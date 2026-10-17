@@ -14,7 +14,7 @@ const files = [
 const command = /opencode\s+(--[a-z-]+|run|serve|auth|upgrade|agent|github|mcp)\b/g
 
 describe("Kilo command branding", () => {
-  test("user-facing command help uses the `kilo` binary name", async () => {
+  test("user-facing command help uses the `kappa` binary name", async () => {
     const results = await Promise.all(
       files.map(async (file) => ({
         file,

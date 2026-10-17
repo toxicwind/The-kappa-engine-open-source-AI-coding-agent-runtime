@@ -30,7 +30,7 @@ const oauth = (token: string, organizationID: string) =>
 
 const authLayer = (info: Auth.Info) =>
   Layer.mock(Auth.Service)({
-    get: (id) => Effect.succeed(id === "kilo" ? info : undefined),
+    get: (id) => Effect.succeed(id === "kappa" ? info : undefined),
   })
 
 const stateLayer = (state: CloudDefaults.ModelStateInfo) =>
@@ -88,7 +88,7 @@ it.instance("routes URL-scoped credentials to their catalog origin", () => {
     expect(requests).toEqual([
       {
         authorization: `Bearer ${token}`,
-        feature: "kilo-cli",
+        feature: "kappa-cli",
         organization: null,
         path: "/api/openrouter/models",
       },
@@ -178,14 +178,14 @@ it.instance(
         const stored = oauth("stored-token", savedID)
         const current = yield* Ref.make<Auth.Info>(stored)
         const auth = Layer.mock(Auth.Service)({
-          get: (id) => (id === "kilo" ? Ref.get(current) : Effect.succeed(undefined)),
-          set: (id, info) => (id === "kilo" ? Ref.set(current, info) : Effect.void),
+          get: (id) => (id === "kappa" ? Ref.get(current) : Effect.succeed(undefined)),
+          set: (id, info) => (id === "kappa" ? Ref.set(current, info) : Effect.void),
         })
 
         const resolved = yield* Effect.gen(function* () {
           const result = yield* CloudDefaults.resolve({
             mode: "debug",
-            model: "kilo/anthropic/explicit",
+            model: "kappa/anthropic/explicit",
             orgID: explicitID,
             env: {
               KILO_API_KEY: "ignored-env-token",
@@ -193,7 +193,7 @@ it.instance(
             },
           })
           const service = yield* Auth.Service
-          expect(yield* service.get("kilo")).toEqual(stored)
+          expect(yield* service.get("kappa")).toEqual(stored)
           return result
         }).pipe(
           Effect.provide(
@@ -201,7 +201,7 @@ it.instance(
               auth,
               stateLayer(
                 state({
-                  model: { debug: { providerID: "kilo", modelID: "anthropic/saved" } },
+                  model: { debug: { providerID: "kappa", modelID: "anthropic/saved" } },
                 }),
               ),
               CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
@@ -220,7 +220,7 @@ it.instance(
             (request) =>
               request.path.startsWith(`/api/organizations/${explicitID}/`) &&
               request.authorization === "Bearer stored-token" &&
-              request.feature === "kilo-cli" &&
+              request.feature === "kappa-cli" &&
               request.organization === explicitID,
           ),
         ).toBe(true)
@@ -229,8 +229,8 @@ it.instance(
   {
     config: {
       default_agent: "plan",
-      model: "kilo/anthropic/repository",
-      agent: { plan: { model: "kilo/anthropic/mode" } },
+      model: "kappa/anthropic/repository",
+      agent: { plan: { model: "kappa/anthropic/mode" } },
     },
   },
 )
@@ -254,8 +254,8 @@ it.instance(
               authLayer(new Auth.Api({ type: "api", key: "stored-api-token" })),
               stateLayer(
                 state({
-                  model: { code: { providerID: "kilo", modelID: "anthropic/stale" } },
-                  recent: [{ providerID: "kilo", modelID: "anthropic/recent" }],
+                  model: { code: { providerID: "kappa", modelID: "anthropic/stale" } },
+                  recent: [{ providerID: "kappa", modelID: "anthropic/recent" }],
                 }),
               ),
               CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
@@ -265,7 +265,7 @@ it.instance(
     ),
   {
     config: {
-      model: "kilo/anthropic/repository",
+      model: "kappa/anthropic/repository",
       agent: { code: { model: null } },
     },
   },
@@ -287,7 +287,7 @@ it.instance(
             authLayer(new Auth.Api({ type: "api", key: "stored-api-token" })),
             stateLayer(
               state({
-                model: { code: { providerID: "kilo", modelID: "anthropic/saved" } },
+                model: { code: { providerID: "kappa", modelID: "anthropic/saved" } },
               }),
             ),
             CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
@@ -354,8 +354,8 @@ it.instance(
     config: {
       default_agent: "custom",
       agent: {
-        code: { model: "kilo/anthropic/code" },
-        custom: { mode: "primary", model: "kilo/anthropic/custom" },
+        code: { model: "kappa/anthropic/code" },
+        custom: { mode: "primary", model: "kappa/anthropic/custom" },
       },
     },
   },
@@ -410,8 +410,8 @@ it.instance(
                 authLayer(oauth("stored-token", organizationID)),
                 stateLayer(
                   state({
-                    model: { plan: { providerID: "kilo", modelID: "anthropic/saved" } },
-                    recent: [{ providerID: "kilo", modelID: "anthropic/recent" }],
+                    model: { plan: { providerID: "kappa", modelID: "anthropic/saved" } },
+                    recent: [{ providerID: "kappa", modelID: "anthropic/recent" }],
                   }),
                 ),
                 CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
@@ -435,8 +435,8 @@ it.instance(
   {
     config: {
       default_agent: "plan",
-      model: "kilo/anthropic/repository",
-      agent: { plan: { model: "kilo/anthropic/mode" } },
+      model: "kappa/anthropic/repository",
+      agent: { plan: { model: "kappa/anthropic/mode" } },
     },
   },
 )

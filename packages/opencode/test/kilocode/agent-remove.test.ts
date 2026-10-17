@@ -11,8 +11,8 @@ import { tmpdir } from "../fixture/fixture"
 describe("Kilo agent remove", () => {
   test("removes config-backed imported agents", async () => {
     await using tmp = await tmpdir()
-    const dir = path.join(tmp.path, ".kilo")
-    const file = path.join(dir, "kilo.jsonc")
+    const dir = path.join(tmp.path, ".kappa")
+    const file = path.join(dir, "kappa.jsonc")
     await mkdir(dir, { recursive: true })
     await Bun.write(
       file,
@@ -24,7 +24,7 @@ describe("Kilo agent remove", () => {
       "description": "Reviews code"
     },
     "code": {
-      "model": "kilo/gpt-5"
+      "model": "kappa/gpt-5"
     }
   }
 }`,
@@ -40,13 +40,13 @@ describe("Kilo agent remove", () => {
     const cfg = parseJsonc(await Bun.file(file).text())
     expect(cfg.default_agent).toBeUndefined()
     expect(cfg.agent.reviewer).toBeUndefined()
-    expect(cfg.agent.code.model).toBe("kilo/gpt-5")
+    expect(cfg.agent.code.model).toBe("kappa/gpt-5")
   })
 
   test("removes duplicate agents from every editable config source", async () => {
     await using tmp = await tmpdir()
-    const dir = path.join(tmp.path, ".kilo")
-    const files = [path.join(dir, "kilo.jsonc"), path.join(dir, "opencode.jsonc")]
+    const dir = path.join(tmp.path, ".kappa")
+    const files = [path.join(dir, "kappa.jsonc"), path.join(dir, "opencode.jsonc")]
     await mkdir(dir, { recursive: true })
     for (const file of files) {
       await Bun.write(
@@ -79,9 +79,9 @@ describe("Kilo agent remove", () => {
   test("limits removal to the selected scope", async () => {
     await using tmp = await tmpdir()
     const name = "scope-reviewer"
-    const dir = path.join(tmp.path, ".kilo")
-    const local = path.join(dir, "kilo.jsonc")
-    const global = path.join(Global.Path.config, "kilo.jsonc")
+    const dir = path.join(tmp.path, ".kappa")
+    const local = path.join(dir, "kappa.jsonc")
+    const global = path.join(Global.Path.config, "kappa.jsonc")
     const previous = (await Bun.file(global).exists()) ? await Bun.file(global).text() : undefined
     const content = JSON.stringify({ agent: { [name]: { description: "Reviews code" } } })
     await mkdir(dir, { recursive: true })
@@ -110,7 +110,7 @@ describe("Kilo agent remove", () => {
 
   test("preserves organization-managed agents", async () => {
     await using tmp = await tmpdir()
-    const dir = path.join(tmp.path, ".kilo", "agents")
+    const dir = path.join(tmp.path, ".kappa", "agents")
     const file = path.join(dir, "reviewer.md")
     await mkdir(dir, { recursive: true })
     await Bun.write(file, "---\ndescription: Reviews code\n---\n\nReview code.\n")

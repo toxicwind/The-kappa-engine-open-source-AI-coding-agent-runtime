@@ -10,12 +10,12 @@
 //      "Kilo Gateway" entirely, leaving those sections looking empty. This
 //      matches the VS Code selector, which also keeps recents in place.
 //   2. Search matches the provider name and the provider/model ids, not just
-//      the title and the section header, so typing `kilo` finds
+//      the title and the section header, so typing `kappa` finds
 //      "Anthropic Claude Sonnet 4.5" under the "Recommended" section.
 import * as fuzzysort from "fuzzysort"
 import { entries, filter, flatMap, groupBy, map, pipe, sortBy } from "remeda"
 
-export const KILO_PROVIDER_ID = "kilo"
+export const KILO_PROVIDER_ID = "kappa"
 export const RECOMMENDED_CATEGORY = "Recommended"
 
 export interface ModelPickerRef {

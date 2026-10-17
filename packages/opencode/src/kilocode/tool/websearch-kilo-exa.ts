@@ -1,7 +1,7 @@
 // kilocode_change - new file
 import { Duration, Effect, Schema } from "effect"
 import { HttpClient, HttpClientRequest } from "effect/unstable/http"
-import { KILO_API_BASE } from "@kilocode/kilo-gateway"
+import { KILO_API_BASE } from "@kappacode/kappa-gateway"
 
 export const KILO_EXA_URL = `${KILO_API_BASE}/api/exa/search`
 export const MAX_KILO_EXA_RESULTS = 10
@@ -56,12 +56,12 @@ export const callKiloExa = Effect.fn("WebSearchKiloExa.call")(function* (
   const response = yield* http.execute(request).pipe(
     Effect.timeoutOrElse({
       duration: Duration.seconds(25),
-      orElse: () => Effect.die(new Error("kilo exa request timed out")),
+      orElse: () => Effect.die(new Error("kappa exa request timed out")),
     }),
   )
   const status = response.status
   if (status === 401 || status === 403) {
-    return yield* Effect.die(new Error(`Kilo exa request unauthorized (${status}); sign in with \`kilo auth login\``))
+    return yield* Effect.die(new Error(`Kilo exa request unauthorized (${status}); sign in with \`kappa auth login\``))
   }
   if (status < 200 || status >= 300) {
     const body = yield* response.text

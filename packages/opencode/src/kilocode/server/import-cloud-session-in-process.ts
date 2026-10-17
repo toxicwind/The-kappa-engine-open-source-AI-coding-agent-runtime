@@ -16,7 +16,7 @@ import {
   fetchCloudSessionForImport,
   getToken,
   prepareSessionImport,
-} from "@kilocode/kilo-gateway"
+} from "@kappacode/kappa-gateway"
 import { baseKey } from "@/kilocode/session-portability/cumulative-diff"
 import { extractSessionDiffs, restoreSessionDiffs } from "@/kilocode/session-portability/session-diff-restore"
 import * as Log from "@opencode-ai/core/util/log"
@@ -30,7 +30,7 @@ const log = Log.create({ service: "import-cloud-session" })
  * typed errors that the callers translate into their own wire shapes.
  */
 export namespace CloudSessionImportInProcess {
-  // Missing kilo credentials (auth absent or no token).
+  // Missing kappa credentials (auth absent or no token).
   export class Unauthorized extends Schema.TaggedErrorClass<Unauthorized>()("CloudSessionImportUnauthorized", {}) {}
 
   // The cloud fetch returned a non-ok status; carries the upstream status and
@@ -72,7 +72,7 @@ export namespace CloudSessionImportInProcess {
     const database = yield* Database.Service
     const workspaceID = yield* WorkspaceRef
 
-    const info = yield* auth.get("kilo").pipe(Effect.mapError(() => new Unauthorized()))
+    const info = yield* auth.get("kappa").pipe(Effect.mapError(() => new Unauthorized()))
     const token = getToken(info)
     if (!token) return yield* Effect.fail(new Unauthorized())
 

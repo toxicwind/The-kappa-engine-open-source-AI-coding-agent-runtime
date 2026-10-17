@@ -24,12 +24,12 @@ import { environmentDetails } from "@/kilocode/editor-context"
 import { Identifier } from "@/id/id"
 import { Filesystem } from "@/util/filesystem"
 import NATIVE_PLAN_PROMPT from "@/kilocode/session/native-plan-prompt.txt"
-import { KiloMemory } from "@kilocode/kilo-memory/effect"
-import { MemoryPaths } from "@kilocode/kilo-memory/effect/paths"
+import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { MemoryMarker } from "@/kilocode/memory/marker"
 import { KilocodeSystemPrompt } from "@/kilocode/system-prompt"
 import { KiloToolRegistry } from "@/kilocode/tool/registry"
-import { consumeAutoTitle, markAutoTitle } from "@/kilo-sessions/rename-adoptions"
+import { consumeAutoTitle, markAutoTitle } from "@/kappa-sessions/rename-adoptions"
 
 export namespace KiloSessionPrompt {
   const modes = ["ask", "plan", "architect"]

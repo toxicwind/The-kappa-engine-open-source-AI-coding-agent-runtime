@@ -1053,7 +1053,7 @@ describe("KiloSnapshotTrack persistDisable", () => {
           progressDelayMs: 2,
         })
 
-        const file = path.join(test.directory, ".kilo", "kilo.jsonc")
+        const file = path.join(test.directory, ".kappa", "kappa.jsonc")
         const text = yield* Effect.tryPromise(() => Bun.file(file).text())
         expect(JSON.parse(text).snapshot).toBe(false)
         expect(state.disabledForSession).toBe(true)

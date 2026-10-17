@@ -398,7 +398,7 @@ function started(id: string, input: Partial<LlmRequestStarted["input"]>): LlmReq
     userMessageId: "u1",
     agent: "claude",
     modeId: "build",
-    model: { providerId: "kilo", modelId: "free-1", isFree: true },
+    model: { providerId: "kappa", modelId: "free-1", isFree: true },
     input: { system: [], messages: [], tools: {}, permissions: [], params: {}, ...input },
     time: { created: 0 },
   }

@@ -54,7 +54,7 @@ describe("CLI subprocess test bundle", () => {
         expect(results.map(([code]) => code)).toEqual([0, 0, 0, 0])
         for (const [, stderr] of results) expect(stderr).toContain("Commands:")
 
-        const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-test-cli-cwd-"))
+        const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-test-cli-cwd-"))
         const serve = Bun.spawn([process.execPath, "run", entry, "serve", "--hostname", "127.0.0.1", "--port", "0"], {
           cwd: outside,
           env: {
@@ -75,7 +75,7 @@ describe("CLI subprocess test bundle", () => {
           const reader = serve.stdout.getReader()
           const decoder = new TextDecoder()
           let text = ""
-          while (!text.includes("kilo server listening on")) {
+          while (!text.includes("kappa server listening on")) {
             const chunk = await reader.read()
             if (chunk.done) break
             text += decoder.decode(chunk.value, { stream: true })
@@ -85,7 +85,7 @@ describe("CLI subprocess test bundle", () => {
         })()
         if (serve.exitCode === null) serve.kill()
         const [code, err] = await Promise.all([serve.exited, stderr])
-        expect(output, `stdout:\n${output}\nstderr:\n${err}`).toContain("kilo server listening on")
+        expect(output, `stdout:\n${output}\nstderr:\n${err}`).toContain("kappa server listening on")
         expect(code, `stdout:\n${output}\nstderr:\n${err}`).not.toBe(1)
       } finally {
         if (!process.env[TestCli.ENV]) await fs.rm(dir, { recursive: true, force: true })

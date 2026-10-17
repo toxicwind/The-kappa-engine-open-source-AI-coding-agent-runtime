@@ -1,6 +1,6 @@
 import { WorkerPoolManager } from "@pierre/diffs/worker"
 import ShikiWorkerUrl from "@pierre/diffs/worker/worker.js?worker&url"
-import { ensureKiloDiffTheme, KILO_DIFF_THEME } from "./kilo-diff-theme" // kilocode_change
+import { ensureKiloDiffTheme, KILO_DIFF_THEME } from "./kappa-diff-theme" // kilocode_change
 
 // kilocode_change start: register the "Kilo" theme as a precondition of creating
 // any diff worker pool. resolveThemes([theme]) runs on the main thread during

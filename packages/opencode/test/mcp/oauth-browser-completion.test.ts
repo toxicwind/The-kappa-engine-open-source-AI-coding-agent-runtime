@@ -210,14 +210,14 @@ mcpTest.instance("completion redeems the flow's own PKCE verifier when another p
     const mcp = yield* addServer(name, server.url)
 
     // While the browser tab is open, another Kilo process (the VS Code backend, or
-    // `kilo mcp list` in a second terminal) connects the same server and saves its own
+    // `kappa mcp list` in a second terminal) connects the same server and saves its own
     // PKCE verifier for that server name, exactly as the SDK does while starting an
     // authorization flow. It must not be able to make this flow redeem its verifier.
     let clobbered: string | undefined
     yield* withBrowserHook(() =>
       Effect.promise(async () => {
         const other = new McpOAuthProvider(name, server.url, {}, { onRedirect: async () => {} }, auth)
-        await other.saveCodeVerifier("verifier-from-another-kilo-process")
+        await other.saveCodeVerifier("verifier-from-another-kappa-process")
         clobbered = (await Effect.runPromise(auth.get(name)))?.codeVerifier
       }),
     )
@@ -229,10 +229,10 @@ mcpTest.instance("completion redeems the flow's own PKCE verifier when another p
     )
 
     expect(status).toEqual({ status: "connected" })
-    expect(clobbered).toBe("verifier-from-another-kilo-process")
+    expect(clobbered).toBe("verifier-from-another-kappa-process")
     expect(server.attempts()).toHaveLength(1)
     expect(server.attempts()[0]).toMatchObject({ matched: true })
-    expect(server.attempts()[0]?.verifier).not.toBe("verifier-from-another-kilo-process")
+    expect(server.attempts()[0]?.verifier).not.toBe("verifier-from-another-kappa-process")
   }),
 )
 
@@ -347,7 +347,7 @@ mcpTest.instance("a callback listener taken over by another Kilo process is repo
     const added = yield* mcp.add(name, { type: "remote", url: server.url, oauth: { redirectUri } })
     expect(added.status).toMatchObject({ [name]: { status: "needs_auth" } })
 
-    // While this process waits for its browser tab, a second `kilo mcp auth` for the same
+    // While this process waits for its browser tab, a second `kappa mcp auth` for the same
     // server takes the callback listener over: no callback can reach this flow any more.
     let taken = false
     yield* withBrowserHook(() =>

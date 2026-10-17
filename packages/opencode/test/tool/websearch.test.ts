@@ -32,7 +32,7 @@ describe("websearch provider", () => {
 
   test("is enabled for Kilo, opencode-go, or explicit websearch provider flags", () => {
     // kilocode_change
-    expect(webSearchEnabled(ProviderV2.ID.kilo, { exa: false, parallel: false })).toBe(true) // kilocode_change
+    expect(webSearchEnabled(ProviderV2.ID.kappa, { exa: false, parallel: false })).toBe(true) // kilocode_change
     expect(webSearchEnabled(ProviderV2.ID.opencode, { exa: false, parallel: false })).toBe(false) // kilocode_change
     expect(webSearchEnabled(ProviderV2.ID.make("opencode-go"), { exa: false, parallel: false })).toBe(true)
     expect(webSearchEnabled(ProviderV2.ID.openai, { exa: false, parallel: false })).toBe(false)

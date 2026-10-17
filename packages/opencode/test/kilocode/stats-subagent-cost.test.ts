@@ -1,4 +1,4 @@
-// Verifies `kilo stats` does not double-count subagent cost while still
+// Verifies `kappa stats` does not double-count subagent cost while still
 // including child-session messages, tokens, tools, and model usage. The task
 // tool propagates each child session's total cost up to the parent's
 // tool-wrapper assistant message (#6321).

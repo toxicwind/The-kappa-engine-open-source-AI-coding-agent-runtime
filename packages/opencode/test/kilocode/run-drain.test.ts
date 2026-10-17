@@ -66,7 +66,7 @@ test("headless goal controls use direct commands without draining", async () => 
   const sdk = KiloRunDrain.scope(
     client(async (request) => {
       const url = new URL(request.url)
-      calls.push({ path: url.pathname, directory: request.headers.get("x-kilo-directory"), body: await request.json() })
+      calls.push({ path: url.pathname, directory: request.headers.get("x-kappa-directory"), body: await request.json() })
       return Response.json({ parts: [part] })
     }),
     "/goal owner",
@@ -108,7 +108,7 @@ test("headless goal start and resume fail before dispatch", async () => {
     }
     expect(calls).toEqual([])
     expect(errors).toHaveLength(2)
-    for (const error of errors) expect(error).toContain("Run kilo, then use /goal <text> or /goal resume")
+    for (const error of errors) expect(error).toContain("Run kappa, then use /goal <text> or /goal resume")
     expect(process.exitCode).toBe(1)
   } finally {
     process.exitCode = code ?? 0

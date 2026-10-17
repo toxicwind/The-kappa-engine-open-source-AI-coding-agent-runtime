@@ -55,8 +55,8 @@ export const ModelsCommand = effectCmd({
 
     // kilocode_change start
     const ids = Object.keys(providers).sort((a, b) => {
-      const aIsKilo = a === "kilo" || a.startsWith("opencode")
-      const bIsKilo = b === "kilo" || b.startsWith("opencode")
+      const aIsKilo = a === "kappa" || a.startsWith("opencode")
+      const bIsKilo = b === "kappa" || b.startsWith("opencode")
       if (aIsKilo && !bIsKilo) return -1
       if (!aIsKilo && bIsKilo) return 1
       return a.localeCompare(b)

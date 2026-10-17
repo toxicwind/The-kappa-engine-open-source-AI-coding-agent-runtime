@@ -1,4 +1,4 @@
-import type { KilocodeSessionModelUsageResponse, Session, StepFinishPart } from "@kilocode/sdk/v2"
+import type { KilocodeSessionModelUsageResponse, Session, StepFinishPart } from "@kappacode/sdk/v2"
 
 export type SessionModelUsage = KilocodeSessionModelUsageResponse
 export type UsageResult = { sessionID: string; data?: SessionModelUsage }

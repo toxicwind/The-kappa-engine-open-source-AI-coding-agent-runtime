@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test"
 import { ConfigProvider, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
-import { HEADER_FEATURE, HEADER_ORGANIZATIONID } from "@kilocode/kilo-gateway"
+import { HEADER_FEATURE, HEADER_ORGANIZATIONID } from "@kappacode/kappa-gateway"
 import * as Log from "@opencode-ai/core/util/log"
-import { KiloGatewayPaths } from "../../../src/kilocode/server/httpapi/groups/kilo-gateway"
+import { KiloGatewayPaths } from "../../../src/kilocode/server/httpapi/groups/kappa-gateway"
 import * as HttpApiServer from "../../../src/server/routes/instance/httpapi/server"
 import { resetDatabase } from "../../fixture/db"
 import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
@@ -16,7 +16,7 @@ const env = {
 }
 
 const edit = {
-  provider: "kilo",
+  provider: "kappa",
   model: "inception/mercury-next-edit",
   currentFilePath: "src/index.ts",
   currentFileContent: "export const value = 1\n",
@@ -57,7 +57,7 @@ async function send(body: Record<string, unknown> = edit, signal?: AbortSignal) 
   await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
   return app().request(KiloGatewayPaths.edit, {
     method: "POST",
-    headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+    headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
     body: JSON.stringify(body),
     signal,
   })
@@ -80,7 +80,7 @@ function completion(input: RequestInfo | URL) {
 
 function authenticate() {
   process.env.KILO_AUTH_CONTENT = JSON.stringify({
-    kilo: {
+    kappa: {
       type: "oauth",
       refresh: "refresh-token",
       access: "gateway-token",

@@ -121,7 +121,7 @@ describe("instruction markdown substitutions", () => {
           Effect.succeed({
             instructions: [item],
             instruction_origins: {
-              [item]: { trusted: false, source: path.join(project, "kilo.json"), root: project },
+              [item]: { trusted: false, source: path.join(project, "kappa.json"), root: project },
             },
           }),
       })

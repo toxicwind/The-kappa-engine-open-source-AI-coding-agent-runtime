@@ -170,7 +170,7 @@ export namespace KiloSnapshotCleanup {
     const root = path.resolve(input.root)
     const directory = path.resolve(input.directory)
     const worktree = path.resolve(input.worktree)
-    const managed = path.resolve(directory, ".kilo", "worktrees")
+    const managed = path.resolve(directory, ".kappa", "worktrees")
     if (!component(input.project)) return yield* Effect.fail(new Error("project must be a safe path component"))
     if (!path.isAbsolute(input.worktree) || worktree === managed || !FSUtil.contains(managed, worktree))
       return yield* Effect.fail(new Error("worktree must be an absolute path inside the managed worktrees directory"))

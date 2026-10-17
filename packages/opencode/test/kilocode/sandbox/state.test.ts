@@ -8,7 +8,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { Database } from "@opencode-ai/core/database/database"
-import { assertNetwork, assertWrite, enabled as sandboxed } from "@kilocode/sandbox"
+import { assertNetwork, assertWrite, enabled as sandboxed } from "@kappacode/sandbox"
 import { Bus } from "@/bus"
 import { GlobalBus } from "@/bus/global"
 import { Config } from "@/config/config"
@@ -36,7 +36,7 @@ function execute<A, E, R>(sessionID: SessionID, effect: Effect.Effect<A, E, R>) 
 }
 
 test("refreshes the session snapshot after a backend restart", async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-sandbox-restart-"))
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-sandbox-restart-"))
   const directory = path.join(root, "project")
   await fs.mkdir(directory)
   const script = [
@@ -113,7 +113,7 @@ test("refreshes the session snapshot after a backend restart", async () => {
 })
 
 posix("canonicalizes a symlinked policy state root", async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-sandbox-state-link-"))
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-sandbox-state-link-"))
   const target = path.join(root, "real-state")
   const link = path.join(root, "state")
   await fs.mkdir(target)
@@ -130,7 +130,7 @@ posix("canonicalizes a symlinked policy state root", async () => {
     })
     expect(result.exitCode, result.stderr.toString()).toBe(0)
     expect(result.stdout.toString().trim().split("\n").at(-1)).toBe(
-      path.join(await fs.realpath(target), "kilo-sandbox-policy"),
+      path.join(await fs.realpath(target), "kappa-sandbox-policy"),
     )
   } finally {
     await fs.rm(root, { recursive: true, force: true })
@@ -138,7 +138,7 @@ posix("canonicalizes a symlinked policy state root", async () => {
 })
 
 linux("reports configured network namespace availability", async () => {
-  const root = await fs.mkdtemp(path.join(process.env.TMPDIR ?? "/tmp", "kilo-sandbox-status-"))
+  const root = await fs.mkdtemp(path.join(process.env.TMPDIR ?? "/tmp", "kappa-sandbox-status-"))
   const helper = path.join(root, "bwrap-no-network")
   await fs.writeFile(
     helper,
@@ -195,7 +195,7 @@ it.instance("does not let project config weaken an initialized policy", () =>
     () =>
       Effect.gen(function* () {
         const test = yield* TestInstance
-        const file = path.join(test.directory, "kilo.json")
+        const file = path.join(test.directory, "kappa.json")
         const legacy = path.join(test.directory, "opencode.json")
         const config = yield* Config.Service
         yield* Effect.promise(() => Bun.write(file, JSON.stringify({ sandbox: { enabled: true, network: "deny" } })))

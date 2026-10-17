@@ -1,4 +1,4 @@
-import type { PermissionRequest } from "@kilocode/sdk/v2"
+import type { PermissionRequest } from "@kappacode/sdk/v2"
 import { useTheme } from "@tui/context/theme"
 import { MemoryPermissionRegistry } from "@/kilocode/cli/cmd/tui/routes/session/memory-permission"
 

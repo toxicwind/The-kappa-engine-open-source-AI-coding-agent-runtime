@@ -18,7 +18,7 @@ function app() {
 function request(path: string, directory: string, init: RequestInit = {}) {
   return Effect.promise(() => {
     const headers = new Headers(init.headers)
-    headers.set("x-kilo-directory", directory)
+    headers.set("x-kappa-directory", directory)
     return Promise.resolve(app().request(path, { ...init, headers }))
   })
 }

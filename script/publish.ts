@@ -8,7 +8,7 @@ import { apply } from "./kilocode/changeset-version" // kilocode_change
 console.log("=== publishing ===\n")
 
 // kilocode_change start - keep JetBrains CLI pin reviewable outside CLI release commits
-const jetbrainsPkg = fileURLToPath(new URL("../packages/kilo-jetbrains/package.json", import.meta.url))
+const jetbrainsPkg = fileURLToPath(new URL("../packages/kappa-jetbrains/package.json", import.meta.url))
 const jetbrainsPin = await Bun.file(jetbrainsPkg).text()
 // kilocode_change end
 
@@ -105,7 +105,7 @@ await import(`../packages/plugin/script/publish.ts`)
 
 // kilocode_change start
 console.log("\n=== vscode ===\n")
-await import(`../packages/kilo-vscode/script/publish.ts`)
+await import(`../packages/kappa-vscode/script/publish.ts`)
 // kilocode_change end
 
 // kilocode_change start - Kilo does not ship the opencode desktop app
@@ -131,7 +131,7 @@ async function createJetbrainsPinPr() {
   }
   const args = ["--version", Script.version, "--pr"]
   if (Script.preview) args.push("--pre-release")
-  const result = await $`bun .kilo/skills/release-jetbrains/script/set-pin.ts ${args}`.nothrow()
+  const result = await $`bun .kappa/skills/release-jetbrains/script/set-pin.ts ${args}`.nothrow()
   const out = result.stdout.toString().trim()
   const err = result.stderr.toString().trim()
   if (result.exitCode === 0) {

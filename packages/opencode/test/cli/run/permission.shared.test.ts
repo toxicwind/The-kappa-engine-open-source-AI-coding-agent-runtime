@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import type { PermissionRequest } from "@kilocode/sdk/v2"
+import type { PermissionRequest } from "@kappacode/sdk/v2"
 import {
   createPermissionBodyState,
   permissionAlwaysLines,

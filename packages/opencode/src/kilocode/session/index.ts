@@ -17,14 +17,14 @@ import { SessionTable } from "@opencode-ai/core/session/sql"
 import * as Log from "@opencode-ai/core/util/log"
 import type { ProviderMetadata, Usage } from "@opencode-ai/llm"
 import type { Provider } from "@/provider/provider"
-import { ENV_FEATURE } from "@kilocode/kilo-gateway"
+import { ENV_FEATURE } from "@kappacode/kappa-gateway"
 import { existsSync } from "fs"
 import path from "path"
 import { iife } from "@/util/iife"
 import { KiloSessionEvent, type KiloSessionCloseReason } from "./event"
 
 export namespace KiloSession {
-  const log = Log.create({ service: "session.kilo" })
+  const log = Log.create({ service: "session.kappa" })
 
   // ---------------------------------------------------------------------------
   // Events
@@ -213,7 +213,7 @@ export namespace KiloSession {
     provider?: Provider.Info
     providerID: string
   }): number | undefined {
-    const isKilo = (input.provider?.id ?? input.providerID) === "kilo"
+    const isKilo = (input.provider?.id ?? input.providerID) === "kappa"
 
     const num = (value: unknown): number | undefined => {
       if (value === undefined || value === null) return undefined
@@ -266,20 +266,20 @@ export namespace KiloSession {
 
   export function shareSession(id: SessionID) {
     return EffectBridge.fromPromise(async () => {
-      const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
+      const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
       return KiloSessions.share(id)
     }).pipe(Effect.catchCause((cause) => Effect.fail(Cause.squash(cause))))
   }
 
   export function unshareSession(id: SessionID) {
     return EffectBridge.fromPromise(async () => {
-      const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
+      const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
       await KiloSessions.unshare(id)
     }).pipe(Effect.catchCause((cause) => Effect.fail(Cause.squash(cause))))
   }
 
   export async function removeSession(id: string): Promise<void> {
-    const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
+    const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
     await KiloSessions.remove(id).catch(() => {})
   }
 
@@ -443,7 +443,7 @@ export namespace KiloSession {
           if (!Filesystem.contains(root, dir) || nested(root, dir)) continue
           const rel = path.relative(root, dir)
           const parts = rel.split(path.sep)
-          if ((parts[0] === ".kilo" || parts[0] === ".kilocode") && parts[1] === "worktrees" && parts[2]) {
+          if ((parts[0] === ".kappa" || parts[0] === ".kilocode") && parts[1] === "worktrees" && parts[2]) {
             return path.join(root, parts[0], parts[1], parts[2])
           }
           return root

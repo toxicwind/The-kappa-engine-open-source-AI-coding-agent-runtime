@@ -21,7 +21,7 @@ describe("model not found errors", () => {
 
     const named = FormatError({ name: "ProviderModelNotFoundError", data })
     expect(named).toContain("No models are currently available.")
-    expect(named).toContain("kilo.json")
+    expect(named).toContain("kappa.json")
     expect(named).not.toContain("opencode.json")
     expect(FormatError({ _tag: "ProviderModelNotFoundError", ...data })).toContain("No models are currently available.")
   })
@@ -46,7 +46,7 @@ describe("remote config authentication errors", () => {
       remote: "team config",
     })
 
-    expect(error).toContain("kilo auth login https://example.com/config.json")
+    expect(error).toContain("kappa auth login https://example.com/config.json")
     expect(error).not.toContain("opencode auth login")
   })
 })

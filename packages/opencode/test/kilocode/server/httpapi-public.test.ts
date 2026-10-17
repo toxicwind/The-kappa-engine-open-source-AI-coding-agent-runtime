@@ -6,7 +6,7 @@ import { BackgroundProcessPaths } from "../../../src/kilocode/server/httpapi/gro
 import { BranchNamePaths } from "../../../src/kilocode/server/httpapi/groups/branch-name"
 import { ConfigConsolePaths } from "../../../src/kilocode/server/httpapi/groups/config-console"
 import { IndexingPaths, KiloEmbeddingModel } from "../../../src/kilocode/server/httpapi/groups/indexing"
-import { KiloGatewayPaths } from "../../../src/kilocode/server/httpapi/groups/kilo-gateway"
+import { KiloGatewayPaths } from "../../../src/kilocode/server/httpapi/groups/kappa-gateway"
 import { KilocodePaths } from "../../../src/kilocode/server/httpapi/groups/kilocode"
 import { MemoryPaths } from "../../../src/kilocode/server/httpapi/groups/memory"
 import { NetworkPaths } from "../../../src/kilocode/server/httpapi/groups/network"
@@ -62,8 +62,8 @@ describe("Kilo PublicApi OpenAPI contract", () => {
 
   test("uses Kilo branding", () => {
     const spec = OpenApi.fromApi(PublicApi)
-    expect(spec.info.title).toBe("kilo")
-    expect(spec.info.description).toBe("kilo api")
+    expect(spec.info.title).toBe("kappa")
+    expect(spec.info.description).toBe("kappa api")
   })
 
   test("includes legacy Kilo events in the generated SDK contract", () => {

@@ -73,7 +73,7 @@ const updateDurations = argv.includes("--update-durations") // kilocode_change
 const verbose = argv.includes("--verbose")
 const dots = !verbose && (ci || argv.includes("--dots"))
 // Cap concurrency at 4 even on bigger runners: the bottleneck is shared
-// resources (ports, global filesystem like ~/.local/share/kilo), not CPU.
+// resources (ports, global filesystem like ~/.local/share/kappa), not CPU.
 // Eight parallel processes was triggering port/FS races, not going faster.
 // kilocode_change start - allow CI to lower concurrency via env. On the 4-vCPU
 // Windows runner, the default (min(4, cpus)=4) oversubscribes: 4 heavy real-server
@@ -213,7 +213,7 @@ const DURATION_HINTS: Record<string, number> = {
 // so a macOS measurement balances Windows shards fine. Hints above still win: they are
 // Windows-observed maxima.
 const measuredDurations: Record<string, number> = await Bun.file(
-  path.join(root, "script", "kilocode", "test-durations.json"),
+  path.join(root, "script", "kappacode", "test-durations.json"),
 )
   .json()
   .catch(() => ({}))
@@ -856,7 +856,7 @@ if (updateDurations) {
         .sort(([a], [b]) => a.localeCompare(b)),
     )
     await Bun.write(
-      path.join(root, "script", "kilocode", "test-durations.json"),
+      path.join(root, "script", "kappacode", "test-durations.json"),
       JSON.stringify(merged, null, 1) + "\n",
     )
     console.log(

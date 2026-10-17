@@ -29,7 +29,7 @@ describe("session export performance budget", () => {
     for (let i = 0; i < 200; i++) {
       const start = performance.now()
       cap.beforeRequest({
-        input: { model: { api: { npm: "@kilocode/kilo-gateway" }, isFree: true }, org: { type: "personal" as const } },
+        input: { model: { api: { npm: "@kappacode/kappa-gateway" }, isFree: true }, org: { type: "personal" as const } },
         requestMeta: meta(`s${i}`),
         assembled: { system: [body], messages: [], tools: {}, permissions: [], params: {} },
       })

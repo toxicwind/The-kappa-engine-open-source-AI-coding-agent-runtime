@@ -262,7 +262,7 @@ export namespace Goal {
               sessionID: id,
               metadata: {
                 ...session.metadata,
-                "kilo.goal": {
+                "kappa.goal": {
                   text: goal.text,
                   status: "paused",
                   active: false,
@@ -362,7 +362,7 @@ export namespace Goal {
                 sessionID: input.id,
                 metadata: {
                   ...session.metadata,
-                  "kilo.goal": { text: input.text, status, active: status === "active", reason },
+                  "kappa.goal": { text: input.text, status, active: status === "active", reason },
                 },
               })
               // Clear the wait record before cancelling so the wakeup side's
@@ -394,7 +394,7 @@ export namespace Goal {
                 sessionID: id,
                 metadata: {
                   ...session.metadata,
-                  "kilo.goal": { text, status: "waiting", active: false, reason, wait },
+                  "kappa.goal": { text, status: "waiting", active: false, reason, wait },
                 },
               })
               // Hold the goal so the question gate stays closed while it waits.
@@ -658,14 +658,14 @@ export namespace Goal {
                       GoalLink.clear(id)
                       yield* GoalLink.cleanup(id)
                     }
-                    metadata["kilo.goal"] = {
+                    metadata["kappa.goal"] = {
                       text,
                       status: "active",
                       active: true,
                       ...(resumeWait ? { wait: resumeWait } : {}),
                     }
                   }
-                  if (args === "clear") delete metadata["kilo.goal"]
+                  if (args === "clear") delete metadata["kappa.goal"]
                   return yield* sessions.setMetadata({ sessionID: id, metadata })
                 }),
               )
@@ -817,7 +817,7 @@ export namespace Goal {
                   sessionID: id,
                   metadata: {
                     ...fresh.metadata,
-                    "kilo.goal": {
+                    "kappa.goal": {
                       text,
                       status: "active",
                       active: true,

@@ -1258,7 +1258,7 @@ it.instance(
   Effect.gen(function* () {
     const providers = yield* list
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
-      "HTTP-Referer": "https://kilo.ai/", // kilocode_change
+      "HTTP-Referer": "https://kappa.ai/", // kilocode_change
       "X-Title": "Kilo Code", // kilocode_change
       "X-BILLING-INVOKE-ORIGIN": "KiloCode", // kilocode_change
     })
@@ -1271,7 +1271,7 @@ it.instance(
   Effect.gen(function* () {
     const providers = yield* list
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
-      "HTTP-Referer": "https://kilo.ai/", // kilocode_change
+      "HTTP-Referer": "https://kappa.ai/", // kilocode_change
       "X-Title": "Kilo Code", // kilocode_change
       "X-BILLING-INVOKE-ORIGIN": "KiloCode", // kilocode_change
     })
@@ -1954,7 +1954,7 @@ const provideMultiInstance = <A, E, R>(eff: Effect.Effect<A, E, R>) =>
 it.effect("plugin config providers persist after instance dispose", () =>
   Effect.gen(function* () {
     const dir = yield* tmpdirScoped()
-    const configDir = path.join(dir, ".kilo") // kilocode_change
+    const configDir = path.join(dir, ".kappa") // kilocode_change
     const root = path.join(configDir, "plugin")
     yield* Effect.promise(() => mkdir(root, { recursive: true }))
     yield* Effect.promise(() => markPluginDependenciesReady(configDir))
@@ -2011,7 +2011,7 @@ it.instance(
   "plugin config enabled and disabled providers are honored",
   Effect.gen(function* () {
     const instance = yield* TestInstance
-    const configDir = path.join(instance.directory, ".kilo") // kilocode_change
+    const configDir = path.join(instance.directory, ".kappa") // kilocode_change
     const root = path.join(configDir, "plugin")
     yield* Effect.promise(() => mkdir(root, { recursive: true }))
     yield* Effect.promise(() => markPluginDependenciesReady(configDir))

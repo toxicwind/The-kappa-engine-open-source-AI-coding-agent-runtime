@@ -6,10 +6,10 @@ async function mark(dir: string) {
   await mkdir(path.join(dir, "node_modules"), { recursive: true })
   await Bun.write(
     path.join(dir, "package-lock.json"),
-    JSON.stringify({ packages: { "": { dependencies: { "@kilocode/plugin": "0.0.0" } } } }),
+    JSON.stringify({ packages: { "": { dependencies: { "@kappacode/plugin": "0.0.0" } } } }),
   )
 }
 
 export function preparePluginDependencies(dir: string) {
-  return Promise.all([mark(path.join(dir, ".kilo")), mark(Global.Path.config)])
+  return Promise.all([mark(path.join(dir, ".kappa")), mark(Global.Path.config)])
 }

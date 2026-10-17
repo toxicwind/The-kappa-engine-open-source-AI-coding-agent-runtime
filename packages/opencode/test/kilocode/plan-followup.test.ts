@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test"
 import { Effect } from "effect"
-import { Telemetry } from "@kilocode/kilo-telemetry"
+import { Telemetry } from "@kappacode/kappa-telemetry"
 import { Global } from "@opencode-ai/core/global"
 import * as Log from "@opencode-ai/core/util/log"
 import { Agent } from "../../src/agent/agent"

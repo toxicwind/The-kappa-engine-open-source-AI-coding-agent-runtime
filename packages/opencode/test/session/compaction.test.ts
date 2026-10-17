@@ -2238,7 +2238,7 @@ describe("SessionNs.getUsage", () => {
         cache: { read: 0.3, write: 3.75 },
       },
     })
-    const provider = { id: "kilo" } as Provider.Info
+    const provider = { id: "kappa" } as Provider.Info
     const result = SessionNs.getUsage({
       model,
       provider,
@@ -2329,7 +2329,7 @@ describe("SessionNs.getUsage", () => {
         cache: { read: 0.3, write: 3.75 },
       },
     })
-    const provider = { id: "kilo" } as Provider.Info
+    const provider = { id: "kappa" } as Provider.Info
     const result = SessionNs.getUsage({
       model,
       provider,

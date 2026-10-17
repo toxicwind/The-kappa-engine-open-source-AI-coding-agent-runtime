@@ -5,9 +5,9 @@ import type {
   Plugin as PluginInstance,
   PluginModule,
   WorkspaceAdapter as PluginWorkspaceAdapter,
-} from "@kilocode/plugin"
+} from "@kappacode/plugin"
 import { Config } from "@/config/config"
-import { createKiloClient } from "@kilocode/sdk"
+import { createKiloClient } from "@kappacode/sdk"
 import { ServerAuth } from "@/server/auth"
 import { CodexAuthPlugin } from "./openai/codex"
 import { Session } from "@/session/session"
@@ -28,8 +28,8 @@ import { InstanceState } from "@/effect/instance-state"
 import { errorMessage } from "@/util/error"
 import { PluginLoader } from "./loader"
 import { parsePluginSpecifier, readPluginId, readV1Plugin, resolvePluginId } from "./shared"
-import { KiloAuthPlugin } from "@kilocode/kilo-gateway" // kilocode_change
-import { AtomicChatPlugin } from "@kilocode/plugin-atomic-chat" // kilocode_change
+import { KiloAuthPlugin } from "@kappacode/kappa-gateway" // kilocode_change
+import { AtomicChatPlugin } from "@kappacode/plugin-atomic-chat" // kilocode_change
 import { AnacondaDesktopPlugin } from "@/kilocode/anaconda-desktop/provider" // kilocode_change
 import { registerAdapter } from "@/control-plane/adapters"
 import type { WorkspaceAdapter } from "@/control-plane/types"
@@ -80,7 +80,7 @@ function internalPlugins(flags: RuntimeFlags.Info): PluginInstance[] {
     CopilotAuthPlugin,
     ModalPlugin,
     // kilocode_change start
-    // kilocode_change - external auth plugins ship against @opencode-ai/plugin; bridge to our @kilocode/plugin types
+    // kilocode_change - external auth plugins ship against @opencode-ai/plugin; bridge to our @kappacode/plugin types
     GitlabAuthPlugin as unknown as PluginInstance,
     PoeAuthPlugin as unknown as PluginInstance,
     // kilocode_change end
@@ -113,7 +113,7 @@ function getLegacyPlugins(mod: Record<string, unknown>) {
     if (seen.has(entry)) continue
     seen.add(entry)
     const plugin = getServerPlugin(entry)
-    // kilocode_change: skip named exports (e.g. constants from @kilocode/plugin-atomic-chat)
+    // kilocode_change: skip named exports (e.g. constants from @kappacode/plugin-atomic-chat)
     if (!plugin) continue // kilocode_change
     result.push(plugin)
   }

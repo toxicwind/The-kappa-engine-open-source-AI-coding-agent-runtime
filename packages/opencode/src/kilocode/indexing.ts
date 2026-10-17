@@ -2,12 +2,12 @@ import z from "zod"
 import path from "path"
 import { realpathSync } from "node:fs"
 import { Effect, Schema } from "effect"
-import { type IndexingTelemetryEvent, type VectorStoreSearchResult } from "@kilocode/kilo-indexing/engine"
-import { toIndexingConfigInput, type IndexingConfig } from "@kilocode/kilo-indexing/config"
-import { hasIndexingPlugin } from "@kilocode/kilo-indexing/detect"
-import { IndexingStatus, disabledIndexingStatus } from "@kilocode/kilo-indexing/status"
-import { Telemetry } from "@kilocode/kilo-telemetry"
-import { fetchKiloEmbeddingModelCatalog } from "@kilocode/kilo-gateway"
+import { type IndexingTelemetryEvent, type VectorStoreSearchResult } from "@kappacode/kappa-indexing/engine"
+import { toIndexingConfigInput, type IndexingConfig } from "@kappacode/kappa-indexing/config"
+import { hasIndexingPlugin } from "@kappacode/kappa-indexing/detect"
+import { IndexingStatus, disabledIndexingStatus } from "@kappacode/kappa-indexing/status"
+import { Telemetry } from "@kappacode/kappa-telemetry"
+import { fetchKiloEmbeddingModelCatalog } from "@kappacode/kappa-gateway"
 import { allowed, message } from "@opencode-ai/core/kilocode/fff"
 import { Instance } from "@/kilocode/instance"
 import { Bus } from "@/bus"
@@ -84,12 +84,12 @@ function pending(): z.infer<typeof IndexingStatus> {
 }
 
 async function kiloAuth(cfg: Config.Info): Promise<KiloIndexingAuth> {
-  const info = await auth.runPromise((svc) => svc.get("kilo"))
+  const info = await auth.runPromise((svc) => svc.get("kappa"))
   return resolveKiloIndexingAuth({ config: cfg, auth: info })
 }
 
 function enrichKilo(input: ReturnType<typeof toIndexingConfigInput>, auth: KiloIndexingAuth) {
-  if (input.embedderProvider !== "kilo") return input
+  if (input.embedderProvider !== "kappa") return input
 
   return {
     ...input,
@@ -100,7 +100,7 @@ function enrichKilo(input: ReturnType<typeof toIndexingConfigInput>, auth: KiloI
 }
 
 async function model(input: ReturnType<typeof toIndexingConfigInput>, auth: KiloIndexingAuth) {
-  if (input.embedderProvider !== "kilo" || !input.enabled) return input
+  if (input.embedderProvider !== "kappa" || !input.enabled) return input
 
   const catalog = await fetchKiloEmbeddingModelCatalog({ baseURL: auth.baseUrl, token: auth.apiKey })
 

@@ -59,7 +59,7 @@ import { SyncEvent } from "@/sync" // kilocode_change
 import { ToolRegistry } from "@/tool/registry"
 import { Truncate } from "@/tool/truncate"
 import { Worktree } from "@/worktree"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service" // kilocode_change
+import { MemoryService } from "@kappacode/kappa-memory/effect/service" // kilocode_change
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { MoveSession } from "@opencode-ai/core/control-plane/move-session"
 import { Database } from "@opencode-ai/core/database/database"

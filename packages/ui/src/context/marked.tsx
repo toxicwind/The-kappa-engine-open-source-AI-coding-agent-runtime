@@ -17,10 +17,10 @@ import {
 import { createSimpleContext } from "./helper"
 import { markedCodeSpanBoundary } from "./marked-code-span"
 import { getSharedHighlighter, type ThemeRegistrationResolved } from "@pierre/diffs" // kilocode_change
-import { ensureKiloDiffTheme, KILO_DIFF_THEME } from "../pierre/kilo-diff-theme" // kilocode_change
+import { ensureKiloDiffTheme, KILO_DIFF_THEME } from "../pierre/kappa-diff-theme" // kilocode_change
 
 // kilocode_change start: the "Kilo" diff/highlight theme registration moved to
-// ../pierre/kilo-diff-theme so the diff worker pool can register it without
+// ../pierre/kappa-diff-theme so the diff worker pool can register it without
 // importing this module's katex/marked dependencies. This call keeps the markdown
 // highlighter (getSharedHighlighter, below) working. Upstream keeps an inline
 // registerCustomTheme("OpenCode", …) block here — do not restore it on merges;

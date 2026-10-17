@@ -32,10 +32,10 @@ describe("config model state routes", () => {
     await Bun.write(
       path.join(tmp.path, "model.json"),
       JSON.stringify({
-        recent: [{ providerID: "kilo", modelID: "gpt-5.5" }],
+        recent: [{ providerID: "kappa", modelID: "gpt-5.5" }],
         favorite: [
-          { providerID: "kilo", modelID: "gpt-5.5" },
-          { providerID: "kilo", modelID: "qwen/qwen3-8b" },
+          { providerID: "kappa", modelID: "gpt-5.5" },
+          { providerID: "kappa", modelID: "qwen/qwen3-8b" },
         ],
         model: {},
         variant: {},
@@ -47,8 +47,8 @@ describe("config model state routes", () => {
     )
 
     expect(body.favorite).toEqual([
-      { providerID: "kilo", modelID: "gpt-5.5" },
-      { providerID: "kilo", modelID: "qwen/qwen3-8b" },
+      { providerID: "kappa", modelID: "gpt-5.5" },
+      { providerID: "kappa", modelID: "qwen/qwen3-8b" },
     ])
   })
 
@@ -58,7 +58,7 @@ describe("config model state routes", () => {
     await Bun.write(
       path.join(tmp.path, "model.json"),
       JSON.stringify({
-        recent: [{ providerID: "kilo", modelID: "recent" }],
+        recent: [{ providerID: "kappa", modelID: "recent" }],
         favorite: [],
         model: {},
         variant: {},
@@ -69,11 +69,11 @@ describe("config model state routes", () => {
       await req("/config/model-state", {
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ favorite: [{ providerID: "kilo", modelID: "gpt-5.5" }] }),
+        body: JSON.stringify({ favorite: [{ providerID: "kappa", modelID: "gpt-5.5" }] }),
       }),
     )
 
-    expect(body.recent).toEqual([{ providerID: "kilo", modelID: "recent" }])
-    expect(body.favorite).toEqual([{ providerID: "kilo", modelID: "gpt-5.5" }])
+    expect(body.recent).toEqual([{ providerID: "kappa", modelID: "recent" }])
+    expect(body.favorite).toEqual([{ providerID: "kappa", modelID: "gpt-5.5" }])
   })
 })

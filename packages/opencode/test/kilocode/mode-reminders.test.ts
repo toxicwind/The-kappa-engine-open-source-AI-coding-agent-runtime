@@ -26,7 +26,7 @@ const docsmith = { name: "docsmith", permission: Permission.fromConfig({ "*": "a
 const plan = {
   name: "plan",
   native: true,
-  permission: Permission.fromConfig({ "*": "deny", edit: { "*": "deny", ".kilo/plans/*.md": "allow" } }),
+  permission: Permission.fromConfig({ "*": "deny", edit: { "*": "deny", ".kappa/plans/*.md": "allow" } }),
 }
 const debug = { name: "debug", native: true, permission: Permission.fromConfig({ "*": "ask", edit: "allow" }) }
 // An organization override of a native agent keeps native: true; capability must follow permissions, not the name.

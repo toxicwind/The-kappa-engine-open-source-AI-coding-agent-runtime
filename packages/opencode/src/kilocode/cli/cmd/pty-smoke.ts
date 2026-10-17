@@ -17,7 +17,7 @@ const DIAGNOSTIC =
  * instead of guessing, and skip nested directories like background-process.
  */
 async function logs(dataHome: string) {
-  const dir = path.join(dataHome, "kilo", "log")
+  const dir = path.join(dataHome, "kappa", "log")
   const entries = await readdir(dir, { withFileTypes: true }).catch(() => [])
   const files = entries.filter((entry) => entry.isFile())
   if (files.length === 0) return `no CLI logs under ${dir}`
@@ -34,7 +34,7 @@ async function logs(dataHome: string) {
 export async function render(file: string, args: string[] = ["--pure"], timeout = 60_000) {
   const { spawn } = await import("@opencode-ai/core/pty/driver")
   const { KiloPtyTermination } = await import("@opencode-ai/core/kilocode/pty/termination")
-  const dir = await mkdtemp(path.join(os.tmpdir(), "kilo-pty-render-"))
+  const dir = await mkdtemp(path.join(os.tmpdir(), "kappa-pty-render-"))
   const env: Record<string, string> = {}
   for (const key of ["PATH", "SystemRoot", "SYSTEMROOT", "ComSpec", "LANG", "LC_ALL", "LC_CTYPE", "LANGUAGE"]) {
     const value = process.env[key]

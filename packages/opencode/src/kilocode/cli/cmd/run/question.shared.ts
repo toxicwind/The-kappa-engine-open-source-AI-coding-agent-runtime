@@ -1,4 +1,4 @@
-import type { QuestionRequest } from "@kilocode/sdk/v2"
+import type { QuestionRequest } from "@kappacode/sdk/v2"
 import {
   questionSetTab,
   questionSingle,

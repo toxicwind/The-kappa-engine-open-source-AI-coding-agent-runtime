@@ -24,7 +24,7 @@ export namespace KiloSnapshotMaterialize {
     readonly fs: FSUtil.Interface
   }
 
-  export const ref = (gitdir: string) => `refs/kilo/materialize/${Hash.fast(path.resolve(gitdir))}`
+  export const ref = (gitdir: string) => `refs/kappa/materialize/${Hash.fast(path.resolve(gitdir))}`
 
   /**
    * Quiet period after a snapshot before borrowed objects are repacked into the snapshot
@@ -34,7 +34,7 @@ export namespace KiloSnapshotMaterialize {
     const raw = Number(process.env["KILO_SNAPSHOT_MATERIALIZE_IDLE_MS"])
     return Number.isFinite(raw) && raw >= 0 ? raw : 10_000
   }
-  const snapshotRef = (hash: string, time = Date.now()) => `refs/kilo/snapshots/${time}/${hash}`
+  const snapshotRef = (hash: string, time = Date.now()) => `refs/kappa/snapshots/${time}/${hash}`
 
   const pack = Effect.fnUntraced(function* (input: Input, dir: string, name: string, objects: string[]) {
     if (!objects.length) return true
@@ -114,7 +114,7 @@ export namespace KiloSnapshotMaterialize {
       input.gitdir,
       "for-each-ref",
       "--format=%(refname)",
-      "refs/kilo/snapshots",
+      "refs/kappa/snapshots",
     ])
     if (result.code !== 0) {
       log.warn("failed to list snapshot pins for pruning", { stderr: result.stderr })
@@ -124,7 +124,7 @@ export namespace KiloSnapshotMaterialize {
       .split("\n")
       .map((item) => item.trim())
       .filter((item) => {
-        const match = item.match(/^refs\/kilo\/snapshots\/(\d+)\/[0-9a-f]+$/)
+        const match = item.match(/^refs\/kappa\/snapshots\/(\d+)\/[0-9a-f]+$/)
         if (!match) return false
         const time = Number(match[1])
         return Number.isSafeInteger(time) && time < before
@@ -162,7 +162,7 @@ export namespace KiloSnapshotMaterialize {
       input.gitdir,
       "for-each-ref",
       "--format=%(objectname)",
-      "refs/kilo/snapshots",
+      "refs/kappa/snapshots",
     ])
     if (refs.code !== 0) {
       log.warn("failed to list snapshot pins", { stderr: refs.stderr })

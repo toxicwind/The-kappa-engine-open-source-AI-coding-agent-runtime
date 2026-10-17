@@ -19,9 +19,9 @@ import { useTheme } from "@tui/context/theme"
 import { DialogAlert } from "@tui/ui/dialog-alert"
 import { DialogSelect } from "@tui/ui/dialog-select"
 import { Link } from "@tui/ui/link"
-import { isKiloError, showKiloErrorToast } from "@/kilocode/kilo-errors"
-import { registerKiloCommands } from "@/kilocode/kilo-commands"
-import { initializeTUIDependencies } from "@kilocode/kilo-gateway/tui"
+import { isKiloError, showKiloErrorToast } from "@/kilocode/kappa-errors"
+import { registerKiloCommands } from "@/kilocode/kappa-commands"
+import { initializeTUIDependencies } from "@kappacode/kappa-gateway/tui"
 import { DialogProcessList } from "@/kilocode/cli/cmd/tui/component/dialog-process-list"
 import { useIndexingWarnings } from "@/kilocode/cli/cmd/tui/indexing-warning"
 import { KiloTerminalTitle } from "./terminal-title"
@@ -46,7 +46,7 @@ export { KiloTuiConfig } from "@/kilocode/cli/cmd/tui/context/tui-config"
 export const APP_TITLE = "Kilo CLI"
 
 /** Public docs URL shown in the command palette. */
-export const DOCS_URL = "https://kilo.ai/docs"
+export const DOCS_URL = "https://kappa.ai/docs"
 
 /** Human-readable product name used in user-facing messages. */
 export const APP_NAME = "Kilo"
@@ -235,7 +235,7 @@ export function handleSessionError(error: unknown, toast: ReturnType<typeof useT
 /**
  * One-shot initialiser called from the App component body.
  *
- * - Injects TUI dependencies into kilo-gateway
+ * - Injects TUI dependencies into kappa-gateway
  * - Registers Kilo Gateway commands (profile, teams, etc.)
  * - Registers the auto-approve toggle command
  */
@@ -247,7 +247,7 @@ export function init() {
 
   useIndexingWarnings()
 
-  // Inject TUI dependencies for kilo-gateway
+  // Inject TUI dependencies for kappa-gateway
   initializeTUIDependencies({
     useSync,
     useDialog,

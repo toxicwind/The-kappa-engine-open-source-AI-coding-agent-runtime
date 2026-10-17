@@ -1,4 +1,4 @@
-import type { Event, EventSessionTurnClose } from "@kilocode/sdk/v2"
+import type { Event, EventSessionTurnClose } from "@kappacode/sdk/v2"
 import { createEffect, createMemo, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
 import { KiloTerminalTitle } from "./terminal-title"
@@ -40,7 +40,7 @@ export namespace KiloTerminalActivity {
   }
 
   export function format(state: State, timestamp = Date.now()) {
-    return `\x1b]777;kilo;activity;1;${state};${timestamp}\x07`
+    return `\x1b]777;kappa;activity;1;${state};${timestamp}\x07`
   }
 
   export function use(input: {

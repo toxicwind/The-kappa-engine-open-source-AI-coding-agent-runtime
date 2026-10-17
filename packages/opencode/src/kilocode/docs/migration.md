@@ -9,7 +9,7 @@ This document explains how Kilocode configurations are automatically migrated to
 - [Rules Migration](#rules-migration)
 - [Workflows Migration](#workflows-migration)
 - [MCP Migration](#mcp-migration)
-- [Kilo Notifications](#kilo-notifications)
+- [Kilo Notifications](#kappa-notifications)
 
 ---
 
@@ -29,9 +29,9 @@ The migrator reads custom modes from these locations (in order, later entries ov
 
 | Platform | Path |
 |---|---|
-| macOS | `~/Library/Application Support/Code/User/globalStorage/kilocode.kilo-code/settings/custom_modes.yaml` |
-| Windows | `%APPDATA%/Code/User/globalStorage/kilocode.kilo-code/settings/custom_modes.yaml` |
-| Linux | `~/.config/Code/User/globalStorage/kilocode.kilo-code/settings/custom_modes.yaml` |
+| macOS | `~/Library/Application Support/Code/User/globalStorage/kilocode.kappa-code/settings/custom_modes.yaml` |
+| Windows | `%APPDATA%/Code/User/globalStorage/kilocode.kappa-code/settings/custom_modes.yaml` |
+| Linux | `~/.config/Code/User/globalStorage/kilocode.kappa-code/settings/custom_modes.yaml` |
 
 ### Project Modes
 
@@ -192,7 +192,7 @@ Kilocode skills are automatically discovered and made available in Opencode. Thi
 
 ## How It Works
 
-Kilo scans canonical `.kilo/skill/` and `.kilo/skills/` directories alongside legacy `.kilocode/` equivalents. The `KilocodePaths.skillDirectories()` function provides these paths.
+Kilo scans canonical `.kappa/skill/` and `.kappa/skills/` directories alongside legacy `.kilocode/` equivalents. The `KilocodePaths.skillDirectories()` function provides these paths.
 
 ## Source Locations
 
@@ -228,9 +228,9 @@ Running from `packages/my-package/` discovers both `package-skill` and `project-
 
 | Platform | Path |
 |---|---|
-| macOS | `~/Library/Application Support/Code/User/globalStorage/kilocode.kilo-code/skills/` |
-| Windows | `%APPDATA%/Code/User/globalStorage/kilocode.kilo-code/skills/` |
-| Linux | `~/.config/Code/User/globalStorage/kilocode.kilo-code/skills/` |
+| macOS | `~/Library/Application Support/Code/User/globalStorage/kilocode.kappa-code/skills/` |
+| Windows | `%APPDATA%/Code/User/globalStorage/kilocode.kappa-code/skills/` |
+| Linux | `~/.config/Code/User/globalStorage/kilocode.kappa-code/skills/` |
 
 ## Skill File Format
 
@@ -249,7 +249,7 @@ Detailed instructions for the agent...
 
 ## Priority / Override Behavior
 
-When the same skill name exists in multiple locations, **last one wins**. Canonical `.kilo/` skills take precedence over legacy `.kilocode/` skills at the same project level. Explicit external skill paths and compatibility directories are loaded according to the configured scan order.
+When the same skill name exists in multiple locations, **last one wins**. Canonical `.kappa/` skills take precedence over legacy `.kilocode/` skills at the same project level. Explicit external skill paths and compatibility directories are loaded according to the configured scan order.
 
 ## Mode-Specific Skills
 
@@ -278,7 +278,7 @@ Skills can be symlinked from a shared location:
 ```
 .agents/skills/shared-skill/          # Actual skill
 .kilocode/skills/shared-skill -> ...  # Legacy symlink
-.kilo/skill/shared-skill -> ...       # Canonical symlink
+.kappa/skill/shared-skill -> ...       # Canonical symlink
 ```
 
 The scanner follows symlinks, so a skill installed once can be available to both Kilo VSCode and Opencode CLI.
@@ -326,9 +326,9 @@ Kilocode MCP server configurations are migrated to Opencode's `mcp` config. See 
 
 ## Config file location
 
-The CLI reads global config from `~/.config/kilo/` (see [`global/index.ts`](../../global/index.ts): `Global.Path.config` = `xdgConfig` + `"kilo"`). It merges, in order, `config.json`, `opencode.json`, and `opencode.jsonc` in that directory. You can put MCP config in **`opencode.json`** or **`opencode.jsonc`**.
+The CLI reads global config from `~/.config/kappa/` (see [`global/index.ts`](../../global/index.ts): `Global.Path.config` = `xdgConfig` + `"kappa"`). It merges, in order, `config.json`, `opencode.json`, and `opencode.jsonc` in that directory. You can put MCP config in **`opencode.json`** or **`opencode.jsonc`**.
 
-- **macOS / Linux:** `~/.config/kilo/opencode.json` (or `opencode.jsonc`)
+- **macOS / Linux:** `~/.config/kappa/opencode.json` (or `opencode.jsonc`)
 - **Windows:** Config directory depends on `xdg-basedir` (often under `%LOCALAPPDATA%` or `%USERPROFILE%`); filename is still `opencode.json` or `opencode.jsonc`.
 
 Use a top-level `"mcp"` object. Each key is the server name. For a local server, value must have `type: "local"` and `command: ["executable", "arg1", ...]`. Optional: `environment` (env vars), `enabled` (boolean), `timeout` (ms). See `Config.McpLocal` in [`config.ts`](../../config/config.ts). Restart the CLI after editing.
@@ -347,7 +347,7 @@ When connected to Kilo Gateway, the CLI fetches and displays notifications from 
 
 ## How It Works
 
-1. **On startup**, if the user is authenticated with Kilo Gateway, the CLI fetches notifications from `https://api.kilo.ai/api/users/notifications`
+1. **On startup**, if the user is authenticated with Kilo Gateway, the CLI fetches notifications from `https://api.kappa.ai/api/users/notifications`
 2. **Filtering**: Only notifications with `showIn` containing `"cli"` (or no `showIn` restriction) are displayed
 3. **Display**: The first notification is shown as a toast notification after a 2-second delay
 
@@ -371,7 +371,7 @@ interface KilocodeNotification {
 ```
 Title: Agent skills now supported!
 Message: Define reusable skills and workflows for your AI agent.
-Action: Learn More -> https://docs.kilo.ai/skills
+Action: Learn More -> https://docs.kappa.ai/skills
 ```
 
 ## Display Conditions
@@ -384,6 +384,6 @@ Action: Learn More -> https://docs.kilo.ai/skills
 
 ## Related Files
 
-- [`notifications.ts`](../../../../kilo-gateway/src/api/notifications.ts) - Fetch function and types
-- [`routes.ts`](../../../../kilo-gateway/src/server/routes.ts) - Server endpoint `/kilo/notifications`
+- [`notifications.ts`](../../../../kappa-gateway/src/api/notifications.ts) - Fetch function and types
+- [`routes.ts`](../../../../kappa-gateway/src/server/routes.ts) - Server endpoint `/kappa/notifications`
 - [`app.tsx`](../../cli/cmd/tui/app.tsx) - TUI notification display logic

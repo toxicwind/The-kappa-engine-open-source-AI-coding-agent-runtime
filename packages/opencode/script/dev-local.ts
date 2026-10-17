@@ -1,20 +1,20 @@
 // kilocode_change - new file
-// Launch the kilo CLI dev build against a locally running cloud dev server.
-//   bun dev:local <project-dir> [--cloud <dir>] [--no-ingest] [--no-events] [--print] [-- <kilo args>]
+// Launch the kappa CLI dev build against a locally running cloud dev server.
+//   bun dev:local <project-dir> [--cloud <dir>] [--no-ingest] [--no-events] [--print] [-- <kappa args>]
 //
 // Reads ports from <cloud>/dev/logs/manifest.json (+ .dev-port), probes the web
 // server, and points the CLI at it (KILO_API_URL / KILO_SESSION_INGEST_URL /
 // EVENT_SERVICE_URL).
-// Auth/config/state/cache are isolated under ~/.kilo-dev so it can't clash with
-// your main kilo install; real HOME is kept so git/ssh still work.
+// Auth/config/state/cache are isolated under ~/.kappa-dev so it can't clash with
+// your main kappa install; real HOME is kept so git/ssh still work.
 
 import os from "node:os"
 import path from "node:path"
 import fs from "node:fs"
 import net from "node:net"
 
-const kilo = path.resolve(import.meta.dir, "../../..")
-const home = path.join(os.homedir(), ".kilo-dev")
+const kappa = path.resolve(import.meta.dir, "../../..")
+const home = path.join(os.homedir(), ".kappa-dev")
 const dim = "\x1b[2m", red = "\x1b[31m", grn = "\x1b[32m", ylw = "\x1b[33m", rst = "\x1b[0m"
 
 function die(m: string): never {
@@ -93,7 +93,7 @@ async function main() {
   if (dry) { if (!webUp) console.warn(`${ylw}web down — start it (pnpm dev:start)${rst}`); return }
   if (!webUp) die(`web on :${webPort} is not responding — start it first (pnpm dev:start)`)
 
-  process.exit(await Bun.spawn({ cmd: ["bun", "run", "--cwd", "packages/opencode", "--conditions=browser", "src/index.ts", ...pass], cwd: kilo, env, stdio: ["inherit", "inherit", "inherit"] }).exited)
+  process.exit(await Bun.spawn({ cmd: ["bun", "run", "--cwd", "packages/opencode", "--conditions=browser", "src/index.ts", ...pass], cwd: kappa, env, stdio: ["inherit", "inherit", "inherit"] }).exited)
 }
 
 void main().catch((e) => die(e instanceof Error ? e.message : String(e)))

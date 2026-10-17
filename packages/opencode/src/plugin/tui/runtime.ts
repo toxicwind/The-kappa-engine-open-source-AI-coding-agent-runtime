@@ -10,7 +10,7 @@ import {
   type TuiPluginStatus,
   type TuiSlotPlugin,
   type TuiTheme,
-} from "@kilocode/plugin/tui"
+} from "@kappacode/plugin/tui"
 import path from "path"
 import { fileURLToPath } from "url"
 import { TuiConfig } from "@/config/tui"
@@ -255,9 +255,9 @@ function createThemeInstaller(
     // kilocode_change start - install local themes into supported Kilo config directories
     const base = path.basename(source_dir)
     const local_dir =
-      base === ".kilo" || base === ".kilocode"
+      base === ".kappa" || base === ".kilocode"
         ? path.join(source_dir, "themes")
-        : path.join(source_dir, ".kilo", "themes")
+        : path.join(source_dir, ".kappa", "themes")
     // kilocode_change end
     const dest_dir = meta.scope === "local" ? local_dir : path.join(Global.Path.config, "themes")
     const dest = path.join(dest_dir, `${name}.json`)
@@ -817,7 +817,7 @@ function defaultPluginOrigin(state: RuntimeState, spec: string): ConfigPlugin.Or
   return {
     spec,
     scope: "local",
-    source: state.api.state.path.config || path.join(state.directory, ".kilo", "tui.json"), // kilocode_change
+    source: state.api.state.path.config || path.join(state.directory, ".kappa", "tui.json"), // kilocode_change
   }
 }
 

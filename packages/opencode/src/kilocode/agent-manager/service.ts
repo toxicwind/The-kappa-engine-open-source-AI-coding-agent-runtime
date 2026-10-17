@@ -41,7 +41,7 @@ interface State {
   close: () => Effect.Effect<void>
 }
 
-class StateService extends Context.Service<StateService, State>()("@kilocode/AgentManager.State") {}
+class StateService extends Context.Service<StateService, State>()("@kappacode/AgentManager.State") {}
 
 function matches(request: Request, result: Result) {
   if (request.operation === "overview") return result.operation === "overview"
@@ -59,7 +59,7 @@ export interface Interface {
   readonly reject: (input: { requestID: RequestID; error: Failure }) => Effect.Effect<void, NotFoundError>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@kilocode/AgentManager") {}
+export class Service extends Context.Service<Service, Interface>()("@kappacode/AgentManager") {}
 
 export function layer(timeout: Duration.Input = "60 seconds") {
   return Layer.effect(

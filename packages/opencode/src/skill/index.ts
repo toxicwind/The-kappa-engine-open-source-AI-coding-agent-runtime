@@ -218,7 +218,7 @@ const discoverSkills = Effect.fnUntraced(function* (
 
   // kilocode_change start - one primary checkout lookup serves both the external and the config dir scans
   const projectDirs = disableClaudeCodeSkills ? [AGENTS_EXTERNAL_DIR] : [CLAUDE_EXTERNAL_DIR, AGENTS_EXTERNAL_DIR]
-  const mirrored = yield* primaryPaths(directory, worktree, [...projectDirs, ".kilocode", ".kilo"])
+  const mirrored = yield* primaryPaths(directory, worktree, [...projectDirs, ".kilocode", ".kappa"])
   const fallbacks = mirrored.filter((file) => projectDirs.includes(path.basename(file)))
   // kilocode_change end
 

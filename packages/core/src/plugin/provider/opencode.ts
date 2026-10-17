@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { define } from "@kilocode/plugin/v2/effect/plugin"
+import { define } from "@kappacode/plugin/v2/effect/plugin"
 import { ProviderV2 } from "../../provider"
 
 // kilocode_change start - Kilo keeps only the free-tier catalog gate from upstream's opencode plugin.

@@ -13,7 +13,7 @@ import { useSync } from "@tui/context/sync"
 import { useToast } from "@tui/ui/toast"
 import { Link } from "@tui/ui/link"
 import * as Clipboard from "@tui/clipboard"
-import { DialogKiloOrganization } from "./dialog-kilo-organization.js"
+import { DialogKiloOrganization } from "./dialog-kappa-organization.js"
 
 // These types are OpenCode-internal and imported at runtime
 type UseSDK = any
@@ -66,7 +66,7 @@ export function KiloAutoMethod(props: KiloAutoMethodProps) {
 
       // Step 2: Fetch profile using the new server endpoint
       // This endpoint uses the stored auth credentials to fetch profile
-      const profileResponse = await sdk.client.kilo.profile()
+      const profileResponse = await sdk.client.kappa.profile()
 
       if (profileResponse.error || !profileResponse.data) {
         // Couldn't fetch profile - fallback to personal account

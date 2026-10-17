@@ -17,7 +17,7 @@ export function isEligible(input: EligibilityInput): boolean {
   if (kill) return false
   if (input.org?.type !== "personal") return false
   if (input.model.isFree !== true) return false
-  if (input.model.api.npm !== "@kilocode/kilo-gateway") return false
+  if (input.model.api.npm !== "@kappacode/kappa-gateway") return false
   return true
 }
 

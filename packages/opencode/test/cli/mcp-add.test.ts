@@ -23,7 +23,7 @@ describe("opencode mcp add (non-interactive subprocess)", () => {
         opencode.expectExit(result, 0)
 
         const config = yield* Effect.promise(() =>
-          Bun.file(path.join(home, ".config", "kilo", "kilo.json")).json(), // kilocode_change
+          Bun.file(path.join(home, ".config", "kappa", "kappa.json")).json(), // kilocode_change
         )
         expect(config.mcp.github).toEqual({
           type: "remote",
@@ -59,7 +59,7 @@ describe("opencode mcp add (non-interactive subprocess)", () => {
         opencode.expectExit(result, 0)
 
         const config = yield* Effect.promise(() =>
-          Bun.file(path.join(home, ".config", "kilo", "kilo.json")).json(), // kilocode_change
+          Bun.file(path.join(home, ".config", "kappa", "kappa.json")).json(), // kilocode_change
         )
         expect(config.mcp.local).toEqual({
           type: "local",
@@ -86,9 +86,9 @@ describe("opencode mcp add (non-interactive subprocess)", () => {
         )
         opencode.expectExit(result, 0)
 
-        const config = yield* Effect.promise(() => Bun.file(path.join(profile, "kilo.json")).json())
+        const config = yield* Effect.promise(() => Bun.file(path.join(profile, "kappa.json")).json())
         expect(config.mcp.profile).toEqual({ type: "remote", url: "https://example.com/profile" })
-        expect(yield* Effect.promise(() => Bun.file(path.join(home, ".config", "kilo", "kilo.json")).exists())).toBe(
+        expect(yield* Effect.promise(() => Bun.file(path.join(home, ".config", "kappa", "kappa.json")).exists())).toBe(
           false,
         )
       }),

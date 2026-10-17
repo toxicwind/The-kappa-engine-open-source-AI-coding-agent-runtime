@@ -7,7 +7,7 @@ import {
 } from "../../src/kilocode/model-picker"
 
 const KILO: ModelPickerProvider = {
-  id: "kilo",
+  id: "kappa",
   name: "Kilo Gateway",
   models: {
     "anthropic/claude-sonnet-4-5": {
@@ -44,8 +44,8 @@ const BEDROCK: ModelPickerProvider = {
 
 const providers = [KILO, BEDROCK]
 
-const sonnet45: ModelPickerRef = { providerID: "kilo", modelID: "anthropic/claude-sonnet-4-5" }
-const sonnet4: ModelPickerRef = { providerID: "kilo", modelID: "anthropic/claude-sonnet-4" }
+const sonnet45: ModelPickerRef = { providerID: "kappa", modelID: "anthropic/claude-sonnet-4-5" }
+const sonnet4: ModelPickerRef = { providerID: "kappa", modelID: "anthropic/claude-sonnet-4" }
 const bedrockSonnet: ModelPickerRef = {
   providerID: "amazon-bedrock",
   modelID: "anthropic.claude-sonnet-4-20250514-v1:0",
@@ -68,7 +68,7 @@ describe("model picker options", () => {
     const options = buildModelPickerOptions({
       providers: [
         {
-          id: "kilo",
+          id: "kappa",
           name: "Kilo Gateway",
           models: {
             "xai/grok-4.20": {
@@ -92,7 +92,7 @@ describe("model picker options", () => {
   })
 
   test("finds a recently used recommended Kilo model when filtering by provider name", () => {
-    const options = build({ recents: [sonnet45], query: "kilo" })
+    const options = build({ recents: [sonnet45], query: "kappa" })
     const recommended = inCategory(options, RECOMMENDED_CATEGORY)
 
     expect(recommended).toContain(sonnet45.modelID)
@@ -101,9 +101,9 @@ describe("model picker options", () => {
   })
 
   test("filtering by provider name does not leak other providers", () => {
-    const options = build({ query: "kilo" })
+    const options = build({ query: "kappa" })
 
-    expect(options.every((option) => option.providerID === "kilo")).toBe(true)
+    expect(options.every((option) => option.providerID === "kappa")).toBe(true)
   })
 
   test("keeps the Kilo Gateway section populated after a Bedrock model is used", () => {

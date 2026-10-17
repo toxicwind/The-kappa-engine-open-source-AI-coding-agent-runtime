@@ -8,7 +8,7 @@ let drainCalls = 0
 let exit: string | number | null | undefined
 
 mock.module("@opencode-ai/core/global", () => ({
-  Global: { Path: { data: "/tmp/kilo-test" } },
+  Global: { Path: { data: "/tmp/kappa-test" } },
 }))
 
 mock.module("@opencode-ai/core/installation/version", () => ({
@@ -16,7 +16,7 @@ mock.module("@opencode-ai/core/installation/version", () => ({
   InstallationVersion: "test",
 }))
 
-mock.module("@kilocode/kilo-telemetry", () => ({
+mock.module("@kappacode/kappa-telemetry", () => ({
   Telemetry: {
     async init() {
       calls.push("telemetry:init")
@@ -34,7 +34,7 @@ mock.module("@kilocode/kilo-telemetry", () => ({
   },
 }))
 
-mock.module("@kilocode/kilo-gateway", () => ({
+mock.module("@kappacode/kappa-gateway", () => ({
   ENV_FEATURE: "KILO_FEATURE",
   ENV_VERSION: "KILO_VERSION",
   async migrateLegacyKiloAuth() {
@@ -118,7 +118,7 @@ for (const path of [
   }))
 }
 
-/** Same mock body as the kilo-sessions module mock used by setup.ts's drain task. */
+/** Same mock body as the kappa-sessions module mock used by setup.ts's drain task. */
 function registerDrain() {
   KiloShutdown.register(async () => {
     drainCalls += 1

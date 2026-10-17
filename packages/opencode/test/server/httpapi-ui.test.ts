@@ -285,7 +285,7 @@ describe("HttpApi UI fallback", () => {
     Effect.gen(function* () {
       const response = yield* uiApp({
         password: "secret",
-        username: "kilo", // kilocode_change
+        username: "kappa", // kilocode_change
         disableEmbeddedWebUi: true,
       }).request("/")
 
@@ -299,14 +299,14 @@ describe("HttpApi UI fallback", () => {
       let proxied = false // kilocode_change
       const response = yield* uiApp({
         password: "secret",
-        username: "kilo", // kilocode_change
+        username: "kappa", // kilocode_change
         disableEmbeddedWebUi: true,
         // kilocode_change start - authenticated requests still must not proxy when embedded UI is disabled
-        client: httpClient(new Response("<html>kilo</html>", { headers: { "content-type": "text/html" } }), () => {
+        client: httpClient(new Response("<html>kappa</html>", { headers: { "content-type": "text/html" } }), () => {
           proxied = true
         }),
         // kilocode_change end
-      }).request(`/?auth_token=${btoa("kilo:secret")}`)
+      }).request(`/?auth_token=${btoa("kappa:secret")}`)
 
       // kilocode_change start
       expect(response.status).toBe(404)
@@ -321,7 +321,7 @@ describe("HttpApi UI fallback", () => {
       let proxied = false // kilocode_change
       const response = yield* uiApp({
         password: "secret",
-        username: "kilo", // kilocode_change
+        username: "kappa", // kilocode_change
         disableEmbeddedWebUi: true,
         // kilocode_change start
         client: httpClient(new Response("ui"), () => {
@@ -329,7 +329,7 @@ describe("HttpApi UI fallback", () => {
         }),
         // kilocode_change end
       }).request("/", {
-        headers: { authorization: `Basic ${btoa("kilo:secret")}` },
+        headers: { authorization: `Basic ${btoa("kappa:secret")}` },
       })
 
       // kilocode_change start
@@ -364,7 +364,7 @@ describe("HttpApi UI fallback", () => {
       for (const path of ["/site.webmanifest", "/web-app-manifest-192x192.png", "/web-app-manifest-512x512.png"]) {
         const response = yield* uiApp({
           password: "secret",
-          username: "kilo", // kilocode_change
+          username: "kappa", // kilocode_change
           disableEmbeddedWebUi: true,
           client: httpClient(new Response("ok")),
         }).request(path)
@@ -375,7 +375,7 @@ describe("HttpApi UI fallback", () => {
 
   it.live("allows web UI preflight without auth", () =>
     Effect.gen(function* () {
-      const response = yield* app({ password: "secret", username: "kilo" }).request("/", {
+      const response = yield* app({ password: "secret", username: "kappa" }).request("/", {
         // kilocode_change
         method: "OPTIONS",
         headers: {

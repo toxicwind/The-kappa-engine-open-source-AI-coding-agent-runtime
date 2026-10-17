@@ -176,9 +176,9 @@ export const KilocodePaths = {
   wakeups: `${root}/wakeups`,
 } as const
 
-export const KilocodeApi = HttpApi.make("kilocode")
+export const KilocodeApi = HttpApi.make("kappacode")
   .add(
-    HttpApiGroup.make("kilocode")
+    HttpApiGroup.make("kappacode")
       .add(
         HttpApiEndpoint.post("resumeSession", KilocodePaths.resumeSession, {
           params: { sessionID: SessionID },
@@ -534,7 +534,7 @@ export const KilocodeApi = HttpApi.make("kilocode")
             identifier: "kilocode.retention.run",
             summary: "Run session retention",
             description:
-              "Run one machine-wide session retention pass. Does nothing unless the retention policy is enabled in kilo.json; `force` bypasses the minimum spacing between scheduled passes, never the enable check.",
+              "Run one machine-wide session retention pass. Does nothing unless the retention policy is enabled in kappa.json; `force` bypasses the minimum spacing between scheduled passes, never the enable check.",
           }),
         ),
         HttpApiEndpoint.post("retentionCancel", KilocodePaths.retentionCancel, {
@@ -554,7 +554,7 @@ export const KilocodeApi = HttpApi.make("kilocode")
       )
       .annotateMerge(
         OpenApi.annotations({
-          title: "kilocode",
+          title: "kappacode",
           description: "Kilo-specific routes.",
         }),
       )
@@ -565,7 +565,7 @@ export const KilocodeApi = HttpApi.make("kilocode")
   .addHttpApi(AnacondaDesktopApi)
   .annotateMerge(
     OpenApi.annotations({
-      title: "kilo HttpApi",
+      title: "kappa HttpApi",
       version: "0.0.1",
       description: "Kilo HttpApi surface.",
     }),

@@ -23,8 +23,8 @@
  * Exempt paths (no markers needed — entirely Kilo-specific):
  *   - packages/opencode/src/kilocode/**
  *   - packages/opencode/test/kilocode/**
- *   - Any path containing "kilocode" in directory or filename
- *   - Any path with a directory starting with "kilo-" (e.g. kilo-sessions/)
+ *   - Any path containing "kappacode" in directory or filename
+ *   - Any path with a directory starting with "kappa-" (e.g. kappa-sessions/)
  *   - script/upstream/**
  *   - Kilo-specific annotation checker support files
  */
@@ -125,7 +125,7 @@ function isUpstreamMerge() {
 
 function isExempt(file: string) {
   const norm = file.replaceAll("\\", "/").toLowerCase()
-  if (norm.split("/").some((part) => part.includes("kilocode") || part.startsWith("kilo-"))) return true
+  if (norm.split("/").some((part) => part.includes("kappacode") || part.startsWith("kappa-"))) return true
   return EXEMPT_SCOPES.some((scope) => norm === scope || norm.startsWith(`${scope}/`))
 }
 
@@ -354,7 +354,7 @@ console.error(
     "  - packages/opencode/src/kilocode/**",
     "  - packages/opencode/test/kilocode/**",
     "  - Any path containing 'kilocode' in the directory or filename",
-    "  - Any directory starting with 'kilo-' (e.g. kilo-sessions/)",
+    "  - Any directory starting with 'kappa-' (e.g. kappa-sessions/)",
     "  - script/upstream/**",
     "  - Kilo-specific annotation checker support files",
     "",

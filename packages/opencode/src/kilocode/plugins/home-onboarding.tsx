@@ -1,4 +1,4 @@
-import type { TuiPlugin, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, Show } from "solid-js"
 import { Tips } from "@/kilocode/components/tips"
 
@@ -15,7 +15,7 @@ const tui: TuiPlugin = async (api) => {
         const first = createMemo(() => api.state.session.count() === 0)
         const connected = createMemo(() =>
           api.state.provider.some(
-            (x) => (x.id !== "opencode" && x.id !== "kilo") || Object.values(x.models).some((y) => y.cost?.input !== 0),
+            (x) => (x.id !== "opencode" && x.id !== "kappa") || Object.values(x.models).some((y) => y.cost?.input !== 0),
           ),
         )
         const onboarding = createMemo(() => first() && !connected())

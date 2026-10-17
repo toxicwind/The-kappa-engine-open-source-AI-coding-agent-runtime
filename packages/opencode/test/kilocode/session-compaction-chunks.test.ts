@@ -47,7 +47,7 @@ const agents = Layer.mock(Agent.Service)({
   get: () => Effect.succeed({ name: "compaction", mode: "primary", permission: [], options: {} } satisfies Agent.Info),
 })
 const previous = Flag.KILO_DB
-const dbfile = path.join(os.tmpdir(), `kilo-compaction-chunks-${process.pid}-${crypto.randomUUID()}.db`)
+const dbfile = path.join(os.tmpdir(), `kappa-compaction-chunks-${process.pid}-${crypto.randomUUID()}.db`)
 const layer = LayerNode.compile(LayerNode.group([SessionNs.node, SessionProjector.node]))
 const runtime = makeRuntime(SessionNs.Service, layer)
 

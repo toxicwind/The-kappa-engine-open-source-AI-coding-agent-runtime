@@ -1,4 +1,4 @@
-import type { Session } from "@kilocode/sdk/v2"
+import type { Session } from "@kappacode/sdk/v2"
 import type { useSDK } from "@tui/context/sdk"
 import { createEffect, onCleanup } from "solid-js"
 
@@ -26,7 +26,7 @@ export namespace GoalSync {
           }
           if (record.type === "session.created.1" || record.type === "session.updated.1") {
             pending.delete(record.aggregateID)
-            if (event.workspace !== owner && record.data.info.metadata?.["kilo.goal"]) {
+            if (event.workspace !== owner && record.data.info.metadata?.["kappa.goal"]) {
               foreign.add(record.aggregateID)
               return
             }
@@ -46,7 +46,7 @@ export namespace GoalSync {
         const signal = controller.signal
         for (const session of store.session) {
           if (foreign.has(session.id) || (session.workspaceID && session.workspaceID !== owner)) continue
-          const goal = session.metadata?.["kilo.goal"]
+          const goal = session.metadata?.["kappa.goal"]
           if (!goal || typeof goal !== "object") continue
           const active = "active" in goal && goal.active === true
           const waiting = "status" in goal && goal.status === "waiting"
@@ -60,13 +60,13 @@ export namespace GoalSync {
               update((draft) => {
                 const current = draft.session.find((item) => item.id === session.id)
                 if (!current) return
-                const value = data.metadata?.["kilo.goal"]
+                const value = data.metadata?.["kappa.goal"]
                 if (value == null) {
-                  if (current.metadata) delete current.metadata["kilo.goal"]
+                  if (current.metadata) delete current.metadata["kappa.goal"]
                   return
                 }
                 current.metadata ??= {}
-                current.metadata["kilo.goal"] = value
+                current.metadata["kappa.goal"] = value
               })
             })
             .catch((err) => {

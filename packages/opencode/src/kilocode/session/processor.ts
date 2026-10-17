@@ -1,5 +1,5 @@
 // kilocode_change - new file
-import { Telemetry, type ReviewCommand } from "@kilocode/kilo-telemetry"
+import { Telemetry, type ReviewCommand } from "@kappacode/kappa-telemetry"
 import { SessionNetwork } from "@/session/network"
 import type { SessionID } from "@/session/schema"
 import type { SessionStatus } from "@/session/status"
@@ -24,7 +24,7 @@ export type ReviewTelemetry = {
 }
 
 export namespace KiloSessionProcessor {
-  const log = Log.create({ service: "session.processor.kilo" })
+  const log = Log.create({ service: "session.processor.kappa" })
   export const INCOMPLETE_RESPONSE_RETRIES = 2
   export const INCOMPLETE_RESPONSE_MESSAGE =
     "The provider repeatedly ended the response before returning usable output."
@@ -77,7 +77,7 @@ export namespace KiloSessionProcessor {
    * Tag the expanded slash-command template so clients can show the user the
    * command they typed (`/review branch`) instead of the full template, while
    * keeping the template inspectable. Shape matches
-   * `packages/kilo-vscode/src/shared/injected-prompt.ts`.
+   * `packages/kappa-vscode/src/shared/injected-prompt.ts`.
    */
   export function markCommand(
     parts: Array<{ type: string; metadata?: Record<string, unknown> }>,
@@ -87,8 +87,8 @@ export namespace KiloSessionProcessor {
     const title = `/${command} ${args}`.trim()
     for (const part of parts) {
       if (part.type !== "text") continue
-      const kilo = isRecord(part.metadata?.kilo) ? part.metadata.kilo : {}
-      part.metadata = { ...part.metadata, kilo: { ...kilo, injected: { title } } }
+      const kappa = isRecord(part.metadata?.kappa) ? part.metadata.kappa : {}
+      part.metadata = { ...part.metadata, kappa: { ...kappa, injected: { title } } }
     }
   }
 

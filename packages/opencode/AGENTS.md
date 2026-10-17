@@ -59,11 +59,11 @@ The MCP `StdioClientTransport` (third-party SDK) is handled separately via a pro
 
 ## Storage
 
-Filesystem-based JSON, not a database. Data lives in `~/.local/share/kilo/storage/`. Keys are path arrays: `Storage.write(["session", projectID, sessionID], data)`.
+Filesystem-based JSON, not a database. Data lives in `~/.local/share/kappa/storage/`. Keys are path arrays: `Storage.write(["session", projectID, sessionID], data)`.
 
 ## TUI
 
-Built with **SolidJS + OpenTUI** (`@opentui/solid`) -- a terminal UI framework. JSX renders to the terminal using elements like `<box>`, `<text>`, `<scrollbox>`. The TUI communicates with the server via `@kilocode/sdk`.
+Built with **SolidJS + OpenTUI** (`@opentui/solid`) -- a terminal UI framework. JSX renders to the terminal using elements like `<box>`, `<text>`, `<scrollbox>`. The TUI communicates with the server via `@kappacode/sdk`.
 
 ## Server
 

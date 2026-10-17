@@ -23,7 +23,7 @@ export interface Interface {
   readonly open: () => Effect.Effect<void, PlatformError>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@kilocode/AnacondaDesktopPlatform") {}
+export class Service extends Context.Service<Service, Interface>()("@kappacode/AnacondaDesktopPlatform") {}
 
 function value(info: Info, key: string) {
   const direct = info.env[key]

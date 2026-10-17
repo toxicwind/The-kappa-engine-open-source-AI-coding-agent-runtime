@@ -4,7 +4,7 @@ import { ProviderError } from "@/provider/error"
 import { isRecord } from "@/util/record"
 import { OpenAIWebSocket } from "./ws"
 
-export const TITLE_HEADER = "x-kilo-title"
+export const TITLE_HEADER = "x-kappa-title"
 
 const log = Log.create({ service: "plugin.openai.ws" }) // kilocode_change
 

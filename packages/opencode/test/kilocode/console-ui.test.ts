@@ -14,7 +14,7 @@ afterEach(() => {
 async function assets(dir: string) {
   await mkdir(path.join(dir, "assets"), { recursive: true })
   await Bun.write(path.join(dir, "index.html"), '<!doctype html><html><body><div id="root">console</div></body></html>')
-  await Bun.write(path.join(dir, "assets", "app.js"), "console.log('kilo')")
+  await Bun.write(path.join(dir, "assets", "app.js"), "console.log('kappa')")
 }
 
 describe("Kilo Console UI routes", () => {
@@ -42,7 +42,7 @@ describe("Kilo Console UI routes", () => {
     const asset = await ConsoleAssets.resolve("/console/assets/app.js")
     expect(asset && "file" in asset).toBe(true)
     if (!asset || !("file" in asset)) return
-    expect(await Bun.file(asset.file).text()).toContain("kilo")
+    expect(await Bun.file(asset.file).text()).toContain("kappa")
 
     expect(await ConsoleAssets.resolve("/console/assets/missing.js")).toEqual({ missing: true })
   })

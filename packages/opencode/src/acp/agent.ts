@@ -17,7 +17,7 @@ import {
   type SetSessionModeRequest,
 } from "@agentclientprotocol/sdk"
 import { Effect } from "effect"
-import type { KiloClient } from "@kilocode/sdk/v2"
+import type { KiloClient } from "@kappacode/sdk/v2"
 import * as ACPError from "./error"
 import * as ACPService from "./service"
 

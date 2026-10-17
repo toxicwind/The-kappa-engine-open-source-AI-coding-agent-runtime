@@ -7,7 +7,7 @@ mock.module("@/cli/ui", () => ({ UI: { error: errorMock } }))
 type ImportResult = { data?: unknown; error?: unknown }
 
 const client = (imp: (params: { sessionId: string }) => Promise<ImportResult>) =>
-  ({ kilo: { cloud: { session: { import: imp } } } }) as Parameters<typeof importCloudSession>[0]
+  ({ kappa: { cloud: { session: { import: imp } } } }) as Parameters<typeof importCloudSession>[0]
 
 describe("importCloudSession", () => {
   test("returns local id on success", async () => {

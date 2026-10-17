@@ -5,15 +5,15 @@ const table = `bun outdated v1.3.14 (0d9b296a)
 |-----------------------------------|----------------------|----------------------|----------------------|------------------------|
 | Package                           | Current              | Update               | Latest               | Workspace              |
 |-----------------------------------|----------------------|----------------------|----------------------|------------------------|
-| zod                               | 3.25.76              | 3.25.76              | 4.6.5                | kilo-code              |
+| zod                               | 3.25.76              | 3.25.76              | 4.6.5                | kappa-code              |
 |-----------------------------------|----------------------|----------------------|----------------------|------------------------|
-| ws                                | 8.21.0               | 8.21.0               | 8.22.0 *             | kilo-code              |
+| ws                                | 8.21.0               | 8.21.0               | 8.22.0 *             | kappa-code              |
 |-----------------------------------|----------------------|----------------------|----------------------|------------------------|
-| @babel/core (dev)                 | 7.29.6               | 7.29.7               | 7.29.7               | kilo-code              |
+| @babel/core (dev)                 | 7.29.6               | 7.29.7               | 7.29.7               | kappa-code              |
 |-----------------------------------|----------------------|----------------------|----------------------|------------------------|
-| solid-js                          | 1.9.12               | 1.9.12               | 1.10.0               | catalog (@kilocode/kilo-ui) |
+| solid-js                          | 1.9.12               | 1.9.12               | 1.10.0               | catalog (@kappacode/kappa-ui) |
 |-----------------------------------|----------------------|----------------------|----------------------|------------------------|
-| chromium-bidi                     | 0.8.0                | 0.8.0                | 0.8.0 *              | kilo-code              |
+| chromium-bidi                     | 0.8.0                | 0.8.0                | 0.8.0 *              | kappa-code              |
 `
 
 describe("outdated parse", () => {
@@ -62,8 +62,8 @@ describe("outdated report", () => {
     const out = report(parse(table), { url: "https://example.test/run" })
     expect(out.count).toBe(4)
     expect(out.text).toContain("1 major, 2 minor, 1 patch")
-    expect(out.text).toContain("`zod` 3.25.76 -> 4.6.5 (kilo-code)")
-    expect(out.text).toContain("`solid-js` 1.9.12 -> 1.10.0 (@kilocode/kilo-ui) [root catalog]")
+    expect(out.text).toContain("`zod` 3.25.76 -> 4.6.5 (kappa-code)")
+    expect(out.text).toContain("`solid-js` 1.9.12 -> 1.10.0 (@kappacode/kappa-ui) [root catalog]")
     expect(out.text).toContain("<https://example.test/run|Workflow run>")
   })
 
@@ -84,7 +84,7 @@ describe("outdated report", () => {
   test("uses the plural when several patch updates are not listed", () => {
     const rows = [
       ...parse(table),
-      { name: "extra", current: "1.0.0", latest: "1.0.1", where: "kilo-code", catalog: false },
+      { name: "extra", current: "1.0.0", latest: "1.0.1", where: "kappa-code", catalog: false },
     ]
     expect(report(rows).text).toContain("2 patch updates not listed.")
   })
@@ -101,10 +101,10 @@ describe("outdated report", () => {
         name: `major${i}`,
         current: "1.0.0",
         latest: "2.0.0",
-        where: "kilo-code",
+        where: "kappa-code",
         catalog: false,
       })),
-      { name: "cat", current: "1.0.0", latest: "1.1.0", where: "catalog (kilo-code)", catalog: true },
+      { name: "cat", current: "1.0.0", latest: "1.1.0", where: "catalog (kappa-code)", catalog: true },
     ]
     // The catalog row is a minor; the minor section is printed, so the note stays.
     expect(report(rows, { limit: 2 }).text).toContain("[root catalog] entries are pinned")
@@ -118,7 +118,7 @@ describe("outdated report", () => {
       name: `pkg${i}`,
       current: "1.0.0",
       latest: "2.0.0",
-      where: "kilo-code",
+      where: "kappa-code",
       catalog: false,
     }))
     const out = report(rows, { limit: 2 })

@@ -22,7 +22,7 @@ test("refreshes cached config after failed plugin install and partial removal", 
     const response = await handler(
       new Request(`http://localhost${route}`, {
         method: body ? "POST" : "GET",
-        headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
         ...(body ? { body: JSON.stringify(body) } : {}),
       }),
       HttpApiServer.context,
@@ -45,7 +45,7 @@ test("refreshes cached config after failed plugin install and partial removal", 
       file,
       JSON.stringify({ formatter: false, lsp: false, username: "after-remove", plugin: ["some-package"] }),
     )
-    const tui = path.join(tmp.path, ".kilo", "tui.json")
+    const tui = path.join(tmp.path, ".kappa", "tui.json")
     await Bun.write(tui, "{ malformed")
     const removed = await request(KilocodePaths.marketplaceRemove, {
       item: { type: "plugin", id: "some-package" },

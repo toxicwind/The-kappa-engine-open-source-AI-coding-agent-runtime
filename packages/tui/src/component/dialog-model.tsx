@@ -7,7 +7,7 @@ import { DialogSelect } from "../ui/dialog-select"
 import { useDialog } from "../ui/dialog"
 import { createDialogProviderOptions, DialogProvider } from "./dialog-provider"
 import { DialogVariant } from "./dialog-variant"
-import type { Model } from "@kilocode/sdk/v2" // kilocode_change
+import type { Model } from "@kappacode/sdk/v2" // kilocode_change
 import { useConnected } from "./use-connected"
 import { ModelInfoPanel } from "@/kilocode/components/model-info-panel" // kilocode_change
 import { FreeModelDisclosure } from "@/kilocode/components/free-model-disclosure" // kilocode_change
@@ -26,7 +26,7 @@ export function DialogModel(props: { providerID?: string }) {
   // Memoize anything that iterates all Kilo models to avoid calculating it for
   // each Kilo model and tanking the UI at a couple hundred models
   const kiloRank = createMemo(() => {
-    const provider = sync.data.provider.find((provider) => provider.id === "kilo")
+    const provider = sync.data.provider.find((provider) => provider.id === "kappa")
     const models = provider?.models ?? {}
     return new Map(Object.entries(models).map(([id, info]) => [id, info.recommendedIndex ?? Infinity] as const))
   })
@@ -65,8 +65,8 @@ export function DialogModel(props: { providerID?: string }) {
 
   const footer = (providerID: string, model: Model) => {
     const labels = [
-      providerID === "kilo" && FreeModelDisclosure.hasByok(model) ? FreeModelDisclosure.byok : undefined,
-      providerID === "kilo" && FreeModelDisclosure.collectsData(model) ? FreeModelDisclosure.label : undefined,
+      providerID === "kappa" && FreeModelDisclosure.hasByok(model) ? FreeModelDisclosure.byok : undefined,
+      providerID === "kappa" && FreeModelDisclosure.collectsData(model) ? FreeModelDisclosure.label : undefined,
       model.cost?.input === 0 && providerID === "opencode" ? "Free" : undefined,
     ].filter((label) => label !== undefined)
     return labels.length > 0 ? labels.join(" · ") : undefined
@@ -191,7 +191,7 @@ export function sortModelOptions<
 ) {
   // kilocode_change start - Sort within Recommended / Kilo Gateway
   const recommended = (option: T) =>
-    option.value?.providerID === "kilo" ? (rank.get(option.value.modelID) ?? Infinity) : 0
+    option.value?.providerID === "kappa" ? (rank.get(option.value.modelID) ?? Infinity) : 0
   // kilocode_change end
   if (newestFirst)
     return sortBy(

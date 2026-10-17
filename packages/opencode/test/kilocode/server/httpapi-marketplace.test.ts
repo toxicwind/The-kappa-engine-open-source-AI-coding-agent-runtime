@@ -41,8 +41,8 @@ function rec(input: unknown): Json {
 
 async function config(dir: string) {
   for (const file of [
-    path.join(dir, ".kilo", "kilo.jsonc"),
-    path.join(dir, ".kilo", "kilo.json"),
+    path.join(dir, ".kappa", "kappa.jsonc"),
+    path.join(dir, ".kappa", "kappa.json"),
     path.join(dir, "opencode.json"),
   ]) {
     const cfg = Bun.file(file)
@@ -76,7 +76,7 @@ function harness(dir: string) {
   return async (method: string, route: string, body?: unknown) => {
     const response = await api.request(route, {
       method,
-      headers: { "content-type": "application/json", "x-kilo-directory": dir },
+      headers: { "content-type": "application/json", "x-kappa-directory": dir },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
     })
     expect(response.status).toBe(200)
@@ -115,7 +115,7 @@ describe("marketplace HTTP API", () => {
     expect((await json("POST", KilocodePaths.marketplaceInstall, { item: agent, target: "project" })).success).toBe(
       true,
     )
-    expect(await Bun.file(path.join(tmp.path, ".kilo", "agents", "reviewer.md")).exists()).toBe(true)
+    expect(await Bun.file(path.join(tmp.path, ".kappa", "agents", "reviewer.md")).exists()).toBe(true)
 
     const original = globalThis.fetch
     globalThis.fetch = (async () => new Response('{"items":[]}')) as unknown as typeof fetch
@@ -142,7 +142,7 @@ describe("marketplace HTTP API", () => {
 
     const removed = await config(tmp.path)
     expect(removed.mcp?.memory).toBeUndefined()
-    expect(await Bun.file(path.join(tmp.path, ".kilo", "agents", "reviewer.md")).exists()).toBe(false)
+    expect(await Bun.file(path.join(tmp.path, ".kappa", "agents", "reviewer.md")).exists()).toBe(false)
   })
 
   // The install payload only models identity and content, so a client that keeps a
@@ -170,7 +170,7 @@ describe("marketplace HTTP API", () => {
       target: "project",
     })
     expect(agent.success).toBe(true)
-    expect(await Bun.file(path.join(tmp.path, ".kilo", "agents", "reviewer.md")).exists()).toBe(true)
+    expect(await Bun.file(path.join(tmp.path, ".kappa", "agents", "reviewer.md")).exists()).toBe(true)
   })
 
   // The skill install/remove path shells out to `tar`; keep this POSIX-only because
@@ -178,7 +178,7 @@ describe("marketplace HTTP API", () => {
   posix("installs, removes, and reinstalls a marketplace skill", async () => {
     await using tmp = await tmpdir({ config: { formatter: false, lsp: false } })
     const json = harness(tmp.path)
-    const manifest = path.join(tmp.path, ".kilo", "skills", "marketplace-skill", "SKILL.md")
+    const manifest = path.join(tmp.path, ".kappa", "skills", "marketplace-skill", "SKILL.md")
 
     const skill = {
       type: "skill",
@@ -258,7 +258,7 @@ describe("marketplace HTTP API", () => {
       expect(item?.skills).toEqual([{ id: "remote-workflow", content: `${server.url}remote-workflow.tar.gz` }])
 
       const installed = await json("POST", KilocodePaths.marketplaceInstall, { item, target: "project" })
-      const file = path.join(tmp.path, ".kilo", "skills", "remote-workflow", "SKILL.md")
+      const file = path.join(tmp.path, ".kappa", "skills", "remote-workflow", "SKILL.md")
       expect(installed).toMatchObject({ success: true })
       expect(installed.filePaths).toContain(file)
       expect(installed.filePaths).toContain(path.join(tmp.path, "opencode.json"))
@@ -266,7 +266,7 @@ describe("marketplace HTTP API", () => {
       expect(await Bun.file(path.join(path.dirname(file), "reference.txt")).text()).toContain("Companion reference")
       const listed = await json("GET", KilocodePaths.marketplaceList)
       expect(rec(rec(listed.installed).project)["skill:remote-workflow"]).toEqual({ type: "skill" })
-      const response = await app().request("/skill", { headers: { "x-kilo-directory": tmp.path } })
+      const response = await app().request("/skill", { headers: { "x-kappa-directory": tmp.path } })
       expect(response.status).toBe(200)
       const skills = (await response.json()) as Json[]
       expect(skills.find((skill) => skill.name === "remote-workflow")?.content).toContain("# Skill")
@@ -307,7 +307,7 @@ describe("marketplace HTTP API", () => {
     const failed = await json("POST", KilocodePaths.marketplaceInstall, { item, target: "project" })
     expect(failed.success).toBe(false)
     expect((await config(tmp.path)).mcp?.[item.id]).toBeUndefined()
-    expect(await Bun.file(path.join(tmp.path, ".kilo", "skills", skill.id, "SKILL.md")).exists()).toBe(false)
+    expect(await Bun.file(path.join(tmp.path, ".kappa", "skills", skill.id, "SKILL.md")).exists()).toBe(false)
     expect(await json("POST", KilocodePaths.marketplaceInstall, { item: { ...item, skills: [skill] } })).toMatchObject({
       success: true,
     })
@@ -321,7 +321,7 @@ describe("marketplace HTTP API", () => {
       id: "independent-workflow",
       content: await tarball(tmp.path, "independent-workflow"),
     }
-    const file = path.join(tmp.path, ".kilo", "skills", skill.id, "SKILL.md")
+    const file = path.join(tmp.path, ".kappa", "skills", skill.id, "SKILL.md")
     expect((await json("POST", KilocodePaths.marketplaceInstall, { item: skill })).success).toBe(true)
     const before = await Bun.file(file).text()
     const item = {
@@ -349,8 +349,8 @@ describe("marketplace HTTP API", () => {
       content: JSON.stringify({ type: "remote", url: "https://example.com/mcp", enabled: false }),
       skills: [skill],
     }
-    const project = path.join(tmp.path, ".kilo", "skills", skill.id, "SKILL.md")
-    const global = path.join(Global.Path.home, ".kilo", "skills", skill.id, "SKILL.md")
+    const project = path.join(tmp.path, ".kappa", "skills", skill.id, "SKILL.md")
+    const global = path.join(Global.Path.home, ".kappa", "skills", skill.id, "SKILL.md")
     for (const target of ["project", "global"]) {
       expect(await json("POST", KilocodePaths.marketplaceInstall, { item, target })).toMatchObject({ success: true })
     }
@@ -387,7 +387,7 @@ describe("marketplace HTTP API", () => {
       await json("POST", KilocodePaths.marketplaceRemove, { item: { type: "mcp", id: item.id }, scope: "project" }),
     ).toMatchObject({ success: true })
     expect((await detect({ directory: tmp.path })).project[`mcp:${item.id}`]).toBeUndefined()
-    expect(await Bun.file(path.join(tmp.path, ".kilo", "skills", "recoverable-workflow", "SKILL.md")).exists()).toBe(
+    expect(await Bun.file(path.join(tmp.path, ".kappa", "skills", "recoverable-workflow", "SKILL.md")).exists()).toBe(
       false,
     )
   })

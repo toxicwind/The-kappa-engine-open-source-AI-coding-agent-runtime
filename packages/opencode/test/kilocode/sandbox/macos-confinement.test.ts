@@ -10,7 +10,7 @@ import {
   type MutationRequest,
   type MutationRunner,
   type Profile,
-} from "@kilocode/sandbox"
+} from "@kappacode/sandbox"
 import { Effect, Exit, Layer } from "effect"
 import { ChildProcess } from "effect/unstable/process"
 import fs from "node:fs/promises"

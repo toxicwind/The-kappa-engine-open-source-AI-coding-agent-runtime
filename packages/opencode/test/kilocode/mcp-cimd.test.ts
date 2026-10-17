@@ -14,7 +14,7 @@ it.live("hosted client document matches the provider's metadata and client ID", 
     const store = yield* McpAuth.Service
     const provider = new McpOAuthProvider("contract", "https://example.com/mcp", {}, { onRedirect: () => {} }, store)
     const document = yield* Effect.promise(() =>
-      Bun.file(new URL("../../../kilo-docs/public/oauth/kilo/client.json", import.meta.url)).json(),
+      Bun.file(new URL("../../../kappa-docs/public/oauth/kappa/client.json", import.meta.url)).json(),
     )
     expect(document).toEqual({ client_id: provider.clientMetadataUrl, ...provider.clientMetadata })
   }),

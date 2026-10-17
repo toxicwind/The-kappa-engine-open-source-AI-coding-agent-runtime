@@ -30,7 +30,7 @@ async function get(config: Partial<ConfigV1.Info>, name = "plan") {
 function expectPlan(item: Agent.Info | undefined, action: Permission.Action = "allow") {
   expect(item).toBeDefined()
   expect(Permission.evaluate("edit", "src/output.log", item!.permission).action).toBe("deny")
-  expect(Permission.evaluate("edit", ".kilo/plans/fix.md", item!.permission).action).toBe(action)
+  expect(Permission.evaluate("edit", ".kappa/plans/fix.md", item!.permission).action).toBe(action)
 }
 
 afterEach(async () => {
@@ -463,7 +463,7 @@ test("plan agent still hard-denies non-plan edits after user edit allow", async 
       const plan = await load(tmp.path, (svc) => svc.get("plan"))
       expect(plan).toBeDefined()
       expect(Permission.evaluate("edit", "src/output.log", plan!.permission).action).toBe("deny")
-      expect(Permission.evaluate("edit", ".kilo/plans/fix.md", plan!.permission).action).toBe("allow")
+      expect(Permission.evaluate("edit", ".kappa/plans/fix.md", plan!.permission).action).toBe("allow")
       expect(Permission.evaluate("edit", "plans/fix.md", plan!.permission).action).toBe("allow")
       expect(Permission.evaluate("edit", ".plans/fix.md", plan!.permission).action).toBe("allow")
     },
@@ -488,7 +488,7 @@ test("plan agent still hard-denies non-plan edits after per-agent edit ask", asy
 test("plan agent honors global and per-agent plan allows after wildcard edit deny", async () => {
   const edit = {
     "*": "deny" as const,
-    ".kilo/plans/*": "allow" as const,
+    ".kappa/plans/*": "allow" as const,
   }
   for (const config of [
     { permission: { edit } },
@@ -528,7 +528,7 @@ test("plan agent preserves a terminal wildcard edit deny", async () => {
         plan: {
           permission: {
             edit: {
-              ".kilo/plans/*": "allow",
+              ".kappa/plans/*": "allow",
               "*": "deny",
             },
           },
@@ -546,7 +546,7 @@ test("plan agent preserves explicit per-agent edit denies", async () => {
         plan: {
           permission: {
             edit: {
-              ".kilo/plans/private.md": "deny",
+              ".kappa/plans/private.md": "deny",
             },
           },
         },
@@ -554,7 +554,7 @@ test("plan agent preserves explicit per-agent edit denies", async () => {
     },
   )
   expectPlan(plan)
-  expect(Permission.evaluate("edit", ".kilo/plans/private.md", plan!.permission).action).toBe("deny")
+  expect(Permission.evaluate("edit", ".kappa/plans/private.md", plan!.permission).action).toBe("deny")
 })
 
 test("plan agent preserves global edit denies after per-agent edit ask", async () => {
@@ -562,7 +562,7 @@ test("plan agent preserves global edit denies after per-agent edit ask", async (
     {
       permission: {
         edit: {
-          ".kilo/plans/private.md": "deny",
+          ".kappa/plans/private.md": "deny",
         },
       },
       agent: {
@@ -575,7 +575,7 @@ test("plan agent preserves global edit denies after per-agent edit ask", async (
     },
   )
   expectPlan(plan)
-  expect(Permission.evaluate("edit", ".kilo/plans/private.md", plan!.permission).action).toBe("deny")
+  expect(Permission.evaluate("edit", ".kappa/plans/private.md", plan!.permission).action).toBe("deny")
 })
 
 test("plan agent preserves global non-edit denies before broader allows", async () => {
@@ -626,7 +626,7 @@ test("marketplace architect honors plan allow after wildcard edit deny", async (
             glob: "allow",
             edit: {
               "*": "deny",
-              ".kilo/plans/*": "allow",
+              ".kappa/plans/*": "allow",
             },
           },
         },
@@ -688,7 +688,7 @@ test("custom architect agent is not plan-hardened by name", async () => {
   )
   expect(architect).toBeDefined()
   expect(Permission.evaluate("edit", "src/output.log", architect!.permission).action).toBe("allow")
-  expect(Permission.evaluate("edit", ".kilo/plans/fix.md", architect!.permission).action).toBe("allow")
+  expect(Permission.evaluate("edit", ".kappa/plans/fix.md", architect!.permission).action).toBe("allow")
 })
 
 // A custom `agent.plan` config reuses the built-in plan object, so it stays native
@@ -714,7 +714,7 @@ test("custom agent.plan config stays native and plan-hardened", async () => {
   expect(plan).toBeDefined()
   expect(plan!.native).toBe(true)
   expect(Permission.evaluate("edit", "src/output.log", plan!.permission).action).toBe("deny")
-  expect(Permission.evaluate("edit", ".kilo/plans/fix.md", plan!.permission).action).toBe("allow")
+  expect(Permission.evaluate("edit", ".kappa/plans/fix.md", plan!.permission).action).toBe("allow")
 })
 
 test("non-planning agents retain per-agent edit permissions", async () => {

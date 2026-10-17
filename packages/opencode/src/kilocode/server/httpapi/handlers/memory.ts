@@ -1,9 +1,9 @@
 import { Effect } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
 import { InstanceState } from "@/effect/instance-state"
-import { MemoryError } from "@kilocode/kilo-memory/effect/errors"
-import { MemoryContract } from "@kilocode/kilo-memory/effect/httpapi"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service"
+import { MemoryError } from "@kappacode/kappa-memory/effect/errors"
+import { MemoryContract } from "@kappacode/kappa-memory/effect/httpapi"
+import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { KiloToolRegistry } from "@/kilocode/tool/registry"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import {

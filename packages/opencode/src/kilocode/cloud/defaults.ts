@@ -15,7 +15,7 @@ export namespace CloudDefaults {
     readonly get: () => Effect.Effect<ModelStateInfo>
   }
 
-  export class ModelState extends Context.Service<ModelState, ModelStateInterface>()("@kilocode/CloudModelState") {}
+  export class ModelState extends Context.Service<ModelState, ModelStateInterface>()("@kappacode/CloudModelState") {}
 
   export const modelStateLayer = Layer.succeed(
     ModelState,
@@ -83,7 +83,7 @@ export namespace CloudDefaults {
   }
 
   function normalize(value: string) {
-    return value.startsWith("kilo/") ? value.slice("kilo/".length) : value
+    return value.startsWith("kappa/") ? value.slice("kappa/".length) : value
   }
 
   export const resolve = Effect.fn("CloudDefaults.resolve")(function* (input: Input = {}) {

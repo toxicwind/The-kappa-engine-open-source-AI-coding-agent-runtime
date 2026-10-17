@@ -32,7 +32,7 @@ Log.init({ print: false })
 setDefaultTimeout(15_000)
 
 const previous = Flag.KILO_DB
-const dbfile = path.join(os.tmpdir(), `kilo-prompt-queue-${process.pid}-${crypto.randomUUID()}.db`)
+const dbfile = path.join(os.tmpdir(), `kappa-prompt-queue-${process.pid}-${crypto.randomUUID()}.db`)
 const layer = LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node]))
 const prompt = LayerNode.compile(LayerNode.group([SessionPrompt.node, SessionProjector.node]))
 const runtime = makeRuntime(Session.Service, layer)

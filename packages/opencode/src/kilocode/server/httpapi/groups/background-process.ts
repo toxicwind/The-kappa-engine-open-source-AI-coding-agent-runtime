@@ -109,7 +109,7 @@ export const BackgroundProcessApi = HttpApi.make("background-process")
   )
   .annotateMerge(
     OpenApi.annotations({
-      title: "kilo HttpApi",
+      title: "kappa HttpApi",
       version: "0.0.1",
       description: "Kilo HttpApi surface.",
     }),

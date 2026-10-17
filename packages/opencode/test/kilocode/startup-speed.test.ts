@@ -11,20 +11,20 @@ test("warm npm launcher and real CLI startup stay within budget", async () => {
   if (!node) throw new Error("Startup test requires Node.js")
   await using dir = await tmpdir()
   const platform = process.platform === "win32" ? "windows" : process.platform
-  const modules = path.join(dir.path, "node_modules", "@kilocode")
-  const wrapper = path.join(modules, "cli", "bin", "kilo")
-  const helper = path.join(modules, "cli", "bin", "kilocode", "windows-avx2.cjs")
+  const modules = path.join(dir.path, "node_modules", "@kappacode")
+  const wrapper = path.join(modules, "cli", "bin", "kappa")
+  const helper = path.join(modules, "cli", "bin", "kappacode", "windows-avx2.cjs")
   const binary = path.join(
     modules,
     `cli-${platform}-${process.arch}`,
     "bin",
-    process.platform === "win32" ? "kilo.exe" : "kilo",
+    process.platform === "win32" ? "kappa.exe" : "kappa",
   )
   await fs.mkdir(path.dirname(wrapper), { recursive: true })
   await fs.mkdir(path.dirname(helper), { recursive: true })
   await fs.mkdir(path.dirname(binary), { recursive: true })
-  await fs.copyFile(path.join(root, "bin", "kilo"), wrapper)
-  await fs.copyFile(path.join(root, "bin", "kilocode", "windows-avx2.cjs"), helper)
+  await fs.copyFile(path.join(root, "bin", "kappa"), wrapper)
+  await fs.copyFile(path.join(root, "bin", "kappacode", "windows-avx2.cjs"), helper)
   await fs.copyFile(process.execPath, binary)
   const env: Record<string, string> = {}
   for (const key of ["PATH", "SystemRoot", "WINDIR", "COMSPEC", "PATHEXT", "SystemDrive"]) {

@@ -5,7 +5,7 @@
 // `KILO_CONFIG_CONTENT` providing the test provider config inline.
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { createKiloClient } from "@kilocode/sdk/v2" // kilocode_change
+import { createKiloClient } from "@kappacode/sdk/v2" // kilocode_change
 import { reply } from "../../lib/llm-server"
 import { cliIt } from "../../lib/cli-process"
 
@@ -416,7 +416,7 @@ describe("opencode run (non-interactive subprocess)", () => {
 
   // kilocode_change start - non-interactive runs exclude human-driven tools like suggest
   cliIt.concurrent(
-    "kilo run --auto excludes suggest tool from LLM request",
+    "kappa run --auto excludes suggest tool from LLM request",
     ({ llm, opencode }) =>
       Effect.gen(function* () {
         yield* llm.text("done")
@@ -433,7 +433,7 @@ describe("opencode run (non-interactive subprocess)", () => {
   )
 
   cliIt.live(
-    "kilo run auto-dismisses suggestion and exits cleanly if suggest tool is invoked in attached session",
+    "kappa run auto-dismisses suggestion and exits cleanly if suggest tool is invoked in attached session",
     ({ llm, opencode }) =>
       Effect.gen(function* () {
         const server = yield* opencode.serve()

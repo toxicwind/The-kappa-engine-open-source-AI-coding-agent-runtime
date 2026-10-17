@@ -1,7 +1,7 @@
 import { DiffLineAnnotation, FileContents, FileDiffOptions, type SelectedLineRange } from "@pierre/diffs"
 import { ComponentProps } from "solid-js"
 import { lineCommentStyles } from "../components/line-comment-styles"
-import { KILO_DIFF_THEME } from "./kilo-diff-theme" // kilocode_change
+import { KILO_DIFF_THEME } from "./kappa-diff-theme" // kilocode_change
 
 export type DiffProps<T = {}> = FileDiffOptions<T> & {
   before: FileContents

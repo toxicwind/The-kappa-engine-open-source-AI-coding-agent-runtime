@@ -41,7 +41,7 @@ export interface Interface {
   readonly discover: () => Effect.Effect<DiscoveryResult>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@kilocode/AnacondaDesktopDiscovery") {}
+export class Service extends Context.Service<Service, Interface>()("@kappacode/AnacondaDesktopDiscovery") {}
 
 interface Options {
   readonly timeout?: Duration.Input

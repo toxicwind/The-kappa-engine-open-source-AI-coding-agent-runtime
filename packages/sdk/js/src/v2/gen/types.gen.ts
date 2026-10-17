@@ -2228,7 +2228,7 @@ export type GlobalEvent = {
 export type LogLevel = "DEBUG" | "INFO" | "WARN" | "ERROR"
 
 /**
- * Server configuration for the kilo serve command
+ * Server configuration for the kappa serve command
  */
 export type ServerConfig = {
   port?: number
@@ -2241,7 +2241,7 @@ export type ServerConfig = {
 export type IndexingConfig = {
   enabled?: boolean
   provider?:
-    | "kilo"
+    | "kappa"
     | "openai"
     | "ollama"
     | "openai-compatible"
@@ -2254,7 +2254,7 @@ export type IndexingConfig = {
   model?: string | null
   dimension?: number | null
   vectorStore?: "lancedb" | "qdrant"
-  kilo?: {
+  kappa?: {
     apiKey?: string
     baseUrl?: string
     organizationId?: string
@@ -5332,7 +5332,7 @@ export type EventKilocodeNotebookCancelled = {
 
 export type EventKiloSessionsRemoteStatusChanged = {
   id: string
-  type: "kilo-sessions.remote-status-changed"
+  type: "kappa-sessions.remote-status-changed"
   properties: {
     enabled: boolean
     connected: boolean
@@ -16290,7 +16290,7 @@ export type KiloProfileData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/profile"
+  url: "/kappa/profile"
 }
 
 export type KiloProfileErrors = {
@@ -16340,7 +16340,7 @@ export type KiloAuthStatusData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/auth-status"
+  url: "/kappa/auth-status"
 }
 
 export type KiloAuthStatusErrors = {
@@ -16372,7 +16372,7 @@ export type KiloModesData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/modes"
+  url: "/kappa/modes"
 }
 
 export type KiloModesErrors = {
@@ -16433,7 +16433,7 @@ export type KiloFimData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/fim"
+  url: "/kappa/fim"
 }
 
 export type KiloFimErrors = {
@@ -16488,7 +16488,7 @@ export type KiloEditData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/edit"
+  url: "/kappa/edit"
 }
 
 export type KiloEditErrors = {
@@ -16531,7 +16531,7 @@ export type KiloAudioTranscriptionsData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/audio/transcriptions"
+  url: "/kappa/audio/transcriptions"
 }
 
 export type KiloAudioTranscriptionsErrors = {
@@ -16562,7 +16562,7 @@ export type KiloModelsImagesData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/models/images"
+  url: "/kappa/models/images"
 }
 
 export type KiloModelsImagesErrors = {
@@ -16594,7 +16594,7 @@ export type KiloModelsTranscriptionsData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/models/transcriptions"
+  url: "/kappa/models/transcriptions"
 }
 
 export type KiloModelsTranscriptionsErrors = {
@@ -16626,7 +16626,7 @@ export type KiloNotificationsData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/notifications"
+  url: "/kappa/notifications"
 }
 
 export type KiloNotificationsErrors = {
@@ -16666,7 +16666,7 @@ export type KiloOrganizationSetData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/organization"
+  url: "/kappa/organization"
 }
 
 export type KiloOrganizationSetErrors = {
@@ -16697,7 +16697,7 @@ export type KiloCloudSessionsData = {
     limit?: number
     gitUrl?: string
   }
-  url: "/kilo/cloud-sessions"
+  url: "/kappa/cloud-sessions"
 }
 
 export type KiloCloudSessionsErrors = {
@@ -16736,7 +16736,7 @@ export type KiloCloudSessionGetData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/cloud/session/{id}"
+  url: "/kappa/cloud/session/{id}"
 }
 
 export type KiloCloudSessionGetErrors = {
@@ -16796,7 +16796,7 @@ export type KiloCloudSessionImportData = {
     directory?: string
     workspace?: string
   }
-  url: "/kilo/cloud/session/import"
+  url: "/kappa/cloud/session/import"
 }
 
 export type KiloCloudSessionImportErrors = {

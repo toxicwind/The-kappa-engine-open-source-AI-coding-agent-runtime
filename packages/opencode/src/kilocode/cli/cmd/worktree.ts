@@ -1,5 +1,5 @@
 // kilocode_change - new file
-// `kilo worktree list`/`remove`: CLI-side counterpart to `kilo --worktree <name>`
+// `kappa worktree list`/`remove`: CLI-side counterpart to `kappa --worktree <name>`
 // (tui-worktree.ts) and the TUI's `/worktree` alias for the workspaces dialog
 // (packages/tui/src/app.tsx). All three go through the same `Worktree.Service`.
 import path from "path"
@@ -39,7 +39,7 @@ export const WorktreeCreateCommand = cmd({
   builder: (yargs) => yargs.positional("name", { type: "string", demandOption: true }),
   async handler(args) {
     // Plain cmd(), not effectCmd(): resolveWorktree loads/disposes its own
-    // instance context (it's shared with `kilo --worktree`'s pre-TUI-launch
+    // instance context (it's shared with `kappa --worktree`'s pre-TUI-launch
     // path in tui-worktree.ts), so it can't run inside effectCmd's own.
     const { resolveWorktree } = await import("@/kilocode/cli/cmd/tui-worktree")
     const directory = await resolveWorktree(args.name, process.cwd()).catch((error) => {
@@ -48,7 +48,7 @@ export const WorktreeCreateCommand = cmd({
     })
     // Prints only the resolved path on stdout (status messages already went
     // to stderr via resolveWorktree's own UI.println calls), so scripts can
-    // do e.g. `cd "$(kilo worktree create foo)"`.
+    // do e.g. `cd "$(kappa worktree create foo)"`.
     if (directory) console.log(directory)
   },
 })
@@ -62,8 +62,8 @@ export const WorktreeListCommand = effectCmd({
       UI.println("No worktrees found.")
       return
     }
-    // Data rows go to stdout (like `kilo session list`'s table/JSON), not
-    // UI.println's stderr, so `kilo worktree list | ...` actually captures them.
+    // Data rows go to stdout (like `kappa session list`'s table/JSON), not
+    // UI.println's stderr, so `kappa worktree list | ...` actually captures them.
     for (const w of list) console.log(`${w.name}${w.branch ? ` (${w.branch})` : ""}  ${w.directory}`)
   }),
 })

@@ -2,7 +2,7 @@
 
 import path from "path"
 import { pathToFileURL } from "bun"
-import { createKilo } from "@kilocode/sdk"
+import { createKilo } from "@kappacode/sdk"
 import { parseArgs } from "util"
 
 async function main() {

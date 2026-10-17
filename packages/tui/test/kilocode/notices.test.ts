@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import type { ToastOptions } from "../../src/ui/toast"
 import { collector, combine, type Notice } from "../../src/kilocode/notices"
 
-const commands: Notice = { title: "Commands Unavailable", message: "kilo server GET /command → 500" }
-const config: Notice = { title: "Config Warning", message: "Configuration is invalid at kilo.json" }
+const commands: Notice = { title: "Commands Unavailable", message: "kappa server GET /command → 500" }
+const config: Notice = { title: "Config Warning", message: "Configuration is invalid at kappa.json" }
 
 function record() {
   const shown: ToastOptions[] = []
@@ -18,7 +18,7 @@ describe("bootstrap notices", () => {
   test("keeps a lone notice exactly as reported", () => {
     expect(combine([commands])).toEqual({
       title: "Commands Unavailable",
-      message: "kilo server GET /command → 500",
+      message: "kappa server GET /command → 500",
       variant: "warning",
       duration: 0,
     })
@@ -28,8 +28,8 @@ describe("bootstrap notices", () => {
     const notice = combine([commands, config])
 
     expect(notice?.title).toBe("Startup Warnings")
-    expect(notice?.message).toContain("Commands Unavailable: kilo server GET /command → 500")
-    expect(notice?.message).toContain("Config Warning: Configuration is invalid at kilo.json")
+    expect(notice?.message).toContain("Commands Unavailable: kappa server GET /command → 500")
+    expect(notice?.message).toContain("Config Warning: Configuration is invalid at kappa.json")
     expect(notice?.duration).toBe(0)
   })
 

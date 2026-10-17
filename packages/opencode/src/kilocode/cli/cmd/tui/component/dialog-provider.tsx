@@ -7,8 +7,8 @@
 
 import type { JSX } from "solid-js"
 import type { RGBA } from "@opentui/core"
-import type { ProviderAuthAuthorization } from "@kilocode/sdk/v2"
-import { KiloAutoMethod } from "@/kilocode/components/dialog-kilo-auto-method"
+import type { ProviderAuthAuthorization } from "@kappacode/sdk/v2"
+import { KiloAutoMethod } from "@/kilocode/components/dialog-kappa-auto-method"
 export { selectProvider } from "@/kilocode/anaconda-desktop/tui/setup"
 
 // ---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ export function failedDescription(providerID: string, failed: string[]): string 
 // ---------------------------------------------------------------------------
 
 export const PROVIDER_PRIORITY: Record<string, number> = {
-  kilo: -1,
+  kappa: -1,
   anthropic: 0,
   "github-copilot": 1,
   openai: 2,
@@ -59,7 +59,7 @@ export const PROVIDER_PRIORITY: Record<string, number> = {
 // ---------------------------------------------------------------------------
 
 export const PROVIDER_DESCRIPTIONS: Record<string, string> = {
-  kilo: "(Recommended)",
+  kappa: "(Recommended)",
   anthropic: "(Claude Max or API key)",
   openai: "(ChatGPT login or API key)",
   "anaconda-desktop": "(Local models)",
@@ -98,7 +98,7 @@ export function renderAutoMethod(opts: {
   useTheme: () => any
   DialogModel: any
 }): (() => JSX.Element) | undefined {
-  if (opts.providerID !== "kilo") return undefined
+  if (opts.providerID !== "kappa") return undefined
   return () => (
     <KiloAutoMethod
       providerID={opts.providerID}
@@ -131,14 +131,14 @@ export function renderApiDescription(
       </text>
     )
   }
-  if (providerID !== "kilo") return undefined
+  if (providerID !== "kappa") return undefined
   return () => (
     <box gap={1}>
       <text fg={theme.textMuted}>
         Kilo Gateway gives you access to all the best coding models at the cheapest prices with a single API key.
       </text>
       <text fg={theme.text}>
-        Go to <span style={{ fg: theme.primary }}>https://kilo.ai/gateway</span> to get a key
+        Go to <span style={{ fg: theme.primary }}>https://kappa.ai/gateway</span> to get a key
       </text>
     </box>
   )

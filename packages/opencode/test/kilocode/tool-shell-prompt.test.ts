@@ -7,7 +7,7 @@ import { ShellPrompt } from "../../src/tool/shell/prompt"
 // Cloud sessions allowlist a session-scoped temp dir, so the bash tool
 // description must name a path the injected external_directory rules permit.
 // The allowlist root is the literal `/tmp`, not `os.tmpdir()`.
-const sharedTmp = path.join(os.tmpdir(), "kilo")
+const sharedTmp = path.join(os.tmpdir(), "kappa")
 const sessionTmp = path.join("/tmp", "agent_test-session_1")
 
 const withEnv = (env: Record<string, string | undefined>, run: () => void) => {

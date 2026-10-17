@@ -1,4 +1,4 @@
-import type { AnacondaDesktopStatus } from "@kilocode/sdk/v2"
+import type { AnacondaDesktopStatus } from "@kappacode/sdk/v2"
 import { DOWNLOAD_URL } from "../domain"
 
 export type ReadyStatus = Extract<AnacondaDesktopStatus, { type: "ready" }>

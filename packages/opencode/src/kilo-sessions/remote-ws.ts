@@ -1,4 +1,4 @@
-import { RemoteProtocol } from "@/kilo-sessions/remote-protocol"
+import { RemoteProtocol } from "@/kappa-sessions/remote-protocol"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 
 export namespace RemoteWS {

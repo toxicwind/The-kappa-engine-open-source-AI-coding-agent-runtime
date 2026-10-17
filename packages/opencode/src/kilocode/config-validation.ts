@@ -126,9 +126,9 @@ export namespace ConfigValidation {
 
   function isConfig(filepath: string): boolean {
     if (!path.isAbsolute(filepath)) return ConfigProtection.isRelative(filepath)
-    // Global config dirs (e.g. ~/.config/kilo/)
+    // Global config dirs (e.g. ~/.config/kappa/)
     if (ConfigProtection.isAbsolute(filepath)) return true
-    // Project-local config (e.g. /project/.kilo/command/foo.md)
+    // Project-local config (e.g. /project/.kappa/command/foo.md)
     try {
       const rel = path.relative(Instance.worktree, filepath)
       if (!rel.startsWith("..")) return ConfigProtection.isRelative(rel)

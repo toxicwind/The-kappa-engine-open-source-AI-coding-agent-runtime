@@ -16,8 +16,8 @@ test("rejects file references in untrusted config without a fileScope", async ()
 })
 
 test("rejects untrusted file references that escape the scope root", async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-root-"))
-  const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-outside-"))
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-root-"))
+  const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-outside-"))
   const file = path.join(outside, "secret")
   await fs.writeFile(file, "top-secret")
   try {
@@ -31,7 +31,7 @@ test("rejects untrusted file references that escape the scope root", async () =>
 })
 
 test("allows untrusted file references that stay inside the scope root", async () => {
-  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-inside-")))
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-inside-")))
   const file = path.join(root, "value")
   await fs.writeFile(file, "allowed")
   try {
@@ -40,7 +40,7 @@ test("allows untrusted file references that stay inside the scope root", async (
         ...source,
         dir: root,
         text: "{file:value}",
-        fileScope: { root, source: path.join(root, "kilo.json") },
+        fileScope: { root, source: path.join(root, "kappa.json") },
       }),
     ).toBe("allowed")
   } finally {
@@ -49,7 +49,7 @@ test("allows untrusted file references that stay inside the scope root", async (
 })
 
 test("allows untrusted absolute file references that resolve inside the scope root", async () => {
-  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-abs-inside-")))
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-abs-inside-")))
   const file = path.join(root, "value")
   await fs.writeFile(file, "allowed")
   try {
@@ -59,7 +59,7 @@ test("allows untrusted absolute file references that resolve inside the scope ro
         ...source,
         dir: root,
         text: `{file:${file}}`,
-        fileScope: { root, source: path.join(root, "kilo.json") },
+        fileScope: { root, source: path.join(root, "kappa.json") },
       }),
     ).toBe("allowed")
   } finally {
@@ -114,7 +114,7 @@ test("continues to substitute ordinary environment variables when trusted", asyn
 })
 
 test("reads ordinary file substitutions on every platform when trusted", async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-file-"))
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-file-"))
   const file = path.join(dir, "value")
   await fs.writeFile(file, "allowed")
   try {
@@ -134,7 +134,7 @@ test.skipIf(process.platform !== "linux")("does not substitute process environme
 })
 
 test.skipIf(process.platform !== "linux")("does not substitute an environment file through a symlink", async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-"))
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-"))
   const link = path.join(dir, "value")
   await fs.symlink("/proc/self/environ", link)
   try {
@@ -147,8 +147,8 @@ test.skipIf(process.platform !== "linux")("does not substitute an environment fi
 // A deliberate scope block must surface even for callers that use missing:"empty" (e.g. agent prompts),
 // rather than being silently emptied like a genuine missing/IO error.
 test("scope-blocked file reference still rejects under missing:empty", async () => {
-  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-empty-root-")))
-  const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-empty-out-"))
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-empty-root-")))
+  const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-empty-out-"))
   const file = path.join(outside, "secret")
   await fs.writeFile(file, "top-secret")
   try {
@@ -158,7 +158,7 @@ test("scope-blocked file reference still rejects under missing:empty", async () 
         dir: root,
         missing: "empty",
         text: `{file:${file}}`,
-        fileScope: { root, source: path.join(root, "kilo.json") },
+        fileScope: { root, source: path.join(root, "kappa.json") },
       }),
     ).rejects.toBeInstanceOf(InvalidError)
   } finally {
@@ -169,14 +169,14 @@ test("scope-blocked file reference still rejects under missing:empty", async () 
 
 // A genuine missing file under missing:"empty" is still emptied, not rejected.
 test("missing (non-blocked) file reference is emptied under missing:empty", async () => {
-  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kilo-config-variable-missing-")))
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kappa-config-variable-missing-")))
   try {
     const out = await ConfigVariable.substitute({
       ...source,
       dir: root,
       missing: "empty",
       text: "value={file:nope.txt}",
-      fileScope: { root, source: path.join(root, "kilo.json") },
+      fileScope: { root, source: path.join(root, "kappa.json") },
     })
     expect(out).toBe("value=")
   } finally {
@@ -186,12 +186,12 @@ test("missing (non-blocked) file reference is emptied under missing:empty", asyn
 
 // The guard's BlockedError is classified by isBlocked (used to bypass missing:"empty").
 test("guard read rejects an out-of-scope file with a BlockedError", async () => {
-  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kilo-guard-root-")))
-  const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-guard-out-"))
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "kappa-guard-root-")))
+  const outside = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-guard-out-"))
   const file = path.join(outside, "secret")
   await fs.writeFile(file, "top-secret")
   try {
-    const err = await ConfigVariableGuard.read(file, { root, source: "kilo.json", token: "{file:...}" }).then(
+    const err = await ConfigVariableGuard.read(file, { root, source: "kappa.json", token: "{file:...}" }).then(
       () => undefined,
       (e) => e,
     )

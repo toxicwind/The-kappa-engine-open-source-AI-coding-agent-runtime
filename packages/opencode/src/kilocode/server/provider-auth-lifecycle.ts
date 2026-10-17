@@ -10,7 +10,7 @@ export const disposeAllInstancesAfterProviderAuthCallback = Effect.fn(
   yield* store.disposeAll()
 })
 
-// kilocode_change start - drop the old presence socket; callers invoke this for the "kilo" provider only
+// kilocode_change start - drop the old presence socket; callers invoke this for the "kappa" provider only
 export const invalidatePresence = Effect.fn("KiloServer.invalidatePresence")(function* () {
   const viewers = yield* KiloViewers.Service
   yield* viewers.invalidateAuth()

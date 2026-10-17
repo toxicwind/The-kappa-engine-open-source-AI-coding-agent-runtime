@@ -1,13 +1,13 @@
-import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, createSignal, onCleanup, onMount, Show } from "solid-js"
 import { Global } from "@opencode-ai/core/global"
 import * as Log from "@opencode-ai/core/util/log"
-import type { KiloPassState } from "@kilocode/kilo-gateway"
-import type { Message } from "@kilocode/sdk/v2"
+import type { KiloPassState } from "@kappacode/kappa-gateway"
+import type { Message } from "@kappacode/sdk/v2"
 import { onBalanceRefresh } from "../balance-refresh"
 import { REDACTED_BALANCE } from "../pii"
 
-const id = "internal:kilo-sidebar-footer"
+const id = "internal:kappa-sidebar-footer"
 const TEAM_POLL_MS = 5 * 60_000
 const BILLED_REFRESH_MS = 10_000
 const REFRESH_TIMEOUT_MS = 30_000
@@ -61,7 +61,7 @@ export function resetLabel(iso?: string | null) {
 // A billed turn: a completed Kilo assistant message with a non-zero cost.
 export function billable(info: Message) {
   if (info.role !== "assistant") return false
-  return info.providerID === "kilo" && info.time.completed !== undefined && info.cost > 0
+  return info.providerID === "kappa" && info.time.completed !== undefined && info.cost > 0
 }
 
 function View(props: { api: TuiPluginApi }) {
@@ -73,7 +73,7 @@ function View(props: { api: TuiPluginApi }) {
   const has = createMemo(() =>
     props.api.state.provider.some(
       (item) =>
-        (item.id !== "opencode" && item.id !== "kilo") ||
+        (item.id !== "opencode" && item.id !== "kappa") ||
         Object.values(item.models).some((model) => model.cost?.input !== 0),
     ),
   )
@@ -113,7 +113,7 @@ function View(props: { api: TuiPluginApi }) {
     const controller = new AbortController()
     inflight = controller
     const timeout = setTimeout(() => controller.abort(), REFRESH_TIMEOUT_MS)
-    void props.api.client.kilo
+    void props.api.client.kappa
       .profile(undefined, { signal: controller.signal })
       .then((res) => {
         if (id !== seq) return

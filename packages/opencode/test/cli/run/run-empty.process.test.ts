@@ -1,5 +1,5 @@
 // kilocode_change - new file
-// Subprocess tests for `kilo run` when the model produces no assistant message.
+// Subprocess tests for `kappa run` when the model produces no assistant message.
 // Same harness as run-process.test.ts — see `test/lib/cli-process.ts`.
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"

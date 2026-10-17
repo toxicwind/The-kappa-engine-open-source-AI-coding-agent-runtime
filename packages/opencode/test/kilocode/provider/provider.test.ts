@@ -33,7 +33,7 @@ afterEach(async () => {
 const it = testEffect(LayerNode.compile(LayerNode.group([Provider.node, Env.node, Plugin.node])))
 
 it.instance(
-  "getSmallModel returns undefined without kilo credentials when model IDs lack family metadata",
+  "getSmallModel returns undefined without kappa credentials when model IDs lack family metadata",
   Effect.gen(function* () {
     for (const key of ["KILO_API_KEY", "KILO_AUTH_CONTENT", "KILO_CONFIG_CONTENT"]) {
       yield* clearEnv(key)
@@ -52,17 +52,17 @@ it.instance(
           },
           options: { apiKey: "test-key" },
         },
-        kilo: null,
+        kappa: null,
       },
     },
   },
 )
 
 it.instance(
-  "getSmallModel falls back to Kilo auto when the kilo provider is configured",
+  "getSmallModel falls back to Kilo auto when the kappa provider is configured",
   Effect.gen(function* () {
     const model = yield* Provider.use.getSmallModel(ProviderV2.ID.make("test-provider"))
-    expect(model).toMatchObject({ providerID: "kilo", id: "kilo-auto/small" })
+    expect(model).toMatchObject({ providerID: "kappa", id: "kappa-auto/small" })
   }),
   {
     config: {
@@ -75,8 +75,8 @@ it.instance(
           },
           options: { apiKey: "test-key" },
         },
-        kilo: {
-          options: { apiKey: "kilo-key" },
+        kappa: {
+          options: { apiKey: "kappa-key" },
         },
       },
     },

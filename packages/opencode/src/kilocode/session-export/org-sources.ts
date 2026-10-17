@@ -14,7 +14,7 @@ export async function getAuthOrgId(): Promise<OrgState> {
   try {
     const [cfg, info] = await Promise.all([
       config.runPromise((svc) => svc.get()),
-      auth.runPromise((svc) => svc.get("kilo")),
+      auth.runPromise((svc) => svc.get("kappa")),
     ])
     const id = resolveKiloIndexingAuth({ config: cfg, auth: info }).organizationId
     if (id) return { type: "org", id }

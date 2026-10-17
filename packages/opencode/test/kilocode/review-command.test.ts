@@ -91,16 +91,16 @@ describe("review command", () => {
 
   test("documents worktree metadata candidate precedence", () => {
     const text = cmd.template as string
-    expect(text).toContain("git rev-parse --git-path kilo-agent-manager-metadata.json")
-    expect(text).toContain("`.kilo/metadata.json` in the current worktree checkout")
+    expect(text).toContain("git rev-parse --git-path kappa-agent-manager-metadata.json")
+    expect(text).toContain("`.kappa/metadata.json` in the current worktree checkout")
     expect(text).toContain("`.kilocode/metadata.json` in the current worktree checkout")
-    const admin = text.indexOf("git rev-parse --git-path kilo-agent-manager-metadata.json")
-    const kilo = text.indexOf("`.kilo/metadata.json` in the current worktree checkout")
+    const admin = text.indexOf("git rev-parse --git-path kappa-agent-manager-metadata.json")
+    const kappa = text.indexOf("`.kappa/metadata.json` in the current worktree checkout")
     const kilocode = text.indexOf("`.kilocode/metadata.json` in the current worktree checkout")
-    expect(admin).toBeLessThan(kilo)
-    expect(kilo).toBeLessThan(kilocode)
+    expect(admin).toBeLessThan(kappa)
+    expect(kappa).toBeLessThan(kilocode)
     expect(text).toContain("use `lstat`, not `stat`")
-    expect(text).toContain("immediate `.kilo` or `.kilocode` directory")
+    expect(text).toContain("immediate `.kappa` or `.kilocode` directory")
     expect(text).toContain("do not follow it; skip that candidate and continue")
     expect(text).toContain("linked worktree")
     expect(text).toContain("may be outside the checkout")

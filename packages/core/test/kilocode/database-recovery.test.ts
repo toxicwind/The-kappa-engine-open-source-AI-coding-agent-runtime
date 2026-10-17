@@ -26,7 +26,7 @@ const remove = async (file: string, retry = 30): Promise<void> => {
 describe("database WAL recovery", () => {
   test("starts concurrent processes while recovering an abandoned WAL", async () => {
     await using tmp = await tmpdir()
-    const file = path.join(tmp.path, "kilo.db")
+    const file = path.join(tmp.path, "kappa.db")
     await Effect.runPromise(Layer.build(Database.layerFromPath(file).pipe(Layer.fresh)).pipe(Effect.scoped))
 
     const worker = path.join(import.meta.dir, "fixture/database-recovery-worker.ts")

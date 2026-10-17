@@ -1,13 +1,13 @@
 // kilocode_change - new file
 // Shared derivation for the spawn-capable instance advertisement payload.
-// Used by both `kilo remote` (explicit CLI) and `enableRemote()` (covers `/remote`
+// Used by both `kappa remote` (explicit CLI) and `enableRemote()` (covers `/remote`
 // and KILO_REMOTE / remote_control auto-enable) so all enable paths share
 // the same process identity.
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import os from "node:os"
 import path from "node:path"
 import { performance } from "node:perf_hooks"
-import type { RemoteProtocol } from "@/kilo-sessions/remote-protocol"
+import type { RemoteProtocol } from "@/kappa-sessions/remote-protocol"
 
 // Use process startup, not the first advertisement or a later reconnect.
 const started = new Date(performance.timeOrigin).toISOString()

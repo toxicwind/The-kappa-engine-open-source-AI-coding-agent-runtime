@@ -13,7 +13,7 @@ import { Process } from "@/util/process"
 import { serverUrls } from "@/kilocode/cli/server-urls"
 
 export namespace Daemon {
-  const username = "kilo"
+  const username = "kappa"
   const lock = "kilocode-daemon"
   export const PortRange = { start: 4097, end: 4116 } as const
 
@@ -180,7 +180,7 @@ export namespace Daemon {
   }
 
   export function matches(state: State, input: Options, explicit: readonly NetworkOption[]) {
-    if (state.password === "kilo") return false
+    if (state.password === "kappa") return false
     const options = Network.parse(input)
     return explicit.every((name) => {
       if (name === "hostname") return state.hostname === options.hostname
@@ -404,7 +404,7 @@ export namespace Daemon {
       if (code(err) === "ENOENT") return ""
       throw err
     })
-    const match = text.match(/kilo server listening on http:\/\/([^:\s]+):(\d+)/)
+    const match = text.match(/kappa server listening on http:\/\/([^:\s]+):(\d+)/)
     if (!match) return undefined
     return { hostname: match[1], port: Number(match[2]) }
   }

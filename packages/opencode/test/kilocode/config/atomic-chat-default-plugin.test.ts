@@ -5,7 +5,7 @@ import { hasAtomicChatPlugin } from "@/kilocode/atomic-chat-feature"
 import { KilocodeDefaultPlugins } from "@/kilocode/config/default-plugins"
 import { PluginLoader } from "@/plugin/loader"
 
-const atomic = "@kilocode/plugin-atomic-chat"
+const atomic = "@kappacode/plugin-atomic-chat"
 
 describe("kilocode default atomic chat plugin", () => {
   test("injects atomic chat without registering an external plugin origin", () => {

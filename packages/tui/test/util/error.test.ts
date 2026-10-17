@@ -54,8 +54,8 @@ describe("util.error", () => {
       providerID: "anthropic",
       modelID: "claude-sonnet-4",
     })
-    expect(model).toContain("kilo models")
-    expect(model).toContain("kilo.json")
+    expect(model).toContain("kappa models")
+    expect(model).toContain("kappa.json")
     expect(model).not.toContain("opencode")
 
     const mcp = cliErrorMessage({ name: "MCPFailed", data: { name: "example" } })

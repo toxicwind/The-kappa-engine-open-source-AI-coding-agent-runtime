@@ -35,7 +35,7 @@ test("confines project markdown substitutions while preserving trusted substitut
     await using tmp = await tmpdir({
       init: async (dir) => {
         const project = path.join(dir, "project")
-        const item = path.join(project, ".kilo", "agents", "unsafe.md")
+        const item = path.join(project, ".kappa", "agents", "unsafe.md")
         const global = path.join(dir, "global", "agents", "trusted.md")
         const secret = path.join(dir, "secret.txt")
         const file = `{file:${secret}}`
@@ -100,7 +100,7 @@ test("still rejects dollar-prefixed env references in untrusted config", async (
     ConfigVariable.substitute({
       text: "model: ${env:MODEL}",
       type: "virtual",
-      source: "kilo.json",
+      source: "kappa.json",
       dir: "/tmp",
       trusted: false,
     }),

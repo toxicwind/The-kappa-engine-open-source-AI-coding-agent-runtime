@@ -12,7 +12,7 @@ export async function patchPlugin(input: PatchInput, write: PatchDeps["write"] =
   const completed: string[] = []
   try {
     const root = input.vcs === "git" && input.worktree !== "/" ? input.worktree : input.directory
-    const dir = input.global ? (input.config ?? Global.Path.config) : path.join(root, ".kilo")
+    const dir = input.global ? (input.config ?? Global.Path.config) : path.join(root, ".kappa")
     // Preflight every target before any write. The upstream writer validates
     // again under its lock; failures caused by later changes are reported below.
     for (const target of input.targets) {

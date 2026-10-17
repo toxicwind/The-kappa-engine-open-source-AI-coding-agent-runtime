@@ -41,7 +41,7 @@ interface State {
   dispose: () => Effect.Effect<void>
 }
 
-class StateService extends Context.Service<StateService, State>()("@kilocode/NotebookState") {}
+class StateService extends Context.Service<StateService, State>()("@kappacode/NotebookState") {}
 
 const context = Effect.gen(function* () {
   const ctx = (yield* InstanceRef) ?? capture()
@@ -67,7 +67,7 @@ export interface Interface {
   readonly reject: (input: { requestID: RequestID; error: Failure }) => Effect.Effect<void, NotFoundError>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@kilocode/Notebook") {}
+export class Service extends Context.Service<Service, Interface>()("@kappacode/Notebook") {}
 
 export function layer(timeout: Duration.Input = "10 minutes") {
   return Layer.effect(

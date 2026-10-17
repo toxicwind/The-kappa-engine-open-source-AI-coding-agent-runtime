@@ -6,7 +6,7 @@
 // This module exports patch functions and data that the upstream provider.ts
 // calls at well-defined injection points (each marked with kilocode_change).
 
-import { createKilo, type KiloProvider, AI_SDK_PROVIDERS, PROMPTS } from "@kilocode/kilo-gateway"
+import { createKilo, type KiloProvider, AI_SDK_PROVIDERS, PROMPTS } from "@kappacode/kappa-gateway"
 import { DEFAULT_HEADERS } from "@/kilocode/const"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -31,7 +31,7 @@ export const REQUEST_TIMEOUT_MS = 300_000 // 5 minutes
 type BundledSDK = { languageModel(modelId: string): LanguageModelV3 }
 
 export const KILO_BUNDLED_PROVIDERS: Record<string, () => Promise<(options: any) => BundledSDK>> = {
-  "@kilocode/kilo-gateway": async () => createKilo as unknown as (options: any) => BundledSDK,
+  "@kappacode/kappa-gateway": async () => createKilo as unknown as (options: any) => BundledSDK,
 }
 
 // ---------------------------------------------------------------------------
@@ -59,12 +59,12 @@ export const KILO_MODEL_SCHEMA_EXTENSIONS = {
 }
 
 // ---------------------------------------------------------------------------
-// fromModelsDevModel patch — returns kilo-specific fields
+// fromModelsDevModel patch — returns kappa-specific fields
 // ---------------------------------------------------------------------------
 
 export function patchModelsDevModel(providerID: string, source: any) {
   return {
-    variants: providerID === "kilo" ? (source.variants ?? {}) : {},
+    variants: providerID === "kappa" ? (source.variants ?? {}) : {},
     recommendedIndex: source.recommendedIndex,
     prompt: source.prompt,
     isFree: source.isFree,
@@ -78,7 +78,7 @@ export function patchModelsDevModel(providerID: string, source: any) {
 }
 
 // ---------------------------------------------------------------------------
-// Config model patch — merges kilo-specific fields from config + existing
+// Config model patch — merges kappa-specific fields from config + existing
 // ---------------------------------------------------------------------------
 
 export function patchConfigModel(cfg: any, existing: any) {
@@ -176,7 +176,7 @@ export function patchKiloProviderAuth(
   info: Auth.Info | undefined,
 ) {
   if (!provider) return
-  const options = config.provider?.kilo?.options
+  const options = config.provider?.kappa?.options
   const key = token(options, info)
   const org = organization(options, info)
   if (key !== undefined) provider.options.kilocodeToken = key
@@ -184,7 +184,7 @@ export function patchKiloProviderAuth(
 }
 
 export function publicKiloProvider(provider: Provider.Info): Provider.Info {
-  if (provider.id !== "kilo") return provider
+  if (provider.id !== "kappa") return provider
   return { ...provider, key: undefined, options: omit(provider.options, ["apiKey", "kilocodeToken"]) }
 }
 
@@ -200,13 +200,13 @@ export function kiloCustomLoaders(dep: CustomDep): Record<string, CustomLoader> 
         options: {},
       }),
 
-    kilo: Effect.fnUntraced(function* (input: any) {
+    kappa: Effect.fnUntraced(function* (input: any) {
       const env = yield* dep.env()
       const config = yield* dep.config()
       const hasKey = yield* Effect.gen(function* () {
         if (input.env.some((item: string) => env[item])) return true
         if (yield* dep.auth(input.id)) return true
-        if (config.provider?.["kilo"]?.options?.apiKey) return true
+        if (config.provider?.["kappa"]?.options?.apiKey) return true
         return false
       })
 
@@ -265,7 +265,7 @@ export function patchCustomLoaderResult(
     case "cerebras":
       result.options.headers = {
         ...result.options.headers,
-        "X-Cerebras-3rd-Party-Integration": "kilo",
+        "X-Cerebras-3rd-Party-Integration": "kappa",
       }
       break
     case "azure": {
@@ -295,16 +295,16 @@ export function patchCustomLoaderResult(
 // ---------------------------------------------------------------------------
 
 export function kiloSmallModelPriority(providerID: string): string[] | undefined {
-  if (providerID.startsWith("kilo")) return ["kilo-auto/small"]
+  if (providerID.startsWith("kappa")) return ["kappa-auto/small"]
   return undefined
 }
 
 /**
- * True when the user has kilo credentials: a KILO_API_KEY env var, a stored
- * auth entry, or an apiKey in the kilo provider config. Mirrors the hasKey
- * check in the kilo custom loader. The kilo provider is autoloaded with an
+ * True when the user has kappa credentials: a KILO_API_KEY env var, a stored
+ * auth entry, or an apiKey in the kappa provider config. Mirrors the hasKey
+ * check in the kappa custom loader. The kappa provider is autoloaded with an
  * anonymous key even without credentials, so this gates the cloud
- * kilo-auto/small fallback to users who can actually reach it.
+ * kappa-auto/small fallback to users who can actually reach it.
  */
 export function hasKiloCredentials(
   cfg: { provider?: Record<string, { options?: { apiKey?: string } } | null> },
@@ -313,7 +313,7 @@ export function hasKiloCredentials(
 ) {
   if (env.KILO_API_KEY) return true
   if (auth) return true
-  if (cfg.provider?.["kilo"]?.options?.apiKey) return true
+  if (cfg.provider?.["kappa"]?.options?.apiKey) return true
   return false
 }
 

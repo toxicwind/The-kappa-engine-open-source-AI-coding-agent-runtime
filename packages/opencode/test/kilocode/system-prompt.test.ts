@@ -171,13 +171,13 @@ describe("Ask diagram guidance", () => {
 describe("environmentDetails", () => {
   test("includes cwd and worktree in dynamic context", () => {
     const result = environmentDetails({
-      directory: "/repo/.kilo/worktrees/feature",
-      worktree: "/repo/.kilo/worktrees/feature",
+      directory: "/repo/.kappa/worktrees/feature",
+      worktree: "/repo/.kappa/worktrees/feature",
       activeFile: "src/app.ts",
     })
 
-    expect(result).toContain("Working directory: /repo/.kilo/worktrees/feature")
-    expect(result).toContain("Workspace root folder: /repo/.kilo/worktrees/feature")
+    expect(result).toContain("Working directory: /repo/.kappa/worktrees/feature")
+    expect(result).toContain("Workspace root folder: /repo/.kappa/worktrees/feature")
     expect(result).toContain("Active file: src/app.ts")
   })
 

@@ -5,7 +5,7 @@ import { useTheme } from "../../context/theme"
 import { SplitBorder } from "../../ui/border"
 import { useSDK } from "../../context/sdk"
 import { useDialog } from "../../ui/dialog"
-import type { SessionNetworkWait } from "@kilocode/sdk/v2"
+import type { SessionNetworkWait } from "@kappacode/sdk/v2"
 import { useTuiConfig } from "../../config"
 import { useBindings } from "../../keymap"
 

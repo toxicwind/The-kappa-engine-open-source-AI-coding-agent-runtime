@@ -1,4 +1,4 @@
-import type { Session as SDKSession, Message, Part } from "@kilocode/sdk/v2"
+import type { Session as SDKSession, Message, Part } from "@kappacode/sdk/v2"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { Session } from "@/session/session"
 import { CliError, effectCmd } from "../effect-cmd"
@@ -26,9 +26,9 @@ export type ShareData =
   | { type: "model"; data: unknown }
 
 // kilocode_change start
-/** Extract share token from a Kilo share URL like https://app.kilo.ai/s/<jwt> */
+/** Extract share token from a Kilo share URL like https://app.kappa.ai/s/<jwt> */
 export function parseShareUrl(url: string): string | null {
-  const match = url.match(/^https?:\/\/app\.kilo\.ai\/s\/([A-Za-z0-9_.-]+)$/)
+  const match = url.match(/^https?:\/\/app\.kappa\.ai\/s\/([A-Za-z0-9_.-]+)$/)
   return match ? match[1] : null
 }
 // kilocode_change end
@@ -99,7 +99,7 @@ export function ingestBootstrapWarning(sessionId: string, error: unknown) {
 }
 
 async function ingestBootstrap(sessionId: string) {
-  const { KiloSessions } = await import("../../kilo-sessions/kilo-sessions")
+  const { KiloSessions } = await import("../../kappa-sessions/kappa-sessions")
   return KiloSessions.bootstrap(sessionId)
 }
 
@@ -160,7 +160,7 @@ const runImport = Effect.fn("Cli.import.body")(function* (file: string, ctx: Ins
     // kilocode_change start - Migrate to upstream ShareNext architecture #10281
     const slug = parseShareUrl(file)
     if (!slug) {
-      process.stdout.write(`Invalid URL format. Expected: https://app.kilo.ai/s/<id>`)
+      process.stdout.write(`Invalid URL format. Expected: https://app.kappa.ai/s/<id>`)
       process.stdout.write(EOL)
       return
     }

@@ -42,7 +42,7 @@ describe("config HttpApi", () => {
             method: "PATCH",
             headers: {
               "content-type": "application/json",
-              "x-kilo-directory": tmp.path,
+              "x-kappa-directory": tmp.path,
             },
             body: JSON.stringify({ username: "patched-user", formatter: false, lsp: false }),
           }),
@@ -89,7 +89,7 @@ describe("config HttpApi", () => {
         Promise.resolve(
           app().request("/config", {
             headers: {
-              "x-kilo-directory": tmp.path,
+              "x-kappa-directory": tmp.path,
             },
           }),
         ),

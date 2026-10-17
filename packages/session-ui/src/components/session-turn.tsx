@@ -3,9 +3,9 @@ import {
   type SnapshotFileDiff,
   Message as MessageType,
   Part as PartType,
-} from "@kilocode/sdk/v2/client"
+} from "@kappacode/sdk/v2/client"
 import type { FileDiffInfo } from "@opencode-ai/client/promise"
-import type { SessionStatus } from "@kilocode/sdk/v2"
+import type { SessionStatus } from "@kappacode/sdk/v2"
 import { useData } from "../context"
 import { useFileComponent } from "@opencode-ai/ui/context/file"
 

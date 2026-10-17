@@ -9,7 +9,7 @@
 // doesn't exist on our release pipeline, so the resulting download URLs 404.
 //
 // Run this in a dedicated commit after resolving an upstream merge (see
-// `.kilo/command/upstream-manual-merge.md`). It's also handy mid-merge to
+// `.kappa/command/upstream-manual-merge.md`). It's also handy mid-merge to
 // rebase our version bumps onto any new Kilo main releases.
 //
 // Usage:
@@ -24,7 +24,7 @@
 //   - the five Kilo-Org download URLs inside that toml
 //
 // Intentionally NOT touched:
-//   - `packages/kilo-jetbrains/**` — the JetBrains plugin has its own release
+//   - `packages/kappa-jetbrains/**` — the JetBrains plugin has its own release
 //     cadence and version number.
 //   - dependency version strings inside `package.json` — internal deps use
 //     `workspace:*` so they don't need bumping.
@@ -56,7 +56,7 @@ for await (const rel of glob.scan({ cwd: root, onlyFiles: true })) {
   if (rel.startsWith(".")) continue
   if (rel.includes("/.")) continue
   // JetBrains plugin tracks its own version.
-  if (rel.startsWith("packages/kilo-jetbrains/")) continue
+  if (rel.startsWith("packages/kappa-jetbrains/")) continue
 
   const path = join(root, rel)
   const text = await Bun.file(path).text()

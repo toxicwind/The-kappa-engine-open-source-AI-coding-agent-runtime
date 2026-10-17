@@ -16,7 +16,7 @@ describe("skill slash commands", () => {
         Effect.gen(function* () {
           yield* Effect.promise(() =>
             Bun.write(
-              path.join(dir, ".kilo", "skill", "review", "SKILL.md"),
+              path.join(dir, ".kappa", "skill", "review", "SKILL.md"),
               `---
 name: review
 description: Skill with command conflict.
@@ -65,7 +65,7 @@ Skill content.
         Effect.gen(function* () {
           yield* Effect.promise(() =>
             Bun.write(
-              path.join(dir, ".kilo", "skill", "proj", "SKILL.md"),
+              path.join(dir, ".kappa", "skill", "proj", "SKILL.md"),
               `---\nname: proj\ndescription: proj.\n---\n\nRun: !\`printf hi\`\n`,
             ),
           )
@@ -86,7 +86,7 @@ Skill content.
         Effect.gen(function* () {
           yield* Effect.promise(() =>
             Bun.write(
-              path.join(dir, ".kilo", "skill", "proj", "SKILL.md"),
+              path.join(dir, ".kappa", "skill", "proj", "SKILL.md"),
               "---\nname: proj\ndescription: Project skill.\n---\n\nReview files.\n",
             ),
           )
@@ -118,7 +118,7 @@ Skill content.
         Effect.gen(function* () {
           yield* Effect.promise(() =>
             Bun.write(
-              path.join(dir, ".kilo", "skill", "review", "SKILL.md"),
+              path.join(dir, ".kappa", "skill", "review", "SKILL.md"),
               "---\nname: review\ndescription: Review skill.\n---\n\nReview files.\n",
             ),
           )

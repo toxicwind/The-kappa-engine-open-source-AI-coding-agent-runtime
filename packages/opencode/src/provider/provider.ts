@@ -499,9 +499,9 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://kilo.ai/", // kilocode_change
+            "HTTP-Referer": "https://kappa.ai/", // kilocode_change
             "X-Title": "Kilo Code", // kilocode_change
-            "X-Source": "kilo", // kilocode_change
+            "X-Source": "kappa", // kilocode_change
           },
         },
       }),
@@ -510,7 +510,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://kilo.ai/", // kilocode_change
+            "HTTP-Referer": "https://kappa.ai/", // kilocode_change
             "X-Title": "Kilo Code", // kilocode_change
           },
         },
@@ -520,7 +520,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: provider.source === "config",
         options: {
           headers: {
-            "HTTP-Referer": "https://kilo.ai/", // kilocode_change
+            "HTTP-Referer": "https://kappa.ai/", // kilocode_change
             "X-Title": "Kilo Code", // kilocode_change
             "X-BILLING-INVOKE-ORIGIN": "KiloCode", // kilocode_change
           },
@@ -531,7 +531,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "http-referer": "https://kilo.ai/", // kilocode_change
+            "http-referer": "https://kappa.ai/", // kilocode_change
             "x-title": "Kilo Code", // kilocode_change
           },
         },
@@ -645,7 +645,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://kilo.ai/", // kilocode_change
+            "HTTP-Referer": "https://kappa.ai/", // kilocode_change
             "X-Title": "Kilo Code", // kilocode_change
           },
         },
@@ -667,7 +667,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
       const directory = yield* InstanceState.directory
 
       const aiGatewayHeaders = {
-        "User-Agent": `kilo/${InstallationVersion} gitlab-ai-provider/${GITLAB_PROVIDER_VERSION} (${os.platform()} ${os.release()}; ${os.arch()})`, // kilocode_change
+        "User-Agent": `kappa/${InstallationVersion} gitlab-ai-provider/${GITLAB_PROVIDER_VERSION} (${os.platform()} ${os.release()}; ${os.arch()})`, // kilocode_change
         "anthropic-beta": "context-1m-2025-08-07",
         ...providerConfig?.options?.aiGatewayHeaders,
       }
@@ -845,7 +845,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
       if (!apiToken) {
         throw new Error(
           "CLOUDFLARE_API_TOKEN (or CF_AIG_TOKEN) is required for Cloudflare AI Gateway. " +
-            "Set it via environment variable or run `kilo auth cloudflare-ai-gateway`.",
+            "Set it via environment variable or run `kappa auth cloudflare-ai-gateway`.",
         )
       }
 
@@ -930,12 +930,12 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           },
         },
       }),
-    kilo: () =>
+    kappa: () =>
       Effect.succeed({
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://kilo.ai/", // kilocode_change
+            "HTTP-Referer": "https://kappa.ai/", // kilocode_change
             "X-Title": "Kilo Code", // kilocode_change
           },
         },
@@ -1744,8 +1744,8 @@ const layer = Layer.effect(
           if (provider.options) partial.options = provider.options
           mergeProvider(providerID, partial)
         }
-        patchKiloProviderPrivacy(providers[ProviderV2.ID.make("kilo")], cfg) // kilocode_change
-        patchKiloProviderAuth(providers[ProviderV2.ID.make("kilo")], cfg, auths["kilo"]) // kilocode_change
+        patchKiloProviderPrivacy(providers[ProviderV2.ID.make("kappa")], cfg) // kilocode_change
+        patchKiloProviderAuth(providers[ProviderV2.ID.make("kappa")], cfg, auths["kappa"]) // kilocode_change
 
         const gitlab = ProviderV2.ID.make("gitlab")
         if (discoveryLoaders[gitlab] && providers[gitlab] && isProviderAllowed(gitlab)) {
@@ -1995,7 +1995,7 @@ const layer = Layer.effect(
         const empty = !!catalogProvider && Object.keys(catalogProvider.models).length === 0 // kilocode_change
         // kilocode_change start
         const catalogError =
-          empty && providerID === "kilo" ? failure(yield* modelsDevSvc.getFailure(providerID)) : undefined
+          empty && providerID === "kappa" ? failure(yield* modelsDevSvc.getFailure(providerID)) : undefined
         return yield* new ModelNotFoundError({ providerID, modelID, suggestions, modelsEmpty: empty, catalogError })
         // kilocode_change end
       }
@@ -2131,18 +2131,18 @@ const layer = Layer.effect(
         if (candidates[0]) return candidates[0]
       }
 
-      // kilocode_change start - fall back to kilo's auto small model only when the user actually has
-      // kilo credentials. The kilo provider is always autoloaded (anonymous key), so checking it
+      // kilocode_change start - fall back to kappa's auto small model only when the user actually has
+      // kappa credentials. The kappa provider is always autoloaded (anonymous key), so checking it
       // unconditionally would route auxiliary tasks (session titles, commit messages, branch names)
-      // to the cloud for users without kilo access and break offline/local-only setups.
-      const kiloFallback = s.providers[ProviderV2.ID.make("kilo")]
-      if (kiloFallback?.models["kilo-auto/small"]) {
+      // to the cloud for users without kappa access and break offline/local-only setups.
+      const kiloFallback = s.providers[ProviderV2.ID.make("kappa")]
+      if (kiloFallback?.models["kappa-auto/small"]) {
         const hasCreds = hasKiloCredentials(
           cfg,
-          yield* auth.get(ProviderV2.ID.make("kilo")).pipe(Effect.orDie),
+          yield* auth.get(ProviderV2.ID.make("kappa")).pipe(Effect.orDie),
           yield* env.all(),
         )
-        if (hasCreds) return kiloFallback.models["kilo-auto/small"]
+        if (hasCreds) return kiloFallback.models["kappa-auto/small"]
       }
       // kilocode_change end
 

@@ -1,6 +1,6 @@
 import type { Argv } from "yargs"
 import type { Info as AuthInfo } from "../../../auth"
-import type { KilocodeBalance, KilocodeProfile } from "@kilocode/kilo-gateway"
+import type { KilocodeBalance, KilocodeProfile } from "@kappacode/kappa-gateway"
 import { cmd } from "../../../cli/cmd/cmd"
 import { UI } from "../../../cli/ui"
 
@@ -77,7 +77,7 @@ export const ProfileCommand = cmd({
 
 export async function handle(args: Args) {
   const get = args.getAuth ?? stored
-  const auth = await get("kilo")
+  const auth = await get("kappa")
   const error = args.error ?? UI.error
   const exit = args.exit ?? ((code: number) => (process.exitCode = code))
 
@@ -87,7 +87,7 @@ export async function handle(args: Args) {
     return
   }
 
-  const { fetchBalance, fetchProfile } = await import("@kilocode/kilo-gateway")
+  const { fetchBalance, fetchProfile } = await import("@kappacode/kappa-gateway")
   const org = auth.accountId ?? null
   const result = await (async () => {
     try {

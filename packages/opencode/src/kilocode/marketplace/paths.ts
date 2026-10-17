@@ -35,7 +35,7 @@ function stat(dir: string) {
 }
 
 export function pluginFiles(scope: Scope, directory: string, worktree?: string) {
-  const names = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "tui.jsonc", "tui.json"]
+  const names = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "tui.jsonc", "tui.json"]
   if (scope === "global") return [...names, "config.json"].map((name) => path.join(Global.Path.config, name))
 
   const dir = canonical(directory)
@@ -64,7 +64,7 @@ export function pluginFiles(scope: Scope, directory: string, worktree?: string) 
   // Count validated parent steps instead of comparing raw paths. Windows path
   // comparisons can accept an ancestor whose spelling differs only in case.
   for (let step = 0; step <= depth; step++) {
-    dirs.push(current, path.join(current, ".kilo"), path.join(current, ".kilocode"))
+    dirs.push(current, path.join(current, ".kappa"), path.join(current, ".kilocode"))
     current = path.dirname(current)
   }
   // Enumerate candidates without an exists check: unreadable configs must not
@@ -74,17 +74,17 @@ export function pluginFiles(scope: Scope, directory: string, worktree?: string) 
 
 export function agentsDir(scope: Scope, directory: string) {
   if (scope === "global") return path.join(Global.Path.config, "agents")
-  return path.join(directory, ".kilo", "agents")
+  return path.join(directory, ".kappa", "agents")
 }
 
 export function skillsDir(scope: Scope, directory: string) {
-  if (scope === "global") return path.join(Global.Path.home, ".kilo", "skills")
-  return path.join(directory, ".kilo", "skills")
+  if (scope === "global") return path.join(Global.Path.home, ".kappa", "skills")
+  return path.join(directory, ".kappa", "skills")
 }
 
 export function configRoot(scope: Scope, directory: string) {
   if (scope === "global") return Global.Path.config
-  return path.join(directory, ".kilo")
+  return path.join(directory, ".kappa")
 }
 
 /**
@@ -98,10 +98,10 @@ export async function scopeRoot(scope: Scope, directory: string, worktree?: stri
   if (scope === "global") return Global.Path.config
   const file = await KilocodeConfigOverlay.projectTarget({ directory, worktree })
   const dir = path.dirname(file)
-  return dir.endsWith(`${path.sep}.kilo`) || dir.endsWith(`${path.sep}.kilocode`) ? path.dirname(dir) : dir
+  return dir.endsWith(`${path.sep}.kappa`) || dir.endsWith(`${path.sep}.kilocode`) ? path.dirname(dir) : dir
 }
 
 export async function mcpsDir(scope: Scope, directory: string, worktree?: string) {
   if (scope === "global") return path.join(Global.Path.config, "marketplace", "mcps")
-  return path.join(await scopeRoot(scope, directory, worktree), ".kilo", "marketplace", "mcps")
+  return path.join(await scopeRoot(scope, directory, worktree), ".kappa", "marketplace", "mcps")
 }

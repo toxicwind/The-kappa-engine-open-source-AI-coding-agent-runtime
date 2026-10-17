@@ -39,7 +39,7 @@ export namespace GoalState {
   }
 
   export function read(metadata?: Record<string, unknown> | null) {
-    const goal = metadata?.["kilo.goal"]
+    const goal = metadata?.["kappa.goal"]
     if (!goal || typeof goal !== "object" || !("text" in goal) || typeof goal.text !== "string" || !goal.text.trim()) {
       return undefined
     }
@@ -127,6 +127,6 @@ export namespace GoalState {
     const goal = read(metadata)
     if (!goal) return metadata ?? undefined
     const status = active(id) ? "active" : goal.status === "active" ? "paused" : goal.status
-    return { ...metadata, "kilo.goal": { ...goal, status, active: status === "active" } }
+    return { ...metadata, "kappa.goal": { ...goal, status, active: status === "active" } }
   }
 }

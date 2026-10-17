@@ -1,4 +1,4 @@
-import { define } from "@kilocode/plugin/v2/promise"
+import { define } from "@kappacode/plugin/v2/promise"
 
 export default define({
   id: "config-promise-plugin",

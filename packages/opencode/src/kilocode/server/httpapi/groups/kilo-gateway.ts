@@ -9,7 +9,7 @@ import {
 } from "@/server/routes/instance/httpapi/middleware/workspace-routing"
 import { described } from "@/server/routes/instance/httpapi/groups/metadata"
 
-const root = "/kilo"
+const root = "/kappa"
 
 export const Organization = Schema.Struct({
   id: Schema.String,
@@ -247,9 +247,9 @@ export const KiloGatewayPaths = {
   cloudSessionImport: `${root}/cloud/session/import`,
 } as const
 
-export const KiloGatewayApi = HttpApi.make("kilo")
+export const KiloGatewayApi = HttpApi.make("kappa")
   .add(
-    HttpApiGroup.make("kilo")
+    HttpApiGroup.make("kappa")
       .add(
         HttpApiEndpoint.get("profile", KiloGatewayPaths.profile, {
           query: WorkspaceRoutingQuery,
@@ -257,7 +257,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.profile",
+            identifier: "kappa.profile",
             summary: "Get Kilo Gateway profile",
             description: "Fetch user profile and organizations from Kilo Gateway",
           }),
@@ -268,7 +268,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: HttpApiError.BadRequest,
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.authStatus",
+            identifier: "kappa.authStatus",
             summary: "Get Kilo authentication status",
             description: "Check whether a locally stored Kilo credential can authenticate Gateway requests",
           }),
@@ -278,7 +278,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           success: described(OrganizationModes, "Organization modes list"),
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.modes",
+            identifier: "kappa.modes",
             summary: "Get organization custom modes",
             description: "Fetch custom modes defined for the current organization",
           }),
@@ -290,7 +290,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.fim",
+            identifier: "kappa.fim",
             summary: "FIM completion",
             description: "Proxy a Fill-in-the-Middle completion request to the Kilo Gateway",
           }),
@@ -302,7 +302,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.edit",
+            identifier: "kappa.edit",
             summary: "Next Edit completion",
             description:
               "Proxy a Mercury-style Next Edit request. The client supplies structured editor " +
@@ -316,7 +316,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.audio.transcriptions",
+            identifier: "kappa.audio.transcriptions",
             summary: "Speech to text transcription",
             description: "Proxy an audio transcription request to the Kilo Gateway",
           }),
@@ -327,7 +327,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.models.images",
+            identifier: "kappa.models.images",
             summary: "Image generation models",
             description: "List image-capable models from the Kilo Gateway OpenRouter passthrough",
           }),
@@ -338,7 +338,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.models.transcriptions",
+            identifier: "kappa.models.transcriptions",
             summary: "Speech-to-text models",
             description: "List transcription-capable models from the Kilo Gateway catalog",
           }),
@@ -349,7 +349,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.notifications",
+            identifier: "kappa.notifications",
             summary: "Get Kilo notifications",
             description: "Fetch notifications from Kilo Gateway for CLI display",
           }),
@@ -361,7 +361,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.organization.set",
+            identifier: "kappa.organization.set",
             summary: "Update Kilo Gateway organization",
             description: "Switch to a different Kilo Gateway organization",
           }),
@@ -377,7 +377,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.cloudSessions",
+            identifier: "kappa.cloudSessions",
             summary: "Get cloud sessions",
             description: "Fetch cloud CLI sessions from Kilo API",
           }),
@@ -389,7 +389,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.Unauthorized, HttpApiError.NotFound],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.cloud.session.get",
+            identifier: "kappa.cloud.session.get",
             summary: "Get cloud session",
             description: "Fetch full session data from the Kilo cloud for preview",
           }),
@@ -401,7 +401,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
           error: [HttpApiError.BadRequest, HttpApiError.Unauthorized, HttpApiError.NotFound, CloudSessionImportError],
         }).annotateMerge(
           OpenApi.annotations({
-            identifier: "kilo.cloud.session.import",
+            identifier: "kappa.cloud.session.import",
             summary: "Import session from cloud",
             description: "Download a cloud-synced session and write it to local storage with fresh IDs.",
           }),
@@ -409,7 +409,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
       )
       .annotateMerge(
         OpenApi.annotations({
-          title: "kilo",
+          title: "kappa",
           description: "Kilo Gateway routes.",
         }),
       )
@@ -419,7 +419,7 @@ export const KiloGatewayApi = HttpApi.make("kilo")
   )
   .annotateMerge(
     OpenApi.annotations({
-      title: "kilo HttpApi",
+      title: "kappa HttpApi",
       version: "0.0.1",
       description: "Kilo HttpApi surface.",
     }),

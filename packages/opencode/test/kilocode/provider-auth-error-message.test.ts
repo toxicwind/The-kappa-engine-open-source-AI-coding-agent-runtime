@@ -26,7 +26,7 @@ function writePlugin(dir: string) {
     yield* Effect.promise(() => preparePluginDependencies(dir))
 
     yield* fs.writeWithDirs(
-      path.join(dir, ".kilo", "plugin", "provider-oauth-reject.ts"),
+      path.join(dir, ".kappa", "plugin", "provider-oauth-reject.ts"),
       [
         "export default {",
         '  id: "test.provider-oauth-reject",',
@@ -55,7 +55,7 @@ function authorize(input: { app: ReturnType<typeof Server.Default>["app"]; dir: 
   return Effect.promise(async () => {
     const response = await input.app.request("/provider/test-oauth-reject/oauth/authorize", {
       method: "POST",
-      headers: { "x-kilo-directory": input.dir, "content-type": "application/json" },
+      headers: { "x-kappa-directory": input.dir, "content-type": "application/json" },
       body: JSON.stringify({ method: 0 }),
     })
     return {

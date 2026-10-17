@@ -1,4 +1,4 @@
-import type { Hooks, PluginInput } from "@kilocode/plugin"
+import type { Hooks, PluginInput } from "@kappacode/plugin"
 import * as Log from "@opencode-ai/core/util/log" // kilocode_change
 import { escapeHtml } from "@/util/html"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
@@ -113,7 +113,7 @@ function buildAuthorizeUrl(redirectUri: string, pkce: PkceCodes, state: string):
     id_token_add_organizations: "true",
     codex_cli_simplified_flow: "true",
     state,
-    originator: "kilo", // kilocode_change
+    originator: "kappa", // kilocode_change
   })
   return `${ISSUER}/oauth/authorize?${params.toString()}`
 }
@@ -154,7 +154,7 @@ async function refreshAccessToken(refreshToken: string, issuer = ISSUER, signal?
   const response = await fetch(`${issuer}/oauth/token`, {
     method: "POST",
     signal,
-    headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": `kilo/${InstallationVersion}` },
+    headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": `kappa/${InstallationVersion}` },
     // kilocode_change end
     body: new URLSearchParams({
       grant_type: "refresh_token",

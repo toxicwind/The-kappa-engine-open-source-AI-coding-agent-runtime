@@ -31,7 +31,7 @@ describe("ConfigValidation.check", () => {
 
   test("validates valid JSONC config", async () => {
     await using tmp = await tmpdir({ git: true })
-    const filepath = path.join(tmp.path, "kilo.json")
+    const filepath = path.join(tmp.path, "kappa.json")
     await Filesystem.write(filepath, JSON.stringify({ model: "anthropic/claude-sonnet-4-20250514" }))
 
     const result = await provideTestInstance({
@@ -44,7 +44,7 @@ describe("ConfigValidation.check", () => {
 
   test("reports JSONC syntax errors", async () => {
     await using tmp = await tmpdir({ git: true })
-    const filepath = path.join(tmp.path, "kilo.json")
+    const filepath = path.join(tmp.path, "kappa.json")
     await Filesystem.write(filepath, '{ "model": "test/model" "extra": true }')
 
     const result = await provideTestInstance({
@@ -58,7 +58,7 @@ describe("ConfigValidation.check", () => {
 
   test("reports schema validation errors for unknown fields", async () => {
     await using tmp = await tmpdir({ git: true })
-    const filepath = path.join(tmp.path, "kilo.json")
+    const filepath = path.join(tmp.path, "kappa.json")
     await Filesystem.write(filepath, JSON.stringify({ notAField: true }))
 
     const result = await provideTestInstance({
@@ -73,7 +73,7 @@ describe("ConfigValidation.check", () => {
 
   test("validates valid markdown command", async () => {
     await using tmp = await tmpdir({ git: true })
-    const filepath = path.join(tmp.path, ".kilo", "command", "test-cmd.md")
+    const filepath = path.join(tmp.path, ".kappa", "command", "test-cmd.md")
     await Filesystem.write(
       filepath,
       `---
@@ -92,7 +92,7 @@ Do something useful`,
 
   test("reports schema error for command with invalid field types", async () => {
     await using tmp = await tmpdir({ git: true })
-    const filepath = path.join(tmp.path, ".kilo", "command", "bad.md")
+    const filepath = path.join(tmp.path, ".kappa", "command", "bad.md")
     // agent expects string but gets number — schema validation fails
     await Filesystem.write(
       filepath,
@@ -114,7 +114,7 @@ Do something`,
 
   test("validates valid markdown agent", async () => {
     await using tmp = await tmpdir({ git: true })
-    const filepath = path.join(tmp.path, ".kilo", "agent", "helper.md")
+    const filepath = path.join(tmp.path, ".kappa", "agent", "helper.md")
     await Filesystem.write(
       filepath,
       `---
@@ -146,7 +146,7 @@ You are a helpful agent.`,
 
   test("skips plan files (excluded subdir)", async () => {
     await using tmp = await tmpdir({ git: true })
-    const filepath = path.join(tmp.path, ".kilo", "plans", "plan.md")
+    const filepath = path.join(tmp.path, ".kappa", "plans", "plan.md")
     await Filesystem.write(filepath, "# Plan")
 
     const result = await provideTestInstance({
@@ -162,7 +162,7 @@ You are a helpful agent.`,
       init: async (dir) => {
         // Create a broken agent config that produces a warning at session start
         await Filesystem.write(
-          path.join(dir, ".kilo", "agent", "broken.md"),
+          path.join(dir, ".kappa", "agent", "broken.md"),
           `---
 mode: "banana"
 ---
@@ -171,7 +171,7 @@ Broken agent`,
       },
     })
 
-    const filepath = path.join(tmp.path, "kilo.json")
+    const filepath = path.join(tmp.path, "kappa.json")
     await Filesystem.write(filepath, JSON.stringify({ model: "anthropic/claude-sonnet-4-20250514" }))
 
     const result = await provideTestInstance({
@@ -190,7 +190,7 @@ Broken agent`,
   // write/edit/apply_patch call check() via Effect.promise, which drops the
   // Effect fiber after the first await inside check. Reproduce that path.
   async function probe(dir: string, name: string, body: string) {
-    const filepath = path.join(dir, ".kilo", "command", name)
+    const filepath = path.join(dir, ".kappa", "command", name)
     await Filesystem.write(filepath, body)
     return filepath
   }

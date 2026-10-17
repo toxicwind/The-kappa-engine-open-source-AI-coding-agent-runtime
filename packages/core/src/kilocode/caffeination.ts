@@ -80,7 +80,7 @@ function args(platform: NodeJS.Platform, pid: number, shell?: string): string[] 
       shell ?? "/bin/sh",
       "-c",
       `printf '%s\\n' '${READY}'; while kill -0 "$1" 2>/dev/null; do sleep 1 || exit; done`,
-      "kilo-caffeination",
+      "kappa-caffeination",
       String(pid),
     ]
   const script = `$ErrorActionPreference = 'Stop'

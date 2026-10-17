@@ -46,7 +46,7 @@ import { Vcs } from "@/project/vcs"
 import { Workspace } from "@/control-plane/workspace"
 import { Worktree } from "@/worktree"
 import { Installation } from "@/installation"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service" // kilocode_change
+import { MemoryService } from "@kappacode/kappa-memory/effect/service" // kilocode_change
 import { ShareNext } from "@/share/share-next"
 import { SessionShare } from "@/share/session"
 import { Npm } from "@opencode-ai/core/npm"
@@ -72,7 +72,7 @@ import { Pty } from "@opencode-ai/core/pty" // kilocode_change
 
 // kilocode_change start - retain Kilo runtime services in the upstream node graph
 const memory = LayerNode.make({ service: MemoryService.Service, layer: MemoryService.layer, deps: [] })
-const kilo = LayerNode.group([
+const kappa = LayerNode.group([
   Credential.node,
   ModelCache.node,
   AgentManager.node,
@@ -85,7 +85,7 @@ const kilo = LayerNode.group([
 
 export const AppLayer = AppNodeBuilderV1.build(
   LayerNode.group([
-    kilo, // kilocode_change
+    kappa, // kilocode_change
     Npm.node,
     FSUtil.node,
     Database.node,

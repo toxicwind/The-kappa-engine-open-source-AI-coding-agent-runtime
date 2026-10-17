@@ -2,7 +2,7 @@
 import { describe, expect, test } from "bun:test"
 import { BoxRenderable } from "@opentui/core"
 import { extend, testRender } from "@opentui/solid"
-import type { QuestionRequest } from "@kilocode/sdk/v2"
+import type { QuestionRequest } from "@kappacode/sdk/v2"
 import {
   createQuestionBodyState,
   questionConfirm,

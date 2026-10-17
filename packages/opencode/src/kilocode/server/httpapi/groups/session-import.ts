@@ -284,7 +284,7 @@ export const SessionImportApi = HttpApi.make("session-import")
   )
   .annotateMerge(
     OpenApi.annotations({
-      title: "kilo HttpApi",
+      title: "kappa HttpApi",
       version: "0.0.1",
       description: "Kilo HttpApi surface.",
     }),

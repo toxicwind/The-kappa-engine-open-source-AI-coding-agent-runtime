@@ -30,7 +30,7 @@ describe("worktree project skills", () => {
       const dir = path.join(path.dirname(primary), `${path.basename(primary)}-feature`)
       const directory = path.join(dir, "packages", "app")
       const skills = [
-        [".kilo", "kilo"],
+        [".kappa", "kappa"],
         [".agents", "agents"],
         [".claude", "claude"],
       ] as const
@@ -51,7 +51,7 @@ description: Shared primary skill.
           ),
         ),
       )
-      yield* Effect.promise(() => $`git add .kilo .agents .claude`.cwd(primary).quiet())
+      yield* Effect.promise(() => $`git add .kappa .agents .claude`.cwd(primary).quiet())
       yield* Effect.promise(() => $`git commit -m skills`.cwd(primary).quiet())
       yield* Effect.addFinalizer(() =>
         Effect.promise(() => $`git worktree remove --force ${dir}`.cwd(primary).quiet().nothrow()).pipe(Effect.asVoid),
@@ -135,7 +135,7 @@ description: Nested worktree override.
   it.live("keeps every project skill when one process loads a worktree and then the primary checkout", () =>
     Effect.gen(function* () {
       const primary = yield* tmpdirScoped({ git: true })
-      const dir = path.join(primary, ".kilo", "worktrees", "feature")
+      const dir = path.join(primary, ".kappa", "worktrees", "feature")
       const names = ["colon-alpha", "colon-beta"]
 
       // Unquoted colons only parse through the permissive fallback, matching common real-world skills.
@@ -143,7 +143,7 @@ description: Nested worktree override.
         Promise.all(
           names.map((name) =>
             Bun.write(
-              path.join(primary, ".kilo", "skills", name, "SKILL.md"),
+              path.join(primary, ".kappa", "skills", name, "SKILL.md"),
               `---
 name: ${name}
 description: Use when: ${name} work is needed.
@@ -155,7 +155,7 @@ description: Use when: ${name} work is needed.
           ),
         ),
       )
-      yield* Effect.promise(() => $`git add .kilo`.cwd(primary).quiet())
+      yield* Effect.promise(() => $`git add .kappa`.cwd(primary).quiet())
       yield* Effect.promise(() => $`git commit -m skills`.cwd(primary).quiet())
       yield* Effect.addFinalizer(() =>
         Effect.promise(() => $`git worktree remove --force ${dir}`.cwd(primary).quiet().nothrow()).pipe(Effect.asVoid),
@@ -175,10 +175,10 @@ description: Use when: ${name} work is needed.
 
       for (const name of names) {
         expect(worktree.find((item) => item.name === name)?.location).toBe(
-          path.join(dir, ".kilo", "skills", name, "SKILL.md"),
+          path.join(dir, ".kappa", "skills", name, "SKILL.md"),
         )
         expect(checkout.find((item) => item.name === name)?.location).toBe(
-          path.join(primary, ".kilo", "skills", name, "SKILL.md"),
+          path.join(primary, ".kappa", "skills", name, "SKILL.md"),
         )
       }
     }),

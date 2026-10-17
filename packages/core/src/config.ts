@@ -140,7 +140,7 @@ const layer = Layer.effect(
     const global = yield* Global.Service
     const location = yield* Location.Service
     const policy = yield* Policy.Service
-    const names = ["config.json", "kilo.json", "kilo.jsonc", "opencode.json", "opencode.jsonc"] // kilocode_change
+    const names = ["config.json", "kappa.json", "kappa.jsonc", "opencode.json", "opencode.jsonc"] // kilocode_change
     const decodeOptions = { errors: "all", onExcessProperty: "ignore", propertyOrder: "original" } as const
     const decodeInfo = Schema.decodeUnknownOption(Info, decodeOptions)
     const decodeV1Info = Schema.decodeUnknownOption(ConfigV1.Info, decodeOptions)
@@ -179,7 +179,7 @@ const layer = Layer.effect(
       ? []
       : yield* fs
           .up({
-            targets: [".kilo", ".kilocode", ...names.toReversed()], // kilocode_change
+            targets: [".kappa", ".kilocode", ...names.toReversed()], // kilocode_change
             start: location.directory,
             stop: location.project.directory,
           })
@@ -187,14 +187,14 @@ const layer = Layer.effect(
     const directories = [
       globalDirectory,
       ...discovered
-        .filter((item) => [".kilo", ".kilocode"].includes(path.basename(item))) // kilocode_change
+        .filter((item) => [".kappa", ".kilocode"].includes(path.basename(item))) // kilocode_change
         .toReversed()
         .map((directory) => AbsolutePath.make(directory)),
     ]
     // A config closer to the opened directory should win over one higher up.
     // Search starts nearby, so reverse the results before applying them.
     // kilocode_change start
-    const directPaths = discovered.filter((item) => ![".kilo", ".kilocode"].includes(path.basename(item))).toReversed()
+    const directPaths = discovered.filter((item) => ![".kappa", ".kilocode"].includes(path.basename(item))).toReversed()
     // kilocode_change end
     const direct = yield* Effect.forEach(directPaths, loadFile).pipe(
       Effect.orDie,

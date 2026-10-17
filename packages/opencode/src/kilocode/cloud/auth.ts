@@ -24,7 +24,7 @@ export namespace CloudAuth {
 
   const credentials = Effect.fn("CloudAuth.credentials")(function* (env: Environment) {
     const service = yield* Auth.Service
-    const info = yield* service.get("kilo")
+    const info = yield* service.get("kappa")
     const stored = info?.type === "api" ? info.key.trim() : info?.type === "oauth" ? info.access.trim() : undefined
     const fallback = env.KILO_API_KEY?.trim()
     const value = stored || fallback
@@ -32,7 +32,7 @@ export namespace CloudAuth {
       return yield* Effect.fail(
         new ResolutionError({
           kind: "missing",
-          message: "Kilo credentials are required; run `kilo auth login`",
+          message: "Kilo credentials are required; run `kappa auth login`",
         }),
       )
     }

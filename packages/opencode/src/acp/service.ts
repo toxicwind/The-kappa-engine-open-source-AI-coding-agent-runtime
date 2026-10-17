@@ -31,7 +31,7 @@ import {
 } from "@agentclientprotocol/sdk"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import type { AssistantMessage, Message, KiloClient, SessionMessageResponse } from "@kilocode/sdk/v2"
+import type { AssistantMessage, Message, KiloClient, SessionMessageResponse } from "@kappacode/sdk/v2"
 import { Context, Effect, Layer, ManagedRuntime } from "effect"
 import * as ACPError from "./error"
 import { buildConfigOptions, parseModelSelection } from "./config-option"
@@ -46,7 +46,7 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { Provider } from "@/provider/provider"
 import type { Command } from "@/command"
 
-export const AuthMethodID = "kilo-login" // kilocode_change
+export const AuthMethodID = "kappa-login" // kilocode_change
 
 export type Error = ACPError.Error
 type ServiceConnection = Pick<AgentSideConnection, "sessionUpdate"> &
@@ -95,7 +95,7 @@ export function make(input: {
     const started = performance.now()
     // kilocode_change start
     const authMethod: AuthMethod = {
-      description: "Run `kilo auth login` in the terminal",
+      description: "Run `kappa auth login` in the terminal",
       name: "Login with Kilo",
       id: AuthMethodID,
     }
@@ -794,7 +794,7 @@ function defaultModelFromConfig(
   // First-session ACP startup must not scan historical sessions just to infer
   // a default. Configured model, opencode provider, then sorted best model keep
   // the protocol response deterministic without extra session/message reads.
-  const kiloProvider = providers[ProviderV2.ID.make("kilo")] // kilocode_change
+  const kiloProvider = providers[ProviderV2.ID.make("kappa")] // kilocode_change
   const kiloModel = kiloProvider ? Provider.sort(Object.values(kiloProvider.models))[0] : undefined // kilocode_change
   if (kiloProvider && kiloModel) return { providerID: kiloProvider.id, modelID: kiloModel.id } // kilocode_change
 

@@ -80,7 +80,7 @@ import {
   RetentionRunPayload,
 } from "../groups/kilocode"
 
-export const kilocodeHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilocode", (handlers) =>
+export const kilocodeHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappacode", (handlers) =>
   Effect.gen(function* () {
     const agents = yield* Agent.Service
     const commands = yield* Command.Service
@@ -429,15 +429,15 @@ export const kilocodeHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilocode"
       payload: typeof TeardownWorktreePayload.Type
     }) {
       const instance = yield* InstanceState.context
-      // Lexical checks only, like KiloSnapshotCleanup.remove: a symlinked `.kilo/worktrees` in an
+      // Lexical checks only, like KiloSnapshotCleanup.remove: a symlinked `.kappa/worktrees` in an
       // untrusted repository must not widen the directories this endpoint can tear down.
       // `contains` rejects `..` and absolute escapes; one component rejects nested paths.
-      const managed = path.resolve(instance.worktree, ".kilo", "worktrees")
+      const managed = path.resolve(instance.worktree, ".kappa", "worktrees")
       const worktree = path.resolve(ctx.payload.worktree)
       const child = path.relative(managed, worktree).split(path.sep).filter(Boolean)
       if (!path.isAbsolute(ctx.payload.worktree) || !FSUtil.contains(managed, worktree) || child.length !== 1)
         return yield* Effect.fail(new HttpApiError.BadRequest({}))
-      // disposeDirectory follows symlinks, so a symlinked `.kilo`, `.kilo/worktrees`, or worktree
+      // disposeDirectory follows symlinks, so a symlinked `.kappa`, `.kappa/worktrees`, or worktree
       // could reach an instance outside the project. The project root itself is already canonical.
       const links = yield* Effect.forEach([path.dirname(managed), managed, worktree], (target) =>
         fs.readLink(target).pipe(

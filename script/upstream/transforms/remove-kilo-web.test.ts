@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { removeKiloWeb } from "./remove-kilo-web"
+import { removeKiloWeb } from "./remove-kappa-web"
 
 const INDEX = "packages/opencode/src/index.ts"
 

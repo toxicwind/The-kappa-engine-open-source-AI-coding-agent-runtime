@@ -1,6 +1,6 @@
 import { expect } from "bun:test"
 import { Effect, Fiber } from "effect"
-import { createKiloClient, type Event, type KiloClient } from "@kilocode/sdk/v2"
+import { createKiloClient, type Event, type KiloClient } from "@kappacode/sdk/v2"
 import path from "node:path"
 import { mkdir } from "node:fs/promises"
 import { pathToFileURL } from "node:url"
@@ -59,7 +59,7 @@ function environment(home: string, url: string, opts: { plugin?: string; resume?
     KILO_DB: opts.resume ? path.join(home, "resume.db") : ":memory:",
     KILO_AUTH_CONTENT: "{}",
     KILO_SERVER_PASSWORD: "",
-    KILO_SERVER_USERNAME: "kilo",
+    KILO_SERVER_USERNAME: "kappa",
     KILO_PURE: "false",
     KILO_DISABLE_DEFAULT_PLUGINS: "true",
     KILO_EXPERIMENTAL_BACKGROUND_SUBAGENTS: "true",
@@ -450,7 +450,7 @@ cliIt.live(
       const directory = path.join(home, "caller")
       yield* Effect.promise(() => mkdir(directory))
       const server = yield* opencode.serve({
-        env: { KILO_SERVER_PASSWORD: "", KILO_SERVER_USERNAME: "kilo" },
+        env: { KILO_SERVER_PASSWORD: "", KILO_SERVER_USERNAME: "kappa" },
         readyTimeoutMs: 30_000,
       })
       const sdk = createKiloClient({ baseUrl: server.url, directory: home })

@@ -6,7 +6,7 @@ import { preserveZedVersion } from "./preserve-versions"
 
 describe("preserveZedVersion", () => {
   test("preserves the Kilo extension version and release archives", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "kilo-zed-version-"))
+    const dir = await mkdtemp(join(tmpdir(), "kappa-zed-version-"))
     const file = join(dir, "extension.toml")
     try {
       await writeFile(

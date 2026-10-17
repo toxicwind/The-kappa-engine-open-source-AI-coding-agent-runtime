@@ -15,7 +15,7 @@
 //          finishes eventually and undo/redo stays functional. Future turns
 //          are fast because the snapshot index is built.
 //        - "Disable for this project": interrupt the in-flight snapshot,
-//          persist `"snapshot": false` to `.kilo/kilo.json`, and skip. All
+//          persist `"snapshot": false` to `.kappa/kappa.json`, and skip. All
 //          future sessions on this project load with snapshots off.
 //        - Dismissed / no sessionID: interrupt and skip. Mark the active
 //          Snapshot.Service guard so later calls through it do not prompt again.

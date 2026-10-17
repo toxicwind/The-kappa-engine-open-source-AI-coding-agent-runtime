@@ -26,7 +26,7 @@ const locationLayer = Layer.succeed(
 )
 // kilocode_change - Catalog pulls Credential, which imports Global.data/auth.json on startup, so
 // without this the suite reads the developer's real credential store.
-const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "kilo-modelsdev-test-"))
+const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "kappa-modelsdev-test-"))
 const globalLayer = Global.layerWith({ data: dataDir })
 afterAll(() => fs.rmSync(dataDir, { recursive: true, force: true }))
 const layer = AppNodeBuilder.build(LayerNode.group([Catalog.node, Integration.node, EventV2.node]), [

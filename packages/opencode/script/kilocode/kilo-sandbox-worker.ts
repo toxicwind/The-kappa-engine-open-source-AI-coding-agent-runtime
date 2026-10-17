@@ -3,11 +3,11 @@ import os from "node:os"
 import path from "node:path"
 
 export namespace KiloSandboxWorker {
-  export const filename = "kilo-sandbox-mutation-worker.js"
+  export const filename = "kappa-sandbox-mutation-worker.js"
 
   export async function bundle() {
     const result = await Bun.build({
-      entrypoints: ["../kilo-sandbox/src/kilo-sandbox-mutation-worker.ts"],
+      entrypoints: ["../kappa-sandbox/src/kappa-sandbox-mutation-worker.ts"],
       target: "bun",
       format: "esm",
       minify: true,
@@ -23,7 +23,7 @@ export namespace KiloSandboxWorker {
   }
 
   export async function smoke(binary: string) {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-sandbox-worker-"))
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-sandbox-worker-"))
     const target = path.join(root, "value.txt")
     const worker = path.join(path.dirname(binary), filename)
     try {

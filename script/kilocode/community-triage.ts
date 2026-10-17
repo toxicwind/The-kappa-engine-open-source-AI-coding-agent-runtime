@@ -68,7 +68,7 @@ const scopes: Record<string, string> = {
   desktop: "area:desktop",
   app: "area:desktop",
   docs: "area:docs",
-  "kilo-docs": "area:docs",
+  "kappa-docs": "area:docs",
   gateway: "area:gateway",
   sdk: "area:sdk",
   ui: "area:ui",
@@ -77,20 +77,20 @@ const scopes: Record<string, string> = {
 
 // Changed file path prefix. The first matching rule for a file wins.
 const paths: [string, string][] = [
-  ["packages/kilo-vscode/src/agent-manager/", "area:agent-manager"],
-  ["packages/kilo-vscode/webview-ui/agent-manager/", "area:agent-manager"],
-  ["packages/kilo-vscode/", "area:vscode"],
+  ["packages/kappa-vscode/src/agent-manager/", "area:agent-manager"],
+  ["packages/kappa-vscode/webview-ui/agent-manager/", "area:agent-manager"],
+  ["packages/kappa-vscode/", "area:vscode"],
   ["packages/opencode/", "area:cli"],
   ["packages/core/", "area:cli"],
   ["packages/server/", "area:cli"],
   ["packages/tui/", "area:cli"],
-  ["packages/kilo-jetbrains/", "area:jetbrains"],
-  ["packages/kilo-docs/", "area:docs"],
-  ["packages/kilo-gateway/", "area:gateway"],
+  ["packages/kappa-jetbrains/", "area:jetbrains"],
+  ["packages/kappa-docs/", "area:docs"],
+  ["packages/kappa-gateway/", "area:gateway"],
   ["packages/sdk/", "area:sdk"],
-  ["packages/kilo-ui/", "area:ui"],
-  ["packages/kilo-i18n/", "area:i18n"],
-  ["packages/kilo-web-ui/", "area:desktop"],
+  ["packages/kappa-ui/", "area:ui"],
+  ["packages/kappa-i18n/", "area:i18n"],
+  ["packages/kappa-web-ui/", "area:desktop"],
 ]
 
 // Options of the "Component" dropdown in the issue templates.
@@ -101,7 +101,7 @@ const components: Record<string, string> = {
   "jetbrains plugin": "area:jetbrains",
   "desktop or web app": "area:desktop",
   documentation: "area:docs",
-  "kilo gateway or account": "area:gateway",
+  "kappa gateway or account": "area:gateway",
   sdk: "area:sdk",
 }
 

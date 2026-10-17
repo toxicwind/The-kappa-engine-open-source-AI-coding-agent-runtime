@@ -1,4 +1,4 @@
-import type { Event, GlobalEvent } from "@kilocode/sdk/v2"
+import type { Event, GlobalEvent } from "@kappacode/sdk/v2"
 
 // kilocode_change start - normalize the runtime SyncEvent wire envelope to the legacy consumer shape
 type NormalizeSync<T> = T extends {

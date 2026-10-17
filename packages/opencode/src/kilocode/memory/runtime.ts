@@ -1,8 +1,8 @@
 import { Global } from "@opencode-ai/core/global"
 import * as Log from "@opencode-ai/core/util/log"
-import { MemoryInstance } from "@kilocode/kilo-memory/effect/instance"
-import { MemoryLog } from "@kilocode/kilo-memory/effect/log"
-import { MemoryPaths } from "@kilocode/kilo-memory/effect/paths"
+import { MemoryInstance } from "@kappacode/kappa-memory/effect/instance"
+import { MemoryLog } from "@kappacode/kappa-memory/effect/log"
+import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { bind } from "@/kilocode/instance"
 import { MemoryEvents } from "./events"
 

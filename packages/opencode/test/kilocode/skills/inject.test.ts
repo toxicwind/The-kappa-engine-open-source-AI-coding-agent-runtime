@@ -48,7 +48,7 @@ afterEach(async () => {
 })
 
 // Global ~/.agents skills are trusted (and, unlike ~/.claude, not gated by the
-// KILO_DISABLE_CLAUDE_CODE flag the test env sets); project .kilo skills are untrusted.
+// KILO_DISABLE_CLAUDE_CODE flag the test env sets); project .kappa skills are untrusted.
 function writeGlobalSkill(name: string, body: string) {
   return Effect.promise(() =>
     Bun.write(
@@ -61,7 +61,7 @@ function writeGlobalSkill(name: string, body: string) {
 function writeProjectSkill(dir: string, name: string, body: string) {
   return Effect.promise(() =>
     Bun.write(
-      path.join(dir, ".kilo", "skill", name, "SKILL.md"),
+      path.join(dir, ".kappa", "skill", name, "SKILL.md"),
       `---\nname: ${name}\ndescription: ${name} test skill.\n---\n\n${body}\n`,
     ),
   )
@@ -323,7 +323,7 @@ describe("skill shell injection", () => {
 
   unix("does not ask or run anything for a skill with only an inline code example", () =>
     Effect.gen(function* () {
-      // This is the real-world trigger: kilo-config.md documents the placeholder syntax
+      // This is the real-world trigger: kappa-config.md documents the placeholder syntax
       // with `` !`cmd` `` outside any fence, which must never request permission or run.
       yield* writeGlobalSkill("doc-only-shell", "Template variables include `` !`cmd` `` (shell output).")
 

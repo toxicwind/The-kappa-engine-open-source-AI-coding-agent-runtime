@@ -16,13 +16,13 @@ import path from "path"
 const mcpSource = path.join(__dirname, "..", "..", "src", "mcp", "index.ts")
 
 describe("Kilo MCP branding", () => {
-  test("auth toast tells the user to run `kilo mcp auth`, never `opencode mcp auth`", async () => {
+  test("auth toast tells the user to run `kappa mcp auth`, never `opencode mcp auth`", async () => {
     const src = await Bun.file(mcpSource).text()
-    expect(src).toContain("Run: kilo mcp auth ${key}")
+    expect(src).toContain("Run: kappa mcp auth ${key}")
     expect(src).not.toContain("Run: opencode mcp auth")
   })
 
-  test("MCP `Client` instances identify themselves as `kilo`", async () => {
+  test("MCP `Client` instances identify themselves as `kappa`", async () => {
     const src = await Bun.file(mcpSource).text()
     // `name: "opencode"` is the upstream default and appears in the protocol
     // handshake / client identification fields. Any new `new Client({ ... })`

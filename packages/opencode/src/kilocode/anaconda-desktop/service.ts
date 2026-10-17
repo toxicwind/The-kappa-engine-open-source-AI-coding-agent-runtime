@@ -24,7 +24,7 @@ export interface Interface {
   ) => Effect.Effect<ReadyStatus, NotReadyError | SyncError | ToolAcknowledgementError>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@kilocode/AnacondaDesktop") {}
+export class Service extends Context.Service<Service, Interface>()("@kappacode/AnacondaDesktop") {}
 
 function same(left: Record<string, string> | undefined, right: Record<string, string>) {
   if (!left) return false

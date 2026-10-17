@@ -1,4 +1,4 @@
-import { createKiloClient, createKiloServer } from "@kilocode/sdk"
+import { createKiloClient, createKiloServer } from "@kappacode/sdk"
 import { pathToFileURL } from "bun"
 
 const server = await createKiloServer()

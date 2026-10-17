@@ -12,13 +12,13 @@ export namespace KiloResponseMetadata {
   export function write(metadata: ProviderMetadata | undefined, headers: Record<string, string> | undefined) {
     const id = vercelID(Object.entries(headers ?? {}).find(([name]) => name.toLowerCase() === "x-vercel-id")?.[1])
     if (!id) return metadata
-    const kilo = isRecord(metadata?.kilo) ? metadata.kilo : {}
-    return { ...metadata, kilo: { ...kilo, vercelID: id } }
+    const kappa = isRecord(metadata?.kappa) ? metadata.kappa : {}
+    return { ...metadata, kappa: { ...kappa, vercelID: id } }
   }
 
   export function read(metadata: ProviderMetadata | undefined) {
-    const kilo = metadata?.kilo
-    if (!isRecord(kilo)) return
-    return vercelID(kilo.vercelID)
+    const kappa = metadata?.kappa
+    if (!isRecord(kappa)) return
+    return vercelID(kappa.vercelID)
   }
 }

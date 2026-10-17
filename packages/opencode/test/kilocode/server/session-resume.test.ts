@@ -134,7 +134,7 @@ it.live(
           Effect.promise(() =>
             fetch(new URL(`/kilocode/session/${session.id}/resume`, listener.url), {
               method: "POST",
-              headers: { "Content-Type": "application/json", "x-kilo-directory": tmp },
+              headers: { "Content-Type": "application/json", "x-kappa-directory": tmp },
               body: JSON.stringify({ messageID: id }),
             }),
           )

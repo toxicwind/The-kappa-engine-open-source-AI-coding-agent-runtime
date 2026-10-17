@@ -36,7 +36,7 @@ import type {
   ReasoningPart,
   SessionStatus,
   StepFinishPart, // kilocode_change
-} from "@kilocode/sdk/v2"
+} from "@kappacode/sdk/v2"
 import { useLocal } from "../../context/local"
 import { Locale } from "../../util/locale"
 import { webSearchProviderLabel } from "../../util/tool-display"
@@ -91,7 +91,7 @@ import { getRevertDiffFiles } from "../../util/revert-diff"
 import { KILO_BASE_MODE, useBindings, useCommandShortcut, useOpencodeKeymap } from "../../keymap"
 import { usePathFormatter } from "../../context/path-format"
 // kilocode_change start
-import { KiloErrorBlock } from "@/kilocode/components/kilo-error-display"
+import { KiloErrorBlock } from "@/kilocode/components/kappa-error-display"
 import { splitDiffHunks } from "@/kilocode/tui/diff"
 import { RoutedModelMeta } from "@/kilocode/cli/cmd/tui/routes/session/routed-model-meta"
 import { submitFeedback } from "@/kilocode/cli/cmd/tui/feedback"
@@ -1763,8 +1763,8 @@ function StepFinishPart(props: { last: boolean; part: StepFinishPart; message: A
   const { theme } = useTheme()
   const info = useContext(RoutedModelMeta.Context)
   const routed = createMemo(() => {
-    if (props.message.providerID !== "kilo") return undefined
-    if (!props.message.modelID.startsWith("kilo-auto/")) return undefined
+    if (props.message.providerID !== "kappa") return undefined
+    if (!props.message.modelID.startsWith("kappa-auto/")) return undefined
     const model = props.part.model
     if (!model) return undefined
     if (model.providerID === props.message.providerID && model.modelID === props.message.modelID) return undefined

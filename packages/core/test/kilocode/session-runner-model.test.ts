@@ -12,13 +12,13 @@ describe("SessionRunnerModel Kilo credentials", () => {
     Effect.gen(function* () {
       const model = ModelV2.Info.make({
         id: ModelV2.ID.make("test-model"),
-        providerID: ProviderV2.ID.make("kilo"),
+        providerID: ProviderV2.ID.make("kappa"),
         name: "Test model",
         api: {
           id: ModelV2.ID.make("api-test-model"),
           type: "aisdk",
           package: "@ai-sdk/openai-compatible",
-          url: "https://api.kilo.ai/openrouter",
+          url: "https://api.kappa.ai/openrouter",
         },
         capabilities: { tools: true, input: ["text"], output: ["text"] },
         request: { headers: {}, body: {} },
@@ -31,7 +31,7 @@ describe("SessionRunnerModel Kilo credentials", () => {
       })
       const credential = Credential.Info.make({
         id: Credential.ID.create(),
-        integrationID: Integration.ID.make("kilo"),
+        integrationID: Integration.ID.make("kappa"),
         label: "Work",
         value: Credential.OAuth.make({
           type: "oauth",

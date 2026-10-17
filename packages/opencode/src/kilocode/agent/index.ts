@@ -275,7 +275,7 @@ function baseline(
 function planEditRules(worktree: string) {
   return {
     "*": "deny" as const,
-    [path.join(".kilo", "plans", "*.md")]: "allow" as const,
+    [path.join(".kappa", "plans", "*.md")]: "allow" as const,
     [path.join("plans", "*.md")]: "allow" as const,
     [path.join(".plans", "*.md")]: "allow" as const,
     [path.join(".opencode", "plans", "*.md")]: "allow" as const,
@@ -371,7 +371,7 @@ export interface KiloData {
   board: boolean
 }
 
-// Prepare kilo-specific data derived from config. Call once per state initialization.
+// Prepare kappa-specific data derived from config. Call once per state initialization.
 export function prepare(cfg: Config.Info, flags: Pick<RuntimeFlags.Info, "experimentalSharedAgentBoard">): KiloData {
   const mcpRules = getMcpRules(cfg)
   const enabled = BoardEnabled.on(cfg, flags)
@@ -476,9 +476,9 @@ export function telemetryOptions(_cfg: Config.Info) {
   return { isEnabled: false as const }
 }
 
-// Patch the base agents map in-place with all kilo-specific changes:
+// Patch the base agents map in-place with all kappa-specific changes:
 // - Rename build → code
-// - Patch plan with readOnlyBash, mcpRules, .kilo paths
+// - Patch plan with readOnlyBash, mcpRules, .kappa paths
 // - Patch explore permissions and prompt
 // - Patch appropriate agents with semantic_search
 // - Add debug, orchestrator, ask agents
@@ -507,11 +507,11 @@ export function patchAgents(
   >,
   defaults: Permission.Ruleset,
   user: Permission.Ruleset,
-  kilo: KiloData,
+  kappa: KiloData,
   worktree: string,
   whitelistedDirs: string[],
 ) {
-  const enabled = kilo.board
+  const enabled = kappa.board
   // Rename "build" → "code" for backward compatibility
   if (agents.build) {
     agents.code = {
@@ -529,7 +529,7 @@ export function patchAgents(
 
   // Patch plan mode
   if (agents.plan) {
-    const guard = planGuard(worktree, kilo.mcpRules, enabled)
+    const guard = planGuard(worktree, kappa.mcpRules, enabled)
     agents.plan = {
       ...agents.plan,
       description: "Plan mode. Can only edit plan files; all other filesystem mutations are denied.",
@@ -537,7 +537,7 @@ export function patchAgents(
         defaults,
         guard,
         user,
-        baseline(guard, user, kilo.mcpRules),
+        baseline(guard, user, kappa.mcpRules),
         planEditGuard(worktree),
         restrictions(user),
       ),
@@ -640,7 +640,7 @@ export function patchAgents(
   }
 
   // Add ask agent
-  const guard = askGuard(kilo.mcpRules, enabled)
+  const guard = askGuard(kappa.mcpRules, enabled)
   agents.ask = {
     name: "ask",
     description: "Get answers and explanations without making changes to the codebase.",
@@ -655,7 +655,7 @@ export function patchAgents(
       defaults,
       guard,
       user,
-      baseline(guard, user, kilo.mcpRules),
+      baseline(guard, user, kappa.mcpRules),
       askEditGuard(),
       denies(user),
     ),

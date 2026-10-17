@@ -369,7 +369,7 @@ const retryStatusFailures = <A, R>(
 // transport; the executor then forwards it with a Chrome-aligned header set so
 // Cloudflare-guarded providers (freeinference error 1010) see a browser
 // signature. The marker header is stripped before the request reaches the wire.
-const FINGERPRINT_HEADER = "x-kilo-fingerprint"
+const FINGERPRINT_HEADER = "x-kappa-fingerprint"
 // kilocode_change end
 
 const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kilocode_change

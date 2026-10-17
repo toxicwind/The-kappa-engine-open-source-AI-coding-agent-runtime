@@ -8,7 +8,7 @@ import type {
   Part,
   SessionMessageResponse,
   ToolPart,
-} from "@kilocode/sdk/v2"
+} from "@kappacode/sdk/v2"
 import { Effect } from "effect"
 import { ACPSession } from "./session"
 import { ACPPermission } from "./permission"

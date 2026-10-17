@@ -43,7 +43,7 @@ const layer = Layer.effect(
 )
 
 export function layerFromPath(filename: string) {
-  DbPreflight.assertWritable(filename) // kilocode_change - actionable error (and self-heal for kilo-owned files) instead of an opaque wal_checkpoint crash on read-only db files
+  DbPreflight.assertWritable(filename) // kilocode_change - actionable error (and self-heal for kappa-owned files) instead of an opaque wal_checkpoint crash on read-only db files
   return layer.pipe(Layer.provide(sqliteLayer({ filename, disableWAL: true }))) // kilocode_change - Database configures WAL after busy_timeout
 }
 
@@ -57,10 +57,10 @@ export function path() {
     process.env.KILO_DISABLE_CHANNEL_DB === "1" ||
     process.env.KILO_DISABLE_CHANNEL_DB === "true"
   )
-    return join(Global.Path.data, "kilo.db")
-  // kilocode_change start - kilo-branded dev-channel db name, falling back to a pre-existing opencode-named db
+    return join(Global.Path.data, "kappa.db")
+  // kilocode_change start - kappa-branded dev-channel db name, falling back to a pre-existing opencode-named db
   const safe = InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, "-")
-  const next = join(Global.Path.data, `kilo-${safe}.db`)
+  const next = join(Global.Path.data, `kappa-${safe}.db`)
   const prev = join(Global.Path.data, `opencode-${safe}.db`)
   if (!existsSync(next) && existsSync(prev)) return prev
   return next

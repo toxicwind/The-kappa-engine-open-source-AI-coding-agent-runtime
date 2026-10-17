@@ -124,7 +124,7 @@ export class Fire extends Context.Service<
       options?: { inPlace?: boolean; kind?: "wakeup" | "cron" },
     ) => Effect.Effect<void>
   }
->()("@kilocode/WakeupFire") {}
+>()("@kappacode/WakeupFire") {}
 
 // ISO-8601 date-time. The offset is optional; when present it is absolute, and
 // when omitted `Date.parse` interprets the wall clock in the host timezone.

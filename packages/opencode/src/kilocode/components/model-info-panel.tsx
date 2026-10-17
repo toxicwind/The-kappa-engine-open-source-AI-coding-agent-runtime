@@ -2,7 +2,7 @@ import { TextAttributes } from "@opentui/core"
 import { useTerminalDimensions } from "@opentui/solid"
 import { createMemo, Show } from "solid-js"
 import { useTheme } from "@tui/context/theme"
-import type { Model } from "@kilocode/sdk/v2"
+import type { Model } from "@kappacode/sdk/v2"
 import { FreeModelDisclosure } from "./free-model-disclosure"
 import {
   avgPrice,

@@ -7,7 +7,7 @@ import { KiloSession } from "@/kilocode/session"
 import { SessionID } from "@/session/schema"
 import { PositiveInt } from "@opencode-ai/core/schema"
 import { Effect, Schema } from "effect"
-import { enabled as sandboxed } from "@kilocode/sandbox"
+import { enabled as sandboxed } from "@kappacode/sandbox"
 import DESCRIPTION from "./background-process.txt"
 import path from "path"
 

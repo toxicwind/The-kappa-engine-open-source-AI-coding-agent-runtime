@@ -37,7 +37,7 @@ describe("tool.skill", () => {
   unix("execute returns skill content block with files", () =>
     Effect.gen(function* () {
       const dir = (yield* TestInstance).directory
-      const skill = path.join(dir, ".kilo", "skill", "tool-skill") // kilocode_change
+      const skill = path.join(dir, ".kappa", "skill", "tool-skill") // kilocode_change
       yield* Effect.promise(() =>
         Bun.write(
           path.join(skill, "SKILL.md"),
@@ -147,7 +147,7 @@ Use this skill.
   )
 
   // kilocode_change start
-  it.live("built-in kilo-config keeps rendered shell examples inert", () =>
+  it.live("built-in kappa-config keeps rendered shell examples inert", () =>
     provideTmpdirInstance(
       (dir) =>
         Effect.gen(function* () {
@@ -177,11 +177,11 @@ Use this skill.
               }),
           }
 
-          const result = yield* tool.execute({ name: "kilo-config" }, ctx)
+          const result = yield* tool.execute({ name: "kappa-config" }, ctx)
 
           expect(result.metadata.dir).toBe("builtin")
           expect(result.output).toContain("Finding a named command")
-          expect(result.output).toContain("~/.config/kilo/")
+          expect(result.output).toContain("~/.config/kappa/")
           expect(result.output).toContain("~/.kilocode/")
           expect(result.output).toContain("**/command/")
           expect(result.output).toContain("explicit search")

@@ -2,21 +2,21 @@ import { describe, expect, test } from "bun:test"
 import fs from "node:fs"
 import os from "node:os"
 import path from "node:path"
-import * as JetBrains from "../../packages/kilo-jetbrains/script/sbom"
-import * as VsCode from "../../packages/kilo-vscode/script/sbom"
+import * as JetBrains from "../../packages/kappa-jetbrains/script/sbom"
+import * as VsCode from "../../packages/kappa-vscode/script/sbom"
 import { validate } from "./sbom/index"
 
 const release = { version: "9.9.9", channel: "latest" }
 
 async function scratch() {
-  return fs.promises.mkdtemp(path.join(os.tmpdir(), "kilo-product-sbom-"))
+  return fs.promises.mkdtemp(path.join(os.tmpdir(), "kappa-product-sbom-"))
 }
 
 // The real catalog is the source of truth. Reading the version from it keeps these tests
 // valid across dependency bumps (Dependabot changes it without touching this file).
 function catalog() {
   const text = fs.readFileSync(
-    path.join(import.meta.dir, "../../packages/kilo-jetbrains/gradle/libs.versions.toml"),
+    path.join(import.meta.dir, "../../packages/kappa-jetbrains/gradle/libs.versions.toml"),
     "utf8",
   )
   const match = text.match(/^okhttp\s*=\s*"([^"]+)"/m)
@@ -61,7 +61,7 @@ broken = { module = "com.example:broken", version.ref = "missing" }
 
   test("reads the real catalog and finds the bundled HTTP client", () => {
     const text = fs.readFileSync(
-      path.join(import.meta.dir, "../../packages/kilo-jetbrains/gradle/libs.versions.toml"),
+      path.join(import.meta.dir, "../../packages/kappa-jetbrains/gradle/libs.versions.toml"),
       "utf8",
     )
     expect(JetBrains.catalog(text).libraries).toContainEqual({
@@ -76,14 +76,14 @@ describe("jetbrains plugin", () => {
   test("marks the six CLI builds as runtime-delivered for the Marketplace ZIP", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo.jetbrains-1.2.3-signed.zip")
+      const file = path.join(dir, "kappa.jetbrains-1.2.3-signed.zip")
       await Bun.write(file, "lean")
       const result = await JetBrains.plugin({ file, variant: "lean", version: "1.2.3", cli: "9.9.9" })
       const bom = await Bun.file(result.sidecar).json()
 
       expect(await validate(bom)).toEqual([])
       for (const platform of JetBrains.PLATFORMS) {
-        expect(scope(bom, `kilo-cli-${platform}`)).toBe("optional")
+        expect(scope(bom, `kappa-cli-${platform}`)).toBe("optional")
       }
     } finally {
       await fs.promises.rm(dir, { recursive: true, force: true })
@@ -93,7 +93,7 @@ describe("jetbrains plugin", () => {
   test("keeps each runtime CLI subtree nested under its CLI instead of flattening it onto the root", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo.jetbrains-1.2.3-signed.zip")
+      const file = path.join(dir, "kappa.jetbrains-1.2.3-signed.zip")
       await Bun.write(file, "lean")
       const result = await JetBrains.plugin({ file, variant: "lean", version: "1.2.3", cli: "9.9.9" })
       const bom = await Bun.file(result.sidecar).json()
@@ -115,7 +115,7 @@ describe("jetbrains plugin", () => {
   test("resolves a native package's licence across platforms via the host's own installed variant", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo.jetbrains-1.2.3-signed.zip")
+      const file = path.join(dir, "kappa.jetbrains-1.2.3-signed.zip")
       await Bun.write(file, "lean")
       const result = await JetBrains.plugin({ file, variant: "lean", version: "1.2.3", cli: "9.9.9" })
       const bom = await Bun.file(result.sidecar).json()
@@ -138,14 +138,14 @@ describe("jetbrains plugin", () => {
   test("marks the six CLI builds as contained for the bundled ZIP", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo-code-1.2.3-bundled.zip")
+      const file = path.join(dir, "kappa-code-1.2.3-bundled.zip")
       await Bun.write(file, "bundled")
       const result = await JetBrains.plugin({ file, variant: "bundled", version: "1.2.3", cli: "9.9.9" })
       const bom = await Bun.file(result.sidecar).json()
 
       expect(await validate(bom)).toEqual([])
       for (const platform of JetBrains.PLATFORMS) {
-        expect(scope(bom, `kilo-cli-${platform}`)).toBe("required")
+        expect(scope(bom, `kappa-cli-${platform}`)).toBe("required")
       }
     } finally {
       await fs.promises.rm(dir, { recursive: true, force: true })
@@ -214,8 +214,8 @@ describe("jetbrains plugin", () => {
   test("accumulates lean and bundled evidence into one release manifest", async () => {
     const dir = await scratch()
     try {
-      const lean = path.join(dir, "kilo.jetbrains-1.2.3-signed.zip")
-      const bundled = path.join(dir, "kilo-code-1.2.3-bundled.zip")
+      const lean = path.join(dir, "kappa.jetbrains-1.2.3-signed.zip")
+      const bundled = path.join(dir, "kappa-code-1.2.3-bundled.zip")
       await Bun.write(lean, "lean")
       await Bun.write(bundled, "bundled")
 
@@ -240,7 +240,7 @@ describe("vscode vsix", () => {
   test("describes the embedded CLI target and bundled FFmpeg helper", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo-vscode-linux-x64.vsix")
+      const file = path.join(dir, "kappa-vscode-linux-x64.vsix")
       await Bun.write(file, "vsix")
       const result = await VsCode.vsix({ file, target: "linux-x64", release })
       const bom = await Bun.file(result.sidecar).json()
@@ -257,7 +257,7 @@ describe("vscode vsix", () => {
   test("does not claim a bundled FFmpeg helper on Windows ARM64", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo-vscode-win32-arm64.vsix")
+      const file = path.join(dir, "kappa-vscode-win32-arm64.vsix")
       await Bun.write(file, "vsix")
       const result = await VsCode.vsix({ file, target: "win32-arm64", release })
       const bom = await Bun.file(result.sidecar).json()
@@ -273,7 +273,7 @@ describe("vscode vsix", () => {
   test("rejects an unknown target instead of guessing a CLI build", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo-vscode-solaris-sparc.vsix")
+      const file = path.join(dir, "kappa-vscode-solaris-sparc.vsix")
       await Bun.write(file, "vsix")
       await expect(VsCode.vsix({ file, target: "solaris-sparc", release })).rejects.toThrow(/Unknown VS Code target/)
     } finally {
@@ -284,8 +284,8 @@ describe("vscode vsix", () => {
   test("covers each packaged VSIX exactly once", async () => {
     const dir = await scratch()
     try {
-      await Bun.write(path.join(dir, "kilo-vscode-darwin-arm64.vsix"), "a")
-      await Bun.write(path.join(dir, "kilo-vscode-alpine-x64.vsix"), "b")
+      await Bun.write(path.join(dir, "kappa-vscode-darwin-arm64.vsix"), "a")
+      await Bun.write(path.join(dir, "kappa-vscode-alpine-x64.vsix"), "b")
       const result = await VsCode.evidence({ dir, release, expected: 2 })
 
       expect(result.manifest.entries.map((entry) => entry.target).sort()).toEqual(["alpine-x64", "darwin-arm64"])

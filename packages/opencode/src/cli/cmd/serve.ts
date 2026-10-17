@@ -6,8 +6,8 @@ import { Flag } from "@opencode-ai/core/flag/flag"
 export const ServeCommand = effectCmd({
   command: "serve",
   builder: (yargs) => withNetworkOptions(yargs),
-  describe: "starts a headless kilo server",
-  // Server loads instances per-request via x-kilo-directory header — no
+  describe: "starts a headless kappa server",
+  // Server loads instances per-request via x-kappa-directory header — no
   // need for an ambient project InstanceContext at startup.
   instance: false, // kilocode_change
   handler: Effect.fn("Cli.serve")(function* (args) {
@@ -21,7 +21,7 @@ export const ServeCommand = effectCmd({
     // kilocode_change start
     const urls = server.urls
 
-    console.log(`kilo server listening on ${urls.bind}`)
+    console.log(`kappa server listening on ${urls.bind}`)
     if (urls.local !== urls.bind) console.log(`  Local:   ${urls.local}`)
     if (urls.network) console.log(`  Network: ${urls.network}`)
     // kilocode_change end
@@ -30,7 +30,7 @@ export const ServeCommand = effectCmd({
     // yield* Effect.never
     const { InstanceRuntime } = yield* Effect.promise(() => import("../../project/instance-runtime"))
     const { startParentWatchdog } = yield* Effect.promise(() => import("../../kilocode/parent-watchdog"))
-    const { KiloSessions } = yield* Effect.promise(() => import("@/kilo-sessions/kilo-sessions"))
+    const { KiloSessions } = yield* Effect.promise(() => import("@/kappa-sessions/kappa-sessions"))
     yield* Effect.promise(
       () =>
         new Promise<void>((resolve) => {

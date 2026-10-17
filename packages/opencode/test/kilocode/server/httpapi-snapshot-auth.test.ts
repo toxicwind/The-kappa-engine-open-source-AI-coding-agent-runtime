@@ -66,13 +66,13 @@ function setAuth(password: string) {
 describe("POST /kilocode/snapshot/remove authorization", () => {
   test("fails closed without configured auth and requires valid credentials when configured", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const worktree = path.join(tmp.path, ".kilo", "worktrees", "snapshot-auth")
+    const worktree = path.join(tmp.path, ".kappa", "worktrees", "snapshot-auth")
     const route = `/kilocode/snapshot/remove?directory=${encodeURIComponent(tmp.path)}`
     const init = (authorization?: string): RequestInit => ({
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-kilo-directory": tmp.path,
+        "x-kappa-directory": tmp.path,
         ...(authorization ? { authorization } : {}),
       },
       body: JSON.stringify({ worktree }),
@@ -85,11 +85,11 @@ describe("POST /kilocode/snapshot/remove authorization", () => {
     setAuth("secret")
     const secured = app({ password: "secret" })
     const missing = await secured.request(route, init())
-    const invalid = await secured.request(route, init(basic("kilo", "wrong")))
+    const invalid = await secured.request(route, init(basic("kappa", "wrong")))
     expect(missing.status).toBe(401)
     expect(invalid.status).toBe(401)
 
-    const valid = await secured.request(route, init(basic("kilo", "secret")))
+    const valid = await secured.request(route, init(basic("kappa", "secret")))
     expect(valid.status).toBe(200)
     expect(await valid.json()).toBe(true)
   })

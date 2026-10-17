@@ -16,8 +16,8 @@ import { SkillInject } from "../skills/inject"
 export namespace ClaudeMigration {
   export const VERSION = 1
   export const RECEIPT = "claude-migration.json"
-  export const NOTIFICATION_ID = "kilo.local.claude-migration"
-  export const DOCS_URL = "https://kilo.ai/docs/getting-started/settings"
+  export const NOTIFICATION_ID = "kappa.local.claude-migration"
+  export const DOCS_URL = "https://kappa.ai/docs/getting-started/settings"
 
   const MAX_MARKDOWN = 1024 * 1024
   const MAX_CONFIG = 8 * 1024 * 1024
@@ -582,7 +582,7 @@ export namespace ClaudeMigration {
   }
 
   async function globalTarget(config: string) {
-    const names = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"]
+    const names = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "config.json"]
     for (const name of names) {
       const file = path.join(config, name)
       if (!(await pathExists(file))) continue
@@ -605,7 +605,7 @@ export namespace ClaudeMigration {
   async function existingMcpNames(
     base: Roots,
   ): Promise<{ ok: true; names: Set<string> } | { ok: false; reason: string }> {
-    const dirs = [base.config, path.join(base.home, ".kilo"), path.join(base.home, ".kilocode")]
+    const dirs = [base.config, path.join(base.home, ".kappa"), path.join(base.home, ".kilocode")]
     const names = new Set<string>()
     for (const dir of dirs) {
       for (const file of KilocodeConfig.GLOBAL_CONFIG_FILES) {
@@ -636,7 +636,7 @@ export namespace ClaudeMigration {
     for (const name of ["init", "review", "resume-claude", "resume-codex"]) names.add(name)
     const dirs = [
       path.join(base.config, "skills"),
-      path.join(base.home, ".kilo", "skills"),
+      path.join(base.home, ".kappa", "skills"),
       path.join(base.home, ".kilocode", "skills"),
       path.join(base.home, ".agents", "skills"),
     ]
@@ -663,7 +663,7 @@ export namespace ClaudeMigration {
       }
     }
 
-    for (const dir of [base.config, path.join(base.home, ".kilo"), path.join(base.home, ".kilocode")]) {
+    for (const dir of [base.config, path.join(base.home, ".kappa"), path.join(base.home, ".kilocode")]) {
       for (const file of KilocodeConfig.GLOBAL_CONFIG_FILES) {
         const filepath = path.join(dir, file)
         if (!(await fileExists(filepath))) continue

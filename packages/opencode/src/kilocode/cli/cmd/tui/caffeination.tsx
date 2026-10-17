@@ -167,7 +167,7 @@ export function useCaffeination() {
     commands: [
       {
         namespace: "palette",
-        name: "kilo.caffeinate",
+        name: "kappa.caffeinate",
         get title() {
           if (!available()) return "Keep Awake unavailable"
           if (!enabled()) return "Enable Keep Awake"

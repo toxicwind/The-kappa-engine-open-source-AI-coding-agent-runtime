@@ -59,7 +59,7 @@ import type { KilocodeMarkdown } from "@/kilocode/config/markdown"
 import {
   IndexingConfig as KiloIndexingConfig,
   IndexingSchema as KiloIndexingSchema,
-} from "@kilocode/kilo-indexing/config"
+} from "@kappacode/kappa-indexing/config"
 import { unique } from "remeda"
 import { installLocalPluginDependency, needsLocalPluginDependency } from "@/kilocode/config/plugin-deps"
 // kilocode_change end
@@ -205,7 +205,7 @@ export const use = serviceUse(Service)
 
 function globalConfigFile() {
   // kilocode_change start
-  const candidates = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
+  const candidates = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
     // kilocode_change end
     path.join(Global.Path.config, file),
   )
@@ -379,9 +379,9 @@ const layer = Layer.effect(
       yield* Effect.promise(() => resolveLoadedPlugins(data, options.path))
       if (!data.$schema) {
         // kilocode_change start
-        data.$schema = "https://app.kilo.ai/config.json"
+        data.$schema = "https://app.kappa.ai/config.json"
         const original = options.original ?? text
-        const edits = modify(original, ["$schema"], "https://app.kilo.ai/config.json", {
+        const edits = modify(original, ["$schema"], "https://app.kappa.ai/config.json", {
           formattingOptions: { insertSpaces: true, tabSize: 2 },
           getInsertionIndex: () => 0,
         })
@@ -452,7 +452,7 @@ const layer = Layer.effect(
         const file = globalConfigFile()
         if (!existsSync(file)) {
           yield* fs
-            .writeWithDirs(file, JSON.stringify({ $schema: "https://app.kilo.ai/config.json" }, null, 2))
+            .writeWithDirs(file, JSON.stringify({ $schema: "https://app.kappa.ai/config.json" }, null, 2))
             .pipe(Effect.catch(() => Effect.void))
         }
       }
@@ -464,11 +464,11 @@ const layer = Layer.effect(
       // kilocode_change start
       result = mergeConfig(
         result,
-        yield* loadFile(path.join(Global.Path.config, "kilo.json"), env, true, undefined, configWarnings),
+        yield* loadFile(path.join(Global.Path.config, "kappa.json"), env, true, undefined, configWarnings),
       )
       result = mergeConfig(
         result,
-        yield* loadFile(path.join(Global.Path.config, "kilo.jsonc"), env, true, undefined, configWarnings),
+        yield* loadFile(path.join(Global.Path.config, "kappa.jsonc"), env, true, undefined, configWarnings),
       )
       // kilocode_change end
       result = mergeConfig(
@@ -487,7 +487,7 @@ const layer = Layer.effect(
             .then(async (mod) => {
               const { provider, model, ...rest } = mod.default
               if (provider && model) result.model = `${provider}/${model}`
-              result["$schema"] = "https://app.kilo.ai/config.json" // kilocode_change
+              result["$schema"] = "https://app.kappa.ai/config.json" // kilocode_change
               result = mergeConfig(result, rest)
               await fsNode.writeFile(path.join(Global.Path.config, "config.json"), JSON.stringify(result, null, 2))
               await fsNode.unlink(legacy)
@@ -716,7 +716,7 @@ const layer = Layer.effect(
                   })
                 : {}
               const remoteConfig = mergeConfig(isRecord(wellknown.config) ? wellknown.config : {}, fetchedConfig)
-              if (!remoteConfig.$schema) remoteConfig.$schema = "https://app.kilo.ai/config.json"
+              if (!remoteConfig.$schema) remoteConfig.$schema = "https://app.kappa.ai/config.json"
               const next = yield* loadConfig(
                 JSON.stringify(remoteConfig),
                 {
@@ -782,8 +782,8 @@ const layer = Layer.effect(
         }
 
         if (!Flag.KILO_DISABLE_PROJECT_CONFIG) {
-          // kilocode_change start - also discover kilo.json project files
-          for (const name of ["kilo", "opencode"] as const) {
+          // kilocode_change start - also discover kappa.json project files
+          for (const name of ["kappa", "opencode"] as const) {
             for (const file of yield* ConfigPaths.files(name, ctx.directory, ctx.worktree).pipe(Effect.orDie)) {
               yield* merge(
                 file,
@@ -809,7 +809,7 @@ const layer = Layer.effect(
         const directories = yield* ConfigPaths.directories(ctx.directory, ctx.worktree)
         const primary = Flag.KILO_DISABLE_PROJECT_CONFIG
           ? []
-          : yield* primaryPaths(ctx.directory, ctx.worktree, [".kilocode", ".kilo"])
+          : yield* primaryPaths(ctx.directory, ctx.worktree, [".kilocode", ".kappa"])
         // Load primary fallbacks before active-worktree config, then track them as local.
         directories.splice(1, 0, ...primary)
         const primarySet = new Set(primary)
@@ -972,7 +972,7 @@ const layer = Layer.effect(
         }
 
         const managedDir = ConfigManaged.managedConfigDir()
-        // kilocode_change start - include kilo.json/kilo.jsonc in managed dir loading
+        // kilocode_change start - include kappa.json/kappa.jsonc in managed dir loading
         if (existsSync(managedDir)) {
           for (const file of KilocodeConfig.ALL_CONFIG_FILES) {
             const source = path.join(managedDir, file)

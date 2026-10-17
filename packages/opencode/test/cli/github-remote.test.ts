@@ -5,31 +5,31 @@ import { parseGitHubRemote } from "../../src/cli/cmd/github"
 test("parses https URL with .git suffix", () => {
   expect(parseGitHubRemote("https://github.com/Kilo-Org/kilocode.git")).toEqual({
     owner: "Kilo-Org",
-    repo: "kilocode",
+    repo: "kappacode",
   })
 })
 
 test("parses https URL without .git suffix", () => {
-  expect(parseGitHubRemote("https://github.com/Kilo-Org/kilocode")).toEqual({ owner: "Kilo-Org", repo: "kilocode" })
+  expect(parseGitHubRemote("https://github.com/Kilo-Org/kilocode")).toEqual({ owner: "Kilo-Org", repo: "kappacode" })
 })
 
 test("parses git@ URL with .git suffix", () => {
-  expect(parseGitHubRemote("git@github.com:Kilo-Org/kilocode.git")).toEqual({ owner: "Kilo-Org", repo: "kilocode" })
+  expect(parseGitHubRemote("git@github.com:Kilo-Org/kilocode.git")).toEqual({ owner: "Kilo-Org", repo: "kappacode" })
 })
 
 test("parses git@ URL without .git suffix", () => {
-  expect(parseGitHubRemote("git@github.com:Kilo-Org/kilocode")).toEqual({ owner: "Kilo-Org", repo: "kilocode" })
+  expect(parseGitHubRemote("git@github.com:Kilo-Org/kilocode")).toEqual({ owner: "Kilo-Org", repo: "kappacode" })
 })
 
 test("parses ssh:// URL with .git suffix", () => {
   expect(parseGitHubRemote("ssh://git@github.com/Kilo-Org/kilocode.git")).toEqual({
     owner: "Kilo-Org",
-    repo: "kilocode",
+    repo: "kappacode",
   })
 })
 
 test("parses ssh:// URL without .git suffix", () => {
-  expect(parseGitHubRemote("ssh://git@github.com/Kilo-Org/kilocode")).toEqual({ owner: "Kilo-Org", repo: "kilocode" })
+  expect(parseGitHubRemote("ssh://git@github.com/Kilo-Org/kilocode")).toEqual({ owner: "Kilo-Org", repo: "kappacode" })
 })
 // kilocode_change end
 

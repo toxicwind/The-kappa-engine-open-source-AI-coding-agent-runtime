@@ -1,7 +1,7 @@
 import { createResource, Show, createMemo, createSignal, onCleanup, onMount, type Accessor, type JSX } from "solid-js"
 import { TextAttributes } from "@opentui/core"
 import { useTerminalDimensions } from "@opentui/solid"
-import type { Message, Part, Session as SdkSession } from "@kilocode/sdk/v2"
+import type { Message, Part, Session as SdkSession } from "@kappacode/sdk/v2"
 import { useTheme } from "@tui/context/theme"
 import { useSDK } from "@tui/context/sdk"
 import { useSync } from "@tui/context/sync"

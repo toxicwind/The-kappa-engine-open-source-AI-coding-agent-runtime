@@ -1,6 +1,6 @@
 // Pins the synthetic text the CLI persists when it cannot read an attached file. The JetBrains
 // client parses this exact shape to render an inline "attachment skipped" notice (see
-// `SessionModel.notice` in packages/kilo-jetbrains). The text is produced by shared upstream code,
+// `SessionModel.notice` in packages/kappa-jetbrains). The text is produced by shared upstream code,
 // so an upstream rewording must fail here instead of silently hiding the notice again.
 import path from "path"
 import fs from "fs/promises"

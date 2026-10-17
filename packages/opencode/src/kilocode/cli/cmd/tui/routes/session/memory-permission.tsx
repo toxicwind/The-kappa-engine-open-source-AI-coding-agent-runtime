@@ -1,5 +1,5 @@
 import type { JSX } from "solid-js"
-import type { PermissionRequest } from "@kilocode/sdk/v2"
+import type { PermissionRequest } from "@kappacode/sdk/v2"
 
 export type PermissionInfo = { icon: string; title: string; body: JSX.Element }
 export type PermissionRenderer = (request: PermissionRequest) => PermissionInfo

@@ -1,10 +1,10 @@
 import { Effect, Layer } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/unstable/http"
-import { assertNetwork, assertSandbox, networkHttpLayer, unrestricted } from "@kilocode/sandbox"
+import { assertNetwork, assertSandbox, networkHttpLayer, unrestricted } from "@kappacode/sandbox"
 import { host, opaque } from "./network-tools"
 
-const Builtin = Symbol("kilo.sandbox.builtinTool")
-const Remote = Symbol("kilo.sandbox.remoteMcp")
+const Builtin = Symbol("kappa.sandbox.builtinTool")
+const Remote = Symbol("kappa.sandbox.remoteMcp")
 const indirect = new Set<string>(opaque.map((item) => item.id))
 const external = new Set<string>(host.map((item) => item.id))
 

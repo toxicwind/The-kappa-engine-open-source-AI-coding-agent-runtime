@@ -74,7 +74,7 @@ describe("Kilo MCP OAuth callback", () => {
 
     // The earlier attempt owns the listener and waits for its browser tab.
     await McpOAuthCallback.ensureRunning(uri)
-    const earlier = McpOAuthCallback.waitForCallback("state-of-the-earlier-attempt", "kilo").then(
+    const earlier = McpOAuthCallback.waitForCallback("state-of-the-earlier-attempt", "kappa").then(
       () => undefined,
       (error: unknown) => error,
     )
@@ -114,7 +114,7 @@ describe("Kilo MCP OAuth callback", () => {
 
     // The earlier attempt owns the listener and waits for its browser tab.
     await McpOAuthCallback.ensureRunning(uri)
-    const settled = McpOAuthCallback.waitForCallback("state-of-the-earlier-attempt", "kilo").then(
+    const settled = McpOAuthCallback.waitForCallback("state-of-the-earlier-attempt", "kappa").then(
       (code) => code,
       (error: unknown) => error,
     )
@@ -139,7 +139,7 @@ describe("Kilo MCP OAuth callback", () => {
 
     // The earlier attempt owns the listener and waits for its browser tab.
     await McpOAuthCallback.ensureRunning(uri)
-    const settled = McpOAuthCallback.waitForCallback("state-of-a-rebound-attempt", "kilo").then(
+    const settled = McpOAuthCallback.waitForCallback("state-of-a-rebound-attempt", "kappa").then(
       (code) => code,
       (error: unknown) => error,
     )

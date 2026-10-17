@@ -268,7 +268,7 @@ const live: Layer.Layer<
 
       const instance = yield* InstanceState.context
       // kilocode_change start - capture eligible session export request start
-      const isKilo = input.model.api.npm === "@kilocode/kilo-gateway"
+      const isKilo = input.model.api.npm === "@kappacode/kappa-gateway"
       const exporting = SessionExport.enabled
       const org = yield* exporting && isKilo && input.model.isFree === true
         ? Effect.promise(() => getActiveOrg())

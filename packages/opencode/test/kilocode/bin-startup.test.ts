@@ -3,8 +3,8 @@ import { copyFile, mkdir, mkdtemp, readFile, realpath, rm, writeFile } from "fs/
 import { tmpdir } from "os"
 import { dirname, join } from "path"
 
-const source = join(import.meta.dir, "..", "..", "bin", "kilo")
-const helper = join(import.meta.dir, "..", "..", "bin", "kilocode", "windows-avx2.cjs")
+const source = join(import.meta.dir, "..", "..", "bin", "kappa")
+const helper = join(import.meta.dir, "..", "..", "bin", "kappacode", "windows-avx2.cjs")
 const node = (() => {
   const bin = Bun.which("node")
   if (!bin) throw new Error("Launcher tests require Node.js")
@@ -32,16 +32,16 @@ type Output = {
 }
 
 async function fixture() {
-  const root = await realpath(await mkdtemp(join(tmpdir(), "kilo-bin-startup-")))
-  const pkg = join(root, "node_modules", "@kilocode", "cli")
-  const wrapper = join(pkg, "bin", "kilo")
-  const helperTarget = join(pkg, "bin", "kilocode", "windows-avx2.cjs")
-  const cached = join(pkg, "bin", ".kilo")
-  const optimized = join(pkg, "node_modules", "@kilocode", "cli-windows-x64", "bin", "kilo.exe")
-  const baseline = join(pkg, "node_modules", "@kilocode", "cli-windows-x64-baseline", "bin", "kilo.exe")
+  const root = await realpath(await mkdtemp(join(tmpdir(), "kappa-bin-startup-")))
+  const pkg = join(root, "node_modules", "@kappacode", "cli")
+  const wrapper = join(pkg, "bin", "kappa")
+  const helperTarget = join(pkg, "bin", "kappacode", "windows-avx2.cjs")
+  const cached = join(pkg, "bin", ".kappa")
+  const optimized = join(pkg, "node_modules", "@kappacode", "cli-windows-x64", "bin", "kappa.exe")
+  const baseline = join(pkg, "node_modules", "@kappacode", "cli-windows-x64-baseline", "bin", "kappa.exe")
   const home = join(root, "home")
   const cache = join(root, "cache")
-  const file = join(cache, "kilo", "bin", "windows-avx2.json")
+  const file = join(cache, "kappa", "bin", "windows-avx2.json")
   const preload = join(root, "preload.cjs")
   const log = join(root, "trace.json")
 
@@ -55,7 +55,7 @@ async function fixture() {
   await copyFile(source, wrapper)
   await mkdir(dirname(helperTarget), { recursive: true })
   await copyFile(helper, helperTarget)
-  await writeFile(join(pkg, "package.json"), JSON.stringify({ name: "@kilocode/cli", type: "commonjs" }))
+  await writeFile(join(pkg, "package.json"), JSON.stringify({ name: "@kappacode/cli", type: "commonjs" }))
   await writeFile(
     preload,
     `const os = require("node:os")
@@ -82,7 +82,7 @@ child.spawnSync = (exe) => {
 }
 child.spawn = (target, args) => {
   trace.spawns.push({ target, args, wasm: process.env.KILO_TREE_SITTER_WASM_DIR, probes: trace.probes.length, listeners: listeners() })
-  const failure = target.endsWith(".kilo") && input.failure
+  const failure = target.endsWith(".kappa") && input.failure
   if (failure === "sync") throw new Error("cached binary failed")
   const proc = new events.EventEmitter()
   proc.kill = (signal) => trace.signals.push(target + ":" + signal)
@@ -241,7 +241,7 @@ describe("npm launcher startup", () => {
     const cache = kind === "relative" ? "relative-cache" : item.cache + "\r\n"
     const root = kind === "relative" ? join(item.home, ".cache") : item.cache
     await item.run({ cache })
-    expect(await Bun.file(join(root, "kilo", "bin", "windows-avx2.json")).exists()).toBe(true)
+    expect(await Bun.file(join(root, "kappa", "bin", "windows-avx2.json")).exists()).toBe(true)
     expect((await item.run({ cache })).probes).toEqual([])
   })
 
@@ -250,8 +250,8 @@ describe("npm launcher startup", () => {
     await using item = await fixture()
     await rm(item.optimized)
     await rm(item.baseline)
-    const pkg = join(item.root, "node_modules", "@kilocode", "cli")
-    const wrapper = join(pkg, "bin", "kilo")
+    const pkg = join(item.root, "node_modules", "@kappacode", "cli")
+    const wrapper = join(pkg, "bin", "kappa")
     const preload = join(item.root, "preload.cjs")
     
     // Run the script directly to capture stderr, since findBinary will fail and call process.exit(1)

@@ -65,7 +65,7 @@ const SCRIPT_REPLACEMENTS: ScriptReplacement[] = [
   // Release artifact names
   {
     pattern: /opencode-(linux|darwin|windows)-(arm64|x64)(-baseline)?(\.tar\.gz|\.zip)?/g,
-    replacement: "kilo-$1-$2$3$4",
+    replacement: "kappa-$1-$2$3$4",
     description: "Release artifact name",
   },
 

@@ -19,7 +19,7 @@ const ORG = "11111111-1111-4111-8111-111111111111"
 const auth = Layer.mock(Auth.Service)({
   get: (id) =>
     Effect.succeed(
-      id === "kilo"
+      id === "kappa"
         ? new Auth.Oauth({
             type: "oauth",
             access: TOKEN,
@@ -109,7 +109,7 @@ it.instance(
             agent: { mode: "plan", model: "anthropic/command-model" },
             repository: { type: "github", repo: "Kilo-Org/kilocode" },
             options: {
-              createdOnPlatform: "kilo-cli",
+              createdOnPlatform: "kappa-cli",
               kilocodeOrganizationId: ORG,
             },
           })
@@ -122,7 +122,7 @@ it.instance(
     git: true,
     config: {
       default_agent: "plan",
-      agent: { plan: { model: "kilo/anthropic/command-model" } },
+      agent: { plan: { model: "kappa/anthropic/command-model" } },
     },
   },
 )
@@ -211,7 +211,7 @@ it.instance(
     git: true,
     config: {
       default_agent: "plan",
-      agent: { plan: { model: "kilo/anthropic/command-model" } },
+      agent: { plan: { model: "kappa/anthropic/command-model" } },
     },
   },
 )
@@ -294,7 +294,7 @@ it.instance(
     git: true,
     config: {
       default_agent: "plan",
-      agent: { plan: { model: "kilo/anthropic/command-model" } },
+      agent: { plan: { model: "kappa/anthropic/command-model" } },
     },
   },
 )
@@ -374,7 +374,7 @@ it.instance(
     git: true,
     config: {
       default_agent: "plan",
-      agent: { plan: { model: "kilo/anthropic/command-model" } },
+      agent: { plan: { model: "kappa/anthropic/command-model" } },
     },
   },
 )
@@ -450,7 +450,7 @@ it.instance(
     git: true,
     config: {
       default_agent: "plan",
-      agent: { plan: { model: "kilo/anthropic/command-model" } },
+      agent: { plan: { model: "kappa/anthropic/command-model" } },
     },
   },
 )

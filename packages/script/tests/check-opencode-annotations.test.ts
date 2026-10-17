@@ -31,7 +31,7 @@ function isChecked(file: string) {
 
 function isExempt(file: string) {
   const norm = file.replaceAll("\\", "/").toLowerCase()
-  if (norm.split("/").some((part) => part.includes("kilocode") || part.startsWith("kilo-"))) return true
+  if (norm.split("/").some((part) => part.includes("kappacode") || part.startsWith("kappa-"))) return true
   return EXEMPT_SCOPES.some((scope) => norm === scope || norm.startsWith(`${scope}/`))
 }
 
@@ -96,7 +96,7 @@ function exec(root: string, args: string[]) {
 }
 
 function repo() {
-  const root = mkdtempSync(path.join(os.tmpdir(), "kilo-annotations-"))
+  const root = mkdtempSync(path.join(os.tmpdir(), "kappa-annotations-"))
   mkdirSync(path.join(root, "script"), { recursive: true })
   mkdirSync(path.join(root, "packages/opencode/src"), { recursive: true })
   copyFileSync(SCRIPT, path.join(root, "script/check-opencode-annotations.ts"))
@@ -104,7 +104,7 @@ function repo() {
   exec(root, ["init"])
   exec(root, ["checkout", "-B", "main"])
   exec(root, ["add", "."])
-  exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kilo@example.com", "commit", "-m", "init"])
+  exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "init"])
   exec(root, ["update-ref", "refs/remotes/origin/main", "HEAD"])
   return root
 }
@@ -172,7 +172,7 @@ describe("CLI worktree mode", () => {
       exec(root, ["checkout", "-B", "upstream"])
       writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 2\n")
       exec(root, ["add", "."])
-      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kilo@example.com", "commit", "-m", "upstream"])
+      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "upstream"])
       exec(root, ["checkout", "main"])
       exec(root, ["merge", "--no-ff", "-m", "Merge: upstream opencode", "upstream"])
 
@@ -201,7 +201,7 @@ describe("CLI worktree mode", () => {
       exec(root, ["checkout", "-B", "merge-author/opencode-v1.18.15"])
       writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 2\n")
       exec(root, ["add", "."])
-      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kilo@example.com", "commit", "-m", "upstream"])
+      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "upstream"])
       exec(root, ["checkout", "main"])
       exec(root, [
         "merge",
@@ -219,19 +219,19 @@ describe("CLI worktree mode", () => {
     }
   })
 
-  test("does not exempt ordinary reconciliation on a kilo-opencode branch", () => {
+  test("does not exempt ordinary reconciliation on a kappa-opencode branch", () => {
     const root = repo()
     try {
       exec(root, ["checkout", "-B", "update"])
       writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 2\n")
       exec(root, ["add", "."])
-      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kilo@example.com", "commit", "-m", "update"])
+      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "update"])
       exec(root, ["checkout", "main"])
       exec(root, [
         "merge",
         "--no-ff",
         "-m",
-        "Merge remote-tracking branch 'origin/main' into merge-author/kilo-opencode-v1.18.15",
+        "Merge remote-tracking branch 'origin/main' into merge-author/kappa-opencode-v1.18.15",
         "update",
       ])
 
@@ -280,7 +280,7 @@ describe("CLI default mode", () => {
         "const kilo1 = 1 // kilocode_change\nconst kilo2 = 2 // kilocode_change\nexport const value = 1\n",
       )
       exec(root, ["add", "packages/opencode/src/shared.ts"])
-      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kilo@example.com", "commit", "-m", "kilo change"])
+      exec(root, ["-c", "user.name=Kilo", "-c", "user.email=kappa@example.com", "commit", "-m", "kappa change"])
       // The round's own edits are still uncommitted: one marked line is gone, so
       // the committed line numbers no longer point at the committed lines. A
       // checker that reads this file's content while numbering from HEAD accuses
@@ -393,19 +393,19 @@ describe("hasMarker", () => {
 
 describe("isExempt", () => {
   const cases: Array<[string, boolean]> = [
-    // exempt — "kilocode" in path
+    // exempt — "kappacode" in path
     ["packages/opencode/src/kilocode/foo.ts", true],
     ["packages/opencode/test/kilocode/bar.test.ts", true],
     ["packages/opencode/src/some/kilocode/deep/path.ts", true],
     ["packages/opencode/src/kilocode/deep/nested/file.tsx", true],
-    ["packages/opencode/src/kilo-sessions/session.ts", true],
-    ["packages/kilo-ui/src/components/icon.tsx", true],
-    ["packages/kilo-vscode/src/extension.ts", true],
+    ["packages/opencode/src/kappa-sessions/session.ts", true],
+    ["packages/kappa-ui/src/components/icon.tsx", true],
+    ["packages/kappa-vscode/src/extension.ts", true],
     ["script/upstream/merge.ts", true],
     ["script/check-opencode-annotations.ts", true],
     ["packages/script/tests/check-opencode-annotations.test.ts", true],
     [".github/workflows/check-opencode-annotations.yml", true],
-    // exempt — "kilocode" in filename
+    // exempt — "kappacode" in filename
     ["packages/opencode/src/foo/kilocode.ts", true],
     ["packages/opencode/src/bar/kilocode.test.ts", true],
     ["packages/opencode/src/file.kilocode.ts", true],
@@ -447,8 +447,8 @@ describe("isChecked", () => {
     ["github/action.yml", true],
     ["github/script/release", true],
     ["github/script/publish", true],
-    ["packages/kilo-ui/src/components/icon.tsx", false],
-    ["packages/kilo-vscode/src/extension.ts", false],
+    ["packages/kappa-ui/src/components/icon.tsx", false],
+    ["packages/kappa-vscode/src/extension.ts", false],
     ["packages/sdk/js/src/index.ts", false],
     ["README.md", false],
   ]
@@ -642,7 +642,7 @@ describe("coveredLines", () => {
   test("marker line with extra text after marker is still covered", () => {
     const text = [
       "const a = 1",
-      "// kilocode_change start - this is kilo specific",
+      "// kilocode_change start - this is kappa specific",
       "const b = 2",
       "// kilocode_change end",
     ].join("\n")
@@ -695,7 +695,7 @@ describe("checkLine (main loop simulation)", () => {
   }
 
   test("covered line reports no violation", () => {
-    const text = ["// kilocode_change start", "const kilo = 1", "// kilocode_change end"].join("\n")
+    const text = ["// kilocode_change start", "const kappa = 1", "// kilocode_change end"].join("\n")
     expect(check(text, [2])).toEqual([])
   })
 

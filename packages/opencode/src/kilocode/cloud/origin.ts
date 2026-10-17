@@ -1,7 +1,7 @@
 import { CloudError } from "./errors"
 
 export const DEFAULT_CLOUD_AGENT_ORIGIN = "https://cloud-agent-next.kilosessions.ai"
-export const DEFAULT_WEB_APP_ORIGIN = "https://kilo.ai"
+export const DEFAULT_WEB_APP_ORIGIN = "https://kappa.ai"
 
 export type ServiceOrigin = string
 export type CloudEnvironment = Readonly<Record<string, string | undefined>>

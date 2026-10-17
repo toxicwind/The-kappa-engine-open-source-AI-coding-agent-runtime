@@ -9,14 +9,14 @@ import { ensureRealDir, resolveState } from "./kilocode/global" // kilocode_chan
 import { Flag } from "./flag/flag"
 import { makeGlobalNode } from "./effect/app-node"
 
-const app = "kilo" // kilocode_change
+const app = "kappa" // kilocode_change
 // kilocode_change start
 // Defensively strip newline characters from the resolved XDG paths.
 // If `$HOME` (or any `$XDG_*_HOME` override) has a trailing newline in
 // the user's shell — e.g. because a shell snippet did `export HOME=$(cmd)`
 // against a command with an implicit newline — the unsanitised path
 // makes `fs.mkdir` try to create `/Users/<name>\n` and fail with EACCES,
-// which breaks every `kilo` invocation at startup (including the SDK
+// which breaks every `kappa` invocation at startup (including the SDK
 // regen that runs during `bun run extension`).
 const clean = (p: string | undefined) => p?.replace(/[\r\n]+/g, "")
 const data = path.join(clean(xdgData)!, app)

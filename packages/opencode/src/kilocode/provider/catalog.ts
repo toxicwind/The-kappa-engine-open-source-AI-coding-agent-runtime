@@ -1,5 +1,5 @@
 import type { Auth } from "@/auth"
-import { fetchDefaultModel, getKiloUrlFromToken, KILO_API_BASE } from "@kilocode/kilo-gateway"
+import { fetchDefaultModel, getKiloUrlFromToken, KILO_API_BASE } from "@kappacode/kappa-gateway"
 
 type Options = { kilocodeOrganizationId?: string; baseURL?: string; apiKey?: string; kilocodeToken?: string }
 

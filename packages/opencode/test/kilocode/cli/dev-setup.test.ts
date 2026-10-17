@@ -28,7 +28,7 @@ describe("findRepoFrom", () => {
   test("returns the repo root when started from a nested path", async () => {
     await using tmp = await tmpdir()
     await makeSynthRepo(tmp.path)
-    const nested = path.join(tmp.path, "packages", "opencode", "src", "kilocode", "cli")
+    const nested = path.join(tmp.path, "packages", "opencode", "src", "kappacode", "cli")
     await fs.mkdir(nested, { recursive: true })
 
     const found = await findRepoFrom(nested)
@@ -56,14 +56,14 @@ describe("detectRepo", () => {
   test("honours KILO_DEV_REPO without touching the filesystem", async () => {
     // Pointing at a path that does not exist — the hint must be returned as-is
     // (this proves no walk happens when KILO_DEV_REPO is set).
-    const hint = "/definitely/does/not/exist/kilo-repo"
+    const hint = "/definitely/does/not/exist/kappa-repo"
     const got = await withEnv("KILO_DEV_REPO", hint, () => detectRepo())
     expect(got).toBe(hint)
   })
 
   test("KILO_DEV_REPO wins over the filesystem walk", async () => {
     // Build a synthetic repo, point KILO_DEV_REPO at it, and run from an
-    // unrelated cwd. Even though the walk from cwd (inside the real kilo
+    // unrelated cwd. Even though the walk from cwd (inside the real kappa
     // checkout) would succeed, the hint must take priority.
     await using tmp = await tmpdir()
     await makeSynthRepo(tmp.path)

@@ -62,7 +62,7 @@ it.effect("does not expose backend credentials or config to model shell commands
         token: process.env.KILO_BROWSER_BROKER_TOKEN,
       }
       process.env.KILO_SERVER_PASSWORD = "secret"
-      process.env.KILO_SERVER_USERNAME = "kilo"
+      process.env.KILO_SERVER_USERNAME = "kappa"
       process.env.KILO_CONFIG = "/secret/config.json"
       process.env.KILO_CONFIG_CONTENT = '{"provider":{"apiKey":"secret"}}'
       process.env.KILO_CONFIG_DIR = "/secret/config"

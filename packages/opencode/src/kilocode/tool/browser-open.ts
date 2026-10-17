@@ -1,4 +1,4 @@
-import { isIpAddress, isPublicAddress } from "@kilocode/sandbox/destination"
+import { isIpAddress, isPublicAddress } from "@kappacode/sandbox/destination"
 import { HttpClient } from "effect/unstable/http"
 import { Effect, Schema } from "effect"
 import { Env } from "@/env"

@@ -1,6 +1,6 @@
 // kilocode_change - new file
 /**
- * Contract test for chmod(0o000) failure injections in kilo-sessions.test.ts.
+ * Contract test for chmod(0o000) failure injections in kappa-sessions.test.ts.
  *
  * The heartbeat self-heal test breaks git with `chmod 0o000 .git` and asserts
  * the repository metadata disappears. On Windows chmod(0o000) is a no-op for
@@ -17,9 +17,9 @@ import { describe, expect, test } from "bun:test"
 import { readFileSync } from "node:fs"
 import path from "node:path"
 
-const TARGET = path.resolve(import.meta.dir, "kilo-sessions.test.ts")
+const TARGET = path.resolve(import.meta.dir, "kappa-sessions.test.ts")
 
-describe("chmod(0o000) failure injections in kilo-sessions.test.ts", () => {
+describe("chmod(0o000) failure injections in kappa-sessions.test.ts", () => {
   test("the self-heal injection exists and is guarded against win32 and root", () => {
     const content = readFileSync(TARGET, "utf-8")
     const injections = [...content.matchAll(/\.chmod\([^)]*0o000\)/g)]

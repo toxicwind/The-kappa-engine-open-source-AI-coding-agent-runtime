@@ -8,16 +8,16 @@ import {
 describe("Kilo indexing auth resolution", () => {
   test("detects auth from explicit indexing Kilo config", () => {
     const auth = resolveKiloIndexingAuth({
-      config: { indexing: { kilo: { apiKey: "idx-token", baseUrl: "https://idx.test", organizationId: "org_idx" } } },
+      config: { indexing: { kappa: { apiKey: "idx-token", baseUrl: "https://idx.test", organizationId: "org_idx" } } },
     })
 
     expect(auth).toEqual({ apiKey: "idx-token", baseUrl: "https://idx.test", organizationId: "org_idx" })
-    expect(hasKiloIndexingAuth({ config: { indexing: { kilo: { apiKey: "idx-token" } } } })).toBe(true)
+    expect(hasKiloIndexingAuth({ config: { indexing: { kappa: { apiKey: "idx-token" } } } })).toBe(true)
   })
 
   test("detects auth from provider config, provider state, auth storage, and env", () => {
     expect(
-      resolveKiloIndexingAuth({ config: { provider: { kilo: { options: { apiKey: "cfg-token" } } } } }).apiKey,
+      resolveKiloIndexingAuth({ config: { provider: { kappa: { options: { apiKey: "cfg-token" } } } } }).apiKey,
     ).toBe("cfg-token")
     expect(resolveKiloIndexingAuth({ provider: { options: { kilocodeToken: "provider-token" } } }).apiKey).toBe(
       "provider-token",
@@ -35,7 +35,7 @@ describe("Kilo indexing auth resolution", () => {
   })
 
   test("defaults to Kilo only when no provider or other embedder config is present", () => {
-    const auth = { apiKey: "kilo-token" }
+    const auth = { apiKey: "kappa-token" }
 
     expect(shouldDefaultIndexingToKilo({}, auth)).toBe(true)
     expect(shouldDefaultIndexingToKilo({ provider: "openai" }, auth)).toBe(false)

@@ -17,8 +17,8 @@ import {
   sessionLinkKey,
   writeSessionPrLink,
   type SessionPrLink,
-} from "@/kilo-sessions/pr-link"
-import { refreshPrLink, startPrLinkPoll } from "@/kilo-sessions/pr-link-poller"
+} from "@/kappa-sessions/pr-link"
+import { refreshPrLink, startPrLinkPoll } from "@/kappa-sessions/pr-link-poller"
 import { Storage } from "@/storage/storage"
 import { Process } from "@/util/process"
 import { tmpdir } from "../../fixture/fixture"

@@ -1,4 +1,4 @@
-import type { Model } from "@kilocode/sdk/v2"
+import type { Model } from "@kappacode/sdk/v2"
 import { Option, Schema } from "effect"
 
 const item = Schema.Struct({

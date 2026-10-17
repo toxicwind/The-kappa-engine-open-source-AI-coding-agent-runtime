@@ -1,4 +1,4 @@
-import type { TuiPlugin, TuiPluginApi } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi } from "@kappacode/plugin/tui"
 import type { InternalTuiPlugin } from "@/plugin/tui/internal"
 import { SyncProviderV2, useSyncV2 } from "./sync-v2"
 import { SplitBorder } from "@tui/ui/border"
@@ -27,7 +27,7 @@ import type {
   SessionMessageUser,
   ToolFileContent,
   ToolTextContent,
-} from "@kilocode/sdk/v2"
+} from "@kappacode/sdk/v2"
 import { createEffect, createMemo, createSignal, For, Match, Show, Switch } from "solid-js"
 import { collapseToolOutput } from "@tui/util/collapse-tool-output"
 import { errorMessage } from "@/util/error"

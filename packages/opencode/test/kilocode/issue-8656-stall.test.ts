@@ -28,7 +28,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 function settings(state: string, timeout: number | false) {
   return {
-    $schema: "https://app.kilo.ai/config.json",
+    $schema: "https://app.kappa.ai/config.json",
     model: "mock/mock-model",
     plugin: [[PLUGIN, { state, answer: ANSWER }]],
     provider: {
@@ -65,7 +65,7 @@ type Message = { info: Record<string, any>; parts: Part[] }
 
 function session(dir: string) {
   const app = Server.Default().app
-  const headers = { "Content-Type": "application/json", "x-kilo-directory": dir }
+  const headers = { "Content-Type": "application/json", "x-kappa-directory": dir }
   const query = `directory=${encodeURIComponent(dir)}`
 
   const json = async (route: string, init?: RequestInit, retry = false) => {

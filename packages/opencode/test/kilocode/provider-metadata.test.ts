@@ -18,9 +18,9 @@ describe("providerMetadata", () => {
   })
 
   test("uses the Kilo icon for Kilo Gateway", () => {
-    expect(providerMetadata("kilo")).toEqual({
-      noteKey: "settings.providers.note.kilo",
-      icon: "kilo",
+    expect(providerMetadata("kappa")).toEqual({
+      noteKey: "settings.providers.note.kappa",
+      icon: "kappa",
       priority: 0,
     })
   })

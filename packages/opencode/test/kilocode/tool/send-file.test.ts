@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, spyOn, test } from "bun:test"
 import { Effect, Layer } from "effect"
 import { Agent } from "@/agent/agent"
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions"
+import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
 import { KiloToolRegistry } from "@/kilocode/tool/registry"
 import { SendFileTool } from "@/kilocode/tool/send-file"
 import { MessageID, SessionID } from "@/session/schema"

@@ -46,9 +46,9 @@ const testLayer = AppNodeBuilder.build(Config.node, [
 test("project config permission keys are attributed to the local scope", async () => {
   await using tmp = await tmpdir()
   const dir = path.join(tmp.path, "a")
-  const kilo = path.join(dir, ".kilo")
-  await fs.mkdir(kilo, { recursive: true })
-  await Bun.write(path.join(kilo, "kilo.json"), JSON.stringify({ permission: { bash: { "echo *": "allow" } } }))
+  const kappa = path.join(dir, ".kappa")
+  await fs.mkdir(kappa, { recursive: true })
+  await Bun.write(path.join(kappa, "kappa.json"), JSON.stringify({ permission: { bash: { "echo *": "allow" } } }))
 
   await provideTestInstance({
     directory: dir,
@@ -65,9 +65,9 @@ test("project config permission keys are attributed to the local scope", async (
 test("a scalar project bash permission maps to the '*' pattern under the local scope", async () => {
   await using tmp = await tmpdir()
   const dir = path.join(tmp.path, "a")
-  const kilo = path.join(dir, ".kilo")
-  await fs.mkdir(kilo, { recursive: true })
-  await Bun.write(path.join(kilo, "kilo.json"), JSON.stringify({ permission: { bash: "allow" } }))
+  const kappa = path.join(dir, ".kappa")
+  await fs.mkdir(kappa, { recursive: true })
+  await Bun.write(path.join(kappa, "kappa.json"), JSON.stringify({ permission: { bash: "allow" } }))
 
   await provideTestInstance({
     directory: dir,

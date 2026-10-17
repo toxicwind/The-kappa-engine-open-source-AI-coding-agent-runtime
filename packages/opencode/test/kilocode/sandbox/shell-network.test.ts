@@ -13,7 +13,7 @@ import { MessageID, SessionID } from "@/session/schema"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Database } from "@opencode-ai/core/database/database"
-import { run as runSandbox, type Profile } from "@kilocode/sandbox"
+import { run as runSandbox, type Profile } from "@kappacode/sandbox"
 import { TestConfig } from "../../fixture/config"
 import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
 

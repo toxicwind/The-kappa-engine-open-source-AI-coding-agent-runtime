@@ -16,7 +16,7 @@ describe("commit-message httpapi", () => {
 
     const res = await Server.Default().app.request("/commit-message", {
       method: "POST",
-      headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+      headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
       body: JSON.stringify({ path: tmp.path }),
     })
 
@@ -36,7 +36,7 @@ describe("commit-message httpapi", () => {
     try {
       const res = await Server.Default().app.request("/commit-message", {
         method: "POST",
-        headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
         body: JSON.stringify({ path: tmp.path }),
       })
 
@@ -83,7 +83,7 @@ describe("commit-message httpapi", () => {
 
       const res = await Server.Default().app.request("/commit-message", {
         method: "POST",
-        headers: { "content-type": "application/json", "x-kilo-directory": tmp.path },
+        headers: { "content-type": "application/json", "x-kappa-directory": tmp.path },
         body: JSON.stringify({ path: tmp.path }),
       })
 

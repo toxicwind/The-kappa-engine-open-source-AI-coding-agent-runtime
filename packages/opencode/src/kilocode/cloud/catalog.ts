@@ -5,7 +5,7 @@ import {
   getKiloUrlFromToken,
   resolveKiloOpenRouterBaseUrl,
   supportsTools,
-} from "@kilocode/kilo-gateway"
+} from "@kappacode/kappa-gateway"
 import { Context, Effect, Layer, Redacted, Schema } from "effect"
 import z from "zod"
 import type { CloudAuth } from "./auth"
@@ -53,7 +53,7 @@ export namespace CloudCatalog {
     readonly defaultModel: (input: Input) => Effect.Effect<string, CatalogError>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kilocode/CloudCatalog") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/CloudCatalog") {}
 
   export const layer = (options: Options = {}) => {
     const fetcher = options.fetch ?? ((request: Request) => globalThis.fetch(request))
@@ -69,7 +69,7 @@ export namespace CloudCatalog {
                 undefined,
                 input.organizationID ? { kilocodeOrganizationId: input.organizationID } : undefined,
               ),
-              "X-KILOCODE-FEATURE": "kilo-cli",
+              "X-KILOCODE-FEATURE": "kappa-cli",
               Authorization: `Bearer ${Redacted.value(input.token)}`,
             },
             redirect: "error",

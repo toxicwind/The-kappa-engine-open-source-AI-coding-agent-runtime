@@ -1,6 +1,6 @@
 import { createServer } from "node:http"
-import type { IntegrationOAuthMethodRegistration } from "@kilocode/plugin/v2/effect/integration"
-import { define } from "@kilocode/plugin/v2/effect/plugin"
+import type { IntegrationOAuthMethodRegistration } from "@kappacode/plugin/v2/effect/integration"
+import { define } from "@kappacode/plugin/v2/effect/plugin"
 import { Deferred, Effect } from "effect"
 import type { Scope } from "effect"
 import { Credential } from "../../credential"
@@ -197,7 +197,7 @@ export const OpenAIPlugin = define({
 } satisfies PluginInternal.Plugin<PluginInternal.Requirements | Scope.Scope>)
 
 function headers(contentType: string) {
-  return { "Content-Type": contentType, "User-Agent": `kilo/${InstallationVersion}` } // kilocode_change
+  return { "Content-Type": contentType, "User-Agent": `kappa/${InstallationVersion}` } // kilocode_change
 }
 
 function exchange(code: string, redirect: string, pkce: Pkce) {
@@ -276,7 +276,7 @@ function authorizeURL(redirect: string, pkce: Pkce, state: string) {
     id_token_add_organizations: "true",
     codex_cli_simplified_flow: "true",
     state,
-    originator: "kilo", // kilocode_change
+    originator: "kappa", // kilocode_change
   })}`
 }
 

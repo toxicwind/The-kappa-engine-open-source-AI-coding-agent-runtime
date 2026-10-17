@@ -1,7 +1,7 @@
 /** @jsxImportSource @opentui/solid */
 import { expect, test } from "bun:test"
 import { testRender } from "@opentui/solid"
-import type { Event, GlobalEvent } from "@kilocode/sdk/v2"
+import type { Event, GlobalEvent } from "@kappacode/sdk/v2"
 import { onMount } from "solid-js"
 import { ProjectProvider, useProject } from "@tui/context/project"
 import { SDKProvider } from "@tui/context/sdk"

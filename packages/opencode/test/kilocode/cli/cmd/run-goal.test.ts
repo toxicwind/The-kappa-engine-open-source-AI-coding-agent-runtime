@@ -2,7 +2,7 @@ import { expect } from "bun:test"
 import { Effect } from "effect"
 import { cliIt } from "../../../lib/cli-process"
 
-const diagnostic = "Goal start and resume require the TUI. Run kilo, then use /goal <text> or /goal resume."
+const diagnostic = "Goal start and resume require the TUI. Run kappa, then use /goal <text> or /goal resume."
 
 function listen(calls: string[]) {
   const session = { id: "ses_goal", directory: "/goal owner", title: "Goal" }

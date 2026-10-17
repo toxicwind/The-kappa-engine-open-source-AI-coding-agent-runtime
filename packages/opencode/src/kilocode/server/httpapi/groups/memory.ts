@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { MemoryContract } from "@kilocode/kilo-memory/effect/httpapi"
+import { MemoryContract } from "@kappacode/kappa-memory/effect/httpapi"
 import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
 import { Authorization } from "@/server/routes/instance/httpapi/middleware/authorization"
 import { InstanceContextMiddleware } from "@/server/routes/instance/httpapi/middleware/instance-context"
@@ -8,7 +8,7 @@ import {
   WorkspaceRoutingQueryFields,
 } from "@/server/routes/instance/httpapi/middleware/workspace-routing"
 import { described } from "@/server/routes/instance/httpapi/groups/metadata"
-import { MemoryApiClientError, MemoryApiServerError } from "@kilocode/kilo-memory/effect/errors"
+import { MemoryApiClientError, MemoryApiServerError } from "@kappacode/kappa-memory/effect/errors"
 
 const MemoryErrors = [MemoryApiClientError, MemoryApiServerError] as const
 
@@ -156,7 +156,7 @@ export const MemoryApi = HttpApi.make("memory")
   )
   .annotateMerge(
     OpenApi.annotations({
-      title: "kilo HttpApi",
+      title: "kappa HttpApi",
       version: "0.0.1",
       description: "Kilo HttpApi surface.",
     }),

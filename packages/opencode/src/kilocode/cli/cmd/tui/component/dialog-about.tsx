@@ -75,10 +75,10 @@ export function DialogAbout() {
   const projectRoot = () => project.data.project.mainDir ?? project.instance.path().directory ?? process.cwd()
 
   const links = [
-    { label: "Docs", url: "https://kilo.ai/docs" },
+    { label: "Docs", url: "https://kappa.ai/docs" },
     { label: "GitHub", url: "https://github.com/Kilo-Org/kilocode" },
     { label: "Issues", url: "https://github.com/Kilo-Org/kilocode/issues" },
-    { label: "Discord", url: "https://kilo.ai/discord" },
+    { label: "Discord", url: "https://kappa.ai/discord" },
   ]
 
   const copy = () => {

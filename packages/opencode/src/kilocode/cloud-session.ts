@@ -25,7 +25,7 @@ export function localSessionID(args: { cloudFork?: boolean; session?: string }) 
 
 /**
  * Import a cloud session to local storage and return the new local session ID.
- * Wraps the SDK's `.kilo.cloud.session.import()` which returns `unknown` due to
+ * Wraps the SDK's `.kappa.cloud.session.import()` which returns `unknown` due to
  * the OpenAPI spec not typing the response.
  *
  * Throws when the import fails: with the server's error message on an HTTP
@@ -34,7 +34,7 @@ export function localSessionID(args: { cloudFork?: boolean; session?: string }) 
  */
 export async function importCloudSession(
   client: {
-    kilo: {
+    kappa: {
       cloud: {
         session: {
           import: (params: { sessionId: string }) => Promise<{ data?: unknown; error?: unknown }>
@@ -44,7 +44,7 @@ export async function importCloudSession(
   },
   sessionId: string,
 ): Promise<string> {
-  const result = await client.kilo.cloud.session.import({ sessionId })
+  const result = await client.kappa.cloud.session.import({ sessionId })
   if (result.error) throw new Error(importErrorReason(result.error))
   const id = (result.data as Record<string, unknown>)?.id
   if (typeof id !== "string") throw new Error("cloud session import returned no session id")

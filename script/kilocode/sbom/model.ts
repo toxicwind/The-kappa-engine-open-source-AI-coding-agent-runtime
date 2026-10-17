@@ -12,7 +12,7 @@ import { Contrib, Models } from "@cyclonedx/cyclonedx-library"
 import spdxExpressionParse from "spdx-expression-parse"
 
 export const SPEC_VERSION = "1.6"
-export const PROPERTY_NAMESPACE = "kilocode"
+export const PROPERTY_NAMESPACE = "kappacode"
 
 /**
  * How a component reaches the user.
@@ -45,7 +45,7 @@ export type Component = {
 }
 
 export type Subject = {
-  /** Release asset filename as published, e.g. `kilo-linux-x64.tar.gz`. */
+  /** Release asset filename as published, e.g. `kappa-linux-x64.tar.gz`. */
   name: string
   sha256: string
   size?: number
@@ -118,7 +118,7 @@ export type Bom = {
   dependencies: { ref: string; dependsOn: string[] }[]
 }
 
-const SUPPLIER = { name: "Kilo Code", url: ["https://kilo.ai"] }
+const SUPPLIER = { name: "Kilo Code", url: ["https://kappa.ai"] }
 
 /**
  * Deterministic serial number.
@@ -325,7 +325,7 @@ export function compose(input: Compose): Bom {
       .flatMap((item) => (declared.has(item) ? [] : [{ ref: item, dependsOn: [] }])),
   ].sort((a, b) => (a.ref === root ? -1 : b.ref === root ? 1 : a.ref.localeCompare(b.ref)))
 
-  const tools = [{ name: "kilo-sbom", version: input.product.version }, ...(input.tools ?? [])]
+  const tools = [{ name: "kappa-sbom", version: input.product.version }, ...(input.tools ?? [])]
 
   return {
     bomFormat: "CycloneDX",

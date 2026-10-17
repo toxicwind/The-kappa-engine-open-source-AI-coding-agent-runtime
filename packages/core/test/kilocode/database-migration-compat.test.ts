@@ -136,7 +136,7 @@ describe("database migration compatibility", () => {
 
   test("keeps released context epoch writes compatible on fresh current databases", async () => {
     await using tmp = await tmpdir()
-    const filename = path.join(tmp.path, "kilo.db")
+    const filename = path.join(tmp.path, "kappa.db")
     await Effect.runPromise(
       Database.Service.use((service) =>
         Effect.gen(function* () {
@@ -210,7 +210,7 @@ describe("database migration compatibility", () => {
 
   test("repairs a WAL database while preserving foreign keys and sequence uniqueness", async () => {
     await using tmp = await tmpdir()
-    const filename = path.join(tmp.path, "kilo.db")
+    const filename = path.join(tmp.path, "kappa.db")
     await Effect.runPromise(
       Effect.gen(function* () {
         const db = yield* make
@@ -250,7 +250,7 @@ describe("database migration compatibility", () => {
       Effect.gen(function* () {
         const db = yield* make
         yield* db.run(sql`CREATE TABLE session (id text PRIMARY KEY)`)
-        // stands in for a second kilo process committing the later migration's journal row
+        // stands in for a second kappa process committing the later migration's journal row
         // while this process is already partway through applyOnly
         const first = {
           id: "20260622170816_first",
@@ -279,7 +279,7 @@ describe("database migration compatibility", () => {
 
   test("holds the write lock before re-checking the migration journal", async () => {
     await using tmp = await tmpdir()
-    const filename = path.join(tmp.path, "kilo.db")
+    const filename = path.join(tmp.path, "kappa.db")
     let error: unknown
     // opens a second, independent connection to the same file from inside the
     // migration's own transaction: if the write reservation isn't already held

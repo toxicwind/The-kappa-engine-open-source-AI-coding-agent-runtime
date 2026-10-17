@@ -1,8 +1,8 @@
 import { Effect } from "effect"
 import { Instance } from "@/kilocode/instance"
 import * as Tool from "@/tool/tool"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service"
-import { MemoryTool } from "@kilocode/kilo-memory/tool"
+import { MemoryService } from "@kappacode/kappa-memory/effect/service"
+import { MemoryTool } from "@kappacode/kappa-memory/tool"
 
 export const MemoryRecallTool = Tool.define(
   "kilo_memory_recall",

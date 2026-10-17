@@ -121,7 +121,7 @@ export const McpListCommand = effectCmd({
 
     if (servers.length === 0) {
       prompts.log.warn("No MCP servers configured")
-      prompts.outro("Add servers with: kilo mcp add") // kilocode_change
+      prompts.outro("Add servers with: kappa mcp add") // kilocode_change
       return
     }
 
@@ -189,7 +189,7 @@ export const McpAuthCommand = effectCmd({
 
     if (servers.length === 0) {
       prompts.log.warn("No OAuth-capable MCP servers configured")
-      prompts.log.info("Remote MCP servers support OAuth by default. Add a remote server in kilo.json:") // kilocode_change
+      prompts.log.info("Remote MCP servers support OAuth by default. Add a remote server in kappa.json:") // kilocode_change
       prompts.log.info(`
   "mcp": {
     "my-server": {
@@ -396,20 +396,20 @@ export const McpLogoutCommand = effectCmd({
 async function resolveConfigPath(baseDir: string, global = false) {
   // kilocode_change start - prefer supported Kilo config directories over root files
   const roots = [
-    path.join(baseDir, "kilo.jsonc"),
-    path.join(baseDir, "kilo.json"),
+    path.join(baseDir, "kappa.jsonc"),
+    path.join(baseDir, "kappa.json"),
     path.join(baseDir, "opencode.jsonc"),
     path.join(baseDir, "opencode.json"),
   ]
   const candidates = global
     ? roots
     : [
-        path.join(baseDir, ".kilo", "kilo.jsonc"),
-        path.join(baseDir, ".kilo", "kilo.json"),
-        path.join(baseDir, ".kilo", "opencode.jsonc"),
-        path.join(baseDir, ".kilo", "opencode.json"),
-        path.join(baseDir, ".kilocode", "kilo.jsonc"),
-        path.join(baseDir, ".kilocode", "kilo.json"),
+        path.join(baseDir, ".kappa", "kappa.jsonc"),
+        path.join(baseDir, ".kappa", "kappa.json"),
+        path.join(baseDir, ".kappa", "opencode.jsonc"),
+        path.join(baseDir, ".kappa", "opencode.json"),
+        path.join(baseDir, ".kilocode", "kappa.jsonc"),
+        path.join(baseDir, ".kilocode", "kappa.json"),
         path.join(baseDir, ".kilocode", "opencode.jsonc"),
         path.join(baseDir, ".kilocode", "opencode.json"),
         ...roots,
@@ -421,8 +421,8 @@ async function resolveConfigPath(baseDir: string, global = false) {
     }
   }
 
-  // Default to kilo.json if none exist
-  return path.join(baseDir, "kilo.json")
+  // Default to kappa.json if none exist
+  return path.join(baseDir, "kappa.json")
   // kilocode_change end
 }
 
@@ -580,7 +580,7 @@ export const McpAddCommand = effectCmd({
       if (type === "local") {
         const command = await prompts.text({
           message: "Enter command to run",
-          placeholder: "e.g., kilo x @modelcontextprotocol/server-filesystem", // kilocode_change
+          placeholder: "e.g., kappa x @modelcontextprotocol/server-filesystem", // kilocode_change
           validate: (x) => (x && x.length > 0 ? undefined : "Required"),
         })
         if (prompts.isCancel(command)) throw new UI.CancelledError()
@@ -767,7 +767,7 @@ export const McpDebugCommand = effectCmd({
             params: {
               protocolVersion: LATEST_PROTOCOL_VERSION,
               capabilities: {},
-              clientInfo: { name: "kilo-debug", version: InstallationVersion }, // kilocode_change
+              clientInfo: { name: "kappa-debug", version: InstallationVersion }, // kilocode_change
             },
             id: 1,
           }),
@@ -811,7 +811,7 @@ export const McpDebugCommand = effectCmd({
 
           try {
             const client = new Client({
-              name: "kilo-debug", // kilocode_change
+              name: "kappa-debug", // kilocode_change
               version: InstallationVersion,
             })
             await client.connect(transport)

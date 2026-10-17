@@ -448,7 +448,7 @@ describe("wakeup resume", () => {
           svc.setMetadata({
             sessionID: session.id,
             metadata: {
-              "kilo.goal": {
+              "kappa.goal": {
                 text: objective,
                 status: "waiting",
                 active: false,
@@ -555,7 +555,7 @@ describe("wakeup resume", () => {
           svc.setMetadata({
             sessionID: session.id,
             metadata: {
-              "kilo.goal": {
+              "kappa.goal": {
                 text: objective,
                 status: "waiting",
                 active: false,
@@ -652,7 +652,7 @@ describe("wakeup resume", () => {
           svc.setMetadata({
             sessionID: session.id,
             metadata: {
-              "kilo.goal": {
+              "kappa.goal": {
                 text: objective,
                 status: "waiting",
                 active: false,
@@ -897,7 +897,7 @@ describe("wakeup resume", () => {
           svc.setMetadata({
             sessionID: session.id,
             metadata: {
-              "kilo.goal": {
+              "kappa.goal": {
                 text: objective,
                 status: "waiting",
                 active: false,
@@ -985,7 +985,7 @@ describe("wakeup resume", () => {
           svc.setMetadata({
             sessionID: session.id,
             metadata: {
-              "kilo.goal": {
+              "kappa.goal": {
                 text: "Wait for the deploy",
                 status: "waiting",
                 active: false,

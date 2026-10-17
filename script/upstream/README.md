@@ -22,7 +22,7 @@ bun run merge.ts --version v1.1.49
 bun run merge.ts --version v1.1.49 --dry-run
 
 # Use a different base branch (e.g., for incremental merges)
-bun run merge.ts --version v1.1.50 --base-branch username/kilo-opencode-v1.1.44
+bun run merge.ts --version v1.1.50 --base-branch username/kappa-opencode-v1.1.44
 ```
 
 ## Scripts
@@ -43,11 +43,11 @@ bun run merge.ts --version v1.1.50 --base-branch username/kilo-opencode-v1.1.44
 
 | Script | Description |
 |---|---|
-| `transforms/package-names.ts` | Transform opencode package names to kilo |
+| `transforms/package-names.ts` | Transform opencode package names to kappa |
 | `transforms/preserve-versions.ts` | Preserve Kilo's package versions |
 | `transforms/keep-ours.ts` | Keep Kilo's version of specific files |
 | `transforms/skip-files.ts` | Skip/remove files that shouldn't exist in Kilo |
-| `transforms/remove-kilo-web.ts` | Remove the unsupported embedded web command and warn when upstream reshapes it |
+| `transforms/remove-kappa-web.ts` | Remove the unsupported embedded web command and warn when upstream reshapes it |
 | `transforms/transform-i18n.ts` | Transform i18n files with Kilo branding |
 | `transforms/transform-take-theirs.ts` | Take upstream + apply Kilo branding for branding-only files |
 | `transforms/transform-package-json.ts` | Enhanced package.json with Kilo dependency injection and newest-Bun-wins reconciliation |
@@ -70,7 +70,7 @@ After merging upstream opencode releases, use `opencode-changesets.ts` to turn t
 bun script/upstream/opencode-changesets.ts --from 1.17.0 --to 1.17.7
 ```
 
-The script fetches releases from `anomalyco/opencode`, selects published releases in the semver range `(from, to]`, and writes one `.changeset/opencode-vX-Y-Z-to-vX-Y-Z.md` file for the whole range. It requires the target release to exist, merges notes from every release into shared `##` sections and `###` categories, then folds those headings into each bullet (for example, `Core Bugfixes: ...`) so Changesets can embed the notes cleanly in package changelogs. It generates a patch changeset for the fixed release group, `@kilocode/cli` and `kilo-code`. Generated notes omit contributor thank-you blocks and the upstream `Desktop` and `SDK` sections by default because Kilo does not ship the opencode desktop app and SDK release notes are not user-facing for Kilo.
+The script fetches releases from `anomalyco/opencode`, selects published releases in the semver range `(from, to]`, and writes one `.changeset/opencode-vX-Y-Z-to-vX-Y-Z.md` file for the whole range. It requires the target release to exist, merges notes from every release into shared `##` sections and `###` categories, then folds those headings into each bullet (for example, `Core Bugfixes: ...`) so Changesets can embed the notes cleanly in package changelogs. It generates a patch changeset for the fixed release group, `@kappacode/cli` and `kappa-code`. Generated notes omit contributor thank-you blocks and the upstream `Desktop` and `SDK` sections by default because Kilo does not ship the opencode desktop app and SDK release notes are not user-facing for Kilo.
 
 ## Merge Process
 
@@ -86,13 +86,13 @@ The merge automation follows this process, applying **all transformations BEFORE
 
 4. **Create branches**
    - `backup/<branch>-<timestamp>` - Backup of current state
-   - `<author>/kilo-opencode-<version>` - Merge target branch
+   - `<author>/kappa-opencode-<version>` - Merge target branch
    - `<author>/opencode-<version>` - Transformed upstream branch
 
 5. **Apply ALL transformations to upstream branch (PRE-MERGE)**:
    - Remove files that should not exist in Kilo (`skipFiles`)
    - Remove the unsupported embedded web command and its CLI registration
-   - Transform package names (opencode-ai -> @kilocode/cli)
+   - Transform package names (opencode-ai -> @kappacode/cli)
    - Preserve Kilo's versions
    - Transform i18n files with Kilo branding
    - Transform branding-only files (UI components, configs)
@@ -121,8 +121,8 @@ Configuration is defined in `utils/config.ts`:
 {
   // Package name mappings
   packageMappings: [
-    { from: "opencode-ai", to: "@kilocode/cli" },
-    { from: "@opencode-ai/cli", to: "@kilocode/cli" },
+    { from: "opencode-ai", to: "@kappacode/cli" },
+    { from: "@opencode-ai/cli", to: "@kappacode/cli" },
     // ...
   ],
 
@@ -152,8 +152,8 @@ Configuration is defined in `utils/config.ts`:
   // Kilo-specific directories (preserved)
   kiloDirectories: [
     "packages/opencode/src/kilocode",
-    "packages/kilo-gateway",
-    "packages/kilo-telemetry",
+    "packages/kappa-gateway",
+    "packages/kappa-telemetry",
     // ...
   ],
 }
@@ -168,7 +168,7 @@ Configuration is defined in `utils/config.ts`:
 The following transforms are applied to the opencode branch before merging:
 
 1. **Skip files** - Remove upstream-only packages/files that should not exist in Kilo
-2. **Package names** - `opencode-ai` -> `@kilocode/cli`, etc.
+2. **Package names** - `opencode-ai` -> `@kappacode/cli`, etc.
 3. **Versions** - Preserve Kilo's version numbers
 4. **i18n files** - OpenCode -> Kilo in user-visible strings
 5. **Branding files** - UI components, configs with branding only
@@ -235,7 +235,7 @@ By default, `merge.ts` also prepares prompt-friendly reference worktrees under `
 | Path | Snapshot |
 |---|---|
 | `.worktrees/opencode-merge/opencode` | Pristine upstream opencode at the requested version or commit |
-| `.worktrees/opencode-merge/kilo-main` | The Kilo base branch snapshot used for the merge |
+| `.worktrees/opencode-merge/kappa-main` | The Kilo base branch snapshot used for the merge |
 | `.worktrees/opencode-merge/auto-merge` | The automated merge result before final lockfile or SDK regeneration |
 
 If conflicts remain after automation, `auto-merge` is a committed local snapshot branch that may intentionally contain conflict markers as normal file content. The real merge branch remains unresolved so manual resolution can continue with accurate git conflict state.
@@ -295,7 +295,7 @@ Options:
 
 The command pre-filters with `git diff --name-only <last-merged-upstream>..HEAD` and drops:
 
-- Kilo-only paths: anything under `packages/kilo-*/`, any `**/kilocode/**` subdir, `script/upstream/`.
+- Kilo-only paths: anything under `packages/kappa-*/`, any `**/kilocode/**` subdir, `script/upstream/`.
 - Non-code assets: SVG, PNG, fonts, archives, lock files, etc. (see `SKIP_EXTENSIONS` / `SKIP_FILENAMES` in the script).
 - Files covered by the merge config's `keepOurs` or `skipFiles` lists in `utils/config.ts` — these are intentionally preserved or removed in Kilo and must not be bulk-reset.
 
@@ -308,7 +308,7 @@ It then issues one `git cat-file --batch-check` for all remaining paths to grab 
 | `cosmetic-only` | Non-marker diff is only whitespace or reordered lines (the line multiset is identical) | reset |
 | `small-diff` | ≤ `--review-limit` non-marker, non-cosmetic diff lines | reset |
 | `large-diff` | > `--review-limit` non-marker, non-cosmetic diff lines | skipped |
-| `upstream-missing` | File does not exist upstream (kilo-only, intentional) | skipped |
+| `upstream-missing` | File does not exist upstream (kappa-only, intentional) | skipped |
 | `local-missing` | File tracked but missing locally (deleted in Kilo) | skipped |
 | `binary-diff` | Binary file differs | skipped (use `reset-to-upstream.ts` per file) |
 | `binary-identical` | Binary file already matches | none |
@@ -336,13 +336,13 @@ When working on multiple upstream versions, you can create a chain of merge PRs:
 # First merge: v1.1.44 into main
 bun run merge.ts --version v1.1.44
 
-# Create PR: username/kilo-opencode-v1.1.44 -> main
+# Create PR: username/kappa-opencode-v1.1.44 -> main
 
 # Second merge: v1.1.50 based on the previous PR (without waiting for approval)
-bun run merge.ts --version v1.1.50 --base-branch username/kilo-opencode-v1.1.44
+bun run merge.ts --version v1.1.50 --base-branch username/kappa-opencode-v1.1.44
 
-# Create PR: username/kilo-opencode-v1.1.50 -> username/kilo-opencode-v1.1.44
-# OR: username/kilo-opencode-v1.1.50 -> main (once first PR is merged)
+# Create PR: username/kappa-opencode-v1.1.50 -> username/kappa-opencode-v1.1.44
+# OR: username/kappa-opencode-v1.1.50 -> main (once first PR is merged)
 ```
 
 ### Benefits
@@ -356,13 +356,13 @@ bun run merge.ts --version v1.1.50 --base-branch username/kilo-opencode-v1.1.44
 
 ```bash
 # 1. Analyze next version from your WIP branch
-bun run analyze.ts --version v1.1.50 --base-branch username/kilo-opencode-v1.1.44
+bun run analyze.ts --version v1.1.50 --base-branch username/kappa-opencode-v1.1.44
 
 # 2. Run the merge
-bun run merge.ts --version v1.1.50 --base-branch username/kilo-opencode-v1.1.44
+bun run merge.ts --version v1.1.50 --base-branch username/kappa-opencode-v1.1.44
 
-# 3. Create PR from username/kilo-opencode-v1.1.50
-#    - Target: username/kilo-opencode-v1.1.44 (if first PR not merged yet)
+# 3. Create PR from username/kappa-opencode-v1.1.50
+#    - Target: username/kappa-opencode-v1.1.44 (if first PR not merged yet)
 #    - Target: main (if first PR is already merged)
 ```
 

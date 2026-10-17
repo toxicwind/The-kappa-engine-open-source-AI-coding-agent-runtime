@@ -1,4 +1,4 @@
-import type { Model as SDKModel } from "@kilocode/sdk/v2"
+import type { Model as SDKModel } from "@kappacode/sdk/v2"
 import { ModelInfoPanel } from "@/kilocode/components/model-info-panel"
 
 type Assert<T extends true> = T

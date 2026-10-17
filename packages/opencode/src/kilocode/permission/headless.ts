@@ -7,7 +7,7 @@ import type { SessionID } from "@/session/schema"
  * Headless roots (#11903).
  *
  * Root sessions driven by a client that cannot answer subagent permission
- * prompts (plain `kilo run`). Permission asks originating from their child
+ * prompts (plain `kappa run`). Permission asks originating from their child
  * sessions must fail with DeniedError instead of blocking forever on a reply
  * that never comes. Interactive clients (TUI, extension) never mark sessions
  * here, so their subagent prompts stay answerable.

@@ -1,4 +1,4 @@
-import type { Hooks } from "@kilocode/plugin"
+import type { Hooks } from "@kappacode/plugin"
 import { ATOMIC_CHAT_PROVIDER_KEY } from "../constants"
 
 export function createAuthHook(): NonNullable<Hooks["auth"]> {

@@ -4,7 +4,7 @@
  * RemoteIndicator component for the footer status bar.
  */
 
-import type { Event } from "@kilocode/sdk/v2"
+import type { Event } from "@kappacode/sdk/v2"
 import { createSignal, onCleanup, onMount, Show } from "solid-js"
 
 type Status = {
@@ -19,7 +19,7 @@ type Status = {
 export function RemoteIndicator(props: {
   sdk: any
   theme: any
-  kilo: boolean
+  kappa: boolean
   event: {
     on: <Type extends Event["type"]>(type: Type, handler: (event: Extract<Event, { type: Type }>) => void) => () => void
   }
@@ -33,12 +33,12 @@ export function RemoteIndicator(props: {
         if (res.data) setStatus(res.data)
       })
       .catch(() => undefined)
-    const off = props.event.on("kilo-sessions.remote-status-changed", (evt) => setStatus(evt.properties))
+    const off = props.event.on("kappa-sessions.remote-status-changed", (evt) => setStatus(evt.properties))
     onCleanup(off)
   })
 
   return (
-    <Show when={props.kilo && status()?.enabled}>
+    <Show when={props.kappa && status()?.enabled}>
       <text fg={status()?.connected ? props.theme.success : props.theme.warning}>
         ◆ Remote{status()?.connected ? "" : " …"}
       </text>

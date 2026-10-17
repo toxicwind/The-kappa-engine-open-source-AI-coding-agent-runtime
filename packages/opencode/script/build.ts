@@ -22,8 +22,8 @@ import pkg from "../package.json"
 // kilocode_change start
 import { stageBubblewrap } from "./kilocode/bubblewrap"
 import { LanceDBRuntime } from "../src/kilocode/lancedb"
-import { KiloSandboxWorker } from "./kilocode/kilo-sandbox-worker"
-import { KiloSandboxNetwork } from "./kilocode/kilo-sandbox-network"
+import { KiloSandboxWorker } from "./kilocode/kappa-sandbox-worker"
+import { KiloSandboxNetwork } from "./kilocode/kappa-sandbox-network"
 import * as KiloSbom from "./kilocode/sbom"
 import * as KiloRelease from "../../../script/kilocode/release"
 // kilocode_change end
@@ -63,9 +63,9 @@ async function isKiloConsoleUpToDate(app: string, out: string) {
     path.join(app, "package.json"),
     path.join(app, "vite.config.ts"),
     path.join(app, "index.html"),
-    path.resolve(dir, "../kilo-web-ui/src"),
-    path.resolve(dir, "../kilo-indexing/src"),
-    path.resolve(dir, "../kilo-ui/src"),
+    path.resolve(dir, "../kappa-web-ui/src"),
+    path.resolve(dir, "../kappa-indexing/src"),
+    path.resolve(dir, "../kappa-ui/src"),
     path.resolve(dir, "../ui/src"),
     path.resolve(dir, "../sdk/js/src"),
     path.resolve(dir, "../../bun.lock"),
@@ -87,7 +87,7 @@ async function isKiloConsoleUpToDate(app: string, out: string) {
 }
 
 async function buildKiloConsole() {
-  const app = path.resolve(dir, "../kilo-console")
+  const app = path.resolve(dir, "../kappa-console")
   const out = path.join(app, "dist")
   if (await isKiloConsoleUpToDate(app, out)) {
     console.log(`reusing existing Kilo Console build at ${out}`)
@@ -134,7 +134,7 @@ function smokeEnv(root: string) {
 }
 
 async function smokeModels(binaryPath: string) {
-  const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "kilo-models-"))
+  const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "kappa-models-"))
   try {
     const out = await $`${binaryPath} --pure models anthropic`.env(smokeEnv(root)).text()
     if (out.split(/\r?\n/).some((line) => line.startsWith("anthropic/"))) return
@@ -330,8 +330,8 @@ for (const item of targets) {
       autoloadPackageJson: true,
       target: name.replace(pkg.name, "bun") as any,
       // kilocode_change start
-      outfile: `dist/${name}/bin/kilo`,
-      execArgv: [`--user-agent=kilo/${Script.version}`, "--use-system-ca", "--"],
+      outfile: `dist/${name}/bin/kappa`,
+      execArgv: [`--user-agent=kappa/${Script.version}`, "--use-system-ca", "--"],
       // kilocode_change end
       windows: {},
     },
@@ -381,7 +381,7 @@ for (const item of targets) {
     const interpreter = interpreters[key]
     if (interpreter) {
       try {
-        await $`patchelf --set-interpreter ${interpreter} dist/${name}/bin/kilo`
+        await $`patchelf --set-interpreter ${interpreter} dist/${name}/bin/kappa`
         console.log(`patched interpreter for ${name} -> ${interpreter}`)
       } catch {
         console.warn(`patchelf not available, skipping interpreter fix for ${name}`)
@@ -392,7 +392,7 @@ for (const item of targets) {
 
   // Smoke test: only run if binary is for current platform
   if (item.os === process.platform && item.arch === process.arch && !item.abi) {
-    const binaryPath = `dist/${name}/bin/kilo` // kilocode_change
+    const binaryPath = `dist/${name}/bin/kappa` // kilocode_change
     console.log(`Running smoke test: ${binaryPath} --version`)
     try {
       const versionOutput = await $`${binaryPath} --version`.text()
@@ -456,7 +456,7 @@ for (const item of targets) {
 if (Script.release) {
   const archives: string[] = [] // kilocode_change
   for (const key of Object.keys(binaries)) {
-    const archive = key.replace(pkg.name, "kilo") // kilocode_change
+    const archive = key.replace(pkg.name, "kappa") // kilocode_change
     if (key.includes("linux")) {
       // kilocode_change start
       const out = path.resolve("dist", `${archive}.tar.gz`)

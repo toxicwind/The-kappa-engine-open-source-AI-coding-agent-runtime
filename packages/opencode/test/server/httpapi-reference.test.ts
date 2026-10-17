@@ -30,7 +30,7 @@ describe("reference HttpApi", () => {
       pollWithTimeout(
         Effect.promise(async () => {
           const response = await Server.Default().app.request("/api/reference", {
-            headers: { "x-kilo-directory": tmp.path },
+            headers: { "x-kappa-directory": tmp.path },
           })
           expect(response.status).toBe(200)
           const body = await response.json()
@@ -70,7 +70,7 @@ describe("reference HttpApi", () => {
         references: { docs: "./docs" },
       },
     })
-    const headers = { "content-type": "application/json", "x-kilo-directory": tmp.path }
+    const headers = { "content-type": "application/json", "x-kappa-directory": tmp.path }
 
     const initial = await Server.Default().app.request("/api/reference", { headers })
     expect(initial.status).toBe(200)
@@ -113,7 +113,7 @@ describe("reference HttpApi", () => {
     try {
       await using tmp = await tmpdir({ config: { formatter: false, lsp: false } })
       const response = await Server.Default().app.request("/api/reference", {
-        headers: { "x-kilo-directory": tmp.path },
+        headers: { "x-kappa-directory": tmp.path },
       })
 
       expect(response.status).toBe(200)

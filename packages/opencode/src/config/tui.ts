@@ -186,7 +186,7 @@ const loadState = Effect.fn("TuiConfig.loadState")(function* (ctx: { directory: 
     })
 
   // kilocode_change start - discover canonical and legacy Kilo config directories
-  // Every config dir we may read from: global config, .kilo and legacy .kilocode
+  // Every config dir we may read from: global config, .kappa and legacy .kilocode
   // folders between cwd and home, and KILO_CONFIG_DIR.
   // kilocode_change end
   const directories = yield* ConfigPaths.directories(ctx.directory)
@@ -217,16 +217,16 @@ const loadState = Effect.fn("TuiConfig.loadState")(function* (ctx: { directory: 
   }
 
   // kilocode_change start - load tui.json from supported Kilo config directories
-  // 4. `.kilo` and legacy `.kilocode` directories (and KILO_CONFIG_DIR)
+  // 4. `.kappa` and legacy `.kilocode` directories (and KILO_CONFIG_DIR)
   // discovered while walking up the tree. Also returned below so callers can
   // install plugin dependencies from each location.
   const dirs = unique(directories).filter(
-    (dir) => dir.endsWith(".kilo") || dir.endsWith(".kilocode") || dir === Flag.KILO_CONFIG_DIR,
+    (dir) => dir.endsWith(".kappa") || dir.endsWith(".kilocode") || dir === Flag.KILO_CONFIG_DIR,
   )
   // kilocode_change end
 
   for (const dir of dirs) {
-    // kilocode_change start - trust global (home/KILO_CONFIG_DIR) dirs like config.ts; in-repo .kilo/.kilocode stay untrusted
+    // kilocode_change start - trust global (home/KILO_CONFIG_DIR) dirs like config.ts; in-repo .kappa/.kilocode stay untrusted
     const trusted = pluginScope(dir, ctx) === "global"
     const fileScope = trusted ? undefined : { root: ctx.directory, source: dir }
     for (const file of ConfigPaths.fileInDirectory(dir, "tui")) {
@@ -243,7 +243,7 @@ const loadState = Effect.fn("TuiConfig.loadState")(function* (ctx: { directory: 
       terminalSuspend: process.platform !== "win32",
     },
   )
-  if (acc.result.attention?.sound_pack === undefined) result.attention.sound_pack = "kilo.default" // kilocode_change - preserve Kilo's default sound pack
+  if (acc.result.attention?.sound_pack === undefined) result.attention.sound_pack = "kappa.default" // kilocode_change - preserve Kilo's default sound pack
 
   // kilocode_change start - inject Kilo default plugins to keep TUI aligned with server config
   const defaults = KilocodeDefaultPlugins.apply(
@@ -274,7 +274,7 @@ const layer = Layer.effect(
           .install(dir, {
             add: [
               {
-                name: "@kilocode/plugin",
+                name: "@kappacode/plugin",
                 version: InstallationLocal ? undefined : InstallationVersion,
               },
             ],

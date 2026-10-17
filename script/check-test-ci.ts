@@ -10,7 +10,7 @@ const proc = Bun.spawnSync(["git", "ls-files", "packages", "script"], {
 })
 if (proc.exitCode !== 0) throw new Error(proc.stderr.toString() || "Unable to list tracked package tests")
 
-const exempt = new Set(["packages/kilo-vscode"])
+const exempt = new Set(["packages/kappa-vscode"])
 const dirs = new Set(
   proc.stdout
     .toString()

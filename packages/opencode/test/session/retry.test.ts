@@ -349,7 +349,7 @@ describe("session.retry.retryable", () => {
       }).toObject(),
     )
 
-    expect(SessionRetry.retryable(error, "kilo")).toBeUndefined()
+    expect(SessionRetry.retryable(error, "kappa")).toBeUndefined()
   })
   // kilocode_change end
 })

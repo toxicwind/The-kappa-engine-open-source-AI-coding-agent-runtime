@@ -9,11 +9,11 @@ import { KiloSessionPrompt } from "@/kilocode/session/prompt"
 function model(id: string, reasoning = true): Model {
   return {
     id: ModelV2.ID.make(id),
-    providerID: ProviderV2.ID.make("kilo"),
+    providerID: ProviderV2.ID.make("kappa"),
     api: {
       id,
-      url: "https://api.kilo.ai/api/openrouter",
-      npm: "@kilocode/kilo-gateway",
+      url: "https://api.kappa.ai/api/openrouter",
+      npm: "@kappacode/kappa-gateway",
     },
     name: id,
     capabilities: {

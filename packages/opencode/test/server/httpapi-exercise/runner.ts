@@ -137,7 +137,7 @@ function withContext<A, E>(
         }
         // kilocode_change start - headers closure extracted so scenarios can build their own requests
         const headers = (extra?: Record<string, string>) => ({
-          ...(context.dir?.path ? { "x-kilo-directory": context.dir.path } : {}),
+          ...(context.dir?.path ? { "x-kappa-directory": context.dir.path } : {}),
           ...extra,
         })
         // kilocode_change end

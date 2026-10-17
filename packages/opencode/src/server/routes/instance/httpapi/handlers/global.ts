@@ -32,7 +32,7 @@ function eventResponse(request: HttpServerRequest.HttpServerRequest) {
     const events = Stream.callback<GlobalBusEvent>((queue) => {
       // kilocode_change start
       const handler = (event: GlobalBusEvent) => {
-        if (request.headers["x-kilo-sse-skip-fork-sync"] === "1" && copied in event) return
+        if (request.headers["x-kappa-sse-skip-fork-sync"] === "1" && copied in event) return
         Queue.offerUnsafe(queue, event)
       }
       // kilocode_change end

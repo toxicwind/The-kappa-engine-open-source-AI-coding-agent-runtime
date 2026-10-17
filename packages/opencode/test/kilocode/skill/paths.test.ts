@@ -70,7 +70,7 @@ describe("kilocode skills.paths resolution", () => {
           // The absolute entry needs the tmpdir, so write the config before the first config read.
           yield* Effect.promise(() =>
             Bun.write(
-              path.join(dir, "kilo.json"),
+              path.join(dir, "kappa.json"),
               JSON.stringify({
                 skills: { paths: [".github/skills", "./team/skills", path.join(dir, "abs", "skills")] },
               }),
@@ -88,7 +88,7 @@ describe("kilocode skills.paths resolution", () => {
     provideTmpdirInstance(
       (dir) =>
         Effect.gen(function* () {
-          yield* write(dir, ".kilo", "skills", "project-skill")
+          yield* write(dir, ".kappa", "skills", "project-skill")
           const skill = yield* Skill.Service
           const list = yield* skill.all()
           expect(names(list)).toEqual(["project-skill"])

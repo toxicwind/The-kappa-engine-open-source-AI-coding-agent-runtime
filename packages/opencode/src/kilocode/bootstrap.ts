@@ -1,6 +1,6 @@
 import { Cause, Context, Effect, Layer } from "effect"
 import { EffectBridge } from "@/effect/bridge"
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions"
+import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
 import * as Log from "@opencode-ai/core/util/log"
 import { Global } from "@opencode-ai/core/global"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
@@ -14,9 +14,9 @@ import { SessionExport } from "@/kilocode/session-export"
 import { createWorkspaceProvider } from "@/kilocode/session-export/workspace-provider"
 import { Instance } from "@/kilocode/instance"
 import { InstanceRef } from "@/effect/instance-ref"
-import { Identity } from "@kilocode/kilo-telemetry"
+import { Identity } from "@kappacode/kappa-telemetry"
 import { MemoryLifecycle } from "@/kilocode/memory/turn"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service"
+import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { MemoryEvents } from "@/kilocode/memory/events"
 import { installMemoryRuntime } from "@/kilocode/memory/runtime"
 import { KiloToolRegistry } from "@/kilocode/tool/registry"
@@ -32,14 +32,14 @@ export namespace KilocodeBootstrap {
     readonly init: () => Effect.Effect<void, unknown>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kilocode/Bootstrap") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/Bootstrap") {}
 
   export const layer = Layer.effect(
     Service,
     Effect.gen(function* () {
       // Bind the package memory effect layer to opencode (paths, instance binder, logger, event sink).
       installMemoryRuntime()
-      const kilo = yield* KiloSessions.Service
+      const kappa = yield* KiloSessions.Service
       const bus = yield* Bus.Service
       const sessions = yield* Session.Service
       const summary = yield* SessionSummary.Service
@@ -51,7 +51,7 @@ export namespace KilocodeBootstrap {
 
       const init = Effect.fn("KilocodeBootstrap.init")(function* () {
         yield* watcher.init()
-        yield* kilo.init()
+        yield* kappa.init()
         yield* MemoryLifecycle.subscribe({ bus, sessions, summary, provider, config, memory })
         // Invalidate enabled cache on every memory state mutation (properties.directory holds the memory root).
         yield* bus.subscribeCallback(MemoryEvents.Status, (evt) =>

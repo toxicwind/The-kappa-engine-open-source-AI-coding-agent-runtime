@@ -1,15 +1,15 @@
 import type { PermissionV1 } from "@opencode-ai/core/v1/permission"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 // kilocode_change start - use Kilo CLI branding
-// CLI entry point for `kilo run` and `kilo --mini`.
+// CLI entry point for `kappa run` and `kappa --mini`.
 //
 // Handles three modes:
 //   1. Non-interactive (default): sends a single prompt, streams events to
 //      stdout, and exits when the session goes idle.
-//   2. Interactive local (`kilo --mini`): boots the split-footer direct mode
+//   2. Interactive local (`kappa --mini`): boots the split-footer direct mode
 //      with an in-process server (no external HTTP).
-//   3. Interactive attach (`kilo --mini --attach`): connects to a running
-//      kilo server and runs interactive mode against it.
+//   3. Interactive attach (`kappa --mini --attach`): connects to a running
+//      kappa server and runs interactive mode against it.
 // kilocode_change end
 //
 // Also supports `--command` for slash-command execution, `--format json` for
@@ -24,7 +24,7 @@ import { UI } from "../ui"
 import { effectCmd } from "../effect-cmd"
 import { EOL } from "os"
 import { Filesystem } from "@/util/filesystem"
-import type { KiloClient, Session, ToolPart } from "@kilocode/sdk/v2"
+import type { KiloClient, Session, ToolPart } from "@kappacode/sdk/v2"
 import { FormatError, FormatUnknownError } from "../error"
 import { INTERACTIVE_INPUT_ERROR, resolveInteractiveStdin } from "./run/runtime.stdin"
 import { readPipedStdin } from "./run-stdin" // kilocode_change - bounded piped-stdin read
@@ -133,7 +133,7 @@ async function toolError(part: ToolPart) {
 
 export const RunCommand = effectCmd({
   command: "run [message..]",
-  describe: "run kilo with a message", // kilocode_change
+  describe: "run kappa with a message", // kilocode_change
   // --attach connects to a remote server (no local instance needed); the
   // default path runs an in-process server and needs the project instance.
   instance: (args) => !args.attach,
@@ -203,7 +203,7 @@ export const RunCommand = effectCmd({
       })
       .option("attach", {
         type: "string",
-        describe: "attach to a running kilo server (e.g., http://localhost:4096)",
+        describe: "attach to a running kappa server (e.g., http://localhost:4096)",
       })
       .option("password", {
         alias: ["p"],
@@ -213,7 +213,7 @@ export const RunCommand = effectCmd({
       .option("username", {
         alias: ["u"],
         type: "string",
-        describe: "basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')", // kilocode_change
+        describe: "basic auth username (defaults to KILO_SERVER_USERNAME or 'kappa')", // kilocode_change
       })
       .option("dir", {
         type: "string",
@@ -294,7 +294,7 @@ export const RunCommand = effectCmd({
     const localInstance = yield* InstanceRef
     yield* Effect.promise(async () => {
       const rawMessage = [...args.message, ...(args["--"] || [])].join(" ")
-      const interactive = args.mini || args.interactive // kilocode_change - retain `kilo run --interactive`
+      const interactive = args.mini || args.interactive // kilocode_change - retain `kappa run --interactive`
       const skipPermissions = args.yolo || args["dangerously-skip-permissions"] // kilocode_change - --auto is answered by the tracked-session block below
       const thinking = interactive ? (args.thinking ?? true) : (args.thinking ?? false)
       const die = (message: string): never => {
@@ -1211,7 +1211,7 @@ export const RunCommand = effectCmd({
       }) as typeof globalThis.fetch
       const sdk = KiloRunDrain.client({
         // kilocode_change
-        baseUrl: "http://kilo.internal",
+        baseUrl: "http://kappa.internal",
         fetch: fetchFn,
         directory,
       })

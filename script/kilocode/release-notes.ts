@@ -64,8 +64,8 @@ export async function publishNotes(input: { version: string; prerelease: boolean
   const repo = input.repo ? ["--repo", input.repo] : []
   const releases: Release[] = await $`gh release list --limit 1000 --json tagName,isDraft,isPrerelease ${repo}`.json()
   const [vscode, cli] = await Promise.all([
-    Bun.file(new URL("../../packages/kilo-vscode/CHANGELOG.md", import.meta.url)).text(),
-    // The inherited "opencode" folder contains Kilo's CLI (@kilocode/cli), not upstream release notes.
+    Bun.file(new URL("../../packages/kappa-vscode/CHANGELOG.md", import.meta.url)).text(),
+    // The inherited "opencode" folder contains Kilo's CLI (@kappacode/cli), not upstream release notes.
     // Read Kilo's changelog, including compact upstream summaries added when those changes are merged into Kilo.
     Bun.file(new URL("../../packages/opencode/CHANGELOG.md", import.meta.url)).text(),
   ])

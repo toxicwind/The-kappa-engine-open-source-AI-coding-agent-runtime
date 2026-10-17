@@ -21,7 +21,7 @@
  *
  * Enforcement scope (Kilo-owned paths only, to avoid upstream-sync churn):
  *   - Any top-level markdown file (TESTING.md, AGENTS.md, README.md, …)
- *   - Any path segment containing "kilocode" or starting with "kilo-"
+ *   - Any path segment containing "kappacode" or starting with "kappa-"
  *   - Everything else under packages/ is treated as upstream and skipped.
  *   - .changeset/** and CHANGELOG.md are skipped (auto-generated).
  */
@@ -52,7 +52,7 @@ function skip(file: string) {
   if (norm === "changelog.md" || norm.endsWith("/changelog.md")) return true
   if (norm.includes("node_modules/")) return true
   const parts = norm.split("/")
-  if (parts.some((p) => p.includes("kilocode") || p.startsWith("kilo-"))) return false
+  if (parts.some((p) => p.includes("kappacode") || p.startsWith("kappa-"))) return false
   if (parts.length === 1) return false
   if (parts[0] === "packages") return true
   return false

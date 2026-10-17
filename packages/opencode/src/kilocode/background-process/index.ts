@@ -199,7 +199,7 @@ export namespace BackgroundProcess {
   type Probe = "owned" | "gone" | "foreign" | "unknown" | "terminating"
 
   class StateService extends Context.Service<StateService, { readonly get: () => Effect.Effect<State> }>()(
-    "@kilocode/BackgroundProcess.State",
+    "@kappacode/BackgroundProcess.State",
   ) {}
 
   function scoped(ctx: InstanceContext) {

@@ -17,7 +17,7 @@ import {
   RemoteCommand,
   RollCallCommand,
   WorktreeCommand,
-} from "@/kilocode/cli/lazy-kilo-commands"
+} from "@/kilocode/cli/lazy-kappa-commands"
 
 const log = Log.create({ service: "kilocode.cli" })
 
@@ -75,7 +75,7 @@ export namespace KiloCli {
     const { KiloLog } = await import("@/kilocode/log")
     await KiloLog.init()
 
-    const gateway = await import("@kilocode/kilo-gateway")
+    const gateway = await import("@kappacode/kappa-gateway")
     if (!process.env[gateway.ENV_FEATURE])
       process.env[gateway.ENV_FEATURE] = process.argv.includes("serve") ? "unknown" : "cli"
     if (!process.env[gateway.ENV_VERSION]) process.env[gateway.ENV_VERSION] = InstallationVersion
@@ -93,7 +93,7 @@ export namespace KiloCli {
       : await app!.AppRuntime.runPromise((await import("@/config/config")).Config.Service.use((c) => c.getGlobal()))
 
     const { Global } = await import("@opencode-ai/core/global")
-    const { Telemetry } = await import("@kilocode/kilo-telemetry")
+    const { Telemetry } = await import("@kappacode/kappa-telemetry")
     await Telemetry.init({
       dataPath: Global.Path.data,
       version: InstallationVersion,
@@ -104,12 +104,12 @@ export namespace KiloCli {
     const getAuth = async () => {
       if (runtime) return runtime.KiloCliBootstrapRuntime.getAuth()
       const { Auth } = await import("@/auth")
-      return app!.AppRuntime.runPromise(Auth.Service.use((s) => s.get("kilo")))
+      return app!.AppRuntime.runPromise(Auth.Service.use((s) => s.get("kappa")))
     }
     const setAuth = async (auth: Auth.Info) => {
       if (runtime) return runtime.KiloCliBootstrapRuntime.setAuth(auth)
       const { Auth } = await import("@/auth")
-      return app!.AppRuntime.runPromise(Auth.Service.use((s) => s.set("kilo", auth)))
+      return app!.AppRuntime.runPromise(Auth.Service.use((s) => s.set("kappa", auth)))
     }
 
     // Migrate legacy Kilo CLI auth (~/.kilocode/cli/config.json) into auth.json if present.
@@ -134,7 +134,7 @@ export namespace KiloCli {
   // Runs from the `finally` block on every exit path.
   export async function shutdown(): Promise<void> {
     if (info) return
-    const { Telemetry } = await import("@kilocode/kilo-telemetry")
+    const { Telemetry } = await import("@kappacode/kappa-telemetry")
     const code = typeof process.exitCode === "number" ? process.exitCode : undefined
     Telemetry.trackCliExit(code)
     const { SessionExport } = await import("@/kilocode/session-export")
@@ -142,7 +142,7 @@ export namespace KiloCli {
       await SessionExport.shutdown()
       // Bound telemetry shutdown so an unreachable endpoint (offline, firewall,
       // DNS adblock resolving the host to 0.0.0.0) cannot block process exit on
-      // short-lived commands like `kilo --help` / `kilo --version` (#9788).
+      // short-lived commands like `kappa --help` / `kappa --version` (#9788).
       try {
         await Telemetry.shutdown(2000)
       } catch (err) {

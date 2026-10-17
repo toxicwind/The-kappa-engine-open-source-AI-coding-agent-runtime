@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
 import { Effect } from "effect"
-import { Telemetry } from "@kilocode/kilo-telemetry"
+import { Telemetry } from "@kappacode/kappa-telemetry"
 import { Command } from "../../../src/command"
 import { reviewCommand } from "../../../src/kilocode/review/command"
 import DESCRIPTION from "../../../src/kilocode/suggestion/tool.txt"

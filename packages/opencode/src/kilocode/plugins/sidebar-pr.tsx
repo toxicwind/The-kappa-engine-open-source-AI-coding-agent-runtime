@@ -1,9 +1,9 @@
 // kilocode_change - new file
-import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, createResource, Show } from "solid-js"
 import { Process } from "@/util/process"
 
-const id = "internal:kilo-sidebar-pr"
+const id = "internal:kappa-sidebar-pr"
 const GH_PROBE_TTL = 300_000
 
 type Pr = { number: number; title: string }

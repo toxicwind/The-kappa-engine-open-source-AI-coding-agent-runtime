@@ -120,7 +120,7 @@ export function resolve(input: Info, options: ResolveOptions): Resolved {
       notifications: input.attention?.notifications ?? true,
       sound: input.attention?.sound ?? true,
       volume: input.attention?.volume ?? 0.4,
-      sound_pack: input.attention?.sound_pack ?? "kilo.default", // kilocode_change
+      sound_pack: input.attention?.sound_pack ?? "kappa.default", // kilocode_change
       sounds: input.attention?.sounds ?? {},
     },
     keybinds: createBindingLookup(TuiKeybind.toBindingConfig(TuiKeybind.parse(keybinds)), {

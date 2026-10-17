@@ -23,7 +23,7 @@ function layer(
   options: Record<string, string> = {},
 ) {
   const auth = Layer.mock(Auth.Service)({
-    get: (id) => Effect.succeed(id === "kilo" ? info : undefined),
+    get: (id) => Effect.succeed(id === "kappa" ? info : undefined),
   })
   const models = Layer.succeed(
     ModelCache.KiloModelsService,
@@ -45,7 +45,7 @@ function layer(
   )
   return Layer.fresh(ModelCache.layer).pipe(
     Layer.provide(FetchHttpClient.layer),
-    Layer.provide(TestConfig.layer({ get: () => Effect.succeed({ provider: { kilo: { options } } }) })),
+    Layer.provide(TestConfig.layer({ get: () => Effect.succeed({ provider: { kappa: { options } } }) })),
     Layer.provide(auth),
     Layer.provide(models),
   )
@@ -84,7 +84,7 @@ for (const org of [false, true]) {
       auth: "none",
       key: undefined,
       env: undefined,
-      token: "configured-kilo-token",
+      token: "configured-kappa-token",
       org: "org-config",
     },
     { name: "empty Kilo token", auth: "none", key: undefined, env: undefined, token: "", org: "org-config" },
@@ -130,7 +130,7 @@ for (const org of [false, true]) {
           }),
           (fetch) => Effect.sync(() => fetch.mockRestore()),
         )
-        yield* ModelCache.Service.use((cache) => cache.fetch("kilo")).pipe(
+        yield* ModelCache.Service.use((cache) => cache.fetch("kappa")).pipe(
           Effect.provide(layer(info, captured, options)),
         )
         expect((yield* Ref.get(captured))?.kilocodeToken).toBe(item.token)
@@ -186,15 +186,15 @@ it.live("explicit fetch credentials override environment values, including expli
     })
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        yield* cache.fetch("kilo", { kilocodeToken: "explicit-token", kilocodeOrganizationId: "org-explicit" })
+        yield* cache.fetch("kappa", { kilocodeToken: "explicit-token", kilocodeOrganizationId: "org-explicit" })
         expect(yield* Ref.get(captured)).toMatchObject({
           kilocodeToken: "explicit-token",
           kilocodeOrganizationId: "org-explicit",
         })
-        yield* cache.refresh("kilo", { kilocodeToken: undefined, kilocodeOrganizationId: undefined })
+        yield* cache.refresh("kappa", { kilocodeToken: undefined, kilocodeOrganizationId: undefined })
         expect((yield* Ref.get(captured))?.kilocodeToken).toBeUndefined()
         expect((yield* Ref.get(captured))?.kilocodeOrganizationId).toBeUndefined()
-        yield* cache.refresh("kilo", { kilocodeToken: "", kilocodeOrganizationId: "" })
+        yield* cache.refresh("kappa", { kilocodeToken: "", kilocodeOrganizationId: "" })
         expect((yield* Ref.get(captured))?.kilocodeToken).toBe("")
         expect((yield* Ref.get(captured))?.kilocodeOrganizationId).toBe("")
       }),
@@ -208,8 +208,8 @@ it.live("rejects a model endpoint whose pinned Org conflicts with the selected e
     const captured = yield* Ref.make<Options | undefined>(undefined)
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        expect(yield* cache.fetch("kilo", { baseURL: "https://gateway.test/api/organizations/org-pinned" })).toEqual({})
-        expect(yield* cache.getFailure("kilo")).toEqual({ kind: "schema" })
+        expect(yield* cache.fetch("kappa", { baseURL: "https://gateway.test/api/organizations/org-pinned" })).toEqual({})
+        expect(yield* cache.getFailure("kappa")).toEqual({ kind: "schema" })
         expect(yield* Ref.get(captured)).toBeUndefined()
       }),
     ).pipe(Effect.provide(layer(undefined, captured)))
@@ -282,23 +282,23 @@ it.live("switch invalidation drops warm Personal and delayed prior catalogs", ()
     )
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        expect(Object.keys(yield* cache.fetch("kilo"))).toEqual(["personal"])
-        const pending = yield* cache.refresh("kilo").pipe(Effect.forkChild)
+        expect(Object.keys(yield* cache.fetch("kappa"))).toEqual(["personal"])
+        const pending = yield* cache.refresh("kappa").pipe(Effect.forkChild)
         yield* Deferred.await(started)
         yield* Ref.set(account, "org-a")
-        yield* cache.clear("kilo")
-        expect(yield* cache.get("kilo")).toBeUndefined()
-        expect(Object.keys(yield* cache.fetch("kilo"))).toEqual(["org-a"])
+        yield* cache.clear("kappa")
+        expect(yield* cache.get("kappa")).toBeUndefined()
+        expect(Object.keys(yield* cache.fetch("kappa"))).toEqual(["org-a"])
         yield* Deferred.succeed(wait, undefined)
         yield* Fiber.join(pending)
-        expect(Object.keys((yield* cache.get("kilo")) ?? {})).toEqual(["org-a"])
-        expect(yield* cache.getFailure("kilo")).toBeUndefined()
+        expect(Object.keys((yield* cache.get("kappa")) ?? {})).toEqual(["org-a"])
+        expect(yield* cache.getFailure("kappa")).toBeUndefined()
         yield* Ref.set(account, "org-b")
-        yield* cache.clear("kilo")
-        expect(Object.keys(yield* cache.fetch("kilo"))).toEqual(["org-b"])
+        yield* cache.clear("kappa")
+        expect(Object.keys(yield* cache.fetch("kappa"))).toEqual(["org-b"])
         yield* Ref.set(account, undefined)
-        yield* cache.clear("kilo")
-        expect(Object.keys(yield* cache.fetch("kilo"))).toEqual(["personal"])
+        yield* cache.clear("kappa")
+        expect(Object.keys(yield* cache.fetch("kappa"))).toEqual(["personal"])
         expect(calls.map((options) => options.kilocodeOrganizationId)).toEqual([
           undefined,
           undefined,
@@ -321,7 +321,7 @@ it.live("model fetch uses accountId from OAuth auth as kilocodeOrganizationId", 
       expires: Date.now() + 3600000,
       accountId: "org-enterprise-123",
     })
-    yield* ModelCache.Service.use((cache) => cache.fetch("kilo")).pipe(Effect.provide(layer(info, captured)))
+    yield* ModelCache.Service.use((cache) => cache.fetch("kappa")).pipe(Effect.provide(layer(info, captured)))
     expect(yield* Ref.get(captured)).toMatchObject({
       kilocodeToken: "test-oauth-token",
       kilocodeOrganizationId: "org-enterprise-123",
@@ -338,7 +338,7 @@ it.live("model fetch without OAuth accountId does not set kilocodeOrganizationId
       refresh: "test-refresh-token",
       expires: Date.now() + 3600000,
     })
-    yield* ModelCache.Service.use((cache) => cache.fetch("kilo")).pipe(Effect.provide(layer(info, captured)))
+    yield* ModelCache.Service.use((cache) => cache.fetch("kappa")).pipe(Effect.provide(layer(info, captured)))
     expect(yield* Ref.get(captured)).toMatchObject({ kilocodeToken: "test-personal-token" })
     expect((yield* Ref.get(captured))?.kilocodeOrganizationId).toBeUndefined()
   }),
@@ -356,18 +356,18 @@ it.live("ModelCache.clear removes cached entry so next fetch hits the network", 
     })
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        yield* cache.fetch("kilo")
+        yield* cache.fetch("kappa")
         expect(yield* Ref.get(captured)).toBeDefined()
 
         yield* Ref.set(captured, undefined)
-        yield* cache.fetch("kilo")
+        yield* cache.fetch("kappa")
         expect(yield* Ref.get(captured)).toBeUndefined()
-        expect(yield* cache.get("kilo")).toBeDefined()
+        expect(yield* cache.get("kappa")).toBeDefined()
 
-        yield* cache.clear("kilo")
-        expect(yield* cache.get("kilo")).toBeUndefined()
+        yield* cache.clear("kappa")
+        expect(yield* cache.get("kappa")).toBeUndefined()
 
-        yield* cache.fetch("kilo")
+        yield* cache.fetch("kappa")
         expect(yield* Ref.get(captured)).toBeDefined()
       }),
     ).pipe(Effect.provide(layer(info, captured)))

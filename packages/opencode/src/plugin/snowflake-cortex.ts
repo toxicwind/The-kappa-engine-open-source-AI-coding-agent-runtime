@@ -1,4 +1,4 @@
-import type { Hooks, PluginInput } from "@kilocode/plugin"
+import type { Hooks, PluginInput } from "@kappacode/plugin"
 import { OAUTH_DUMMY_KEY } from "../auth"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { KiloOauthCallbackPage as OauthCallbackPage } from "@opencode-ai/core/kilocode/oauth/page" // kilocode_change - Kilo-branded callback page

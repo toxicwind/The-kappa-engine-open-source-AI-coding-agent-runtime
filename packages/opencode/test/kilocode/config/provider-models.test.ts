@@ -14,7 +14,7 @@ test("skips malformed models without dropping valid siblings", () => {
         },
       },
     },
-    "kilo.json",
+    "kappa.json",
   )
 
   expect(result.config).toEqual({
@@ -29,7 +29,7 @@ test("skips malformed models without dropping valid siblings", () => {
   })
   expect(result.warnings).toEqual([
     {
-      path: "kilo.json",
+      path: "kappa.json",
       message: "Skipped invalid model configuration at provider.litellm.models.bad",
       detail: "The remaining models for this provider were kept.",
     },
@@ -40,7 +40,7 @@ test("keeps a model whose ID is __proto__ without changing the model map prototy
   const input = JSON.parse(
     '{"provider":{"litellm":{"models":{"__proto__":{"limit":{"context":128000,"output":8192}}}}}}',
   )
-  const result = ProviderModels.sanitize(input, "kilo.json")
+  const result = ProviderModels.sanitize(input, "kappa.json")
   const config = result.config as {
     provider: { litellm: { models: Record<string, unknown> } }
   }

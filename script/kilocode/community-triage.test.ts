@@ -25,7 +25,7 @@ describe("areas", () => {
   })
 
   test("reads changed paths and prefers agent-manager over vscode", () => {
-    const files = ["packages/kilo-vscode/src/agent-manager/a.ts", "packages/kilo-vscode/src/x.ts", "README.md"]
+    const files = ["packages/kappa-vscode/src/agent-manager/a.ts", "packages/kappa-vscode/src/x.ts", "README.md"]
     expect(areas("fix: thing", files)).toEqual(["area:agent-manager", "area:vscode"])
   })
 
@@ -40,7 +40,7 @@ describe("areas", () => {
   })
 
   test("maps the web UI package", () => {
-    expect(areas("fix: x", ["packages/kilo-web-ui/src/a.ts"])).toEqual(["area:desktop"])
+    expect(areas("fix: x", ["packages/kappa-web-ui/src/a.ts"])).toEqual(["area:desktop"])
   })
 })
 

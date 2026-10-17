@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { RemoteExit } from "../../../../src/kilo-sessions/remote-exit"
+import { RemoteExit } from "../../../../src/kappa-sessions/remote-exit"
 import { RemoteExitRpc } from "../../../../src/kilocode/cli/cmd/tui/remote-exit-rpc"
 import { createWorkerRemoteExit } from "../../../../src/kilocode/cli/cmd/tui/remote-exit-worker"
 

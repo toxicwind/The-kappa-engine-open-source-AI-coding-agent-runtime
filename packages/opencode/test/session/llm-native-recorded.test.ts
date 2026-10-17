@@ -27,7 +27,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { LayerNodePlatform } from "@opencode-ai/core/effect/app-node-platform"
 
 const FIXTURES_DIR = path.join(import.meta.dir, "../fixtures/recordings")
-const KILO_FIXTURES_DIR = path.join(FIXTURES_DIR, "kilocode") // kilocode_change
+const KILO_FIXTURES_DIR = path.join(FIXTURES_DIR, "kappacode") // kilocode_change
 
 const zenURL = (connection: string) => `https://console.opencode.ai/proxy/connections/${connection}/v1` // kilocode_change
 
@@ -294,7 +294,7 @@ const writeConfig = (directory: string, scenario: RecordedScenario, model: Model
   Effect.promise(() =>
     Bun.write(
       path.join(directory, "opencode.json"),
-      JSON.stringify({ $schema: "https://app.kilo.ai/config.json", ...scenario.config(model) }), // kilocode_change
+      JSON.stringify({ $schema: "https://app.kappa.ai/config.json", ...scenario.config(model) }), // kilocode_change
     ),
   )
 

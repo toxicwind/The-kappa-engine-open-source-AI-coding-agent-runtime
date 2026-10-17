@@ -3,8 +3,8 @@ import { $ } from "bun"
 import { Effect } from "effect"
 import fs from "node:fs/promises"
 import path from "node:path"
-import { CodeIndexManager } from "@kilocode/kilo-indexing/engine"
-import { normalizeIndexingStatus } from "@kilocode/kilo-indexing/status"
+import { CodeIndexManager } from "@kappacode/kappa-indexing/engine"
+import { normalizeIndexingStatus } from "@kappacode/kappa-indexing/status"
 import type { Config } from "../../src/config/config"
 import { GlobalBus } from "../../src/bus/global"
 import { WorkspaceV2 } from "@opencode-ai/core/workspace"
@@ -24,7 +24,7 @@ Log.init({ print: false })
 const fetch = global.fetch
 
 const cfg: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     enabled: true,
     provider: "ollama",
@@ -36,7 +36,7 @@ const cfg: Partial<Config.Info> = {
 }
 
 const unset: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     provider: "ollama",
     vectorStore: "qdrant",
@@ -46,22 +46,22 @@ const unset: Partial<Config.Info> = {
   },
 }
 const inactive: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     enabled: false,
     provider: "ollama",
     vectorStore: "qdrant",
   },
 }
-const kilo: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+const kappa: Partial<Config.Info> = {
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     enabled: true,
     vectorStore: "qdrant",
   },
 }
 const implicitOpenAi: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     enabled: true,
     vectorStore: "qdrant",
@@ -71,10 +71,10 @@ const implicitOpenAi: Partial<Config.Info> = {
   },
 }
 const staleKilo: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     enabled: true,
-    provider: "kilo",
+    provider: "kappa",
     model: "custom/model",
     dimension: 2048,
     vectorStore: "qdrant",
@@ -145,12 +145,12 @@ describe("indexing model catalog", () => {
       init: async (dir) => {
         const global = path.join(dir, "global")
         const project = path.join(dir, "project")
-        await fs.mkdir(path.join(project, ".kilo"), { recursive: true })
+        await fs.mkdir(path.join(project, ".kappa"), { recursive: true })
         await fs.mkdir(global, { recursive: true })
-        await Bun.write(path.join(global, "kilo.jsonc"), "{}")
+        await Bun.write(path.join(global, "kappa.jsonc"), "{}")
         await Bun.write(
-          path.join(project, ".kilo", "kilo.jsonc"),
-          JSON.stringify({ indexing: { kilo: { baseUrl: "http://127.0.0.1:4567" } } }),
+          path.join(project, ".kappa", "kappa.jsonc"),
+          JSON.stringify({ indexing: { kappa: { baseUrl: "http://127.0.0.1:4567" } } }),
         )
         return { global, project }
       },
@@ -169,7 +169,7 @@ describe("indexing model catalog", () => {
     }) as typeof fetch
 
     const response = await Server.Default().app.request("/indexing/models", {
-      headers: { "x-kilo-directory": tmp.extra.project },
+      headers: { "x-kappa-directory": tmp.extra.project },
     })
 
     const catalogs = calls.filter((url) => url.includes("embedding-models"))
@@ -191,7 +191,7 @@ describe("indexing startup degradation", () => {
 
       const config = await app.request("/config", {
         headers: {
-          "x-kilo-directory": tmp.path,
+          "x-kappa-directory": tmp.path,
         },
       })
       expect(config.status).toBe(200)
@@ -199,7 +199,7 @@ describe("indexing startup degradation", () => {
       const body = await wait(async () => {
         const status = await app.request("/indexing/status", {
           headers: {
-            "x-kilo-directory": tmp.path,
+            "x-kappa-directory": tmp.path,
           },
         })
         expect(status.status).toBe(200)
@@ -277,7 +277,7 @@ describe("indexing startup degradation", () => {
         for (const _ of Array.from({ length: 100 })) {
           const response = await app.request("/indexing/warnings", {
             headers: {
-              "x-kilo-directory": tmp.path,
+              "x-kappa-directory": tmp.path,
             },
           })
           expect(response.status).toBe(200)
@@ -391,7 +391,7 @@ describe("indexing startup degradation", () => {
 
       const config = await app.request("/config", {
         headers: {
-          "x-kilo-directory": tmp.path,
+          "x-kappa-directory": tmp.path,
         },
       })
       expect(config.status).toBe(200)
@@ -400,7 +400,7 @@ describe("indexing startup degradation", () => {
         method: "PUT",
         headers: {
           "content-type": "application/json",
-          "x-kilo-directory": tmp.path,
+          "x-kappa-directory": tmp.path,
         },
         body: JSON.stringify({ enabled: true }),
       })
@@ -555,7 +555,7 @@ describe("indexing startup degradation", () => {
             expect(await KiloIndexing.available()).toBe(false)
             expect(KiloIndexing.ready()).toBe(false)
             expect(await KiloIndexing.search("filesystem root")).toEqual([])
-            const warnings = await app.request("/config/warnings", { headers: { "x-kilo-directory": directory } })
+            const warnings = await app.request("/config/warnings", { headers: { "x-kappa-directory": directory } })
             expect(warnings.status).toBe(200)
             expect(await warnings.json()).toContainEqual(expect.objectContaining({ message }))
             expect(created).toEqual([])
@@ -563,7 +563,7 @@ describe("indexing startup degradation", () => {
         })
       }
     }
-    const warnings = await app.request("/config/warnings", { headers: { "x-kilo-directory": tmp.path } })
+    const warnings = await app.request("/config/warnings", { headers: { "x-kappa-directory": tmp.path } })
     expect(warnings.status).toBe(200)
     expect(await warnings.json()).not.toContainEqual(expect.objectContaining({ message }))
   })
@@ -628,7 +628,7 @@ describe("indexing startup degradation", () => {
     }
     await using tmp = await tmpdir({ git: true, config })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -658,12 +658,12 @@ describe("indexing startup degradation", () => {
         ...staleKilo.indexing,
         enabled: false,
         model: "removed/model",
-        kilo: { baseUrl: "not a url" },
+        kappa: { baseUrl: "not a url" },
       },
     }
     await using tmp = await tmpdir({ git: true, config })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -819,9 +819,9 @@ describe("indexing startup degradation", () => {
     const key = process.env.KILO_API_KEY
     const org = process.env.KILO_ORG_ID
 
-    await using tmp = await tmpdir({ git: true, config: kilo })
+    await using tmp = await tmpdir({ git: true, config: kappa })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
     process.env.KILO_ORG_ID = "org_123"
 
     try {
@@ -831,8 +831,8 @@ describe("indexing startup degradation", () => {
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
-            embedderProvider: "kilo",
-            kiloApiKey: "kilo-token",
+            embedderProvider: "kappa",
+            kiloApiKey: "kappa-token",
             kiloOrganizationId: "org_123",
             modelId: "mistralai/mistral-embed-2312",
             modelDimension: 1024,
@@ -868,7 +868,7 @@ describe("indexing startup degradation", () => {
 
     await using tmp = await tmpdir({ git: true, config: staleKilo })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -919,7 +919,7 @@ describe("indexing startup degradation", () => {
     }
     await using tmp = await tmpdir({ git: true, config })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -928,7 +928,7 @@ describe("indexing startup degradation", () => {
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
-            embedderProvider: "kilo",
+            embedderProvider: "kappa",
             modelId: "mistralai/mistral-embed-2312",
             modelDimension: 1024,
             searchMinScore: 0.35,
@@ -978,7 +978,7 @@ describe("indexing startup degradation", () => {
 
     await using tmp = await tmpdir({ git: true, config })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -987,7 +987,7 @@ describe("indexing startup degradation", () => {
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
-            embedderProvider: "kilo",
+            embedderProvider: "kappa",
             modelId: "openai/text-embedding-3-small",
             modelDimension: 1536,
           })
@@ -1007,7 +1007,7 @@ describe("indexing startup degradation", () => {
 
     await using tmp = await tmpdir({ git: true, config: staleKilo })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -1016,7 +1016,7 @@ describe("indexing startup degradation", () => {
         fn: async () => {
           await called(init)
           expect(init.mock.calls[0]?.[0]).toMatchObject({
-            embedderProvider: "kilo",
+            embedderProvider: "kappa",
             modelId: undefined,
             modelDimension: undefined,
             searchMinScore: undefined,
@@ -1036,7 +1036,7 @@ describe("indexing startup degradation", () => {
 
     await using tmp = await tmpdir({ git: true, config: implicitOpenAi })
     process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kilo-token"
+    process.env.KILO_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({

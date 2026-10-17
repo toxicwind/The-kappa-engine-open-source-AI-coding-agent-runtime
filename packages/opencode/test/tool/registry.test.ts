@@ -18,14 +18,14 @@ import { ToolJsonSchema } from "@/tool/json-schema"
 import { MessageID, SessionID } from "@/session/schema"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import * as SandboxNetwork from "@/kilocode/sandbox/network" // kilocode_change
-import { run as runSandbox, type Profile } from "@kilocode/sandbox" // kilocode_change
+import { run as runSandbox, type Profile } from "@kappacode/sandbox" // kilocode_change
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { MCP } from "@/mcp"
 import type { Tool as MCPToolDef } from "@modelcontextprotocol/sdk/types.js"
 
 const configLayer = TestConfig.layer({
-  directories: () => InstanceState.directory.pipe(Effect.map((dir) => [path.join(dir, ".kilo")])), // kilocode_change
+  directories: () => InstanceState.directory.pipe(Effect.map((dir) => [path.join(dir, ".kappa")])), // kilocode_change
 })
 
 type RegistryLayerOptions = {
@@ -419,10 +419,10 @@ describe("tool.registry", () => {
   )
   // kilocode_change end
 
-  it.instance("loads tools from .kilo/tool (singular)" /* kilocode_change */, () =>
+  it.instance("loads tools from .kappa/tool (singular)" /* kilocode_change */, () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const opencode = path.join(test.directory, ".kilo") // kilocode_change
+      const opencode = path.join(test.directory, ".kappa") // kilocode_change
       const tool = path.join(opencode, "tool")
       yield* Effect.promise(() => fs.mkdir(tool, { recursive: true }))
       yield* Effect.promise(() =>
@@ -446,10 +446,10 @@ describe("tool.registry", () => {
     }),
   )
 
-  it.instance("ignores non-tool exports in .kilo/tool files" /* kilocode_change */, () =>
+  it.instance("ignores non-tool exports in .kappa/tool files" /* kilocode_change */, () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const tool = path.join(test.directory, ".kilo", "tool") // kilocode_change
+      const tool = path.join(test.directory, ".kappa", "tool") // kilocode_change
       yield* Effect.promise(() => fs.mkdir(tool, { recursive: true }))
       yield* Effect.promise(() =>
         Bun.write(
@@ -482,7 +482,7 @@ describe("tool.registry", () => {
   it.instance("tolerates a custom tool exporting null/undefined args (no-args fallback)", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const tool = path.join(test.directory, ".kilo", "tool") // kilocode_change
+      const tool = path.join(test.directory, ".kappa", "tool") // kilocode_change
       yield* Effect.promise(() => fs.mkdir(tool, { recursive: true }))
       yield* Effect.promise(() =>
         Bun.write(
@@ -524,10 +524,10 @@ describe("tool.registry", () => {
     }),
   )
 
-  it.instance("loads tools from .kilo/tools (plural)" /* kilocode_change */, () =>
+  it.instance("loads tools from .kappa/tools (plural)" /* kilocode_change */, () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const opencode = path.join(test.directory, ".kilo") // kilocode_change
+      const opencode = path.join(test.directory, ".kappa") // kilocode_change
       const tools = path.join(opencode, "tools")
       yield* Effect.promise(() => fs.mkdir(tools, { recursive: true }))
       yield* Effect.promise(() =>
@@ -554,7 +554,7 @@ describe("tool.registry", () => {
   it.instance("loads Zod-schema custom tools with JSON Schema and validation", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const customTools = path.join(test.directory, ".kilo", "tools") // kilocode_change
+      const customTools = path.join(test.directory, ".kappa", "tools") // kilocode_change
       const pluginTool = pathToFileURL(path.resolve(import.meta.dir, "../../../plugin/src/tool.ts")).href
       yield* Effect.promise(() => fs.mkdir(customTools, { recursive: true }))
       yield* Effect.promise(() =>
@@ -607,9 +607,9 @@ describe("tool.registry", () => {
     () =>
       Effect.gen(function* () {
         const test = yield* TestInstance
-        const opencode = path.join(test.directory, ".kilo") // kilocode_change
+        const opencode = path.join(test.directory, ".kappa") // kilocode_change
         const customTools = path.join(opencode, "tools")
-        const plugin = path.join(opencode, "node_modules", "@kilocode", "plugin") // kilocode_change
+        const plugin = path.join(opencode, "node_modules", "@kappacode", "plugin") // kilocode_change
         yield* Effect.promise(() => fs.mkdir(path.join(plugin, "dist"), { recursive: true }))
         yield* Effect.promise(() => fs.mkdir(customTools, { recursive: true }))
         yield* Effect.promise(() =>
@@ -621,7 +621,7 @@ describe("tool.registry", () => {
         yield* Effect.promise(() =>
           Bun.write(
             path.join(plugin, "package.json"),
-            JSON.stringify({ name: "@kilocode/plugin", type: "module", exports: { ".": "./dist/index.js" } }), // kilocode_change
+            JSON.stringify({ name: "@kappacode/plugin", type: "module", exports: { ".": "./dist/index.js" } }), // kilocode_change
           ),
         )
         yield* Effect.promise(() =>
@@ -641,7 +641,7 @@ describe("tool.registry", () => {
           Bun.write(
             path.join(customTools, "addition.ts"),
             [
-              'import { tool } from "@kilocode/plugin"', // kilocode_change
+              'import { tool } from "@kappacode/plugin"', // kilocode_change
               "export default tool({",
               "  description: 'Use this tool to add two numbers and return their sum.',",
               "  args: {",
@@ -672,7 +672,7 @@ describe("tool.registry", () => {
   it.instance("preserves attachments from structured custom tool results", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const customTools = path.join(test.directory, ".kilo", "tools") // kilocode_change
+      const customTools = path.join(test.directory, ".kappa", "tools") // kilocode_change
       const pluginTool = pathToFileURL(path.resolve(import.meta.dir, "../../../plugin/src/tool.ts")).href
       yield* Effect.promise(() => fs.mkdir(customTools, { recursive: true }))
       yield* Effect.promise(() =>
@@ -717,7 +717,7 @@ describe("tool.registry", () => {
   it.instance("loads legacy JSON-schema-shaped custom tools with wire schema", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const tools = path.join(test.directory, ".kilo", "tools") // kilocode_change
+      const tools = path.join(test.directory, ".kappa", "tools") // kilocode_change
       yield* Effect.promise(() => fs.mkdir(tools, { recursive: true }))
       yield* Effect.promise(() =>
         Bun.write(
@@ -749,7 +749,7 @@ describe("tool.registry", () => {
   it.instance("loads tools with external dependencies without crashing", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const opencode = path.join(test.directory, ".kilo") // kilocode_change
+      const opencode = path.join(test.directory, ".kappa") // kilocode_change
       const tools = path.join(opencode, "tools")
       yield* Effect.promise(() => fs.mkdir(tools, { recursive: true }))
       yield* Effect.promise(() =>
@@ -758,7 +758,7 @@ describe("tool.registry", () => {
           JSON.stringify({
             name: "custom-tools",
             dependencies: {
-              "@kilocode/plugin": "^0.0.0",
+              "@kappacode/plugin": "^0.0.0",
               cowsay: "^1.6.0",
             },
           }),
@@ -773,7 +773,7 @@ describe("tool.registry", () => {
             packages: {
               "": {
                 dependencies: {
-                  "@kilocode/plugin": "^0.0.0",
+                  "@kappacode/plugin": "^0.0.0",
                   cowsay: "^1.6.0",
                 },
               },

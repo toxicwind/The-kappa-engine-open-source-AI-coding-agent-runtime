@@ -32,7 +32,7 @@ export const RemoteCommand = lazy({
 
 export const DaemonCommand = lazy({
   command: "daemon",
-  describe: "manage the local kilo daemon",
+  describe: "manage the local kappa daemon",
   load: async () => (await import("@/kilocode/cli/cmd/daemon")).DaemonCommand,
 })
 

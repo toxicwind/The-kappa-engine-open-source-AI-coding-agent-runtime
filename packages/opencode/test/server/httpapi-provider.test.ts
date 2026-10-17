@@ -109,7 +109,7 @@ function writeProviderAuthPlugin(dir: string) {
     yield* Effect.promise(() => preparePluginDependencies(dir)) // kilocode_change
 
     yield* fs.writeWithDirs(
-      path.join(dir, ".kilo", "plugin", "provider-oauth-parity.ts"), // kilocode_change
+      path.join(dir, ".kappa", "plugin", "provider-oauth-parity.ts"), // kilocode_change
       [
         "export default {",
         '  id: "test.provider-oauth-parity",',
@@ -144,7 +144,7 @@ function writeProviderAuthValidationPlugin(dir: string) {
     yield* Effect.promise(() => preparePluginDependencies(dir)) // kilocode_change
 
     yield* fs.writeWithDirs(
-      path.join(dir, ".kilo", "plugin", "provider-oauth-validation.ts"), // kilocode_change
+      path.join(dir, ".kappa", "plugin", "provider-oauth-validation.ts"), // kilocode_change
       [
         "export default {",
         '  id: "test.provider-oauth-validation",',
@@ -186,7 +186,7 @@ function writeFunctionOptionsPlugin(dir: string) {
     yield* Effect.promise(() => preparePluginDependencies(dir)) // kilocode_change
 
     yield* fs.writeWithDirs(
-      path.join(dir, ".kilo", "plugin", "provider-function-options.ts"), // kilocode_change
+      path.join(dir, ".kappa", "plugin", "provider-function-options.ts"), // kilocode_change
       [
         "export default {",
         '  id: "test.provider-function-options",',
@@ -218,7 +218,7 @@ function writeProviderModelsMutationPlugin(dir: string) {
     yield* Effect.promise(() => preparePluginDependencies(dir)) // kilocode_change
 
     yield* fs.writeWithDirs(
-      path.join(dir, ".kilo", "plugin", "provider-models-mutation.ts"), // kilocode_change
+      path.join(dir, ".kappa", "plugin", "provider-models-mutation.ts"), // kilocode_change
       [
         "export default {",
         '  id: "test.provider-models-mutation",',
@@ -266,7 +266,7 @@ describe("provider HttpApi", () => {
     Effect.gen(function* () {
       const directory = (yield* TestInstance).directory
       const response = yield* request("/api/provider/missing", {
-        headers: { "x-kilo-directory": directory },
+        headers: { "x-kappa-directory": directory },
       })
 
       expect(response.status).toBe(404)
@@ -283,7 +283,7 @@ describe("provider HttpApi", () => {
     "serves OAuth authorize response shapes",
     Effect.gen(function* () {
       const directory = (yield* TestInstance).directory
-      const headers = { "x-kilo-directory": directory, "content-type": "application/json" }
+      const headers = { "x-kappa-directory": directory, "content-type": "application/json" }
       const api = yield* requestAuthorize({
         providerID,
         method: 0,
@@ -318,7 +318,7 @@ describe("provider HttpApi", () => {
         providerID: "test-oauth-validation",
         method: 0,
         inputs: { token: "nope" },
-        headers: { "x-kilo-directory": directory, "content-type": "application/json" },
+        headers: { "x-kappa-directory": directory, "content-type": "application/json" },
       })
 
       expect(response.status).toBe(400)
@@ -338,7 +338,7 @@ describe("provider HttpApi", () => {
       const response = yield* requestCallback({
         providerID,
         method: 0,
-        headers: { "x-kilo-directory": directory, "content-type": "application/json" },
+        headers: { "x-kappa-directory": directory, "content-type": "application/json" },
       })
 
       expect(response.status).toBe(400)
@@ -361,7 +361,7 @@ describe("provider HttpApi", () => {
           google: { type: "oauth", refresh: "dummy", access: "dummy", expires: 9999999999999 },
         }),
       )
-      const headers = { "x-kilo-directory": directory }
+      const headers = { "x-kappa-directory": directory }
       const providerResponse = yield* request("/provider", { headers })
       const configResponse = yield* request("/config/providers", { headers })
 
@@ -388,7 +388,7 @@ describe("provider HttpApi", () => {
     Effect.gen(function* () {
       const directory = (yield* TestInstance).directory
 
-      const headers = { "x-kilo-directory": directory }
+      const headers = { "x-kappa-directory": directory }
       const providerResponse = yield* request("/provider", { headers })
       const configResponse = yield* request("/config/providers", { headers })
 

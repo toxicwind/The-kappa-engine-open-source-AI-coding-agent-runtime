@@ -636,7 +636,7 @@ it.instance(
   () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
-      const skillDir = path.join(test.directory, ".kilo", "skill", "perm-skill") // kilocode_change
+      const skillDir = path.join(test.directory, ".kappa", "skill", "perm-skill") // kilocode_change
       yield* Effect.promise(() =>
         Bun.write(
           path.join(skillDir, "SKILL.md"),

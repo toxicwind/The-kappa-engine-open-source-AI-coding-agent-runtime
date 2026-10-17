@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import * as SDK from "@kilocode/sdk/v2"
+import * as SDK from "@kappacode/sdk/v2"
 import { RunCommand } from "@/cli/cmd/run"
 import { KiloRunDrain } from "@/kilocode/cli/run-drain"
 
@@ -72,7 +72,7 @@ function idle(): Event {
 function args() {
   return {
     _: [],
-    $0: "kilo",
+    $0: "kappa",
     message: ["hi"],
     command: undefined,
     continue: false,
@@ -102,7 +102,7 @@ const tty = Object.getOwnPropertyDescriptor(process.stdin, "isTTY")
 const stream = Bun.stdin.stream
 
 afterEach(async () => {
-  await mock.module("@kilocode/sdk/v2", () => actual)
+  await mock.module("@kappacode/sdk/v2", () => actual)
   process.exitCode = exitCode ?? 0
   Bun.stdin.stream = stream
   if (tty) {
@@ -131,7 +131,7 @@ async function run(
       return { data: true }
     },
   }
-  await mock.module("@kilocode/sdk/v2", () => ({
+  await mock.module("@kappacode/sdk/v2", () => ({
     createKiloClient: (config: { fetch?: () => Promise<Response> }) => {
       config.fetch = async () =>
         Response.json({

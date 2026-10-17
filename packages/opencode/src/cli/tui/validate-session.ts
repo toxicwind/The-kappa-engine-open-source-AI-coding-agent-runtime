@@ -1,4 +1,4 @@
-import { createKiloClient } from "@kilocode/sdk/v2"
+import { createKiloClient } from "@kappacode/sdk/v2"
 import { SessionID } from "@/session/schema"
 import { Schema } from "effect"
 

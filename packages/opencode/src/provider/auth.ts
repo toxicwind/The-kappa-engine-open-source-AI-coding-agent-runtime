@@ -1,5 +1,5 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import type { AuthOAuthResult, Hooks } from "@kilocode/plugin"
+import type { AuthOAuthResult, Hooks } from "@kappacode/plugin"
 import { serviceUse } from "@opencode-ai/core/effect/service-use"
 import { Auth } from "@/auth"
 import { InstanceState } from "@/effect/instance-state"
@@ -10,7 +10,7 @@ import { Array as Arr, Effect, Layer, Record, Result, Context, Schema } from "ef
 import { errorMessage } from "@/util/error" // kilocode_change
 
 // kilocode_change start
-import { Telemetry } from "@kilocode/kilo-telemetry"
+import { Telemetry } from "@kappacode/kappa-telemetry"
 import { ModelCache } from "./model-cache"
 // kilocode_change end
 
@@ -232,7 +232,7 @@ const layer: Layer.Layer<Service, never, Auth.Service | Plugin.Service | ModelCa
       }
 
       // kilocode_change start - Update telemetry identity on Kilo auth
-      if (input.providerID === "kilo") {
+      if (input.providerID === "kappa") {
         const info = yield* auth.get(input.providerID)
         if (info) {
           const token = info.type === "oauth" ? info.access : info.type === "api" ? info.key : null

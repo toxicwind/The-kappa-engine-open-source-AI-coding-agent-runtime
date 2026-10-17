@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import type { Event } from "@kilocode/sdk/v2"
+import type { Event } from "@kappacode/sdk/v2"
 import { createRoot, createSignal } from "solid-js"
 import { createStore } from "solid-js/store"
 import { KiloTerminalActivity as Activity } from "../../src/kilocode/cli/cmd/tui/terminal-activity"
@@ -79,7 +79,7 @@ test("opt-in emitter sends transitions, heartbeat and cleanup independently of t
         const state = value.split(";").at(4)!
         if (state === "done" && output.at(-1) === "done") heartbeat.resolve()
         output.push(state)
-        expect(value).toMatch(/^\x1b\]777;kilo;activity;1;\w+;\d+\x07$/)
+        expect(value).toMatch(/^\x1b\]777;kappa;activity;1;\w+;\d+\x07$/)
       },
     }
     for (const enabled of [undefined, "", "0", "true"]) Activity.use({ ...opts, enabled })

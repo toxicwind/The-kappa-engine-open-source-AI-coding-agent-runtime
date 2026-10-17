@@ -13,7 +13,7 @@ export const OpenRouterPlugin = define({
           if (item.provider.api.package !== "@openrouter/ai-sdk-provider") continue
           if (item.provider.id !== ProviderV2.ID.openrouter) continue // kilocode_change
           evt.provider.update(item.provider.id, (provider) => {
-            provider.request.headers["HTTP-Referer"] = "https://kilo.ai/" // kilocode_change
+            provider.request.headers["HTTP-Referer"] = "https://kappa.ai/" // kilocode_change
             provider.request.headers["X-Title"] = "Kilo Code" // kilocode_change
           })
           for (const modelID of [ModelV2.ID.make("gpt-5-chat-latest"), ModelV2.ID.make("openai/gpt-5-chat")]) {

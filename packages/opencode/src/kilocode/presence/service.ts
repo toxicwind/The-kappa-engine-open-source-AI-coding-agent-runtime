@@ -1,6 +1,6 @@
 import { Auth } from "@/auth"
 import { EventServiceClient } from "@/kilocode/event-service/client"
-import { KILO_EVENT_SERVICE_URL } from "@kilocode/kilo-gateway"
+import { KILO_EVENT_SERVICE_URL } from "@kappacode/kappa-gateway"
 import * as Log from "@opencode-ai/core/util/log"
 import { Context, Effect, Layer } from "effect"
 import type { Platform } from "./context"
@@ -17,7 +17,7 @@ import {
   type ViewerState,
 } from "./policy"
 
-const log = Log.create({ service: "kilo-viewers" })
+const log = Log.create({ service: "kappa-viewers" })
 
 function inferPlatform(): Platform | undefined {
   const p = process.env.KILO_PLATFORM
@@ -50,13 +50,13 @@ export namespace KiloViewers {
     readonly invalidateAuth: () => Effect.Effect<void>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kilocode/KiloViewers") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/KiloViewers") {}
 
   export const layer = Layer.effect(
     Service,
     Effect.gen(function* () {
       const auth = yield* Auth.Service
-      const KiloSessions = (yield* Effect.promise(() => import("@/kilo-sessions/kilo-sessions"))).KiloSessions
+      const KiloSessions = (yield* Effect.promise(() => import("@/kappa-sessions/kappa-sessions"))).KiloSessions
 
       const platform = inferPlatform()
       const killSwitch = process.env.KILO_DISABLE_PRESENCE === "1"
@@ -167,7 +167,7 @@ export namespace KiloViewers {
         }, delay)
       }
 
-      const readAuth = auth.get("kilo").pipe(Effect.orElseSucceed((): Auth.Info | undefined => undefined))
+      const readAuth = auth.get("kappa").pipe(Effect.orElseSucceed((): Auth.Info | undefined => undefined))
 
       const update = Effect.fn("KiloViewers.update")(function* (snapshot: ViewerSnapshot) {
         const info = yield* readAuth

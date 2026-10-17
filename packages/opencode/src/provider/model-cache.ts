@@ -1,5 +1,5 @@
 // kilocode_change - new file
-import { fetchKiloModels, type KiloModelsResult } from "@kilocode/kilo-gateway"
+import { fetchKiloModels, type KiloModelsResult } from "@kappacode/kappa-gateway"
 import { Context, Deferred, Duration, Effect, Exit, Fiber, Layer, Schema, Scope } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http"
 import { Config } from "../config/config"
@@ -26,7 +26,7 @@ export interface KiloModels {
 }
 
 export class KiloModelsService extends Context.Service<KiloModelsService, KiloModels>()(
-  "@kilocode/ModelCache/KiloModels",
+  "@kappacode/ModelCache/KiloModels",
 ) {}
 
 export const kiloModelsLayer = Layer.succeed(
@@ -51,7 +51,7 @@ export interface Interface {
   readonly clear: (providerID: string) => Effect.Effect<void>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@kilocode/ModelCache") {}
+export class Service extends Context.Service<Service, Interface>()("@kappacode/ModelCache") {}
 
 const log = Log.create({ service: "model-cache" })
 const ttl = Duration.minutes(5)
@@ -69,7 +69,7 @@ export const layer: Layer.Layer<
   Effect.gen(function* () {
     const auth = yield* Auth.Service
     const cfg = yield* Config.Service
-    const kilo = yield* KiloModelsService
+    const kappa = yield* KiloModelsService
     const http = yield* HttpClient.HttpClient
     const scope = yield* Scope.Scope
     const cells = new Map<string, Cell>()
@@ -124,11 +124,11 @@ export const layer: Layer.Layer<
     })
 
     const authOptions = Effect.fn("ModelCache.authOptions")(function* (providerID: string) {
-      if (providerID !== "kilo" && providerID !== "apertis") return {}
+      if (providerID !== "kappa" && providerID !== "apertis") return {}
       const config = yield* cfg.get()
       const options: Options = {}
 
-      if (providerID === "kilo") {
+      if (providerID === "kappa") {
         const item = config.provider?.[providerID]
         const info = yield* auth.get(providerID)
         options.kilocodeOrganizationId = organization(item?.options, info)
@@ -160,14 +160,14 @@ export const layer: Layer.Layer<
     })
 
     const fetchModels = (providerID: string, options: Options): Effect.Effect<Result, unknown> => {
-      if (providerID === "kilo") return kilo.fetch(options)
+      if (providerID === "kappa") return kappa.fetch(options)
       if (providerID === "apertis") return fetchApertisModels(options).pipe(Effect.map((models) => ({ models })))
       log.debug("provider not implemented", { providerID })
       return Effect.succeed({ models: {} })
     }
 
     const load = Effect.fn("ModelCache.load")(function* (providerID: string, options: Options) {
-      if (providerID === "kilo" && !compatible(options)) return { models: {}, error: { kind: "schema" as const } }
+      if (providerID === "kappa" && !compatible(options)) return { models: {}, error: { kind: "schema" as const } }
       return yield* fetchModels(providerID, options)
     })
 
@@ -184,7 +184,7 @@ export const layer: Layer.Layer<
     })
 
     const key = (providerID: string, options?: Options) => {
-      if (providerID === "kilo") {
+      if (providerID === "kappa") {
         return JSON.stringify([providerID, options?.baseURL, options?.kilocodeOrganizationId, options?.kilocodeToken])
       }
       if (providerID === "apertis") return JSON.stringify([providerID, options?.baseURL, options?.apiKey])
@@ -221,7 +221,7 @@ export const layer: Layer.Layer<
       Effect.gen(function* () {
         if ((versions.get(providerID) ?? 0) !== version) return result.models
         const empty = Object.keys(result.models).length === 0
-        const recovered = providerID === "kilo" && entry.view.empty && !empty && !result.error
+        const recovered = providerID === "kappa" && entry.view.empty && !empty && !result.error
         if (result.error) {
           failures.set(providerID, result.error)
           log.warn("model fetch error", { providerID, error: result.error })
@@ -323,7 +323,7 @@ export const layer: Layer.Layer<
 
     const recover = Effect.fn("ModelCache.recover")(function* (entry: Cell, result: Result) {
       if (
-        entry.providerID !== "kilo" ||
+        entry.providerID !== "kappa" ||
         selected.get(entry.providerID) !== entry ||
         active.get(entry.providerID) !== entry ||
         entry.recovery ||
@@ -382,7 +382,7 @@ export const layer: Layer.Layer<
 
 export const defaultLayer: Layer.Layer<Service> = Layer.suspend(() => AppNodeBuilder.build(node)) // kilocode_change - build from the LayerNode graph
 
-const kiloModels = LayerNode.make({ name: "kilo-models", layer: kiloModelsLayer, deps: [] })
+const kiloModels = LayerNode.make({ name: "kappa-models", layer: kiloModelsLayer, deps: [] })
 export const node = LayerNode.make({
   service: Service,
   layer,

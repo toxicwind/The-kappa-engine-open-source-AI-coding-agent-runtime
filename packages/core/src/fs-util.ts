@@ -1,5 +1,5 @@
 import { NodeFileSystem } from "@effect/platform-node"
-import { decorateFileSystem, ensureDirectory } from "@kilocode/sandbox" // kilocode_change
+import { decorateFileSystem, ensureDirectory } from "@kappacode/sandbox" // kilocode_change
 import { dirname, isAbsolute, join, relative, resolve as pathResolve, sep } from "path"
 import { realpathSync } from "fs"
 import * as NFS from "fs/promises"

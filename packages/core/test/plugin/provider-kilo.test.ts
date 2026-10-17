@@ -6,7 +6,7 @@ import { ModelV2 } from "@opencode-ai/core/model" // kilocode_change
 import { PluginV2 } from "@opencode-ai/core/plugin"
 import { PluginHost } from "@opencode-ai/core/plugin/host"
 import { ProviderPlugins } from "@opencode-ai/core/plugin/provider"
-import { KiloPlugin } from "@opencode-ai/core/plugin/provider/kilo"
+import { KiloPlugin } from "@opencode-ai/core/plugin/provider/kappa"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
@@ -44,27 +44,27 @@ function withEnv<A, E, R>(vars: Record<string, string | undefined>, effect: () =
 
 describe("KiloPlugin", () => {
   it.effect("is registered so legacy referer headers can be applied", () =>
-    Effect.sync(() => expect(ProviderPlugins.map((item) => item.id)).toContain(PluginV2.ID.make("kilo"))),
+    Effect.sync(() => expect(ProviderPlugins.map((item) => item.id)).toContain(PluginV2.ID.make("kappa"))),
   )
 
-  it.effect("applies legacy referer headers only to kilo", () =>
+  it.effect("applies legacy referer headers only to kappa", () =>
     Effect.gen(function* () {
       const catalog = yield* Catalog.Service
       yield* catalog.transform((catalog) => {
-        catalog.provider.update(ProviderV2.ID.make("kilo"), (provider) => {
+        catalog.provider.update(ProviderV2.ID.make("kappa"), (provider) => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
-            url: "https://api.kilo.ai/api/gateway",
+            url: "https://api.kappa.ai/api/gateway",
           }
           provider.request = { headers: { Existing: "value" }, body: {} }
         })
         catalog.provider.update(ProviderV2.ID.openrouter, () => {})
       })
       yield* addPlugin()
-      expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo")))?.request.headers).toEqual({
+      expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://kilo.ai/",
+        "HTTP-Referer": "https://kappa.ai/",
         "X-Title": "Kilo Code", // kilocode_change
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter))?.request.headers).toEqual({})
@@ -75,25 +75,25 @@ describe("KiloPlugin", () => {
     Effect.gen(function* () {
       const catalog = yield* Catalog.Service
       yield* catalog.transform((catalog) => {
-        catalog.provider.update(ProviderV2.ID.make("kilo"), (provider) => {
+        catalog.provider.update(ProviderV2.ID.make("kappa"), (provider) => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
-            url: "https://api.kilo.ai/api/gateway",
+            url: "https://api.kappa.ai/api/gateway",
           }
         })
       })
       yield* addPlugin()
 
-      expect((yield* catalog.provider.get(ProviderV2.ID.kilo))?.request.headers).toEqual({
-        "HTTP-Referer": "https://kilo.ai/",
+      expect((yield* catalog.provider.get(ProviderV2.ID.kappa))?.request.headers).toEqual({
+        "HTTP-Referer": "https://kappa.ai/",
         "X-Title": "Kilo Code", // kilocode_change
       })
-      expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo")))?.request.headers).not.toHaveProperty(
+      expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).not.toHaveProperty(
         "http-referer",
       )
-      expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo")))?.request.headers).not.toHaveProperty("x-title")
-      expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo")))?.request.headers).not.toHaveProperty("X-Source")
+      expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).not.toHaveProperty("x-title")
+      expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).not.toHaveProperty("X-Source")
     }),
   )
 
@@ -101,24 +101,24 @@ describe("KiloPlugin", () => {
     Effect.gen(function* () {
       const catalog = yield* Catalog.Service
       yield* catalog.transform((catalog) => {
-        catalog.provider.update(ProviderV2.ID.make("kilo"), (provider) => {
+        catalog.provider.update(ProviderV2.ID.make("kappa"), (provider) => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
-            url: "https://api.kilo.ai/api/gateway",
+            url: "https://api.kappa.ai/api/gateway",
           }
         })
-        catalog.provider.update(ProviderV2.ID.make("custom-kilo"), (provider) => {
-          provider.api = { type: "aisdk", package: "kilo" }
+        catalog.provider.update(ProviderV2.ID.make("custom-kappa"), (provider) => {
+          provider.api = { type: "aisdk", package: "kappa" }
         })
       })
       yield* addPlugin()
 
-      expect((yield* catalog.provider.get(ProviderV2.ID.kilo))?.request.headers).toEqual({
-        "HTTP-Referer": "https://kilo.ai/",
+      expect((yield* catalog.provider.get(ProviderV2.ID.kappa))?.request.headers).toEqual({
+        "HTTP-Referer": "https://kappa.ai/",
         "X-Title": "Kilo Code", // kilocode_change
       })
-      expect((yield* catalog.provider.get(ProviderV2.ID.make("custom-kilo")))?.request.headers).toEqual({})
+      expect((yield* catalog.provider.get(ProviderV2.ID.make("custom-kappa")))?.request.headers).toEqual({})
     }),
   )
 
@@ -129,35 +129,35 @@ describe("KiloPlugin", () => {
         const aisdk = yield* AISDK.Service
         const catalog = yield* Catalog.Service
         yield* catalog.transform((catalog) => {
-          catalog.provider.update(ProviderV2.ID.kilo, (provider) => {
+          catalog.provider.update(ProviderV2.ID.kappa, (provider) => {
             provider.api = {
               type: "aisdk",
               package: "@ai-sdk/openai-compatible",
-              url: "https://api.kilo.ai/api/gateway",
+              url: "https://api.kappa.ai/api/gateway",
             }
             provider.request = { headers: {}, body: { apiKey: "stored-token" } }
           })
         })
         yield* addPlugin()
-        const updated = yield* catalog.provider.get(ProviderV2.ID.kilo)
+        const updated = yield* catalog.provider.get(ProviderV2.ID.kappa)
 
         expect(updated?.api).toEqual({
           type: "aisdk",
-          package: "@kilocode/kilo-gateway",
-          url: "https://api.kilo.ai/api/openrouter",
+          package: "@kappacode/kappa-gateway",
+          url: "https://api.kappa.ai/api/openrouter",
         })
         expect(updated?.request.body.kilocodeToken).toBe("stored-token")
 
         const result = yield* aisdk.runSDK({
           model: ModelV2.Info.make({
-            ...ModelV2.Info.empty(ProviderV2.ID.kilo, ModelV2.ID.make("kilo-auto/free")),
+            ...ModelV2.Info.empty(ProviderV2.ID.kappa, ModelV2.ID.make("kappa-auto/free")),
             api: {
-              id: ModelV2.ID.make("kilo-auto/free"),
+              id: ModelV2.ID.make("kappa-auto/free"),
               type: "aisdk",
-              package: "@kilocode/kilo-gateway",
+              package: "@kappacode/kappa-gateway",
             },
           }),
-          package: "@kilocode/kilo-gateway",
+          package: "@kappacode/kappa-gateway",
           options: updated?.request.body ?? {},
         })
         expect(result.sdk).toBeDefined()
@@ -172,7 +172,7 @@ describe("KiloPlugin", () => {
       Effect.gen(function* () {
         const catalog = yield* Catalog.Service
         yield* catalog.transform((catalog) => {
-          catalog.provider.update(ProviderV2.ID.kilo, (provider) => {
+          catalog.provider.update(ProviderV2.ID.kappa, (provider) => {
             provider.request = {
               headers: {},
               body: { apiKey: "authenticated-token", kilocodeOrganizationId: "authenticated-org" },
@@ -180,7 +180,7 @@ describe("KiloPlugin", () => {
           })
         })
         yield* addPlugin()
-        const result = yield* catalog.provider.get(ProviderV2.ID.kilo)
+        const result = yield* catalog.provider.get(ProviderV2.ID.kappa)
 
         expect(result?.request.body.apiKey).toBe("authenticated-token")
         expect(result?.request.body.kilocodeToken).toBe("authenticated-token")
@@ -193,11 +193,11 @@ describe("KiloPlugin", () => {
     withEnv({ KILO_API_KEY: undefined, KILO_ORG_ID: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Catalog.Service
-        yield* catalog.transform((catalog) => catalog.provider.update(ProviderV2.ID.kilo, () => {}))
+        yield* catalog.transform((catalog) => catalog.provider.update(ProviderV2.ID.kappa, () => {}))
         yield* addPlugin()
-        const result = yield* catalog.provider.get(ProviderV2.ID.kilo)
+        const result = yield* catalog.provider.get(ProviderV2.ID.kappa)
 
-        expect((yield* catalog.provider.available()).map((provider) => provider.id)).toContain(ProviderV2.ID.kilo)
+        expect((yield* catalog.provider.available()).map((provider) => provider.id)).toContain(ProviderV2.ID.kappa)
         expect(result?.request.body.apiKey).toBe("anonymous")
         expect(result?.request.body.kilocodeToken).toBe("anonymous")
       }),

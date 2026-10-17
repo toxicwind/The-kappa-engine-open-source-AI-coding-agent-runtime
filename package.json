@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@kilocode/kilo",
+  "name": "@kappacode/kappa",
   "description": "AI-powered development tool",
   "private": true,
   "type": "module",
@@ -25,7 +25,7 @@
     "dev-setup": "bun run --cwd packages/opencode --conditions=browser src/index.ts dev-setup",
     "dev:local": "bun run packages/opencode/script/dev-local.ts",
     "make": "bun install && bun run --cwd packages/opencode script/build.ts --single --skip-install && du -h packages/opencode/dist/*/*/bin/kilo",
-    "make:nativelink": "BUN_BUILD_REMOTE_CACHE=grpc://127.0.0.1:25155 bun install && bun run --cwd packages/opencode script/build.ts --single --skip-install && du -h packages/opencode/dist/*/*/bin/kilo",
+    "make:nativelink": "MISE_CACHE_REMOTE_URL=http://127.0.0.1:25148 mise run kilo-build && du -h packages/opencode/dist/*/*/bin/kilo",
     "kmake-test": "bun script/kmake-test.ts start",
     "kmake-test:status": "bun script/kmake-test.ts status",
     "kmake-test:kill": "bun script/kmake-test.ts kill",

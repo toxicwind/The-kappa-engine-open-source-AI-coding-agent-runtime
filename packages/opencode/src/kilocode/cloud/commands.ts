@@ -189,7 +189,7 @@ export namespace CloudCommands {
           agent: { mode: defaults.mode, model: defaults.model },
           repository,
           options: {
-            createdOnPlatform: "kilo-cli",
+            createdOnPlatform: "kappa-cli",
             ...(defaults.organizationID ? { kilocodeOrganizationId: defaults.organizationID } : {}),
           },
         } satisfies AgentStartRequest

@@ -6,8 +6,8 @@
  * in the Session route. Kept out of `routes/session/index.tsx` so the
  * upstream-shared session route stays free of Kilo telemetry plumbing.
  */
-import { Telemetry } from "@kilocode/kilo-telemetry"
-import type { AssistantMessage, Message } from "@kilocode/sdk/v2"
+import { Telemetry } from "@kappacode/kappa-telemetry"
+import type { AssistantMessage, Message } from "@kappacode/sdk/v2"
 import type { DialogContext } from "@tui/ui/dialog"
 import type { ToastContext } from "@tui/ui/toast"
 
@@ -44,7 +44,7 @@ export function submitFeedback(rating: "up" | "down", dialog: DialogContext, ctx
   }
   const variant = (lastAssistant as AssistantMessage & { variant?: string }).variant
   if (variant) payload.variant = variant
-  if (providerID === "kilo") {
+  if (providerID === "kappa") {
     payload.sessionID = lastAssistant.sessionID
     payload.messageID = lastAssistant.id
     payload.parentMessageID = lastAssistant.parentID

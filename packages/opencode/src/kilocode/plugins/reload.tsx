@@ -1,4 +1,4 @@
-import type { TuiPlugin, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginModule } from "@kappacode/plugin/tui"
 
 const id = "internal:reload"
 

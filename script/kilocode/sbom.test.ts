@@ -9,14 +9,14 @@ const DIGEST = "a".repeat(64)
 
 function bom(overrides: Partial<Parameters<typeof compose>[0]> = {}) {
   return compose({
-    subject: { name: "kilo-linux-x64.tar.gz", sha256: DIGEST, size: 10 },
-    product: { name: "kilo-cli", version: "7.7.9" },
+    subject: { name: "kappa-linux-x64.tar.gz", sha256: DIGEST, size: 10 },
+    product: { name: "kappa-cli", version: "7.7.9" },
     ...overrides,
   })
 }
 
 async function scratch() {
-  return fs.promises.mkdtemp(path.join(os.tmpdir(), "kilo-sbom-test-"))
+  return fs.promises.mkdtemp(path.join(os.tmpdir(), "kappa-sbom-test-"))
 }
 
 describe("compose", () => {
@@ -31,7 +31,7 @@ describe("compose", () => {
     const document = bom()
     expect(document.metadata.component).toMatchObject({ hashes: [{ alg: "SHA-256", content: DIGEST }] })
     const properties = document.metadata.properties as { name: string; value: string }[]
-    expect(properties).toContainEqual({ name: "kilocode:subject:name", value: "kilo-linux-x64.tar.gz" })
+    expect(properties).toContainEqual({ name: "kilocode:subject:name", value: "kappa-linux-x64.tar.gz" })
     expect(properties).toContainEqual({ name: "kilocode:subject:sha256", value: DIGEST })
   })
 
@@ -200,9 +200,9 @@ describe("dedupe", () => {
   test("resolves a contained-versus-runtime conflict to contained, in either order", () => {
     const contained = {
       type: "application" as const,
-      name: "kilo",
+      name: "kappa",
       version: "7.7.9",
-      ref: "kilo",
+      ref: "kappa",
       delivery: "contained" as const,
     }
     const runtime = { ...contained, delivery: "runtime" as const }
@@ -355,13 +355,13 @@ describe("deps", () => {
     workspaces: {
       "": { name: "root" },
       "packages/app": {
-        name: "@kilo/app",
+        name: "@kappa/app",
         version: "1.0.0",
-        dependencies: { shipped: "1.0.0", "@kilo/lib": "workspace:*" },
+        dependencies: { shipped: "1.0.0", "@kappa/lib": "workspace:*" },
         devDependencies: { tooling: "1.0.0" },
         optionalDependencies: { "native-linux": "1.0.0", "native-darwin": "1.0.0" },
       },
-      "packages/lib": { name: "@kilo/lib", version: "2.0.0", dependencies: { nested: "1.0.0" } },
+      "packages/lib": { name: "@kappa/lib", version: "2.0.0", dependencies: { nested: "1.0.0" } },
     },
     packages: {
       shipped: ["shipped@1.0.0", "", { dependencies: { transitive: "1.0.0" } }, "sha512-shipped"],
@@ -371,7 +371,7 @@ describe("deps", () => {
       tooling: ["tooling@1.0.0", "", {}, "sha512-tooling"],
       "native-linux": ["native-linux@1.0.0", "", { os: ["linux"], cpu: ["x64"] }, "sha512-native-linux"],
       "native-darwin": ["native-darwin@1.0.0", "", { os: ["darwin"] }, "sha512-native-darwin"],
-      "@kilo/lib": ["@kilo/lib@workspace:packages/lib"],
+      "@kappa/lib": ["@kappa/lib@workspace:packages/lib"],
     },
   }
 
@@ -395,7 +395,7 @@ describe("deps", () => {
 
   test("records workspace packages as first-party without inventing npm purls", () => {
     const result = Deps.closure({ lock, workspace: "packages/app" })
-    const workspace = result.components.find((item) => item.name === "@kilo/lib")
+    const workspace = result.components.find((item) => item.name === "@kappa/lib")
     expect(workspace).toMatchObject({ version: "2.0.0", supplier: "Kilo Code", properties: { origin: "workspace" } })
     expect(workspace?.purl).toBeUndefined()
     expect(result.components.map((item) => item.name)).toContain("nested")
@@ -421,7 +421,7 @@ describe("deps", () => {
   test("reports unresolvable dependencies as gaps", () => {
     const broken: Deps.Lock = {
       ...lock,
-      workspaces: { ...lock.workspaces, "packages/app": { name: "@kilo/app", dependencies: { ghost: "1.0.0" } } },
+      workspaces: { ...lock.workspaces, "packages/app": { name: "@kappa/app", dependencies: { ghost: "1.0.0" } } },
     }
     const result = Deps.closure({ lock: broken, workspace: "packages/app" })
     expect(result.gaps).toEqual([{ component: "ghost", reason: "not resolvable from <root> in bun.lock" }])
@@ -707,7 +707,7 @@ describe("scan", () => {
     const components = Scan.convert({
       metadata: { component: { "bom-ref": "root" } },
       components: [
-        { "bom-ref": "root", type: "file", name: "kilo-linux-x64.tar.gz" },
+        { "bom-ref": "root", type: "file", name: "kappa-linux-x64.tar.gz" },
         {
           "bom-ref": "pkg-1",
           type: "library",
@@ -756,7 +756,7 @@ describe("manifest", () => {
     const subject = await Artifact.subject(file)
     const document = compose({
       subject,
-      product: { name: "kilo-cli", version: "7.7.9" },
+      product: { name: "kappa-cli", version: "7.7.9" },
       ...overrides,
     })
     await Bun.write(Artifact.sidecar(file), `${JSON.stringify(document, null, 2)}\n`)
@@ -771,7 +771,7 @@ describe("manifest", () => {
   test("accepts a complete set", async () => {
     const dir = await scratch()
     try {
-      const entry = await fixture(dir, "kilo-linux-x64.tar.gz")
+      const entry = await fixture(dir, "kappa-linux-x64.tar.gz")
       const report = await Manifest.verify({
         manifest: { version: "7.7.9", product: "cli", generated: "", expected: 1, entries: [entry] },
         dir,
@@ -791,7 +791,7 @@ describe("manifest", () => {
           product: "cli",
           generated: "",
           expected: 1,
-          entries: [{ artifact: "kilo-linux-x64.tar.gz", sha256: DIGEST, sbom: "kilo-linux-x64.tar.gz.cdx.json" }],
+          entries: [{ artifact: "kappa-linux-x64.tar.gz", sha256: DIGEST, sbom: "kappa-linux-x64.tar.gz.cdx.json" }],
         },
         dir,
       })
@@ -805,7 +805,7 @@ describe("manifest", () => {
   test("detects a sidecar generated for different bytes", async () => {
     const dir = await scratch()
     try {
-      const entry = await fixture(dir, "kilo-linux-x64.tar.gz")
+      const entry = await fixture(dir, "kappa-linux-x64.tar.gz")
       const report = await Manifest.verify({
         manifest: {
           version: "7.7.9",
@@ -826,7 +826,7 @@ describe("manifest", () => {
   test("detects an incomplete artifact set", async () => {
     const dir = await scratch()
     try {
-      const entry = await fixture(dir, "kilo-linux-x64.tar.gz")
+      const entry = await fixture(dir, "kappa-linux-x64.tar.gz")
       const report = await Manifest.verify({
         manifest: { version: "7.7.9", product: "cli", generated: "", expected: 12, entries: [entry] },
         dir,
@@ -898,7 +898,7 @@ describe("manifest", () => {
         product: "cli",
         generated: "",
         expected: 1,
-        entries: [{ artifact: "@kilocode/cli@7.7.9", sha256: "", error: "failed" }],
+        entries: [{ artifact: "@kappacode/cli@7.7.9", sha256: "", error: "failed" }],
       },
       dir: "/nonexistent",
     })
@@ -908,13 +908,13 @@ describe("manifest", () => {
   test("writes checksums for artifacts and their sidecars", async () => {
     const dir = await scratch()
     try {
-      const entry = await fixture(dir, "kilo-linux-x64.tar.gz")
+      const entry = await fixture(dir, "kappa-linux-x64.tar.gz")
       const text = await Manifest.checksums({
         manifest: { version: "7.7.9", product: "cli", generated: "", expected: 1, entries: [entry] },
         dir,
       })
-      expect(text).toContain(`${entry.sha256}  kilo-linux-x64.tar.gz\n`)
-      expect(text).toContain("  kilo-linux-x64.tar.gz.cdx.json\n")
+      expect(text).toContain(`${entry.sha256}  kappa-linux-x64.tar.gz\n`)
+      expect(text).toContain("  kappa-linux-x64.tar.gz.cdx.json\n")
     } finally {
       await fs.promises.rm(dir, { recursive: true, force: true })
     }
@@ -972,10 +972,10 @@ describe("artifact", () => {
   test("hashes and names a real file", async () => {
     const dir = await scratch()
     try {
-      const file = path.join(dir, "kilo-darwin-arm64.zip")
+      const file = path.join(dir, "kappa-darwin-arm64.zip")
       await Bun.write(file, "bytes")
       const subject = await Artifact.subject(file)
-      expect(subject.name).toBe("kilo-darwin-arm64.zip")
+      expect(subject.name).toBe("kappa-darwin-arm64.zip")
       expect(subject.size).toBe(5)
       expect(subject.sha256).toBe(new Bun.CryptoHasher("sha256").update("bytes").digest("hex"))
       expect(Artifact.sidecar(file)).toBe(`${file}.cdx.json`)

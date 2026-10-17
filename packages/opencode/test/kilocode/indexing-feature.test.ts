@@ -9,7 +9,7 @@ describe("indexing plugin helpers", () => {
   test("detects plugin-enabled configs", () => {
     expect(indexingEnabled({ plugin: ["global-plugin"] })).toBe(false)
     expect(indexingEnabled({ plugin: [INDEXING_PLUGIN] })).toBe(true)
-    expect(indexingEnabled({ plugin: ["@kilocode/kilo-indexing@1.0.0"] })).toBe(true)
+    expect(indexingEnabled({ plugin: ["@kappacode/kappa-indexing@1.0.0"] })).toBe(true)
   })
 
   test("adds indexing plugin when present but missing from config", () => {
@@ -19,8 +19,8 @@ describe("indexing plugin helpers", () => {
   })
 
   test("does not add duplicate indexing plugin", () => {
-    const list = ensureIndexingPlugin(["@kilocode/kilo-indexing@1.0.0"], INDEXING_PLUGIN)
-    expect(list).toEqual(["@kilocode/kilo-indexing@1.0.0"])
+    const list = ensureIndexingPlugin(["@kappacode/kappa-indexing@1.0.0"], INDEXING_PLUGIN)
+    expect(list).toEqual(["@kappacode/kappa-indexing@1.0.0"])
   })
 
   test("skips hard-enable when plugin package is unavailable", () => {

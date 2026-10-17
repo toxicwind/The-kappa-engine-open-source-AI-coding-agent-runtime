@@ -3,18 +3,18 @@ import path from "node:path"
 import { upload } from "./release"
 
 const NAMES = [
-  "kilo-linux-x64-musl.tar.gz",
-  "kilo-linux-x64.tar.gz",
-  "kilo-darwin-arm64.zip",
-  "kilo-windows-x64.zip",
-  "kilo-cli-SHA256SUMS",
+  "kappa-linux-x64-musl.tar.gz",
+  "kappa-linux-x64.tar.gz",
+  "kappa-darwin-arm64.zip",
+  "kappa-windows-x64.zip",
+  "kappa-cli-SHA256SUMS",
   "cli-sbom-evidence.json",
 ]
 const FILES = NAMES.map((name) => path.join("/tmp/dist", name))
 
 /** The exact payload the v7.8.6 publish run died on (run 37520899871). */
 const EXISTS = [
-  "HTTP 422: Validation Failed (https://uploads.github.com/repos/Kilo-Org/kilocode/releases/405082514/assets?label=&name=kilo-linux-x64-musl.tar.gz)",
+  "HTTP 422: Validation Failed (https://uploads.github.com/repos/Kilo-Org/kilocode/releases/405082514/assets?label=&name=kappa-linux-x64-musl.tar.gz)",
   "ReleaseAsset.name already exists",
 ].join("\n")
 
@@ -81,8 +81,8 @@ test("an asset that never landed fails the upload even though gh reported succes
   })
 
   await expect(result).rejects.toThrow(/2 asset\(s\) failed/)
-  await expect(result).rejects.toThrow(/kilo-darwin-arm64\.zip: not published \(state=starter\)/)
-  await expect(result).rejects.toThrow(/kilo-windows-x64\.zip: not published \(state=absent\)/)
+  await expect(result).rejects.toThrow(/kappa-darwin-arm64\.zip: not published \(state=starter\)/)
+  await expect(result).rejects.toThrow(/kappa-windows-x64\.zip: not published \(state=absent\)/)
 })
 
 test("uploads run in parallel but never exceed the configured concurrency", async () => {

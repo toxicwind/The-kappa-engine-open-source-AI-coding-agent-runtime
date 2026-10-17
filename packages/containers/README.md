@@ -16,8 +16,8 @@ Images
 Build
 
 ```
-REGISTRY=ghcr.io/kilo-org TAG=24.04 bun ./packages/containers/script/build.ts
-REGISTRY=ghcr.io/kilo-org TAG=24.04 bun ./packages/containers/script/build.ts --push
+REGISTRY=ghcr.io/kappa-org TAG=24.04 bun ./packages/containers/script/build.ts
+REGISTRY=ghcr.io/kappa-org TAG=24.04 bun ./packages/containers/script/build.ts --push
 ```
 
 Workflow usage
@@ -27,7 +27,7 @@ jobs:
   build-cli:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/kilo-org/build/bun-node:24.04
+      image: ghcr.io/kappa-org/build/bun-node:24.04
 ```
 
 Notes

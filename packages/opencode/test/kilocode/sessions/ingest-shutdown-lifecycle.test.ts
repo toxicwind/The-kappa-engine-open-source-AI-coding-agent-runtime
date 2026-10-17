@@ -1,5 +1,5 @@
 import { expect, spyOn, test } from "bun:test"
-import { clearInFlightCache } from "../../../src/kilo-sessions/inflight-cache"
+import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
 import { KiloShutdown } from "../../../src/kilocode/cli/shutdown"
 
 test("KiloSessions drains queued ingest before instance disposal", async () => {
@@ -9,9 +9,9 @@ test("KiloSessions drains queued ingest before instance disposal", async () => {
   let body: unknown
   process.env.KILO_API_KEY = "shutdown-token"
   process.env.KILO_SESSION_INGEST_URL = "https://ingest.test"
-  clearInFlightCache("kilo-sessions:token")
-  clearInFlightCache("kilo-sessions:client")
-  clearInFlightCache("kilo-sessions:token-valid:shutdown-token")
+  clearInFlightCache("kappa-sessions:token")
+  clearInFlightCache("kappa-sessions:client")
+  clearInFlightCache("kappa-sessions:token-valid:shutdown-token")
   await KiloShutdown.run()
 
   const request = spyOn(globalThis, "fetch").mockImplementation(
@@ -34,7 +34,7 @@ test("KiloSessions drains queued ingest before instance disposal", async () => {
   )
 
   try {
-    const url = new URL("../../../src/kilo-sessions/kilo-sessions.ts", import.meta.url)
+    const url = new URL("../../../src/kappa-sessions/kappa-sessions.ts", import.meta.url)
     url.searchParams.set("test", crypto.randomUUID())
     const { KiloSessions } = await import(url.href)
     await KiloSessions.bootstrap("session-shutdown")
@@ -51,9 +51,9 @@ test("KiloSessions drains queued ingest before instance disposal", async () => {
     else process.env.KILO_API_KEY = token
     if (base === undefined) delete process.env.KILO_SESSION_INGEST_URL
     else process.env.KILO_SESSION_INGEST_URL = base
-    clearInFlightCache("kilo-sessions:token")
-    clearInFlightCache("kilo-sessions:client")
-    clearInFlightCache("kilo-sessions:token-valid:shutdown-token")
+    clearInFlightCache("kappa-sessions:token")
+    clearInFlightCache("kappa-sessions:client")
+    clearInFlightCache("kappa-sessions:token-valid:shutdown-token")
     await KiloShutdown.run()
   }
 }, 30_000)

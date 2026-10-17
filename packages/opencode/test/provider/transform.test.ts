@@ -1696,7 +1696,7 @@ describe("ProviderTransform.schema - gemini non-object properties removal", () =
 
   test("sanitizes gemini schemas routed through the Kilo Gateway", () => {
     const gatewayGeminiModel = {
-      providerID: "kilocode",
+      providerID: "kappacode",
       api: {
         id: "google/gemini-2.5-pro",
       },
@@ -3733,13 +3733,13 @@ describe("ProviderTransform.message - cache control on gateway", () => {
     expect(result[1].content[1].providerOptions?.openai?.promptCacheBreakpoint).toBeUndefined()
   })
 
-  test("kilo gateway with openai gpt-5.6 applies caching options", () => {
+  test("kappa gateway with openai gpt-5.6 applies caching options", () => {
     const model = createModel({
-      providerID: "kilo",
+      providerID: "kappa",
       api: {
         id: "openai/gpt-5.6",
-        url: "https://api.kilo.ai/api/gateway",
-        npm: "@kilocode/kilo-gateway",
+        url: "https://api.kappa.ai/api/gateway",
+        npm: "@kappacode/kappa-gateway",
       },
       id: "openai/gpt-5.6",
     })
@@ -3893,7 +3893,7 @@ describe("ProviderTransform sampling defaults - DeepSeek", () => {
 
   test.each([
     ["deepseek", "deepseek-v4-flash"],
-    ["kilo", "deepseek/deepseek-v4-flash"], // kilocode_change
+    ["kappa", "deepseek/deepseek-v4-flash"], // kilocode_change
     ["opencode", "deepseek-v4-flash"],
     ["opencode-go", "deepseek-v4-flash"],
     ["openrouter", "deepseek/deepseek-v4-flash-0731"],
@@ -4679,20 +4679,20 @@ describe("ProviderTransform.variants", () => {
   })
 
   // kilocode_change start
-  describe("@kilocode/kilo-gateway", () => {
-    test("mercury-2 uses server-provided variants from kilo gateway", () => {
+  describe("@kappacode/kappa-gateway", () => {
+    test("mercury-2 uses server-provided variants from kappa gateway", () => {
       const serverVariants = {
         low: { reasoningEffort: "low" },
         medium: { reasoningEffort: "medium" },
         high: { reasoningEffort: "high" },
       }
       const model = createMockModel({
-        id: "kilo/inception/mercury-2",
-        providerID: "kilo",
+        id: "kappa/inception/mercury-2",
+        providerID: "kappa",
         api: {
           id: "inception/mercury-2",
-          url: "https://gateway.kilo.ai",
-          npm: "@kilocode/kilo-gateway",
+          url: "https://gateway.kappa.ai",
+          npm: "@kappacode/kappa-gateway",
         },
         variants: serverVariants,
       })
@@ -6069,15 +6069,15 @@ describe("ProviderTransform.variants", () => {
 
   // kilocode_change start
   describe("ProviderTransform.smallOptions", () => {
-    describe("@kilocode/kilo-gateway", () => {
+    describe("@kappacode/kappa-gateway", () => {
       test("claude models use their default reasoning effort", () => {
         const model = createMockModel({
-          id: "kilo/anthropic/claude-sonnet-4",
-          providerID: "kilo",
+          id: "kappa/anthropic/claude-sonnet-4",
+          providerID: "kappa",
           api: {
             id: "anthropic/claude-sonnet-4",
-            url: "https://gateway.kilo.ai",
-            npm: "@kilocode/kilo-gateway",
+            url: "https://gateway.kappa.ai",
+            npm: "@kappacode/kappa-gateway",
           },
         })
         const result = ProviderTransform.smallOptions(model)
@@ -6086,12 +6086,12 @@ describe("ProviderTransform.variants", () => {
 
       test("non-claude models use their default reasoning effort", () => {
         const model = createMockModel({
-          id: "kilo/openai/gpt-4",
-          providerID: "kilo",
+          id: "kappa/openai/gpt-4",
+          providerID: "kappa",
           api: {
             id: "openai/gpt-4",
-            url: "https://gateway.kilo.ai",
-            npm: "@kilocode/kilo-gateway",
+            url: "https://gateway.kappa.ai",
+            npm: "@kappacode/kappa-gateway",
           },
         })
         const result = ProviderTransform.smallOptions(model)
@@ -6100,12 +6100,12 @@ describe("ProviderTransform.variants", () => {
 
       test("google models use their default reasoning effort", () => {
         const model = createMockModel({
-          id: "kilo/google/gemini-2.0-flash",
-          providerID: "kilo",
+          id: "kappa/google/gemini-2.0-flash",
+          providerID: "kappa",
           api: {
             id: "google/gemini-2.0-flash",
-            url: "https://gateway.kilo.ai",
-            npm: "@kilocode/kilo-gateway",
+            url: "https://gateway.kappa.ai",
+            npm: "@kappacode/kappa-gateway",
           },
         })
         const result = ProviderTransform.smallOptions(model)
@@ -6388,9 +6388,9 @@ describe("ProviderTransform.options - OpenAI Responses API params guard", () => 
     expect(result.reasoningSummary).toBe("auto")
   })
 
-  test("includes reasoningSummary for @kilocode/kilo-gateway", () => {
+  test("includes reasoningSummary for @kappacode/kappa-gateway", () => {
     const result = ProviderTransform.options({
-      model: gpt5Model("@kilocode/kilo-gateway", "kilo"),
+      model: gpt5Model("@kappacode/kappa-gateway", "kappa"),
       sessionID,
     })
     expect(result.reasoningSummary).toBe("auto")

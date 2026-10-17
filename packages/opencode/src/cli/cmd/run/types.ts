@@ -11,7 +11,7 @@
 //     → stream.ts bridges to footer API
 //       → footer.ts queues commits and patches the footer view
 //         → OpenTUI split-footer renderer writes to terminal
-import type { KiloClient, PermissionRequest, QuestionRequest, ToolPart } from "@kilocode/sdk/v2"
+import type { KiloClient, PermissionRequest, QuestionRequest, ToolPart } from "@kappacode/sdk/v2"
 import type { TuiConfig } from "@opencode-ai/tui/config"
 
 export type RunFilePart = {

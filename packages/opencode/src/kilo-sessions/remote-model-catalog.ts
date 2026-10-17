@@ -1,4 +1,4 @@
-import type { ProviderListResponse } from "@kilocode/sdk/v2/client"
+import type { ProviderListResponse } from "@kappacode/sdk/v2/client"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { Provider } from "@/provider/provider"

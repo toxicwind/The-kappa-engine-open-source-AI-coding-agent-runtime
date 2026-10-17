@@ -1,4 +1,4 @@
-import type { Hooks } from "@kilocode/plugin"
+import type { Hooks } from "@kappacode/plugin"
 import * as Log from "@opencode-ai/core/util/log" // kilocode_change
 import { ModalModels } from "./models"
 

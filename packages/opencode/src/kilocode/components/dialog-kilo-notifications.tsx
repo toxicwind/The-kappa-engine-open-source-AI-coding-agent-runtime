@@ -11,7 +11,7 @@ import { useTheme } from "@tui/context/theme"
 import { useDialog } from "@tui/ui/dialog"
 import { Link } from "@tui/ui/link"
 import { TextAttributes } from "@opentui/core"
-import type { KilocodeNotification } from "@kilocode/kilo-gateway"
+import type { KilocodeNotification } from "@kappacode/kappa-gateway"
 
 interface DialogKiloNotificationsProps {
   notifications: KilocodeNotification[]

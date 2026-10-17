@@ -17,7 +17,7 @@ import type { TextareaRenderable } from "@opentui/core"
 import type { ScrollBoxRenderable } from "@opentui/core" // kilocode_change
 import { useKeyboard, useTerminalDimensions } from "@opentui/solid"
 import { For, Show, createEffect, createMemo, createSignal } from "solid-js"
-import type { QuestionRequest } from "@kilocode/sdk/v2"
+import type { QuestionRequest } from "@kappacode/sdk/v2"
 import {
   createQuestionBodyState,
   questionConfirm,

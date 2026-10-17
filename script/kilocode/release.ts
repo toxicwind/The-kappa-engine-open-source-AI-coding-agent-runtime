@@ -7,7 +7,7 @@
  * asset. The upload frequently commits server-side and the retry then collides with
  * the asset it just created:
  *
- *     HTTP 422: Validation Failed (.../assets?label=&name=kilo-linux-x64-musl.tar.gz)
+ *     HTTP 422: Validation Failed (.../assets?label=&name=kappa-linux-x64-musl.tar.gz)
  *     ReleaseAsset.name already exists
  *
  * 422 is not retryable, so `gh` fails the command, and the shared errgroup context

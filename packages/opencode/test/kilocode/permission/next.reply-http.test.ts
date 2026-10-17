@@ -18,7 +18,7 @@ describe("POST /permission/:requestID/reply", () => {
 
         const response = await server.request("/permission/permission_missing/reply", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-kilo-directory": tmp.path },
+          headers: { "Content-Type": "application/json", "x-kappa-directory": tmp.path },
           body: JSON.stringify({ reply: "once" }),
         })
 
@@ -45,7 +45,7 @@ describe("POST /permission/:requestID/always-rules", () => {
 
         const response = await server.request("/permission/permission_missing/always-rules", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-kilo-directory": tmp.path },
+          headers: { "Content-Type": "application/json", "x-kappa-directory": tmp.path },
           body: JSON.stringify({ approvedAlways: ["npm *"] }),
         })
 

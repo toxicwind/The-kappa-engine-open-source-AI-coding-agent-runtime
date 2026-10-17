@@ -2,8 +2,8 @@ import { Token } from "@/util/token"
 import { Identifier } from "@/id/id"
 import type { MessageV2 } from "@/session/message-v2"
 import { PartID, type SessionID } from "@/session/schema"
-import type { KiloMemory } from "@kilocode/kilo-memory/effect"
-import { MemoryMarkerMeta } from "@kilocode/kilo-memory/marker-meta"
+import type { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { MemoryMarkerMeta } from "@kappacode/kappa-memory/marker-meta"
 
 export namespace MemoryMarker {
   export type Info = MemoryMarkerMeta.Info

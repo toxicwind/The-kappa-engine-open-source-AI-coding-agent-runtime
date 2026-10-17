@@ -1,9 +1,9 @@
 // End-to-end proof of the experimental self-context tools through the real
-// `kilo run` CLI. The server process owns the tool registry, so the
+// `kappa run` CLI. The server process owns the tool registry, so the
 // experimental flags are set on the `serve` subprocess and the `run`
 // subprocess attaches to it.
 import { describe, expect } from "bun:test"
-import { createKiloClient } from "@kilocode/sdk/v2"
+import { createKiloClient } from "@kappacode/sdk/v2"
 import { Effect } from "effect"
 import { cliIt } from "../lib/cli-process"
 import { awaitWithTimeout } from "../lib/effect"

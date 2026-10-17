@@ -17,7 +17,7 @@ function app() {
   return Server.Default().app
 }
 
-async function update(target: ReturnType<typeof app>, provider: "kilo" | "openrouter") {
+async function update(target: ReturnType<typeof app>, provider: "kappa" | "openrouter") {
   return target.request("/global/config", {
     method: "PATCH",
     headers: { "content-type": "application/json" },
@@ -26,16 +26,16 @@ async function update(target: ReturnType<typeof app>, provider: "kilo" | "openro
 }
 
 async function provider(target: ReturnType<typeof app>, directory: string) {
-  const response = await target.request("/config", { headers: { "x-kilo-directory": directory } })
+  const response = await target.request("/config", { headers: { "x-kappa-directory": directory } })
   return (await response.json()).indexing?.provider as string | undefined
 }
 
 async function config(dir: string, value: object) {
-  await Bun.write(path.join(dir, "kilo.json"), JSON.stringify(value))
+  await Bun.write(path.join(dir, "kappa.json"), JSON.stringify(value))
 }
 
 async function edit(target: ReturnType<typeof app>, directory: string) {
-  const response = await target.request("/config", { headers: { "x-kilo-directory": directory } })
+  const response = await target.request("/config", { headers: { "x-kappa-directory": directory } })
   const body = (await response.json()) as { permission?: unknown }
   return Permission.evaluate(
     "edit",
@@ -69,13 +69,13 @@ describe("global config refresh", () => {
       await release.promise
     })
     try {
-      const pending = update(target, "kilo")
+      const pending = update(target, "kappa")
       await started.promise
       const early = await Promise.race([pending.then(() => true), Bun.sleep(10).then(() => false)])
       expect(early).toBe(false)
       release.resolve()
       expect((await pending).status).toBe(200)
-      expect(await provider(target, workspace.path)).toBe("kilo")
+      expect(await provider(target, workspace.path)).toBe("kappa")
     } finally {
       release.resolve()
       unregister()
@@ -92,7 +92,7 @@ describe("global config refresh", () => {
     }
     GlobalBus.on("event", listener)
     try {
-      expect((await update(target, "kilo")).status).toBe(200)
+      expect((await update(target, "kappa")).status).toBe(200)
     } finally {
       GlobalBus.off("event", listener)
     }

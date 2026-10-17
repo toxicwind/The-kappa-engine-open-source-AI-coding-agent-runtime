@@ -95,7 +95,7 @@ describe("Credential", () => {
               const service = yield* Credential.Service
               const all = yield* service.all()
               expect(all).toHaveLength(2)
-              const kilocode = Integration.ID.make("kilocode")
+              const kilocode = Integration.ID.make("kappacode")
               const listed = yield* service.list(kilocode)
               expect(listed).toHaveLength(1)
               expect(listed[0]).toMatchObject({
@@ -217,7 +217,7 @@ describe("Credential", () => {
         const file = path.join(tmp.path, "credential.db")
         const auth = path.join(tmp.path, "auth.json")
         const write = (key: string) =>
-          Effect.promise(() => Bun.write(auth, JSON.stringify({ kilo: { type: "api", key } })))
+          Effect.promise(() => Bun.write(auth, JSON.stringify({ kappa: { type: "api", key } })))
         return Effect.gen(function* () {
           yield* write("first")
           const store = yield* Database.Service
@@ -227,13 +227,13 @@ describe("Credential", () => {
           const before = yield* store.db
             .select()
             .from(CredentialTable)
-            .where(eq(CredentialTable.integration_id, Integration.ID.make("kilo")))
+            .where(eq(CredentialTable.integration_id, Integration.ID.make("kappa")))
             .get()
           yield* Layer.build(Layer.fresh(layer))
           const unchanged = yield* store.db
             .select()
             .from(CredentialTable)
-            .where(eq(CredentialTable.integration_id, Integration.ID.make("kilo")))
+            .where(eq(CredentialTable.integration_id, Integration.ID.make("kappa")))
             .get()
           expect(unchanged?.time_updated).toBe(before?.time_updated)
 
@@ -257,7 +257,7 @@ describe("Credential", () => {
           const stale = yield* store.db
             .select()
             .from(CredentialTable)
-            .where(eq(CredentialTable.integration_id, Integration.ID.make("kilo")))
+            .where(eq(CredentialTable.integration_id, Integration.ID.make("kappa")))
             .get()
           expect(stale?.value).toMatchObject({ type: "key", key: "first" })
 
@@ -265,7 +265,7 @@ describe("Credential", () => {
           const reconciled = yield* store.db
             .select()
             .from(CredentialTable)
-            .where(eq(CredentialTable.integration_id, Integration.ID.make("kilo")))
+            .where(eq(CredentialTable.integration_id, Integration.ID.make("kappa")))
             .get()
           expect(reconciled?.value).toMatchObject({ type: "key", key: "second" })
         }).pipe(Effect.provide(Database.layerFromPath(file)), Effect.scoped)

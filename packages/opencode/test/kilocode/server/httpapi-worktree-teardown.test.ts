@@ -63,14 +63,14 @@ function setAuth(password: string) {
 describe("POST /kilocode/worktree/teardown", () => {
   test("requires auth, rejects paths outside the managed directory, and only disposes loaded instances", async () => {
     await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
-    const worktree = path.join(tmp.path, ".kilo", "worktrees", "teardown")
+    const worktree = path.join(tmp.path, ".kappa", "worktrees", "teardown")
     await mkdir(worktree, { recursive: true })
     const route = (directory: string) => `/kilocode/worktree/teardown?directory=${encodeURIComponent(directory)}`
     const init = (body: unknown, authorization?: string): RequestInit => ({
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-kilo-directory": tmp.path,
+        "x-kappa-directory": tmp.path,
         ...(authorization ? { authorization } : {}),
       },
       body: JSON.stringify(body),
@@ -81,7 +81,7 @@ describe("POST /kilocode/worktree/teardown", () => {
 
     setAuth("secret")
     const secured = app({ password: "secret" })
-    const auth = ServerAuth.header({ username: "kilo", password: "secret" }) ?? ""
+    const auth = ServerAuth.header({ username: "kappa", password: "secret" }) ?? ""
 
     const outside = await secured.request(route(tmp.path), init({ worktree: tmp.path }, auth))
     expect(outside.status).toBe(400)
@@ -89,14 +89,14 @@ describe("POST /kilocode/worktree/teardown", () => {
     expect(nested.status).toBe(400)
     const escape = await secured.request(
       route(tmp.path),
-      init({ worktree: path.join(tmp.path, ".kilo", "worktrees", "..", "..") }, auth),
+      init({ worktree: path.join(tmp.path, ".kappa", "worktrees", "..", "..") }, auth),
     )
     expect(escape.status).toBe(400)
     // A symlinked entry would let disposeDirectory reach an instance outside the project.
-    await symlink(tmp.path, path.join(tmp.path, ".kilo", "worktrees", "linked"), "dir")
+    await symlink(tmp.path, path.join(tmp.path, ".kappa", "worktrees", "linked"), "dir")
     const linked = await secured.request(
       route(tmp.path),
-      init({ worktree: path.join(tmp.path, ".kilo", "worktrees", "linked") }, auth),
+      init({ worktree: path.join(tmp.path, ".kappa", "worktrees", "linked") }, auth),
     )
     expect(linked.status).toBe(400)
 
@@ -107,7 +107,7 @@ describe("POST /kilocode/worktree/teardown", () => {
 
     // Any directory-scoped request loads the worktree instance; teardown then disposes it.
     const load = await secured.request(`/path?directory=${encodeURIComponent(worktree)}`, {
-      headers: { authorization: auth, "x-kilo-directory": worktree },
+      headers: { authorization: auth, "x-kappa-directory": worktree },
     })
     expect(load.status).toBe(200)
     const warm = await secured.request(route(tmp.path), init({ worktree }, auth))

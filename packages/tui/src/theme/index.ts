@@ -14,8 +14,8 @@ import flexoki from "./assets/flexoki.json" with { type: "json" }
 import github from "./assets/github.json" with { type: "json" }
 import gruvbox from "./assets/gruvbox.json" with { type: "json" }
 import kanagawa from "./assets/kanagawa.json" with { type: "json" }
-import kilo from "./assets/kilo.json" with { type: "json" } // kilocode_change
-import kilo1 from "./assets/kilo-v1.json" with { type: "json" } // kilocode_change
+import kappa from "./assets/kappa.json" with { type: "json" } // kilocode_change
+import kilo1 from "./assets/kappa-v1.json" with { type: "json" } // kilocode_change
 import lucentOrng from "./assets/lucent-orng.json" with { type: "json" }
 import material from "./assets/material.json" with { type: "json" }
 import matrix from "./assets/matrix.json" with { type: "json" }
@@ -144,8 +144,8 @@ export const DEFAULT_THEMES: Record<string, ThemeJson> = {
   github,
   gruvbox,
   kanagawa,
-  kilo, // kilocode_change
-  ["kilo-v1"]: kilo1, // kilocode_change
+  kappa, // kilocode_change
+  ["kappa-v1"]: kilo1, // kilocode_change
   material,
   matrix,
   mercury,

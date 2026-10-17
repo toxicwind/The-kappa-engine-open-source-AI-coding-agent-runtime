@@ -14,7 +14,7 @@ import { ConfigErrorV1 as ConfigError } from "@opencode-ai/core/v1/config/error"
 import type { Config } from "../../config/config"
 import type { ConfigAgentV1 } from "@opencode-ai/core/v1/config/agent"
 import { ModesMigrator } from "../modes-migrator"
-import { fetchOrganizationModes } from "@kilocode/kilo-gateway"
+import { fetchOrganizationModes } from "@kappacode/kappa-gateway"
 import { RulesMigrator } from "../rules-migrator"
 import { WorkflowsMigrator } from "../workflows-migrator"
 import { McpMigrator } from "../mcp-migrator"
@@ -37,11 +37,11 @@ export namespace KilocodeConfig {
 
   // ── Config file constants ────────────────────────────────────────────
 
-  /** All config file names in precedence order (kilo + opencode). */
-  export const ALL_CONFIG_FILES = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json"] as const
+  /** All config file names in precedence order (kappa + opencode). */
+  export const ALL_CONFIG_FILES = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json"] as const
 
   /** Config directory suffixes in update-target preference order. */
-  export const KILO_DIR_SUFFIXES = [".kilo", ".kilocode"] as const
+  export const KILO_DIR_SUFFIXES = [".kappa", ".kilocode"] as const
 
   /**
    * List every project config file the read chain can merge: config files in
@@ -73,7 +73,7 @@ export namespace KilocodeConfig {
     writable: (config: Config.Info) => Config.Info
   }) {
     const files = yield* projectConfigFiles(input)
-    const file = files.find((item) => existsSync(item)) ?? path.join(input.directory, ".kilo", "kilo.jsonc")
+    const file = files.find((item) => existsSync(item)) ?? path.join(input.directory, ".kappa", "kappa.jsonc")
     const source = yield* input.read(file)
     const before = source ?? "{}"
     const patch = input.writable(input.config)
@@ -437,9 +437,9 @@ export namespace KilocodeConfig {
   ): Promise<{ agents: Record<string, ConfigAgentV1.Info>; warnings: Config.Warning[] }> {
     const warnings: Config.Warning[] = []
     try {
-      const kilo = auth["kilo"]
-      if (kilo?.type === "oauth" && kilo.access && kilo.accountId) {
-        const modes = await fetchOrganizationModes(kilo.access, kilo.accountId)
+      const kappa = auth["kappa"]
+      if (kappa?.type === "oauth" && kappa.access && kappa.accountId) {
+        const modes = await fetchOrganizationModes(kappa.access, kappa.accountId)
         if (modes.length > 0) {
           const agents = ModesMigrator.convertOrganizationModes(modes)
           log.debug("loaded organization custom modes", {
@@ -458,7 +458,7 @@ export namespace KilocodeConfig {
   // ── Bash permission migration ────────────────────────────────────────
 
   /** Global config file names in read-merge order (lowest-to-highest precedence). */
-  export const GLOBAL_CONFIG_FILES = ["config.json", "kilo.json", "kilo.jsonc", "opencode.json", "opencode.jsonc"]
+  export const GLOBAL_CONFIG_FILES = ["config.json", "kappa.json", "kappa.jsonc", "opencode.json", "opencode.jsonc"]
   const BASH_PERMISSION_MIGRATION = ".bash-permission-migrated"
 
   /**
@@ -677,16 +677,16 @@ export namespace KilocodeConfig {
 
   /** Check whether a directory path should be treated as a config directory (for loading config files). */
   export function isConfigDir(dir: string, flagDir?: string): boolean {
-    return dir.endsWith(".kilo") || dir.endsWith(".kilocode") || dir === flagDir
+    return dir.endsWith(".kappa") || dir.endsWith(".kilocode") || dir === flagDir
   }
 
   // ── Opencode config migration notice ─────────────────────────────────
 
   /** Client-neutral docs page describing where Kilo reads configuration from. */
-  export const CONFIG_DOCS_URL = "https://kilo.ai/docs/getting-started/settings"
+  export const CONFIG_DOCS_URL = "https://kappa.ai/docs/getting-started/settings"
 
   /** Stable id for the synthetic "move your opencode config" notification (used for client-side dismissal). */
-  export const OPENCODE_NOTIFICATION_ID = "kilo.local.opencode-config-detected"
+  export const OPENCODE_NOTIFICATION_ID = "kappa.local.opencode-config-detected"
 
   /**
    * Detect leftover opencode config directories. Kilo used to fall back to
@@ -700,7 +700,7 @@ export namespace KilocodeConfig {
   }): string[] {
     const found: string[] = []
 
-    // Global opencode config dir (sibling of the kilo global config dir, e.g. ~/.config/opencode).
+    // Global opencode config dir (sibling of the kappa global config dir, e.g. ~/.config/opencode).
     const globalDir = path.join(path.dirname(Global.Path.config), "opencode")
     if (existsSync(globalDir)) found.push(globalDir)
 
@@ -736,7 +736,7 @@ export namespace KilocodeConfig {
       message:
         `Kilo no longer falls back to opencode configuration. ` +
         `Found opencode config at ${found[0]}${suffix}. ` +
-        `Move it into a .kilo directory (project) or ${Global.Path.config} (global).`,
+        `Move it into a .kappa directory (project) or ${Global.Path.config} (global).`,
       action: { actionText: "Learn more", actionURL: CONFIG_DOCS_URL },
       showIn: ["cli", "extension"],
     }

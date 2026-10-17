@@ -2,12 +2,12 @@ import { describe, expect, test } from "bun:test"
 import { afterEach, mock, spyOn } from "bun:test"
 import { Effect } from "effect"
 import { ProjectV2 } from "@opencode-ai/core/project"
-import { RemoteCommand } from "../../../src/kilo-sessions/remote-command"
-import { RemoteModelCatalog } from "../../../src/kilo-sessions/remote-model-catalog"
-import { RemoteSender } from "../../../src/kilo-sessions/remote-sender"
-import type { PrLink } from "../../../src/kilo-sessions/pr-link"
-import type { RemoteWS } from "../../../src/kilo-sessions/remote-ws"
-import type { RemoteProtocol } from "../../../src/kilo-sessions/remote-protocol"
+import { RemoteCommand } from "../../../src/kappa-sessions/remote-command"
+import { RemoteModelCatalog } from "../../../src/kappa-sessions/remote-model-catalog"
+import { RemoteSender } from "../../../src/kappa-sessions/remote-sender"
+import type { PrLink } from "../../../src/kappa-sessions/pr-link"
+import type { RemoteWS } from "../../../src/kappa-sessions/remote-ws"
+import type { RemoteProtocol } from "../../../src/kappa-sessions/remote-protocol"
 import type { SessionPrompt } from "../../../src/session/prompt"
 import { Question } from "../../../src/question"
 import { QuestionID } from "../../../src/question/schema"
@@ -1374,7 +1374,7 @@ describe("RemoteSender", () => {
         sessionID: SessionID.make("ses_x"),
         parts: [{ type: "text", text: "hello" }],
         model: {
-          providerID: ProviderV2.ID.make("kilo"),
+          providerID: ProviderV2.ID.make("kappa"),
           modelID: ModelV2.ID.make("anthropic/claude-sonnet-4-20250514"),
         },
       },
@@ -1410,7 +1410,7 @@ describe("RemoteSender", () => {
       {
         sessionID: SessionID.make("ses_x"),
         parts: [{ type: "text", text: "hello" }],
-        model: { providerID: ProviderV2.ID.make("kilo"), modelID: ModelV2.ID.make("gpt-5-mini") },
+        model: { providerID: ProviderV2.ID.make("kappa"), modelID: ModelV2.ID.make("gpt-5-mini") },
       },
     ])
   })
@@ -1514,7 +1514,7 @@ describe("RemoteSender", () => {
     expect(calls[0]?.variant).toBeUndefined()
   })
 
-  test("send_message does not special-case kilo-prefixed model", async () => {
+  test("send_message does not special-case kappa-prefixed model", async () => {
     const { conn, sent } = fakeConn()
     const calls: SessionPrompt.PromptInput[] = []
     const sender = RemoteSender.create({
@@ -1533,7 +1533,7 @@ describe("RemoteSender", () => {
       data: {
         sessionID: "ses_x",
         parts: [{ type: "text", text: "hello" }],
-        model: "kilo/gpt-5-mini",
+        model: "kappa/gpt-5-mini",
       },
     })
 
@@ -1544,7 +1544,7 @@ describe("RemoteSender", () => {
       {
         sessionID: SessionID.make("ses_x"),
         parts: [{ type: "text", text: "hello" }],
-        model: { providerID: ProviderV2.ID.make("kilo"), modelID: ModelV2.ID.make("kilo/gpt-5-mini") },
+        model: { providerID: ProviderV2.ID.make("kappa"), modelID: ModelV2.ID.make("kappa/gpt-5-mini") },
       },
     ])
   })
@@ -3569,7 +3569,7 @@ describe("RemoteSender slash commands", () => {
       // The K2 contract: no `attachSession` seam exists on the handler. The
       // sender must rely entirely on the attach seam — and the child is
       // responsible for the on-boot attach via the KILO_REMOTE_ATTACH_SESSION
-      // init branch in kilo-sessions.ts.
+      // init branch in kappa-sessions.ts.
       attachSession: async () => undefined,
     })
 
@@ -3761,7 +3761,7 @@ describe("RemoteSender slash commands", () => {
     expect(order).toEqual(["detach:ses_current", "EXIT"])
   })
 
-  test("exit_cli keeps the headless host alive when zero sessions remain and no callback is registered (kilo remote)", async () => {
+  test("exit_cli keeps the headless host alive when zero sessions remain and no callback is registered (kappa remote)", async () => {
     const { conn, sent } = fakeConn()
     const order: string[] = []
     const sender = RemoteSender.create({
@@ -3932,7 +3932,7 @@ describe("RemoteSender slash commands", () => {
       data: {
         protocolVersion: 1,
         agent: "build",
-        model: { providerID: "kilo", modelID: "kilo-auto/efficient", variant: "high" },
+        model: { providerID: "kappa", modelID: "kappa-auto/efficient", variant: "high" },
         orgId: org,
       },
     })
@@ -3943,8 +3943,8 @@ describe("RemoteSender slash commands", () => {
       {
         agent: "build",
         model: {
-          id: ModelV2.ID.make("kilo-auto/efficient"),
-          providerID: ProviderV2.ID.make("kilo"),
+          id: ModelV2.ID.make("kappa-auto/efficient"),
+          providerID: ProviderV2.ID.make("kappa"),
           variant: "high",
         },
         metadata: { orgId: org },
@@ -3978,7 +3978,7 @@ describe("RemoteSender slash commands", () => {
 
     for (const [id, data] of [
       ["req_agent", { protocolVersion: 1, agent: "plan" }],
-      ["req_model", { protocolVersion: 1, model: { providerID: "kilo", modelID: "m1" } }],
+      ["req_model", { protocolVersion: 1, model: { providerID: "kappa", modelID: "m1" } }],
       ["req_org", { protocolVersion: 1, orgId: org }],
     ] as const) {
       const response = expectResponse(conn, sent, id)
@@ -3989,7 +3989,7 @@ describe("RemoteSender slash commands", () => {
 
     expect(createCalls).toEqual([
       { agent: "plan" },
-      { model: { id: ModelV2.ID.make("m1"), providerID: ProviderV2.ID.make("kilo") } },
+      { model: { id: ModelV2.ID.make("m1"), providerID: ProviderV2.ID.make("kappa") } },
       { metadata: { orgId: org } },
     ])
   })
@@ -4068,7 +4068,7 @@ describe("RemoteSender slash commands", () => {
         data: {
           protocolVersion: 1,
           agent: "build",
-          model: { providerID: "kilo", modelID: "kilo-auto/efficient", variant: "high" },
+          model: { providerID: "kappa", modelID: "kappa-auto/efficient", variant: "high" },
           orgId: org,
         },
       })
@@ -4079,8 +4079,8 @@ describe("RemoteSender slash commands", () => {
         {
           agent: "build",
           model: {
-            id: ModelV2.ID.make("kilo-auto/efficient"),
-            providerID: ProviderV2.ID.make("kilo"),
+            id: ModelV2.ID.make("kappa-auto/efficient"),
+            providerID: ProviderV2.ID.make("kappa"),
             variant: "high",
           },
           metadata: { orgId: org },
@@ -4414,7 +4414,7 @@ describe("RemoteSender slash commands", () => {
     const titles: { sessionID: string; title: string }[] = []
     const warnings: unknown[][] = []
     const sid = SessionID.make("ses_renamed")
-    const { clear, consumeRenameAdoption } = await import("../../../src/kilo-sessions/rename-adoptions")
+    const { clear, consumeRenameAdoption } = await import("../../../src/kappa-sessions/rename-adoptions")
     clear(sid)
 
     const sender = RemoteSender.create({
@@ -4519,7 +4519,7 @@ describe("RemoteSender slash commands", () => {
     const { conn } = fakeConn()
     const sid = SessionID.make("ses_rename_fail")
     const { clear, consumeRenameAdoption, markRenameAdopted } = await import(
-      "../../../src/kilo-sessions/rename-adoptions"
+      "../../../src/kappa-sessions/rename-adoptions"
     )
     clear(sid)
 

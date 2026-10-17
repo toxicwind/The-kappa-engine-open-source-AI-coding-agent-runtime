@@ -1,5 +1,5 @@
-import type { KiloClient } from "@kilocode/sdk/v2"
-import { MEMORY_USAGE, parseMemoryCommand, type ParsedMemoryCommand } from "@kilocode/kilo-memory/commands"
+import type { KiloClient } from "@kappacode/sdk/v2"
+import { MEMORY_USAGE, parseMemoryCommand, type ParsedMemoryCommand } from "@kappacode/kappa-memory/commands"
 import { errorMessage } from "@/util/error"
 
 export { MEMORY_USAGE }

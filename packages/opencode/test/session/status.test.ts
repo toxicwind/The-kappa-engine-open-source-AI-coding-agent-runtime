@@ -21,7 +21,7 @@ const events = Layer.succeed(
 // ScopedCache is built once and shared across run calls, keyed per directory.
 const runtime = ManagedRuntime.make(SessionStatus.layer.pipe(Layer.provide(events)))
 
-// In kilo run the session prompt loop runs under one directory and the heartbeat
+// In kappa run the session prompt loop runs under one directory and the heartbeat
 // gather runs under another, but both belong to one project (main worktree +
 // section worktrees of the same repo). SessionStatus must be readable across
 // directories within a project while staying isolated across projects.

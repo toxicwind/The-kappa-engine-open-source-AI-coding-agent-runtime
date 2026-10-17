@@ -3,8 +3,8 @@
 import { Global } from "@opencode-ai/core/global"
 import { Effect } from "effect"
 import { staticEnvLines, type EditorContext } from "@/kilocode/editor-context"
-import { KiloMemory } from "@kilocode/kilo-memory/effect"
-import type { MemoryPaths } from "@kilocode/kilo-memory/effect/paths"
+import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import type { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { MemoryMarker } from "@/kilocode/memory/marker"
 import type { Provider } from "@/provider/provider"
 import type { InstanceContext } from "@/project/instance-context"
@@ -26,7 +26,7 @@ export namespace KilocodeSystemPrompt {
         `  Is directory a git repo: ${input.ctx.project.vcs === "git" ? "yes" : "no"}`,
         `  Platform: ${process.platform}`,
         `  Today's date: ${new Date().toDateString()}`,
-        `  Project config: .kilo/command/*.md, .kilo/agent/*.md, kilo.json, AGENTS.md. Put new commands and agents in .kilo/. Do not use .kilocode/ or .opencode/.`,
+        `  Project config: .kappa/command/*.md, .kappa/agent/*.md, kappa.json, AGENTS.md. Put new commands and agents in .kappa/. Do not use .kilocode/ or .opencode/.`,
         `  Global config: ${Global.Path.config}/ (same structure)`,
         ...staticEnvLines(input.editor),
         `</env>`,

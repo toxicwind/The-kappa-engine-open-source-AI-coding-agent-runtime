@@ -9,7 +9,7 @@ import { EventV2Bridge } from "@/event-v2-bridge"
 import { Bus } from "@/bus"
 import { FetchHttpClient } from "effect/unstable/http"
 import { expect, spyOn } from "bun:test"
-import { Telemetry } from "@kilocode/kilo-telemetry"
+import { Telemetry } from "@kappacode/kappa-telemetry"
 import { Cause, Deferred, Duration, Effect, Exit, Fiber, Layer } from "effect"
 import path from "path"
 import { fileURLToPath, pathToFileURL } from "url"
@@ -48,7 +48,7 @@ import { KiloSession } from "../../src/kilocode/session"
 import { KiloSessionPrompt } from "../../src/kilocode/session/prompt"
 import { KiloSessionPromptQueue } from "../../src/kilocode/session/prompt-queue"
 // kilocode_change end
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
+import { KiloSessions } from "../../src/kappa-sessions/kappa-sessions"
 import { Suggestion } from "../../src/kilocode/suggestion"
 import { MessageID, PartID, SessionID } from "../../src/session/schema"
 import { SessionStatus } from "../../src/session/status"
@@ -67,7 +67,7 @@ import { TestInstance } from "../fixture/fixture"
 import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
 import { reply, TestLLMServer } from "../lib/llm-server"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import { MemoryService } from "@kilocode/kilo-memory/effect/service"
+import { MemoryService } from "@kappacode/kappa-memory/effect/service"
 import { RepositoryCache } from "@opencode-ai/core/repository-cache"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
@@ -370,7 +370,7 @@ const ensureDir = Effect.fn("test.ensureDir")(function* (dir: string) {
 const writeConfig = Effect.fn("test.writeConfig")(function* (dir: string, config: Partial<ConfigV1.Info>) {
   yield* writeText(
     path.join(dir, "opencode.json"),
-    JSON.stringify({ $schema: "https://app.kilo.ai/config.json", ...config }),
+    JSON.stringify({ $schema: "https://app.kappa.ai/config.json", ...config }),
   )
 })
 

@@ -42,7 +42,7 @@ afterEach(() => {
   else process.env.KILO_SERVER_USERNAME = original.envUsername
 })
 
-const auth = () => `Basic ${Buffer.from("kilo:secret").toString("base64")}`
+const auth = () => `Basic ${Buffer.from("kappa:secret").toString("base64")}`
 
 const requireAuth = () => {
   Flag.KILO_SERVER_PASSWORD = "secret"
@@ -82,21 +82,21 @@ describe("AllowEverythingPermission", () => {
       fn: async () => {
         const blocked = await Server.Default().app.request("/permission/allow-everything", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-kilo-directory": tmp.path },
+          headers: { "Content-Type": "application/json", "x-kappa-directory": tmp.path },
           body: JSON.stringify({ enable: true }),
         })
         expect(blocked.status).toBe(401)
 
         const enable = await Server.Default().app.request("/permission/allow-everything", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-kilo-directory": tmp.path, authorization: auth() },
+          headers: { "Content-Type": "application/json", "x-kappa-directory": tmp.path, authorization: auth() },
           body: JSON.stringify({ enable: true }),
         })
         expect(enable.status).toBe(200)
 
         const disable = await Server.Default().app.request("/permission/allow-everything", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-kilo-directory": tmp.path, authorization: auth() },
+          headers: { "Content-Type": "application/json", "x-kappa-directory": tmp.path, authorization: auth() },
           body: JSON.stringify({ enable: false }),
         })
         expect(disable.status).toBe(200)

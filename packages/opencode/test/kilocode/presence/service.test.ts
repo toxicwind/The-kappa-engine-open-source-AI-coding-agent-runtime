@@ -4,9 +4,9 @@ import { Auth } from "@/auth"
 
 const attachedCalls: string[][] = []
 
-const realSessions = await import("@/kilo-sessions/kilo-sessions")
+const realSessions = await import("@/kappa-sessions/kappa-sessions")
 const realSetAttached = realSessions.KiloSessions.setAttachedSessions
-mock.module("@/kilo-sessions/kilo-sessions", () => ({
+mock.module("@/kappa-sessions/kappa-sessions", () => ({
   ...realSessions,
   KiloSessions: {
     ...realSessions.KiloSessions,

@@ -10,7 +10,7 @@ import { InstanceState } from "@/effect/instance-state"
 import * as Log from "@opencode-ai/core/util/log"
 import { assertExternalDirectoryEffect } from "../../tool/external-directory"
 import { Config } from "@/config/config"
-import { KILO_OPENROUTER_BASE } from "@kilocode/kilo-gateway"
+import { KILO_OPENROUTER_BASE } from "@kappacode/kappa-gateway"
 import DESCRIPTION from "./generate-image.txt"
 
 const log = Log.create({ service: "tool.generate_image" })
@@ -64,7 +64,7 @@ export type AuthInput = {
 export type ResolvedProvider = {
   url: string
   token: string
-  provider: "kilo" | "openrouter"
+  provider: "kappa" | "openrouter"
   organizationId?: string
 }
 
@@ -77,7 +77,7 @@ export function resolveProvider(
     return {
       url: KILO_OPENROUTER_URL,
       token,
-      provider: "kilo",
+      provider: "kappa",
       ...(auth?.type === "oauth" && auth.accountId ? { organizationId: auth.accountId } : {}),
     }
   }
@@ -143,7 +143,7 @@ const Parameters = Schema.Struct({
 type Meta = {
   format?: ImageFormat
   filepath?: string
-  provider?: "kilo" | "openrouter"
+  provider?: "kappa" | "openrouter"
   error?: string
 }
 
@@ -161,7 +161,7 @@ export const GenerateImageTool = Tool.define(
       execute: (params: Schema.Schema.Type<typeof Parameters>, ctx: Tool.Context) =>
         Effect.gen(function* () {
           const instance = yield* InstanceState.context
-          const auth = yield* authSvc.get("kilo")
+          const auth = yield* authSvc.get("kappa")
           const authInput: AuthInput | undefined = auth
             ? {
                 type: auth.type === "api" ? "api" : "oauth",

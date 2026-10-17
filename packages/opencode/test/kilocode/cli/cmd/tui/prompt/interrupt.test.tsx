@@ -145,7 +145,7 @@ test.each(["insert", "visual", "visual-line"])(
         app.mockInput.pressEscape()
         app.mockInput.pressKey(mode === "visual" ? "v" : "V")
       }
-      sync.set("session", 0, "metadata", { "kilo.goal": { text: "Add tests", active: true } })
+      sync.set("session", 0, "metadata", { "kappa.goal": { text: "Add tests", active: true } })
       await app.renderOnce()
       expect(app.captureCharFrame()).toContain(mode === "visual-line" ? "V-LINE" : mode.toUpperCase())
       const command = keymap
@@ -184,7 +184,7 @@ test.each([false, true])("busy session double-Escape interrupts in Vim insert mo
   await using tmp = await tmpdir()
   const { app, sync, input, calls, aborted } = await mount(tmp.path)
   try {
-    sync.set("session", 0, "metadata", { "kilo.goal": { text: "Add tests", active } })
+    sync.set("session", 0, "metadata", { "kappa.goal": { text: "Add tests", active } })
     sync.set("session_status", "ses_goal", { type: "busy" })
     app.mockInput.pressEscape()
     await app.renderOnce()
@@ -208,7 +208,7 @@ test("non-Vim double-Escape still pauses an idle active goal", async () => {
     app.mockInput.pressEscape()
     await app.renderOnce()
     expect(calls).toEqual([])
-    sync.set("session", 0, "metadata", { "kilo.goal": { text: "Add tests", active: true } })
+    sync.set("session", 0, "metadata", { "kappa.goal": { text: "Add tests", active: true } })
     app.mockInput.pressEscape()
     await app.renderOnce()
     expect(app.captureCharFrame()).toContain("again to interrupt")

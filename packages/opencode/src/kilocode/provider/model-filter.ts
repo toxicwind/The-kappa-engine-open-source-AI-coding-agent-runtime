@@ -4,7 +4,7 @@ export function filterPromptTrainingModels(providers: Record<string, Provider.In
   if (!hide) return providers
   return Object.fromEntries(
     Object.entries(providers).map(([id, provider]) => {
-      if (id !== ProviderV2.ID.kilo) return [id, provider]
+      if (id !== ProviderV2.ID.kappa) return [id, provider]
       const models = Object.fromEntries(
         Object.entries(provider.models).filter(([, model]) => model.mayTrainOnYourPrompts !== true),
       )

@@ -7,14 +7,14 @@ import { Auth } from "../../../src/auth"
 import { Bus } from "../../../src/bus"
 import { GlobalBus } from "../../../src/bus/global"
 import { Config } from "../../../src/config/config"
-import { clearInFlightCache } from "../../../src/kilo-sessions/inflight-cache"
+import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
 import {
   clearAll as clearRenameMarks,
   consumeAutoTitle,
   consumeRenameAdoption,
   markAutoTitle,
   markRenameAdopted,
-} from "../../../src/kilo-sessions/rename-adoptions"
+} from "../../../src/kappa-sessions/rename-adoptions"
 import { Session } from "../../../src/session/session"
 import { SessionID } from "../../../src/session/schema"
 import { ProjectV2 } from "@opencode-ai/core/project"
@@ -23,7 +23,7 @@ import { TestConfig } from "../../fixture/config"
 import { pollWithTimeout, testEffect } from "../../lib/effect"
 import { TestInstance } from "../../fixture/fixture"
 
-const KiloSessions = (await import("../../../src/kilo-sessions/kilo-sessions")).KiloSessions
+const KiloSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KiloSessions
 
 // Session must be provideMerged so yield* Session.Service and the
 // KiloSessions Updated handler share one store (otherwise get() misses creates).
@@ -37,10 +37,10 @@ function layer(overrides: Partial<Config.Interface> = {}) {
 }
 
 function reset(...tokens: string[]) {
-  clearInFlightCache("kilo-sessions:token")
-  clearInFlightCache("kilo-sessions:client")
-  clearInFlightCache("kilo-sessions:org")
-  for (const token of tokens) clearInFlightCache(`kilo-sessions:token-valid:${token}`)
+  clearInFlightCache("kappa-sessions:token")
+  clearInFlightCache("kappa-sessions:client")
+  clearInFlightCache("kappa-sessions:org")
+  for (const token of tokens) clearInFlightCache(`kappa-sessions:token-valid:${token}`)
 }
 
 const ORG_META = "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee"
@@ -220,10 +220,10 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
 
   return Effect.gen(function* () {
     const auth = yield* Auth.Service
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
     const instance = yield* TestInstance
-    yield* auth.set("kilo", {
+    yield* auth.set("kappa", {
       type: "oauth",
       access: "x",
       refresh: "y",
@@ -233,7 +233,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
     // Failure-safe: remove oauth even when an assertion fails mid-test (auth is
     // not restored by afterEach — only fetch/env/rename marks are).
     yield* Effect.gen(function* () {
-      yield* kilo.init()
+      yield* kappa.init()
 
       // 1) metadata wins over env
       const withMeta = yield* sessions.create({ metadata: { orgId: ORG_META } })
@@ -254,7 +254,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
 
       // 3) auth accountId when env cleared
       delete process.env.KILO_ORG_ID
-      clearInFlightCache("kilo-sessions:org")
+      clearInFlightCache("kappa-sessions:org")
       requests.length = 0
       const authOnly = yield* sessions.create({})
       yield* Effect.promise(() => KiloSessions.bootstrap(authOnly.id))
@@ -262,7 +262,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
       emitUpdated(instance.directory, authOnly.id, authOnly.title)
       yield* drainIngest
       expect(metaItems(requests).some((m) => m.orgId === ORG_AUTH)).toBe(true)
-    }).pipe(Effect.ensuring(auth.remove("kilo").pipe(Effect.orDie)))
+    }).pipe(Effect.ensuring(auth.remove("kappa").pipe(Effect.orDie)))
   }).pipe(Effect.provide(layer()))
 })
 
@@ -277,10 +277,10 @@ it.instance("meta falls through invalid metadata orgId to env", () => {
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
     const instance = yield* TestInstance
-    yield* kilo.init()
+    yield* kappa.init()
 
     const bad = yield* sessions.create({ metadata: { orgId: "not-a-uuid" } })
     yield* Effect.promise(() => KiloSessions.bootstrap(bad.id))
@@ -304,10 +304,10 @@ it.instance("meta falls back to env when session row has no resolvable org", () 
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
     const instance = yield* TestInstance
-    yield* kilo.init()
+    yield* kappa.init()
 
     const plain = yield* sessions.create({})
     yield* Effect.promise(() => KiloSessions.bootstrap(plain.id))
@@ -326,7 +326,7 @@ it.instance("meta falls back to env when Session.Service.get fails", () => {
   // Must not throw or drop the process-global org claim on a fetch blip.
   // Production callers pass info; this path is API robustness when they omit it.
   patchEnv({ KILO_ORG_ID: ORG_ENV })
-  clearInFlightCache("kilo-sessions:org")
+  clearInFlightCache("kappa-sessions:org")
 
   return Effect.gen(function* () {
     const result = yield* Effect.promise(() => KiloSessions._metaForTests("ses_missing_for_meta_get_fail"))
@@ -346,9 +346,9 @@ it.instance("title broadcast: auto-title posts generated true; custom posts gene
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
-    yield* kilo.init()
+    yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
@@ -409,9 +409,9 @@ it.instance(
     reset("test-token")
 
     return Effect.gen(function* () {
-      const kilo = yield* KiloSessions.Service
+      const kappa = yield* KiloSessions.Service
       const sessions = yield* Session.Service
-      yield* kilo.init()
+      yield* kappa.init()
 
       const created = yield* sessions.create({})
       const id = created.id
@@ -451,9 +451,9 @@ it.instance("title broadcast: first rename after create (rename-before-prompt) P
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
-    yield* kilo.init()
+    yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
@@ -483,8 +483,8 @@ it.instance("title broadcast: first rename after restart seeds from list and POS
     const id = existing.id
     const priorTitle = existing.title
 
-    const kilo = yield* KiloSessions.Service
-    yield* kilo.init()
+    const kappa = yield* KiloSessions.Service
+    yield* kappa.init()
     yield* Effect.promise(() => KiloSessions.bootstrap(id))
     yield* Effect.sleep(50)
     requests.length = 0
@@ -525,17 +525,17 @@ it.instance("reportSessionTitle goes through readiness and tolerates POST failur
   reset("test-token")
 
   return Effect.gen(function* () {
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
     const created = yield* sessions.create({})
     yield* Effect.promise(() => KiloSessions.bootstrap(created.id))
 
-    const failed = yield* kilo.reportSessionTitle(created.id, "X", { generated: false })
+    const failed = yield* kappa.reportSessionTitle(created.id, "X", { generated: false })
     expect(failed).toEqual({ ok: false, reason: "http_500" })
     expect(requests.some((r) => r.path.endsWith("/title"))).toBe(true)
 
     titleStatus = 200
-    const ok = yield* kilo.reportSessionTitle(created.id, "Y", { generated: true })
+    const ok = yield* kappa.reportSessionTitle(created.id, "Y", { generated: true })
     expect(ok).toEqual({ ok: true })
   }).pipe(Effect.provide(layer()))
 })
@@ -546,8 +546,8 @@ it.instance("reportSessionTitle reports not_connected when unauthenticated", () 
   reset()
 
   return Effect.gen(function* () {
-    const kilo = yield* KiloSessions.Service
-    const result = yield* kilo.reportSessionTitle("ses_x", "T", { generated: false })
+    const kappa = yield* KiloSessions.Service
+    const result = yield* kappa.reportSessionTitle("ses_x", "T", { generated: false })
     expect(result).toEqual({ ok: false, reason: "not_connected" })
   }).pipe(Effect.provide(layer()))
 })
@@ -565,9 +565,9 @@ it.instance("title report: permanent 4xx failure preserves title so same-title U
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
-    yield* kilo.init()
+    yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
@@ -609,9 +609,9 @@ it.instance("title report: transient 5xx failure restores title so same-title Up
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
-    yield* kilo.init()
+    yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
@@ -654,9 +654,9 @@ it.instance("title report: transient 408/429 restores title so same-title Update
 
   return Effect.gen(function* () {
     const instance = yield* TestInstance
-    const kilo = yield* KiloSessions.Service
+    const kappa = yield* KiloSessions.Service
     const sessions = yield* Session.Service
-    yield* kilo.init()
+    yield* kappa.init()
 
     const created = yield* sessions.create({})
     const id = created.id
@@ -735,9 +735,9 @@ it.instance(
 
     return Effect.gen(function* () {
       const instance = yield* TestInstance
-      const kilo = yield* KiloSessions.Service
+      const kappa = yield* KiloSessions.Service
       const sessions = yield* Session.Service
-      yield* kilo.init()
+      yield* kappa.init()
 
       const created = yield* sessions.create({})
       const id = created.id
@@ -801,8 +801,8 @@ it.instance(
     return Effect.gen(function* () {
       const instance = yield* TestInstance
       const sessions = yield* Session.Service
-      const kilo = yield* KiloSessions.Service
-      yield* kilo.init()
+      const kappa = yield* KiloSessions.Service
+      yield* kappa.init()
 
       // Mock create() does not fire Session.Event.Created, so knownTitles is
       // never seeded for this session. list() returns empty as well.
@@ -876,8 +876,8 @@ it.instance(
     return Effect.gen(function* () {
       const instance = yield* TestInstance
       const sessions = yield* Session.Service
-      const kilo = yield* KiloSessions.Service
-      yield* kilo.init()
+      const kappa = yield* KiloSessions.Service
+      yield* kappa.init()
 
       const created = yield* sessions.create({})
       yield* Effect.promise(() => KiloSessions.bootstrap(created.id))
@@ -919,8 +919,8 @@ it.instance(
     return Effect.gen(function* () {
       const instance = yield* TestInstance
       const sessions = yield* Session.Service
-      const kilo = yield* KiloSessions.Service
-      yield* kilo.init()
+      const kappa = yield* KiloSessions.Service
+      yield* kappa.init()
 
       const created = yield* sessions.create({})
       yield* Effect.promise(() => KiloSessions.bootstrap(created.id))

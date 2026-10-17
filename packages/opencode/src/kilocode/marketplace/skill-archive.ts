@@ -5,7 +5,7 @@ import { parse as parseYaml } from "yaml"
 import { isRecord } from "@/util/record"
 import { Process } from "@/util/process"
 
-export const OWNER = ".kilo-marketplace.json"
+export const OWNER = ".kappa-marketplace.json"
 
 export async function findEscapedPaths(dir: string): Promise<string[]> {
   const root = path.resolve(dir)
@@ -34,7 +34,7 @@ export async function findEscapedPaths(dir: string): Promise<string[]> {
 }
 
 export async function stageSkill(item: { id: string; content: string }, dir: string, strict = false) {
-  const cache = await mkdtemp(path.join(os.tmpdir(), "kilo-skill-"))
+  const cache = await mkdtemp(path.join(os.tmpdir(), "kappa-skill-"))
   const archive = "skill.tar.gz"
   const file = path.join(cache, archive)
   // Do not inherit tar options that can change listing or extraction behavior.

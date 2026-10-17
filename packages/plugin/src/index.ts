@@ -9,8 +9,8 @@ import type {
   Message,
   Part,
   Config as SDKConfig,
-} from "@kilocode/sdk"
-import type { Provider as ProviderV2, Model as ModelV2, Auth } from "@kilocode/sdk/v2"
+} from "@kappacode/sdk"
+import type { Provider as ProviderV2, Model as ModelV2, Auth } from "@kappacode/sdk/v2"
 
 import type { BunShell } from "./shell.js"
 import { type ToolDefinition } from "./tool.js"

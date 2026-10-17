@@ -120,7 +120,7 @@ export const DevSetupCommand = cmd({
   },
 })
 
-// Deprecated: kept so `kilo dev-alias` keeps working for scripts/docs.
+// Deprecated: kept so `kappa dev-alias` keeps working for scripts/docs.
 export const DevAliasCommand = cmd({
   command: "dev-alias [shell]",
   describe: false as const,
@@ -301,7 +301,7 @@ export async function detectRepo(): Promise<string> {
   if (meta && !isBunfsPath(meta)) candidates.push(path.dirname(meta))
 
   // process.execPath points at the binary itself; walk up from its directory.
-  // For a local build it's <repo>/packages/opencode/dist/<target>/bin/kilo, so
+  // For a local build it's <repo>/packages/opencode/dist/<target>/bin/kappa, so
   // findRepoFrom eventually hits the repo's packages/opencode/package.json.
   if (process.execPath) candidates.push(path.dirname(process.execPath))
   candidates.push(process.cwd())

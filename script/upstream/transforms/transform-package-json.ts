@@ -4,7 +4,7 @@
  *
  * This script handles package.json conflicts by:
  * 1. Taking upstream's version (to get new dependencies)
- * 2. Transforming package names (opencode -> kilo)
+ * 2. Transforming package names (opencode -> kappa)
  * 3. Injecting Kilo-specific dependencies
  * 4. Preserving Kilo's version number
  * 5. Preserving overrides and patchedDependencies
@@ -166,7 +166,7 @@ export function assertBunPackageManager(current: unknown, base: unknown, upstrea
  * Merge two dependency objects using "newest wins" strategy
  * For non-comparable versions (URLs, catalog:, workspace:*), upstream (theirs) wins
  *
- * Key order preserves ours' order first (so kilo-only deps stay in their
+ * Key order preserves ours' order first (so kappa-only deps stay in their
  * original position), then appends theirs-only keys at the end. This avoids
  * relocating existing keys, which would otherwise let git's textual merge
  * produce duplicate JSON keys (ours keeps the line in place, theirs appears
@@ -187,7 +187,7 @@ export function mergeWithNewestVersions(
       const theirVersion = theirs?.[name]
       if (theirVersion === undefined) {
         result[name] = ourVersion
-        changes.push(`${section}: preserved ${name}@${ourVersion} (kilo-only)`)
+        changes.push(`${section}: preserved ${name}@${ourVersion} (kappa-only)`)
         continue
       }
       if (ourVersion === theirVersion) {
@@ -200,7 +200,7 @@ export function mergeWithNewestVersions(
         changes.push(`${section}: ${name} kept upstream ${theirVersion} (special format)`)
       } else if (cmp > 0) {
         result[name] = ourVersion
-        changes.push(`${section}: ${name} ${theirVersion} -> ${ourVersion} (kilo newer)`)
+        changes.push(`${section}: ${name} ${theirVersion} -> ${ourVersion} (kappa newer)`)
       } else {
         result[name] = theirVersion
         if (cmp < 0) changes.push(`${section}: ${name} kept upstream ${theirVersion} (upstream newer)`)
@@ -246,37 +246,37 @@ export interface ReconcileOptions extends PackageJsonOptions {
 
 // Package name mappings
 const PACKAGE_NAME_MAP: Record<string, string> = {
-  "opencode-ai": "@kilocode/cli",
-  "@opencode-ai/cli": "@kilocode/cli",
-  "@opencode-ai/sdk": "@kilocode/sdk",
-  "@opencode-ai/plugin": "@kilocode/plugin",
+  "opencode-ai": "@kappacode/cli",
+  "@opencode-ai/cli": "@kappacode/cli",
+  "@opencode-ai/sdk": "@kappacode/sdk",
+  "@opencode-ai/plugin": "@kappacode/plugin",
 }
 
 // Kilo-specific dependencies to inject into specific packages
-// NOTE: When adding new Kilo-specific workspace dependencies (packages starting with @kilocode/kilo-*),
+// NOTE: When adding new Kilo-specific workspace dependencies (packages starting with @kappacode/kappa-*),
 // add them here to prevent them from being removed during upstream merges
 const KILO_DEPENDENCIES: Record<string, Record<string, string>> = {
   // packages/opencode/package.json needs these
   "packages/opencode/package.json": {
-    "@kilocode/kilo-gateway": "workspace:*",
-    "@kilocode/kilo-telemetry": "workspace:*",
+    "@kappacode/kappa-gateway": "workspace:*",
+    "@kappacode/kappa-telemetry": "workspace:*",
   },
 }
 
 // Kilo-specific bin entries to set on specific packages
 const KILO_BIN: Record<string, Record<string, string>> = {
   "packages/opencode/package.json": {
-    kilo: "./bin/kilo",
-    kilocode: "./bin/kilo",
+    kappa: "./bin/kappa",
+    kilocode: "./bin/kappa",
   },
 }
 
 // Packages that should have their name transformed
 const TRANSFORM_PACKAGE_NAMES: Record<string, string> = {
-  "package.json": "@kilocode/kilo",
-  "packages/opencode/package.json": "@kilocode/cli",
-  "packages/plugin/package.json": "@kilocode/plugin",
-  "packages/sdk/js/package.json": "@kilocode/sdk",
+  "package.json": "@kappacode/kappa",
+  "packages/opencode/package.json": "@kappacode/cli",
+  "packages/plugin/package.json": "@kappacode/plugin",
+  "packages/sdk/js/package.json": "@kappacode/sdk",
 }
 
 // Kilo-specific scripts to preserve from the base branch per package.json.
@@ -619,7 +619,7 @@ export async function transformPackageJson(file: string, options: PackageJsonOpt
       fixTrustedDependencies(pkg, relativePath, changes)
     }
 
-    // 7. Transform dependency names (opencode -> kilo)
+    // 7. Transform dependency names (opencode -> kappa)
     if (pkg.dependencies) {
       const { result, changes: depChanges } = transformDependencies(pkg.dependencies)
       pkg.dependencies = result
@@ -847,7 +847,7 @@ export async function transformAllPackageJson(options: PackageJsonOptions = {}):
         fixTrustedDependencies(pkg, path, changes)
       }
 
-      // 7. Transform dependency names (opencode -> kilo)
+      // 7. Transform dependency names (opencode -> kappa)
       if (pkg.dependencies) {
         const { result, changes: depChanges } = transformDependencies(pkg.dependencies)
         if (depChanges.length > 0) {
@@ -1119,7 +1119,7 @@ export async function reconcilePackageJsonFromRefs(
  */
 export async function reconcileAllPackageJson(options: ReconcileOptions): Promise<PackageJsonResult[]> {
   // Collect every package.json that differs in either direction so we cover
-  // upstream-only and kilo-only files alike.
+  // upstream-only and kappa-only files alike.
   const diffOurs = await $`git diff --name-only ${options.oursRef} -- '*package.json'`.text()
   const diffTheirs = await $`git diff --name-only ${options.theirsRef} -- '*package.json'`.text()
   const candidates = new Set<string>()

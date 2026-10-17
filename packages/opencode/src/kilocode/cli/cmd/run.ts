@@ -1,4 +1,4 @@
-import type { KiloClient } from "@kilocode/sdk/v2"
+import type { KiloClient } from "@kappacode/sdk/v2"
 import { KiloRunDrain } from "../run-drain"
 import { UI } from "@/cli/ui"
 import { FormatError, FormatUnknownError } from "@/cli/error"
@@ -26,7 +26,7 @@ export namespace KiloRun {
   export function validateGoal(text: string) {
     return ["", "pause", "clear"].includes(text.trim())
       ? undefined
-      : "Goal start and resume require the TUI. Run kilo, then use /goal <text> or /goal resume."
+      : "Goal start and resume require the TUI. Run kappa, then use /goal <text> or /goal resume."
   }
 
   export async function goal(

@@ -25,7 +25,7 @@ function resolve(input: TuiConfig.Info): TuiConfig.Resolved {
       notifications: input.attention?.notifications ?? true,
       sound: input.attention?.sound ?? true,
       volume: input.attention?.volume ?? 0.4,
-      sound_pack: input.attention?.sound_pack ?? "kilo.default",
+      sound_pack: input.attention?.sound_pack ?? "kappa.default",
       sounds: input.attention?.sounds ?? {},
     },
     keybinds: createBindingLookup(TuiKeybind.toBindingConfig(keybinds), {
@@ -45,7 +45,7 @@ function resolve(input: TuiConfig.Info): TuiConfig.Resolved {
 
 describe("KiloTuiConfig.makeStore", () => {
   test("reactive reads update when set() reconciles a new config", () => {
-    const store = KiloTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kilo" })))
+    const store = KiloTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kappa" })))
 
     const exits: Array<string | undefined> = []
     const themes: Array<string | undefined> = []
@@ -66,7 +66,7 @@ describe("KiloTuiConfig.makeStore", () => {
 
     // Initial tracked reads.
     expect(exits).toEqual(["ctrl+c"])
-    expect(themes).toEqual(["kilo"])
+    expect(themes).toEqual(["kappa"])
     expect(icons).toEqual(["none"])
     expect(titles).toEqual(["Kilo CLI"])
 
@@ -80,7 +80,7 @@ describe("KiloTuiConfig.makeStore", () => {
 
     // Tracked reactive reads re-ran with the new values (the hot-reload contract).
     expect(exits).toEqual(["ctrl+c", "ctrl+q"])
-    expect(themes).toEqual(["kilo", "nord"])
+    expect(themes).toEqual(["kappa", "nord"])
     expect(icons).toEqual(["none", "emojis"])
     expect(titles).toEqual(["Kilo CLI", "💭 Kilo CLI"])
 
@@ -96,7 +96,7 @@ describe("KiloTuiConfig.makeStore", () => {
   })
 
   test("set() does not re-notify a tracked read when its value is unchanged", () => {
-    const store = KiloTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kilo" })))
+    const store = KiloTuiConfig.makeStore(resolve(cfg({ keybinds: { app_exit: "ctrl+c" }, theme: "kappa" })))
 
     const exits: Array<string | undefined> = []
     let dispose!: () => void

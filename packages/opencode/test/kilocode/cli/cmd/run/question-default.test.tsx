@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { testRender } from "@opentui/solid"
 import { createSignal } from "solid-js"
-import type { QuestionRequest } from "@kilocode/sdk/v2"
+import type { QuestionRequest } from "@kappacode/sdk/v2"
 import { RunQuestionBody } from "@/cli/cmd/run/footer.question"
 import { RUN_THEME_FALLBACK } from "@/cli/cmd/run/theme"
 import {

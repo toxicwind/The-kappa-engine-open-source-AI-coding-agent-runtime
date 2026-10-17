@@ -5,7 +5,7 @@ import type {
   RequestPermissionResponse,
   SessionUpdate,
 } from "@agentclientprotocol/sdk"
-import type { Event, KiloClient } from "@kilocode/sdk/v2"
+import type { Event, KiloClient } from "@kappacode/sdk/v2"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { createTwoFilesPatch } from "diff"
 import { Effect, ManagedRuntime } from "effect"

@@ -35,13 +35,13 @@ const EXTENSION_REPLACEMENTS: ExtensionReplacement[] = [
   // TOML files (Zed extension)
   {
     pattern: /name\s*=\s*"opencode"/g,
-    replacement: 'name = "kilo"',
+    replacement: 'name = "kappa"',
     description: "Extension name",
     fileTypes: [".toml"],
   },
   {
     pattern: /id\s*=\s*"opencode"/g,
-    replacement: 'id = "kilo"',
+    replacement: 'id = "kappa"',
     description: "Extension ID",
     fileTypes: [".toml"],
   },
@@ -73,7 +73,7 @@ const EXTENSION_REPLACEMENTS: ExtensionReplacement[] = [
   // Binary/command references
   {
     pattern: /command\s*=\s*"opencode"/g,
-    replacement: 'command = "kilo"',
+    replacement: 'command = "kappa"',
     description: "Command name",
     fileTypes: [".toml"],
   },

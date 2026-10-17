@@ -1,4 +1,4 @@
-// The two log lines `kilo remote` writes about the sessions it hosts: one when
+// The two log lines `kappa remote` writes about the sessions it hosts: one when
 // a session starts being hosted, one when it ends. Both go through the CLI's
 // existing logger at its existing level — this module owns no file, adds no
 // dependency and never touches the prompt or the credentials.
@@ -62,7 +62,7 @@ export namespace RemoteSessionLog {
   }
 
   // Closes every session this run started and still has open, so a run that
-  // ends with attached sessions (Ctrl-C on `kilo remote`) also leaves a trace.
+  // ends with attached sessions (Ctrl-C on `kappa remote`) also leaves a trace.
   export function endAll(log: Logger, reason: string) {
     for (const sessionID of Array.from(open.keys())) end(log, { sessionID, reason })
   }

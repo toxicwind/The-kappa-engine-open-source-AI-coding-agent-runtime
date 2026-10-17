@@ -25,7 +25,7 @@ export async function ensureRealDir(p: string) {
 }
 
 async function writable(p: string) {
-  const probe = path.join(p, `.kilo-write-${process.pid}-${randomUUID()}`)
+  const probe = path.join(p, `.kappa-write-${process.pid}-${randomUUID()}`)
   await fs.writeFile(probe, "", { flag: "wx", mode: 0o600 })
   await fs.unlink(probe)
 }
@@ -67,6 +67,6 @@ export async function resolveState(p: string, fallback?: string) {
 
   const msg = err instanceof Error ? err.message : "Unknown error"
   // Logging is not initialized until Global.Path.log exists.
-  console.warn(`[kilo] Cannot use state directory "${p}"; using "${fallback}" instead: ${msg}`)
+  console.warn(`[kappa] Cannot use state directory "${p}"; using "${fallback}" instead: ${msg}`)
   return fallback
 }

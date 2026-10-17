@@ -10,7 +10,7 @@ const context = Context.empty() as Context.Context<unknown>
 
 function request(route: string, directory: string, init: RequestInit = {}) {
   const headers = new Headers(init.headers)
-  headers.set("x-kilo-directory", directory)
+  headers.set("x-kappa-directory", directory)
   return HttpApiApp.webHandler().handler(
     new Request(`http://localhost${route}`, {
       ...init,
@@ -85,7 +85,7 @@ describe("v2 location HttpApi", () => {
     expect(response.status).toBe(400)
     expect(await response.json()).toMatchObject({
       _tag: "InvalidRequestError",
-      field: "x-kilo-directory",
+      field: "x-kappa-directory",
     })
   })
   // kilocode_change end

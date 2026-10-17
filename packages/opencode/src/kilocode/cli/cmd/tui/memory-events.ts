@@ -1,4 +1,4 @@
-import { TRANSIENT } from "@kilocode/kilo-memory/schema"
+import { TRANSIENT } from "@kappacode/kappa-memory/schema"
 
 type Event = {
   on(type: "memory.error", fn: (event: MemoryEvent) => void): void | (() => void)

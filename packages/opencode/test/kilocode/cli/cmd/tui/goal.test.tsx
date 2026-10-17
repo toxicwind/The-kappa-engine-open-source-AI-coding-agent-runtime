@@ -14,15 +14,15 @@ import { TestTuiContexts } from "../../../../fixture/tui-environment"
 
 test("goal metadata requires text and explicit active state", () => {
   for (const goal of [undefined, null, false, "goal", {}, { text: 3 }, { text: " \n " }]) {
-    expect(GoalPrompt.read({ "kilo.goal": goal })).toBeUndefined()
+    expect(GoalPrompt.read({ "kappa.goal": goal })).toBeUndefined()
   }
   expect(GoalPrompt.read()).toBeUndefined()
-  expect(GoalPrompt.read({ "kilo.goal": { text: "Add tests", active: true } })).toEqual({
+  expect(GoalPrompt.read({ "kappa.goal": { text: "Add tests", active: true } })).toEqual({
     text: "Add tests",
     active: true,
     status: "active",
   })
-  expect(GoalPrompt.read({ "kilo.goal": { text: "Add tests", active: "true" } })).toEqual({
+  expect(GoalPrompt.read({ "kappa.goal": { text: "Add tests", active: "true" } })).toEqual({
     text: "Add tests",
     active: false,
     status: "paused",

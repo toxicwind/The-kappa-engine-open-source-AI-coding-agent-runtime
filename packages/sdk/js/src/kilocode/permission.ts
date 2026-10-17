@@ -12,7 +12,7 @@ type Decision = {
 const ATTEMPTS = 3
 
 // Mirrors the transient classifier in
-// packages/kilo-vscode/src/services/cli-backend/retry.ts. The SDK cannot import
+// packages/kappa-vscode/src/services/cli-backend/retry.ts. The SDK cannot import
 // that module, so keep the two lists in sync by hand, including the exact
 // "terminated" match for undici pooled-connection drops. Only transport-level
 // failures are retried. A status-less client error such as a response parse

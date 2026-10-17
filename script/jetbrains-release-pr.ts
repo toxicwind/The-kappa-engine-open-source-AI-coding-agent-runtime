@@ -5,8 +5,8 @@ import { $ } from "bun"
 import semver from "semver"
 import { parseArgs } from "util"
 
-const props = new URL("../packages/kilo-jetbrains/gradle.properties", import.meta.url).pathname
-const log = new URL("../packages/kilo-jetbrains/CHANGELOG.md", import.meta.url).pathname
+const props = new URL("../packages/kappa-jetbrains/gradle.properties", import.meta.url).pathname
+const log = new URL("../packages/kappa-jetbrains/CHANGELOG.md", import.meta.url).pathname
 const repo = process.env.GH_REPO ?? process.env.GITHUB_REPOSITORY ?? "Kilo-Org/kilocode"
 
 const { values } = parseArgs({
@@ -43,7 +43,7 @@ if (!semver.valid(ver)) throw new Error(`Invalid semver: ${ver}`)
 
 await $`git fetch origin main --tags`
 if (!(await pinned())) {
-  throw new Error("packages/kilo-jetbrains/gradle.properties has kilo.cli.pinned=false; JetBrains releases require kilo.cli.pinned=true")
+  throw new Error("packages/kappa-jetbrains/gradle.properties has kappa.cli.pinned=false; JetBrains releases require kappa.cli.pinned=true")
 }
 
 const tag = `jetbrains/v${ver}`
@@ -72,7 +72,7 @@ if (dry) {
 await $`git checkout -B ${branch} ${sha}`
 await writeprops(ver)
 await writelog(ver, entry)
-await $`git add packages/kilo-jetbrains/gradle.properties packages/kilo-jetbrains/CHANGELOG.md`
+await $`git add packages/kappa-jetbrains/gradle.properties packages/kappa-jetbrains/CHANGELOG.md`
 
 const changed = await $`git diff --cached --quiet`.nothrow()
 if (changed.exitCode !== 0) await $`git commit -m ${`release(jetbrains): v${ver}`}`
@@ -210,9 +210,9 @@ function entries(notes: string) {
 
 async function writeprops(ver: string) {
   const current = await Bun.file(props).text()
-  const line = `kilo.jetbrains.version=${ver}`
-  const next = current.match(/^kilo\.jetbrains\.version=/m)
-    ? current.replace(/^kilo\.jetbrains\.version=.*$/m, line)
+  const line = `kappa.jetbrains.version=${ver}`
+  const next = current.match(/^kappa\.jetbrains\.version=/m)
+    ? current.replace(/^kappa\.jetbrains\.version=.*$/m, line)
     : `${current.trim()}\n${line}\n`
   await Bun.write(props, next.endsWith("\n") ? next : `${next}\n`)
 }
@@ -221,7 +221,7 @@ async function pinned() {
   const text = await Bun.file(props).text()
   const value = text.split(/\r?\n/).flatMap((line) => {
     const [key, raw] = line.split("=", 2)
-    if (key.trim() !== "kilo.cli.pinned") return []
+    if (key.trim() !== "kappa.cli.pinned") return []
     return [raw?.trim().toLowerCase()]
   })[0]
   return value == null || value === "true"
@@ -249,7 +249,7 @@ function regex(ver: string) {
 function body(ver: string, kind: string, from: string, tag: string, sha: string, notes: string) {
   return `## Summary
 - Prepare JetBrains ${kind} release ${ver}.
-- Review \`packages/kilo-jetbrains/gradle.properties\` and edit \`packages/kilo-jetbrains/CHANGELOG.md\` before merging.
+- Review \`packages/kappa-jetbrains/gradle.properties\` and edit \`packages/kappa-jetbrains/CHANGELOG.md\` before merging.
 
 JetBrains-Version: ${ver}
 JetBrains-Kind: ${kind}

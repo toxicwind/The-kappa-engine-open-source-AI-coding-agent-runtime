@@ -3,29 +3,29 @@ import { mkdir, mkdtemp, rm, writeFile } from "fs/promises"
 import { tmpdir } from "os"
 import { join } from "path"
 
-const script = join(import.meta.dir, "..", "..", "bin", "kilo")
-const helper = join(import.meta.dir, "..", "..", "bin", "kilocode", "windows-avx2.cjs")
+const script = join(import.meta.dir, "..", "..", "bin", "kappa")
+const helper = join(import.meta.dir, "..", "..", "bin", "kappacode", "windows-avx2.cjs")
 const platform = process.platform === "win32" ? "windows" : process.platform
-const binary = platform === "windows" ? "kilo.exe" : "kilo"
+const binary = platform === "windows" ? "kappa.exe" : "kappa"
 
-describe("bin/kilo tree-sitter resources", () => {
+describe("bin/kappa tree-sitter resources", () => {
   async function setup(root: string, nested: boolean) {
     const dir = nested
-      ? join(root, "node_modules", "@kilocode", `cli-${platform}-${process.arch}`, "bin")
-      : join(root, "node_modules", "@kilocode", "cli", "bin")
+      ? join(root, "node_modules", "@kappacode", `cli-${platform}-${process.arch}`, "bin")
+      : join(root, "node_modules", "@kappacode", "cli", "bin")
     const wasm = join(dir, "tree-sitter")
-    const bin = join(dir, nested ? binary : ".kilo")
+    const bin = join(dir, nested ? binary : ".kappa")
     const log = join(root, nested ? "nested-env.txt" : "cached-env.txt")
-    const cli = join(root, "node_modules", "@kilocode", "cli", "bin")
-    const helperTarget = join(cli, "kilocode", "windows-avx2.cjs")
+    const cli = join(root, "node_modules", "@kappacode", "cli", "bin")
+    const helperTarget = join(cli, "kappacode", "windows-avx2.cjs")
 
     await mkdir(wasm, { recursive: true })
-    await mkdir(join(cli, "kilocode"), { recursive: true })
+    await mkdir(join(cli, "kappacode"), { recursive: true })
     await writeFile(join(wasm, "tree-sitter.wasm"), "wasm")
     await writeFile(bin, "binary")
     await Bun.write(helperTarget, Bun.file(helper))
 
-    return { bin, log, wasm, wrapper: join(dir, "kilo") }
+    return { bin, log, wasm, wrapper: join(dir, "kappa") }
   }
 
   async function run(root: string, bin: string | undefined, log: string, wrapper?: string, failCached?: boolean) {
@@ -39,7 +39,7 @@ const failCached = process.argv[3] === "true"
 const realpathSync = kiloFs.realpathSync
 kiloFs.realpathSync = (file) => file === __filename ? wrapper || process.cwd() : realpathSync(file)
 kiloChild.spawn = (target) => {
-  if (failCached && target.endsWith(".kilo")) throw new Error("cached binary failed")
+  if (failCached && target.endsWith(".kappa")) throw new Error("cached binary failed")
   kiloFs.writeFileSync(log, process.env.KILO_TREE_SITTER_WASM_DIR || "")
   const child = new EventEmitter()
   child.kill = () => {}
@@ -62,7 +62,7 @@ kiloChild.spawn = (target) => {
   }
 
   test("exports co-located tree-sitter WASM dir for optional package binary", async () => {
-    const root = await mkdtemp(join(tmpdir(), "kilo-bin-tree-sitter-"))
+    const root = await mkdtemp(join(tmpdir(), "kappa-bin-tree-sitter-"))
     try {
       const item = await setup(root, true)
       const proc = await run(root, item.bin, item.log)
@@ -75,7 +75,7 @@ kiloChild.spawn = (target) => {
   })
 
   test("exports co-located tree-sitter WASM dir for cached postinstall binary", async () => {
-    const root = await mkdtemp(join(tmpdir(), "kilo-bin-tree-sitter-"))
+    const root = await mkdtemp(join(tmpdir(), "kappa-bin-tree-sitter-"))
     try {
       const item = await setup(root, false)
       const proc = await run(root, undefined, item.log, item.wrapper)
@@ -88,7 +88,7 @@ kiloChild.spawn = (target) => {
   })
 
   test("falls back to the optional package when the cached binary cannot spawn", async () => {
-    const root = await mkdtemp(join(tmpdir(), "kilo-bin-tree-sitter-"))
+    const root = await mkdtemp(join(tmpdir(), "kappa-bin-tree-sitter-"))
     try {
       const cached = await setup(root, false)
       const item = await setup(root, true)

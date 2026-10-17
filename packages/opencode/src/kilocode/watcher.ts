@@ -15,7 +15,7 @@ export namespace KilocodeWatcher {
     readonly init: () => Effect.Effect<void>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kilocode/Watcher") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/Watcher") {}
 
   // Embedded editor clients (VS Code, JetBrains) have their own file watching
   // and git integration and do not consume the CLI's vcs.branch.updated event,

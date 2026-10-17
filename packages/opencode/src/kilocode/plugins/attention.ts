@@ -1,6 +1,6 @@
-import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 
-const id = "internal:kilo-attention"
+const id = "internal:kappa-attention"
 
 function notify(api: TuiPluginApi, sessionID: string, message: string) {
   const session = api.state.session.get(sessionID)

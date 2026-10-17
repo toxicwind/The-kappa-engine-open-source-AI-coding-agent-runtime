@@ -87,7 +87,7 @@ describe("plugin.xai", () => {
       expect(params.get("state")).toBe("state-abc")
       expect(params.get("nonce")).toBe("nonce-xyz")
       expect(params.get("plan")).toBe("generic")
-      expect(params.get("referrer")).toBe("kilocode") // kilocode_change
+      expect(params.get("referrer")).toBe("kappacode") // kilocode_change
     })
 
     test("supports endpoint override for local integration tests", () => {

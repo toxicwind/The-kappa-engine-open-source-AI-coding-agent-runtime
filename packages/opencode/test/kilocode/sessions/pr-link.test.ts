@@ -1,4 +1,4 @@
-// kilocode_change - new file (moved from src/kilo-sessions/pr-link.test.ts so the
+// kilocode_change - new file (moved from src/kappa-sessions/pr-link.test.ts so the
 // package test runner scans it; it previously sat under src/ and never ran).
 import { afterAll, afterEach, beforeEach, describe, expect, mock, spyOn, test } from "bun:test"
 import { Global } from "@opencode-ai/core/global"
@@ -66,9 +66,9 @@ const {
   recordSessionLink,
   sessionLinkKey,
   writeSessionPrLink,
-} = await import("@/kilo-sessions/pr-link")
+} = await import("@/kappa-sessions/pr-link")
 const { PR_POLL_INTERVAL_MS, bitbucketQuery, refreshPrLink, startPrLinkPoll } = await import(
-  "@/kilo-sessions/pr-link-poller"
+  "@/kappa-sessions/pr-link-poller"
 )
 
 // A record the shape a session owns, for seeding the refresh tests without
@@ -99,7 +99,7 @@ const created: string[] = []
 afterAll(async () => {
   // `mock.restore()` cannot undo a raw `globalThis.fetch = …` assignment; the
   // spy's own restore puts the real fetch back so a later file in the same
-  // process (kilo-sessions.test.ts asserts no `mock` on globalThis.fetch) sees
+  // process (kappa-sessions.test.ts asserts no `mock` on globalThis.fetch) sees
   // the original.
   fetchMock.mockRestore()
   await Promise.all(created.map((dir) => fs.rm(dir, { recursive: true, force: true })))

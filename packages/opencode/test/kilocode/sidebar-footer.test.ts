@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import type { KiloPassState } from "@kilocode/kilo-gateway"
-import type { Message } from "@kilocode/sdk/v2"
+import type { KiloPassState } from "@kappacode/kappa-gateway"
+import type { Message } from "@kappacode/sdk/v2"
 
 import { billable, creditLabel, format, passLine, resetLabel, scope } from "../../src/kilocode/plugins/sidebar-footer"
 
@@ -17,8 +17,8 @@ const message = {
   role: "assistant",
   time: { created: 1, completed: 2 },
   parentID: "msg_0",
-  modelID: "kilo-auto/balanced",
-  providerID: "kilo",
+  modelID: "kappa-auto/balanced",
+  providerID: "kappa",
   mode: "build",
   agent: "build",
   path: { cwd: "/tmp", root: "/tmp" },

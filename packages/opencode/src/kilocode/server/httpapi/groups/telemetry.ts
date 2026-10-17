@@ -39,7 +39,7 @@ export const TelemetryApi = HttpApi.make("telemetry")
           OpenApi.annotations({
             identifier: "telemetry.capture",
             summary: "Capture telemetry event",
-            description: "Forward a telemetry event to PostHog via kilo-telemetry.",
+            description: "Forward a telemetry event to PostHog via kappa-telemetry.",
           }),
         ),
         HttpApiEndpoint.post("setEnabled", TelemetryPaths.setEnabled, {
@@ -68,7 +68,7 @@ export const TelemetryApi = HttpApi.make("telemetry")
   )
   .annotateMerge(
     OpenApi.annotations({
-      title: "kilo HttpApi",
+      title: "kappa HttpApi",
       version: "0.0.1",
       description: "Kilo HttpApi surface.",
     }),

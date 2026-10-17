@@ -8,8 +8,8 @@ describe("Kilo OAuth branding", () => {
   test("Codex OAuth browser flow uses Kilo branding", async () => {
     const src = await Bun.file(path.join(root, "src", "plugin", "openai", "codex.ts")).text()
 
-    expect(src).toContain('originator: "kilo"')
-    expect(src).toContain('"User-Agent": `kilo/${InstallationVersion}`')
+    expect(src).toContain('originator: "kappa"')
+    expect(src).toContain('"User-Agent": `kappa/${InstallationVersion}`')
     expect(src).toContain("return to Kilo")
     expect(src).not.toContain('originator: "opencode"')
     expect(src).not.toContain("return to OpenCode")
@@ -22,8 +22,8 @@ describe("Kilo OAuth branding", () => {
       KiloOauthCallbackPage.error("Denied", { provider: "ChatGPT" }),
     ]
 
-    expect(src).toContain('originator: "kilo"')
-    expect(src).toContain('"User-Agent": `kilo/${InstallationVersion}`')
+    expect(src).toContain('originator: "kappa"')
+    expect(src).toContain('"User-Agent": `kappa/${InstallationVersion}`')
     expect(src).toContain("KiloOauthCallbackPage")
     expect(src).not.toContain('originator: "opencode"')
     for (const page of pages) {

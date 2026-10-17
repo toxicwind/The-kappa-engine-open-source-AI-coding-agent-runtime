@@ -1,6 +1,6 @@
 /** @jsxImportSource @opentui/solid */
 
-import type { SuggestionRequest } from "@kilocode/sdk/v2"
+import type { SuggestionRequest } from "@kappacode/sdk/v2"
 import { createMemo, createSignal, For } from "solid-js"
 import { SplitBorder } from "@tui/ui/border"
 import { useSDK } from "@tui/context/sdk"

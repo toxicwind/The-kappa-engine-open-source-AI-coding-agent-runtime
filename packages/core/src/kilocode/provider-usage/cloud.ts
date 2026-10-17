@@ -5,7 +5,7 @@ import {
   type ByokEntry,
   type CodingPlanQuotaWindow,
   type CodingPlanSubscription,
-} from "@kilocode/kilo-gateway"
+} from "@kappacode/kappa-gateway"
 import type { ProviderUsage } from "@opencode-ai/schema/kilocode/provider-usage"
 
 export { fetchByokEntries, fetchCodingPlanSubscriptions, fetchCodingPlanUsage }
@@ -35,11 +35,11 @@ export async function load(
 }
 
 function base() {
-  if (!process.env.KILO_API_URL) return "https://app.kilo.ai"
+  if (!process.env.KILO_API_URL) return "https://app.kappa.ai"
   try {
     return new URL(process.env.KILO_API_URL).origin
   } catch {
-    return "https://app.kilo.ai"
+    return "https://app.kappa.ai"
   }
 }
 
@@ -99,7 +99,7 @@ export async function managed(
     : subscription.status === "past_due"
       ? "past_due"
       : "active"
-  const id = `kilo-managed:${subscription.id}`
+  const id = `kappa-managed:${subscription.id}`
   const managementUrl = `${base()}/subscriptions/coding-plans/${subscription.id}`
 
   return usage(token, subscription.id)

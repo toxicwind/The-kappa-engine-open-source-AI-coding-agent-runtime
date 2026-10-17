@@ -174,8 +174,8 @@ describe("Config", () => {
           yield* Effect.promise(async () => {
             await Promise.all([fs.mkdir(project, { recursive: true }), fs.mkdir(global, { recursive: true })])
             await Promise.all([
-              fs.writeFile(path.join(project, "kilo.json"), JSON.stringify({ model: "project/model" })),
-              fs.writeFile(path.join(global, "kilo.json"), JSON.stringify({ model: "global/model" })),
+              fs.writeFile(path.join(project, "kappa.json"), JSON.stringify({ model: "project/model" })),
+              fs.writeFile(path.join(global, "kappa.json"), JSON.stringify({ model: "global/model" })),
             ])
           })
 
@@ -781,22 +781,22 @@ describe("Config", () => {
             await fs.mkdir(directory, { recursive: true })
             await Promise.all(
               [root, directory].flatMap((dir) =>
-                [".kilocode", ".kilo", ".opencode"].map((name) => fs.mkdir(path.join(dir, name), { recursive: true })),
+                [".kilocode", ".kappa", ".opencode"].map((name) => fs.mkdir(path.join(dir, name), { recursive: true })),
               ),
             )
             await Promise.all([
               fs.writeFile(path.join(tmp.path, "opencode.json"), JSON.stringify({ $schema: "outside" })),
-              fs.writeFile(path.join(global, "kilo.json"), JSON.stringify({ $schema: "global" })),
-              fs.writeFile(path.join(root, "kilo.json"), JSON.stringify({ $schema: "root" })),
+              fs.writeFile(path.join(global, "kappa.json"), JSON.stringify({ $schema: "global" })),
+              fs.writeFile(path.join(root, "kappa.json"), JSON.stringify({ $schema: "root" })),
               fs.writeFile(path.join(parent, "opencode.jsonc"), JSON.stringify({ $schema: "parent" })),
               fs.writeFile(path.join(directory, "opencode.json"), JSON.stringify({ $schema: "directory" })),
               fs.writeFile(path.join(root, ".kilocode", "opencode.json"), JSON.stringify({ $schema: "root-kilocode" })),
-              fs.writeFile(path.join(root, ".kilo", "kilo.json"), JSON.stringify({ $schema: "root-kilo" })),
+              fs.writeFile(path.join(root, ".kappa", "kappa.json"), JSON.stringify({ $schema: "root-kappa" })),
               fs.writeFile(
                 path.join(directory, ".kilocode", "opencode.jsonc"),
                 JSON.stringify({ $schema: "directory-kilocode" }),
               ),
-              fs.writeFile(path.join(directory, ".kilo", "kilo.jsonc"), JSON.stringify({ $schema: "directory-kilo" })),
+              fs.writeFile(path.join(directory, ".kappa", "kappa.jsonc"), JSON.stringify({ $schema: "directory-kappa" })),
               fs.writeFile(path.join(root, ".opencode", "opencode.json"), JSON.stringify({ $schema: "ignored" })),
             ])
           })
@@ -809,9 +809,9 @@ describe("Config", () => {
             expect(entries.filter((entry) => entry.type === "directory").map((entry) => entry.path)).toEqual([
               AbsolutePath.make(global),
               AbsolutePath.make(path.join(root, ".kilocode")),
-              AbsolutePath.make(path.join(root, ".kilo")),
+              AbsolutePath.make(path.join(root, ".kappa")),
               AbsolutePath.make(path.join(directory, ".kilocode")),
-              AbsolutePath.make(path.join(directory, ".kilo")),
+              AbsolutePath.make(path.join(directory, ".kappa")),
             ])
             expect(documents.map((document) => document.info.$schema)).toEqual([
               "global",
@@ -819,11 +819,11 @@ describe("Config", () => {
               "parent",
               "directory",
               "root-kilocode",
-              "root-kilo",
+              "root-kappa",
               "directory-kilocode",
-              "directory-kilo",
+              "directory-kappa",
             ])
-            expect(Config.latest(entries, "$schema")).toBe("directory-kilo")
+            expect(Config.latest(entries, "$schema")).toBe("directory-kappa")
             expect(entries.map((entry) => (entry.type === "document" ? entry.info.$schema : entry.path))).toEqual([
               "global",
               AbsolutePath.make(global),
@@ -832,12 +832,12 @@ describe("Config", () => {
               "directory",
               "root-kilocode",
               AbsolutePath.make(path.join(root, ".kilocode")),
-              "root-kilo",
-              AbsolutePath.make(path.join(root, ".kilo")),
+              "root-kappa",
+              AbsolutePath.make(path.join(root, ".kappa")),
               "directory-kilocode",
               AbsolutePath.make(path.join(directory, ".kilocode")),
-              "directory-kilo",
-              AbsolutePath.make(path.join(directory, ".kilo")),
+              "directory-kappa",
+              AbsolutePath.make(path.join(directory, ".kappa")),
             ])
           }).pipe(
             Effect.provide(

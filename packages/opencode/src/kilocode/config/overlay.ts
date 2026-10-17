@@ -84,8 +84,8 @@ export namespace KilocodeConfigOverlay {
     sources: KilocodeConfigSources.Source[]
   }
 
-  const files = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json"] as const
-  const dirs = [".kilocode", ".kilo"] as const
+  const files = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json"] as const
+  const dirs = [".kilocode", ".kappa"] as const
 
   const fieldPaths = [
     ["model"],
@@ -106,9 +106,9 @@ export namespace KilocodeConfigOverlay {
     ["indexing", "model"],
     ["indexing", "dimension"],
     ["indexing", "vectorStore"],
-    ["indexing", "kilo", "apiKey"],
-    ["indexing", "kilo", "baseUrl"],
-    ["indexing", "kilo", "organizationId"],
+    ["indexing", "kappa", "apiKey"],
+    ["indexing", "kappa", "baseUrl"],
+    ["indexing", "kappa", "organizationId"],
     ["indexing", "openai", "apiKey"],
     ["indexing", "ollama", "baseUrl"],
     ["indexing", "openai-compatible", "baseUrl"],
@@ -146,11 +146,11 @@ export namespace KilocodeConfigOverlay {
     const found = await Filesystem.findUp(dirs.toReversed(), input.directory, input.worktree)
     const roots = await Filesystem.findUp([...files], input.directory, input.worktree)
     const candidates = [...found.flatMap((dir) => files.map((file) => path.join(dir, file))), ...roots]
-    return candidates.find((file) => existsSync(file)) ?? path.join(input.directory, ".kilo", "kilo.jsonc")
+    return candidates.find((file) => existsSync(file)) ?? path.join(input.directory, ".kappa", "kappa.jsonc")
   }
 
   export function globalTarget() {
-    const candidates = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
+    const candidates = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
       path.join(Global.Path.config, file),
     )
     return candidates.find((file) => existsSync(file)) ?? candidates[0]
@@ -276,7 +276,7 @@ export namespace KilocodeConfigOverlay {
   }
 
   function globalDirs() {
-    return [Global.Path.config, path.join(Global.Path.home, ".kilocode"), path.join(Global.Path.home, ".kilo")]
+    return [Global.Path.config, path.join(Global.Path.home, ".kilocode"), path.join(Global.Path.home, ".kappa")]
   }
 
   // kilocode_change start - root confines untrusted agent {file:} reads

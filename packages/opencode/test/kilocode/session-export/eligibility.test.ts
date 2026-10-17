@@ -3,7 +3,7 @@ import { isEligible, setKillSwitch, resetEligibility, type OrgState } from "@/ki
 
 const base = {
   model: {
-    api: { npm: "@kilocode/kilo-gateway" },
+    api: { npm: "@kappacode/kappa-gateway" },
     isFree: true,
   },
   org: { type: "personal" } as OrgState,

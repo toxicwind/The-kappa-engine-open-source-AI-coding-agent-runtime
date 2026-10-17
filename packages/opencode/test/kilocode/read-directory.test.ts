@@ -84,7 +84,7 @@ describe("kilocode directory reads", () => {
     }),
   )
 
-  it.live("skips content inlining without the kilo flag", () =>
+  it.live("skips content inlining without the kappa flag", () =>
     Effect.gen(function* () {
       const dir = yield* tmpdirScoped()
       yield* put(path.join(dir, "folder", "a.txt"), "alpha")

@@ -30,12 +30,12 @@ export function response<A, E, R>(data: Effect.Effect<A, E, R>) {
 
 function ref(request: HttpServerRequest.HttpServerRequest) {
   const query = new URL(request.url, "http://localhost").searchParams
-  const workspaceID = query.get("location[workspace]") || request.headers["x-kilo-workspace"]
-  const header = request.headers["x-kilo-directory"]
+  const workspaceID = query.get("location[workspace]") || request.headers["x-kappa-workspace"]
+  const header = request.headers["x-kappa-directory"]
   // kilocode_change start - reject malformed encoded directory headers as client errors
   return Effect.try({
     try: () => query.get("location[directory]") || (header ? decodeURIComponent(header) : process.cwd()),
-    catch: () => new InvalidRequestError({ message: "Invalid encoded directory header", field: "x-kilo-directory" }),
+    catch: () => new InvalidRequestError({ message: "Invalid encoded directory header", field: "x-kappa-directory" }),
   }).pipe(
     Effect.map((directory) =>
       Location.Ref.make({

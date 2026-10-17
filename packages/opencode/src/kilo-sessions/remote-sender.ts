@@ -1,12 +1,12 @@
-import { RemoteCommand } from "@/kilo-sessions/remote-command"
-import { RemoteExit } from "@/kilo-sessions/remote-exit"
-import { RemoteModelCatalog } from "@/kilo-sessions/remote-model-catalog"
-import { RemoteSessionLog } from "@/kilo-sessions/remote-session-log"
-import { RemoteProtocol } from "@/kilo-sessions/remote-protocol"
+import { RemoteCommand } from "@/kappa-sessions/remote-command"
+import { RemoteExit } from "@/kappa-sessions/remote-exit"
+import { RemoteModelCatalog } from "@/kappa-sessions/remote-model-catalog"
+import { RemoteSessionLog } from "@/kappa-sessions/remote-session-log"
+import { RemoteProtocol } from "@/kappa-sessions/remote-protocol"
 // kilocode_change - set_pr_link: parse the app-supplied PR URL into a per-session link.
-import { enabled as prEnabled, parsePrUrl, type PrLink } from "@/kilo-sessions/pr-link"
-import { consumeRenameAdoption, markRenameAdopted } from "@/kilo-sessions/rename-adoptions"
-import type { RemoteWS } from "@/kilo-sessions/remote-ws"
+import { enabled as prEnabled, parsePrUrl, type PrLink } from "@/kappa-sessions/pr-link"
+import { consumeRenameAdoption, markRenameAdopted } from "@/kappa-sessions/rename-adoptions"
+import type { RemoteWS } from "@/kappa-sessions/remote-ws"
 import { GlobalBus } from "@/bus/global"
 import { RemoteAttachments } from "@/kilocode/remote-attachments"
 import { Session } from "@/session/session"
@@ -173,7 +173,7 @@ function normalizeModel(model: string | RemoteModelCatalog.ModelRef | undefined)
     }
   }
   return {
-    providerID: ProviderV2.ID.make("kilo"),
+    providerID: ProviderV2.ID.make("kappa"),
     modelID: ModelV2.ID.make(model.startsWith("kilocode/") ? model.slice("kilocode/".length) : model),
   }
 }
@@ -371,7 +371,7 @@ export namespace RemoteSender {
     // kilocode_change - K1 W1: session create + in-process attach seams used by
     // create_session. Production wires `attachSession` to
     // `KiloSessions.attachRemoteSession` from inside `enableRemote` (see
-    // kilo-sessions.ts). Test fixtures inject stubs via the Options object.
+    // kappa-sessions.ts). Test fixtures inject stubs via the Options object.
     // When omitted, the create_session / exit_cli handlers treat the seam
     // as a wiring bug (a missing seam is never a runtime fallback).
     const sessionCreate =
@@ -389,13 +389,13 @@ export namespace RemoteSender {
     const attachSession =
       options.attachSession ??
       (async (id: SessionID, opts?: { requireShare?: boolean }) => {
-        const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
+        const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
         await KiloSessions.attachRemoteSession(id, opts)
       })
     const detachSession =
       options.detachSession ??
       (async (id: SessionID) => {
-        const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
+        const { KiloSessions } = await import("@/kappa-sessions/kappa-sessions")
         await KiloSessions.detachRemoteSession(id)
       })
     const hasSession = options.hasSession ?? (() => false)
@@ -427,7 +427,7 @@ export namespace RemoteSender {
         await run({
           directory: info?.directory ?? options.directory,
           fn: async () => {
-            const { clearSessionLink, recordSessionLink } = await import("@/kilo-sessions/pr-link")
+            const { clearSessionLink, recordSessionLink } = await import("@/kappa-sessions/pr-link")
             if (!value) {
               await clearSessionLink(sessionId)
               return
@@ -894,7 +894,7 @@ export namespace RemoteSender {
       if (msg.command === "exit_cli") {
         // kilocode_change - K1 W1: `exit_cli` now means "detach THIS remote
         // session and (if this is the last interactive session) close the
-        // CLI." It is NOT "terminate the CLI." A headless `kilo remote` host
+        // CLI." It is NOT "terminate the CLI." A headless `kappa remote` host
         // never invokes the RemoteExit callback (it is never registered for
         // headless mode), so the same command cleanly handles both the
         // interactive TUI shutdown path and the per-session-detach path
@@ -919,7 +919,7 @@ export namespace RemoteSender {
         //      attachedState.union() (NOT mobile subscriptions).
         //   6. If zero remain + a RemoteExit callback is registered, ACK
         //      then invoke the callback in a microtask so the response can
-        //      flush first. If zero remain + no callback (headless `kilo
+        //      flush first. If zero remain + no callback (headless `kappa
         //      remote`), ACK and keep the host alive (the host keeps
         //      advertising and can create a new session from zero). If
         //      sessions remain, ACK and keep the process alive.
@@ -956,7 +956,7 @@ export namespace RemoteSender {
             // so the trace exists even if a later step fails.
             RemoteSessionLog.end(options.log, { sessionID: target, reason: "detached" })
             // 3. Snapshot remaining sessions AFTER detach. Headless hosts
-            //    (`kilo remote`) never register a RemoteExit callback, so
+            //    (`kappa remote`) never register a RemoteExit callback, so
             //    `exit` is undefined there and the host stays alive.
             const remaining = ownedCount()
             options.conn.send({ type: "response", id: msg.id, result: {} })
@@ -1482,7 +1482,7 @@ export namespace RemoteSender {
                 directory: info.directory,
                 fn: async () => {
                   // Mark before setTitle: Session.Event.Updated publishes inside
-                  // setTitle and the kilo-sessions consumer is deferred, so a
+                  // setTitle and the kappa-sessions consumer is deferred, so a
                   // post-write mark races the title broadcast. Clear on failure
                   // (same consume-on-failure pattern ensureTitle uses for auto-titles)
                   // so a later local write to this title is not skipped as an adoption.

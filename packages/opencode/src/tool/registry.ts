@@ -23,7 +23,7 @@ import { InvalidTool } from "./invalid"
 import { SkillTool } from "./skill"
 import * as Tool from "./tool"
 import { Config } from "@/config/config"
-import { type ToolContext as PluginToolContext, type ToolDefinition } from "@kilocode/plugin"
+import { type ToolContext as PluginToolContext, type ToolDefinition } from "@kappacode/plugin"
 import type { JSONSchema7, JSONSchema7Definition } from "@ai-sdk/provider"
 import { Schema } from "effect"
 import z from "zod"
@@ -67,12 +67,12 @@ import { Agent } from "../agent/agent"
 import { Skill } from "../skill"
 import { Permission } from "@/permission"
 import { SessionStatus } from "@/session/status" // kilocode_change
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions" // kilocode_change - provide KiloSessions.Service so the notify_user tool's init resolves
+import { KiloSessions } from "@/kappa-sessions/kappa-sessions" // kilocode_change - provide KiloSessions.Service so the notify_user tool's init resolves
 import { Git } from "@/git" // kilocode_change
 import { BackgroundJob } from "@/background/job"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import * as ToolNetwork from "@/kilocode/sandbox/network" // kilocode_change
-import { MemoryService } from "@kilocode/kilo-memory/effect/service" // kilocode_change
+import { MemoryService } from "@kappacode/kappa-memory/effect/service" // kilocode_change
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { RepositoryCache } from "@opencode-ai/core/repository-cache" // kilocode_change
@@ -88,7 +88,7 @@ export function webSearchEnabled(
   flags = { exa: Flag.KILO_ENABLE_EXA, parallel: Flag.KILO_ENABLE_PARALLEL },
 ) {
   return (
-    providerID === ProviderV2.ID.kilo || // kilocode_change
+    providerID === ProviderV2.ID.kappa || // kilocode_change
     providerID === ProviderV2.ID.make("opencode-go") ||
     flags.exa ||
     flags.parallel
@@ -297,7 +297,7 @@ const layer = Layer.effect(
         })
 
         // kilocode_change start
-        const kilo = yield* KiloToolRegistry.build(kiloToolInfos, {
+        const kappa = yield* KiloToolRegistry.build(kiloToolInfos, {
           agent: agents,
           truncate,
           indexing: indexing ?? false,
@@ -326,12 +326,12 @@ const layer = Layer.effect(
               tool.patch,
               tool.plan,
               ...(["cli", "vscode"].includes(flags.client) ? [tool.suggest] : []),
-              ...KiloToolRegistry.extra(kilo, cfg, flags),
+              ...KiloToolRegistry.extra(kappa, cfg, flags),
               ...(tool.execute ? [tool.execute] : []),
               ...(flags.experimentalLspTool ? [tool.lsp] : []),
               ...(flags.experimentalContextTools ? [tool.contextInfo, tool.compact] : []), // kilocode_change
             ],
-            kilo,
+            kappa,
           ),
           // kilocode_change end
           task: tool.task,

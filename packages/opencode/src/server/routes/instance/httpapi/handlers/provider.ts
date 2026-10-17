@@ -62,9 +62,9 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
       }
       const connected = yield* provider.list()
       // kilocode_change start
-      const info = yield* access.get("kilo").pipe(Effect.option)
-      const unavailable = Option.isNone(info) && ("kilo" in filtered || "kilo" in connected)
-      if (Option.isNone(info) || organization(config.provider?.kilo?.options, info.value)) delete filtered.kilo
+      const info = yield* access.get("kappa").pipe(Effect.option)
+      const unavailable = Option.isNone(info) && ("kappa" in filtered || "kappa" in connected)
+      if (Option.isNone(info) || organization(config.provider?.kappa?.options, info.value)) delete filtered.kappa
       const providers = filterPromptTrainingModels(
         Object.assign(
           mapValues(filtered, (item) => Provider.fromModelsDevProvider(item)),
@@ -78,22 +78,22 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
       // Note: connected only contains providers with non-empty models after Provider.Service.list(),
       // so failed must be checked explicitly for providers whose fetch returned an error.
       const failedSet = new Set(failed)
-      if (unavailable) failedSet.add("kilo")
+      if (unavailable) failedSet.add("kappa")
       const validProviders = pickBy(
         providers,
         (item, id) => Object.keys(item.models).length > 0 || id in connected || failedSet.has(id),
       )
       const defaults = Provider.defaultModelIDs(pickBy(validProviders, (item) => Object.keys(item.models).length > 0))
-      if (connected[ProviderV2.ID.kilo] && defaults[ProviderV2.ID.kilo]) {
+      if (connected[ProviderV2.ID.kappa] && defaults[ProviderV2.ID.kappa]) {
         const model = yield* Effect.promise(() =>
           recommend(
-            validProviders.kilo.models,
-            config.provider?.kilo?.options,
+            validProviders.kappa.models,
+            config.provider?.kappa?.options,
             Option.getOrUndefined(info),
             Option.isSome(info),
           ),
         )
-        if (model) defaults[ProviderV2.ID.kilo] = ModelV2.ID.make(model)
+        if (model) defaults[ProviderV2.ID.kappa] = ModelV2.ID.make(model)
       }
       return {
         all: Object.values(validProviders).map((item) => ({
@@ -151,7 +151,7 @@ export const providerHandlers = HttpApiBuilder.group(InstanceHttpApi, "provider"
         }),
       )
       // kilocode_change start - drop old-user presence before instance disposal on Kilo OAuth callback
-      if (ctx.params.providerID === "kilo") yield* invalidatePresence()
+      if (ctx.params.providerID === "kappa") yield* invalidatePresence()
       // kilocode_change end
       yield* disposeAllInstancesAfterProviderAuthCallback() // kilocode_change
       return true

@@ -1,4 +1,4 @@
-import type { Message, Session, Part, SnapshotFileDiff, SessionStatus, Provider } from "@kilocode/sdk/v2"
+import type { Message, Session, Part, SnapshotFileDiff, SessionStatus, Provider } from "@kappacode/sdk/v2"
 import { createSimpleContext } from "./helper"
 import { PreloadMultiFileDiffResult } from "@pierre/diffs/ssr"
 
@@ -50,8 +50,8 @@ export type OpenFileFn = (filePath: string, line?: number, column?: number, sess
 
 export type OpenDiffFn = (diff: {
   file: string
-  before?: string // kilocode_change - optional, kilo uses `patch`
-  after?: string // kilocode_change - optional, kilo uses `patch`
+  before?: string // kilocode_change - optional, kappa uses `patch`
+  after?: string // kilocode_change - optional, kappa uses `patch`
   patch?: string // kilocode_change
   additions: number
   deletions: number

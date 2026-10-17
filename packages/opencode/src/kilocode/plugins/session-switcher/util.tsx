@@ -1,4 +1,4 @@
-import type { Part } from "@kilocode/sdk/v2"
+import type { Part } from "@kappacode/sdk/v2"
 import { Locale } from "@tui/util/locale"
 
 export function relativeTime(timestamp: number): string {

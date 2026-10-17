@@ -1,4 +1,4 @@
-// Leaf module shared by remote-sender (rename adoption) and kilo-sessions
+// Leaf module shared by remote-sender (rename adoption) and kappa-sessions
 // (title broadcast + auto-title marking). Kept free of imports from either so
 // neither side needs a static import of the other.
 

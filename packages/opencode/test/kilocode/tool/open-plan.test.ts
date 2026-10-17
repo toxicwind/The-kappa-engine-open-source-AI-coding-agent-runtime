@@ -53,14 +53,14 @@ describe("open_plan", () => {
       const test = yield* TestInstance
       const sessions = yield* Session.Service
       const session = yield* sessions.create({ title: "generated" })
-      const file = path.join(test.directory, ".kilo", "plans", `${session.time.created}-generated.md`)
+      const file = path.join(test.directory, ".kappa", "plans", `${session.time.created}-generated.md`)
       yield* Effect.promise(() => Bun.write(file, "Do implementation step 1"))
 
       const info = yield* OpenPlanTool
       const tool = yield* Tool.init(info)
       const result = yield* tool.execute({}, ctx(session.id))
 
-      expect(result.metadata.plan.replaceAll(path.sep, "/")).toBe(`.kilo/plans/${session.time.created}-generated.md`)
+      expect(result.metadata.plan.replaceAll(path.sep, "/")).toBe(`.kappa/plans/${session.time.created}-generated.md`)
       expect(result.metadata.open).toBe(true)
     }),
     { git: true },

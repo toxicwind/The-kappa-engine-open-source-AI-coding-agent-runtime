@@ -38,7 +38,7 @@ export function wrapClientError(
   // Empty body / network failure / undefined / null / empty object.
   const reason = response ? "(empty response body)" : "network error (no response)"
   // kilocode_change
-  return new Error(`kilo server ${describe(request, response)}: ${reason}`, {
+  return new Error(`kappa server ${describe(request, response)}: ${reason}`, {
     cause: { body: error, status: response?.status },
   })
 }

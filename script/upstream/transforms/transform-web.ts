@@ -46,12 +46,12 @@ const WEB_REPLACEMENTS: WebReplacement[] = [
   // Domains
   {
     pattern: /app\.opencode\.ai/g,
-    replacement: "app.kilo.ai",
+    replacement: "app.kappa.ai",
     description: "App domain",
   },
   {
     pattern: /opencode\.ai(?!\/zen)/g,
-    replacement: "kilo.ai",
+    replacement: "kappa.ai",
     description: "Main domain (excluding zen)",
   },
 
@@ -65,37 +65,37 @@ const WEB_REPLACEMENTS: WebReplacement[] = [
   // CLI commands
   {
     pattern: /npx opencode(?!\w)/g,
-    replacement: "npx kilo",
+    replacement: "npx kappa",
     description: "npx command",
   },
   {
     pattern: /bun add opencode(?!\w)/g,
-    replacement: "bun add kilo",
+    replacement: "bun add kappa",
     description: "bun add command",
   },
   {
     pattern: /npm install opencode(?!\w)/g,
-    replacement: "npm install kilo",
+    replacement: "npm install kappa",
     description: "npm install command",
   },
   {
     pattern: /opencode upgrade/g,
-    replacement: "kilo upgrade",
+    replacement: "kappa upgrade",
     description: "upgrade command",
   },
   {
     pattern: /opencode dev/g,
-    replacement: "kilo dev",
+    replacement: "kappa dev",
     description: "dev command",
   },
   {
     pattern: /opencode serve/g,
-    replacement: "kilo serve",
+    replacement: "kappa serve",
     description: "serve command",
   },
   {
     pattern: /opencode auth/g,
-    replacement: "kilo auth",
+    replacement: "kappa auth",
     description: "auth command",
   },
 ]

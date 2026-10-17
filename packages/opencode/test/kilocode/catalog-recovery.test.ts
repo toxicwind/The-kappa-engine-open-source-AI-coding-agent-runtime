@@ -2,7 +2,7 @@ import { expect } from "bun:test"
 import { Effect, Layer, Ref } from "effect"
 import * as TestClock from "effect/testing/TestClock"
 import { FetchHttpClient } from "effect/unstable/http"
-import type { KiloModelsResult } from "@kilocode/kilo-gateway"
+import type { KiloModelsResult } from "@kappacode/kappa-gateway"
 import * as Core from "@opencode-ai/core/models-dev"
 import * as ModelsRefresh from "@opencode-ai/core/kilocode/models-refresh"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
@@ -62,7 +62,7 @@ it.effect("refreshes initialized provider state after a prolonged outage and rep
     const calls = yield* Ref.make<Options[]>([])
     const notifications = yield* Ref.make(0)
     yield* ModelsRefresh.watch(() => Ref.update(notifications, (count) => count + 1))
-    const cfg = TestConfig.layer({ get: () => Effect.succeed({ provider: { kilo: { options } } }) })
+    const cfg = TestConfig.layer({ get: () => Effect.succeed({ provider: { kappa: { options } } }) })
     const access = Layer.mock(Auth.Service)({ get: () => Effect.succeed(undefined), all: () => Effect.succeed({}) })
     const models = ModelsDev.layer.pipe(
       Layer.provide(layer(calls, [...Array.from({ length: 8 }, () => network), catalog])),
@@ -78,7 +78,7 @@ it.effect("refreshes initialized provider state after a prolonged outage and rep
     ])
     yield* Provider.Service.use((provider) =>
       Effect.gen(function* () {
-        const id = ProviderV2.ID.make("kilo")
+        const id = ProviderV2.ID.make("kappa")
         const model = ModelV2.ID.make("allowed")
         const missing = yield* provider.getModel(id, model).pipe(Effect.flip)
         expect(missing.modelsEmpty).toBe(true)
@@ -99,8 +99,8 @@ it.effect("refreshes initialized provider state after a prolonged outage and rep
           expect((yield* Ref.get(calls)).length).toBe(count + 1)
         }
         expect(yield* Ref.get(notifications)).toBe(1)
-        expect((yield* provider.list())[id].models[model]).toMatchObject({ id: "allowed", providerID: "kilo" })
-        expect(yield* provider.getModel(id, model)).toMatchObject({ id: "allowed", providerID: "kilo" })
+        expect((yield* provider.list())[id].models[model]).toMatchObject({ id: "allowed", providerID: "kappa" })
+        expect(yield* provider.getModel(id, model)).toMatchObject({ id: "allowed", providerID: "kappa" })
         const typo = yield* provider.getModel(id, ModelV2.ID.make("typo")).pipe(Effect.flip)
         expect(typo.modelsEmpty).toBe(false)
         expect(typo.catalogError).toBeUndefined()
@@ -123,10 +123,10 @@ for (const error of [
       const calls = yield* Ref.make<Options[]>([])
       yield* ModelCache.Service.use((cache) =>
         Effect.gen(function* () {
-          yield* cache.fetch("kilo", options)
+          yield* cache.fetch("kappa", options)
           yield* TestClock.adjust("1 hour")
           expect((yield* Ref.get(calls)).length).toBe(1)
-          expect(yield* cache.getFailure("kilo")).toEqual(error)
+          expect(yield* cache.getFailure("kappa")).toEqual(error)
         }),
       ).pipe(Effect.provide(layer(calls, [{ models: {}, error }])))
     }),
@@ -145,13 +145,13 @@ for (const result of [
       const calls = yield* Ref.make<Options[]>([])
       yield* ModelCache.Service.use((cache) =>
         Effect.gen(function* () {
-          yield* cache.fetch("kilo", options)
+          yield* cache.fetch("kappa", options)
           const seconds = result.error?.retryAfter ?? 30
           yield* TestClock.adjust(`${seconds - 1} seconds`)
           expect((yield* Ref.get(calls)).length).toBe(1)
           yield* TestClock.adjust("1 second")
-          expect(yield* cache.get("kilo")).toEqual(catalog.models)
-          expect(yield* cache.getFailure("kilo")).toBeUndefined()
+          expect(yield* cache.get("kappa")).toEqual(catalog.models)
+          expect(yield* cache.getFailure("kappa")).toBeUndefined()
         }),
       ).pipe(Effect.provide(layer(calls, [result, catalog])))
     }),
@@ -178,7 +178,7 @@ it.effect("stops recovering after an unexpected fetch failure instead of retryin
     )
     yield* ModelCache.Service.use((service) =>
       Effect.gen(function* () {
-        yield* service.fetch("kilo", options)
+        yield* service.fetch("kappa", options)
         yield* TestClock.adjust("30 seconds")
         expect((yield* Ref.get(calls)).length).toBe(2)
         yield* TestClock.adjust("1 hour")
@@ -194,19 +194,19 @@ it.effect("isolates account switches, reselected failed cells and cache clearing
     const next = { ...options, kilocodeOrganizationId: "org-b", kilocodeToken: "other-token" }
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
-        yield* cache.fetch("kilo", options)
-        expect(yield* cache.fetch("kilo", next)).toEqual(catalog.models)
+        yield* cache.fetch("kappa", options)
+        expect(yield* cache.fetch("kappa", next)).toEqual(catalog.models)
         yield* TestClock.adjust("30 seconds")
         expect(yield* Ref.get(calls)).toEqual([options, next])
-        expect(yield* cache.fetch("kilo", options)).toEqual({})
+        expect(yield* cache.fetch("kappa", options)).toEqual({})
         yield* TestClock.adjust("30 seconds")
-        expect(yield* cache.get("kilo")).toEqual(catalog.models)
+        expect(yield* cache.get("kappa")).toEqual(catalog.models)
         // A warm catalog from the previous account must not suppress this failed fetch.
-        expect(yield* cache.refresh("kilo", next)).toEqual({})
-        yield* cache.clear("kilo")
+        expect(yield* cache.refresh("kappa", next)).toEqual({})
+        yield* cache.clear("kappa")
         yield* TestClock.adjust("1 hour")
         expect(yield* Ref.get(calls)).toEqual([options, next, options, next])
-        expect(yield* cache.get("kilo")).toBeUndefined()
+        expect(yield* cache.get("kappa")).toBeUndefined()
       }),
     ).pipe(Effect.provide(layer(calls, [network, catalog, catalog, network])))
   }),

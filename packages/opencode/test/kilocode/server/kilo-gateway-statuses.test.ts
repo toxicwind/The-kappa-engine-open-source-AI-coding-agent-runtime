@@ -9,8 +9,8 @@ import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi"
 import { Auth } from "../../../src/auth"
 import type { Config } from "../../../src/config/config"
 import { TestConfig } from "../../fixture/config"
-import { KiloGatewayApi, KiloGatewayPaths } from "../../../src/kilocode/server/httpapi/groups/kilo-gateway"
-import { kiloGatewayHandlers } from "../../../src/kilocode/server/httpapi/handlers/kilo-gateway"
+import { KiloGatewayApi, KiloGatewayPaths } from "../../../src/kilocode/server/httpapi/groups/kappa-gateway"
+import { kiloGatewayHandlers } from "../../../src/kilocode/server/httpapi/handlers/kappa-gateway"
 import { InstanceStore } from "../../../src/project/instance-store"
 import { ModelCache } from "../../../src/provider/model-cache"
 import { Session } from "../../../src/session/session"
@@ -133,7 +133,7 @@ describe("Kilo gateway HttpApi statuses", () => {
             state.info = new Auth.Oauth({ type: "oauth", access: "test-token", refresh: "", expires: 0 })
             return {
               console: spyOn(console, "warn").mockImplementation(() => {}),
-              log: spyOn(Log.create({ service: "kilo-gateway" }), "warn").mockImplementation(() => {}),
+              log: spyOn(Log.create({ service: "kappa-gateway" }), "warn").mockImplementation(() => {}),
             }
           }),
           (spies) =>
@@ -203,9 +203,9 @@ describe("Kilo gateway HttpApi statuses", () => {
         yield* Effect.acquireRelease(
           Effect.sync(() => {
             state.config = context.config
-              ? { provider: { kilo: { options: { kilocodeOrganizationId: "org-config" } } } }
+              ? { provider: { kappa: { options: { kilocodeOrganizationId: "org-config" } } } }
               : context.url
-                ? { provider: { kilo: { options: { baseURL: "https://gateway.test/api/organizations/org-url" } } } }
+                ? { provider: { kappa: { options: { baseURL: "https://gateway.test/api/organizations/org-url" } } } }
                 : {}
             state.info = context.anonymous
               ? undefined

@@ -10,7 +10,7 @@ const LIMIT = 1
 const BUDGET = Duration.seconds(30)
 // The previous VS Code scan always skipped these directories. Keep that guarantee even
 // when the workspace is not a git repository and has no .gitignore.
-const EXCLUDE = "**/{node_modules,dist,build,out,.kilo,.opencode,.kilocode}/**"
+const EXCLUDE = "**/{node_modules,dist,build,out,.kappa,.opencode,.kilocode}/**"
 
 /** Unique `suggest_for.filename` patterns of the given items. */
 export function patterns(items: readonly MarketplaceItem[]): string[] {

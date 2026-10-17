@@ -1,5 +1,5 @@
 import { Tool } from "@/tool/tool"
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions"
+import { KiloSessions } from "@/kappa-sessions/kappa-sessions"
 import { Effect, Schema } from "effect"
 import DESCRIPTION from "./notify-user.txt"
 
@@ -13,7 +13,7 @@ type Meta = { notificationId: string; ok: boolean; reason?: string }
 
 const FAILURE_TEXT =
   "Push notifications are unavailable: this session is not connected to Kilo cloud. " +
-  "Sign in with `kilo auth login` and ensure the session is sharing before retrying."
+  "Sign in with `kappa auth login` and ensure the session is sharing before retrying."
 
 const SUCCESS_TEXT =
   "Notification sent to the user's Kilo app. Delivery may be suppressed by the user's " +

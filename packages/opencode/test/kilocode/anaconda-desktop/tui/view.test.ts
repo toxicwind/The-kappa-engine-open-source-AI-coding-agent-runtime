@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import type { AnacondaDesktopStatus } from "@kilocode/sdk/v2"
+import type { AnacondaDesktopStatus } from "@kappacode/sdk/v2"
 import { DOWNLOAD_URL } from "../../../../src/kilocode/anaconda-desktop/domain"
 import { setupView } from "../../../../src/kilocode/anaconda-desktop/tui/model"
 

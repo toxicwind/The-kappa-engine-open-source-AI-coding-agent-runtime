@@ -8,7 +8,7 @@ import { errorMessage } from "@opencode-ai/tui/util/error"
 import { withTimeout } from "@/util/timeout"
 import { withNetworkOptions, resolveNetworkOptionsNoConfig, hasArg } from "@/cli/network"
 import { Filesystem } from "@/util/filesystem"
-import type { GlobalEvent } from "@kilocode/sdk/v2"
+import type { GlobalEvent } from "@kappacode/sdk/v2"
 import type { EventSource } from "@opencode-ai/tui/context/sdk"
 import { writeHeapSnapshot } from "v8"
 import type { StartInput } from "@/kilocode/cli/cmd/tui/thread" // kilocode_change - runtime imports deferred into handlers
@@ -123,7 +123,7 @@ async function input(value?: string) {
 }
 
 export function resolveThreadDirectory(project?: string, envPWD = process.env.PWD, cwd = process.cwd()) {
-  // kilocode_change start - ignore stale PWD from wrappers such as `bun --cwd`, except kilo-dev's caller cwd
+  // kilocode_change start - ignore stale PWD from wrappers such as `bun --cwd`, except kappa-dev's caller cwd
   const dev = process.env.KILO_DEV_CWD
   const real = Filesystem.resolve(cwd)
   const root = dev
@@ -138,12 +138,12 @@ export function resolveThreadDirectory(project?: string, envPWD = process.env.PW
 
 export const TuiThreadCommand = cmd({
   command: "$0 [project]",
-  describe: "start kilo tui", // kilocode_change
+  describe: "start kappa tui", // kilocode_change
   builder: (yargs) =>
     withNetworkOptions(yargs)
       .positional("project", {
         type: "string",
-        describe: "path to start kilo in", // kilocode_change
+        describe: "path to start kappa in", // kilocode_change
       })
       .option("model", {
         type: "string",
@@ -171,7 +171,7 @@ export const TuiThreadCommand = cmd({
       // kilocode_change start - create/reuse a git worktree before starting
       .option("worktree", {
         type: "string",
-        describe: "create (or reuse) a git worktree with this name and start kilo there",
+        describe: "create (or reuse) a git worktree with this name and start kappa there",
       })
       // kilocode_change end
       .option("prompt", {
@@ -442,7 +442,7 @@ export const TuiThreadCommand = cmd({
             events: undefined,
           }
         : {
-            url: "http://kilo.internal",
+            url: "http://kappa.internal",
             fetch: createWorkerFetch(client),
             headers: auth.headers, // kilocode_change
             events: createEventSource(client),
@@ -458,7 +458,7 @@ export const TuiThreadCommand = cmd({
         // kilocode_change start - import cloud session before TUI renders
         if (args.cloudFork && args.session) {
           UI.println("Importing session from cloud...")
-          const { createKiloClient } = await import("@kilocode/sdk/v2")
+          const { createKiloClient } = await import("@kappacode/sdk/v2")
           const sdk = createKiloClient({
             baseUrl: transport.url,
             fetch: transport.fetch,

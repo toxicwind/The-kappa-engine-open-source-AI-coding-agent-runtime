@@ -18,7 +18,7 @@ import type {
   SessionV2Info,
   SkillV2Info,
   V2Event,
-} from "@kilocode/sdk/v2"
+} from "@kappacode/sdk/v2"
 import { createStore, produce, reconcile } from "solid-js/store" // kilocode_change
 import { createSimpleContext } from "./helper"
 import { useSDK } from "./sdk"

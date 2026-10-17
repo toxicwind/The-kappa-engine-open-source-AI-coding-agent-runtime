@@ -81,7 +81,7 @@ function model(): Provider.Model {
 
 function empty(vercelID?: string) {
   const usage = new Usage({})
-  const providerMetadata = vercelID ? { kilo: { vercelID } } : undefined
+  const providerMetadata = vercelID ? { kappa: { vercelID } } : undefined
   return [
     LLMEvent.stepStart({ index: 0 }),
     LLMEvent.reasoningStart({ id: "reasoning" }),

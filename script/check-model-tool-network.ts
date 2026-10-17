@@ -2,11 +2,11 @@
 // kilocode_change - new file
 
 // This is a CI-only architecture test, not production network enforcement. Model tools run
-// inside the trusted kilo serve process, so macOS Seatbelt can only confine their spawned
+// inside the trusted kappa serve process, so macOS Seatbelt can only confine their spawned
 // children. In-process tools must use the policy-aware HTTP capability instead of direct fetch,
 // sockets, or ad hoc clients. Keep this narrow scan to prevent future tool implementations from
 // accidentally bypassing that boundary; trusted provider and model-inference code is intentionally
-// outside the scanned directories. Runtime enforcement remains in @kilocode/sandbox.
+// outside the scanned directories. Runtime enforcement remains in @kappacode/sandbox.
 
 import path from "node:path"
 import { host, opaque } from "../packages/opencode/src/kilocode/sandbox/network-tools"
@@ -94,7 +94,7 @@ const tools = (
 ).flat()
 const drift = [...clients, ...tools]
 
-const network = await Bun.file(path.join(source, "kilocode", "sandbox", "network.ts")).text()
+const network = await Bun.file(path.join(source, "kappacode", "sandbox", "network.ts")).text()
 const registry = await Bun.file(path.join(source, "tool", "registry.ts")).text()
 const session = await Bun.file(path.join(source, "session", "tools.ts")).text()
 const mcp = await Bun.file(path.join(source, "mcp", "index.ts")).text()
@@ -146,7 +146,7 @@ if (invalid.length > 0 || drift.length > 0 || structure.length > 0) {
     console.error("")
   }
   console.error(
-    "Use the @kilocode/sandbox network capability or classify an opaque client at the common tool boundary.",
+    "Use the @kappacode/sandbox network capability or classify an opaque client at the common tool boundary.",
   )
   process.exit(1)
 }

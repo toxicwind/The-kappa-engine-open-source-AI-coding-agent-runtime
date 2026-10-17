@@ -8,11 +8,11 @@
  * 3. Preserving lines marked with `// kilocode_change`
  *
  * String replacement rules:
- * - opencode.ai -> kilo.ai (domain)
- * - app.opencode.ai -> app.kilo.ai (app domain)
+ * - opencode.ai -> kappa.ai (domain)
+ * - app.opencode.ai -> app.kappa.ai (app domain)
  * - OpenCode -> Kilo (product name in user-visible text)
- * - opencode upgrade -> kilo upgrade (CLI commands)
- * - npx opencode -> npx kilo (CLI invocation)
+ * - opencode upgrade -> kappa upgrade (CLI commands)
+ * - npx opencode -> npx kappa (CLI invocation)
  * - anomalyco/opencode -> Kilo-Org/kilocode (GitHub repo)
  *
  * Preserved (not replaced):
@@ -64,49 +64,49 @@ const I18N_REPLACEMENTS: StringReplacement[] = [
   // Domain replacements (specific first)
   {
     pattern: /app\.opencode\.ai/g,
-    replacement: "app.kilo.ai",
+    replacement: "app.kappa.ai",
     description: "App domain",
   },
   {
     pattern: /opencode\.ai(?!\/zen)/g,
-    replacement: "kilo.ai",
+    replacement: "kappa.ai",
     description: "Main domain (excluding zen)",
   },
 
   // CLI commands (be careful with order)
   {
     pattern: /npx opencode(?!\w)/g,
-    replacement: "npx kilo",
+    replacement: "npx kappa",
     description: "npx command",
   },
   {
     pattern: /bun add opencode(?!\w)/g,
-    replacement: "bun add kilo",
+    replacement: "bun add kappa",
     description: "bun add command",
   },
   {
     pattern: /npm install opencode(?!\w)/g,
-    replacement: "npm install kilo",
+    replacement: "npm install kappa",
     description: "npm install command",
   },
   {
     pattern: /opencode upgrade(?!\w)/g,
-    replacement: "kilo upgrade",
+    replacement: "kappa upgrade",
     description: "upgrade command",
   },
   {
     pattern: /opencode dev(?!\w)/g,
-    replacement: "kilo dev",
+    replacement: "kappa dev",
     description: "dev command",
   },
   {
     pattern: /opencode serve(?!\w)/g,
-    replacement: "kilo serve",
+    replacement: "kappa serve",
     description: "serve command",
   },
   {
     pattern: /opencode auth(?!\w)/g,
-    replacement: "kilo auth",
+    replacement: "kappa auth",
     description: "auth command",
   },
 

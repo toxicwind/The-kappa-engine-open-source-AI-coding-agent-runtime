@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import { KiloClient, type Provider } from "@kilocode/sdk/v2"
+import { KiloClient, type Provider } from "@kappacode/sdk/v2"
 import type { Resolved } from "@opencode-ai/tui/config"
 import { TuiConfig } from "@/config/tui"
 import { resolveDiffStyle, resolveModelInfo, resolveRunTuiConfig } from "@/cli/cmd/run/runtime.boot"

@@ -2,8 +2,8 @@ import { Effect } from "effect"
 import { mkdir, rm } from "fs/promises"
 import path from "path"
 import { parse as parseJsonc } from "jsonc-parser"
-import { KiloMemory } from "@kilocode/kilo-memory/effect"
-import { MemoryPaths } from "@kilocode/kilo-memory/effect/paths"
+import { KiloMemory } from "@kappacode/kappa-memory/effect"
+import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { Database } from "@opencode-ai/core/database/database"
 import { BoardStore } from "../../../src/kilocode/board/store"
 import { array, check, isRecord, object, stable } from "../../server/httpapi-exercise/assertions"
@@ -29,15 +29,15 @@ function file(ctx: ScenarioContext, name: string, content: string) {
 
 const skill = async (dir: string) => {
   await Bun.write(
-    path.join(dir, ".kilo/skill/httpapi-remove/SKILL.md"),
+    path.join(dir, ".kappa/skill/httpapi-remove/SKILL.md"),
     "---\nname: httpapi-remove\ndescription: HTTP API removal fixture.\n---\n# HTTP API remove\n",
   )
-  await Bun.write(path.join(dir, ".kilo/skill/httpapi-remove/KEEP.txt"), "synthetic sentinel\n")
+  await Bun.write(path.join(dir, ".kappa/skill/httpapi-remove/KEEP.txt"), "synthetic sentinel\n")
 }
 
 const agent = async (dir: string) => {
   await Bun.write(
-    path.join(dir, ".kilo/agent/httpapi-remove.md"),
+    path.join(dir, ".kappa/agent/httpapi-remove.md"),
     "---\ndescription: HTTP API remove\n---\nRemove me.\n",
   )
 }
@@ -47,16 +47,16 @@ const MARKETPLACE_MCP_ID = "httpapi-marketplace"
 // Seed a project config that already contains the marketplace MCP so the remove scenario
 // exercises the real deletion path instead of the missing-entry short circuit.
 const marketplaceMcp = async (dir: string) => {
-  await mkdir(path.join(dir, ".kilo"), { recursive: true })
+  await mkdir(path.join(dir, ".kappa"), { recursive: true })
   await Bun.write(
-    path.join(dir, ".kilo", "kilo.jsonc"),
+    path.join(dir, ".kappa", "kappa.jsonc"),
     JSON.stringify({ mcp: { [MARKETPLACE_MCP_ID]: { type: "local", command: ["npx", "server"] } } }, null, 2),
   )
 }
 
 async function projectMcp(dir: string, id: string) {
-  for (const name of ["kilo.jsonc", "kilo.json"]) {
-    const file = Bun.file(path.join(dir, ".kilo", name))
+  for (const name of ["kappa.jsonc", "kappa.json"]) {
+    const file = Bun.file(path.join(dir, ".kappa", name))
     if (await file.exists()) return !!(parseJsonc(await file.text())?.mcp ?? {})[id]
   }
   const root = Bun.file(path.join(dir, "opencode.json"))
@@ -65,9 +65,9 @@ async function projectMcp(dir: string, id: string) {
 }
 
 const duplicates = async (dir: string) => {
-  for (const name of ["kilo.jsonc", "opencode.jsonc"]) {
+  for (const name of ["kappa.jsonc", "opencode.jsonc"]) {
     await Bun.write(
-      path.join(dir, ".kilo", name),
+      path.join(dir, ".kappa", name),
       JSON.stringify({
         default_agent: "httpapi-duplicate",
         agent: {
@@ -81,7 +81,7 @@ const duplicates = async (dir: string) => {
 
 const command = async (dir: string) => {
   await Bun.write(
-    path.join(dir, ".kilo/command/httpapi-remove.md"),
+    path.join(dir, ".kappa/command/httpapi-remove.md"),
     "---\ndescription: HTTP API command remove\nmodel: anthropic/claude-sonnet-4-6\nvariant: high\n---\nRun command.\n",
   )
 }
@@ -123,7 +123,7 @@ function board(ctx: ScenarioContext) {
 }
 
 const edit = {
-  provider: "kilo",
+  provider: "kappa",
   model: "inception/mercury-next-edit",
   currentFilePath: "src/index.ts",
   currentFileContent: "export const value = 1\n",
@@ -426,48 +426,48 @@ export const kiloScenarios: Scenario[] = [
       object(body.state)
       check(body.state.enabled === false, "disable should turn memory off")
     }),
-  http.protected.get("/kilo/profile", "kilo.profile").probe({ path: "/path" }).status(401),
-  http.protected.get("/kilo/auth-status", "kilo.authStatus").json(200, (body) => {
+  http.protected.get("/kappa/profile", "kappa.profile").probe({ path: "/path" }).status(401),
+  http.protected.get("/kappa/auth-status", "kappa.authStatus").json(200, (body) => {
     object(body)
     check(body.authenticated === false, "Kilo auth status should report signed out")
     check(body.type === undefined, "Kilo auth status should not expose a credential type while signed out")
   }),
-  http.protected.get("/kilo/modes", "kilo.modes").json(200, (body) => {
+  http.protected.get("/kappa/modes", "kappa.modes").json(200, (body) => {
     object(body)
     array(body.modes)
   }),
   http.protected
-    .post("/kilo/fim", "kilo.fim")
-    .at((ctx) => ({ path: "/kilo/fim", headers: ctx.headers(), body: { prefix: "const value = ", suffix: "\n" } }))
+    .post("/kappa/fim", "kappa.fim")
+    .at((ctx) => ({ path: "/kappa/fim", headers: ctx.headers(), body: { prefix: "const value = ", suffix: "\n" } }))
     .status(401),
   http.protected
-    .post("/kilo/edit", "kilo.edit")
-    .at((ctx) => ({ path: "/kilo/edit", headers: ctx.headers(), body: edit }))
+    .post("/kappa/edit", "kappa.edit")
+    .at((ctx) => ({ path: "/kappa/edit", headers: ctx.headers(), body: edit }))
     .status(401),
   http.protected
-    .post("/kilo/audio/transcriptions", "kilo.audio.transcriptions")
+    .post("/kappa/audio/transcriptions", "kappa.audio.transcriptions")
     .at((ctx) => ({
-      path: "/kilo/audio/transcriptions",
+      path: "/kappa/audio/transcriptions",
       headers: ctx.headers(),
       body: { model: "whisper-1", input_audio: { data: "", format: "wav" } },
     }))
     .status(401),
-  http.protected.get("/kilo/notifications", "kilo.notifications").json(200, array),
-  http.protected.get("/kilo/models/images", "kilo.models.images").probe({ path: "/path" }).status(401),
-  http.protected.get("/kilo/models/transcriptions", "kilo.models.transcriptions").probe({ path: "/path" }).status(401),
+  http.protected.get("/kappa/notifications", "kappa.notifications").json(200, array),
+  http.protected.get("/kappa/models/images", "kappa.models.images").probe({ path: "/path" }).status(401),
+  http.protected.get("/kappa/models/transcriptions", "kappa.models.transcriptions").probe({ path: "/path" }).status(401),
   http.protected
-    .post("/kilo/organization", "kilo.organization.set")
-    .at((ctx) => ({ path: "/kilo/organization", headers: ctx.headers(), body: { organizationId: null } }))
+    .post("/kappa/organization", "kappa.organization.set")
+    .at((ctx) => ({ path: "/kappa/organization", headers: ctx.headers(), body: { organizationId: null } }))
     .status(401),
-  http.protected.get("/kilo/cloud-sessions", "kilo.cloudSessions").probe({ path: "/path" }).status(401),
+  http.protected.get("/kappa/cloud-sessions", "kappa.cloudSessions").probe({ path: "/path" }).status(401),
   http.protected
-    .get("/kilo/cloud/session/{id}", "kilo.cloud.session.get")
+    .get("/kappa/cloud/session/{id}", "kappa.cloud.session.get")
     .probe({ path: "/path" })
-    .at((ctx) => ({ path: route("/kilo/cloud/session/{id}", { id: "httpapi-missing" }), headers: ctx.headers() }))
+    .at((ctx) => ({ path: route("/kappa/cloud/session/{id}", { id: "httpapi-missing" }), headers: ctx.headers() }))
     .status(401),
   http.protected
-    .post("/kilo/cloud/session/import", "kilo.cloud.session.import")
-    .at((ctx) => ({ path: "/kilo/cloud/session/import", headers: ctx.headers(), body: { sessionId: "missing" } }))
+    .post("/kappa/cloud/session/import", "kappa.cloud.session.import")
+    .at((ctx) => ({ path: "/kappa/cloud/session/import", headers: ctx.headers(), body: { sessionId: "missing" } }))
     .status(401),
   http.protected.get("/network", "network.list").json(200, array),
   http.protected
@@ -834,7 +834,7 @@ export const kiloScenarios: Scenario[] = [
     .inProject({ git: true })
     .seeded((ctx) =>
       Effect.gen(function* () {
-        const worktree = path.join(directory(ctx), ".kilo", "worktrees", "api-snapshot-remove")
+        const worktree = path.join(directory(ctx), ".kappa", "worktrees", "api-snapshot-remove")
         yield* Effect.promise(() => mkdir(worktree, { recursive: true }))
         yield* Effect.promise(() => rm(worktree, { recursive: true, force: true }))
         return worktree
@@ -853,7 +853,7 @@ export const kiloScenarios: Scenario[] = [
     .at((ctx) => ({
       path: `/kilocode/worktree/teardown?directory=${encodeURIComponent(directory(ctx))}`,
       headers: ctx.headers(),
-      body: { worktree: path.join(directory(ctx), ".kilo", "worktrees", "api-worktree-teardown") },
+      body: { worktree: path.join(directory(ctx), ".kappa", "worktrees", "api-worktree-teardown") },
     }))
     .status(401),
   http.protected
@@ -865,7 +865,7 @@ export const kiloScenarios: Scenario[] = [
       object(item)
       check(item.description === "HTTP API command remove", "command file should include description")
       check(
-        item.location === path.join(directory(ctx), ".kilo/command/httpapi-remove.md"),
+        item.location === path.join(directory(ctx), ".kappa/command/httpapi-remove.md"),
         "command file should include location",
       )
       check(item.editable === true, "command file should be editable")
@@ -885,12 +885,12 @@ export const kiloScenarios: Scenario[] = [
     .at((ctx) => ({
       path: "/kilocode/command/remove",
       headers: ctx.headers(),
-      body: { location: path.join(directory(ctx), ".kilo/command/httpapi-remove.md") },
+      body: { location: path.join(directory(ctx), ".kappa/command/httpapi-remove.md") },
     }))
     .jsonEffect(200, (body, ctx) =>
       Effect.gen(function* () {
         check(body === true, "command removal should return true")
-        const location = path.join(directory(ctx), ".kilo/command/httpapi-remove.md")
+        const location = path.join(directory(ctx), ".kappa/command/httpapi-remove.md")
         check(!(yield* Effect.promise(() => Bun.file(location).exists())), "removed command should not remain on disk")
       }),
     ),
@@ -902,13 +902,13 @@ export const kiloScenarios: Scenario[] = [
     .at((ctx) => ({
       path: "/kilocode/skill/remove",
       headers: ctx.headers(),
-      body: { location: path.join(directory(ctx), ".kilo/skill/httpapi-remove/SKILL.md") },
+      body: { location: path.join(directory(ctx), ".kappa/skill/httpapi-remove/SKILL.md") },
     }))
     .jsonEffect(200, (body, ctx) =>
       Effect.gen(function* () {
         check(body === true, "skill removal should return true")
-        const location = path.join(directory(ctx), ".kilo/skill/httpapi-remove/SKILL.md")
-        const sentinel = path.join(directory(ctx), ".kilo/skill/httpapi-remove/KEEP.txt")
+        const location = path.join(directory(ctx), ".kappa/skill/httpapi-remove/SKILL.md")
+        const sentinel = path.join(directory(ctx), ".kappa/skill/httpapi-remove/KEEP.txt")
         check(!(yield* Effect.promise(() => Bun.file(location).exists())), "removed skill should not remain on disk")
         check(yield* Effect.promise(() => Bun.file(sentinel).exists()), "skill removal should preserve sibling files")
       }),
@@ -921,7 +921,7 @@ export const kiloScenarios: Scenario[] = [
     .jsonEffect(200, (body, ctx) =>
       Effect.gen(function* () {
         check(body === true, "agent removal should return true")
-        const location = path.join(directory(ctx), ".kilo/agent/httpapi-remove.md")
+        const location = path.join(directory(ctx), ".kappa/agent/httpapi-remove.md")
         check(!(yield* Effect.promise(() => Bun.file(location).exists())), "removed agent should not remain on disk")
       }),
     ),
@@ -947,8 +947,8 @@ export const kiloScenarios: Scenario[] = [
     .jsonEffect(200, (body, ctx) =>
       Effect.gen(function* () {
         check(body === true, "duplicate agent removal should return true")
-        for (const name of ["kilo.jsonc", "opencode.jsonc"]) {
-          const cfg = yield* Effect.promise(() => Bun.file(path.join(directory(ctx), ".kilo", name)).json())
+        for (const name of ["kappa.jsonc", "opencode.jsonc"]) {
+          const cfg = yield* Effect.promise(() => Bun.file(path.join(directory(ctx), ".kappa", name)).json())
           check(!cfg.agent["httpapi-duplicate"], `removed agent should not remain in ${name}`)
           check(cfg.agent.keep.description === "Keep this agent", `unrelated agent should remain in ${name}`)
           check(cfg.default_agent === undefined, `removed default agent should not remain in ${name}`)

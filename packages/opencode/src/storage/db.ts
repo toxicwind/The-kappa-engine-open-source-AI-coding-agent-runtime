@@ -32,9 +32,9 @@ const readRuntimeFlags = () =>
 
 export function getChannelPath(flags: Pick<DatabaseFlags, "disableChannelDb"> = readRuntimeFlags()) {
   if (["latest", "beta", "prod"].includes(InstallationChannel) || flags.disableChannelDb)
-    return path.join(Global.Path.data, "kilo.db") // kilocode_change
+    return path.join(Global.Path.data, "kappa.db") // kilocode_change
   const safe = InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, "-")
-  const next = path.join(Global.Path.data, `kilo-${safe}.db`) // kilocode_change
+  const next = path.join(Global.Path.data, `kappa-${safe}.db`) // kilocode_change
   const prev = path.join(Global.Path.data, `opencode-${safe}.db`) // kilocode_change
   if (!existsSync(next) && existsSync(prev)) return prev // kilocode_change
   return next // kilocode_change
@@ -104,7 +104,7 @@ export const Client = Object.assign(
     const dbPath = getPath(flags)
     log.info("opening database", { path: dbPath })
 
-    DbPreflight.assertWritable(dbPath) // kilocode_change - actionable error (and self-heal for kilo-owned files) instead of an opaque wal_checkpoint crash on read-only db files
+    DbPreflight.assertWritable(dbPath) // kilocode_change - actionable error (and self-heal for kappa-owned files) instead of an opaque wal_checkpoint crash on read-only db files
     const db = init(dbPath)
 
     db.run("PRAGMA journal_mode = WAL")

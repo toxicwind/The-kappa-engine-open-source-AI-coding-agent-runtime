@@ -46,18 +46,18 @@ export const configHandlers = HttpApiBuilder.group(InstanceHttpApi, "config", (h
       const defaults = Provider.defaultModelIDs(nonEmptyProviders(providers))
       // kilocode_change end
 
-      // kilocode_change start - Fetch default model from Kilo API when the kilo provider is available.
-      if (defaults[ProviderV2.ID.kilo]) {
-        const info = yield* auth.get("kilo").pipe(Effect.option)
+      // kilocode_change start - Fetch default model from Kilo API when the kappa provider is available.
+      if (defaults[ProviderV2.ID.kappa]) {
+        const info = yield* auth.get("kappa").pipe(Effect.option)
         const model = yield* Effect.promise(() =>
           recommend(
-            providers[ProviderV2.ID.kilo].models,
-            config.provider?.kilo?.options,
+            providers[ProviderV2.ID.kappa].models,
+            config.provider?.kappa?.options,
             Option.getOrUndefined(info),
             Option.isSome(info),
           ),
         )
-        if (model && providers[ProviderV2.ID.kilo]?.models[model]) defaults[ProviderV2.ID.kilo] = ModelV2.ID.make(model)
+        if (model && providers[ProviderV2.ID.kappa]?.models[model]) defaults[ProviderV2.ID.kappa] = ModelV2.ID.make(model)
       }
       // kilocode_change end
 

@@ -22,7 +22,7 @@ const BOM = {
 }
 
 async function tmp<T>(body: (dir: string) => Promise<T>): Promise<T> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "kilo-encoding-"))
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-encoding-"))
   try {
     return await body(dir)
   } finally {

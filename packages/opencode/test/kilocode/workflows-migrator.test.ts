@@ -71,7 +71,7 @@ Actual description here.`
     test("discovers project workflows", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const workflowsDir = path.join(dir, ".kilo", "workflows")
+          const workflowsDir = path.join(dir, ".kappa", "workflows")
           await Bun.write(path.join(workflowsDir, "test-workflow.md"), "# Test\n\nDescription")
         },
       })
@@ -109,7 +109,7 @@ Actual description here.`
     test("only discovers .md files", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const workflowsDir = path.join(dir, ".kilo", "workflows")
+          const workflowsDir = path.join(dir, ".kappa", "workflows")
           await Bun.write(path.join(workflowsDir, "workflow.md"), "# Workflow")
           await Bun.write(path.join(workflowsDir, "readme.txt"), "Not a workflow")
           await Bun.write(path.join(workflowsDir, "config.json"), "{}")
@@ -122,10 +122,10 @@ Actual description here.`
       expect(workflows[0].name).toBe("workflow")
     })
 
-    test("discovers global workflows from ~/.kilo/workflows/", async () => {
+    test("discovers global workflows from ~/.kappa/workflows/", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          await Bun.write(path.join(dir, ".kilo", "workflows", "global.md"), "# Global\n\nGlobal workflow")
+          await Bun.write(path.join(dir, ".kappa", "workflows", "global.md"), "# Global\n\nGlobal workflow")
           await Bun.write(path.join(dir, "repo", "README.md"), "repo")
         },
       })
@@ -133,14 +133,14 @@ Actual description here.`
       const workflows = await withHome(tmp.path, () => WorkflowsMigrator.discoverWorkflows(path.join(tmp.path, "repo")))
 
       expect(
-        workflows.some((w) => w.source === "global" && w.path.includes(path.join(".kilo", "workflows", "global.md"))),
+        workflows.some((w) => w.source === "global" && w.path.includes(path.join(".kappa", "workflows", "global.md"))),
       ).toBe(true)
     })
 
     test("applies in-project file substitutions to project workflow content", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const workflowsDir = path.join(dir, ".kilo", "workflows")
+          const workflowsDir = path.join(dir, ".kappa", "workflows")
           await Bun.write(path.join(dir, "guide.md"), "file content")
           await Bun.write(
             path.join(workflowsDir, "workflow.md"),
@@ -161,8 +161,8 @@ Actual description here.`
       try {
         await using tmp = await tmpdir({
           init: async (dir) => {
-            await Bun.write(path.join(dir, ".kilo", "workflows", "workflow.md"), `{env:${name}}`)
-            await Bun.write(path.join(dir, ".kilo", "workflows", "safe.md"), "safe workflow")
+            await Bun.write(path.join(dir, ".kappa", "workflows", "workflow.md"), `{env:${name}}`)
+            await Bun.write(path.join(dir, ".kappa", "workflows", "safe.md"), "safe workflow")
           },
         })
 
@@ -187,11 +187,11 @@ Actual description here.`
           init: async (dir) => {
             await Bun.write(path.join(dir, "secret.txt"), "file secret")
             await Bun.write(
-              path.join(dir, ".kilo", "workflows", "trusted.md"),
+              path.join(dir, ".kappa", "workflows", "trusted.md"),
               [`{file:../../secret.txt}`, `{env:${name}}`].join("\n"),
             )
             await Bun.write(path.join(dir, "project", "README.md"), "project")
-            await Bun.write(path.join(dir, "project", ".kilo", "workflows", "trusted.md"), `{env:${name}}`)
+            await Bun.write(path.join(dir, "project", ".kappa", "workflows", "trusted.md"), `{env:${name}}`)
           },
         })
 
@@ -243,7 +243,7 @@ Actual description here.`
     test("migrates project workflows to commands", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const workflowsDir = path.join(dir, ".kilo", "workflows")
+          const workflowsDir = path.join(dir, ".kappa", "workflows")
           await Bun.write(
             path.join(workflowsDir, "code-review.md"),
             "# Code Review\n\nPerform a code review.\n\n## Steps\n\n1. Review",
@@ -271,7 +271,7 @@ Actual description here.`
     test("migrates multiple workflows", async () => {
       await using tmp = await tmpdir({
         init: async (dir) => {
-          const workflowsDir = path.join(dir, ".kilo", "workflows")
+          const workflowsDir = path.join(dir, ".kappa", "workflows")
           await Bun.write(path.join(workflowsDir, "review.md"), "# Review\n\nReview code")
           await Bun.write(path.join(workflowsDir, "deploy.md"), "# Deploy\n\nDeploy app")
         },
@@ -292,7 +292,7 @@ Actual description here.`
           await Bun.write(path.join(globalDir, "shared.md"), "# Shared\n\nGlobal version")
 
           // Create project workflows
-          const projectDir = path.join(dir, ".kilo", "workflows")
+          const projectDir = path.join(dir, ".kappa", "workflows")
           await Bun.write(path.join(projectDir, "shared.md"), "# Shared\n\nProject version")
 
           return globalDir

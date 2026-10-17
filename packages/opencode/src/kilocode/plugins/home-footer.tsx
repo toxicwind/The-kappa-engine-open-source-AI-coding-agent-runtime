@@ -6,15 +6,15 @@
  * to inject the RemoteIndicator alongside the standard directory, MCP,
  * and version information.
  */
-import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kilocode/plugin/tui"
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kappacode/plugin/tui"
 import { createMemo, Match, Show, Switch } from "solid-js"
 import { Global } from "@opencode-ai/core/global"
 import { RemoteIndicator } from "@/kilocode/remote-tui"
 
-const id = "internal:kilo-home-footer"
+const id = "internal:kappa-home-footer"
 
 // ---------------------------------------------------------------------------
-// Sub-components (mirror upstream home/footer with kilo additions)
+// Sub-components (mirror upstream home/footer with kappa additions)
 // ---------------------------------------------------------------------------
 
 function Directory(props: { api: TuiPluginApi }) {
@@ -72,7 +72,7 @@ function Version(props: { api: TuiPluginApi }) {
 // ---------------------------------------------------------------------------
 
 function View(props: { api: TuiPluginApi }) {
-  const kilo = createMemo(() => props.api.state.provider.some((p) => p.id === "kilo"))
+  const kappa = createMemo(() => props.api.state.provider.some((p) => p.id === "kappa"))
   const sdk = { client: props.api.client }
 
   return (
@@ -91,7 +91,7 @@ function View(props: { api: TuiPluginApi }) {
         <RemoteIndicator
           sdk={sdk}
           theme={props.api.theme.current}
-          kilo={kilo()}
+          kappa={kappa()}
           event={props.api.event}
         />
         <Mcp api={props.api} />

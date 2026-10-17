@@ -1,7 +1,7 @@
 // The 5-minute check that refreshes the state of PR links sessions already own.
 //
 // It never discovers a link: a session gets a link only from its own hard
-// evidence (`recordPrCreate` / `recordPush` / `kilo pr link`), and this check
+// evidence (`recordPrCreate` / `recordPush` / `kappa pr link`), and this check
 // merely asks each host whether the pull request a session already owns is
 // still open. Sessions that share a repository and head branch are grouped so
 // exactly one host query serves the whole group. This is the only place the
@@ -16,8 +16,8 @@ import {
   parsePrUrl,
   readSessionPrLink,
   urlRepo,
-} from "@/kilo-sessions/pr-link"
-import type { PrLink, SessionPrLink } from "@/kilo-sessions/pr-link"
+} from "@/kappa-sessions/pr-link"
+import type { PrLink, SessionPrLink } from "@/kappa-sessions/pr-link"
 
 const log = Log.create({ service: "pr-link-poller" })
 
@@ -269,7 +269,7 @@ function groupOf(record: SessionPrLink): Group | undefined {
   }
 }
 
-// The links a refresh should check: one session's own link for `kilo pr status`,
+// The links a refresh should check: one session's own link for `kappa pr status`,
 // or every stored link for the 5-minute check.
 async function linksToRefresh(sessionId?: string): Promise<Map<string, SessionPrLink>> {
   if (!sessionId) return loadSessionLinks()
@@ -278,7 +278,7 @@ async function linksToRefresh(sessionId?: string): Promise<Map<string, SessionPr
 }
 
 // Refresh the state of the links sessions already own. With `sessionId`, only
-// that session's link is checked, so `kilo pr status` makes one host call
+// that session's link is checked, so `kappa pr status` makes one host call
 // instead of one per unrelated session's pull request. Host queries run with a
 // bounded concurrency so a large number of distinct pull requests cannot
 // serialize into a wait that grows with the count (each call is bounded by a

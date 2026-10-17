@@ -12,7 +12,7 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Global } from "@opencode-ai/core/global"
 import { Hash } from "@opencode-ai/core/util/hash"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
-import { createKiloClient } from "@kilocode/sdk/v2"
+import { createKiloClient } from "@kappacode/sdk/v2"
 import { Snapshot } from "../../src/snapshot"
 import { Session } from "../../src/session/session"
 import { Server } from "../../src/server/server"
@@ -46,7 +46,7 @@ test("removing a prepared worktree that was never tracked releases only its seed
       await $`git commit -m baseline`.cwd(dir).quiet()
     },
   })
-  const dir = path.join(source.path, ".kilo", "worktrees", "abandoned")
+  const dir = path.join(source.path, ".kappa", "worktrees", "abandoned")
   await $`git worktree add --detach ${dir} HEAD`.cwd(source.path).quiet()
   const ctx = await reloadTestInstance({ directory: dir })
   const gitdir = path.join(Global.Path.data, "snapshot", ctx.project.id, Hash.fast(ctx.worktree))
@@ -56,7 +56,7 @@ test("removing a prepared worktree that was never tracked releases only its seed
 
   const prepared = await app.request("/kilocode/snapshot/prepare", {
     method: "POST",
-    headers: { "x-kilo-directory": dir },
+    headers: { "x-kappa-directory": dir },
   })
   expect(prepared.status).toBe(200)
   const hash = (await $`git rev-parse --verify ${pin}`.cwd(source.path).text()).trim()
@@ -85,7 +85,7 @@ test("removing a prepared worktree that was never tracked releases only its seed
     )
   const format = "%(refname)"
   const pins = async () =>
-    (await $`git for-each-ref --format=${format} refs/kilo/materialize`.cwd(source.path).text()).trim()
+    (await $`git for-each-ref --format=${format} refs/kappa/materialize`.cwd(source.path).text()).trim()
   expect(await remove()).toBe(true)
   expect(existsSync(gitdir)).toBe(false)
   expect(await pins()).toBe(other)
@@ -111,7 +111,7 @@ test("prepares a routed worktree once without tracking, then tracks current cont
   const ctx = await reloadTestInstance({ directory: dir })
   const gitdir = path.join(Global.Path.data, "snapshot", ctx.project.id, Hash.fast(ctx.worktree))
   const app = Server.Default().app
-  const headers = { "x-kilo-directory": dir }
+  const headers = { "x-kappa-directory": dir }
   const route = "/kilocode/snapshot/prepare"
   expect(existsSync(gitdir)).toBe(false)
 
@@ -178,7 +178,7 @@ test("prepares a routed worktree once without tracking, then tracks current cont
   expect(await $`git --git-dir=${gitdir} show ${hash!}:note.txt`.text()).toBe("changed after preparation\n")
   expect(await $`git --git-dir=${gitdir} show ${hash!}:new.txt`.text()).toBe("new file\n")
   expect((await $`git --git-dir=${gitdir} config core.autocrlf`.text()).trim()).toBe("input")
-  expect((await $`git --git-dir=${gitdir} for-each-ref refs/kilo/snapshots`.text()).trim()).not.toBe("")
+  expect((await $`git --git-dir=${gitdir} for-each-ref refs/kappa/snapshots`.text()).trim()).not.toBe("")
   expect(await Bun.file(trace).text()).not.toContain("--no-split-index")
   const alt = path.join(gitdir, "objects", "info", "alternates")
   await Effect.runPromise(
@@ -312,7 +312,7 @@ it.live(
         yield* (yield* InstanceStore.Service).dispose(current)
         yield* snapshot.init().pipe(provideInstance(dir))
         yield* wait
-        expect((yield* git(["--git-dir", gitdir, "for-each-ref", "refs/kilo/snapshots"])).trim()).not.toBe("")
+        expect((yield* git(["--git-dir", gitdir, "for-each-ref", "refs/kappa/snapshots"])).trim()).not.toBe("")
         expect((yield* git(["for-each-ref", ref])).trim()).toBe("")
       }).pipe(provideInstance(dir))
     }),
@@ -386,7 +386,7 @@ test("does not prepare disabled snapshots or directories outside git", async () 
     const ctx = await reloadTestInstance({ directory: tmp.path })
     const response = await Server.Default().app.request("/kilocode/snapshot/prepare", {
       method: "POST",
-      headers: { "x-kilo-directory": tmp.path },
+      headers: { "x-kappa-directory": tmp.path },
     })
     expect(response.status).toBe(200)
     expect(await response.json()).toEqual({ prepared: false, durationMs: expect.any(Number) })

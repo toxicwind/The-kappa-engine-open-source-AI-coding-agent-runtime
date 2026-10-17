@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@kilocode/plugin",
+  "name": "@kappacode/plugin",
   "version": "7.8.10",
   "type": "module",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "dist"
   ],
   "dependencies": {
-    "@kilocode/sdk": "workspace:*",
+    "@kappacode/sdk": "workspace:*",
     "effect": "catalog:",
     "zod": "catalog:",
     "@ai-sdk/provider": "3.0.8"

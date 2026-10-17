@@ -1,4 +1,4 @@
-import type { MemoryStatusResponse } from "@kilocode/sdk/v2"
+import type { MemoryStatusResponse } from "@kappacode/sdk/v2"
 
 type State = MemoryStatusResponse["state"]
 

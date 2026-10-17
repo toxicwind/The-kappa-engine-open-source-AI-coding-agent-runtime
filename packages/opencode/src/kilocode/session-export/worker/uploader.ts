@@ -214,24 +214,24 @@ async function headers(args: HeaderArgs): Promise<Headers> {
   const first = args.rows[0]
   const out = new Headers({
     "content-type": "application/json",
-    "x-kilo-export-api-version": "1",
-    "x-kilo-export-schema-version": "1",
-    "x-kilo-export-agent-version": args.agentVersion,
-    "x-kilo-export-surface": args.surface,
-    "x-kilo-export-root-session-id": first.rootSessionId,
-    "x-kilo-export-session-id": first.sessionId,
-    "x-kilo-export-batch-id": args.batchId,
-    "x-kilo-export-seq-start": String(Math.min(...seqs)),
-    "x-kilo-export-seq-end": String(Math.max(...seqs)),
-    "x-kilo-export-event-count": String(args.rows.length),
-    "x-kilo-export-payload-sha256": await sha256Hex(args.body),
-    "x-kilo-export-client-sent-at": new Date().toISOString(),
-    "x-kilo-export-content-encoding": "identity",
+    "x-kappa-export-api-version": "1",
+    "x-kappa-export-schema-version": "1",
+    "x-kappa-export-agent-version": args.agentVersion,
+    "x-kappa-export-surface": args.surface,
+    "x-kappa-export-root-session-id": first.rootSessionId,
+    "x-kappa-export-session-id": first.sessionId,
+    "x-kappa-export-batch-id": args.batchId,
+    "x-kappa-export-seq-start": String(Math.min(...seqs)),
+    "x-kappa-export-seq-end": String(Math.max(...seqs)),
+    "x-kappa-export-event-count": String(args.rows.length),
+    "x-kappa-export-payload-sha256": await sha256Hex(args.body),
+    "x-kappa-export-client-sent-at": new Date().toISOString(),
+    "x-kappa-export-content-encoding": "identity",
   })
   const token = process.env.KILO_SESSION_EXPORT_AUTH_TOKEN
   if (token) out.set("authorization", `Bearer ${token}`)
   const anon = args.anonId ?? (await anonId(args.anonIdPath))
-  if (!token && anon) out.set("x-kilo-anon-id", anon)
+  if (!token && anon) out.set("x-kappa-anon-id", anon)
   return out
 }
 

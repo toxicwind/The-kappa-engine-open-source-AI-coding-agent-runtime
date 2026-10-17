@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import type { KilocodeNotification } from "@kilocode/kilo-gateway"
+import type { KilocodeNotification } from "@kappacode/kappa-gateway"
 import { News } from "../../src/kilocode/components/news"
 
 const item = (id: string): KilocodeNotification => ({

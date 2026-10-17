@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import Attention from "@/kilocode/plugins/attention"
-import type { Event, Session, SessionNetworkWait, SuggestionRequest } from "@kilocode/sdk/v2"
-import type { TuiAttentionNotifyInput } from "@kilocode/plugin/tui"
+import type { Event, Session, SessionNetworkWait, SuggestionRequest } from "@kappacode/sdk/v2"
+import type { TuiAttentionNotifyInput } from "@kappacode/plugin/tui"
 import { createTuiPluginApi } from "../../../../fixture/tui-plugin"
 
 async function setup() {

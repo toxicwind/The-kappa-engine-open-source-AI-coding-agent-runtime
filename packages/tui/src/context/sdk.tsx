@@ -1,5 +1,5 @@
-import { createKiloClient } from "@kilocode/sdk/v2"
-import type { GlobalEvent } from "@kilocode/sdk/v2"
+import { createKiloClient } from "@kappacode/sdk/v2"
+import type { GlobalEvent } from "@kappacode/sdk/v2"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { createSimpleContext } from "./helper"
 import { batch, onCleanup, onMount } from "solid-js"

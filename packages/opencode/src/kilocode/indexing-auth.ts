@@ -1,4 +1,4 @@
-import type { IndexingConfig } from "@kilocode/kilo-indexing/config"
+import type { IndexingConfig } from "@kappacode/kappa-indexing/config"
 
 type Auth = unknown
 
@@ -73,24 +73,24 @@ export function resolveKiloIndexingAuth(input: {
   env?: Env
 }): KiloIndexingAuth {
   const config = record(input.config)
-  const options = record(record(config.provider).kilo)
+  const options = record(record(config.provider).kappa)
   const provider = input.provider ?? record(input.provider)
   const providerOptions = record(provider.options)
   const providerConfig = record(options.options)
-  const kilo = record(record(config.indexing).kilo)
+  const kappa = record(record(config.indexing).kappa)
   const env = input.env ?? process.env
 
   return {
     apiKey:
-      text(kilo.apiKey) ??
+      text(kappa.apiKey) ??
       text(providerConfig.apiKey) ??
       token(input.auth) ??
       text(provider.key) ??
       text(providerOptions.kilocodeToken) ??
       text(env.KILO_API_KEY),
-    baseUrl: text(kilo.baseUrl) ?? text(providerConfig.baseURL) ?? text(providerConfig.baseUrl),
+    baseUrl: text(kappa.baseUrl) ?? text(providerConfig.baseURL) ?? text(providerConfig.baseUrl),
     organizationId:
-      text(kilo.organizationId) ??
+      text(kappa.organizationId) ??
       text(providerConfig.kilocodeOrganizationId) ??
       org(input.auth) ??
       text(providerOptions.kilocodeOrganizationId) ??
@@ -113,5 +113,5 @@ export function indexingWithKiloDefault(
   auth: KiloIndexingAuth,
 ): IndexingConfig | undefined {
   if (!shouldDefaultIndexingToKilo(indexing, auth)) return indexing
-  return { ...indexing, provider: "kilo" }
+  return { ...indexing, provider: "kappa" }
 }

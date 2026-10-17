@@ -72,8 +72,8 @@ export function convert(document: any, delivery: Component["delivery"] = "contai
 /**
  * Scan a file, directory, archive, or image reference.
  *
- * `target` uses Syft scheme syntax, e.g. `file:dist/kilo-linux-x64.tar.gz` or
- * `registry:ghcr.io/kilo-org/kilocode@sha256:...`.
+ * `target` uses Syft scheme syntax, e.g. `file:dist/kappa-linux-x64.tar.gz` or
+ * `registry:ghcr.io/kappa-org/kilocode@sha256:...`.
  */
 export async function scan(target: string): Promise<Scan> {
   // `SYFT` pins a specific binary; setting it to an empty string disables the
@@ -87,7 +87,7 @@ export async function scan(target: string): Promise<Scan> {
     }
   }
 
-  const out = path.join(await fs.promises.mkdtemp(path.join(os.tmpdir(), "kilo-sbom-")), "syft.cdx.json")
+  const out = path.join(await fs.promises.mkdtemp(path.join(os.tmpdir(), "kappa-sbom-")), "syft.cdx.json")
   const proc = Bun.spawn([binary, "scan", target, "-o", `cyclonedx-json=${out}`, "-q"], {
     stdout: "inherit",
     stderr: "inherit",

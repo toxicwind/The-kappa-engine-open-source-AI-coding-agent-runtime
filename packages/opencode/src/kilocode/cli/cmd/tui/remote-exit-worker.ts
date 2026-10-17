@@ -1,5 +1,5 @@
 import { RemoteExitRpc } from "@/kilocode/cli/cmd/tui/remote-exit-rpc"
-import { RemoteExit } from "@/kilo-sessions/remote-exit"
+import { RemoteExit } from "@/kappa-sessions/remote-exit"
 
 export function createWorkerRemoteExit(emit: (event: string, data: undefined) => void) {
   let unregister: (() => void) | undefined

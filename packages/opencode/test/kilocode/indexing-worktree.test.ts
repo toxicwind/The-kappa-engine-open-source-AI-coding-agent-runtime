@@ -7,7 +7,7 @@ import { IndexingWorker } from "../../src/kilocode/indexing-worker-client"
 import { disposeAllInstances, provideTestInstance, tmpdir } from "../fixture/fixture"
 
 const cfg: Partial<Config.Info> = {
-  plugin: ["@kilocode/kilo-indexing"],
+  plugin: ["@kappacode/kappa-indexing"],
   indexing: {
     enabled: true,
     provider: "ollama",
@@ -39,7 +39,7 @@ describe("indexing worktrees", () => {
     await using tmp = await tmpdir({ git: true, config: cfg })
     process.env["KILO_CONFIG_DIR"] = tmp.path
     await Bun.$`git -C ${tmp.path} add opencode.json && git -C ${tmp.path} commit -m config`.quiet()
-    const worktree = path.join(tmp.path, ".kilo", "worktrees", "feature")
+    const worktree = path.join(tmp.path, ".kappa", "worktrees", "feature")
     await Bun.$`git -C ${tmp.path} worktree add -b feature ${worktree}`.quiet()
 
     const calls: Array<{ directory: string; baseline?: string }> = []

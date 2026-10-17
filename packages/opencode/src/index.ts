@@ -1,6 +1,6 @@
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
-// kilocode_change - upstream account console intentionally omitted; KiloCli registers `kilo console` for local settings
+// kilocode_change - upstream account console intentionally omitted; KiloCli registers `kappa console` for local settings
 import { UI } from "./cli/ui"
 import { TuiThreadCommand } from "./cli/cmd/tui" // kilocode_change - yargs requires the default command builder eagerly
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
@@ -55,7 +55,7 @@ function show(out: string) {
 
 let cli = yargs(args) // kilocode_change
   .parserConfiguration({ "populate--": true })
-  .scriptName("kilo") // kilocode_change
+  .scriptName("kappa") // kilocode_change
   .wrap(100)
   .help("help", "show help")
   .alias("help", "h")

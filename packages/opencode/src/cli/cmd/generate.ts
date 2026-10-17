@@ -12,8 +12,8 @@ export const GenerateCommand = {
       paths: Record<string, Record<string, any>>
     }
     // kilocode_change start
-    specs.info.title = "kilo"
-    specs.info.description = "kilo api"
+    specs.info.title = "kappa"
+    specs.info.description = "kappa api"
     // kilocode_change end
     for (const item of Object.values(specs.paths)) {
       for (const method of ["get", "post", "put", "delete", "patch"] as const) {
@@ -24,7 +24,7 @@ export const GenerateCommand = {
           {
             lang: "js",
             source: [
-              `import { createKiloClient } from "@kilocode/sdk"`,
+              `import { createKiloClient } from "@kappacode/sdk"`,
               ``,
               `const client = createKiloClient()`,
               `await client.${operation.operationId}({`,
@@ -39,9 +39,9 @@ export const GenerateCommand = {
     const raw = JSON.stringify(specs, null, 2)
       // kilocode_change start - replace upstream product name in all descriptions
       .replaceAll("OpenCode", "Kilo")
-      .replaceAll("opencode.local", "kilo.local")
-      .replaceAll("opencode serve", "kilo serve")
-      .replaceAll("https://opencode.ai/", "https://kilo.ai/")
+      .replaceAll("opencode.local", "kappa.local")
+      .replaceAll("opencode serve", "kappa serve")
+      .replaceAll("https://opencode.ai/", "https://kappa.ai/")
     // kilocode_change end
 
     // Format through prettier so output is byte-identical to committed file

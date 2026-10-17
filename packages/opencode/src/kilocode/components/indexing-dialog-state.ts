@@ -1,5 +1,5 @@
-import { fetchKiloEmbeddingModelCatalog, resolveKiloGatewayBaseUrl } from "@kilocode/kilo-gateway"
-import type { Config, IndexingConfig, KiloEmbeddingModelCatalog } from "@kilocode/sdk/v2"
+import { fetchKiloEmbeddingModelCatalog, resolveKiloGatewayBaseUrl } from "@kappacode/kappa-gateway"
+import type { Config, IndexingConfig, KiloEmbeddingModelCatalog } from "@kappacode/sdk/v2"
 import * as Log from "@opencode-ai/core/util/log"
 import { createMemo, type Accessor } from "solid-js"
 

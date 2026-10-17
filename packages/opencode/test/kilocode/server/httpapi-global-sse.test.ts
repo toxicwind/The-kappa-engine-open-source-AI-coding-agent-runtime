@@ -53,7 +53,7 @@ describe("global SSE lifecycle", () => {
 
         for (const attempt of [1, 2, 3]) {
           const response = yield* HttpClient.get(GlobalPaths.event, {
-            headers: attempt === 2 ? { "x-kilo-sse-skip-fork-sync": "1" } : {},
+            headers: attempt === 2 ? { "x-kappa-sse-skip-fork-sync": "1" } : {},
           })
           expect(response.status).toBe(200)
           const chunks = new Array<string>()

@@ -8,7 +8,7 @@ import { DialogPrompt } from "../ui/dialog-prompt"
 import { Link } from "../ui/link"
 import { useTheme } from "../context/theme"
 import { TextAttributes } from "@opentui/core"
-import type { ProviderAuthAuthorization, ProviderAuthMethod } from "@kilocode/sdk/v2"
+import type { ProviderAuthAuthorization, ProviderAuthMethod } from "@kappacode/sdk/v2"
 import { DialogModel } from "./dialog-model"
 import { useToast } from "../ui/toast"
 import { isConsoleManagedProvider } from "../util/provider-origin"
@@ -86,7 +86,7 @@ export function createDialogProviderOptions() {
       placeholder: "Provider id",
       description: () => (
         <text fg={theme.textMuted}>
-          This only stores a credential. Configure the provider in kilo.json to use it.{/* kilocode_change */}
+          This only stores a credential. Configure the provider in kappa.json to use it.{/* kilocode_change */}
         </text>
       ),
     })
@@ -199,7 +199,7 @@ export function createDialogProviderOptions() {
               }
               if (result.data?.method === "auto") {
                 // kilocode_change start
-                const kilo = KiloProvider.renderAutoMethod({
+                const kappa = KiloProvider.renderAutoMethod({
                   providerID,
                   title: method.label,
                   index,
@@ -208,8 +208,8 @@ export function createDialogProviderOptions() {
                   useTheme,
                   DialogModel,
                 })
-                if (kilo) {
-                  dialog.replace(kilo)
+                if (kappa) {
+                  dialog.replace(kappa)
                 } else {
                   // kilocode_change end
                   dialog.replace(() => (
@@ -402,7 +402,7 @@ function ApiMethod(props: ApiMethodProps) {
         if (props.custom && !sync.data.provider_next.all.some((provider) => provider.id === props.providerID)) {
           toast.show({
             variant: "info",
-            message: `Saved credential for ${props.providerID}. Configure it in kilo.json to use it.`, // kilocode_change
+            message: `Saved credential for ${props.providerID}. Configure it in kappa.json to use it.`, // kilocode_change
           })
           dialog.clear()
           return

@@ -113,7 +113,7 @@ export const legacyImportLayer = Layer.effectDiscard(
     const fs = yield* FSUtil.Service
     const global = yield* Global.Service
     // v3 repairs the active-only v2 import while remaining safe for users who already ran it.
-    const kiloName = "credential.kilo-account-json-v3"
+    const kiloName = "credential.kappa-account-json-v3"
     if (!(yield* db.select().from(DataMigrationTable).where(eq(DataMigrationTable.name, kiloName)).get())) {
       const current = yield* fs.readJson(path.join(global.data, "account.json")).pipe(Effect.option)
       const prior = yield* fs.readJson(path.join(global.data, "auth-v2.json")).pipe(Effect.option)

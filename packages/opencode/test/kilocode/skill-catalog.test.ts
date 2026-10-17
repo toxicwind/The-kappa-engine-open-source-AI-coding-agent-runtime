@@ -33,7 +33,7 @@ function count(text: string, value: string) {
 it.instance("exposes the available skill catalog once in model context", () =>
   Effect.gen(function* () {
     const instance = yield* TestInstance
-    const dir = path.join(instance.directory, ".kilo", "skill", "catalog-skill")
+    const dir = path.join(instance.directory, ".kappa", "skill", "catalog-skill")
     yield* Effect.promise(() => fs.mkdir(dir, { recursive: true }))
     yield* Effect.promise(() =>
       Bun.write(

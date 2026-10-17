@@ -28,8 +28,8 @@ const alert = (name: string, range: string, manifest: string, ecosystem = "npm")
 const files: Record<string, string> = {
   "bun.lock": bun,
   "package.json": "{}",
-  "packages/kilo-docs/package.json": "{}",
-  "packages/kilo-docs/pnpm-lock.yaml": pnpm,
+  "packages/kappa-docs/package.json": "{}",
+  "packages/kappa-docs/pnpm-lock.yaml": pnpm,
 }
 const read = (path: string) => files[path]
 
@@ -80,19 +80,19 @@ describe("stale-alerts check", () => {
 
   test("uses the workspace lockfile for a workspace manifest", () => {
     const reason = check(
-      alert("next", ">= 15.0.0-canary.0, < 15.6.0-canary.61", "packages/kilo-docs/package.json"),
+      alert("next", ">= 15.0.0-canary.0, < 15.6.0-canary.61", "packages/kappa-docs/package.json"),
       read,
     )
     expect(reason).toContain("16.3.6")
   })
 
   test("accepts a lockfile as the manifest", () => {
-    expect(check(alert("next", "< 16.0.0", "packages/kilo-docs/pnpm-lock.yaml"), read)).toContain("16.3.6")
-    expect(check(alert("next", "< 17.0.0", "packages/kilo-docs/pnpm-lock.yaml"), read)).toBeUndefined()
+    expect(check(alert("next", "< 16.0.0", "packages/kappa-docs/pnpm-lock.yaml"), read)).toContain("16.3.6")
+    expect(check(alert("next", "< 17.0.0", "packages/kappa-docs/pnpm-lock.yaml"), read)).toBeUndefined()
   })
 
   test("skips other ecosystems and manifests without a known lockfile", () => {
-    expect(check(alert("okhttp", "< 5", "packages/kilo-jetbrains/build.gradle.kts", "maven"), read)).toBeUndefined()
+    expect(check(alert("okhttp", "< 5", "packages/kappa-jetbrains/build.gradle.kts", "maven"), read)).toBeUndefined()
     const only = (path: string) => (path === "other/package.json" ? "{}" : undefined)
     expect(check(alert("lodash", "< 5", "other/package.json"), only)).toBeUndefined()
   })

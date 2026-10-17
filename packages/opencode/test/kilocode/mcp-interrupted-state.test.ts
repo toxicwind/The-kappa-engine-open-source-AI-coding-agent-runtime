@@ -9,7 +9,7 @@ import { pollWithTimeout, testEffect } from "../lib/effect"
 
 const it = testEffect(LayerNode.compile(MCP.node))
 const fixture = path.join(import.meta.dir, "fixture/mcp-pid-stdio.ts")
-const dir = path.join(os.tmpdir(), `kilo-mcp-interrupt-${process.pid}`)
+const dir = path.join(os.tmpdir(), `kappa-mcp-interrupt-${process.pid}`)
 const ready = path.join(dir, "ready.pid")
 const hanging = path.join(dir, "hanging.pid")
 

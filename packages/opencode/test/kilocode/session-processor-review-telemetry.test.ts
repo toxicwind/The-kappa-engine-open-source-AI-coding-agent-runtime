@@ -57,15 +57,15 @@ describe("KiloSessionProcessor.markReviewTelemetry", () => {
 })
 
 describe("KiloSessionProcessor.markCommand", () => {
-  test("labels text parts with the typed command and keeps other kilo metadata", () => {
+  test("labels text parts with the typed command and keeps other kappa metadata", () => {
     const parts: Array<{ type: string; metadata?: Record<string, unknown> }> = [
-      { type: "text", metadata: { mode: "review", kilo: { review: { version: 1 } } } },
+      { type: "text", metadata: { mode: "review", kappa: { review: { version: 1 } } } },
       { type: "file" },
     ]
     KiloSessionProcessor.markCommand(parts, "review", "branch ")
     expect(parts[0].metadata).toEqual({
       mode: "review",
-      kilo: { review: { version: 1 }, injected: { title: "/review branch" } },
+      kappa: { review: { version: 1 }, injected: { title: "/review branch" } },
     })
     expect(parts[1].metadata).toBeUndefined()
   })

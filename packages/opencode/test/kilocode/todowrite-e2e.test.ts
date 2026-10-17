@@ -1,5 +1,5 @@
 import { describe, expect } from "bun:test"
-import { createKiloClient } from "@kilocode/sdk/v2"
+import { createKiloClient } from "@kappacode/sdk/v2"
 import { Effect } from "effect"
 import { cliIt } from "../lib/cli-process"
 

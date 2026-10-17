@@ -1,4 +1,4 @@
-// Built-in session commands surfaced via `kilo run --command <name>` and the TUI
+// Built-in session commands surfaced via `kappa run --command <name>` and the TUI
 // slash menu that don't live in the Command registry. They map to dedicated
 // session endpoints (e.g. `/session/:sessionID/summarize`).
 //

@@ -1,4 +1,4 @@
-import { createKiloClient, type Event, type KiloClient } from "@kilocode/sdk/v2"
+import { createKiloClient, type Event, type KiloClient } from "@kappacode/sdk/v2"
 import z from "zod"
 import { setTimeout } from "node:timers/promises"
 import { promisify } from "node:util"

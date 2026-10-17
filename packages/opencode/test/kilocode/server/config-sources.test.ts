@@ -59,7 +59,7 @@ function set(key: keyof typeof process.env, value: string | undefined) {
 
 async function sources(dir: string) {
   const response = await Server.Default().app.request("/config/sources", {
-    headers: { "x-kilo-directory": dir },
+    headers: { "x-kappa-directory": dir },
   })
   expect(response.status).toBe(200)
   return (await response.json()) as Body
@@ -76,12 +76,12 @@ describe("config source routes", () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
         await Bun.write(path.join(dir, "env.json"), "{}")
-        await Bun.write(path.join(dir, "kilo.json"), "{}")
+        await Bun.write(path.join(dir, "kappa.json"), "{}")
 
-        for (const root of [".opencode", ".kilocode", ".kilo"]) {
+        for (const root of [".opencode", ".kilocode", ".kappa"]) {
           const local = path.join(dir, root)
           await fs.mkdir(local, { recursive: true })
-          await Bun.write(path.join(local, "kilo.jsonc"), "{}")
+          await Bun.write(path.join(local, "kappa.jsonc"), "{}")
         }
 
         const extra = path.join(dir, "extra")
@@ -90,17 +90,17 @@ describe("config source routes", () => {
 
         const managed = path.join(dir, "managed")
         await fs.mkdir(managed, { recursive: true })
-        await Bun.write(path.join(managed, "kilo.json"), "{}")
+        await Bun.write(path.join(managed, "kappa.json"), "{}")
       },
     })
 
     const envFile = path.join(tmp.path, "env.json")
-    const projectFile = path.join(tmp.path, "kilo.json")
-    const opencodeFile = path.join(tmp.path, ".opencode", "kilo.jsonc")
-    const kilocodeFile = path.join(tmp.path, ".kilocode", "kilo.jsonc")
-    const configFile = path.join(tmp.path, ".kilo", "kilo.jsonc")
+    const projectFile = path.join(tmp.path, "kappa.json")
+    const opencodeFile = path.join(tmp.path, ".opencode", "kappa.jsonc")
+    const kilocodeFile = path.join(tmp.path, ".kilocode", "kappa.jsonc")
+    const configFile = path.join(tmp.path, ".kappa", "kappa.jsonc")
     const extraFile = path.join(tmp.path, "extra", "opencode.json")
-    const managedFile = path.join(tmp.path, "managed", "kilo.json")
+    const managedFile = path.join(tmp.path, "managed", "kappa.json")
 
     process.env.KILO_CONFIG = envFile
     Flag.KILO_CONFIG = envFile
@@ -137,9 +137,9 @@ describe("config source routes", () => {
   test("shows project config disabled by environment", async () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
-        await Bun.write(path.join(dir, "kilo.json"), "{}")
-        await fs.mkdir(path.join(dir, ".kilo"), { recursive: true })
-        await Bun.write(path.join(dir, ".kilo", "kilo.json"), "{}")
+        await Bun.write(path.join(dir, "kappa.json"), "{}")
+        await fs.mkdir(path.join(dir, ".kappa"), { recursive: true })
+        await Bun.write(path.join(dir, ".kappa", "kappa.json"), "{}")
       },
     })
 
@@ -147,8 +147,8 @@ describe("config source routes", () => {
 
     const body = await sources(tmp.path)
 
-    expect(body.sources.some((source) => source.path === path.join(tmp.path, "kilo.json"))).toBe(false)
-    expect(body.sources.some((source) => source.path === path.join(tmp.path, ".kilo", "kilo.json"))).toBe(false)
+    expect(body.sources.some((source) => source.path === path.join(tmp.path, "kappa.json"))).toBe(false)
+    expect(body.sources.some((source) => source.path === path.join(tmp.path, ".kappa", "kappa.json"))).toBe(false)
     expect(body.sources.find((source) => source.source === "KILO_DISABLE_PROJECT_CONFIG")).toMatchObject({
       kind: "runtime-env",
       scope: "env",

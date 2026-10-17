@@ -33,7 +33,7 @@ If you have existing opencode config with `instructions`, the Kilocode rules are
 
 ### 3. Restart to Pick Up Changes
 
-If you change your Kilocode configuration (e.g., edit `.kilocoderules`), simply restart kilo-cli to pick up the new config. No manual migration or conversion needed.
+If you change your Kilocode configuration (e.g., edit `.kilocoderules`), simply restart kappa-cli to pick up the new config. No manual migration or conversion needed.
 
 ## Source Locations
 
@@ -70,7 +70,7 @@ The migrator reads rules from these locations:
 
 - `AGENTS.md` in project root
 - `CLAUDE.md` in project root
-- `~/.config/kilo/AGENTS.md` (global)
+- `~/.config/kappa/AGENTS.md` (global)
 
 ## Not Migrated
 
@@ -124,7 +124,7 @@ project/
 
 1. Check the file exists at the expected location
 2. Ensure markdown files have `.md` extension
-3. Restart kilo-cli to pick up changes
+3. Restart kappa-cli to pick up changes
 
 ### Duplicate rules
 

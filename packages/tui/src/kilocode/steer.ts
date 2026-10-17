@@ -7,7 +7,7 @@
 // that choice onto the child session. The typed text is also marked so the
 // server can tell a human steer apart from the parent's own task-tool prompt and
 // notify the parent over the shared agent board.
-import type { Session } from "@kilocode/sdk/v2"
+import type { Session } from "@kappacode/sdk/v2"
 import { running } from "../util/session"
 
 // Must match `KIND` in packages/opencode/src/kilocode/session/steering.ts.

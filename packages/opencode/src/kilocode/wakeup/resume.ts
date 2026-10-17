@@ -61,7 +61,7 @@ async function resume(info: Info, inst?: InstanceContext, inPlace = false, kind?
                   sessionID: info.sessionID,
                   metadata: {
                     ...latest.metadata,
-                    "kilo.goal": {
+                    "kappa.goal": {
                       text: saved.text,
                       status: "paused",
                       active: false,

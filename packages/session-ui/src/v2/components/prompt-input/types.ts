@@ -1,4 +1,4 @@
-import type { FilePartSource } from "@kilocode/sdk/v2/client"
+import type { FilePartSource } from "@kappacode/sdk/v2/client"
 
 type PromptInputV2PartBase = {
   content: string

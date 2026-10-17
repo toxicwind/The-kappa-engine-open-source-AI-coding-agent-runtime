@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { groups, pkg, text, type Flagged, type Pr } from "./bot-prs"
 
-const pr = (number: number, title: string, login = "kilo-code-bot"): Pr => ({
+const pr = (number: number, title: string, login = "kappa-code-bot"): Pr => ({
   number,
   title,
   url: `https://github.com/o/r/pull/${number}`,
@@ -13,13 +13,13 @@ const flag = (item: Pr, reason = "unreviewed"): Flagged => ({ ...item, age_days:
 describe("bot-prs pkg", () => {
   test("reads the package from upgrade, bump and update titles", () => {
     expect(pkg("fix: upgrade simple-git to 4.0.2 for CVE-2026-102826")).toBe("simple-git")
-    expect(pkg("fix(kilo-docs): bump source-map-js to 1.2.2 for CVE-2026-93749")).toBe("source-map-js")
+    expect(pkg("fix(kappa-docs): bump source-map-js to 1.2.2 for CVE-2026-93749")).toBe("source-map-js")
     expect(pkg("chore(deps): bump katex from 0.16.27 to 0.18.2 in /packages/session-ui")).toBe("katex")
     expect(pkg("chore: update @scope/Pkg to 2.0.0")).toBe("@scope/pkg")
   })
 
   test("ignores grouped titles and titles without a version", () => {
-    expect(pkg("chore(deps): bump the kilo-docs-minor-patch group across 1 directory with 3 updates")).toBeUndefined()
+    expect(pkg("chore(deps): bump the kappa-docs-minor-patch group across 1 directory with 3 updates")).toBeUndefined()
     expect(pkg("docs: update the readme")).toBeUndefined()
     expect(pkg("fix(vscode): preserve message ordering")).toBeUndefined()
   })
@@ -30,7 +30,7 @@ describe("bot-prs groups", () => {
     const list = [
       pr(1, "fix: upgrade simple-git to 4.0.1"),
       pr(2, "fix: upgrade simple-git to 4.0.2 for GHSA-x"),
-      pr(3, "fix(kilo-docs): bump source-map-js to 1.2.2"),
+      pr(3, "fix(kappa-docs): bump source-map-js to 1.2.2"),
     ]
     const found = groups(list)
     expect(found.map(([key]) => key)).toEqual(["simple-git"])

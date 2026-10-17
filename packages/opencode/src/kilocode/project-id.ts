@@ -38,13 +38,13 @@ function normalizeProjectId(input: string): string {
 }
 
 /**
- * Read project ID from .kilo/config.json, falling back to .kilocode/config.json
+ * Read project ID from .kappa/config.json, falling back to .kilocode/config.json
  * @param directory - Project directory
  * @returns Normalized project ID or undefined
  */
 async function getProjectIdFromConfig(directory: string): Promise<string | undefined> {
-  // Check .kilo first, then legacy .kilocode
-  for (const dir of [".kilo", ".kilocode"]) {
+  // Check .kappa first, then legacy .kilocode
+  for (const dir of [".kappa", ".kilocode"]) {
     const file = Bun.file(path.join(directory, dir, "config.json"))
     const text = await file.text().catch(() => undefined)
     if (!text) continue
@@ -80,11 +80,11 @@ async function getProjectIdFromGit(directory: string): Promise<string | undefine
 }
 
 /**
- * Resolve project ID with priority: .kilo/config.json -> .kilocode/config.json -> git origin URL
+ * Resolve project ID with priority: .kappa/config.json -> .kilocode/config.json -> git origin URL
  * @returns Normalized project ID or undefined
  */
 async function resolveProjectId(dir: string): Promise<string | undefined> {
-  // Priority 1: .kilo/config.json (falls back to .kilocode/config.json)
+  // Priority 1: .kappa/config.json (falls back to .kilocode/config.json)
   const id = await getProjectIdFromConfig(dir)
   if (id) return id
 
@@ -97,7 +97,7 @@ export namespace KiloProjectID {
     readonly get: () => Effect.Effect<string | undefined>
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@kilocode/KiloProjectID") {}
+  export class Service extends Context.Service<Service, Interface>()("@kappacode/KiloProjectID") {}
 
   export const layer = Layer.effect(
     Service,

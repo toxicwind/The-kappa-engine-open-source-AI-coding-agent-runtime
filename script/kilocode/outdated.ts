@@ -2,12 +2,12 @@
 //
 // Dependabot's root `bun` scan has version updates turned off (it mostly
 // touched upstream files), so nothing else says when a Kilo-owned package falls
-// behind. This script runs `bun outdated` for `packages/kilo-*` and prints a
+// behind. This script runs `bun outdated` for `packages/kappa-*` and prints a
 // JSON report `{ count, text, full }`: `text` is the short Slack message and
 // `full` the complete list for the job summary.
 //
-// kilo-docs is left out because Dependabot still has its own block for it.
-// kilo-jetbrains has no bun dependencies (its Gradle ones are covered by the
+// kappa-docs is left out because Dependabot still has its own block for it.
+// kappa-jetbrains has no bun dependencies (its Gradle ones are covered by the
 // Dependabot gradle block), so the filter matches it but finds nothing.
 
 export type Row = {
@@ -121,7 +121,7 @@ export function verify(text: string, rows: Row[]) {
 }
 
 async function run() {
-  const proc = Bun.spawn(["bun", "outdated", "--filter", "./packages/kilo-*", "--filter", "!./packages/kilo-docs"], {
+  const proc = Bun.spawn(["bun", "outdated", "--filter", "./packages/kappa-*", "--filter", "!./packages/kappa-docs"], {
     stdout: "pipe",
     stderr: "pipe",
   })

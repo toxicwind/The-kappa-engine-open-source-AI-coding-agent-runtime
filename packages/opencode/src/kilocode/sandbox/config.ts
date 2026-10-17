@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { normalizeDestinations, parseDestination } from "@kilocode/sandbox"
+import { normalizeDestinations, parseDestination } from "@kappacode/sandbox"
 
 export namespace SandboxConfig {
   export const Network = Schema.Literals(["allow", "deny"])

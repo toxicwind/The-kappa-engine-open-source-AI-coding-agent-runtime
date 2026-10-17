@@ -79,8 +79,8 @@ describe("session model usage", () => {
       const child = yield* sessions.create({ title: "child", parentID: root.id })
       const sibling = yield* sessions.create({ title: "sibling", parentID: root.id })
       const unrelated = yield* sessions.create({ title: "unrelated" })
-      const auto = ref("kilo", "kilo-auto/efficient")
-      const routed = ref("kilo", "openai/gpt-5")
+      const auto = ref("kappa", "kappa-auto/efficient")
+      const routed = ref("kappa", "openai/gpt-5")
       const direct = ref("google", "gemini-pro")
 
       const rootMessage = yield* seed(root.id, auto)

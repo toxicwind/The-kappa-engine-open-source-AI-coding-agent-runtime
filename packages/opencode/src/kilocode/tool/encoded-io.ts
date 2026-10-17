@@ -1,6 +1,6 @@
 import { dirname } from "node:path"
 import { Effect } from "effect"
-import { batchMutations, enabled, ensureDirectory } from "@kilocode/sandbox"
+import { batchMutations, enabled, ensureDirectory } from "@kappacode/sandbox"
 import type { FSUtil } from "@opencode-ai/core/fs-util"
 import * as Encoding from "../encoding"
 import * as Bom from "@/util/bom"
