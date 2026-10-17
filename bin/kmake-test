@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# kmake-test — tmux test grid shim for the kilo monorepo.
+# Survives symlinking onto PATH (resolves the real target then execs the script).
+set -u
+src="${BASH_SOURCE[0]}"
+# Resolve symlinks to the real file location.
+while [ -L "$src" ]; do
+  tgt="$(readlink "$src")"
+  case "$tgt" in
+    /*) src="$tgt" ;;
+    *) src="$(cd "$(dirname "$src")" && pwd)/$tgt" ;;
+  esac
+done
+dir="$(cd "$(dirname "$src")/.." && pwd)"
+bun_bin="$(command -v bun || true)"
+if [ -z "$bun_bin" ]; then bun_bin="$HOME/.bun/bin/bun"; fi
+exec "$bun_bin" run "$dir/script/kmake-test.ts" "$@"
