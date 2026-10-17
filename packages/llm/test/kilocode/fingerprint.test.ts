@@ -32,15 +32,17 @@ describe("Kilo fingerprint transport", () => {
           Headers.fromInput({ authorization: "Bearer secret", "x-kilo-fingerprint": "chrome" }),
         ),
       )
-      const executor = yield* RequestExecutor.Service
-      yield* executor.execute(fpRequest).pipe(Effect.flip, Effect.ignore)
-      const headers = yield* Ref.get(seen)
-      expect(headers?.["sec-ch-ua"]).toBe('"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"')
-      expect(headers?.["sec-ch-ua-platform"]).toBe('"Linux"')
-      expect(headers?.["accept-language"]).toBe("en-US,en;q=0.9")
-      expect(headers?.["x-kilo-fingerprint"]).toBeUndefined()
-      expect(headers?.["authorization"]).toBe("Bearer secret")
-    }).pipe(Effect.provide(captureLayer(Ref.unsafeMake(undefined)))))
+      return yield* Effect.gen(function* () {
+        const executor = yield* RequestExecutor.Service
+        yield* executor.execute(fpRequest).pipe(Effect.flip, Effect.ignore)
+        const headers = yield* Ref.get(seen)
+        expect(headers?.["sec-ch-ua"]).toBe('"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"')
+        expect(headers?.["sec-ch-ua-platform"]).toBe('"Linux"')
+        expect(headers?.["accept-language"]).toBe("en-US,en;q=0.9")
+        expect(headers?.["x-kilo-fingerprint"]).toBeUndefined()
+        expect(headers?.["authorization"]).toBe("Bearer secret")
+      }).pipe(Effect.provide(captureLayer(seen)))
+    }))
 
   it.effect("leaves ordinary requests untouched", () =>
     Effect.gen(function* () {
@@ -48,11 +50,13 @@ describe("Kilo fingerprint transport", () => {
       const plain = HttpClientRequest.post("https://provider.test/v1/chat").pipe(
         HttpClientRequest.setHeaders(Headers.fromInput({ authorization: "Bearer secret" })),
       )
-      const executor = yield* RequestExecutor.Service
-      yield* executor.execute(plain).pipe(Effect.flip, Effect.ignore)
-      const headers = yield* Ref.get(seen)
-      expect(headers?.["sec-ch-ua"]).toBeUndefined()
-      expect(headers?.["x-kilo-fingerprint"]).toBeUndefined()
-      expect(headers?.["authorization"]).toBe("Bearer secret")
-    }).pipe(Effect.provide(captureLayer(Ref.unsafeMake(undefined)))))
+      return yield* Effect.gen(function* () {
+        const executor = yield* RequestExecutor.Service
+        yield* executor.execute(plain).pipe(Effect.flip, Effect.ignore)
+        const headers = yield* Ref.get(seen)
+        expect(headers?.["sec-ch-ua"]).toBeUndefined()
+        expect(headers?.["x-kilo-fingerprint"]).toBeUndefined()
+        expect(headers?.["authorization"]).toBe("Bearer secret")
+      }).pipe(Effect.provide(captureLayer(seen)))
+    }))
 })
