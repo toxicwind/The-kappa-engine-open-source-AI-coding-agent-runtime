@@ -24,6 +24,8 @@
     "extension:isolated:clean": "bun --cwd packages/kilo-vscode script/launch.ts --isolated --clean",
     "dev-setup": "bun run --cwd packages/opencode --conditions=browser src/index.ts dev-setup",
     "dev:local": "bun run packages/opencode/script/dev-local.ts",
+    "make": "bun install && bun run --cwd packages/opencode script/build.ts --single --skip-install && du -h packages/opencode/dist/*/*/bin/kilo",
+    "make:nativelink": "BUN_BUILD_REMOTE_CACHE=grpc://127.0.0.1:25155 bun install && bun run --cwd packages/opencode script/build.ts --single --skip-install && du -h packages/opencode/dist/*/*/bin/kilo",
     "test:script:ci": "mkdir -p .artifacts/unit && bun test ./script --timeout 30000 --reporter=junit --reporter-outfile=.artifacts/unit/junit.xml"
   },
   "workspaces": {
