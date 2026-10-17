@@ -45,7 +45,11 @@ done
 
 unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
 
-bun typecheck --filter='!@kappacode/kappa-jetbrains'
+# "No-build hotfix": run typecheck SERIALLY per-package. The canary bun SIGSEGVs
+# on the FULL parallel turbo typecheck (oven-sh/bun #39967/#39815, open); every
+# single-package typecheck passes. BASH_ENV= disables the estate kairos 2s shim
+# so long subprocesses aren't SIGINT'd. Only runs packages with a typecheck script.
+bun script/typecheck-serial.ts --skip-jetbrains
 
 if [ "$jetbrains" -eq 1 ]; then
   bun typecheck --filter='@kappacode/kappa-jetbrains'
