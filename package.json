@@ -19,13 +19,13 @@
     "random": "echo 'Random script'",
     "sso": "aws sso login --sso-session=opencode --no-browser",
     "test": "echo 'do not run tests from root' && exit 1",
-    "extension": "bun --cwd packages/kilo-vscode script/launch.ts",
-    "extension:isolated": "bun --cwd packages/kilo-vscode script/launch.ts --isolated",
-    "extension:isolated:clean": "bun --cwd packages/kilo-vscode script/launch.ts --isolated --clean",
+    "extension": "bun --cwd packages/kappa-vscode script/launch.ts",
+    "extension:isolated": "bun --cwd packages/kappa-vscode script/launch.ts --isolated",
+    "extension:isolated:clean": "bun --cwd packages/kappa-vscode script/launch.ts --isolated --clean",
     "dev-setup": "bun run --cwd packages/opencode --conditions=browser src/index.ts dev-setup",
     "dev:local": "bun run packages/opencode/script/dev-local.ts",
-    "make": "bun install && bun run --cwd packages/opencode script/build.ts --single --skip-install && du -h packages/opencode/dist/*/*/bin/kilo",
-    "make:nativelink": "MISE_CACHE_REMOTE_URL=http://127.0.0.1:25148 mise run kilo-build && du -h packages/opencode/dist/*/*/bin/kilo",
+    "make": "bun install && bun run --cwd packages/opencode script/build.ts --single --skip-install && du -h packages/opencode/dist/*/*/bin/kappa",
+    "make:nativelink": "MISE_CACHE_REMOTE_URL=http://127.0.0.1:25148 mise run kilo-build && du -h packages/opencode/dist/*/*/bin/kappa",
     "kmake-test": "bun script/kmake-test.ts start",
     "kmake-test:status": "bun script/kmake-test.ts status",
     "kmake-test:kill": "bun script/kmake-test.ts kill",
@@ -135,7 +135,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kilo-Org/kilocode"
+    "url": "https://github.com/toxicwind/kappa-code"
   },
   "license": "MIT",
   "prettier": {
