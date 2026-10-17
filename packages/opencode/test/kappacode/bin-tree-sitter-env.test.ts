@@ -1,0 +1,103 @@
+import { describe, expect, test } from "bun:test"
+import { mkdir, mkdtemp, rm, writeFile } from "fs/promises"
+import { tmpdir } from "os"
+import { join } from "path"
+
+const script = join(import.meta.dir, "..", "..", "bin", "kappa")
+const helper = join(import.meta.dir, "..", "..", "bin", "kappacode", "windows-avx2.cjs")
+const platform = process.platform === "win32" ? "windows" : process.platform
+const binary = platform === "windows" ? "kappa.exe" : "kappa"
+
+describe("bin/kappa tree-sitter resources", () => {
+  async function setup(root: string, nested: boolean) {
+    const dir = nested
+      ? join(root, "node_modules", "@kappacode", `cli-${platform}-${process.arch}`, "bin")
+      : join(root, "node_modules", "@kappacode", "cli", "bin")
+    const wasm = join(dir, "tree-sitter")
+    const bin = join(dir, nested ? binary : ".kappa")
+    const log = join(root, nested ? "nested-env.txt" : "cached-env.txt")
+    const cli = join(root, "node_modules", "@kappacode", "cli", "bin")
+    const helperTarget = join(cli, "kappacode", "windows-avx2.cjs")
+
+    await mkdir(wasm, { recursive: true })
+    await mkdir(join(cli, "kappacode"), { recursive: true })
+    await writeFile(join(wasm, "tree-sitter.wasm"), "wasm")
+    await writeFile(bin, "binary")
+    await Bun.write(helperTarget, Bun.file(helper))
+
+    return { bin, log, wasm, wrapper: join(dir, "kappa") }
+  }
+
+  async function run(root: string, bin: string | undefined, log: string, wrapper?: string, failCached?: boolean) {
+    const capture = `
+const { EventEmitter } = require("events")
+const kappaFs = require("fs")
+const kappaChild = require("child_process")
+const log = process.argv[1]
+const wrapper = process.argv[2]
+const failCached = process.argv[3] === "true"
+const realpathSync = kappaFs.realpathSync
+kappaFs.realpathSync = (file) => file === __filename ? wrapper || process.cwd() : realpathSync(file)
+kappaChild.spawn = (target) => {
+  if (failCached && target.endsWith(".kappa")) throw new Error("cached binary failed")
+  kappaFs.writeFileSync(log, process.env.KILO_TREE_SITTER_WASM_DIR || "")
+  const child = new EventEmitter()
+  child.kill = () => {}
+  process.nextTick(() => child.emit("exit", 0))
+  return child
+}
+`
+    const source = (await Bun.file(script).text()).replace(/^#!.*\n/, "")
+    return Bun.spawnSync(
+      ["node", "--input-type=commonjs", "--eval", capture + source, log, wrapper ?? "", String(failCached)],
+      {
+        cwd: root,
+        env: {
+          PATH: process.env.PATH ?? "",
+          XDG_CACHE_HOME: join(root, "cache"),
+          ...(bin ? { KILO_BIN_PATH: bin } : {}),
+        },
+      },
+    )
+  }
+
+  test("exports co-located tree-sitter WASM dir for optional package binary", async () => {
+    const root = await mkdtemp(join(tmpdir(), "kappa-bin-tree-sitter-"))
+    try {
+      const item = await setup(root, true)
+      const proc = await run(root, item.bin, item.log)
+
+      expect(proc.exitCode).toBe(0)
+      expect(await Bun.file(item.log).text()).toBe(item.wasm)
+    } finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+
+  test("exports co-located tree-sitter WASM dir for cached postinstall binary", async () => {
+    const root = await mkdtemp(join(tmpdir(), "kappa-bin-tree-sitter-"))
+    try {
+      const item = await setup(root, false)
+      const proc = await run(root, undefined, item.log, item.wrapper)
+
+      expect(proc.exitCode).toBe(0)
+      expect(await Bun.file(item.log).text()).toBe(item.wasm)
+    } finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+
+  test("falls back to the optional package when the cached binary cannot spawn", async () => {
+    const root = await mkdtemp(join(tmpdir(), "kappa-bin-tree-sitter-"))
+    try {
+      const cached = await setup(root, false)
+      const item = await setup(root, true)
+      const proc = await run(root, undefined, item.log, cached.wrapper, true)
+
+      expect(proc.exitCode).toBe(0)
+      expect(await Bun.file(item.log).text()).toBe(cached.wasm)
+    } finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+})
