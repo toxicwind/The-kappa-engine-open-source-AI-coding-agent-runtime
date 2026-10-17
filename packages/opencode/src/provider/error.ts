@@ -118,7 +118,7 @@ export function parseStreamError(input: unknown): ParsedStreamError | undefined 
   // kilocode_change end
   if (body.type !== "error") return
 
-  switch (body?.error?.code) {
+  switch (body?.error?.code ?? body?.error?.type) { // kilocode_change
     case "context_length_exceeded":
       return {
         type: "context_overflow",
@@ -202,7 +202,7 @@ export function parseAPICallError(input: { providerID: ProviderV2.ID; error: API
     type: "api_error",
     message: m,
     statusCode: input.error.statusCode,
-    isRetryable: input.providerID.startsWith("openai") ? isOpenAiErrorRetryable(input.error) : input.error.isRetryable,
+    isRetryable: (input.providerID.startsWith("openai") ? isOpenAiErrorRetryable(input.error) : input.error.isRetryable) || KiloError.isOverloaded(input.error.statusCode, body, m), // kilocode_change
     responseHeaders: input.error.responseHeaders,
     responseBody: input.error.responseBody,
     metadata,

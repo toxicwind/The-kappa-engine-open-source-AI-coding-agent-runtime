@@ -28,7 +28,7 @@ export const RETRY_BACKOFF_FACTOR = 2
 export const RETRY_JITTER_FACTOR = 0.25
 export const RETRY_MAX_DELAY_NO_HEADERS = 30_000 // 30 seconds
 export const RETRY_MAX_DELAY = 2_147_483_647 // max 32-bit signed integer for setTimeout
-export const RETRY_MAX_RETRIES = 5
+export const RETRY_MAX_RETRIES = 10 // kilocode_change
 
 const RETRYABLE_MESSAGE_PATTERNS = [
   /\b(?:429|500|502|503|504|524)\b/i, // kilocode_change
@@ -90,7 +90,7 @@ export function retryable(error: Err, _provider?: string): Retryable | undefined
     const status = error.data.statusCode
     // kilocode_change start - Current Kilo errors require user action (login/signup), don't retry
     if (isKiloError(error)) return undefined
-    if (error.data.isRetryable === false && (status === undefined || status < 500) && !error.data.responseBody) return undefined
+    if (error.data.isRetryable === false && (status === undefined || (status < 500 && status !== 429)) && !error.data.responseBody && !matchesRetryableMessage(error.data.message)) return undefined
     // kilocode_change end
 
     // 5xx errors are transient server failures and should always be retried,

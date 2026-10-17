@@ -2,6 +2,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Context, Effect, Layer } from "effect"
 import { serviceUse } from "@opencode-ai/core/effect/service-use"
 import { InstanceState } from "@/effect/instance-state"
+import { resolveAllProviderKeys } from "@/kilocode/secrets" // kilocode_change
 
 type State = Record<string, string | undefined>
 
@@ -19,7 +20,18 @@ export const use = serviceUse(Service)
 const layer = Layer.effect(
   Service,
   Effect.gen(function* () {
-    const state = yield* InstanceState.make<State>(Effect.fn("Env.state")(() => Effect.succeed({ ...process.env })))
+    const state = yield* InstanceState.make<State>(
+      Effect.fn("Env.state")(
+        function* () {
+          const env = { ...process.env }
+          const providerKeys = yield* Effect.promise(() => resolveAllProviderKeys())
+          for (const [key, value] of Object.entries(providerKeys)) {
+            if (!(key in env) || !env[key]) env[key] = value
+          }
+          return env
+        },
+      ),
+    )
 
     const get = Effect.fn("Env.get")((key: string) => InstanceState.use(state, (env) => env[key]))
     const all = Effect.fn("Env.all")(() => InstanceState.get(state))

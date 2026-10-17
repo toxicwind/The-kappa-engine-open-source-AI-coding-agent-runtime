@@ -686,6 +686,7 @@
         "partial-json": "0.1.7",
         "remeda": "catalog:",
         "ripgrep": "0.3.1",
+        "secretsmith": "file:../../../../secretsmith/bun",
         "semver": "^7.6.3",
         "simple-git": "4.0.2",
         "solid-js": "catalog:",
@@ -5294,6 +5295,8 @@
     "@img/sharp-wasm32/@emnapi/runtime": ["@emnapi/runtime@1.11.3", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-Xz4Tpyki7XyrpbUK1jR1AhdAdaXyhhY4lZ3neLodmhpuWfy2PAQN5B46sAiU4liOXGLkHypn/qU+jvfWSCYYLA=="],
 
     "@joshwooding/vite-plugin-react-docgen-typescript/glob": ["glob@13.0.6", "", { "dependencies": { "minimatch": "^10.2.2", "minipass": "^7.1.3", "path-scurry": "^2.0.2" } }, "sha512-Wjlyrolmm8uDpm/ogGyXZXb1Z+Ca2B8NbJwqBVg0axK9GbBeoS7yGV6vjXnYdGm6X53iehEuxxbyiKp8QmN4Vw=="],
+
+    "@kappacode/cli/secretsmith": ["secretsmith@file:../../secretsmith/bun", { "bin": { "secretsmith-bun": "./bin/secretsmith-bun.ts" } }],
 
     "@kappacode/kappa-docs/typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 

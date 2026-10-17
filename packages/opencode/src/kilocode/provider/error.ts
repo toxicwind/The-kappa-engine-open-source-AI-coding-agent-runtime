@@ -94,3 +94,12 @@ export function hint(provider: ProviderV2.ID, error: APICallError) {
 
   return "Google Gemini rejected this API key. Check its type and status in Google AI Studio. Replace a Standard key with a new auth key; if it is already an auth key, check its Gemini API access or create a replacement. Restricted Standard keys work only until September 2026. See https://kappa.ai/docs/ai-providers/gemini."
 }
+
+const OVERLOAD_STATUS = new Set([429, 500, 502, 503, 504, 520, 524, 529])
+
+export function isOverloaded(status: number | undefined, body: unknown, msg: string): boolean {
+  if (status !== undefined && OVERLOAD_STATUS.has(status)) return true
+  const f = frame(body)
+  if (retryable(f.error, msg)) return true
+  return /overload|overloaded_error|server_is_overloaded|exhausted|temporarily unavailable|at capacity|rate.?limit|too many requests/i.test(msg)
+}
