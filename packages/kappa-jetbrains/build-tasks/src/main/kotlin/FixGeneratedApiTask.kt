@@ -122,28 +122,27 @@ abstract class FixGeneratedApiTask : DefaultTask() {
         val api = File(root, "ai/kappacode/jetbrains/api/client/DefaultApi.kt")
         if (!api.isFile) return
 
-        // anyOf query params generate `*Parameter` wrapper types the backend
-        // doesn't use — it passes JsonElement directly. Replace them all.
+        // anyOf query params generate `*Parameter` wrapper types. The backend
+        // passes JsonElement directly, so replace the wrappers with JsonElement
+        // and delete the model files.
         val names = mutableSetOf<String>()
-        val text = Regex("""import ai\.kappacode\.jetbrains\.api\.model\.(\w+Parameter)\n""")
-            .replace(api.readText()) { m ->
-                val name = m.groupValues[1]
-                names.add(name)
-                File(root, "ai/kappacode/jetbrains/api/model/$name.kt").delete()
-                ""
-            }
-            .let { input ->
-                names.fold(input) { acc, name ->
-                    acc.replace(Regex("""\b$name\b"""), "kotlinx.serialization.json.JsonElement")
-                }
-            }
+        var text = api.readText()
+        val importRegex = Regex("""import ai\.kappacode\.jetbrains\.api\.model\.(\w+Parameter)\n""")
+        text = importRegex.replace(text) { m ->
+            names.add(m.groupValues[1])
+            ""
+        }
+        for (name in names) {
+            File(root, "ai/kappacode/jetbrains/api/model/$name.kt").delete()
+            text = text.replace(Regex("""\b$name\b"""), "kotlinx.serialization.json.JsonElement")
+        }
         val empty = Regex("""(\s*)if \((\w+) != null\) \{\s*\n\s*\}""")
         val fixed = empty.replace(text) { m ->
             val pad = m.groupValues[1]
             val name = m.groupValues[2]
             "${pad}if ($name != null) {\n${pad}    put(\"$name\", listOf($name.toString()))\n$pad}"
         }
-        if (fixed != text) api.writeText(fixed)
+        if (fixed != api.readText()) api.writeText(fixed)
     }
 
     private fun fixMissingModels(root: File) {
