@@ -3,12 +3,12 @@ package ai.kappacode.backend.cli
 import ai.kappacode.jetbrains.api.infrastructure.Serializer
 import ai.kappacode.jetbrains.api.model.Config
 import ai.kappacode.jetbrains.api.model.GlobalHealth200Response
-import ai.kappacode.jetbrains.api.model.KiloNotifications200ResponseInner
-import ai.kappacode.jetbrains.api.model.KiloNotifications200ResponseInnerAction
-import ai.kappacode.jetbrains.api.model.KiloProfile200Response
-import ai.kappacode.jetbrains.api.model.KiloProfile200ResponseBalance
-import ai.kappacode.jetbrains.api.model.KiloProfile200ResponseProfile
-import ai.kappacode.jetbrains.api.model.KiloProfile200ResponseProfileOrganizationsInner
+import ai.kappacode.jetbrains.api.model.KappaNotifications200ResponseInner
+import ai.kappacode.jetbrains.api.model.KappaNotifications200ResponseInnerAction
+import ai.kappacode.jetbrains.api.model.KappaProfile200Response
+import ai.kappacode.jetbrains.api.model.KappaProfile200ResponseBalance
+import ai.kappacode.jetbrains.api.model.KappaProfile200ResponseProfile
+import ai.kappacode.jetbrains.api.model.KappaProfile200ResponseProfileOrganizationsInner
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -60,14 +60,14 @@ class ApiModelSerializationTest {
     }
 
     @Test
-    fun `KiloNotifications200ResponseInner with action`() {
+    fun `KappaNotifications200ResponseInner with action`() {
         val src = """{
             "id": "notif-1",
             "title": "Update available",
             "message": "Version 3.0 is out",
             "action": {"actionText": "Update now", "actionURL": "https://example.com/update"}
         }"""
-        val obj = json.decodeFromString<KiloNotifications200ResponseInner>(src)
+        val obj = json.decodeFromString<KappaNotifications200ResponseInner>(src)
         assertEquals("notif-1", obj.id)
         assertEquals("Update available", obj.title)
         assertEquals("Version 3.0 is out", obj.message)
@@ -77,16 +77,16 @@ class ApiModelSerializationTest {
     }
 
     @Test
-    fun `KiloNotifications200ResponseInner without action`() {
+    fun `KappaNotifications200ResponseInner without action`() {
         val src = """{"id":"n2","title":"Info","message":"Hello"}"""
-        val obj = json.decodeFromString<KiloNotifications200ResponseInner>(src)
+        val obj = json.decodeFromString<KappaNotifications200ResponseInner>(src)
         assertEquals("n2", obj.id)
         assertNull(obj.action)
         assertNull(obj.showIn)
     }
 
     @Test
-    fun `KiloNotifications200ResponseInner with showIn and suggestModelId`() {
+    fun `KappaNotifications200ResponseInner with showIn and suggestModelId`() {
         val src = """{
             "id": "n3",
             "title": "Try new model",
@@ -94,26 +94,26 @@ class ApiModelSerializationTest {
             "showIn": ["cli", "vscode"],
             "suggestModelId": "claude-4"
         }"""
-        val obj = json.decodeFromString<KiloNotifications200ResponseInner>(src)
+        val obj = json.decodeFromString<KappaNotifications200ResponseInner>(src)
         assertEquals(listOf("cli", "vscode"), obj.showIn)
         assertEquals("claude-4", obj.suggestModelId)
     }
 
     @Test
     fun `empty notifications array`() {
-        val list = json.decodeFromString<List<KiloNotifications200ResponseInner>>("[]")
+        val list = json.decodeFromString<List<KappaNotifications200ResponseInner>>("[]")
         assertTrue(list.isEmpty())
     }
 
     @Test
-    fun `KiloProfile200Response with balance`() {
+    fun `KappaProfile200Response with balance`() {
         val src = """{
             "profile": {"email": "user@test.com", "name": "User"},
             "balance": {"balance": 42.5},
             "kappaPass": null,
             "currentOrgId": "org-1"
         }"""
-        val obj = json.decodeFromString<KiloProfile200Response>(src)
+        val obj = json.decodeFromString<KappaProfile200Response>(src)
         assertEquals("user@test.com", obj.profile.email)
         assertEquals("User", obj.profile.name)
         assertNotNull(obj.balance)
@@ -122,21 +122,21 @@ class ApiModelSerializationTest {
     }
 
     @Test
-    fun `KiloProfile200Response with null balance`() {
+    fun `KappaProfile200Response with null balance`() {
         val src = """{
             "profile": {"email": "user@test.com"},
             "balance": null,
             "kappaPass": null,
             "currentOrgId": null
         }"""
-        val obj = json.decodeFromString<KiloProfile200Response>(src)
+        val obj = json.decodeFromString<KappaProfile200Response>(src)
         assertEquals("user@test.com", obj.profile.email)
         assertNull(obj.balance)
         assertNull(obj.currentOrgId)
     }
 
     @Test
-    fun `KiloProfile200Response with organizations`() {
+    fun `KappaProfile200Response with organizations`() {
         val src = """{
             "profile": {
                 "email": "user@test.com",
@@ -149,7 +149,7 @@ class ApiModelSerializationTest {
             "kappaPass": null,
             "currentOrgId": "org-1"
         }"""
-        val obj = json.decodeFromString<KiloProfile200Response>(src)
+        val obj = json.decodeFromString<KappaProfile200Response>(src)
         assertNotNull(obj.profile.organizations)
         assertEquals(2, obj.profile.organizations!!.size)
         assertEquals("Acme", obj.profile.organizations!![0].name)
@@ -157,7 +157,7 @@ class ApiModelSerializationTest {
     }
 
     @Test
-    fun `KiloProfile200Response with kappa pass`() {
+    fun `KappaProfile200Response with kappa pass`() {
         val src = """{
             "profile": {"email": "user@test.com"},
             "balance": {"balance": 267.59},
@@ -169,7 +169,7 @@ class ApiModelSerializationTest {
             },
             "currentOrgId": null
         }"""
-        val obj = json.decodeFromString<KiloProfile200Response>(src)
+        val obj = json.decodeFromString<KappaProfile200Response>(src)
         assertNotNull(obj.kappaPass)
         assertEquals(199.0, obj.kappaPass!!.currentPeriodBaseCreditsUsd)
         assertEquals(73.27, obj.kappaPass!!.currentPeriodUsageUsd)
