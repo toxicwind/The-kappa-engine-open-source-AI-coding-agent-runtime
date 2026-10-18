@@ -36,8 +36,8 @@ internal object OpenApiSpecNormalizer {
     /**
      * Translate kilo/kilocode naming to kappa/kappacode in the spec so the generated
      * client matches the backend's kappa* API surface:
-     * - path keys: /kilo/* -> /kappa/*, /kilocode/* -> /kappacode/*
-     * - operationId values: kilo.* -> kappa.*, kilocode.* -> kappacode.*
+     * - path keys: /kilo/... -> /kappa/..., /kilocode/... -> /kappacode/...
+     * - operationId values: kilo. -> kappa., kilocode. -> kappacode.
      * - property names (and their `required` entries): kiloX -> kappaX on a
      *   camelCase boundary (e.g. kiloPass -> kappaPass).
      * Capitalized schema names are untouched by the lowercase-anchored patterns.
