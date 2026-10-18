@@ -123,16 +123,11 @@ abstract class FixGeneratedApiTask : DefaultTask() {
         if (!api.isFile) return
 
         val models = File(root, "ai/kappacode/jetbrains/api/model")
-        // Delete *Parameter wrapper models — the backend passes JsonElement directly.
-        models.listFiles()
-            ?.filter { it.name.endsWith("Parameter.kt") }
-            ?.forEach { it.delete() }
-
         val missing = mutableSetOf<String>()
         val text = Regex("""import ai\.kappacode\.jetbrains\.api\.model\.(\w+Parameter)\n""")
             .replace(api.readText()) { m ->
                 val name = m.groupValues[1]
-                // Model file was deleted above, so always replace.
+                if (File(models, "$name.kt").isFile) return@replace m.value
                 missing.add(name)
                 ""
             }

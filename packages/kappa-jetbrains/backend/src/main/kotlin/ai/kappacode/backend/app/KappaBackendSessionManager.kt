@@ -165,7 +165,7 @@ class KiloBackendSessionManager(
 
     fun list(dir: String): SessionListDto {
         seed(dir)
-        val raw = requireClient().sessionList(directory = dir, roots = JsonPrimitive(true))
+        val raw = requireClient().sessionList(directory = dir)
         val mapped = raw.map(::dto)
         val ids = mapped.map { it.id }.toSet()
         val relevant = _statuses.value.filterKeys { it in ids }
@@ -185,9 +185,7 @@ class KiloBackendSessionManager(
             directory = dir,
             worktrees = true,
             current = DefaultApi.CurrentExperimentalSessionList.TRUE,
-            roots = JsonPrimitive(true),
             limit = limit.toDouble(),
-            archived = JsonPrimitive(false),
         )
         val mapped = raw.map(::dto)
         val ids = mapped.map { it.id }.toSet()
