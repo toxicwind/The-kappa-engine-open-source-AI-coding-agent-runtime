@@ -12,7 +12,7 @@ import ai.kappacode.backend.cli.KiloCliPlatform
 import ai.kappacode.backend.cli.KiloProps
 import ai.kappacode.backend.cli.KiloRepoCli
 import ai.kappacode.backend.workspace.KiloWorktreeIndexSettings
-import ai.kappacode.jetbrains.api.model.KiloProfile200Response
+import ai.kappacode.jetbrains.api.model.KappaProfile200Response
 import ai.kappacode.log.KiloLog
 import ai.kappacode.log.LogConfig
 import ai.kappacode.rpc.dto.ConfigPatchDto
@@ -193,7 +193,7 @@ internal fun appStateDto(state: KiloAppState, backgroundSubagents: Boolean = fal
         )
     }
 
-internal fun profileDto(p: KiloProfile200Response): ProfileDto = ProfileDto(
+internal fun profileDto(p: KappaProfile200Response): ProfileDto = ProfileDto(
     email = p.profile.email,
     name = p.profile.name,
     organizations = p.profile.organizations.orEmpty().map { org ->

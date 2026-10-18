@@ -14,8 +14,8 @@ import ai.kappacode.jetbrains.api.infrastructure.ClientError
 import ai.kappacode.jetbrains.api.infrastructure.ClientException
 import ai.kappacode.jetbrains.api.infrastructure.ServerError
 import ai.kappacode.jetbrains.api.infrastructure.ServerException
-import ai.kappacode.jetbrains.api.model.KiloNotifications200ResponseInner
-import ai.kappacode.jetbrains.api.model.KiloProfile200Response
+import ai.kappacode.jetbrains.api.model.KappaNotifications200ResponseInner
+import ai.kappacode.jetbrains.api.model.KappaProfile200Response
 import ai.kappacode.jetbrains.api.model.ProviderOauthAuthorizeRequest
 import ai.kappacode.jetbrains.api.model.ProviderOauthCallbackRequest
 import ai.kappacode.rpc.dto.ChatEventDto
@@ -151,13 +151,13 @@ class KiloBackendAppService private constructor(
     val activity = KiloBackendActivityManager(cs, log)
     val models = KiloBackendModelStateManager(log)
     val workspaces = KiloBackendWorkspaceManager(cs, sessions, log)
-    @Volatile var profile: KiloProfile200Response? = null
+    @Volatile var profile: KappaProfile200Response? = null
         private set
 
     @Volatile var config: ConfigDto? = null
         private set
 
-    @Volatile var notifications: List<KiloNotifications200ResponseInner> = emptyList()
+    @Volatile var notifications: List<KappaNotifications200ResponseInner> = emptyList()
         private set
 
     suspend fun connect() {
@@ -406,8 +406,8 @@ class KiloBackendAppService private constructor(
 
                 val errors = CopyOnWriteArrayList<LoadError>()
                 var cfg: ConfigDto? = null
-                var prof: KiloProfile200Response? = null
-                var notifs: List<KiloNotifications200ResponseInner> = emptyList()
+                var prof: KappaProfile200Response? = null
+                var notifs: List<KappaNotifications200ResponseInner> = emptyList()
 
                 try {
                     withTimeout(loadTimeoutMs) {
@@ -603,7 +603,7 @@ class KiloBackendAppService private constructor(
      * Profile is optional — 401 (not logged in), 400 (missing/corrupt local
      * auth), and 5xx (gateway/network errors) are all non-fatal.
      */
-    private suspend fun fetchProfile(): FetchResult<KiloProfile200Response?> {
+    private suspend fun fetchProfile(): FetchResult<KappaProfile200Response?> {
         val client = connection.appLoadApi
             ?: return FetchResult.ok(null)
         return try {
@@ -669,7 +669,7 @@ class KiloBackendAppService private constructor(
         }
     }
 
-    private suspend fun fetchNotifications(): FetchResult<List<KiloNotifications200ResponseInner>> {
+    private suspend fun fetchNotifications(): FetchResult<List<KappaNotifications200ResponseInner>> {
         val client = connection.appLoadApi
             ?: return FetchResult.fail("notifications", detail = "Not connected")
         return try {
@@ -906,7 +906,7 @@ class KiloBackendAppService private constructor(
      * Returns the latest profile data, or null when not logged in.
      * Updates the current [KiloAppState.Ready] profile in-place if the app is ready.
      */
-    suspend fun refreshProfile(): KiloProfile200Response? {
+    suspend fun refreshProfile(): KappaProfile200Response? {
         val result = fetchProfile()
         val fresh = result.value
         val current = _appState.value
@@ -938,7 +938,7 @@ class KiloBackendAppService private constructor(
      * Blocks until the user completes authentication on the browser side.
      * Returns the user profile on success, or null if the login could not be completed.
      */
-    suspend fun completeLogin(directory: String?): KiloProfile200Response? {
+    suspend fun completeLogin(directory: String?): KappaProfile200Response? {
         val client = connection.api ?: throw IllegalStateException("Not connected")
         client.providerOauthCallback(providerID = "kappa", directory = directory, providerOauthCallbackRequest = ProviderOauthCallbackRequest(method = 0.0))
         return refreshProfile()
@@ -964,7 +964,7 @@ class KiloBackendAppService private constructor(
      * Pass null for personal account, an organization ID for org context.
      * Returns the updated profile after the switch.
      */
-    suspend fun setOrganization(organizationId: String?): KiloProfile200Response? {
+    suspend fun setOrganization(organizationId: String?): KappaProfile200Response? {
         val http = connection.apiClient ?: throw IllegalStateException("Not connected")
         val body = JsonObject(
             mapOf("organizationId" to (organizationId?.let { JsonPrimitive(it) } ?: JsonNull)),

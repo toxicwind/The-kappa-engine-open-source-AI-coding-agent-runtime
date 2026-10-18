@@ -1,8 +1,8 @@
 package ai.kappacode.backend.app
 
-import ai.kappacode.jetbrains.api.model.KilocodeRetentionRun200Response
-import ai.kappacode.jetbrains.api.model.KilocodeRetentionRunRequest
-import ai.kappacode.jetbrains.api.model.KilocodeRetentionStatus200Response
+import ai.kappacode.jetbrains.api.model.KappacodeRetentionRun200Response
+import ai.kappacode.jetbrains.api.model.KappacodeRetentionRunRequest
+import ai.kappacode.jetbrains.api.model.KappacodeRetentionStatus200Response
 import ai.kappacode.rpc.dto.RetentionPolicyDto
 import ai.kappacode.rpc.dto.RetentionProgressDto
 import ai.kappacode.rpc.dto.RetentionResultDto
@@ -24,12 +24,12 @@ class KiloBackendRetentionManager(private val app: KiloBackendAppService) {
         app.requireReady()
         val api = app.api ?: throw IllegalStateException("Kilo API client is unavailable")
         return withContext(Dispatchers.IO) {
-            api.kappacodeRetentionRun(null, null, KilocodeRetentionRunRequest(force))
+            api.kappacodeRetentionRun(null, null, KappacodeRetentionRunRequest(force))
         }.dto()
     }
 }
 
-private fun KilocodeRetentionStatus200Response.dto() = RetentionStatusDto(
+private fun KappacodeRetentionStatus200Response.dto() = RetentionStatusDto(
     policy = RetentionPolicyDto(policy.enabled, policy.maxAgeDays.int(30)),
     last = last?.let { RetentionResultDto(
         at = it.at.long(), scanned = it.scanned.int(), deleted = it.deleted.int(),
@@ -41,7 +41,7 @@ private fun KilocodeRetentionStatus200Response.dto() = RetentionStatusDto(
     ) },
 )
 
-private fun KilocodeRetentionRun200Response.dto() = RetentionStatusDto(
+private fun KappacodeRetentionRun200Response.dto() = RetentionStatusDto(
     policy = RetentionPolicyDto(policy.enabled, policy.maxAgeDays.int(30)),
     last = last?.let { RetentionResultDto(
         at = it.at.long(), scanned = it.scanned.int(), deleted = it.deleted.int(),

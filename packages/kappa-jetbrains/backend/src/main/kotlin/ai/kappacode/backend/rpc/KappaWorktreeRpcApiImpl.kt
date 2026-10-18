@@ -40,7 +40,7 @@ import ai.kappacode.rpc.dto.orphans.OrphanDto
 import ai.kappacode.rpc.dto.orphans.OrphanKind
 import ai.kappacode.rpc.dto.orphans.OrphanRemoveResultDto
 import ai.kappacode.rpc.dto.orphans.RemoveOrphansResultDto
-import ai.kappacode.jetbrains.api.model.KilocodeRemoveSnapshotRequest
+import ai.kappacode.jetbrains.api.model.KappacodeRemoveSnapshotRequest
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.configurations.GeneralCommandLine.ParentEnvironmentType
 import com.intellij.execution.process.CapturingProcessHandler
@@ -927,7 +927,7 @@ class KiloWorktreeRpcApiImpl(
     private fun removeSnapshot(base: Path, path: String) {
         val client = runCatching { service<KiloBackendAppService>().api }.getOrNull() ?: return
         runCatching {
-            client.kappacodeRemoveSnapshot(directory = base.toString(), kappacodeRemoveSnapshotRequest = KilocodeRemoveSnapshotRequest(worktree = path))
+            client.kappacodeRemoveSnapshot(directory = base.toString(), kappacodeRemoveSnapshotRequest = KappacodeRemoveSnapshotRequest(worktree = path))
         }.onFailure { err -> LOG.info("worktree remove-snapshot skipped: path=$path message=${err.message}") }
     }
 

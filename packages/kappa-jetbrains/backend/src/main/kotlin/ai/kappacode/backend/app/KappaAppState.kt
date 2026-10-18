@@ -1,7 +1,7 @@
 package ai.kappacode.backend.app
 
-import ai.kappacode.jetbrains.api.model.KiloNotifications200ResponseInner
-import ai.kappacode.jetbrains.api.model.KiloProfile200Response
+import ai.kappacode.jetbrains.api.model.KappaNotifications200ResponseInner
+import ai.kappacode.jetbrains.api.model.KappaProfile200Response
 import ai.kappacode.backend.migration.LegacyMigrationDetection
 import ai.kappacode.rpc.dto.ConfigDto
 
@@ -54,7 +54,7 @@ data class ConfigWarning(
  * Present only in [KiloAppState.Ready].
  */
 data class AppData(
-    val profile: KiloProfile200Response?,
+    val profile: KappaProfile200Response?,
     val config: ConfigDto,
-    val notifications: List<KiloNotifications200ResponseInner>,
+    val notifications: List<KappaNotifications200ResponseInner>,
 )

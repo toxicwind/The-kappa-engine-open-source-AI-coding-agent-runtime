@@ -11,13 +11,16 @@ internal object OpenApiSpecNormalizer {
     fun normalize(raw: String): String {
         val root = Json.parseToJsonElement(raw) as? JsonObject
             ?: throw GradleException("OpenAPI spec root must be a JSON object.")
+        // Step 0: Translate the pinned kilo CLI's spec to kappa naming so the
+        //         generated Kotlin client matches the backend's kappa* surface.
         // Step 1: Remove duplicate dot-notation schemas and remap their $refs to
         //         camelCase equivalents so the spec remains self-consistent.
         // Step 2: Strip operation-level tags so all routes land in DefaultApi.
         // Step 3: Deduplicate the root-level tags array.
         // Step 4: Fix nullable fields in the /kappa/profile response that Effect's
         //         OpenAPI generator incorrectly emits as non-nullable.
-        val (noDotsRoot, _) = remapDotSchemas(root)
+        val renamed = renameKiloToKappa(root)
+        val (noDotsRoot, _) = remapDotSchemas(renamed)
         val stripped = stripTags(noDotsRoot)
         val deduped = dedupRootTags(stripped)
         val fixed = fixProfileNullable(deduped)
@@ -29,6 +32,66 @@ internal object OpenApiSpecNormalizer {
             .encodeToString(JsonElement.serializer(), obj)
         return "$json\n"
     }
+
+    /**
+     * Translate kilo/kilocode naming to kappa/kappacode in the spec so the generated
+     * client matches the backend's kappa* API surface:
+     * - path keys: /kilo/* -> /kappa/*, /kilocode/* -> /kappacode/*
+     * - operationId values: kilo.* -> kappa.*, kilocode.* -> kappacode.*
+     * - property names (and their `required` entries): kiloX -> kappaX on a
+     *   camelCase boundary (e.g. kiloPass -> kappaPass).
+     * Capitalized schema names are untouched by the lowercase-anchored patterns.
+     */
+    private fun renameKiloToKappa(root: JsonObject): JsonObject {
+        val paths = root["paths"] as? JsonObject ?: return root
+        val renamedPaths = JsonObject(paths.mapKeys { (k, _) -> renamePath(k) }
+            .mapValues { (_, v) -> renameOperation(v) })
+        var renamed = JsonObject(root + mapOf("paths" to renamedPaths))
+        renamed = renameProperties(renamed)
+        return renamed
+    }
+
+    private fun renameOperation(item: JsonElement): JsonElement {
+        val obj = item as? JsonObject ?: return item
+        return JsonObject(obj.mapValues { (_, op) ->
+            val operation = op as? JsonObject ?: return@mapValues op
+            val id = (operation["operationId"] as? JsonPrimitive)?.content ?: return@mapValues op
+            JsonObject(operation + mapOf("operationId" to JsonPrimitive(renameOperationId(id))))
+        })
+    }
+
+    private fun renameProperties(element: JsonElement): JsonElement =
+        when (element) {
+            is JsonObject -> {
+                val renamed = element.map { (key, value) ->
+                    val newKey = if (key == "properties" || key == "required") key else renameName(key)
+                    val newValue = when {
+                        key == "properties" && value is JsonObject ->
+                            JsonObject(value.mapKeys { (k, _) -> renameName(k) }
+                                .mapValues { (_, v) -> renameProperties(v) })
+                        key == "required" && value is JsonArray ->
+                            JsonArray(value.map {
+                                (it as? JsonPrimitive)?.let { p -> JsonPrimitive(renameName(p.content)) } ?: it
+                            })
+                        else -> renameProperties(value)
+                    }
+                    newKey to newValue
+                }.toMap()
+                JsonObject(renamed)
+            }
+            is JsonArray -> JsonArray(element.map { renameProperties(it) })
+            else -> element
+        }
+
+    private fun renamePath(path: String): String =
+        path.replace("/kilocode/", "/kappacode/").replace("/kilo/", "/kappa/")
+
+    private fun renameOperationId(id: String): String =
+        id.replace("kilocode.", "kappacode.").replace("kilo.", "kappa.")
+
+    private fun renameName(name: String): String =
+        name.replace(Regex("^kilocode(?=[A-Z])"), "kappacode")
+            .replace(Regex("^kilo(?=[A-Z])"), "kappa")
 
     /**
      * Find schemas whose names contain dots (e.g. "Event.tui.command.execute").
