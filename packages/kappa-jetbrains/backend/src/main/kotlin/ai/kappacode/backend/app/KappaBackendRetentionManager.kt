@@ -53,6 +53,11 @@ private fun KappacodeRetentionRun200Response.dto() = RetentionStatusDto(
     ) },
 )
 
-private fun JsonElement.long(fallback: Long = 0): Long = jsonPrimitive.longOrNull ?: fallback
-private fun JsonElement.int(fallback: Int = 0): Int =
-    jsonPrimitive.longOrNull?.takeIf { it in Int.MIN_VALUE..Int.MAX_VALUE }?.toInt() ?: fallback
+private fun Any?.long(fallback: Long = 0): Long = when (this) {
+    is JsonElement -> jsonPrimitive.longOrNull ?: fallback
+    is Number -> toLong()
+    is String -> toLongOrNull() ?: fallback
+    else -> fallback
+}
+private fun Any?.int(fallback: Int = 0): Int =
+    long(fallback.toLong()).takeIf { it in Int.MIN_VALUE..Int.MAX_VALUE }?.toInt() ?: fallback
