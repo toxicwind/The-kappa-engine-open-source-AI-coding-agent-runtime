@@ -279,7 +279,7 @@ describe("SessionTerminalManager worktree terminals", () => {
     const s = scene({ worktreePath: "C:\\Repo\\.kappa\\worktrees\\Feature", repoPath: "C:\\Repo" })
     s.manager.showWorktreeTerminal("wt-1", s.state)
 
-    s.manager.closeDirectory("c:/repo/.KILO/worktrees/feature/")
+    s.manager.closeDirectory("c:/repo/.kappa/worktrees/feature/")
 
     expect(s.disposed).toEqual(["C:\\Repo\\.kappa\\worktrees\\Feature"])
   })
