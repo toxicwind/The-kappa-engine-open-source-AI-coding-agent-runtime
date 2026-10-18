@@ -1,41 +1,44 @@
 // kappacode_change - new file
 // Kappa CLI logo variants.
-// Selection: modern (sextant glyphs) > plain (stencil) > fallback (compact).
+// Selection: modern (box-drawing) > plain (hard-block) > fallback (CP437 drop shadows).
+// KILO_UNICODE_LOGO env override preserved.
 
 /**
- * Option 1: modern
- * Sharp diagonal cut graffiti art with Unicode shade blocks and katakana footer.
+ * Option 1: modern — 6-row ANSI Shadow KAPPA with zero trailing text.
+ * Uses U+2588 full block + U+2581–U+258F shade blocks for crisp edges.
  */
 export const LOGO_MODERN = [
-  "   __  ___  _____   ______ ______  _____     ▄█▀█▄   ",
-  "  / / / / |/ /   | / ____// ____/ /   |     █▀ █ ▀█  ",
-  " / /_/ /|   / /| |/ /_   / /_    / /| |    █   █   █ ",
-  "/ __  //   / ___ / __/  / __/   / ___ |     ▀█▄█▄█▀  ",
-  "/_/ /_//_/|_/_/  |_/_/    /_/    /_/  |_|   [ ｶ ｯ ﾊﾟ ]",
-  " ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ",
+  " ██╗  ██╗  █████╗  ██████╗  ██████╗   █████╗  ",
+  " ██║ ██╔╝ ██╔══██╗ ██╔══██╗ ██╔══██╗ ██╔══██╗ ",
+  " █████╔╝  ███████║ ██████╔╝ ██████╔╝ ███████║ ",
+  " ██╔═██╗  ██╔══██║ ██╔═══╝  ██╔═══╝  ██╔══██║ ",
+  " ██║  ██╗ ██║  ██║ ██║      ██║      ██║  ██║ ",
+  " ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝      ╚═╝      ╚═╝  ╚═╝ ",
 ].join("\n");
 
 /**
- * Option 2: plain
- * Geometric stencil cut font (monospaced ASCII, zero wide glyphs).
+ * Option 2: plain — Hard-block geometry without combining characters.
+ * Pure U+2588 blocks, no box-drawing, no drop shadows.
  */
 export const LOGO_PLAIN = [
-  "  ___  __  _______   ______ ______  _______    ",
-  "  \\  \\/ / /  _    \\ /  __  \\\\  __  \\/  _    \\  ",
-  "   \\   / |  / \\    |  /_/  /|  /_/  |  / \\    \\ ",
-  "   /   \\ |  |--|   |   ___/ |   ___/|  |--|   | ",
-  "  /__/\\_\\|__|  |___|__|     |__|    |__|  |___| ",
-  "  ----=[ k a p p a _ c o d e _ e n g i n e ]=-- ",
+  " ██   ██   █████   ██████   ██████    █████  ",
+  " ██  ██   ██   ██  ██   ██  ██   ██  ██   ██ ",
+  " █████    ███████  ██████   ██████   ███████ ",
+  " ██  ██   ██   ██  ██       ██       ██   ██ ",
+  " ██   ██  ██   ██  ██       ██       ██   ██ ",
 ].join("\n");
 
 /**
- * Option 3: fallback
- * Ultra-compact 3-line stencil block.
+ * Option 3: fallback — Pure full-block art with CP437 drop shadows (~).
+ * ~ = U+007E used as a drop-shadow indicator.
  */
 export const LOGO_FALLBACK = [
-  "  [_/ /_ [-_-[_-[_-[_-_  ",
-  "  [ \\ \\| | | | | | | | | ",
-  "  --- k a p p a -------  ",
+  " ██   ██   █████   ██████   ██████    █████  ",
+  " ██  ██~  ██~~~██  ██~~~██  ██~~~██  ██~~~██ ",
+  " █████~   ███████  ██████~  ██████~  ███████ ",
+  " ██~~██   ██~~~██  ██~~~~   ██~~~~   ██~~~██ ",
+  " ██   ██  ██   ██  ██       ██       ██   ██ ",
+  " ~~   ~~  ~~   ~~  ~~       ~~       ~~   ~~ ",
 ].join("\n");
 
 function flag(value: string | undefined) {
@@ -60,6 +63,7 @@ export function supports(env = process.env, platform = process.platform) {
   const override = flag(env.KILO_UNICODE_LOGO)
   if (override !== undefined) return override
   if (env.TERM === "dumb") return false
+  // Old Windows Console Host cannot render box-drawing/sextant glyphs reliably.
   if (platform === "win32") return windows(env)
   if (env.ConEmuPID) return false
   if (env.ANSICON) return false
@@ -67,7 +71,7 @@ export function supports(env = process.env, platform = process.platform) {
 }
 
 export function tui(env = process.env, platform = process.platform) {
-  return LOGO_MODERN
+  return supports(env, platform) ? LOGO_MODERN : LOGO_PLAIN
 }
 
 export function plain(env = process.env, platform = process.platform) {
