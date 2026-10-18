@@ -47,7 +47,7 @@ internal object OpenApiSpecNormalizer {
         val renamedPaths = JsonObject(paths.mapKeys { (k, _) -> renamePath(k) }
             .mapValues { (_, v) -> renameOperation(v) })
         var renamed = JsonObject(root + mapOf("paths" to renamedPaths))
-        renamed = renameProperties(renamed)
+        renamed = renameProperties(renamed) as JsonObject
         return renamed
     }
 
