@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KappaSessionTuiSync } from "../../src/kappacode/session/tui-sync"
+import { KappaSessionTuiSync } from "../../src/kappacode/session/tui-sync.ts"
 
 type Message = {
   role: string

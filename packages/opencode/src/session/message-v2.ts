@@ -1,4 +1,4 @@
-import { SessionID, MessageID } from "./schema"
+import { SessionID, MessageID } from "./schema.ts"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import {
@@ -36,7 +36,7 @@ import { isMedia } from "@/util/media"
 import type { SystemError } from "bun"
 import type { Provider } from "@/provider/provider"
 import { Snapshot } from "@/snapshot" // kappacode_change
-import { SessionNetwork } from "./network" // kappacode_change
+import { SessionNetwork } from "./network.ts" // kappacode_change
 import { CodexAuthExpiredError } from "@/kappacode/provider/codex-refresh" // kappacode_change
 import { KappaSessionMessageOrder } from "@/kappacode/session/message-order" // kappacode_change
 import { KappaPartLifecycle } from "@/kappacode/session/part-lifecycle" // kappacode_change
@@ -884,5 +884,5 @@ export function fromError(
   }
 }
 
-export * as MessageV2 from "./message-v2"
+export * as MessageV2 from "./message-v2.ts"
 export const node = LayerNode.group([Database.node])

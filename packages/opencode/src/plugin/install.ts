@@ -13,7 +13,7 @@ import { Filesystem } from "@/util/filesystem"
 import { Flock } from "@opencode-ai/core/util/flock"
 import { isRecord } from "@/util/record"
 
-import { parsePluginSpecifier, readPackageThemes, readPluginPackage, resolvePluginTarget } from "./shared"
+import { parsePluginSpecifier, readPackageThemes, readPluginPackage, resolvePluginTarget } from "./shared.ts"
 import { pluginIdentity } from "@/kappacode/marketplace/plugin-spec" // kappacode_change
 
 type Mode = "noop" | "add" | "replace"

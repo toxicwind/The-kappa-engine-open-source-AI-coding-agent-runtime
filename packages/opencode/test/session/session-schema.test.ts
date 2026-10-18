@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
 import { Schema } from "effect"
 import { ProjectV2 } from "@opencode-ai/core/project"
-import { MessageID, SessionID } from "../../src/session/schema"
-import { Session } from "../../src/session/session"
+import { MessageID, SessionID } from "../../src/session/schema.ts"
+import { Session } from "../../src/session/session.ts"
 
 const info = {
   id: SessionID.descending(),

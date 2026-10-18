@@ -167,4 +167,4 @@ function isOutputSchemaValidationError(error: Error) {
   )
 }
 
-export * as McpCatalog from "./catalog"
+export * as McpCatalog from "./catalog.ts"

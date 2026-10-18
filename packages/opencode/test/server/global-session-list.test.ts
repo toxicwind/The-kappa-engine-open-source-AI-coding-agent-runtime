@@ -5,8 +5,8 @@ import { Deferred, Effect, Layer } from "effect"
 import { Project } from "@/project/project"
 import { Session as SessionNs } from "@/session/session"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { provideInstance, TestInstance, tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { provideInstance, TestInstance, tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(
   LayerNode.compile(LayerNode.group([SessionNs.node, SessionProjector.node, Project.node, CrossSpawnSpawner.node])),

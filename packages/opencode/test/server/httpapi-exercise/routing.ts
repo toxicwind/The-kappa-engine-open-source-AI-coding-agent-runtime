@@ -1,5 +1,5 @@
 import { Duration } from "effect"
-import { OpenApiMethods, type OpenApiSpec, type Options, type Result, type Scenario } from "./types"
+import { OpenApiMethods, type OpenApiSpec, type Options, type Result, type Scenario } from "./types.ts"
 
 type ScenarioTimeout = `${number} ${Duration.Unit}`
 

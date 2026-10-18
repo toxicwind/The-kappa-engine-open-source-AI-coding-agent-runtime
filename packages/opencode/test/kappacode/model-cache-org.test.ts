@@ -9,11 +9,11 @@ import * as Log from "@opencode-ai/core/util/log"
 
 Log.init({ print: false })
 
-import { Auth } from "../../src/auth"
-import { recommend } from "../../src/kappacode/provider/catalog"
-import { ModelCache } from "../../src/provider/model-cache"
-import { TestConfig } from "../fixture/config"
-import { testEffect } from "../lib/effect"
+import { Auth } from "../../src/auth/index.ts"
+import { recommend } from "../../src/kappacode/provider/catalog.ts"
+import { ModelCache } from "../../src/provider/model-cache.ts"
+import { TestConfig } from "../fixture/config.ts"
+import { testEffect } from "../lib/effect.ts"
 
 type Options = Parameters<ModelCache.KappaModels["fetch"]>[0]
 

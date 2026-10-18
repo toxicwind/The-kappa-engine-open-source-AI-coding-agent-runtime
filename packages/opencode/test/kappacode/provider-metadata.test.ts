@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { providerMetadata } from "../../src/kappacode/provider/metadata"
+import { providerMetadata } from "../../src/kappacode/provider/metadata.ts"
 
 describe("providerMetadata", () => {
   test("returns shared provider key, icon, and priority metadata", () => {

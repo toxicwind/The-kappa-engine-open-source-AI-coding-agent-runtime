@@ -4,11 +4,11 @@ import * as fs from "fs/promises"
 import path from "path"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect } from "effect"
-import { InstanceBootstrap } from "../../src/project/bootstrap"
-import { InstanceStore } from "../../src/project/instance-store"
-import { Worktree } from "../../src/worktree"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { InstanceBootstrap } from "../../src/project/bootstrap.ts"
+import { InstanceStore } from "../../src/project/instance-store.ts"
+import { Worktree } from "../../src/worktree/index.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(Worktree.node, [[InstanceStore.bootstrapNode, InstanceBootstrap.node]]))
 const wintest = process.platform === "win32" ? it.instance : it.instance.skip

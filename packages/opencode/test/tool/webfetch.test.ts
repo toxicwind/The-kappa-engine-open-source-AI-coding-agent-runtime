@@ -3,12 +3,12 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { httpClient } from "@opencode-ai/core/effect/app-node-platform"
 import { Effect, Layer } from "effect"
 import { FetchHttpClient, HttpClient } from "effect/unstable/http"
-import { Agent } from "../../src/agent/agent"
+import { Agent } from "../../src/agent/agent.ts"
 import { Truncate } from "@/tool/truncate"
-import { WebFetchTool } from "../../src/tool/webfetch"
-import { SessionID, MessageID } from "../../src/session/schema"
+import { WebFetchTool } from "../../src/tool/webfetch.ts"
+import { SessionID, MessageID } from "../../src/session/schema.ts"
 import { Tool } from "@/tool/tool"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(
   LayerNode.compile(LayerNode.group([httpClient, Truncate.node, Agent.node]), [

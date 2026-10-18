@@ -12,7 +12,7 @@ import * as McpWebSearch from "@/tool/mcp-websearch"
 import { Tool } from "@/tool/tool"
 import { Truncate } from "@/tool/truncate"
 import { WebFetchTool } from "@/tool/webfetch"
-import { testEffect } from "../../lib/effect"
+import { testEffect } from "../../lib/effect.ts"
 
 const layer = Layer.mergeAll(
   ToolNetwork.httpLayer,

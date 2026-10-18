@@ -9,7 +9,7 @@ import { ProjectV2 } from "@opencode-ai/core/project"
 import { MessageTable, PartTable, SessionTable } from "@opencode-ai/core/session/sql"
 import { Effect, Schema } from "effect"
 import { eq } from "drizzle-orm"
-import { SessionID } from "../../../src/session/schema"
+import { SessionID } from "../../../src/session/schema.ts"
 
 const bodies = new Map<string, unknown>()
 const ingest = Bun.serve({

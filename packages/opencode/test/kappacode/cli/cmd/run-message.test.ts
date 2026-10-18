@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { KappaRun } from "../../../../../src/kappacode/cli/cmd/run"
-import { buildRunMessage } from "../../../../../src/kappacode/cli/cmd/run-message"
+import { KappaRun } from "../../../../src/kappacode/cli/cmd/run.ts"
+import { buildRunMessage } from "../../../../src/kappacode/cli/cmd/run-message.ts"
 
 describe("KappaRun", () => {
   test("prefers a configured command over an endpoint-backed built-in", async () => {

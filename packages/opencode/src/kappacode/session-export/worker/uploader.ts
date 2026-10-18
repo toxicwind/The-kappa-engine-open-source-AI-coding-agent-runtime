@@ -1,7 +1,7 @@
-import { Config } from "../config"
-import type { BatchEnvelope, JsonObject, JsonValue, UploadedEvent } from "../envelope"
-import type { FromWorker } from "./ipc"
-import type { Storage } from "./storage"
+import { Config } from "../config.ts"
+import type { BatchEnvelope, JsonObject, JsonValue, UploadedEvent } from "../envelope.ts"
+import type { FromWorker } from "./ipc.ts"
+import type { Storage } from "./storage.ts"
 import { readFile } from "node:fs/promises"
 
 export type UploaderDeps = {

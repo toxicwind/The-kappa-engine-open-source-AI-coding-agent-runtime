@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test"
-import { Permission } from "../../src/permission"
+import { Permission } from "../../src/permission/index.ts"
 
 // toConfig tests (inverse of fromConfig)
 

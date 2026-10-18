@@ -1,11 +1,11 @@
-import { Command } from "../../command"
+import { Command } from "../../command/index.ts"
 import * as Log from "@opencode-ai/core/util/log"
 import { Effect, Schema } from "effect"
 import DESCRIPTION from "./tool.txt"
-import { Tool } from "../../tool/tool"
-import { Suggestion } from "./index"
-import { SessionStatus } from "../../session/status"
-import { SessionID } from "../../session/schema"
+import { Tool } from "../../tool/tool.ts"
+import { Suggestion } from "./index.ts"
+import { SessionStatus } from "../../session/status.ts"
+import { SessionID } from "../../session/schema.ts"
 
 const log = Log.create({ service: "tool.suggest" })
 

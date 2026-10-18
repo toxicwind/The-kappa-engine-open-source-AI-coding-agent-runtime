@@ -57,4 +57,4 @@ export const register = (close: Close) =>
     return true
   })
 
-export * as WebSocketTracker from "./websocket-tracker"
+export * as WebSocketTracker from "./websocket-tracker.ts"

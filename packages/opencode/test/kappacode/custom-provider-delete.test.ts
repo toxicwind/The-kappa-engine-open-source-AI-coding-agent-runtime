@@ -9,9 +9,9 @@
 // delete them cleanly.
 
 import { describe, expect, it } from "bun:test"
-import * as Config from "../../src/config/config"
+import * as Config from "../../src/config/config.ts"
 import { Schema } from "effect"
-import { KappacodeConfig } from "../../src/kappacode/config/config"
+import { KappacodeConfig } from "../../src/kappacode/config/config.ts"
 
 describe("Config.Info — null sentinels for custom provider deletes", () => {
   it("accepts a null model value inside a provider", () => {

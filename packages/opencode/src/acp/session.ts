@@ -4,7 +4,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { Context, Effect, Layer, Ref } from "effect"
-import * as ACPError from "./error"
+import * as ACPError from "./error.ts"
 
 export type SelectedModel = {
   providerID: ProviderV2.ID
@@ -229,4 +229,4 @@ function partMetadataKey(input: { messageId: string; partId: string }) {
   return `${input.messageId}:${input.partId}`
 }
 
-export * as ACPSession from "./session"
+export * as ACPSession from "./session.ts"

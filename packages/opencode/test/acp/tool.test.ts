@@ -10,7 +10,7 @@ import {
   shellOutputSnapshot,
   toLocations,
   toToolKind,
-} from "../../src/acp/tool"
+} from "../../src/acp/tool.ts"
 
 describe("acp tool conversion", () => {
   test("maps OpenCode tool ids to ACP tool kinds", () => {

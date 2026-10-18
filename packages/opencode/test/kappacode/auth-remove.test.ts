@@ -6,7 +6,7 @@ import { Credential } from "@opencode-ai/core/credential"
 import { Database } from "@opencode-ai/core/database/database"
 import { EventV2 } from "@opencode-ai/core/event"
 import { Effect, Layer } from "effect"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const database = Database.layerFromPath(":memory:")
 const events = Layer.mock(EventV2.Service)({

@@ -1,10 +1,10 @@
-import { cmd } from "./cmd"
+import { cmd } from "./cmd.ts"
 import { Duration, Effect, Match, Option } from "effect"
-import { UI } from "../ui"
+import { UI } from "../ui.ts"
 import { Account } from "@/account/account"
 import { AccountID, OrgID, PollExpired, type PollResult, type AccountError } from "@/account/schema"
-import { effectCmd } from "../effect-cmd"
-import * as Prompt from "../effect/prompt"
+import { effectCmd } from "../effect-cmd.ts"
+import * as Prompt from "../effect/prompt.ts"
 import open from "open"
 
 const openBrowser = (url: string) => Effect.promise(() => open(url).catch(() => undefined))

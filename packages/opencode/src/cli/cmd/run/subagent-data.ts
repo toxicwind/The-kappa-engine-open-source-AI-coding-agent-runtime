@@ -6,8 +6,8 @@ import {
   formatError,
   reduceSessionData,
   type SessionData,
-} from "./session-data"
-import type { FooterSubagentState, FooterSubagentTab, StreamCommit } from "./types"
+} from "./session-data.ts"
+import type { FooterSubagentState, FooterSubagentTab, StreamCommit } from "./types.ts"
 
 export const SUBAGENT_BOOTSTRAP_LIMIT = 200
 export const SUBAGENT_CALL_BOOTSTRAP_LIMIT = 80

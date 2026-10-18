@@ -34,4 +34,4 @@ const layer = Layer.succeed(
 
 export const node = LayerNode.make({ service: Service, layer, deps: [] })
 
-export * as McpBrowser from "./browser"
+export * as McpBrowser from "./browser.ts"

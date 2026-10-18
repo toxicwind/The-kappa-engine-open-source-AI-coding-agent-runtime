@@ -3,7 +3,7 @@ import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import type { MessageV2 } from "@/session/message-v2"
 import { MessageID, PartID, type SessionID } from "@/session/schema"
-import { KappaSessionPromptQueue } from "./prompt-queue"
+import { KappaSessionPromptQueue } from "./prompt-queue.ts"
 
 export namespace KappaSessionCompaction {
   type Store = {

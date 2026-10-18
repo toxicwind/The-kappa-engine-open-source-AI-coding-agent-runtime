@@ -4,14 +4,14 @@ import { serviceUse } from "@opencode-ai/core/effect/service-use"
 import { Auth } from "@/auth"
 import { InstanceState } from "@/effect/instance-state"
 import { optional } from "@opencode-ai/core/schema"
-import { Plugin } from "../plugin"
+import { Plugin } from "../plugin/index.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { Array as Arr, Effect, Layer, Record, Result, Context, Schema } from "effect"
 import { errorMessage } from "@/util/error" // kappacode_change
 
 // kappacode_change start
 import { Telemetry } from "@kappacode/kappa-telemetry"
-import { ModelCache } from "./model-cache"
+import { ModelCache } from "./model-cache.ts"
 // kappacode_change end
 
 const When = Schema.Struct({
@@ -251,4 +251,4 @@ const layer: Layer.Layer<Service, never, Auth.Service | Plugin.Service | ModelCa
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [Auth.node, Plugin.node, ModelCache.node] }) // kappacode_change
 
-export * as ProviderAuth from "./auth"
+export * as ProviderAuth from "./auth.ts"

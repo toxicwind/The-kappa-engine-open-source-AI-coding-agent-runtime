@@ -1,7 +1,7 @@
 import type { Argv } from "yargs"
-import { UI } from "../ui"
+import { UI } from "../ui.ts"
 import * as prompts from "@clack/prompts"
-import { Installation } from "../../installation"
+import { Installation } from "../../installation/index.ts"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 
 export const UpgradeCommand = {

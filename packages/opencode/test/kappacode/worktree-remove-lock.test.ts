@@ -5,11 +5,11 @@ import * as fs from "fs/promises"
 import path from "path"
 import { Effect, Layer } from "effect"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
-import { InstanceBootstrap } from "../../src/project/bootstrap-service"
-import { InstanceStore } from "../../src/project/instance-store"
-import { Worktree } from "../../src/worktree"
-import { provideTmpdirInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { InstanceBootstrap } from "../../src/project/bootstrap-service.ts"
+import { InstanceStore } from "../../src/project/instance-store.ts"
+import { Worktree } from "../../src/worktree/index.ts"
+import { provideTmpdirInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const bootstrap = Layer.succeed(InstanceBootstrap.Service, InstanceBootstrap.Service.of({ run: Effect.void }))
 const it = testEffect(

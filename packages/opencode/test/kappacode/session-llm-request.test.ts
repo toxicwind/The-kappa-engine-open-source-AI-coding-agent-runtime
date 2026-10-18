@@ -13,7 +13,7 @@ import type { Provider } from "@/provider/provider"
 import { LLMRequestPrep } from "@/session/llm/request"
 import { MessageID, SessionID } from "@/session/schema"
 import { SystemPrompt } from "@/session/system"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(RuntimeFlags.layer({ client: "test" }))
 

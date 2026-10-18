@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { NamedError } from "@opencode-ai/core/util/error"
-import { MessageError } from "../../src/session/message-error"
+import { MessageError } from "../../src/session/message-error.ts"
 
 describe("util.error", () => {
   test("schema-backed named errors are real NamedError instances", () => {

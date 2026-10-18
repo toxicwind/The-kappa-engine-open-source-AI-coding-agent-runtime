@@ -5,7 +5,7 @@ import { isRecord } from "@/util/record"
 import { spawn } from "child_process"
 import { once } from "node:events"
 import path from "path"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 function alive(pid: number) {
   try {

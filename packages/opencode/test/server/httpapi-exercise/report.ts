@@ -1,6 +1,6 @@
 import { Duration } from "effect"
-import { indent, pad } from "./assertions"
-import type { Options, Result, Scenario } from "./types"
+import { indent, pad } from "./assertions.ts"
+import type { Options, Result, Scenario } from "./types.ts"
 
 export const color = {
   dim: "\x1b[2m",

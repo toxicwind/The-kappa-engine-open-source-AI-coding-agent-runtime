@@ -4,9 +4,9 @@ import { Session } from "@/session/session"
 import { Effect } from "effect"
 import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
 import { nextTuiRequest, submitTuiResponse } from "@/server/shared/tui-control"
-import { InstanceHttpApi } from "../api"
-import { CommandPayload, TuiPublishPayload } from "../groups/tui"
-import * as SessionError from "./session-errors"
+import { InstanceHttpApi } from "../api.ts"
+import { CommandPayload, TuiPublishPayload } from "../groups/tui.ts"
+import * as SessionError from "./session-errors.ts"
 
 const commandAliases = {
   session_new: "session.new",

@@ -5,9 +5,9 @@ import { Effect } from "effect"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Session } from "@/session/session"
-import { SessionPrompt } from "../../src/session/prompt"
-import { MessageV2 } from "../../src/session/message-v2"
-import { testEffect } from "../lib/effect"
+import { SessionPrompt } from "../../src/session/prompt.ts"
+import { MessageV2 } from "../../src/session/message-v2.ts"
+import { testEffect } from "../lib/effect.ts"
 
 // Skip tests if no API key is available
 const hasApiKey = !!process.env.ANTHROPIC_API_KEY

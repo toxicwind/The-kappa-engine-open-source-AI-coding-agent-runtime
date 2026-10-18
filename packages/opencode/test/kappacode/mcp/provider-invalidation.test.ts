@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import { Effect } from "effect"
-import { McpOAuthProvider } from "../../../src/mcp/oauth-provider"
-import type { McpAuth } from "../../../src/mcp/auth"
+import { McpOAuthProvider } from "../../../src/mcp/oauth-provider.ts"
+import type { McpAuth } from "../../../src/mcp/auth.ts"
 
 // Covers the Kappa-specific conditional credential invalidation added to McpOAuthProvider:
 // automatic invalidation must clear only the credential the failed request presented and must

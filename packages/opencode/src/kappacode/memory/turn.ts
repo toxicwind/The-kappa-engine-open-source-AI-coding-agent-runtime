@@ -14,7 +14,7 @@ import type { SessionID } from "@/session/schema"
 import type { SessionSummary } from "@/session/summary"
 import { KappaSession } from "@/kappacode/session"
 import { KappaSessionPrompt } from "@/kappacode/session/prompt"
-import { MemoryModel, MemorySession } from "./ports"
+import { MemoryModel, MemorySession } from "./ports.ts"
 
 const log = Log.create({ service: "memory.lifecycle" })
 

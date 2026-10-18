@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm"
 import { blob, index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
-import { ExportEventTypes } from "../envelope"
+import { ExportEventTypes } from "../envelope.ts"
 
 export const EventTable = sqliteTable(
   "event",

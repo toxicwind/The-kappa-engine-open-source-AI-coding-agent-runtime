@@ -4,7 +4,7 @@ import { Runner } from "@/effect/runner"
 import { KappaRunner } from "@/kappacode/effect/runner"
 import { SessionDrain } from "@/kappacode/session/drain"
 import { SessionID } from "@/session/schema"
-import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
+import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect.ts"
 
 const it = testEffect(SessionDrain.layer)
 

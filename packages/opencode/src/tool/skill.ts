@@ -1,15 +1,15 @@
 import path from "path"
 import { Effect, Schema } from "effect"
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
-import { Skill } from "../skill"
-import * as Tool from "./tool"
+import { Skill } from "../skill/index.ts"
+import * as Tool from "./tool.ts"
 import DESCRIPTION from "./skill.txt"
 // kappacode_change start - gate + run shell injection in skill bodies
 import { Config } from "@/config/config"
 import { Shell } from "@opencode-ai/core/shell"
 import { InstanceState } from "@/effect/instance-state"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import { ShellPermission } from "./shell"
+import { ShellPermission } from "./shell.ts"
 import { SkillInject } from "@/kappacode/skills/inject"
 // kappacode_change end
 

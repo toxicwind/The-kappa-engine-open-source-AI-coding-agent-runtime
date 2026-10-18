@@ -1,5 +1,5 @@
 import type { AnacondaDesktopStatus } from "@kappacode/sdk/v2"
-import { DOWNLOAD_URL } from "../domain"
+import { DOWNLOAD_URL } from "../domain.ts"
 
 export type ReadyStatus = Extract<AnacondaDesktopStatus, { type: "ready" }>
 

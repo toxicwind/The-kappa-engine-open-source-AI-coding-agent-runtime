@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { Permission } from "../../../src/permission"
+import { Permission } from "../../../src/permission/index.ts"
 
 const broad = Permission.fromConfig({ agent_manager: "allow" })
 

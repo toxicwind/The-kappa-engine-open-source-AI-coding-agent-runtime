@@ -1,7 +1,7 @@
 import { Effect } from "effect"
 import path from "path"
-import { KappaSnapshotSeed } from "./seed"
-import { KappaSnapshotMaterialize } from "./materialize"
+import { KappaSnapshotSeed } from "./seed.ts"
+import { KappaSnapshotMaterialize } from "./materialize.ts"
 import type { Snapshot } from "@/snapshot"
 
 export namespace KappaSnapshotPrepare {

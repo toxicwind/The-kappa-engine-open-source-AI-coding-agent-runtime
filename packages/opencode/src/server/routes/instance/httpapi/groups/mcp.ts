@@ -2,11 +2,11 @@ import { MCP } from "@/mcp"
 import { ConfigMCPV1 } from "@opencode-ai/core/v1/config/mcp"
 import { Schema } from "effect"
 import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
-import { McpServerNotFoundError } from "../errors"
-import { Authorization } from "../middleware/authorization"
-import { InstanceContextMiddleware } from "../middleware/instance-context"
-import { WorkspaceRoutingMiddleware, WorkspaceRoutingQuery } from "../middleware/workspace-routing"
-import { described } from "./metadata"
+import { McpServerNotFoundError } from "../errors.ts"
+import { Authorization } from "../middleware/authorization.ts"
+import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
+import { WorkspaceRoutingMiddleware, WorkspaceRoutingQuery } from "../middleware/workspace-routing.ts"
+import { described } from "./metadata.ts"
 import { McpApps } from "@/kappacode/mcp/apps" // kappacode_change - MCP Apps schemas live in Kappa-owned code
 
 export const AddPayload = Schema.Struct({

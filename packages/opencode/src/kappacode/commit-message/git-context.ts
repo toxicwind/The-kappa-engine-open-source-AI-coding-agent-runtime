@@ -1,4 +1,4 @@
-import type { GitContext, FileChange } from "./types"
+import type { GitContext, FileChange } from "./types.ts"
 
 const LOCK_FILES = new Set([
   // --- JavaScript / Node.js ---

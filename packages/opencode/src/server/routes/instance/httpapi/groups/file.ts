@@ -3,14 +3,14 @@ import { NonNegativeInt } from "@opencode-ai/core/schema"
 import { LSP } from "@/lsp/lsp"
 import { Schema } from "effect"
 import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
-import { Authorization } from "../middleware/authorization"
-import { InstanceContextMiddleware } from "../middleware/instance-context"
+import { Authorization } from "../middleware/authorization.ts"
+import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
 import {
   WorkspaceRoutingMiddleware,
   WorkspaceRoutingQuery,
   WorkspaceRoutingQueryFields,
-} from "../middleware/workspace-routing"
-import { described } from "./metadata"
+} from "../middleware/workspace-routing.ts"
+import { described } from "./metadata.ts"
 
 export const FileQuery = Schema.Struct({
   ...WorkspaceRoutingQueryFields,

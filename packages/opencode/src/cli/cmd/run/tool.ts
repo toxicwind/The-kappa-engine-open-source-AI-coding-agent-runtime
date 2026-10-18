@@ -35,7 +35,7 @@ import { webSearchProviderLabel, type WebSearchTool } from "@/tool/websearch"
 import type { WriteTool } from "@/tool/write"
 import { LANGUAGE_EXTENSIONS } from "@/lsp/language"
 import * as Locale from "@/util/locale"
-import type { RunEntryBody, StreamCommit, ToolSnapshot } from "./types"
+import type { RunEntryBody, StreamCommit, ToolSnapshot } from "./types.ts"
 
 export type ToolView = {
   output: boolean

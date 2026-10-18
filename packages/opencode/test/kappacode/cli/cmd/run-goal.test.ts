@@ -1,6 +1,6 @@
 import { expect } from "bun:test"
 import { Effect } from "effect"
-import { cliIt } from "../../../lib/cli-process"
+import { cliIt } from "../../../lib/cli-process.ts"
 
 const diagnostic = "Goal start and resume require the TUI. Run kappa, then use /goal <text> or /goal resume."
 

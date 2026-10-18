@@ -14,7 +14,7 @@ import { useTuiPaths } from "@tui/context/runtime"
 import { abbreviateHome } from "@tui/runtime"
 import * as Model from "@tui/util/model"
 import { useBindings } from "@tui/keymap"
-import { REDACTED_PATH } from "../../../../pii"
+import { REDACTED_PATH } from "../../../../pii.ts"
 
 function runtime() {
   const rt = (globalThis as { Bun?: { version?: string } }).Bun

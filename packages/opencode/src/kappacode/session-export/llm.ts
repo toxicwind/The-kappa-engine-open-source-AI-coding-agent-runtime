@@ -1,5 +1,5 @@
 import { type LanguageModelUsage, type streamText } from "ai"
-import { SessionExport } from "./index"
+import { SessionExport } from "./index.ts"
 
 type Result = Awaited<ReturnType<typeof streamText>>
 type Event = Result["fullStream"] extends AsyncIterable<infer T> ? T : never

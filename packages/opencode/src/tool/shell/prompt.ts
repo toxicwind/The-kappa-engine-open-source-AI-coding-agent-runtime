@@ -2,7 +2,7 @@ import { Schema } from "effect"
 import DESCRIPTION from "./shell.txt"
 import { PositiveInt } from "@opencode-ai/core/schema"
 import { sessionTmp } from "@/kappacode/tool/shell-tmp" // kappacode_change
-import { ShellID } from "./id"
+import { ShellID } from "./id.ts"
 
 const PS = new Set(["powershell", "pwsh"])
 const CMD = new Set(["cmd"])
@@ -309,4 +309,4 @@ export function render(name: string, platform: NodeJS.Platform, limits: Limits, 
   }
 }
 
-export * as ShellPrompt from "./prompt"
+export * as ShellPrompt from "./prompt.ts"

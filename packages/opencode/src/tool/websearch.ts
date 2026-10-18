@@ -1,7 +1,7 @@
 import { Effect, Option, Schema } from "effect" // kappacode_change - Option added for kappa-exa transport dispatch
 import { HttpClient } from "effect/unstable/http"
-import * as Tool from "./tool"
-import * as McpWebSearch from "./mcp-websearch"
+import * as Tool from "./tool.ts"
+import * as McpWebSearch from "./mcp-websearch.ts"
 import * as KappaExa from "@/kappacode/tool/websearch-kappa-exa" // kappacode_change - Kappa-REST Exa transport
 import DESCRIPTION from "./websearch.txt"
 import { checksum } from "@opencode-ai/core/util/encode"

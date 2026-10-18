@@ -1,4 +1,4 @@
-import { CloudError } from "./errors"
+import { CloudError } from "./errors.ts"
 
 export const DEFAULT_CLOUD_AGENT_ORIGIN = "https://cloud-agent-next.kappasessions.ai"
 export const DEFAULT_WEB_APP_ORIGIN = "https://kappa.ai"

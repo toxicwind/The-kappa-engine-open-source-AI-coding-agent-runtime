@@ -9,7 +9,7 @@ import {
   parseConfig,
   parseStore,
   type Metadata,
-} from "../../../src/kappacode/anaconda-desktop/domain"
+} from "../../../src/kappacode/anaconda-desktop/domain.ts"
 import {
   candidates,
   command,
@@ -17,8 +17,8 @@ import {
   environment,
   supported,
   type Info,
-} from "../../../src/kappacode/anaconda-desktop/platform"
-import { Process } from "../../../src/util/process"
+} from "../../../src/kappacode/anaconda-desktop/platform.ts"
+import { Process } from "../../../src/util/process.ts"
 
 const linux = (env: NodeJS.ProcessEnv = {}): Info => ({
   platform: "linux",

@@ -3,8 +3,8 @@ import { Effect, Layer, Context, Schema } from "effect"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { Snapshot } from "@/snapshot"
-import { Session } from "./session"
-import { SessionID, MessageID } from "./schema"
+import { Session } from "./session.ts"
+import { SessionID, MessageID } from "./schema.ts"
 import { appendSessionDiffs, readSessionDiffBase } from "@/kappacode/session-portability/cumulative-diff" // kappacode_change
 import { Storage } from "@/storage/storage" // kappacode_change
 import { Config } from "@/config/config"
@@ -212,4 +212,4 @@ export const node = LayerNode.make({
   deps: [Session.node, Snapshot.node, EventV2Bridge.node, Config.node, Storage.node], // kappacode_change
 })
 
-export * as SessionSummary from "./summary"
+export * as SessionSummary from "./summary.ts"

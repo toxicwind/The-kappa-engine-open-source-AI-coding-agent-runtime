@@ -1,4 +1,4 @@
-export * as ServerAuth from "./auth"
+export * as ServerAuth from "./auth.ts"
 
 import { ConfigService } from "@/effect/config-service"
 import { Flag } from "@opencode-ai/core/flag/flag"

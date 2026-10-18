@@ -1,6 +1,6 @@
 import { Effect, Schema } from "effect"
-import * as Tool from "./tool"
-import { Question } from "../question"
+import * as Tool from "./tool.ts"
+import { Question } from "../question/index.ts"
 import DESCRIPTION from "./question.txt"
 import { KappaQuestionTool } from "@/kappacode/tool/question" // kappacode_change
 

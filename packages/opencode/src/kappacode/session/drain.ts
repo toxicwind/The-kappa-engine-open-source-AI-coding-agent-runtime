@@ -154,4 +154,4 @@ export const layer = Layer.effect(
 )
 
 export const node = LayerNode.make({ service: Service, layer, deps: [] })
-export * as SessionDrain from "./drain"
+export * as SessionDrain from "./drain.ts"

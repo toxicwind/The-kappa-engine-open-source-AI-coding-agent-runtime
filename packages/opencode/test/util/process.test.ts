@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
 import { Process } from "@/util/process"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 function node(script: string) {
   return [process.execPath, "-e", script]

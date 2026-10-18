@@ -30,9 +30,9 @@ import { NamedError } from "@opencode-ai/core/util/error"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { withTimeout } from "@/util/timeout"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { McpOAuthPendingProvider, McpOAuthProvider, OAUTH_CALLBACK_PATH } from "./oauth-provider"
-import { McpOAuthCallback } from "./oauth-callback"
-import { McpAuth } from "./auth"
+import { McpOAuthPendingProvider, McpOAuthProvider, OAUTH_CALLBACK_PATH } from "./oauth-provider.ts"
+import { McpOAuthCallback } from "./oauth-callback.ts"
+import { McpAuth } from "./auth.ts"
 import { probe } from "@/kappacode/mcp/sse-probe" // kappacode_change - normalize the optional GET stream probe
 import { oauthGuard } from "@/kappacode/mcp/oauth-fetch" // kappacode_change - bind automatic invalidation to the rejected credential
 import * as KappaMcpCleanup from "@/kappacode/mcp/cleanup" // kappacode_change
@@ -45,9 +45,9 @@ import { InstanceState } from "@/effect/instance-state"
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import * as SandboxNetwork from "@/kappacode/sandbox/network" // kappacode_change
-import { McpCatalog } from "./catalog"
+import { McpCatalog } from "./catalog.ts"
 import { McpEvent } from "@opencode-ai/schema/mcp-event"
-import { McpBrowser } from "./browser"
+import { McpBrowser } from "./browser.ts"
 import { authFailure } from "@/kappacode/mcp/auth-failure" // kappacode_change
 
 const DEFAULT_TIMEOUT = 30_000
@@ -1225,4 +1225,4 @@ export const node = LayerNode.make({
   deps: [CrossSpawnSpawner.node, McpAuth.node, EventV2Bridge.node, Config.node, McpBrowser.node],
 })
 
-export * as MCP from "."
+export * as MCP from "./index.ts"

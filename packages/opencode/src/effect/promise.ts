@@ -14,4 +14,4 @@ export function refineRejection<A, E>(
   )
 }
 
-export * as EffectPromise from "./promise"
+export * as EffectPromise from "./promise.ts"

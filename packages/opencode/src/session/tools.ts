@@ -19,10 +19,10 @@ import { Plugin } from "@/plugin"
 import type { TaskPromptOps } from "@/tool/task"
 import { type Tool as AITool, tool, jsonSchema, type ToolExecutionOptions, asSchema } from "ai"
 import { Effect } from "effect"
-import { MessageV2 } from "./message-v2"
-import { Session } from "./session"
-import { SessionProcessor } from "./processor"
-import { PartID } from "./schema"
+import { MessageV2 } from "./message-v2.ts"
+import { Session } from "./session.ts"
+import { SessionProcessor } from "./processor.ts"
+import { PartID } from "./schema.ts"
 import { EffectBridge } from "@/effect/bridge"
 import * as SandboxPolicy from "@/kappacode/sandbox/policy" // kappacode_change
 import { ProviderV2 } from "@opencode-ai/core/provider"
@@ -681,4 +681,4 @@ function formatBytes(value: number) {
   return `${Math.ceil(value / (1024 * 1024))} MB`
 }
 
-export * as SessionTools from "./tools"
+export * as SessionTools from "./tools.ts"

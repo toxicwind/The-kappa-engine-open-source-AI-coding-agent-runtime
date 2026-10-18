@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import { mkdir } from "node:fs/promises"
 import path from "node:path"
-import type { Config } from "../../src/config/config"
-import { KappaIndexing } from "../../src/kappacode/indexing"
-import { IndexingWorker } from "../../src/kappacode/indexing-worker-client"
-import { disposeAllInstances, provideTestInstance, tmpdir } from "../fixture/fixture"
+import type { Config } from "../../src/config/config.ts"
+import { KappaIndexing } from "../../src/kappacode/indexing.ts"
+import { IndexingWorker } from "../../src/kappacode/indexing-worker-client.ts"
+import { disposeAllInstances, provideTestInstance, tmpdir } from "../fixture/fixture.ts"
 
 const cfg: Partial<Config.Info> = {
   plugin: ["@kappacode/kappa-indexing"],

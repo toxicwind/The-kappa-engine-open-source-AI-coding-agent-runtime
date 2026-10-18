@@ -6,7 +6,7 @@ import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import * as ACPError from "@/acp/error"
 import * as ACPSession from "@/acp/session"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const sessionTest = testEffect(LayerNode.compile(ACPSession.node))
 

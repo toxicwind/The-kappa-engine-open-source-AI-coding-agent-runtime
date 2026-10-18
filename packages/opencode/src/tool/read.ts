@@ -3,22 +3,22 @@ import { NonNegativeInt } from "@opencode-ai/core/schema"
 import * as path from "path"
 import { Readable } from "stream" // kappacode_change
 import { createInterface } from "readline"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { LSP } from "@/lsp/lsp"
 import DESCRIPTION from "./read.txt"
 import { InstanceState } from "@/effect/instance-state"
 import { Config } from "@/config/config" // kappacode_change - optional configured reference authorization
-import { assertExternalDirectoryEffect } from "./external-directory"
-import { Instruction } from "../session/instruction"
+import { assertExternalDirectoryEffect } from "./external-directory.ts"
+import { Instruction } from "../session/instruction.ts"
 import { isPdfAttachment, sniffAttachmentMime } from "@/util/media"
 // kappacode_change start
-import * as Encoding from "../kappacode/encoding"
+import * as Encoding from "../kappacode/encoding.ts"
 import { KappaReference } from "@/kappacode/reference/contains"
 import * as KappaConfiguredReference from "@/kappacode/reference"
 import { KappaReadObject } from "@/kappacode/tool/read-object"
-import * as Extract from "../kappacode/tool/read-extract"
-import * as TextStream from "../kappacode/text-stream"
+import * as Extract from "../kappacode/tool/read-extract.ts"
+import * as TextStream from "../kappacode/text-stream.ts"
 // kappacode_change end
 
 const DEFAULT_READ_LIMIT = 2000

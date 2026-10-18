@@ -73,4 +73,4 @@ export const notify = Effect.fn("KappaSessionSteering.notify")(function* (input:
   )
 })
 
-export * as KappaSessionSteering from "./steering"
+export * as KappaSessionSteering from "./steering.ts"

@@ -8,7 +8,7 @@ import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { Provider } from "@/provider/provider"
 import { Context, Effect, Layer, SynchronizedRef } from "effect"
-import type * as ACPError from "./error"
+import type * as ACPError from "./error.ts"
 
 export type ModelOption = {
   readonly providerID: ProviderV2.ID
@@ -209,4 +209,4 @@ export const loaderNode = LayerNode.make({
 
 export const node = LayerNode.make({ service: Service, layer, deps: [loaderNode] })
 
-export * as Directory from "./directory"
+export * as Directory from "./directory.ts"

@@ -10,8 +10,8 @@ import { SessionID } from "@/session/schema"
 import * as ToolJsonSchema from "@/tool/json-schema"
 import { Tool } from "@/tool/tool"
 import { Effect, Schema } from "effect"
-import { selectModel } from "./model-selection"
-import { runner } from "./host"
+import { selectModel } from "./model-selection.ts"
+import { runner } from "./host.ts"
 import DESCRIPTION from "./agent-manager.txt"
 
 const Task = Schema.Struct({

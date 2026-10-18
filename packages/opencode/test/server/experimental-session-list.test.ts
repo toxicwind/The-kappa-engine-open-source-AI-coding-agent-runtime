@@ -2,12 +2,12 @@
 import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from "bun:test"
 import { $ } from "bun"
 import path from "path"
-import type { InstanceContext } from "../../src/project/instance-context"
-import { InstanceRef } from "../../src/effect/instance-ref"
+import type { InstanceContext } from "../../src/project/instance-context.ts"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
 import * as Log from "@opencode-ai/core/util/log"
-import { resetDatabase } from "../fixture/db"
-import { tmpdir, withTestInstance } from "../fixture/fixture"
-import { RemoteSender } from "../../src/kappa-sessions/remote-sender"
+import { resetDatabase } from "../fixture/db.ts"
+import { tmpdir, withTestInstance } from "../fixture/fixture.ts"
+import { RemoteSender } from "../../src/kappa-sessions/remote-sender.ts"
 import { Effect } from "effect"
 
 beforeEach(() => {

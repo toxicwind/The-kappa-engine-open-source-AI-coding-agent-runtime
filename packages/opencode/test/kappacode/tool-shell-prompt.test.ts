@@ -2,7 +2,7 @@ import { afterAll, describe, expect, test } from "bun:test"
 import fs from "node:fs/promises"
 import os from "os"
 import path from "path"
-import { ShellPrompt } from "../../src/tool/shell/prompt"
+import { ShellPrompt } from "../../src/tool/shell/prompt.ts"
 
 // Cloud sessions allowlist a session-scoped temp dir, so the bash tool
 // description must name a path the injected external_directory rules permit.

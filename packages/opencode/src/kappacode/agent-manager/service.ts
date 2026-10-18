@@ -6,7 +6,7 @@ import type { InstanceContext } from "@/project/instance-context"
 import * as Log from "@opencode-ai/core/util/log"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Context, Deferred, Duration, Effect, Layer, LayerMap, Schema } from "effect"
-import { ErrorCode, Event, type Failure, type Request, RequestID, type Result } from "./protocol"
+import { ErrorCode, Event, type Failure, type Request, RequestID, type Result } from "./protocol.ts"
 
 const log = Log.create({ service: "agent-manager-host" })
 type WithoutID<T> = T extends unknown ? Omit<T, "id"> : never
@@ -212,4 +212,4 @@ export function layer(timeout: Duration.Input = "60 seconds") {
 
 export const defaultLayer = layer().pipe(Layer.provide(Bus.layer))
 export const node = LayerNode.make({ service: Service, layer: layer(), deps: [Bus.node] })
-export * as AgentManager from "./service"
+export * as AgentManager from "./service.ts"

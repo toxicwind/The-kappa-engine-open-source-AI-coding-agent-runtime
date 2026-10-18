@@ -2,7 +2,7 @@ import { realpathSync } from "node:fs"
 import os from "node:os"
 import path from "node:path"
 import type { ConfigPermissionV1 } from "@opencode-ai/core/v1/config/permission"
-import type { ConfigVariableGuard } from "./variable"
+import type { ConfigVariableGuard } from "./variable.ts"
 
 export namespace ExternalMarkdown {
   type Origins = Record<string, Record<string, "global" | "local">>

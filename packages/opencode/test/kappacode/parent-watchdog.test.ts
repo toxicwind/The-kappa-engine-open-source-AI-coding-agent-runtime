@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test"
-import { startParentWatchdog } from "../../src/kappacode/parent-watchdog"
+import { startParentWatchdog } from "../../src/kappacode/parent-watchdog.ts"
 
 describe("startParentWatchdog", () => {
   afterEach(() => {

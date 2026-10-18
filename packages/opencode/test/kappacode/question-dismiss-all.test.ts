@@ -2,10 +2,10 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect } from "bun:test"
 import { Cause, Effect, Exit, Fiber, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { KappaSessionPromptQueue } from "../../src/kappacode/session/prompt-queue"
-import { Question } from "../../src/question"
-import { MessageID, SessionID } from "../../src/session/schema"
-import { testEffect } from "../lib/effect"
+import { KappaSessionPromptQueue } from "../../src/kappacode/session/prompt-queue.ts"
+import { Question } from "../../src/question/index.ts"
+import { MessageID, SessionID } from "../../src/session/schema.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(Question.node), AppNodeBuilder.build(CrossSpawnSpawner.node)))
 

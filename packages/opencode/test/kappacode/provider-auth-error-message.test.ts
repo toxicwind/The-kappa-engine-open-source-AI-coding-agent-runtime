@@ -3,11 +3,11 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect, Layer } from "effect"
 import path from "path"
 import * as Log from "@opencode-ai/core/util/log"
-import { Server } from "../../src/server/server"
-import { resetDatabase } from "../fixture/db"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
-import { preparePluginDependencies } from "./plugin-dependencies"
+import { Server } from "../../src/server/server.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
+import { preparePluginDependencies } from "./plugin-dependencies.ts"
 
 void Log.init({ print: false })
 

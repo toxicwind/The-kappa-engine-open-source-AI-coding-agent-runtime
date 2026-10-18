@@ -1,4 +1,4 @@
-export * as ConfigV2Compat from "./v2-compat"
+export * as ConfigV2Compat from "./v2-compat.ts"
 
 import { isDeepStrictEqual } from "node:util"
 import { Option, Schema } from "effect"

@@ -4,10 +4,10 @@ import {
   AgentStartRequestSchema,
   GetMessageResultInputSchema,
   MessageIdSchema,
-} from "../../../src/kappacode/cloud/contracts"
-import { parseServiceOrigin } from "../../../src/kappacode/cloud/origin"
-import { MAX_CLOUD_AGENT_RESPONSE_BYTES } from "../../../src/kappacode/cloud/response-json"
-import { createCloudAgentClient } from "../../../src/kappacode/cloud/trpc"
+} from "../../../src/kappacode/cloud/contracts.ts"
+import { parseServiceOrigin } from "../../../src/kappacode/cloud/origin.ts"
+import { MAX_CLOUD_AGENT_RESPONSE_BYTES } from "../../../src/kappacode/cloud/response-json.ts"
+import { createCloudAgentClient } from "../../../src/kappacode/cloud/trpc.ts"
 
 const SESSION = "agent_12345678-1234-1234-1234-123456789abc"
 const OTHER_SESSION = "agent_abcdefab-cdef-4abc-8def-abcdefabcdef"

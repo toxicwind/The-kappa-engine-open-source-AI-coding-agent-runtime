@@ -1,11 +1,11 @@
 import { Effect, Schema } from "effect"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import path from "path"
 import { LSP } from "@/lsp/lsp"
 import DESCRIPTION from "./lsp.txt"
 import { InstanceState } from "@/effect/instance-state"
 import { pathToFileURL } from "url"
-import { assertExternalDirectoryEffect } from "./external-directory"
+import { assertExternalDirectoryEffect } from "./external-directory.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 
 const operations = [

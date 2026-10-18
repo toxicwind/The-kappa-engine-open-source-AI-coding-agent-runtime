@@ -1,4 +1,4 @@
-export * as ConfigPaths from "./paths"
+export * as ConfigPaths from "./paths.ts"
 
 import path from "path"
 import { Flag } from "@opencode-ai/core/flag/flag"

@@ -1,7 +1,7 @@
 import { Effect } from "effect"
-import { Snapshot } from "../../../snapshot"
-import { effectCmd } from "../../effect-cmd"
-import { cmd } from "../cmd"
+import { Snapshot } from "../../../snapshot/index.ts"
+import { effectCmd } from "../../effect-cmd.ts"
+import { cmd } from "../cmd.ts"
 
 export const SnapshotCommand = cmd({
   command: "snapshot",

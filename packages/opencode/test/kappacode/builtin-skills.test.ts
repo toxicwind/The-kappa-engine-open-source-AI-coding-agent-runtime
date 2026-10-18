@@ -3,11 +3,11 @@ import { expect } from "bun:test"
 import { Effect, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import path from "path"
-import { Skill } from "../../src/skill"
-import * as KappaSkill from "../../src/kappacode/skill-remove"
-import { BUILTIN_SKILLS } from "../../src/kappacode/skills/builtin"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Skill } from "../../src/skill/index.ts"
+import * as KappaSkill from "../../src/kappacode/skill-remove.ts"
+import { BUILTIN_SKILLS } from "../../src/kappacode/skills/builtin.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(Skill.node), AppNodeBuilder.build(CrossSpawnSpawner.node)))
 

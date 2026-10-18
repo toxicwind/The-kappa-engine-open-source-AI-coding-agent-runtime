@@ -1,3 +1,3 @@
 // kappacode_change - new file
-export * from "./track"
-export * from "./diff-full"
+export * from "./track.ts"
+export * from "./diff-full.ts"

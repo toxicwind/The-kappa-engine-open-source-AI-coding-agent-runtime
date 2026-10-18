@@ -3,7 +3,7 @@ import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import type { Provider } from "@/provider/provider"
 import { ProviderTransform } from "@/provider/transform"
-import type { MessageV2 } from "./message-v2"
+import type { MessageV2 } from "./message-v2.ts"
 import { KappaSessionOverflow } from "@/kappacode/session/overflow" // kappacode_change
 
 const COMPACTION_BUFFER = 20_000

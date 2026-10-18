@@ -2,7 +2,7 @@ import { Schema } from "effect"
 import { INDEXING_STATUS_STATES } from "@kappacode/kappa-indexing/status"
 import { BusEvent } from "@/bus/bus-event"
 import { NonNegativeInt } from "@opencode-ai/core/schema"
-import { INDEXING_WARNING_CODES } from "./indexing-warning"
+import { INDEXING_WARNING_CODES } from "./indexing-warning.ts"
 
 export const IndexingStatusState = Schema.Literals(INDEXING_STATUS_STATES).annotate({
   identifier: "IndexingStatusState",

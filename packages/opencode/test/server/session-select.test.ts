@@ -2,9 +2,9 @@ import { describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer } from "effect"
 import { Session } from "@/session/session"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
-import { httpApiLayer, requestInDirectory } from "./httpapi-layer"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
+import { httpApiLayer, requestInDirectory } from "./httpapi-layer.ts"
 
 const it = testEffect(Layer.mergeAll(LayerNode.compile(Session.node), httpApiLayer))
 

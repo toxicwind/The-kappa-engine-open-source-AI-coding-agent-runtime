@@ -2,8 +2,8 @@ import { Effect, Exit } from "effect"
 import type { SessionV1 } from "@opencode-ai/core/v1/session"
 import type { PromptInput } from "@/session/prompt"
 import type { MessageID, SessionID } from "@/session/schema"
-import { KappaSessionPromptQueue } from "../prompt-queue"
-import { GoalState } from "./state"
+import { KappaSessionPromptQueue } from "../prompt-queue.ts"
+import { GoalState } from "./state.ts"
 
 export namespace GoalPolicy {
   // A curbed goal may only arm a wait. `background_process` belongs here with the

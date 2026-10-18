@@ -380,4 +380,4 @@ function closeMessage(message: string, code: number, reason: Buffer) {
   return `${message} (${details.join(": ")})`
 }
 
-export * as OpenAIWebSocket from "./ws"
+export * as OpenAIWebSocket from "./ws.ts"

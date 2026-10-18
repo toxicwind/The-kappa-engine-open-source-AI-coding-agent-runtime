@@ -7,8 +7,8 @@ import { ConfigParse } from "@/config/parse"
 import { ConfigV2Compat } from "@/config/v2-compat"
 import { Filesystem } from "@/util/filesystem"
 import { isRecord } from "@/util/record"
-import { KappacodeConfigOverlay } from "./overlay"
-import { Excess } from "./excess"
+import { KappacodeConfigOverlay } from "./overlay.ts"
+import { Excess } from "./excess.ts"
 
 export namespace KappacodeConfigWriter {
   export type Conflict = {

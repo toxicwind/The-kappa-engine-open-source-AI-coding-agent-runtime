@@ -26,8 +26,8 @@ import {
   pickBlockerView,
   reduceSessionData,
   type SessionData,
-} from "./session-data"
-import { replayActiveText, replayLocalRows, replaySession } from "./session-replay"
+} from "./session-data.ts"
+import { replayActiveText, replayLocalRows, replaySession } from "./session-replay.ts"
 import {
   bootstrapSubagentCalls,
   bootstrapSubagentData,
@@ -41,8 +41,8 @@ import {
   SUBAGENT_BOOTSTRAP_LIMIT,
   SUBAGENT_CALL_BOOTSTRAP_LIMIT,
   type SubagentData,
-} from "./subagent-data"
-import { traceFooterOutput, writeSessionOutput } from "./stream"
+} from "./subagent-data.ts"
+import { traceFooterOutput, writeSessionOutput } from "./stream.ts"
 import type {
   FooterApi,
   FooterOutput,
@@ -58,7 +58,7 @@ import type {
   RunPromptPart,
   RunProvider,
   StreamCommit,
-} from "./types"
+} from "./types.ts"
 
 type Trace = {
   write(type: string, data?: unknown): void

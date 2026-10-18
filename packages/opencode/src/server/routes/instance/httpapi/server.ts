@@ -83,34 +83,34 @@ import { lazy } from "@/util/lazy"
 import { CorsConfig, isAllowedCorsOrigin, type CorsOptions } from "@opencode-ai/server/cors"
 import { serveUIEffect } from "@/server/shared/ui"
 import { ServerAuth } from "@/server/auth"
-import { InstanceHttpApi, RootHttpApi, ServerApi } from "./api"
-import { PublicApi } from "./public"
+import { InstanceHttpApi, RootHttpApi, ServerApi } from "./api.ts"
+import { PublicApi } from "./public.ts"
 import {
   authorizationLayer,
   authorizationRouterMiddleware,
   ptyConnectAuthorizationLayer,
   serverAuthorizationLayer,
-} from "./middleware/authorization"
-import { EventApi } from "./groups/event"
-import { PtyConnectApi } from "./groups/pty"
-import { eventHandlers } from "./handlers/event"
-import { configHandlers } from "./handlers/config"
-import { controlHandlers } from "./handlers/control"
-import { controlPlaneHandlers } from "./handlers/control-plane"
-import { experimentalHandlers } from "./handlers/experimental"
-import { fileHandlers } from "./handlers/file"
-import { globalHandlers } from "./handlers/global"
-import { instanceHandlers } from "./handlers/instance"
-import { mcpHandlers } from "./handlers/mcp"
-import { permissionHandlers } from "./handlers/permission"
-import { projectHandlers } from "./handlers/project"
-import { projectCopyHandlers } from "./handlers/project-copy"
-import { providerHandlers } from "./handlers/provider"
-import { ptyConnectHandlers, ptyHandlers } from "./handlers/pty"
-import { questionHandlers } from "./handlers/question"
-import { sessionHandlers } from "./handlers/session"
-import { syncHandlers } from "./handlers/sync"
-import { tuiHandlers } from "./handlers/tui"
+} from "./middleware/authorization.ts"
+import { EventApi } from "./groups/event.ts"
+import { PtyConnectApi } from "./groups/pty.ts"
+import { eventHandlers } from "./handlers/event.ts"
+import { configHandlers } from "./handlers/config.ts"
+import { controlHandlers } from "./handlers/control.ts"
+import { controlPlaneHandlers } from "./handlers/control-plane.ts"
+import { experimentalHandlers } from "./handlers/experimental.ts"
+import { fileHandlers } from "./handlers/file.ts"
+import { globalHandlers } from "./handlers/global.ts"
+import { instanceHandlers } from "./handlers/instance.ts"
+import { mcpHandlers } from "./handlers/mcp.ts"
+import { permissionHandlers } from "./handlers/permission.ts"
+import { projectHandlers } from "./handlers/project.ts"
+import { projectCopyHandlers } from "./handlers/project-copy.ts"
+import { providerHandlers } from "./handlers/provider.ts"
+import { ptyConnectHandlers, ptyHandlers } from "./handlers/pty.ts"
+import { questionHandlers } from "./handlers/question.ts"
+import { sessionHandlers } from "./handlers/session.ts"
+import { syncHandlers } from "./handlers/sync.ts"
+import { tuiHandlers } from "./handlers/tui.ts"
 import { handlers } from "@opencode-ai/server/handlers"
 import {
   layer as referenceReconcilerLayer,
@@ -121,22 +121,22 @@ import { layer as locationLayer } from "@opencode-ai/server/location"
 import { sessionLocationLayer } from "@opencode-ai/server/middleware/session-location"
 import { PtyEnvironment } from "@opencode-ai/server/pty-environment"
 import { schemaErrorLayer as v2SchemaErrorLayer } from "@opencode-ai/server/middleware/schema-error"
-import { workspaceHandlers } from "./handlers/workspace"
+import { workspaceHandlers } from "./handlers/workspace.ts"
 // kappacode_change start
 import {
   provide as provideKappaHttpApiHandlers,
   provideListener as provideKappaListenerRoutes,
 } from "@/kappacode/server/httpapi/server"
 // kappacode_change end
-import { instanceContextLayer } from "./middleware/instance-context"
-import { workspaceRoutingLayer } from "./middleware/workspace-routing"
-import { disposeMiddleware } from "./lifecycle"
+import { instanceContextLayer } from "./middleware/instance-context.ts"
+import { workspaceRoutingLayer } from "./middleware/workspace-routing.ts"
+import { disposeMiddleware } from "./lifecycle.ts"
 import { memoMap } from "@opencode-ai/core/effect/memo-map"
-import { compressionLayer } from "./middleware/compression"
-import { corsVaryFix } from "./middleware/cors-vary"
-import { errorLayer } from "./middleware/error"
-import { fenceLayer } from "./middleware/fence"
-import { schemaErrorLayer } from "./middleware/schema-error"
+import { compressionLayer } from "./middleware/compression.ts"
+import { corsVaryFix } from "./middleware/cors-vary.ts"
+import { errorLayer } from "./middleware/error.ts"
+import { fenceLayer } from "./middleware/fence.ts"
+import { schemaErrorLayer } from "./middleware/schema-error.ts"
 
 export const context = Context.makeUnsafe<unknown>(new Map())
 
@@ -398,4 +398,4 @@ export const webHandler = lazy(() =>
   }),
 )
 
-export * as HttpApiApp from "./server"
+export * as HttpApiApp from "./server.ts"

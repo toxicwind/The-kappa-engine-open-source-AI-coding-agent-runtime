@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
-import { Permission } from "../../src/permission"
-import { PermissionProvenance } from "../../src/kappacode/permission/provenance"
-import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
+import { Permission } from "../../src/permission/index.ts"
+import { PermissionProvenance } from "../../src/kappacode/permission/provenance.ts"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt.ts"
 
 /** Plan agent permission in the shape patchAgents produces: the edit guard appears several times. */
 function planAgentPermission() {

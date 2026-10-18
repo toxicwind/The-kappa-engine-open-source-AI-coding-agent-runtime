@@ -1,6 +1,6 @@
 import { Effect, Fiber, Layer, ManagedRuntime } from "effect"
 import * as Context from "effect/Context"
-import { InstanceRef, WorkspaceRef } from "./instance-ref"
+import { InstanceRef, WorkspaceRef } from "./instance-ref.ts"
 import * as Observability from "@opencode-ai/core/observability"
 import { WorkspaceContext } from "@/control-plane/workspace-context"
 import type { InstanceContext } from "@/project/instance-context"

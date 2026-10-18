@@ -4,7 +4,7 @@ import { MemoryInstance } from "@kappacode/kappa-memory/effect/instance"
 import { MemoryLog } from "@kappacode/kappa-memory/effect/log"
 import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 import { bind } from "@/kappacode/instance"
-import { MemoryEvents } from "./events"
+import { MemoryEvents } from "./events.ts"
 
 const log = Log.create({ service: "memory" })
 

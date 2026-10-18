@@ -1,7 +1,7 @@
 // kappacode_change - new file
 import { EOL } from "os"
-import { cmd } from "./cmd"
-import { UI } from "../ui"
+import { cmd } from "./cmd.ts"
+import { UI } from "../ui.ts"
 
 // Keep the top-level import graph light: this module is registered eagerly at CLI
 // startup, so implementation dependencies are imported inside the handler (same

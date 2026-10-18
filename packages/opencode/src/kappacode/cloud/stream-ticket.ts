@@ -1,7 +1,7 @@
 import z from "zod"
-import { CloudError } from "./errors"
-import { type ServiceOrigin } from "./origin"
-import { readBoundedJson } from "./response-json"
+import { CloudError } from "./errors.ts"
+import { type ServiceOrigin } from "./origin.ts"
+import { readBoundedJson } from "./response-json.ts"
 
 const MAX_STREAM_TICKET_RESPONSE_BYTES = 64 * 1024
 const STREAM_TICKET_TIMEOUT_MS = 30_000

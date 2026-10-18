@@ -1,5 +1,5 @@
 import { describe, expect, test, beforeEach } from "bun:test"
-import { IngestQueue } from "../../../src/kappa-sessions/ingest-queue"
+import { IngestQueue } from "../../../src/kappa-sessions/ingest-queue.ts"
 
 function scheduler(now: () => number) {
   const tasks = new Map<number, { at: number; fn: () => void }>()

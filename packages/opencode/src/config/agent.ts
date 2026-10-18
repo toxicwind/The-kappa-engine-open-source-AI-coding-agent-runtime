@@ -1,19 +1,19 @@
-export * as ConfigAgent from "./agent"
+export * as ConfigAgent from "./agent.ts"
 
 import path from "path"
 import * as Log from "@opencode-ai/core/util/log"
 import { Exit, Schema } from "effect"
 import { Glob } from "@opencode-ai/core/util/glob"
 import { ConfigAgentV1 } from "@opencode-ai/core/v1/config/agent"
-import { configEntryNameFromPath } from "./entry-name"
-import * as ConfigMarkdown from "./markdown"
-import { ConfigParse } from "./parse"
-import { ConfigVariable } from "./variable" // kappacode_change
+import { configEntryNameFromPath } from "./entry-name.ts"
+import * as ConfigMarkdown from "./markdown.ts"
+import { ConfigParse } from "./parse.ts"
+import { ConfigVariable } from "./variable.ts" // kappacode_change
 // kappacode_change start
 import { ConfigErrorV1 as ConfigError, FrontmatterError } from "@opencode-ai/core/v1/config/error"
 import { KappacodeConfig } from "@/kappacode/config/config"
 import { report } from "@/kappacode/config/report"
-import type { Warning } from "./config"
+import type { Warning } from "./config.ts"
 // kappacode_change end
 
 const log = Log.create({ service: "config" })

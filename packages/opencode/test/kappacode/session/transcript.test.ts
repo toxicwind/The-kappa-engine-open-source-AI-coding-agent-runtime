@@ -8,8 +8,8 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { Session } from "@/session/session"
 import { SessionTranscript } from "@/kappacode/session/transcript"
 import { MessageID, PartID, SessionID } from "@/session/schema"
-import { provideTmpdirInstance } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { provideTmpdirInstance } from "../../fixture/fixture.ts"
+import { testEffect } from "../../lib/effect.ts"
 
 const env = LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node, CrossSpawnSpawner.node]))
 const it = testEffect(env)

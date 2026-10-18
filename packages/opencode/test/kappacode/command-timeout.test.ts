@@ -15,7 +15,7 @@ import { Agent } from "@/agent/agent"
 import { Shell } from "@opencode-ai/core/shell"
 import { MessageID, SessionID } from "@/session/schema"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const max = process.env.KILO_COMMAND_TIMEOUT_MAX_MS
 const msg = process.env.KILO_COMMAND_TIMEOUT_MAX_MS_MESSAGE

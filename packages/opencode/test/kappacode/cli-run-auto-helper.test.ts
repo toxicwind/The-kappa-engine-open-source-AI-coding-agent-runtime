@@ -1,6 +1,6 @@
 // kappacode_change - new file
 import { describe, expect, test } from "bun:test"
-import { KappaRunAuto } from "../../src/kappacode/cli/run-auto"
+import { KappaRunAuto } from "../../src/kappacode/cli/run-auto.ts"
 
 describe("KappaRunAuto", () => {
   test("tracks task child sessions without allowing unrelated sessions", () => {

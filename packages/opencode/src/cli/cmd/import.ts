@@ -1,7 +1,7 @@
 import type { Session as SDKSession, Message, Part } from "@kappacode/sdk/v2"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { Session } from "@/session/session"
-import { CliError, effectCmd } from "../effect-cmd"
+import { CliError, effectCmd } from "../effect-cmd.ts"
 import { Database } from "@opencode-ai/core/database/database"
 import { SessionTable, MessageTable, PartTable } from "@opencode-ai/core/session/sql"
 import { InstanceRef } from "@/effect/instance-ref"

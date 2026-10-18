@@ -3,7 +3,7 @@ import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
 import { Suggestion } from "@/kappacode/suggestion"
 import { SessionID } from "@/session/schema"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
-import { SuggestionAcceptPayload } from "../groups/suggestion"
+import { SuggestionAcceptPayload } from "../groups/suggestion.ts"
 
 export const suggestionHandlers = HttpApiBuilder.group(InstanceHttpApi, "suggestion", (handlers) =>
   Effect.gen(function* () {

@@ -16,13 +16,13 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
 import type { Config } from "@/config/config"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { InstanceRef } from "../../src/effect/instance-ref"
-import { InstanceBootstrap } from "../../src/project/bootstrap-service"
-import { context as instanceContext, type InstanceContext } from "../../src/project/instance-context" // kappacode_change
-import { InstanceRuntime } from "../../src/project/instance-runtime"
-import { InstanceStore } from "../../src/project/instance-store"
-import { TestLLMServer } from "../lib/llm-server"
-import { remove as cleanup } from "../kappacode/cleanup" // kappacode_change
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
+import { InstanceBootstrap } from "../../src/project/bootstrap-service.ts"
+import { context as instanceContext, type InstanceContext } from "../../src/project/instance-context.ts" // kappacode_change
+import { InstanceRuntime } from "../../src/project/instance-runtime.ts"
+import { InstanceStore } from "../../src/project/instance-store.ts"
+import { TestLLMServer } from "../lib/llm-server.ts"
+import { remove as cleanup } from "../kappacode/cleanup.ts" // kappacode_change
 
 const noopBootstrap = Layer.succeed(InstanceBootstrap.Service, InstanceBootstrap.Service.of({ run: Effect.void }))
 export const testInstanceStoreLayer = LayerNode.compile(InstanceStore.node, [

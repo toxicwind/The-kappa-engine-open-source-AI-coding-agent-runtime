@@ -5,7 +5,7 @@ import type {
   FileEntry,
   WorkspaceBaselineCompleted,
   WorkspaceDeltaCaptured,
-} from "./events"
+} from "./events.ts"
 import { ulid } from "ulid"
 
 export type BaselineFiberArgs = {

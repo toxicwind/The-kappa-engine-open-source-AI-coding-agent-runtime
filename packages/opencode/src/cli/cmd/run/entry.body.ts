@@ -1,5 +1,5 @@
-import { toolEntryBody } from "./tool"
-import type { RunEntryBody, StreamCommit } from "./types"
+import { toolEntryBody } from "./tool.ts"
+import type { RunEntryBody, StreamCommit } from "./types.ts"
 
 export type EntryFlags = {
   startOnNewLine: boolean

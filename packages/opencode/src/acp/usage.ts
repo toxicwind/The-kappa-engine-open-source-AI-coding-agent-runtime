@@ -240,4 +240,4 @@ export const contextLimitLoaderNode = makeGlobalNode({
 
 export const node = makeGlobalNode({ service: Service, layer, deps: [messageLoaderNode, contextLimitLoaderNode] })
 
-export * as UsageService from "./usage"
+export * as UsageService from "./usage.ts"

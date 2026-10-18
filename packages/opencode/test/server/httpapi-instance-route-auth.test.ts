@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import { ConfigProvider, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
-import { EventPaths } from "../../src/server/routes/instance/httpapi/groups/event"
-import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty"
-import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
-import { ServerAuth } from "../../src/server/auth"
+import { EventPaths } from "../../src/server/routes/instance/httpapi/groups/event.ts"
+import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty.ts"
+import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server.ts"
+import { ServerAuth } from "../../src/server/auth.ts"
 import { PtyID } from "@opencode-ai/core/pty/schema"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 
 function app(input: { password?: string; username?: string }) {
   const handler = HttpRouter.toWebHandler(

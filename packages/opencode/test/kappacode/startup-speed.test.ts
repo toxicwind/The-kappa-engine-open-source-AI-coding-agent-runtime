@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test"
 import fs from "node:fs/promises"
 import path from "node:path"
-import { TestCli } from "../../script/kappacode/test-cli"
-import { tmpdir } from "../fixture/fixture"
+import { TestCli } from "../../script/kappacode/test-cli.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 test("warm npm launcher and real CLI startup stay within budget", async () => {
   const root = path.resolve(import.meta.dir, "../..")

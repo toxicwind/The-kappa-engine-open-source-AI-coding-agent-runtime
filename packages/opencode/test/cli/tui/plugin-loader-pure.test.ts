@@ -2,10 +2,10 @@ import { expect, spyOn, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
 import { pathToFileURL } from "url"
-import { tmpdir } from "../../fixture/fixture"
-import { createTuiPluginApi } from "../../fixture/tui-plugin"
-import { createTuiResolvedConfig } from "../../fixture/tui-runtime"
-import { TuiConfig } from "../../../src/config/tui"
+import { tmpdir } from "../../fixture/fixture.ts"
+import { createTuiPluginApi } from "../../fixture/tui-plugin.ts"
+import { createTuiResolvedConfig } from "../../fixture/tui-runtime.ts"
+import { TuiConfig } from "../../../src/config/tui.ts"
 
 const { TuiPluginRuntime } = await import("../../../src/plugin/tui/runtime")
 

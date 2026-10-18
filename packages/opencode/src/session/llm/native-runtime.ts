@@ -17,7 +17,7 @@ import {
   type LLMEvent,
 } from "@opencode-ai/llm"
 import type { LLMClientShape } from "@opencode-ai/llm/route"
-import { LLMNative } from "./native-request"
+import { LLMNative } from "./native-request.ts"
 
 export type RuntimeStatus =
   | { readonly type: "supported"; readonly apiKey: string; readonly baseURL?: string }
@@ -193,4 +193,4 @@ export function nativeTools(tools: Record<string, Tool>, input: Pick<StreamInput
   )
 }
 
-export * as LLMNativeRuntime from "./native-runtime"
+export * as LLMNativeRuntime from "./native-runtime.ts"

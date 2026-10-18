@@ -4,7 +4,7 @@ import path from "path"
 
 import { Process } from "@/util/process"
 import { Filesystem } from "@/util/filesystem"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 const root = path.join(import.meta.dir, "../..")
 const worker = path.join(import.meta.dir, "../fixture/plug-worker.ts")

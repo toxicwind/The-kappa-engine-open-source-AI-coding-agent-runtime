@@ -4,15 +4,15 @@ import { PtyID } from "@opencode-ai/core/pty/schema"
 import { PTY_CONNECT_TICKET_QUERY } from "@/server/shared/pty-ticket"
 import { Schema } from "effect"
 import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
-import { Authorization, PtyConnectAuthorization } from "../middleware/authorization"
-import { InstanceContextMiddleware } from "../middleware/instance-context"
+import { Authorization, PtyConnectAuthorization } from "../middleware/authorization.ts"
+import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
 import {
   WorkspaceRoutingMiddleware,
   WorkspaceRoutingQuery,
   WorkspaceRoutingQueryFields,
-} from "../middleware/workspace-routing"
-import { PtyForbiddenError, PtyNotFoundError } from "../errors"
-import { described } from "./metadata"
+} from "../middleware/workspace-routing.ts"
+import { PtyForbiddenError, PtyNotFoundError } from "../errors.ts"
+import { described } from "./metadata.ts"
 
 const root = "/pty"
 export const Params = Schema.Struct({ ptyID: PtyID })

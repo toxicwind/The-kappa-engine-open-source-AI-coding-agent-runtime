@@ -2,7 +2,7 @@ import WebSocket from "ws"
 import * as Log from "@opencode-ai/core/util/log" // kappacode_change
 import { ProviderError } from "@/provider/error"
 import { isRecord } from "@/util/record"
-import { OpenAIWebSocket } from "./ws"
+import { OpenAIWebSocket } from "./ws.ts"
 
 export const TITLE_HEADER = "x-kappa-title"
 
@@ -281,4 +281,4 @@ export function withoutInternalHeaders<T extends { headers?: HeadersInit }>(init
   }
 }
 
-export * as OpenAIWebSocketPool from "./ws-pool"
+export * as OpenAIWebSocketPool from "./ws-pool.ts"

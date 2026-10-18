@@ -4,8 +4,8 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect } from "effect"
 import { LSP } from "@/lsp/lsp"
 import * as LSPServer from "@/lsp/server"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(LSP.node))
 

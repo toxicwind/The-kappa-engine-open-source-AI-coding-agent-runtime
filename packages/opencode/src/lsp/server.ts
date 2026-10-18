@@ -6,15 +6,15 @@ import * as Log from "@opencode-ai/core/util/log" // kappacode_change
 import { text } from "node:stream/consumers"
 import fs from "fs/promises"
 import { Filesystem } from "@/util/filesystem"
-import type { InstanceContext } from "../project/instance-context"
+import type { InstanceContext } from "../project/instance-context.ts"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { Archive } from "@/util/archive"
 import { Process } from "@/util/process"
 import { which } from "@opencode-ai/core/util/which"
 import { Module } from "@opencode-ai/core/util/module"
-import { spawn } from "./launch"
+import { spawn } from "./launch.ts"
 import { Npm } from "@opencode-ai/core/npm"
-import { TsCheck } from "../kappacode/ts-check" // kappacode_change
+import { TsCheck } from "../kappacode/ts-check.ts" // kappacode_change
 import type { RuntimeFlags } from "@/effect/runtime-flags"
 
 const log = Log.create({ service: "lsp.server" }) // kappacode_change

@@ -19,8 +19,8 @@ import { overlay as overlayAnacondaDesktop } from "@/kappacode/anaconda-desktop/
 import { Effect, Schema } from "effect"
 import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { ProviderAuthApiError } from "../groups/provider"
+import { InstanceHttpApi } from "../api.ts"
+import { ProviderAuthApiError } from "../groups/provider.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 
 function mapProviderAuthError<A, R>(self: Effect.Effect<A, ProviderAuth.Error, R>) {

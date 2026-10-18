@@ -1,6 +1,6 @@
 import * as path from "path"
 import { Readable } from "stream"
-import * as Encoding from "../encoding"
+import * as Encoding from "../encoding.ts"
 
 type ObjectValue = Record<string, unknown>
 

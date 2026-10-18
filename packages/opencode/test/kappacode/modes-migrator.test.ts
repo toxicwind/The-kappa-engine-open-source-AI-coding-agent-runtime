@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { ModesMigrator } from "../../src/kappacode/modes-migrator"
-import { tmpdir } from "../fixture/fixture"
+import { ModesMigrator } from "../../src/kappacode/modes-migrator.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 
 describe("ModesMigrator", () => {

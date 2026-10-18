@@ -127,4 +127,4 @@ export async function remove(location: string, commands: readonly Info[]) {
   await unlink(target(location, commands))
 }
 
-export * as CommandFiles from "./command-files"
+export * as CommandFiles from "./command-files.ts"

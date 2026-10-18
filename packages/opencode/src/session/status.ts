@@ -1,7 +1,7 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { InstanceState } from "@/effect/instance-state"
 import { registerDisposer } from "@/effect/instance-registry" // kappacode_change
-import { SessionID } from "./schema"
+import { SessionID } from "./schema.ts"
 import { Effect, Layer, Context } from "effect"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { SessionStatusEvent } from "@opencode-ai/schema/session-status-event"
@@ -137,4 +137,4 @@ export const defaultLayer = layer.pipe(Layer.provide(EventV2Bridge.defaultLayer)
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [EventV2Bridge.node] })
 
-export * as SessionStatus from "./status"
+export * as SessionStatus from "./status.ts"

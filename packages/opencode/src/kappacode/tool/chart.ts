@@ -1,6 +1,6 @@
 // kappacode_change - new file
 import { Effect, Schema } from "effect"
-import * as Tool from "../../tool/tool"
+import * as Tool from "../../tool/tool.ts"
 import { Telemetry } from "@kappacode/kappa-telemetry"
 
 const Parameters = Schema.Struct({

@@ -3,7 +3,7 @@ import path from "path"
 import * as Tool from "@/tool/tool"
 import { KappaIndexing } from "@/kappacode/indexing"
 import { Instance } from "@/kappacode/instance"
-import { empty, normalizePath, scope } from "./semantic-search-output"
+import { empty, normalizePath, scope } from "./semantic-search-output.ts"
 
 import DESCRIPTION from "./semantic-search.txt"
 

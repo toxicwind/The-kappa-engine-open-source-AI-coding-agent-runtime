@@ -10,8 +10,8 @@
 // Resolves when the footer closes and all in-flight work finishes.
 import * as Locale from "@/util/locale"
 import { MessageID, PartID } from "@/session/schema"
-import { isExitCommand, isNewCommand } from "./prompt.shared"
-import type { FooterApi, FooterEvent, FooterQueuedPrompt, RunPrompt } from "./types"
+import { isExitCommand, isNewCommand } from "./prompt.shared.ts"
+import type { FooterApi, FooterEvent, FooterQueuedPrompt, RunPrompt } from "./types.ts"
 
 type Trace = {
   write(type: string, data?: unknown): void

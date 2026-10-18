@@ -277,4 +277,4 @@ const layer = Layer.effect(
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [Config.node] })
 
-export * as Image from "./image"
+export * as Image from "./image.ts"

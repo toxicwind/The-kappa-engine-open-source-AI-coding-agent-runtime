@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
 import { statSync } from "node:fs"
 import { Database } from "@opencode-ai/core/database/database"
-import { KappaSessionRetention } from "../../../src/kappacode/session/retention"
-import { tmpdir } from "../../fixture/fixture"
+import { KappaSessionRetention } from "../../../src/kappacode/session/retention.ts"
+import { tmpdir } from "../../fixture/fixture.ts"
 
 const use = <A, E>(effect: Effect.Effect<A, E, Database.Service>, file: string) =>
   Effect.runPromise(Effect.provide(Database.layerFromPath(file))(Effect.scoped(effect)))

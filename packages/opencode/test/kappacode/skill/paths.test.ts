@@ -2,12 +2,12 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect, test } from "bun:test"
 import { Effect, Layer } from "effect"
 import path from "path"
-import { Skill } from "../../../src/skill"
-import { RuntimeFlags } from "../../../src/effect/runtime-flags"
+import { Skill } from "../../../src/skill/index.ts"
+import { RuntimeFlags } from "../../../src/effect/runtime-flags.ts"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { provideTmpdirInstance, testInstanceStoreLayer } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
-import * as SkillPaths from "../../../src/kappacode/skill/paths"
+import { provideTmpdirInstance, testInstanceStoreLayer } from "../../fixture/fixture.ts"
+import { testEffect } from "../../lib/effect.ts"
+import * as SkillPaths from "../../../src/kappacode/skill/paths.ts"
 
 const node = AppNodeBuilder.build(CrossSpawnSpawner.node)
 const skills = AppNodeBuilder.build(Skill.node, [

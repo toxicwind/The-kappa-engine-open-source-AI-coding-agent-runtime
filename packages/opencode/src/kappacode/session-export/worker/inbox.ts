@@ -1,4 +1,4 @@
-import type { ExportEvent } from "../events"
+import type { ExportEvent } from "../events.ts"
 
 type Item = { sessionId: string; envelope: ExportEvent; bytes: number }
 

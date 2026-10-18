@@ -8,7 +8,7 @@ import { CloudAuth } from "@/kappacode/cloud/auth"
 import { CloudCatalog } from "@/kappacode/cloud/catalog"
 import { CloudDefaults } from "@/kappacode/cloud/defaults"
 import { MAX_CLOUD_AGENT_RESPONSE_BYTES } from "@/kappacode/cloud/response-json"
-import { testEffect } from "../../lib/effect"
+import { testEffect } from "../../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(Agent.node), AppNodeBuilder.build(Config.node)))
 

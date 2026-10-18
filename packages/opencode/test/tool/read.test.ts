@@ -3,7 +3,7 @@ import { afterEach, describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Cause, Effect, Exit, Layer, Stream } from "effect"
 import path from "path"
-import { Agent } from "../../src/agent/agent"
+import { Agent } from "../../src/agent/agent.ts"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Global } from "@opencode-ai/core/global"
@@ -11,10 +11,10 @@ import { Config } from "@/config/config"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
 import { LSP } from "@/lsp/lsp"
-import { Permission } from "../../src/permission"
-import { SessionID, MessageID } from "../../src/session/schema"
-import { Instruction } from "../../src/session/instruction"
-import { ReadTool } from "../../src/tool/read"
+import { Permission } from "../../src/permission/index.ts"
+import { SessionID, MessageID } from "../../src/session/schema.ts"
+import { Instruction } from "../../src/session/instruction.ts"
+import { ReadTool } from "../../src/tool/read.ts"
 import { Truncate } from "@/tool/truncate"
 import { Tool } from "@/tool/tool"
 import { Filesystem } from "@/util/filesystem"
@@ -24,8 +24,8 @@ import {
   testInstanceStoreLayer,
   TestInstance,
   tmpdirScoped,
-} from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+} from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const FIXTURES_DIR = path.join(import.meta.dir, "fixtures")
 

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { Config } from "../../../src/config/config"
+import { Config } from "../../../src/config/config.ts"
 import { Schema } from "effect"
 
 describe("Config.Info experimental speech-to-text model", () => {

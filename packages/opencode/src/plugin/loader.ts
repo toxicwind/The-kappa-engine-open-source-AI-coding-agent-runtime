@@ -7,7 +7,7 @@ import {
   type PluginKind,
   type PluginPackage,
   type PluginSource,
-} from "./shared"
+} from "./shared.ts"
 import { ConfigPlugin } from "@/config/plugin"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"

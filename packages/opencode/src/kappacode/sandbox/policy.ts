@@ -12,12 +12,12 @@ import { Config } from "@/config/config"
 import { InstanceState } from "@/effect/instance-state"
 import type { InstanceContext } from "@/project/instance-context"
 import type { SessionID } from "@/session/schema"
-import { Changed } from "./event"
-import * as Network from "./network"
-import { SandboxPreference } from "./preference"
-import * as SandboxState from "./state"
-import { SandboxConfig } from "./config"
-import { SandboxStore } from "./store"
+import { Changed } from "./event.ts"
+import * as Network from "./network.ts"
+import { SandboxPreference } from "./preference.ts"
+import * as SandboxState from "./state.ts"
+import { SandboxConfig } from "./config.ts"
+import { SandboxStore } from "./store.ts"
 
 export type Snapshot = SandboxStore.Snapshot
 export type Target = { id: SessionID; directory: string }

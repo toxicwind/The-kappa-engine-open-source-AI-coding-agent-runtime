@@ -26,8 +26,8 @@
 //   to the next pending request or to the prompt view.
 import type { Event, Part, PermissionRequest, QuestionRequest, ToolPart } from "@kappacode/sdk/v2" // kappacode_change - revert to upstream native Event type
 import * as Locale from "@/util/locale"
-import { toolView } from "./tool"
-import type { FooterOutput, FooterPatch, FooterView, StreamCommit } from "./types"
+import { toolView } from "./tool.ts"
+import type { FooterOutput, FooterPatch, FooterView, StreamCommit } from "./types.ts"
 
 const money = new Intl.NumberFormat("en-US", {
   style: "currency",

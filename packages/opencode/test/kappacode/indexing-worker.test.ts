@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test"
 import { mkdir } from "node:fs/promises"
 import path from "node:path"
-import { IndexingWorker } from "../../src/kappacode/indexing-worker-client"
-import { tmpdir } from "../fixture/fixture"
+import { IndexingWorker } from "../../src/kappacode/indexing-worker-client.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 test("runs indexing engine requests in its worker", async () => {
   await using tmp = await tmpdir()

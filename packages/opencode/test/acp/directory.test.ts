@@ -6,7 +6,7 @@ import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { Provider } from "@/provider/provider"
 import { Effect, Layer } from "effect"
-import { it } from "../lib/effect"
+import { it } from "../lib/effect.ts"
 
 const command = (name: string): Command.Info => ({
   name,

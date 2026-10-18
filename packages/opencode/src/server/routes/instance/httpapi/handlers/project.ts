@@ -3,9 +3,9 @@ import { Project } from "@/project/project"
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { Effect } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { ProjectNotFoundError } from "../errors"
-import { markInstanceForReload } from "../lifecycle"
+import { InstanceHttpApi } from "../api.ts"
+import { ProjectNotFoundError } from "../errors.ts"
+import { markInstanceForReload } from "../lifecycle.ts"
 
 export const projectHandlers = HttpApiBuilder.group(InstanceHttpApi, "project", (handlers) =>
   Effect.gen(function* () {

@@ -4,7 +4,7 @@ import type { LLMEvent } from "@opencode-ai/llm"
 import type { Logger } from "@opencode-ai/core/util/log"
 import type { Provider } from "@/provider/provider"
 import { ProviderTransform } from "@/provider/transform"
-import { KappaSessionOverflow } from "./overflow"
+import { KappaSessionOverflow } from "./overflow.ts"
 
 const SAFETY = 2048
 const MIN_OUTPUT = 1024

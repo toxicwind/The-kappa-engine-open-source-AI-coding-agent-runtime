@@ -5,12 +5,12 @@ import { pathToFileURL } from "node:url"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Cause, Effect, Exit, Fiber } from "effect"
-import { bootstrap as cliBootstrap } from "../../src/cli/bootstrap"
-import { InstanceBootstrap } from "../../src/project/bootstrap"
-import { InstanceStore } from "../../src/project/instance-store"
-import { disposeAllInstances, tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
-import { waitGlobalBusEvent } from "../server/global-bus"
+import { bootstrap as cliBootstrap } from "../../src/cli/bootstrap.ts"
+import { InstanceBootstrap } from "../../src/project/bootstrap.ts"
+import { InstanceStore } from "../../src/project/instance-store.ts"
+import { disposeAllInstances, tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
+import { waitGlobalBusEvent } from "../server/global-bus.ts"
 
 const it = testEffect(
   LayerNode.compile(LayerNode.group([InstanceStore.node, CrossSpawnSpawner.node]), [

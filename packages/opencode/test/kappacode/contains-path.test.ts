@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import path from "path"
-import { containsPath, type InstanceContext } from "../../src/project/instance-context"
+import { containsPath, type InstanceContext } from "../../src/project/instance-context.ts"
 
 // Restores the boundary coverage lost with test/file/path-traversal.test.ts. The
 // "inside directory OR worktree, except worktree === '/'" policy is Kappa-facing: it

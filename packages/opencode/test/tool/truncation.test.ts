@@ -6,12 +6,12 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect, FileSystem } from "effect"
 import { Truncate } from "@/tool/truncate"
 import { Config } from "@/config/config"
-import { Identifier } from "../../src/id/id"
+import { Identifier } from "../../src/id/id.ts"
 import { Process } from "@/util/process"
 import path from "path"
-import { testEffect } from "../lib/effect"
-import { writeFileStringScoped } from "../lib/filesystem"
-import { TestConfig } from "../fixture/config"
+import { testEffect } from "../lib/effect.ts"
+import { writeFileStringScoped } from "../lib/filesystem.ts"
+import { TestConfig } from "../fixture/config.ts"
 
 const FIXTURES_DIR = path.join(import.meta.dir, "fixtures")
 const ROOT = path.resolve(import.meta.dir, "..", "..")

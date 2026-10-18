@@ -4,10 +4,10 @@ import { describe, expect } from "bun:test"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Effect, Layer } from "effect"
 import path from "path"
-import { Git } from "../../src/git"
-import { primaryPaths, primaryWorktree } from "../../src/kappacode/primary-worktree"
-import { tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Git } from "../../src/git/index.ts"
+import { primaryPaths, primaryWorktree } from "../../src/kappacode/primary-worktree.ts"
+import { tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(Git.node), AppNodeBuilder.build(CrossSpawnSpawner.node)))
 

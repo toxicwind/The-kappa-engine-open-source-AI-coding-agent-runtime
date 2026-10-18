@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { ProxyUtil } from "../../src/server/proxy-util"
+import { ProxyUtil } from "../../src/server/proxy-util.ts"
 
 describe("ProxyUtil", () => {
   describe("websocketTargetURL", () => {

@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test"
-import { Snapshot } from "../../src/snapshot"
+import { Snapshot } from "../../src/snapshot/index.ts"
 
 test("SummaryFileDiff does not contain the `patch` field", () => {
   const keys = Object.keys(Snapshot.SummaryFileDiff.fields)

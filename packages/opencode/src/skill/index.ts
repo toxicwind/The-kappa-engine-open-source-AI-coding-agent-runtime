@@ -13,16 +13,16 @@ import { FrontmatterError } from "@opencode-ai/core/v1/config/error"
 import { ConfigMarkdown } from "@/config/markdown"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { Glob } from "@opencode-ai/core/util/glob"
-import { Discovery } from "./discovery"
-import { BUILTIN_SKILLS } from "../kappacode/skills/builtin" // kappacode_change
-import { primaryPaths } from "../kappacode/primary-worktree" // kappacode_change
+import { Discovery } from "./discovery.ts"
+import { BUILTIN_SKILLS } from "../kappacode/skills/builtin.ts" // kappacode_change
+import { primaryPaths } from "../kappacode/primary-worktree.ts" // kappacode_change
 import { Git } from "@/git" // kappacode_change
 import { ClaudeMigration } from "@/kappacode/config/claude-migration" // kappacode_change
 import { isRecord } from "@/util/record"
 import { Flag } from "@opencode-ai/core/flag/flag" // kappacode_change
 import { escapeHtml } from "@/util/html"
-import { trustedInProject } from "../kappacode/skill/trust" // kappacode_change
-import * as SkillPaths from "../kappacode/skill/paths" // kappacode_change
+import { trustedInProject } from "../kappacode/skill/trust.ts" // kappacode_change
+import * as SkillPaths from "../kappacode/skill/paths.ts" // kappacode_change
 
 const CLAUDE_EXTERNAL_DIR = ".claude"
 const AGENTS_EXTERNAL_DIR = ".agents"
@@ -426,4 +426,4 @@ export const node = LayerNode.make({
   deps: [Discovery.node, Config.node, EventV2Bridge.node, FSUtil.node, Global.node, RuntimeFlags.node, Git.node], // kappacode_change
 })
 
-export * as Skill from "."
+export * as Skill from "./index.ts"

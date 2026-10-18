@@ -1,7 +1,7 @@
 import { Effect, Layer } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/unstable/http"
 import { assertNetwork, assertSandbox, networkHttpLayer, unrestricted } from "@kappacode/sandbox"
-import { host, opaque } from "./network-tools"
+import { host, opaque } from "./network-tools.ts"
 
 const Builtin = Symbol("kappa.sandbox.builtinTool")
 const Remote = Symbol("kappa.sandbox.remoteMcp")

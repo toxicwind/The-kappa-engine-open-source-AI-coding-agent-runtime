@@ -8,8 +8,8 @@ import { reloadProject } from "@/kappacode/project/reload"
 import type { InstanceContext } from "@/project/instance-context"
 import type { Project } from "@/project/project"
 import { InstanceStore } from "@/project/instance-store"
-import { testEffect } from "../lib/effect"
-import { testInstanceStoreLayer } from "../fixture/fixture"
+import { testEffect } from "../lib/effect.ts"
+import { testInstanceStoreLayer } from "../fixture/fixture.ts"
 
 const it = testEffect(testInstanceStoreLayer)
 

@@ -4,13 +4,13 @@ import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/
 import { ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Deferred, Effect, Fiber, Layer, Option } from "effect" // kappacode_change - Fiber drives external auth tests
-import { Config } from "../../src/config/config"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
-import { McpAuth } from "../../src/mcp/auth"
-import { McpBrowser } from "../../src/mcp/browser"
-import { MCP } from "../../src/mcp/index"
-import { McpOAuthCallback } from "../../src/mcp/oauth-callback"
-import { awaitWithTimeout, testEffect } from "../lib/effect"
+import { Config } from "../../src/config/config.ts"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
+import { McpAuth } from "../../src/mcp/auth.ts"
+import { McpBrowser } from "../../src/mcp/browser.ts"
+import { MCP } from "../../src/mcp/index.ts"
+import { McpOAuthCallback } from "../../src/mcp/oauth-callback.ts"
+import { awaitWithTimeout, testEffect } from "../lib/effect.ts"
 
 const browsers = new Map<string, { opened: Deferred.Deferred<string>; fail: boolean }>()
 

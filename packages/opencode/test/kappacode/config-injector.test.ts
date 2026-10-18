@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { KappacodeConfigInjector } from "../../src/kappacode/config-injector"
-import { tmpdir } from "../fixture/fixture"
+import { KappacodeConfigInjector } from "../../src/kappacode/config-injector.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 import fs from "fs/promises"
 

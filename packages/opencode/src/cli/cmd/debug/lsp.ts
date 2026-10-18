@@ -1,7 +1,7 @@
 import { LSP } from "@/lsp/lsp"
 import { Effect } from "effect"
-import { effectCmd } from "../../effect-cmd"
-import { cmd } from "../cmd"
+import { effectCmd } from "../../effect-cmd.ts"
+import { cmd } from "../cmd.ts"
 import { EOL } from "os"
 
 export const LSPCommand = cmd({

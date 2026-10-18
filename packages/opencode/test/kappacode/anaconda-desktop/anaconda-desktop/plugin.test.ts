@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import type { Provider } from "@kappacode/sdk/v2"
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible"
 import { generateText } from "ai"
-import { encodeMetadata, PROVIDER_ID, type Metadata } from "../../../../src/kappacode/anaconda-desktop/domain"
-import { CatalogProvider, hooks, PLACEHOLDER_MODEL_ID } from "../../../../src/kappacode/anaconda-desktop/provider"
+import { encodeMetadata, PROVIDER_ID, type Metadata } from "../../../../src/kappacode/anaconda-desktop/domain.ts"
+import { CatalogProvider, hooks, PLACEHOLDER_MODEL_ID } from "../../../../src/kappacode/anaconda-desktop/provider.ts"
 
 const metadata: Metadata = {
   version: "1",

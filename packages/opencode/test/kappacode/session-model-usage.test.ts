@@ -14,8 +14,8 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { AbsolutePath } from "@opencode-ai/core/schema"
 import { Database } from "@opencode-ai/core/database/database"
 import { eq, sql } from "drizzle-orm"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node, Database.node])))
 

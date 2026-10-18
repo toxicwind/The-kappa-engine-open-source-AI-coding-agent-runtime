@@ -2,9 +2,9 @@ import { describe, expect, test } from "bun:test"
 import { watch } from "node:fs"
 import fs from "fs/promises"
 import path from "path"
-import { TsCheck } from "../../src/kappacode/ts-check"
-import { Filesystem } from "../../src/util/filesystem"
-import { tmpdir } from "../fixture/fixture"
+import { TsCheck } from "../../src/kappacode/ts-check.ts"
+import { Filesystem } from "../../src/util/filesystem.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 async function checker(root: string, input: { code?: number; stdout?: string; stderr?: string; wait?: boolean } = {}) {
   const script = path.join(root, "node_modules", "typescript", "bin", "tsc.js")

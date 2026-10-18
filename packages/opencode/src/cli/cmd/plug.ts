@@ -3,13 +3,13 @@ import { Effect } from "effect"
 
 import { ConfigPaths } from "@/config/paths"
 import { Global } from "@opencode-ai/core/global"
-import { installPlugin, patchPluginConfig, readPluginManifest } from "../../plugin/install"
-import { resolvePluginTarget } from "../../plugin/shared"
-import { errorMessage } from "../../util/error"
+import { installPlugin, patchPluginConfig, readPluginManifest } from "../../plugin/install.ts"
+import { resolvePluginTarget } from "../../plugin/shared.ts"
+import { errorMessage } from "../../util/error.ts"
 import { Filesystem } from "@/util/filesystem"
 import { Process } from "@/util/process"
-import { UI } from "../ui"
-import { effectCmd } from "../effect-cmd"
+import { UI } from "../ui.ts"
+import { effectCmd } from "../effect-cmd.ts"
 import { InstanceRef } from "@/effect/instance-ref"
 
 type Spin = {

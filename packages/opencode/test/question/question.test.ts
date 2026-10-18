@@ -1,15 +1,15 @@
 import { afterEach, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Cause, Effect, Exit, Fiber, Layer, Queue } from "effect"
-import { Question } from "../../src/question"
-import { InstanceRef } from "../../src/effect/instance-ref"
-import { InstanceStore } from "../../src/project/instance-store"
-import { QuestionID } from "../../src/question/schema"
-import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../fixture/fixture"
-import { SessionID } from "../../src/session/schema"
-import { testEffect } from "../lib/effect"
+import { Question } from "../../src/question/index.ts"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
+import { InstanceStore } from "../../src/project/instance-store.ts"
+import { QuestionID } from "../../src/question/schema.ts"
+import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../fixture/fixture.ts"
+import { SessionID } from "../../src/session/schema.ts"
+import { testEffect } from "../lib/effect.ts"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
 
 const questionLayer = LayerNode.compile(LayerNode.group([Question.node, EventV2Bridge.node, CrossSpawnSpawner.node]))
 const it = testEffect(questionLayer)

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { CodexAuthExpiredError, refreshCodexAuth } from "../../src/kappacode/provider/codex-refresh"
-import { MessageV2 } from "../../src/session/message-v2"
+import { CodexAuthExpiredError, refreshCodexAuth } from "../../src/kappacode/provider/codex-refresh.ts"
+import { MessageV2 } from "../../src/session/message-v2.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { spawn } from "child_process"
 import fs from "fs/promises"

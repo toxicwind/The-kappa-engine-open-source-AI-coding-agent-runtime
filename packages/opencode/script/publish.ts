@@ -6,8 +6,8 @@ import { fileURLToPath } from "url"
 // kappacode_change start
 import fs from "node:fs"
 import path from "node:path"
-import { NpmPublish } from "./kappacode/npm-publish"
-import * as KappaSbom from "./kappacode/sbom"
+import { NpmPublish } from "./kappacode/npm-publish.ts"
+import * as KappaSbom from "./kappacode/sbom.ts"
 import * as KappaRelease from "../../../script/kappacode/release"
 import type { Manifest } from "../../../script/kappacode/sbom/index"
 // kappacode_change end

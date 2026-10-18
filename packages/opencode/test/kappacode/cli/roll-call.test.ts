@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { Provider } from "../../../src/provider/provider"
-import { formatTable, formatMarkdown, handle, isTextModel, outputLimit } from "../../../src/kappacode/cli/cmd/roll-call"
+import { Provider } from "../../../src/provider/provider.ts"
+import { formatTable, formatMarkdown, handle, isTextModel, outputLimit } from "../../../src/kappacode/cli/cmd/roll-call.ts"
 
 const base = {
   input: { text: false, audio: false, image: false, video: false, pdf: false },

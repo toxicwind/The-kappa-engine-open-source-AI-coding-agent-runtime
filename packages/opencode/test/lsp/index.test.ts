@@ -9,13 +9,13 @@ import { Config } from "@/config/config"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { LSP } from "@/lsp/lsp"
 import * as LSPServer from "@/lsp/server"
-import * as launch from "../../src/lsp/launch" // kappacode_change - spy on spawn
+import * as launch from "../../src/lsp/launch.ts" // kappacode_change - spy on spawn
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { provideTestInstance, provideTmpdirInstance, TestInstance, tmpdir } from "../fixture/fixture" // kappacode_change
-import { awaitWithTimeout, testEffect } from "../lib/effect"
-import { type InstanceContext } from "../../src/project/instance-context"
+import { provideTestInstance, provideTmpdirInstance, TestInstance, tmpdir } from "../fixture/fixture.ts" // kappacode_change
+import { awaitWithTimeout, testEffect } from "../lib/effect.ts"
+import { type InstanceContext } from "../../src/project/instance-context.ts"
 import { Flag } from "@opencode-ai/core/flag/flag" // kappacode_change
-import { TsCheck } from "../../src/kappacode/ts-check" // kappacode_change
+import { TsCheck } from "../../src/kappacode/ts-check.ts" // kappacode_change
 
 // kappacode_change - Typescript.spawn ignores ctx, so a cast is fine here.
 const fakeCtx = {} as InstanceContext

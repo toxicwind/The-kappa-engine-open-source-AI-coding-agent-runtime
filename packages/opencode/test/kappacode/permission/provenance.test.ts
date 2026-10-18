@@ -1,11 +1,11 @@
 import { test, expect, describe } from "bun:test"
 import { Effect, Layer } from "effect"
-import { Agent } from "../../../src/agent/agent"
-import { Session } from "../../../src/session/session"
-import { Permission } from "../../../src/permission"
-import { PermissionProvenance } from "../../../src/kappacode/permission/provenance"
-import { KappaSessionPrompt } from "../../../src/kappacode/session/prompt"
-import { SessionID } from "../../../src/session/schema"
+import { Agent } from "../../../src/agent/agent.ts"
+import { Session } from "../../../src/session/session.ts"
+import { Permission } from "../../../src/permission/index.ts"
+import { PermissionProvenance } from "../../../src/kappacode/permission/provenance.ts"
+import { KappaSessionPrompt } from "../../../src/kappacode/session/prompt.ts"
+import { SessionID } from "../../../src/session/schema.ts"
 
 describe("PermissionProvenance", () => {
   test("configSource maps the scope of a permission + pattern", () => {

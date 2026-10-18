@@ -9,11 +9,11 @@ import { Agent } from "@/agent/agent"
 import { Skill } from "@/skill"
 import { Filesystem } from "@/util/filesystem"
 import { installPlugin as stagePlugin, readPluginManifest } from "@/plugin/install"
-import { pluginIdentity } from "./plugin-spec"
-import { patchPlugin } from "./plugin-config"
-import * as Companions from "./companions"
-import { stageSkill } from "./skill-archive"
-import { isSafeId } from "./paths"
+import { pluginIdentity } from "./plugin-spec.ts"
+import { patchPlugin } from "./plugin-config.ts"
+import * as Companions from "./companions.ts"
+import { stageSkill } from "./skill-archive.ts"
+import { isSafeId } from "./paths.ts"
 import type {
   AgentInstallItem,
   MarketplaceInstallPayload,
@@ -25,11 +25,11 @@ import type {
   PluginInstallItem,
   Scope,
   SkillInstallItem,
-} from "./schema"
-import * as Paths from "./paths"
+} from "./schema.ts"
+import * as Paths from "./paths.ts"
 
-export { isSafeId } from "./paths"
-export { findEscapedPaths } from "./skill-archive"
+export { isSafeId } from "./paths.ts"
+export { findEscapedPaths } from "./skill-archive.ts"
 
 type Services = {
   config: Config.Interface

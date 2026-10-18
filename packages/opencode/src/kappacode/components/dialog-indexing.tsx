@@ -16,7 +16,7 @@ import { createEffect, createMemo, createResource, createSignal, Show } from "so
 import { reconcile } from "solid-js/store"
 import type { IndexingConfig, Config } from "@kappacode/sdk/v2"
 import * as Log from "@opencode-ai/core/util/log"
-import { hasKappaIndexingAuth, resolveKappaIndexingAuth, shouldDefaultIndexingToKappa } from "../indexing-auth"
+import { hasKappaIndexingAuth, resolveKappaIndexingAuth, shouldDefaultIndexingToKappa } from "../indexing-auth.ts"
 import {
   createIndexingDialogState,
   currentKappaModel,
@@ -28,7 +28,7 @@ import {
   loadKappaEmbeddingModels,
   mergeIndexingConfig,
   type IndexingScope,
-} from "./indexing-dialog-state"
+} from "./indexing-dialog-state.ts"
 
 // These types are OpenCode-internal and imported at runtime
 type UseSDK = any

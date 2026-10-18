@@ -5,7 +5,7 @@ import { isRecord } from "@/util/record"
 import { mkdir, open, rm } from "fs/promises"
 import { spawn } from "child_process"
 import path from "path"
-import { BackgroundProcessWindows } from "./windows"
+import { BackgroundProcessWindows } from "./windows.ts"
 
 export namespace BackgroundProcessRunner {
   const MARKER = "__background-process-runner"

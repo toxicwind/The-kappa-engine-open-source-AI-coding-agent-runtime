@@ -35,7 +35,7 @@ import { Filesystem } from "@/util/filesystem"
 import { Process } from "@/util/process"
 import { Flock } from "@opencode-ai/core/util/flock"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { internalTuiPlugins, type InternalTuiPlugin } from "./internal"
+import { internalTuiPlugins, type InternalTuiPlugin } from "./internal.ts"
 import type { HostPluginApi, HostSlots } from "@opencode-ai/tui/plugin/slots"
 import { ConfigPlugin } from "@/config/plugin"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
@@ -1131,4 +1131,4 @@ export function createLegacyTuiPluginHost(): TuiPluginHost {
   }
 }
 
-export * as TuiPluginRuntime from "./runtime"
+export * as TuiPluginRuntime from "./runtime.ts"

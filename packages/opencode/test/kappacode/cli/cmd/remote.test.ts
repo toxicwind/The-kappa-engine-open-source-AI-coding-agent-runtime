@@ -6,7 +6,7 @@
 
 import { describe, expect, test } from "bun:test"
 // Shared helper lives in kappa-sessions; remote.ts re-exports for the CLI path.
-import { buildInstanceAdvertisement } from "../../../../src/kappa-sessions/instance-advertisement"
+import { buildInstanceAdvertisement } from "../../../../src/kappa-sessions/instance-advertisement.ts"
 
 describe("RemoteCommand instance advertisement (K1 W1)", () => {
   test("buildInstanceAdvertisement resolves name/projectName/version from the directory and installation version", () => {

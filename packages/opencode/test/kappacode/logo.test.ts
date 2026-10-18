@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { plain, session, supports, tui } from "../../src/kappacode/cli/logo"
+import { plain, session, supports, tui } from "../../src/kappacode/cli/logo.ts"
 
 describe("kappacode logo", () => {
   test("allows remote terminals", () => {

@@ -13,8 +13,8 @@ import { Context, Effect, Layer } from "effect"
 import { makeRuntime } from "@/effect/run-service"
 import { Global } from "@opencode-ai/core/global"
 import { isRecord } from "@/util/record"
-import { createSession, sessionVariant, type RunSession, type SessionMessages } from "./session.shared"
-import type { RunInput, RunProvider } from "./types"
+import { createSession, sessionVariant, type RunSession, type SessionMessages } from "./session.shared.ts"
+import type { RunInput, RunProvider } from "./types.ts"
 
 const MODEL_FILE = path.join(Global.Path.state, "model.json")
 

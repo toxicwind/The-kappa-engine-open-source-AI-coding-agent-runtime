@@ -6,11 +6,11 @@ import path from "path"
 import { mkdir, readFile, writeFile } from "fs/promises"
 import { parse as parseJsonc } from "jsonc-parser"
 import { Global } from "@opencode-ai/core/global"
-import { KappacodePaths } from "../../../src/kappacode/server/httpapi/groups/kappacode"
-import { detect } from "../../../src/kappacode/marketplace/detection"
-import * as HttpApiServer from "../../../src/server/routes/instance/httpapi/server"
-import { resetDatabase } from "../../fixture/db"
-import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
+import { KappacodePaths } from "../../../src/kappacode/server/httpapi/groups/kappacode.ts"
+import { detect } from "../../../src/kappacode/marketplace/detection.ts"
+import * as HttpApiServer from "../../../src/server/routes/instance/httpapi/server.ts"
+import { resetDatabase } from "../../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../../fixture/fixture.ts"
 
 void Log.init({ print: false })
 

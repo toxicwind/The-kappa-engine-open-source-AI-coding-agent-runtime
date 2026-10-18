@@ -3,7 +3,7 @@ import {
   hasKappaIndexingAuth,
   resolveKappaIndexingAuth,
   shouldDefaultIndexingToKappa,
-} from "../../src/kappacode/indexing-auth"
+} from "../../src/kappacode/indexing-auth.ts"
 
 describe("Kappa indexing auth resolution", () => {
   test("detects auth from explicit indexing Kappa config", () => {

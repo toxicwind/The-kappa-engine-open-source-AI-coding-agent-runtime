@@ -1,7 +1,7 @@
 import { test, expect, describe, afterEach } from "bun:test"
 import { createConnection, createServer as createNetServer } from "net"
-import { McpOAuthCallback } from "../../src/mcp/oauth-callback"
-import { parseRedirectUri } from "../../src/mcp/oauth-provider"
+import { McpOAuthCallback } from "../../src/mcp/oauth-callback.ts"
+import { parseRedirectUri } from "../../src/mcp/oauth-provider.ts"
 
 async function getFreeLoopbackPort(): Promise<number> {
   return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 import { EOL } from "os"
 import { Schema } from "effect"
-import { logo as glyphs } from "./logo"
-import { tui } from "../kappacode/cli/logo" // kappacode_change
+import { logo as glyphs } from "./logo.ts"
+import { tui } from "../kappacode/cli/logo.ts" // kappacode_change
 
 // kappacode_change start
 const wordmark = [...tui()]
@@ -127,4 +127,4 @@ export function markdown(text: string): string {
   return text
 }
 
-export * as UI from "./ui"
+export * as UI from "./ui.ts"

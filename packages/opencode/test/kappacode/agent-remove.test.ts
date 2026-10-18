@@ -4,9 +4,9 @@ import { mkdir, rm } from "fs/promises"
 import path from "path"
 import { Global } from "@opencode-ai/core/global"
 import { parse as parseJsonc } from "jsonc-parser"
-import { RemoveError, remove } from "../../src/kappacode/agent"
-import type { Info as AgentInfo } from "../../src/agent/agent"
-import { tmpdir } from "../fixture/fixture"
+import { RemoveError, remove } from "../../src/kappacode/agent/index.ts"
+import type { Info as AgentInfo } from "../../src/agent/agent.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 describe("Kappa agent remove", () => {
   test("removes config-backed imported agents", async () => {

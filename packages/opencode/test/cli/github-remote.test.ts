@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test"
-import { parseGitHubRemote } from "../../src/cli/cmd/github"
+import { parseGitHubRemote } from "../../src/cli/cmd/github.ts"
 
 // kappacode_change start: rebrand fixtures off upstream repo path
 test("parses https URL with .git suffix", () => {

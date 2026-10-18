@@ -1,6 +1,6 @@
 import { Effect } from "effect"
-import { effectCmd } from "../effect-cmd"
-import { withNetworkOptions, resolveNetworkOptions } from "../network"
+import { effectCmd } from "../effect-cmd.ts"
+import { withNetworkOptions, resolveNetworkOptions } from "../network.ts"
 import { Flag } from "@opencode-ai/core/flag/flag"
 
 export const ServeCommand = effectCmd({

@@ -1,3 +1,3 @@
-import { initProjectors } from "./projectors"
+import { initProjectors } from "./projectors.ts"
 
 initProjectors()

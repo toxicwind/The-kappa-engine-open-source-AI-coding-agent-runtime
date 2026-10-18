@@ -16,9 +16,9 @@
 // or failing the synthetic tool parts as appropriate.
 import path from "path"
 import type { Event, ToolPart } from "@kappacode/sdk/v2" // kappacode_change - revert to upstream native Event type
-import { createSessionData, reduceSessionData, type SessionData } from "./session-data"
-import { writeSessionOutput } from "./stream"
-import type { FooterApi, PermissionReply, QuestionReject, QuestionReply, RunPrompt, StreamCommit } from "./types"
+import { createSessionData, reduceSessionData, type SessionData } from "./session-data.ts"
+import { writeSessionOutput } from "./stream.ts"
+import type { FooterApi, PermissionReply, QuestionReject, QuestionReply, RunPrompt, StreamCommit } from "./types.ts"
 
 const KINDS = [
   "markdown",

@@ -6,7 +6,7 @@ import {
   ensureExtension,
   IMAGE_MODELS,
   DEFAULT_MODEL,
-} from "../../../src/kappacode/tool/generate-image"
+} from "../../../src/kappacode/tool/generate-image.ts"
 
 describe("generate-image response parser", () => {
   test("extracts PNG from data URL in choices[0].message.images[0]", () => {

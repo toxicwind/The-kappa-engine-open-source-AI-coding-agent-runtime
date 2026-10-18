@@ -14,9 +14,9 @@ import { MessageV2 } from "@/session/message-v2"
 import { MessageID, PartID } from "@/session/schema"
 import { Question } from "@/question"
 import { Permission } from "@/permission"
-import { disposeAllInstances, provideInstanceEffect, tmpdirScoped } from "../../fixture/fixture"
-import { resetDatabase } from "../../fixture/db"
-import { pollWithTimeout, testEffectShared } from "../../lib/effect"
+import { disposeAllInstances, provideInstanceEffect, tmpdirScoped } from "../../fixture/fixture.ts"
+import { resetDatabase } from "../../fixture/db.ts"
+import { pollWithTimeout, testEffectShared } from "../../lib/effect.ts"
 
 const it = testEffectShared(
   AppNodeBuilderV1.build(

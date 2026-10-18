@@ -6,8 +6,8 @@ import { AppRuntime } from "@/effect/app-runtime"
 import { Effect } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
 import { errorMessage } from "@/util/error"
-import type { CommitMessageRequest, CommitMessageResponse, GitContext } from "./types"
-import { getGitContext } from "./git-context"
+import type { CommitMessageRequest, CommitMessageResponse, GitContext } from "./types.ts"
+import { getGitContext } from "./git-context.ts"
 
 const log = Log.create({ service: "commit-message" })
 

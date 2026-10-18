@@ -5,7 +5,7 @@ import {
   MAX_SESSION_ID_LENGTH,
   cliSessionContext,
   platformContext,
-} from "../../../src/kappacode/presence/context"
+} from "../../../src/kappacode/presence/context.ts"
 import {
   attachedUnion,
   dedupe,
@@ -16,7 +16,7 @@ import {
   validateSnapshot,
   visibleUnion,
   type ViewerState,
-} from "../../../src/kappacode/presence/policy"
+} from "../../../src/kappacode/presence/policy.ts"
 
 const UUID = "00000000-0000-4000-8000-000000000000"
 

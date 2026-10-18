@@ -10,16 +10,16 @@ import { Config } from "@/config/config"
 import { Permission } from "@/permission"
 import { Plugin } from "@/plugin"
 import { Snapshot } from "@/snapshot"
-import { Session } from "./session"
-import { LLM } from "./llm"
-import { MessageV2 } from "./message-v2"
-import { isOverflow } from "./overflow"
+import { Session } from "./session.ts"
+import { LLM } from "./llm.ts"
+import { MessageV2 } from "./message-v2.ts"
+import { isOverflow } from "./overflow.ts"
 import { RuntimeFlags } from "@/effect/runtime-flags" // kappacode_change - configured output token ceiling
-import { PartID } from "./schema"
-import type { SessionID } from "./schema"
-import { SessionRetry } from "./retry"
-import { SessionStatus } from "./status"
-import { SessionSummary } from "./summary"
+import { PartID } from "./schema.ts"
+import type { SessionID } from "./schema.ts"
+import { SessionRetry } from "./retry.ts"
+import { SessionStatus } from "./status.ts"
+import { SessionSummary } from "./summary.ts"
 import type { Provider } from "@/provider/provider"
 import { Question } from "@/question"
 // kappacode_change start
@@ -1128,4 +1128,4 @@ export const node = LayerNode.make({
   ],
 })
 
-export * as SessionProcessor from "./processor"
+export * as SessionProcessor from "./processor.ts"

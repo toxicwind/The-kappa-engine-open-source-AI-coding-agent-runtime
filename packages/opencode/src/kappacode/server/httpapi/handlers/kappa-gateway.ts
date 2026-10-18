@@ -39,7 +39,7 @@ import { Instance } from "@/kappacode/instance"
 import { InstanceStore } from "@/project/instance-store"
 import { ModelCache } from "@/provider/model-cache"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
-import { AudioTranscriptionsBody, CloudSessionImportError, EditBody, FimBody } from "../groups/kappa-gateway"
+import { AudioTranscriptionsBody, CloudSessionImportError, EditBody, FimBody } from "../groups/kappa-gateway.ts"
 
 const FIM_TIMEOUT_MS = 30_000
 const log = Log.create({ service: "kappa-gateway" })

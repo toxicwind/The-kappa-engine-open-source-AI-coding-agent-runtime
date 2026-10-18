@@ -2,7 +2,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Deferred, Effect, Layer, Schema, Context } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import { SessionID } from "@/session/schema"
-import { QuestionID } from "./schema"
+import { QuestionID } from "./schema.ts"
 import { KappaQuestion } from "@/kappacode/question" // kappacode_change
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { QuestionV1 } from "@opencode-ai/schema/question-v1"
@@ -184,4 +184,4 @@ export const defaultLayer = layer.pipe(Layer.provide(EventV2Bridge.defaultLayer)
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [EventV2Bridge.node] })
 
-export * as Question from "."
+export * as Question from "./index.ts"

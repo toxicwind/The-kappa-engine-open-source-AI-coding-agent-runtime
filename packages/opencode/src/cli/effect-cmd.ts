@@ -3,7 +3,7 @@ import { Effect, Schema } from "effect"
 import type { AppServices } from "@/effect/app-runtime"
 import type { InstanceStore } from "@/project/instance-store"
 import { Instance } from "@/kappacode/instance" // kappacode_change
-import { cmd, type WithDoubleDash } from "./cmd/cmd"
+import { cmd, type WithDoubleDash } from "./cmd/cmd.ts"
 
 /**
  * User-visible command failure. Throw via `fail("...")` from an effectCmd handler

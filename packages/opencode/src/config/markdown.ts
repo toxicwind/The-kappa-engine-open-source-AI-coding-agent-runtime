@@ -1,7 +1,7 @@
 import matter from "gray-matter"
 import { Filesystem } from "@/util/filesystem"
 import { FrontmatterError } from "@opencode-ai/core/v1/config/error"
-import { KappacodeMarkdown } from "../kappacode/config/markdown" // kappacode_change
+import { KappacodeMarkdown } from "../kappacode/config/markdown.ts" // kappacode_change
 
 export const FILE_REGEX = /(?<![\w`])@(\.?[^\s`,.]*(?:\.[^\s`,.]+)*)/g
 export const SHELL_REGEX = /!`([^`]+)`/g

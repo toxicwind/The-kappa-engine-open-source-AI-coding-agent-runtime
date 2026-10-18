@@ -12,7 +12,7 @@ import { onCleanup, onMount } from "solid-js"
 import type { TuiConfig } from "@tui/config"
 import { useSDK } from "@tui/context/sdk"
 import { useEvent } from "@tui/context/event"
-import { KappaTuiConfig } from "./tui-config"
+import { KappaTuiConfig } from "./tui-config.tsx"
 
 /**
  * Subscribe to config-updated events and refetch the effective TUI config. Must be called

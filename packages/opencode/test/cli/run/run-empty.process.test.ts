@@ -3,8 +3,8 @@
 // Same harness as run-process.test.ts — see `test/lib/cli-process.ts`.
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { reply } from "../../lib/llm-server"
-import { cliIt } from "../../lib/cli-process"
+import { reply } from "../../lib/llm-server.ts"
+import { cliIt } from "../../lib/cli-process.ts"
 
 // kappacode_change start - a run where the model returns no assistant message used to
 // exit 0, so a caller could not tell an empty run from a successful one

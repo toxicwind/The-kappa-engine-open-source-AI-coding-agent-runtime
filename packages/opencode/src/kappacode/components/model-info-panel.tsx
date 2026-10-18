@@ -3,7 +3,7 @@ import { useTerminalDimensions } from "@opentui/solid"
 import { createMemo, Show } from "solid-js"
 import { useTheme } from "@tui/context/theme"
 import type { Model } from "@kappacode/sdk/v2"
-import { FreeModelDisclosure } from "./free-model-disclosure"
+import { FreeModelDisclosure } from "./free-model-disclosure.ts"
 import {
   avgPrice,
   fmtAttemptCost,
@@ -12,7 +12,7 @@ import {
   fmtDate,
   fmtPrice,
   fmtScore,
-} from "./model-info-panel-utils"
+} from "./model-info-panel-utils.ts"
 
 interface Props {
   model: Model

@@ -78,7 +78,7 @@ import {
   SessionBoardQuery,
   ResetSessionBoardPayload,
   RetentionRunPayload,
-} from "../groups/kappacode"
+} from "../groups/kappacode.ts"
 
 export const kappacodeHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappacode", (handlers) =>
   Effect.gen(function* () {

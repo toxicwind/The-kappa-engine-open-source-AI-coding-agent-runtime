@@ -6,7 +6,7 @@ import { ModelV2 } from "@opencode-ai/core/model"
 import { UsageService } from "@/acp/usage"
 import { Provider } from "@/provider/provider"
 import { Effect, Layer } from "effect"
-import { it } from "../lib/effect"
+import { it } from "../lib/effect.ts"
 
 const assistant = (
   input: Partial<UsageService.AssistantMessage> & Pick<UsageService.AssistantMessage, "cost">,

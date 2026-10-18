@@ -9,7 +9,7 @@ import { SandboxPreference } from "@/kappacode/sandbox/preference"
 import { SandboxStore } from "@/kappacode/sandbox/store"
 import type { InstanceContext } from "@/project/instance-context"
 import { ProjectV2 } from "@opencode-ai/core/project"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../fixture/fixture.ts"
 
 const kappa = [
   Global.Path.data,

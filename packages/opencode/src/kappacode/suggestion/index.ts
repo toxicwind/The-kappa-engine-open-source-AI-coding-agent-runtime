@@ -1,15 +1,15 @@
-import { Bus } from "../../bus"
-import { BusEvent } from "../../bus/bus-event"
-import { Identifier } from "../../id/id"
-import { SessionID } from "../../session/schema"
+import { Bus } from "../../bus/index.ts"
+import { BusEvent } from "../../bus/bus-event.ts"
+import { Identifier } from "../../id/id.ts"
+import { SessionID } from "../../session/schema.ts"
 import { zod as toZod } from "@opencode-ai/core/effect-zod"
 import * as Log from "@opencode-ai/core/util/log"
 import { Telemetry } from "@kappacode/kappa-telemetry"
 import z from "zod"
 import { Schema } from "effect"
-import { KappaSessionPromptQueue } from "../session/prompt-queue"
-import { Instance } from "../instance"
-import { parseReviewCommand } from "../review/command"
+import { KappaSessionPromptQueue } from "../session/prompt-queue.ts"
+import { Instance } from "../instance.ts"
+import { parseReviewCommand } from "../review/command.ts"
 
 export namespace Suggestion {
   const log = Log.create({ service: "suggestion" })

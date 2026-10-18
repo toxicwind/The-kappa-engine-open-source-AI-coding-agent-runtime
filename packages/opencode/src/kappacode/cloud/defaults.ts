@@ -2,9 +2,9 @@ import { Agent } from "@/agent/agent"
 import { Config } from "@/config/config"
 import { KappacodeModelState } from "@/kappacode/config/model-state"
 import { Context, Effect, Layer, Schema } from "effect"
-import { CloudAuth } from "./auth"
-import { CloudCatalog } from "./catalog"
-import { ModelSchema, ModeSchema } from "./contracts"
+import { CloudAuth } from "./auth.ts"
+import { CloudCatalog } from "./catalog.ts"
+import { ModelSchema, ModeSchema } from "./contracts.ts"
 
 export namespace CloudDefaults {
   const COMPATIBLE = new Set(["code", "plan", "debug", "orchestrator", "ask", "build", "architect"])

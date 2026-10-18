@@ -3,7 +3,7 @@ import type { Model } from "@kappacode/sdk/v2"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { iife } from "@/util/iife"
 import { setTimeout as sleep } from "node:timers/promises"
-import { CopilotModels } from "./models"
+import { CopilotModels } from "./models.ts"
 import { MessageV2 } from "@/session/message-v2"
 
 const CLIENT_ID = "Ov23li8tweQw6odWQebz"

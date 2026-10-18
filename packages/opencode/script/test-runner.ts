@@ -7,10 +7,10 @@
 import os from "os"
 import path from "path"
 import fs from "fs/promises"
-import { TestProfile } from "./kappacode/test-profile"
-import { TestShard } from "./kappacode/test-shard"
-import { TestCli } from "./kappacode/test-cli"
-import { remove } from "../test/kappacode/cleanup"
+import { TestProfile } from "./kappacode/test-profile.ts"
+import { TestShard } from "./kappacode/test-shard.ts"
+import { TestCli } from "./kappacode/test-cli.ts"
+import { remove } from "../test/kappacode/cleanup.ts"
 
 const root = path.resolve(import.meta.dir, "..")
 const argv = process.argv.slice(2)

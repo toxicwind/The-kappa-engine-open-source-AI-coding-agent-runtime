@@ -2,11 +2,11 @@ import { NodeFileSystem } from "@effect/platform-node"
 import { describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer } from "effect"
-import { provideTmpdirInstance, testInstanceStoreLayer, TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { provideTmpdirInstance, testInstanceStoreLayer, TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Format } from "../../src/format"
-import * as Formatter from "../../src/format/formatter"
+import { Format } from "../../src/format/index.ts"
+import * as Formatter from "../../src/format/formatter.ts"
 
 const it = testEffect(
   Layer.mergeAll(LayerNode.compile(LayerNode.group([Format.node, CrossSpawnSpawner.node])), NodeFileSystem.layer),

@@ -3,7 +3,7 @@ import { HttpApiBuilder } from "effect/unstable/httpapi"
 import { EffectBridge } from "@/effect/bridge"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { enhancePrompt } from "@/kappacode/enhance-prompt"
-import { EnhancePromptPayload } from "../groups/enhance-prompt"
+import { EnhancePromptPayload } from "../groups/enhance-prompt.ts"
 
 export const enhancePromptHandlers = HttpApiBuilder.group(InstanceHttpApi, "enhance-prompt", (handlers) =>
   Effect.gen(function* () {

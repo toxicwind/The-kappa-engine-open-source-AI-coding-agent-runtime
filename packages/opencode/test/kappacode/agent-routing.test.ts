@@ -3,15 +3,15 @@ import { Global } from "@opencode-ai/core/global"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import path from "path"
 import { Effect, Layer } from "effect"
-import { Agent } from "../../src/agent/agent"
-import { Filesystem } from "../../src/util/filesystem"
+import { Agent } from "../../src/agent/agent.ts"
+import { Filesystem } from "../../src/util/filesystem.ts"
 import {
   disposeAllInstances,
   provideInstance,
   provideTestInstance,
   testInstanceStoreLayer,
   tmpdir,
-} from "../fixture/fixture"
+} from "../fixture/fixture.ts"
 
 function load(dir: string) {
   return Effect.runPromise(

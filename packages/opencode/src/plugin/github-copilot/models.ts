@@ -265,4 +265,4 @@ export async function get(
   }
 }
 
-export * as CopilotModels from "./models"
+export * as CopilotModels from "./models.ts"

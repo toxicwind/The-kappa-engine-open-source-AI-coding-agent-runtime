@@ -5,7 +5,7 @@ import { Process } from "@/util/process"
 import * as child from "child_process"
 import { once } from "node:events"
 import path from "path"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 const start = Date.parse("2026-10-03T20:00:00.000Z")
 

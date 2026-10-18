@@ -12,8 +12,8 @@ import * as Stream from "effect/Stream"
 import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http" // kappacode_change - raw request needed for Kappa SSE
 import { HttpApiBuilder } from "effect/unstable/httpapi"
 import * as Sse from "effect/unstable/encoding/Sse"
-import { RootHttpApi } from "../api"
-import { GlobalUpgradeInput } from "../groups/global"
+import { RootHttpApi } from "../api.ts"
+import { GlobalUpgradeInput } from "../groups/global.ts"
 
 function eventData(data: unknown): Sse.Event {
   return {

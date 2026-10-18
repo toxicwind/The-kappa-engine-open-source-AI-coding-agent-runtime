@@ -6,20 +6,20 @@ import { Effect } from "effect"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
-import { AppRuntime } from "../../src/effect/app-runtime"
-import { makeRuntime } from "../../src/effect/run-service"
-import { MessageV2 } from "../../src/session/message-v2"
-import { Session } from "../../src/session/session"
-import { SessionPrompt } from "../../src/session/prompt"
-import { SessionID } from "../../src/session/schema"
+import { AppRuntime } from "../../src/effect/app-runtime.ts"
+import { makeRuntime } from "../../src/effect/run-service.ts"
+import { MessageV2 } from "../../src/session/message-v2.ts"
+import { Session } from "../../src/session/session.ts"
+import { SessionPrompt } from "../../src/session/prompt.ts"
+import { SessionID } from "../../src/session/schema.ts"
 import {
   provideTestInstance,
   disposeTestRuntime,
   provideInstance,
   testInstanceStoreLayer,
   tmpdir,
-} from "../fixture/fixture"
-import { remove as cleanup } from "./cleanup"
+} from "../fixture/fixture.ts"
+import { remove as cleanup } from "./cleanup.ts"
 
 const previous = Flag.KILO_DB
 const dbfile = path.join(os.tmpdir(), `kappa-prompt-steering-${process.pid}-${crypto.randomUUID()}.db`)

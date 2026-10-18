@@ -3,7 +3,7 @@ import { Process } from "@/util/process"
 import { arch, homedir } from "node:os"
 import path from "path"
 import { Context, Effect, Layer } from "effect"
-import { PlatformError } from "./domain"
+import { PlatformError } from "./domain.ts"
 
 export interface Info {
   readonly platform: NodeJS.Platform

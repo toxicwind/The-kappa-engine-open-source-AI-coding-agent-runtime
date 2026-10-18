@@ -4,9 +4,9 @@ import { createServer, type IncomingMessage, type Server as HttpServer } from "n
 import net, { type AddressInfo, type Socket } from "node:net"
 import WebSocket, { WebSocketServer } from "ws"
 import { APICallError } from "ai"
-import { ProviderError } from "../../src/provider/error"
-import { OpenAIWebSocket } from "../../src/plugin/openai/ws"
-import { OpenAIWebSocketPool, TITLE_HEADER } from "../../src/plugin/openai/ws-pool"
+import { ProviderError } from "../../src/provider/error.ts"
+import { OpenAIWebSocket } from "../../src/plugin/openai/ws.ts"
+import { OpenAIWebSocketPool, TITLE_HEADER } from "../../src/plugin/openai/ws-pool.ts"
 
 describe("plugin.openai.ws", () => {
   test("derives websocket URLs and sends auth plus protocol headers", async () => {

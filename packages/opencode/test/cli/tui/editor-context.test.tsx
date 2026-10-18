@@ -4,9 +4,9 @@ import path from "node:path"
 import { afterEach, expect, spyOn, test } from "bun:test"
 import { createRoot } from "solid-js"
 import { EditorContextProvider, useEditorContext, type EditorIntegration } from "@opencode-ai/tui/context/editor"
-import { tmpdir } from "../../fixture/fixture"
-import { FakeWebSocket } from "../../lib/websocket"
-import { TestTuiContexts } from "../../fixture/tui-environment"
+import { tmpdir } from "../../fixture/fixture.ts"
+import { FakeWebSocket } from "../../lib/websocket.ts"
+import { TestTuiContexts } from "../../fixture/tui-environment.tsx"
 import { discoverEditorConnection } from "@opencode-ai/tui/editor"
 
 const originalClaudePort = process.env.CLAUDE_CODE_SSE_PORT

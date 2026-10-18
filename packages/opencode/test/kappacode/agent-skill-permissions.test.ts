@@ -2,9 +2,9 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { expect } from "bun:test"
 import { Effect } from "effect"
-import { testEffect } from "../lib/effect"
-import { Agent } from "../../src/agent/agent"
-import { Permission } from "../../src/permission"
+import { testEffect } from "../lib/effect.ts"
+import { Agent } from "../../src/agent/agent.ts"
+import { Permission } from "../../src/permission/index.ts"
 
 const it = testEffect(AppNodeBuilder.build(Agent.node))
 

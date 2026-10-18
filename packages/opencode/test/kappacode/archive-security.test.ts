@@ -3,7 +3,7 @@ import fs from "fs/promises"
 import path from "path"
 import { Archive } from "@/util/archive"
 import { Process } from "@/util/process"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 test("extracts ZIP paths with PowerShell metacharacters literally", async () => {
   if (process.platform !== "win32") return

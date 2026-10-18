@@ -5,8 +5,8 @@ import { Duration, Effect, Layer, Option, Schema } from "effect"
 import { sql } from "drizzle-orm"
 import { HttpClient, HttpClientError, HttpClientResponse } from "effect/unstable/http"
 
-import { AccountRepo } from "../../src/account/repo"
-import { Account } from "../../src/account/account"
+import { AccountRepo } from "../../src/account/repo.ts"
+import { Account } from "../../src/account/account.ts"
 import {
   AccessToken,
   AccountID,
@@ -18,9 +18,9 @@ import {
   OrgID,
   RefreshToken,
   UserCode,
-} from "../../src/account/schema"
+} from "../../src/account/schema.ts"
 import { Database } from "@opencode-ai/core/database/database"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const truncate = Layer.effectDiscard(
   Effect.gen(function* () {

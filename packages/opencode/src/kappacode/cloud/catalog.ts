@@ -8,9 +8,9 @@ import {
 } from "@kappacode/kappa-gateway"
 import { Context, Effect, Layer, Redacted, Schema } from "effect"
 import z from "zod"
-import type { CloudAuth } from "./auth"
-import { parseServiceOrigin } from "./origin"
-import { readBoundedJson } from "./response-json"
+import type { CloudAuth } from "./auth.ts"
+import { parseServiceOrigin } from "./origin.ts"
+import { readBoundedJson } from "./response-json.ts"
 
 export namespace CloudCatalog {
   const TIMEOUT = 10_000

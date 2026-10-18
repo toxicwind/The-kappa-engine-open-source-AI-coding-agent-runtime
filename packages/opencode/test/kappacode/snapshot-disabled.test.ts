@@ -5,9 +5,9 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { Global } from "@opencode-ai/core/global"
 import { Hash } from "@opencode-ai/core/util/hash"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
-import { Snapshot } from "../../src/snapshot"
-import { requireInstance } from "../fixture/fixture"
-import { awaitWithTimeout, testEffect } from "../lib/effect"
+import { Snapshot } from "../../src/snapshot/index.ts"
+import { requireInstance } from "../fixture/fixture.ts"
+import { awaitWithTimeout, testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(Snapshot.defaultLayer, AppNodeBuilder.build(EffectFlock.node)))
 

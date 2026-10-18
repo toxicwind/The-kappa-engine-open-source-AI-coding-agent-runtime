@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
 import path from "node:path"
-import { tmpdir } from "../../../fixture/fixture"
+import { tmpdir } from "../../../fixture/fixture.ts"
 
 const root = path.resolve(import.meta.dir, "../../../..")
 

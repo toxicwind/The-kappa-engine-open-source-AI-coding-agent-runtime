@@ -345,4 +345,4 @@ const layer = Layer.effect(
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [AppProcess.node] })
 
-export * as Git from "."
+export * as Git from "./index.ts"

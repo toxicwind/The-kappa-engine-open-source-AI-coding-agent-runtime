@@ -1,8 +1,8 @@
 import type { Argv } from "yargs"
-import type { Info as AuthInfo } from "../../../auth"
+import type { Info as AuthInfo } from "../../../auth/index.ts"
 import type { KappacodeBalance, KappacodeProfile } from "@kappacode/kappa-gateway"
-import { cmd } from "../../../cli/cmd/cmd"
-import { UI } from "../../../cli/ui"
+import { cmd } from "../../../cli/cmd/cmd.ts"
+import { UI } from "../../../cli/ui.ts"
 
 // Keep the top-level import graph light: this module is registered eagerly at CLI
 // startup, so the auth runtime and gateway fetches happen inside the handler (same

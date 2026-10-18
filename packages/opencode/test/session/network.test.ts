@@ -1,9 +1,9 @@
 // kappacode_change - new file
 import { afterEach, describe, expect, test } from "bun:test"
-import { Bus } from "../../src/bus"
-import { provideTestInstance, tmpdir } from "../fixture/fixture"
-import { SessionNetwork } from "../../src/session/network"
-import { SessionID } from "../../src/session/schema"
+import { Bus } from "../../src/bus/index.ts"
+import { provideTestInstance, tmpdir } from "../fixture/fixture.ts"
+import { SessionNetwork } from "../../src/session/network.ts"
+import { SessionID } from "../../src/session/schema.ts"
 
 const timer = globalThis.setTimeout
 const clear = globalThis.clearTimeout

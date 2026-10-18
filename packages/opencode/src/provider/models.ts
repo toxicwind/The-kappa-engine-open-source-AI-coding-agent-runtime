@@ -1,7 +1,7 @@
 // kappacode_change - new file
 import { Config } from "@/config/config"
 import { Auth } from "@/auth"
-import { ModelCache } from "./model-cache"
+import { ModelCache } from "./model-cache.ts"
 import * as Core from "@opencode-ai/core/models-dev"
 import { Context, Effect, Layer } from "effect"
 import { AI_SDK_PROVIDERS, KILO_OPENROUTER_BASE, PROMPTS } from "@kappacode/kappa-gateway"
@@ -116,4 +116,4 @@ export const node = LayerNode.make({
 })
 
 export { AI_SDK_PROVIDERS, PROMPTS }
-export * as ModelsDev from "./models"
+export * as ModelsDev from "./models.ts"

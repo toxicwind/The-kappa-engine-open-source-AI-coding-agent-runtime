@@ -1,6 +1,6 @@
-import { cmd } from "./cmd"
+import { cmd } from "./cmd.ts"
 import * as prompts from "@clack/prompts"
-import { UI } from "../ui"
+import { UI } from "../ui.ts"
 import { Global } from "@opencode-ai/core/global"
 import path from "path"
 import fs from "fs/promises"
@@ -9,7 +9,7 @@ import matter from "gray-matter"
 import { EOL } from "os"
 import type { Argv } from "yargs"
 import { Effect } from "effect"
-import { effectCmd } from "../effect-cmd"
+import { effectCmd } from "../effect-cmd.ts"
 
 type AgentMode = "all" | "primary" | "subagent"
 

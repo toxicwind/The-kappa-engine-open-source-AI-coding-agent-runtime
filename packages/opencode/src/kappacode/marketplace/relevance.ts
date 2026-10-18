@@ -2,7 +2,7 @@ import { Cause, Duration, Effect } from "effect"
 import { minimatch } from "minimatch"
 import type { Ripgrep } from "@opencode-ai/core/ripgrep"
 import { allowed } from "@opencode-ai/core/kappacode/fff"
-import type { MarketplaceItem } from "./schema"
+import type { MarketplaceItem } from "./schema.ts"
 
 // Each search stops at the first match, so a found pattern costs only a short walk.
 const LIMIT = 1

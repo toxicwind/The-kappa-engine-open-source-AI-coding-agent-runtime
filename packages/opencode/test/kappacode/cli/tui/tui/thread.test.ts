@@ -10,9 +10,9 @@ import {
   resolveThreadDirectory,
   runEmbeddedRemoteExitBridge,
 } from "../../../../src/cli/cmd/tui"
-import { preload, validate } from "../../../../../../src/kappacode/cli/cmd/tui"
-import { KappaTuiThreadDaemon } from "../../../../../../src/kappacode/cli/cmd/tui/thread"
-import { DaemonClient } from "../../../../../../src/kappacode/daemon/client"
+import { preload, validate } from "../../../../../src/kappacode/cli/cmd/tui.ts"
+import { KappaTuiThreadDaemon } from "../../../../../src/kappacode/cli/cmd/tui/thread.ts"
+import { DaemonClient } from "../../../../../src/kappacode/daemon/client.ts"
 
 afterEach(() => {
   mock.restore()

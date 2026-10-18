@@ -1,7 +1,7 @@
 import { Effect } from "effect"
 import { HttpServerResponse } from "effect/unstable/http"
 import { HttpApiMiddleware } from "effect/unstable/httpapi"
-import { InvalidRequestError } from "../errors"
+import { InvalidRequestError } from "../errors.ts"
 
 // Effect's Issue formatter recursively dumps the rejected `actual` value with
 // no truncation, so a 5KB invalid array produces a ~360KB string. Cap to keep

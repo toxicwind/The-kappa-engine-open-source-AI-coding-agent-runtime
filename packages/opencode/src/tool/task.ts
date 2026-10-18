@@ -1,24 +1,24 @@
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import DESCRIPTION from "./task.txt"
-import { ToolJsonSchema } from "./json-schema"
+import { ToolJsonSchema } from "./json-schema.ts"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { BackgroundJob } from "@/background/job"
 import { Session } from "@/session/session"
-import { SessionID, MessageID } from "../session/schema"
-import { MessageV2 } from "../session/message-v2"
-import { Agent } from "../agent/agent"
-import { deriveSubagentSessionPermission } from "../agent/subagent-permissions"
-import type { SessionPrompt } from "../session/prompt"
+import { SessionID, MessageID } from "../session/schema.ts"
+import { MessageV2 } from "../session/message-v2.ts"
+import { Agent } from "../agent/agent.ts"
+import { deriveSubagentSessionPermission } from "../agent/subagent-permissions.ts"
+import type { SessionPrompt } from "../session/prompt.ts"
 import { Config } from "@/config/config"
 import { Provider } from "@/provider/provider" // kappacode_change
 import { SessionDrain } from "@/kappacode/session/drain" // kappacode_change
 import { EventV2Bridge } from "@/event-v2-bridge" // kappacode_change
-import { KappaTask } from "../kappacode/tool/task" // kappacode_change
-import { KappaTaskBackgroundProcess } from "../kappacode/tool/task-background-process" // kappacode_change
-import { KappaCostPropagation } from "../kappacode/session/cost-propagation" // kappacode_change
-import { KappaSessionProcessor } from "../kappacode/session/processor" // kappacode_change
-import { KappaSession } from "../kappacode/session" // kappacode_change
-import { resumeHint } from "../kappacode/task-resume" // kappacode_change
+import { KappaTask } from "../kappacode/tool/task.ts" // kappacode_change
+import { KappaTaskBackgroundProcess } from "../kappacode/tool/task-background-process.ts" // kappacode_change
+import { KappaCostPropagation } from "../kappacode/session/cost-propagation.ts" // kappacode_change
+import { KappaSessionProcessor } from "../kappacode/session/processor.ts" // kappacode_change
+import { KappaSession } from "../kappacode/session/index.ts" // kappacode_change
+import { resumeHint } from "../kappacode/task-resume.ts" // kappacode_change
 import { errorMessage } from "@/util/error" // kappacode_change
 import { Effect, Exit, Schema, Scope } from "effect"
 import { Cause } from "effect" // kappacode_change

@@ -1,9 +1,9 @@
 import { describe, expect } from "bun:test"
 import { Cause, Effect, Exit, Layer } from "effect"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
-import { SessionID } from "../../src/session/schema"
-import { SessionStatus } from "../../src/session/status"
-import { testEffect } from "../lib/effect"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
+import { SessionID } from "../../src/session/schema.ts"
+import { SessionStatus } from "../../src/session/status.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(SessionStatus.layer.pipe(Layer.provideMerge(EventV2Bridge.defaultLayer)))
 

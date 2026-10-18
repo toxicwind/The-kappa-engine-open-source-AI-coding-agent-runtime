@@ -4,11 +4,11 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Exit, Layer } from "effect"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Git } from "../../src/git"
+import { Git } from "../../src/git/index.ts"
 import { Global } from "@opencode-ai/core/global"
 import { Storage } from "@/storage/storage"
-import { tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const dir = path.join(Global.Path.data, "storage")
 

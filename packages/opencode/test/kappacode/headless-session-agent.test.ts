@@ -1,7 +1,7 @@
 import { afterEach, expect, test } from "bun:test"
-import { Server } from "../../src/server/server"
-import { disposeAllInstances, provideTestInstance, tmpdir } from "../fixture/fixture"
-import { resetDatabase } from "../fixture/db"
+import { Server } from "../../src/server/server.ts"
+import { disposeAllInstances, provideTestInstance, tmpdir } from "../fixture/fixture.ts"
+import { resetDatabase } from "../fixture/db.ts"
 
 afterEach(async () => {
   await disposeAllInstances()

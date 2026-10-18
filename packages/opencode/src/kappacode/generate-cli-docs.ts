@@ -1,7 +1,7 @@
 import type { CommandModule } from "yargs"
-import { generateHelp, generateCommandTable } from "./help"
-import { commands } from "./commands"
-import { DevAliasCommand, DevSetupCommand } from "./cli/dev-setup"
+import { generateHelp, generateCommandTable } from "./help.ts"
+import { commands } from "./commands.ts"
+import { DevAliasCommand, DevSetupCommand } from "./cli/dev-setup.ts"
 import path from "path"
 
 const root = path.resolve(import.meta.dir, "../../../..") + "/"

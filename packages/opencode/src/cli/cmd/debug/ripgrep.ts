@@ -1,8 +1,8 @@
 import { EOL } from "os"
 import { Effect } from "effect"
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
-import { effectCmd } from "../../effect-cmd"
-import { cmd } from "../cmd"
+import { effectCmd } from "../../effect-cmd.ts"
+import { cmd } from "../cmd.ts"
 import { InstanceRef } from "@/effect/instance-ref"
 
 export const RipgrepCommand = cmd({

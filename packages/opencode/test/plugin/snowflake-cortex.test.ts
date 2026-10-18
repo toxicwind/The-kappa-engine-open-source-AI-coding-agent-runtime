@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { OAUTH_DUMMY_KEY } from "../../src/auth"
-import { oauthScope, SnowflakeCortexAuthPlugin } from "../../src/plugin/snowflake-cortex"
+import { OAUTH_DUMMY_KEY } from "../../src/auth/index.ts"
+import { oauthScope, SnowflakeCortexAuthPlugin } from "../../src/plugin/snowflake-cortex.ts"
 
 function makeInput() {
   let auth: any = {

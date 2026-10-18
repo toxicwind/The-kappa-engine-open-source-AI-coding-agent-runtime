@@ -8,11 +8,11 @@ import { ConfigProvider, Context, Effect, Exit, Layer, Scope } from "effect"
 import { HttpRouter, HttpServer } from "effect/unstable/http"
 import { OpenApi } from "effect/unstable/httpapi"
 import { createServer } from "node:http"
-import { MDNS } from "./mdns"
-import { HttpApiApp } from "./routes/instance/httpapi/server"
-import { disposeMiddleware } from "./routes/instance/httpapi/lifecycle"
-import { WebSocketTracker } from "./routes/instance/httpapi/websocket-tracker"
-import { PublicApi } from "./routes/instance/httpapi/public"
+import { MDNS } from "./mdns.ts"
+import { HttpApiApp } from "./routes/instance/httpapi/server.ts"
+import { disposeMiddleware } from "./routes/instance/httpapi/lifecycle.ts"
+import { WebSocketTracker } from "./routes/instance/httpapi/websocket-tracker.ts"
+import { PublicApi } from "./routes/instance/httpapi/public.ts"
 import type { CorsOptions } from "@opencode-ai/server/cors"
 import { lazy } from "@/util/lazy"
 import * as KappaListener from "@/kappacode/server/listener" // kappacode_change
@@ -238,4 +238,4 @@ function serverLayer(opts: { port: number; hostname: string }) {
   )
 }
 
-export * as Server from "./server"
+export * as Server from "./server.ts"

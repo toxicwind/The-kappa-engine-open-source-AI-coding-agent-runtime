@@ -3,7 +3,7 @@ import { expect, test } from "bun:test"
 import { ConfigMarkdown } from "@/config/markdown"
 import { ConfigVariable } from "@/config/variable"
 import { KappacodeMarkdown } from "@/kappacode/config/markdown"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../fixture/fixture.ts"
 
 test("preserves dollar-prefixed placeholders in project markdown", async () => {
   await using tmp = await tmpdir({

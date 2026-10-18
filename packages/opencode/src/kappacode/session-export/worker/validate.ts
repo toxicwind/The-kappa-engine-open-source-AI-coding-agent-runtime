@@ -1,6 +1,6 @@
-import { ExportEventTypes, type ExportEventType } from "../envelope"
-import type { ExportEvent } from "../events"
-import type { ToWorker } from "./ipc"
+import { ExportEventTypes, type ExportEventType } from "../envelope.ts"
+import type { ExportEvent } from "../events.ts"
+import type { ToWorker } from "./ipc.ts"
 
 const types = new Set<ExportEventType>(ExportEventTypes)
 

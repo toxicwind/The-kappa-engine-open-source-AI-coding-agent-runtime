@@ -40,11 +40,11 @@ import {
   questionSync,
   questionTabs,
   questionTotal,
-} from "./question.shared"
+} from "./question.shared.ts"
 import { questionAdvance } from "@/kappacode/cli/cmd/run/question.shared" // kappacode_change
-import { footerWidthPolicy } from "./footer.width"
-import type { RunFooterTheme } from "./theme"
-import type { QuestionReject, QuestionReply } from "./types"
+import { footerWidthPolicy } from "./footer.width.ts"
+import type { RunFooterTheme } from "./theme.ts"
+import type { QuestionReject, QuestionReply } from "./types.ts"
 
 export function RunQuestionBody(props: {
   request: QuestionRequest

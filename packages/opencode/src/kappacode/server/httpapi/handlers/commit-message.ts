@@ -4,7 +4,7 @@ import { EffectBridge } from "@/effect/bridge"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { Config } from "@/config/config"
 import { generateCommitMessage, NoChangesError } from "@/kappacode/commit-message"
-import { CommitMessageFailedError, CommitMessageNoChangesError, CommitMessagePayload } from "../groups/commit-message"
+import { CommitMessageFailedError, CommitMessageNoChangesError, CommitMessagePayload } from "../groups/commit-message.ts"
 
 export const commitMessageHandlers = HttpApiBuilder.group(InstanceHttpApi, "commit-message", (handlers) =>
   Effect.gen(function* () {

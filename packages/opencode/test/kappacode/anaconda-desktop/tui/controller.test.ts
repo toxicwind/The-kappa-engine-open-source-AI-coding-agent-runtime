@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import type { AnacondaDesktopStatus } from "@kappacode/sdk/v2"
-import { createSetupController, type ReadyStatus } from "../../../../src/kappacode/anaconda-desktop/tui/model"
+import { createSetupController, type ReadyStatus } from "../../../../src/kappacode/anaconda-desktop/tui/model.ts"
 
 const ready = (toolcall: ReadyStatus["toolcall"] = "supported"): ReadyStatus => ({
   type: "ready",

@@ -9,9 +9,9 @@
  */
 import { afterEach, describe, expect, test } from "bun:test"
 import { createKappaClient } from "@kappacode/sdk/v2"
-import { Server } from "../../src/server/server"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
-import { resetDatabase } from "../fixture/db"
+import { Server } from "../../src/server/server.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
+import { resetDatabase } from "../fixture/db.ts"
 
 afterEach(async () => {
   await disposeAllInstances()

@@ -2,7 +2,7 @@ import { Provider } from "@/provider/provider"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { Tool } from "@/tool/tool"
 import { Effect, Schema } from "effect"
-import { matchesQuery } from "./model-search"
+import { matchesQuery } from "./model-search.ts"
 import DESCRIPTION from "./agent-manager-models.txt"
 
 const Params = Schema.Struct({

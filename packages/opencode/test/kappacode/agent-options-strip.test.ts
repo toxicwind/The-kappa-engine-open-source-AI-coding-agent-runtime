@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { stripInternalOptions, INTERNAL_OPTION_KEYS } from "../../src/kappacode/agent/options"
+import { stripInternalOptions, INTERNAL_OPTION_KEYS } from "../../src/kappacode/agent/options.ts"
 
 describe("stripInternalOptions", () => {
   test("removes Kappa-internal metadata keys", () => {

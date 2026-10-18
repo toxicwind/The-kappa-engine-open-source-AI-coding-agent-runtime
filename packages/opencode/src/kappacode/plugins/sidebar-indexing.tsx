@@ -3,8 +3,8 @@ import { createEffect, createMemo, createSignal, onCleanup, onMount, Show } from
 import type { IndexingStatus, IndexingStatusState } from "@kappacode/kappa-indexing/status"
 import * as Log from "@opencode-ai/core/util/log"
 import { useSync } from "@tui/context/sync"
-import { formatIndexingLabel } from "../indexing-label"
-import { indexingEnabled } from "../indexing-feature"
+import { formatIndexingLabel } from "../indexing-label.ts"
+import { indexingEnabled } from "../indexing-feature.ts"
 
 const id = "internal:kappa-sidebar-indexing"
 const log = Log.create({ service: "sidebar-indexing" })

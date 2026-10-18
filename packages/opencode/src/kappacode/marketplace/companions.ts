@@ -8,9 +8,9 @@ import { Flock } from "@opencode-ai/core/util/flock"
 import { ConfigMCPV1 } from "@opencode-ai/core/v1/config/mcp"
 import { isRecord } from "@/util/record"
 import { Filesystem } from "@/util/filesystem"
-import * as Paths from "./paths"
-import { OWNER, stageSkill } from "./skill-archive"
-import type { McpSkill, Scope } from "./schema"
+import * as Paths from "./paths.ts"
+import { OWNER, stageSkill } from "./skill-archive.ts"
+import type { McpSkill, Scope } from "./schema.ts"
 
 type Input = { scope: Scope; directory: string; worktree?: string }
 

@@ -1,9 +1,9 @@
 import { Effect } from "effect"
 import { AgentV2 } from "@opencode-ai/core/agent"
-import { isRecord } from "../../server/httpapi-exercise/assertions"
-import { request } from "../../server/httpapi-exercise/backend"
-import { pollWithTimeout } from "../../lib/effect"
-import type { ScenarioContext } from "../../server/httpapi-exercise/types"
+import { isRecord } from "../../server/httpapi-exercise/assertions.ts"
+import { request } from "../../server/httpapi-exercise/backend.ts"
+import { pollWithTimeout } from "../../lib/effect.ts"
+import type { ScenarioContext } from "../../server/httpapi-exercise/types.ts"
 
 export function sessionAfterDefaultAgent(ctx: ScenarioContext, title: string) {
   return Effect.gen(function* () {

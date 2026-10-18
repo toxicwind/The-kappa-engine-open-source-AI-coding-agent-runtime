@@ -1,6 +1,6 @@
-import type { McpAuth } from "../../mcp/auth"
+import type { McpAuth } from "../../mcp/auth.ts"
 import { Effect } from "effect"
-import type { Expected } from "./invalidation"
+import type { Expected } from "./invalidation.ts"
 
 // A rejected OAuth refresh must not delete credentials a concurrent operation just
 // rotated. The SDK calls `provider.invalidateCredentials()` after a refresh failure,

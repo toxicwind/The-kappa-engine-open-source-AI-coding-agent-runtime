@@ -2,12 +2,12 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
-import { Session } from "./session"
-import { SessionID, MessageID, PartID } from "./schema"
+import { Session } from "./session.ts"
+import { SessionID, MessageID, PartID } from "./schema.ts"
 import { Provider } from "@/provider/provider"
-import { MessageV2 } from "./message-v2"
+import { MessageV2 } from "./message-v2.ts"
 import { Token } from "@/util/token"
-import { SessionProcessor } from "./processor"
+import { SessionProcessor } from "./processor.ts"
 import { Agent } from "@/agent/agent"
 import { Plugin } from "@/plugin"
 import { Config } from "@/config/config"
@@ -16,7 +16,7 @@ import { NotFoundError } from "@/storage/storage"
 import { Effect, Layer, Context } from "effect"
 import * as DateTime from "effect/DateTime" // kappacode_change
 import { InstanceState } from "@/effect/instance-state"
-import { isOverflow as overflow, usable } from "./overflow"
+import { isOverflow as overflow, usable } from "./overflow.ts"
 import { serviceUse } from "@opencode-ai/core/effect/service-use"
 // kappacode_change start
 import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
@@ -853,4 +853,4 @@ export const node = LayerNode.make({
   ],
 })
 
-export * as SessionCompaction from "./compaction"
+export * as SessionCompaction from "./compaction.ts"

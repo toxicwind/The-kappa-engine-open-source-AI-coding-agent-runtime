@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { KappacodePaths } from "../../src/kappacode/paths"
-import { tmpdir } from "../fixture/fixture"
+import { KappacodePaths } from "../../src/kappacode/paths.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 import fs from "fs/promises"
 

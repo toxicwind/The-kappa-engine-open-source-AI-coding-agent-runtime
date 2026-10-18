@@ -9,11 +9,11 @@ import { parsePatch } from "diff"
 import { Effect, Layer } from "effect"
 import path from "path"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
-import { DiffFull } from "../../src/kappacode/snapshot/diff-full"
-import { Filesystem } from "../../src/util/filesystem"
+import { DiffFull } from "../../src/kappacode/snapshot/diff-full.ts"
+import { Filesystem } from "../../src/util/filesystem.ts"
 import * as Log from "@opencode-ai/core/util/log"
-import { tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 Log.init({ print: false })
 

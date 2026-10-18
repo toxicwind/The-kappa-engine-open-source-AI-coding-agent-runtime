@@ -5,7 +5,7 @@ import { Permission } from "@/permission"
 import { PartID } from "@/session/schema"
 import { Session } from "@/session/session"
 import AGENT_SWITCH from "./agent-switch.txt"
-import { KappaSessionPrompt } from "./prompt"
+import { KappaSessionPrompt } from "./prompt.ts"
 
 /**
  * Single policy for the mode reminders sent to the model.

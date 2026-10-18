@@ -1,8 +1,8 @@
 import type { CodeIndexManager } from "@kappacode/kappa-indexing/engine"
 import { AsyncLocalStorage } from "node:async_hooks"
 import { format } from "node:util"
-import type { Request, Result, Event, Log } from "./indexing-worker-protocol"
-import { parseQdrantWarning } from "./indexing-warning"
+import type { Request, Result, Event, Log } from "./indexing-worker-protocol.ts"
+import { parseQdrantWarning } from "./indexing-warning.ts"
 
 type Entry = {
   manager: CodeIndexManager

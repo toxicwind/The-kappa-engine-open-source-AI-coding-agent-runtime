@@ -12,12 +12,12 @@ import {
   HttpServerResponse,
 } from "effect/unstable/http"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { RuntimeFlags } from "../../src/effect/runtime-flags"
-import { ServerAuth } from "../../src/server/auth"
-import { authorizationRouterMiddleware } from "../../src/server/routes/instance/httpapi/middleware/authorization"
-import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
-import { serveEmbeddedUIEffect, serveUIEffect } from "../../src/server/shared/ui"
-import { testEffect } from "../lib/effect"
+import { RuntimeFlags } from "../../src/effect/runtime-flags.ts"
+import { ServerAuth } from "../../src/server/auth.ts"
+import { authorizationRouterMiddleware } from "../../src/server/routes/instance/httpapi/middleware/authorization.ts"
+import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server.ts"
+import { serveEmbeddedUIEffect, serveUIEffect } from "../../src/server/shared/ui.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const testStateLayer = Layer.effectDiscard(
   Effect.gen(function* () {

@@ -42,4 +42,4 @@ export function start() {
   timer.unref?.()
 }
 
-export * as Heap from "./heap"
+export * as Heap from "./heap.ts"

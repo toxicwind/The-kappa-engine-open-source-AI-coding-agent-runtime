@@ -3,7 +3,7 @@ import { InstanceState } from "@/effect/instance-state"
 import { Tool } from "@/tool/tool"
 import { Effect, Schema } from "effect"
 import DESCRIPTION from "./schedule-wakeup.txt"
-import { relative } from "./wakeup-format"
+import { relative } from "./wakeup-format.ts"
 
 export const Params = Schema.Struct({
   prompt: Schema.String.annotate({

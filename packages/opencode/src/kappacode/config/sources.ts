@@ -7,7 +7,7 @@ import { Global } from "@opencode-ai/core/global"
 import { Auth } from "@/auth"
 import { ConfigManaged } from "@/config/managed"
 import { Filesystem } from "@/util/filesystem"
-import { KappacodeConfig } from "./config"
+import { KappacodeConfig } from "./config.ts"
 
 export namespace KappacodeConfigSources {
   export const Scope = z.enum(["global", "project", "env", "managed", "cloud"])

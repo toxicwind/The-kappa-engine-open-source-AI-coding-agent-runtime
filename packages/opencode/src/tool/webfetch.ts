@@ -1,7 +1,7 @@
 import { Effect, Schema } from "effect"
 import { HttpClient, HttpClientRequest } from "effect/unstable/http"
 import { Parser } from "htmlparser2"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import TurndownService from "turndown"
 import DESCRIPTION from "./webfetch.txt"
 import { isIconMimeType, isImageAttachment } from "@/util/media" // kappacode_change

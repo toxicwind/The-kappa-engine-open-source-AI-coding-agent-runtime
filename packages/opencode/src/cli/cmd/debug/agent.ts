@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { effectCmd } from "../../effect-cmd"
+import { effectCmd } from "../../effect-cmd.ts"
 
 export const AgentCommand = effectCmd({
   command: "agent <name>",

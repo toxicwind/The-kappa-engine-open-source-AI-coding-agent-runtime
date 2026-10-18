@@ -7,7 +7,7 @@ import {
   cliSessionContext,
   platformContext,
   type Platform,
-} from "./context"
+} from "./context.ts"
 
 export type ViewerSnapshot = {
   viewer: { id: string; active: boolean }

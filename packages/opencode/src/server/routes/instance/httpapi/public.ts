@@ -3,8 +3,8 @@ import { OpenApi } from "effect/unstable/httpapi"
 import { matchLegacyKappaOpenApi } from "@/kappacode/server/httpapi/public"
 import * as KappaServer from "@/kappacode/server/server"
 // kappacode_change end
-import { OpenCodeHttpApi } from "./api"
-import { QueryBooleanOpenApi } from "./groups/query"
+import { OpenCodeHttpApi } from "./api.ts"
+import { QueryBooleanOpenApi } from "./groups/query.ts"
 
 type OpenApiParameter = {
   name: string

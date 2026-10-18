@@ -1,8 +1,8 @@
 import type { Event, PermissionRequest, QuestionRequest } from "@kappacode/sdk/v2"
-import { bootstrapSessionData, createSessionData, reduceSessionData, type SessionData } from "./session-data"
-import { messagePrompt, type SessionMessages } from "./session.shared"
-import { messageTurnSummaryCommit } from "./turn-summary"
-import type { FooterPatch, LocalReplayRow, RunProvider, StreamCommit } from "./types"
+import { bootstrapSessionData, createSessionData, reduceSessionData, type SessionData } from "./session-data.ts"
+import { messagePrompt, type SessionMessages } from "./session.shared.ts"
+import { messageTurnSummaryCommit } from "./turn-summary.ts"
+import type { FooterPatch, LocalReplayRow, RunProvider, StreamCommit } from "./types.ts"
 
 type ReplayInput = {
   messages: SessionMessages

@@ -2,11 +2,11 @@ import { expect, test } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Effect, Fiber, Queue, Schema } from "effect"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
-import { KappaQuestion } from "../../src/kappacode/question"
-import { Question } from "../../src/question"
-import { SessionID } from "../../src/session/schema"
-import { testEffect } from "../lib/effect"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
+import { KappaQuestion } from "../../src/kappacode/question/index.ts"
+import { Question } from "../../src/question/index.ts"
+import { SessionID } from "../../src/session/schema.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(LayerNode.group([Question.node, EventV2Bridge.node, CrossSpawnSpawner.node])))
 

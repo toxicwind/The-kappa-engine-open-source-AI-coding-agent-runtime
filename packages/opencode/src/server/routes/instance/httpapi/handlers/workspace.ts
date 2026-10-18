@@ -4,10 +4,10 @@ import * as InstanceState from "@/effect/instance-state"
 import { Vcs } from "@/project/vcs"
 import { Cause, Effect } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { notFound } from "../errors"
-import { ApiVcsApplyError } from "../groups/instance"
-import { ApiWorkspaceCreateError, ApiWorkspaceWarpError, CreatePayload, WarpPayload } from "../groups/workspace"
+import { InstanceHttpApi } from "../api.ts"
+import { notFound } from "../errors.ts"
+import { ApiVcsApplyError } from "../groups/instance.ts"
+import { ApiWorkspaceCreateError, ApiWorkspaceWarpError, CreatePayload, WarpPayload } from "../groups/workspace.ts"
 
 export const workspaceHandlers = HttpApiBuilder.group(InstanceHttpApi, "workspace", (handlers) =>
   Effect.gen(function* () {

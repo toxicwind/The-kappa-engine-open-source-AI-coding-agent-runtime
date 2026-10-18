@@ -15,26 +15,26 @@ import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/u
 import Http from "node:http"
 import { mkdir } from "node:fs/promises"
 import path from "node:path"
-import { registerAdapter } from "../../src/control-plane/adapters"
+import { registerAdapter } from "../../src/control-plane/adapters/index.ts"
 import { WorkspaceV2 } from "@opencode-ai/core/workspace"
-import type { WorkspaceAdapter } from "../../src/control-plane/types"
-import { Workspace } from "../../src/control-plane/workspace"
+import type { WorkspaceAdapter } from "../../src/control-plane/types.ts"
+import { Workspace } from "../../src/control-plane/workspace.ts"
 import { WorkspaceTable } from "@opencode-ai/core/control-plane/workspace.sql"
 import { Database } from "@opencode-ai/core/database/database"
-import { Project } from "../../src/project/project"
-import { Session } from "../../src/session/session"
-import { WorkspacePaths } from "../../src/server/routes/instance/httpapi/groups/workspace"
+import { Project } from "../../src/project/project.ts"
+import { Session } from "../../src/session/session.ts"
+import { WorkspacePaths } from "../../src/server/routes/instance/httpapi/groups/workspace.ts"
 import {
   WorkspaceRoutingMiddleware,
   WorkspaceRoutingQuery,
   WorkspaceRouteContext,
   workspaceRoutingLayer,
-} from "../../src/server/routes/instance/httpapi/middleware/workspace-routing"
-import { HEADER as FenceHeader } from "../../src/server/shared/fence"
-import { resetDatabase } from "../fixture/db"
-import { workspaceLayerWithRuntimeFlags } from "../fixture/workspace"
-import { tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+} from "../../src/server/routes/instance/httpapi/middleware/workspace-routing.ts"
+import { HEADER as FenceHeader } from "../../src/server/shared/fence.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { workspaceLayerWithRuntimeFlags } from "../fixture/workspace.ts"
+import { tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const testStateLayer = Layer.effectDiscard(
   Effect.gen(function* () {

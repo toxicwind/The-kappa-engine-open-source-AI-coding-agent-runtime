@@ -3,9 +3,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { lstat, readFile } from "node:fs/promises"
 import path from "node:path"
 import { formatPatch, structuredPatch } from "diff"
-import { Config } from "./config"
-import type { CaptureMetadata, DeltaEntry, FileEntry } from "./events"
-import { isHighRiskPath } from "./worker/scrub"
+import { Config } from "./config.ts"
+import type { CaptureMetadata, DeltaEntry, FileEntry } from "./events.ts"
+import { isHighRiskPath } from "./worker/scrub.ts"
 
 type File = {
   path: string

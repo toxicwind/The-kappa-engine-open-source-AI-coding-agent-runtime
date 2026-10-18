@@ -4,8 +4,8 @@ import { FileSystem } from "@opencode-ai/core/filesystem"
 import { LocationServiceMap, locationServiceMapLayer } from "@opencode-ai/core/location-services"
 import { Location } from "@opencode-ai/core/location"
 import { AbsolutePath, RelativePath } from "@opencode-ai/core/schema"
-import { effectCmd } from "../../effect-cmd"
-import { cmd } from "../cmd"
+import { effectCmd } from "../../effect-cmd.ts"
+import { cmd } from "../cmd.ts"
 
 const filesystem = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
   effect.pipe(

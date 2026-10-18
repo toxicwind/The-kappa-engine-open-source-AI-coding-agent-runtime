@@ -7,8 +7,8 @@
 // the current browse position. When the user arrows up at cursor offset 0,
 // the current draft is saved and history begins. Arrowing past the end
 // restores the draft.
-export { displayCharAt, displaySlice, mentionTriggerIndex } from "../prompt-display"
-import type { RunPrompt } from "./types"
+export { displayCharAt, displaySlice, mentionTriggerIndex } from "../prompt-display.ts"
+import type { RunPrompt } from "./types.ts"
 
 const HISTORY_LIMIT = 200
 

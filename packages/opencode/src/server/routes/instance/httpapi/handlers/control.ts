@@ -7,8 +7,8 @@ import {
 // kappacode_change end
 import { Effect } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { RootHttpApi } from "../api"
-import { LogInput } from "../groups/control"
+import { RootHttpApi } from "../api.ts"
+import { LogInput } from "../groups/control.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { remove as removeAuth } from "@/kappacode/auth/remove" // kappacode_change
 

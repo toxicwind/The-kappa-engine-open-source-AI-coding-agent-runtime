@@ -3,7 +3,7 @@ import {
   ensureIndexingPlugin,
   indexingEnabled,
   INDEXING_PLUGIN,
-} from "../../src/kappacode/indexing-feature"
+} from "../../src/kappacode/indexing-feature.ts"
 
 describe("indexing plugin helpers", () => {
   test("detects plugin-enabled configs", () => {

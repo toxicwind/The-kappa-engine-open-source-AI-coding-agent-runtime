@@ -10,9 +10,9 @@ import type {
   ToolPart,
 } from "@kappacode/sdk/v2"
 import { Effect } from "effect"
-import { ACPSession } from "./session"
-import { ACPPermission } from "./permission"
-import { partsToContentChunks, type ReplayPart } from "./content"
+import { ACPSession } from "./session.ts"
+import { ACPPermission } from "./permission.ts"
+import { partsToContentChunks, type ReplayPart } from "./content.ts"
 import {
   duplicateRunningToolUpdate,
   errorToolUpdate,
@@ -20,7 +20,7 @@ import {
   runningToolUpdate,
   shellOutputSnapshot,
   completedToolUpdate,
-} from "./tool"
+} from "./tool.ts"
 
 type Connection = Pick<AgentSideConnection, "sessionUpdate"> &
   Partial<Pick<AgentSideConnection, "requestPermission" | "writeTextFile">>
@@ -501,4 +501,4 @@ function turn() {
 }
 // kappacode_change end
 
-export * as ACPEvent from "./event"
+export * as ACPEvent from "./event.ts"

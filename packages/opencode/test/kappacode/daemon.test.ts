@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import path from "path"
-import { Daemon } from "../../src/kappacode/daemon/daemon"
-import { DaemonClient } from "../../src/kappacode/daemon/client"
-import { tmpdir } from "../fixture/fixture"
+import { Daemon } from "../../src/kappacode/daemon/daemon.ts"
+import { DaemonClient } from "../../src/kappacode/daemon/client.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 const original = {
   state: process.env.KILO_TEST_DAEMON_STATE_DIR,

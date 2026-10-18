@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { avgPrice, fmtCachedPrice, fmtContext, fmtPrice } from "../../src/kappacode/components/model-info-panel-utils"
+import { avgPrice, fmtCachedPrice, fmtContext, fmtPrice } from "../../src/kappacode/components/model-info-panel-utils.ts"
 
 describe("model info panel price formatting", () => {
   test("fmtPrice returns Free for zero", () => {

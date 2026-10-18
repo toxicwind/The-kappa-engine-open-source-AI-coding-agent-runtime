@@ -241,4 +241,4 @@ export const make = <A, E = never>(
   }
 }
 
-export * as Runner from "./runner"
+export * as Runner from "./runner.ts"

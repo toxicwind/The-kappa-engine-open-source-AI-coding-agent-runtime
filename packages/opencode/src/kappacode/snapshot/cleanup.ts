@@ -5,8 +5,8 @@ import * as Log from "@opencode-ai/core/util/log"
 import { Effect } from "effect"
 import path from "path"
 import { Process } from "@/util/process"
-import { KappaSnapshotMaterialize } from "./materialize"
-import { KappaSnapshotPrepare } from "./prepare"
+import { KappaSnapshotMaterialize } from "./materialize.ts"
+import { KappaSnapshotPrepare } from "./prepare.ts"
 
 export namespace KappaSnapshotCleanup {
   const log = Log.create({ service: "snapshot.cleanup" })

@@ -3,7 +3,7 @@ import { $ } from "bun"
 import { mkdir, mkdtemp, symlink, writeFile } from "node:fs/promises"
 import { tmpdir as osTmpdir } from "node:os"
 import { join } from "node:path"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../fixture/fixture.ts"
 import { createWorkspaceProvider } from "@/kappacode/session-export/workspace-provider"
 
 describe("workspace provider", () => {

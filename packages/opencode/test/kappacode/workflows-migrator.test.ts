@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { WorkflowsMigrator } from "../../src/kappacode/workflows-migrator"
-import { tmpdir } from "../fixture/fixture"
+import { WorkflowsMigrator } from "../../src/kappacode/workflows-migrator.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 
 async function withHome<T>(home: string, fn: () => Promise<T>): Promise<T> {

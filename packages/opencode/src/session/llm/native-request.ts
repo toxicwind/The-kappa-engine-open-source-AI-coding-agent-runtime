@@ -193,4 +193,4 @@ export const request = (input: RequestInput) => {
   })
 }
 
-export * as LLMNative from "./native-request"
+export * as LLMNative from "./native-request.ts"

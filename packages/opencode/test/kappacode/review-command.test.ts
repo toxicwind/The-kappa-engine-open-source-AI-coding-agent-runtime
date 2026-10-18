@@ -2,10 +2,10 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect, test } from "bun:test"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Effect, Layer } from "effect"
-import { Command } from "../../src/command"
-import { parseReviewCommand, reviewCommand } from "../../src/kappacode/review/command"
-import { provideTmpdirInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Command } from "../../src/command/index.ts"
+import { parseReviewCommand, reviewCommand } from "../../src/kappacode/review/command.ts"
+import { provideTmpdirInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(Command.node), AppNodeBuilder.build(CrossSpawnSpawner.node)))
 

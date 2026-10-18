@@ -1,12 +1,12 @@
 import { addAbortSignal, Readable } from "stream"
-import * as Encoding from "./encoding"
+import * as Encoding from "./encoding.ts"
 
 /**
  * Encoding-aware text streaming for tools that walk a file line by line.
  * Optimistically stream as UTF-8; fall back to a buffered iconv decode only
  * when the bytes turn out not to be valid UTF-8.
  *
- *   import * as TextStream from "../kappacode/text-stream"
+ *   import * as TextStream from "./text-stream.ts"
  */
 
 /** Distinct class so {@link withFallback} can tell us apart from real I/O failures. */

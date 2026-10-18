@@ -516,4 +516,4 @@ export async function run(db: SQLiteBunDatabase | NodeSQLiteDatabase, options?: 
   return stats
 }
 
-export * as JsonMigration from "./json-migration"
+export * as JsonMigration from "./json-migration.ts"

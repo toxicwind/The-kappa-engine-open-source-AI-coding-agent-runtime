@@ -2,7 +2,7 @@ import { describe, expect } from "bun:test"
 import { Effect } from "effect"
 import path from "path"
 import { mkdir } from "node:fs/promises" // kappacode_change
-import { cliIt } from "../lib/cli-process"
+import { cliIt } from "../lib/cli-process.ts"
 
 describe("opencode mcp add (non-interactive subprocess)", () => {
   cliIt.concurrent(

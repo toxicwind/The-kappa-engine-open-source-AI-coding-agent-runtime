@@ -7,7 +7,7 @@ import {
   ingestBootstrapWarning,
   shouldAttachShareAuthHeaders,
   type ShareData,
-} from "../../src/cli/cmd/import"
+} from "../../src/cli/cmd/import.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { PlatformError } from "effect"
 

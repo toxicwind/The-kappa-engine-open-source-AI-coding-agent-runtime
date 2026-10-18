@@ -5,7 +5,7 @@
 // footer.event() respectively, adding trace writes along the way. It also
 // defaults status updates to phase "running" if the caller didn't set a
 // phase -- a convenience so reducer code doesn't have to repeat that.
-import type { FooterApi, FooterOutput, FooterPatch, FooterSubagentState, StreamCommit } from "./types"
+import type { FooterApi, FooterOutput, FooterPatch, FooterSubagentState, StreamCommit } from "./types.ts"
 
 type Trace = {
   write(type: string, data?: unknown): void

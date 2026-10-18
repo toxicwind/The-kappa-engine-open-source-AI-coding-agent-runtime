@@ -3,18 +3,18 @@
 
 import { expect } from "bun:test"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { ModelsDev } from "../../src/provider/models"
+import { ModelsDev } from "../../src/provider/models.ts"
 import * as CoreModels from "@opencode-ai/core/models-dev"
 import { Effect, Layer } from "effect"
 import { FetchHttpClient } from "effect/unstable/http"
-import { kappaCustomLoaders, patchKappaProviderPrivacy } from "../../src/kappacode/provider/provider"
-import { Auth } from "../../src/auth"
-import type { Config } from "../../src/config/config"
-import { ModelCache } from "../../src/provider/model-cache"
-import { Provider } from "../../src/provider/provider"
-import { TestConfig } from "../fixture/config"
-import { testEffect } from "../lib/effect"
-import { provideInstance, testInstanceStoreLayer } from "../fixture/fixture"
+import { kappaCustomLoaders, patchKappaProviderPrivacy } from "../../src/kappacode/provider/provider.ts"
+import { Auth } from "../../src/auth/index.ts"
+import type { Config } from "../../src/config/config.ts"
+import { ModelCache } from "../../src/provider/model-cache.ts"
+import { Provider } from "../../src/provider/provider.ts"
+import { TestConfig } from "../fixture/config.ts"
+import { testEffect } from "../lib/effect.ts"
+import { provideInstance, testInstanceStoreLayer } from "../fixture/fixture.ts"
 
 const input = {
   id: "kappa",

@@ -10,8 +10,8 @@ import {
   reloadInstance,
   testInstanceStoreLayer,
   tmpdirScoped,
-} from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+} from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(LayerNode.compile(CrossSpawnSpawner.node), testInstanceStoreLayer))
 

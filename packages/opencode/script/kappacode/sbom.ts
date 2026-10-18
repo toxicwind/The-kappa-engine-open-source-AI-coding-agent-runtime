@@ -19,7 +19,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { Artifact, Deps, Manifest, Policy, Scan, compose, serialize } from "../../../../script/kappacode/sbom/index"
 import type { Component, Gap, Tool } from "../../../../script/kappacode/sbom/index"
-import { LanceDBRuntime } from "../../src/kappacode/lancedb"
+import { LanceDBRuntime } from "../../src/kappacode/lancedb.ts"
 
 const root = path.resolve(import.meta.dir, "../..")
 const repo = path.resolve(root, "../..")

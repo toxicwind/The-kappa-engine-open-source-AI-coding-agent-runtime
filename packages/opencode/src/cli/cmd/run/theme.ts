@@ -7,7 +7,7 @@
 // palette if detection fails.
 import { RGBA, SyntaxStyle, type CliRenderer, type ColorInput, type TerminalColors } from "@opentui/core"
 import type { TuiThemeCurrent } from "@kappacode/plugin/tui"
-import type { EntryKind } from "./types"
+import type { EntryKind } from "./types.ts"
 
 type Tone = {
   body: ColorInput

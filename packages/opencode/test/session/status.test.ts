@@ -2,12 +2,12 @@
 import { describe, expect, test } from "bun:test"
 import { Effect, Layer, ManagedRuntime } from "effect"
 import { EventV2 } from "@opencode-ai/core/event"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
-import { InstanceRef } from "../../src/effect/instance-ref"
-import { disposeInstance } from "../../src/effect/instance-registry"
-import { SessionStatus } from "../../src/session/status"
-import { SessionID } from "../../src/session/schema"
-import type { InstanceContext } from "../../src/project/instance-context"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
+import { disposeInstance } from "../../src/effect/instance-registry.ts"
+import { SessionStatus } from "../../src/session/status.ts"
+import { SessionID } from "../../src/session/schema.ts"
+import type { InstanceContext } from "../../src/project/instance-context.ts"
 
 // SessionStatus only publishes through the bridge; a no-op publish is enough.
 const events = Layer.succeed(

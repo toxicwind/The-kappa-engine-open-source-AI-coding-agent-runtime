@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import type { KappacodeNotification } from "@kappacode/kappa-gateway"
-import { News } from "../../src/kappacode/components/news"
+import { News } from "../../src/kappacode/components/news.ts"
 
 const item = (id: string): KappacodeNotification => ({
   id,

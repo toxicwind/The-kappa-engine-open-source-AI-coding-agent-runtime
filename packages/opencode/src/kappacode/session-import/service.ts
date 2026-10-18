@@ -1,12 +1,12 @@
 import { Database } from "@opencode-ai/core/database/database"
 import { SessionTable, MessageTable, PartTable } from "@opencode-ai/core/session/sql"
-import { SessionID, MessageID, PartID } from "../../session/schema"
+import { SessionID, MessageID, PartID } from "../../session/schema.ts"
 import { SessionMessage } from "@opencode-ai/core/session/message" // kappacode_change - shared Revert.State brand
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { WorkspaceV2 } from "@opencode-ai/core/workspace"
-import { SessionImportType } from "./types"
-import { Project } from "../../project/project"
-import { AppRuntime } from "../../effect/app-runtime"
+import { SessionImportType } from "./types.ts"
+import { Project } from "../../project/project.ts"
+import { AppRuntime } from "../../effect/app-runtime.ts"
 import { eq } from "drizzle-orm"
 import { Effect } from "effect"
 

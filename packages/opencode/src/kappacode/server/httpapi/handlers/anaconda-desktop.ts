@@ -3,7 +3,7 @@ import { HttpApiBuilder } from "effect/unstable/httpapi"
 import * as AnacondaDesktop from "@/kappacode/anaconda-desktop/service"
 import { NotReadyError, PlatformError, SyncError, ToolAcknowledgementError } from "@/kappacode/anaconda-desktop/domain"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
-import { AnacondaDesktopConflictError, AnacondaDesktopOperationError } from "../groups/anaconda-desktop"
+import { AnacondaDesktopConflictError, AnacondaDesktopOperationError } from "../groups/anaconda-desktop.ts"
 
 function openError(error: PlatformError) {
   if (error.reason === "unsupported") {

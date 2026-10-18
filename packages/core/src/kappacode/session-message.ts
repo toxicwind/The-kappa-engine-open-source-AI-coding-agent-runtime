@@ -25,8 +25,8 @@ function transform(value: Record<string, unknown>, convert: (value: unknown) => 
 export function normalize(value: unknown): unknown {
   if (!record(value)) return value
   // New readers recover the canonical summary while old readers receive recent context inline.
-  if (value.type === "compaction" && typeof value.kappa_summary === "string") {
-    return { ...value, summary: value.kappa_summary }
+  if (value.type === "compaction" && typeof value.kilo_summary === "string") {
+    return { ...value, summary: value.kilo_summary }
   }
   return transform(value, decode)
 }
@@ -38,7 +38,7 @@ export function encode(value: unknown): unknown {
     return {
       ...value,
       summary: [value.summary, value.recent ? `Recent context:\n${value.recent}` : ""].filter(Boolean).join("\n\n"),
-      kappa_summary: value.summary,
+      kilo_summary: value.summary,
     }
   }
   return transform(value, encodeContent)

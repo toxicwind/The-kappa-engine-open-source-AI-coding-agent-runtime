@@ -1,16 +1,16 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect, test } from "bun:test"
 import { Effect, Layer } from "effect"
-import type { Agent } from "../../src/agent/agent"
+import type { Agent } from "../../src/agent/agent.ts"
 import { NamedError } from "@opencode-ai/core/util/error"
-import { Skill } from "../../src/skill"
-import { Permission } from "../../src/permission"
-import type { Provider } from "../../src/provider/provider"
-import { SystemPrompt } from "../../src/session/system"
-import { MCP } from "../../src/mcp" // kappacode_change - restore upstream MCP coverage in Kappa's AppNodeBuilder harness
+import { Skill } from "../../src/skill/index.ts"
+import { Permission } from "../../src/permission/index.ts"
+import type { Provider } from "../../src/provider/provider.ts"
+import { SystemPrompt } from "../../src/session/system.ts"
+import { MCP } from "../../src/mcp/index.ts" // kappacode_change - restore upstream MCP coverage in Kappa's AppNodeBuilder harness
 import { LocationServiceMap } from "@opencode-ai/core/location-services"
-import { testEffect } from "../lib/effect"
-import { Config } from "../../src/config/config" // kappacode_change
+import { testEffect } from "../lib/effect.ts"
+import { Config } from "../../src/config/config.ts" // kappacode_change
 
 const skills: Skill.Info[] = [
   {

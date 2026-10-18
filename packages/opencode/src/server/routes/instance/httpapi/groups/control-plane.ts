@@ -1,7 +1,7 @@
 import { MoveSession } from "@opencode-ai/core/control-plane/move-session"
 import { Schema } from "effect"
 import { HttpApi, HttpApiEndpoint, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi"
-import { described } from "./metadata"
+import { described } from "./metadata.ts"
 
 const root = "/experimental/control-plane"
 export const MoveSessionPayload = Schema.Struct({ ...MoveSession.Input.fields })

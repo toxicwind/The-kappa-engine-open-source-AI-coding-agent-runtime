@@ -2,7 +2,7 @@ import path from "path"
 import { realpathSync, statSync } from "fs"
 import { Global } from "@opencode-ai/core/global"
 import { KappacodeConfigOverlay } from "@/kappacode/config/overlay"
-import type { Scope } from "./schema"
+import type { Scope } from "./schema.ts"
 
 export function isSafeId(id: string) {
   if (!id || id === "." || id.includes("..") || id.includes("/") || id.includes("\\") || id.endsWith(".")) return false

@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { looksJson } from "./assertions"
+import { looksJson } from "./assertions.ts"
 import type {
   ActiveScenario,
   AuthPolicy,
@@ -12,7 +12,7 @@ import type {
   ScenarioContext,
   SeededContext,
   TodoScenario,
-} from "./types"
+} from "./types.ts"
 
 class ScenarioBuilder<S = undefined> {
   private readonly state: BuilderState<S>

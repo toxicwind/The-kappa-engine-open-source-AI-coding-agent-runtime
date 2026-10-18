@@ -9,25 +9,25 @@ import type {
 import { Config } from "@/config/config"
 import { createKappaClient } from "@kappacode/sdk"
 import { ServerAuth } from "@/server/auth"
-import { CodexAuthPlugin } from "./openai/codex"
+import { CodexAuthPlugin } from "./openai/codex.ts"
 import { Session } from "@/session/session"
 import { NamedError } from "@opencode-ai/core/util/error"
-import { CopilotAuthPlugin } from "./github-copilot/copilot"
-import { ModalPlugin } from "./modal/modal"
+import { CopilotAuthPlugin } from "./github-copilot/copilot.ts"
+import { ModalPlugin } from "./modal/modal.ts"
 import { gitlabAuthPlugin as GitlabAuthPlugin } from "opencode-gitlab-auth"
 import { PoeAuthPlugin } from "opencode-poe-auth"
-import { CloudflareAIGatewayAuthPlugin, CloudflareWorkersAuthPlugin } from "./cloudflare"
-import { AzureAuthPlugin } from "./azure"
-import { DigitalOceanAuthPlugin } from "./digitalocean"
-import { XaiAuthPlugin } from "./xai"
-import { CerebrasPlugin } from "./cerebras"
-import { SnowflakeCortexAuthPlugin } from "./snowflake-cortex"
+import { CloudflareAIGatewayAuthPlugin, CloudflareWorkersAuthPlugin } from "./cloudflare.ts"
+import { AzureAuthPlugin } from "./azure.ts"
+import { DigitalOceanAuthPlugin } from "./digitalocean.ts"
+import { XaiAuthPlugin } from "./xai.ts"
+import { CerebrasPlugin } from "./cerebras.ts"
+import { SnowflakeCortexAuthPlugin } from "./snowflake-cortex.ts"
 import { Effect, Layer, Context } from "effect"
 import { EffectBridge } from "@/effect/bridge"
 import { InstanceState } from "@/effect/instance-state"
 import { errorMessage } from "@/util/error"
-import { PluginLoader } from "./loader"
-import { parsePluginSpecifier, readPluginId, readV1Plugin, resolvePluginId } from "./shared"
+import { PluginLoader } from "./loader.ts"
+import { parsePluginSpecifier, readPluginId, readV1Plugin, resolvePluginId } from "./shared.ts"
 import { KappaAuthPlugin } from "@kappacode/kappa-gateway" // kappacode_change
 import { AtomicChatPlugin } from "@kappacode/plugin-atomic-chat" // kappacode_change
 import { AnacondaDesktopPlugin } from "@/kappacode/anaconda-desktop/provider" // kappacode_change
@@ -325,4 +325,4 @@ export const node = LayerNode.make({
   deps: [EventV2Bridge.node, Config.node, RuntimeFlags.node],
 })
 
-export * as Plugin from "."
+export * as Plugin from "./index.ts"

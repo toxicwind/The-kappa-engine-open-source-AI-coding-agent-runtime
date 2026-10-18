@@ -3,8 +3,8 @@
 // Fetches session messages from the SDK and extracts user turn text for
 // the prompt history ring. Also finds the most recently used variant for
 // the current model so the footer can pre-select it.
-import { promptCopy, promptSame } from "./prompt.shared"
-import type { RunInput, RunPrompt } from "./types"
+import { promptCopy, promptSame } from "./prompt.shared.ts"
+import type { RunInput, RunPrompt } from "./types.ts"
 
 const LIMIT = 200
 

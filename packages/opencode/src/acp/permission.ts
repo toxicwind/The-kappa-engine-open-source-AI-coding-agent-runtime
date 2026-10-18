@@ -9,8 +9,8 @@ import type {
 import type { Event, KappaClient } from "@kappacode/sdk/v2"
 import { applyPatch } from "diff"
 import { exists, readText } from "@/util/filesystem"
-import type { ACPSession } from "./session"
-import { pendingToolCall, toLocations, type ToolInput } from "./tool"
+import type { ACPSession } from "./session.ts"
+import { pendingToolCall, toLocations, type ToolInput } from "./tool.ts"
 import { Effect } from "effect"
 import { SkillShellPrompt } from "@/kappacode/acp/permission" // kappacode_change
 
@@ -263,4 +263,4 @@ function fileMetadata(input: ToolInput): PermissionFileMetadata[] {
   })
 }
 
-export * as ACPPermission from "./permission"
+export * as ACPPermission from "./permission.ts"

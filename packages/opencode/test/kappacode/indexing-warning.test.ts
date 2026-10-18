@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { indexingErrorMessage, indexingWarningKey, parseQdrantWarning } from "../../src/kappacode/indexing-warning"
+import { indexingErrorMessage, indexingWarningKey, parseQdrantWarning } from "../../src/kappacode/indexing-warning.ts"
 
 describe("parseQdrantWarning", () => {
   test("classifies incompatible Qdrant versions", () => {

@@ -1,12 +1,12 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { afterEach, describe, expect } from "bun:test"
 import { Effect, Layer } from "effect"
-import { Agent } from "../../src/agent/agent"
-import { ToolRegistry } from "../../src/tool/registry"
-import * as ToolJsonSchema from "../../src/tool/json-schema"
-import { disposeAllInstances, provideTmpdirInstance } from "../fixture/fixture"
+import { Agent } from "../../src/agent/agent.ts"
+import { ToolRegistry } from "../../src/tool/registry.ts"
+import * as ToolJsonSchema from "../../src/tool/json-schema.ts"
+import { disposeAllInstances, provideTmpdirInstance } from "../fixture/fixture.ts"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const node = AppNodeBuilder.build(CrossSpawnSpawner.node)
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(Agent.node), AppNodeBuilder.build(ToolRegistry.node), node))

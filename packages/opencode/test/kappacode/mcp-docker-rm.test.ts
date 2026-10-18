@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test"
-import { MCP } from "../../src/mcp"
+import { MCP } from "../../src/mcp/index.ts"
 
 describe("ensureDockerRm", () => {
   test("injects --rm after 'run' for docker run commands", () => {

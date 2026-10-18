@@ -6,10 +6,10 @@ import type {
   OAuthClientInformationFull,
 } from "@modelcontextprotocol/sdk/shared/auth.js"
 import { Effect } from "effect"
-import { McpAuth } from "./auth"
-import { clientMetadataUrl } from "../kappacode/mcp/client-metadata" // kappacode_change
-import { configured, retain, stored } from "../kappacode/mcp/oauth-issuer" // kappacode_change
-import type { Expected } from "../kappacode/mcp/invalidation" // kappacode_change
+import { McpAuth } from "./auth.ts"
+import { clientMetadataUrl } from "../kappacode/mcp/client-metadata.ts" // kappacode_change
+import { configured, retain, stored } from "../kappacode/mcp/oauth-issuer.ts" // kappacode_change
+import type { Expected } from "../kappacode/mcp/invalidation.ts" // kappacode_change
 
 const OAUTH_CALLBACK_PORT = 19876
 const OAUTH_CALLBACK_PATH = "/mcp/oauth/callback"

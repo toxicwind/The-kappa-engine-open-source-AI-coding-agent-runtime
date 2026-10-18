@@ -1,4 +1,4 @@
-import type { GoalLink } from "./link"
+import type { GoalLink } from "./link.ts"
 
 /** A persisted goal wait survives the status mapping only as a record shape we understand. */
 function asWait(value: unknown): GoalLink.Wait | undefined {

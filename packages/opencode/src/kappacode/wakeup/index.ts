@@ -9,8 +9,8 @@ import { EventV2Bridge } from "@/event-v2-bridge"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { WakeupEvent } from "@opencode-ai/schema/kappacode/wakeup-event"
 import { Context, Effect, Fiber, Layer, Option, Semaphore } from "effect"
-import { fireLayer, text as wakeupText } from "./resume"
-import * as schema from "./schema"
+import { fireLayer, text as wakeupText } from "./resume.ts"
+import * as schema from "./schema.ts"
 
 export namespace Wakeup {
   export const MIN_DELAY_MS = schema.MIN_DELAY_MS
@@ -555,4 +555,4 @@ export namespace Wakeup {
   })
 }
 
-export * from "./schema"
+export * from "./schema.ts"

@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import path from "path"
 import { mkdir } from "fs/promises"
-import { tmpdir } from "../fixture/fixture"
-import { ConsoleAssets } from "../../src/kappacode/console/assets"
+import { tmpdir } from "../fixture/fixture.ts"
+import { ConsoleAssets } from "../../src/kappacode/console/assets.ts"
 
 const original = process.env.KILO_CONSOLE_ASSET_DIR
 

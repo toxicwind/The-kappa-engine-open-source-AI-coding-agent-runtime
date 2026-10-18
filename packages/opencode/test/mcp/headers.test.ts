@@ -4,8 +4,8 @@ import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/
 import { ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect } from "effect"
-import { testEffect } from "../lib/effect"
-import { MCP } from "../../src/mcp/index"
+import { testEffect } from "../lib/effect.ts"
+import { MCP } from "../../src/mcp/index.ts"
 
 const it = testEffect(LayerNode.compile(MCP.node))
 

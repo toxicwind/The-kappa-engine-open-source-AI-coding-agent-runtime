@@ -1,6 +1,6 @@
 import type { TuiPlugin } from "@kappacode/plugin/tui"
 import type { InternalTuiPlugin } from "@/plugin/tui/internal"
-import { SessionSwitcherDialog } from "./dialog"
+import { SessionSwitcherDialog } from "./dialog.tsx"
 
 const id = "internal:session-switcher"
 

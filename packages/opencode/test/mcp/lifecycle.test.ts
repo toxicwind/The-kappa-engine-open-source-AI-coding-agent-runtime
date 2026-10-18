@@ -15,13 +15,13 @@ import {
 } from "@modelcontextprotocol/sdk/types.js"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Cause, Effect, Exit } from "effect"
-import type { MCP as MCPNS } from "../../src/mcp/index"
-import * as SandboxNetwork from "../../src/kappacode/sandbox/network" // kappacode_change
+import type { MCP as MCPNS } from "../../src/mcp/index.ts"
+import * as SandboxNetwork from "../../src/kappacode/sandbox/network.ts" // kappacode_change
 import { run as runSandbox, type Profile } from "@kappacode/sandbox" // kappacode_change
-import { MCP } from "../../src/mcp/index"
-import { McpOAuthCallback } from "../../src/mcp/oauth-callback"
-import { TestInstance } from "../fixture/fixture"
-import { pollWithTimeout, testEffect } from "../lib/effect"
+import { MCP } from "../../src/mcp/index.ts"
+import { McpOAuthCallback } from "../../src/mcp/oauth-callback.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { pollWithTimeout, testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(MCP.node))
 const stdioFixture = path.join(import.meta.dir, "../fixture/mcp-lifecycle-stdio.ts")

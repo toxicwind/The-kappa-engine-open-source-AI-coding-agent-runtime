@@ -9,12 +9,12 @@ import { Global } from "@opencode-ai/core/global"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { AppProcess } from "@opencode-ai/core/process"
 import { Hash } from "@opencode-ai/core/util/hash"
-import { Snapshot } from "../../src/snapshot"
-import { Instance } from "../../src/kappacode/instance"
-import { Filesystem } from "../../src/util/filesystem"
-import { KappaSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize"
-import { KappaSnapshotSeed } from "../../src/kappacode/snapshot/seed"
-import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture"
+import { Snapshot } from "../../src/snapshot/index.ts"
+import { Instance } from "../../src/kappacode/instance.ts"
+import { Filesystem } from "../../src/util/filesystem.ts"
+import { KappaSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize.ts"
+import { KappaSnapshotSeed } from "../../src/kappacode/snapshot/seed.ts"
+import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture.ts"
 
 const fwd = (...parts: string[]) => path.join(...parts).replaceAll("\\", "/")
 

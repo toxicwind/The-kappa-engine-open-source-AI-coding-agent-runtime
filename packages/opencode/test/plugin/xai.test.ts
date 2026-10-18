@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { accessTokenIsExpiring, buildAuthorizeUrl, pollDeviceCodeToken, requestDeviceCode, XaiAuthPlugin } from "../../src/plugin/xai"
-import { OAUTH_DUMMY_KEY } from "../../src/auth"
+import { accessTokenIsExpiring, buildAuthorizeUrl, pollDeviceCodeToken, requestDeviceCode, XaiAuthPlugin } from "../../src/plugin/xai.ts"
+import { OAUTH_DUMMY_KEY } from "../../src/auth/index.ts"
 
 function makeJwt(payload: object): string {
   const header = Buffer.from(JSON.stringify({ alg: "none", typ: "JWT" })).toString("base64url")

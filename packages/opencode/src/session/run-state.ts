@@ -5,9 +5,9 @@ import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { Runner } from "@/effect/runner"
 import { BackgroundJob } from "@/background/job"
 import { Effect, Latch, Layer, Scope, Context } from "effect"
-import { Session } from "./session"
-import { SessionID } from "./schema"
-import { SessionStatus } from "./status"
+import { Session } from "./session.ts"
+import { SessionID } from "./schema.ts"
+import { SessionStatus } from "./status.ts"
 import { SessionDrain } from "@/kappacode/session/drain" // kappacode_change
 
 export interface Interface {
@@ -179,4 +179,4 @@ export const node = LayerNode.make({
 })
 // kappacode_change end
 
-export * as SessionRunState from "./run-state"
+export * as SessionRunState from "./run-state.ts"

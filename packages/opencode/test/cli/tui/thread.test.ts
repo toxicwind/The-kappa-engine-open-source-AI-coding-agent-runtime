@@ -3,9 +3,9 @@ import { Effect } from "effect"
 import fs from "fs/promises"
 import path from "path"
 import yargs from "yargs"
-import { tmpdir } from "../../fixture/fixture"
-import { TuiThreadCommand, resolveThreadDirectory } from "../../../src/cli/cmd/tui"
-import { cliIt } from "../../lib/cli-process"
+import { tmpdir } from "../../fixture/fixture.ts"
+import { TuiThreadCommand, resolveThreadDirectory } from "../../../src/cli/cmd/tui.ts"
+import { cliIt } from "../../lib/cli-process.ts"
 
 describe("tui thread", () => {
   test("loads the TUI integration lazily", async () => {

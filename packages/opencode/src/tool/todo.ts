@@ -1,9 +1,9 @@
 import { Effect, Schema } from "effect"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import DESCRIPTION_WRITE from "./todowrite.txt"
-import { Todo } from "../session/todo"
+import { Todo } from "../session/todo.ts"
 // kappacode_change start
-import { TodoView } from "../kappacode/todo-view"
+import { TodoView } from "../kappacode/todo-view.ts"
 // kappacode_change end
 
 export const Parameters = Schema.Struct({

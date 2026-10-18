@@ -6,7 +6,7 @@ import { Session } from "@/session/session"
 import { MessageID, SessionID } from "@/session/schema"
 import { Filesystem } from "@/util/filesystem"
 import { Locale } from "@/util/locale"
-import { RecallSearch } from "./recall-search"
+import { RecallSearch } from "./recall-search.ts"
 
 export namespace SessionTranscript {
   /**

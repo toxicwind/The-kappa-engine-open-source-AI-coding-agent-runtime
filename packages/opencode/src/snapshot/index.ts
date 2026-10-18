@@ -15,14 +15,14 @@ import { Global } from "@opencode-ai/core/global"
 import { Info } from "@opencode-ai/schema/file-diff"
 // kappacode_change start
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { DiffFull } from "../kappacode/snapshot/diff-full"
-import { KappaSnapshotTrack } from "../kappacode/snapshot/track"
-import { KappaSnapshotPrepare } from "../kappacode/snapshot/prepare"
-import { KappaSnapshotMaterialize } from "../kappacode/snapshot/materialize"
-import type { MessageID, SessionID } from "../session/schema"
+import { DiffFull } from "../kappacode/snapshot/diff-full.ts"
+import { KappaSnapshotTrack } from "../kappacode/snapshot/track.ts"
+import { KappaSnapshotPrepare } from "../kappacode/snapshot/prepare.ts"
+import { KappaSnapshotMaterialize } from "../kappacode/snapshot/materialize.ts"
+import type { MessageID, SessionID } from "../session/schema.ts"
 import { withStatics } from "@opencode-ai/core/schema"
 import { zod } from "@opencode-ai/core/effect-zod"
-import { KappaSnapshotLock } from "../kappacode/snapshot/lock"
+import { KappaSnapshotLock } from "../kappacode/snapshot/lock.ts"
 // kappacode_change end
 
 export const Patch = Schema.Struct({
@@ -1051,4 +1051,4 @@ export const node = LayerNode.make({
   deps: [FSUtil.node, AppProcess.node, Config.node, EffectFlock.node], // kappacode_change
 })
 
-export * as Snapshot from "."
+export * as Snapshot from "./index.ts"

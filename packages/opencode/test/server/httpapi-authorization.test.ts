@@ -3,14 +3,14 @@ import { describe, expect } from "bun:test"
 import { Effect, Layer, Option, Schema } from "effect"
 import { HttpClient, HttpClientRequest, HttpRouter } from "effect/unstable/http"
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiError, HttpApiGroup } from "effect/unstable/httpapi"
-import { ServerAuth } from "../../src/server/auth"
+import { ServerAuth } from "../../src/server/auth.ts"
 import {
   Authorization,
   authorizationLayer,
   ServerAuthorization,
   serverAuthorizationLayer,
-} from "../../src/server/routes/instance/httpapi/middleware/authorization"
-import { testEffect } from "../lib/effect"
+} from "../../src/server/routes/instance/httpapi/middleware/authorization.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const Api = HttpApi.make("test-authorization").add(
   HttpApiGroup.make("test")

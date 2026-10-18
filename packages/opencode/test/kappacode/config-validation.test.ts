@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import path from "path"
 import { Effect, Layer } from "effect"
-import { ConfigValidation } from "../../src/kappacode/config-validation"
-import { Config } from "../../src/config/config"
-import { AppRuntime } from "../../src/effect/app-runtime"
-import { Filesystem } from "../../src/util/filesystem"
-import { disposeAllInstances, provideTestInstance, TestInstance, tmpdir } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { ConfigValidation } from "../../src/kappacode/config-validation.ts"
+import { Config } from "../../src/config/config.ts"
+import { AppRuntime } from "../../src/effect/app-runtime.ts"
+import { Filesystem } from "../../src/util/filesystem.ts"
+import { disposeAllInstances, provideTestInstance, TestInstance, tmpdir } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.empty)
 

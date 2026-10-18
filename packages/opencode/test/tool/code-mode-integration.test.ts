@@ -19,7 +19,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js"
 import { Cause, Effect, Exit, Layer, ManagedRuntime } from "effect" // kappacode_change
 import { InstanceRef } from "@/effect/instance-ref" // kappacode_change
-import { TestConfig } from "../fixture/config" // kappacode_change
+import { TestConfig } from "../fixture/config.ts" // kappacode_change
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { Database } from "@opencode-ai/core/database/database" // kappacode_change
 

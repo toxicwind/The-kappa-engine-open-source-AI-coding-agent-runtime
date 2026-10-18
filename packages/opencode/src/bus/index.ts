@@ -5,8 +5,8 @@
 import { Effect, Exit, Fiber, Layer, PubSub, Scope, Context, Stream, Schema } from "effect" // kappacode_change
 import { EffectBridge } from "@/effect/bridge"
 import * as Log from "@opencode-ai/core/util/log"
-import { BusEvent } from "./bus-event"
-import { GlobalBus } from "./global"
+import { BusEvent } from "./bus-event.ts"
+import { GlobalBus } from "./global.ts"
 import { InstanceState } from "@/effect/instance-state"
 import { makeRuntime } from "@/effect/run-service"
 import { serviceUse } from "@opencode-ai/core/effect/service-use"
@@ -251,4 +251,4 @@ export function subscribeAll(callback: (event: any) => unknown) {
 }
 // kappacode_change end
 
-export * as Bus from "."
+export * as Bus from "./index.ts"

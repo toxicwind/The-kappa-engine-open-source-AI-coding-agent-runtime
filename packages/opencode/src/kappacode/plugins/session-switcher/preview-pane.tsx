@@ -7,7 +7,7 @@ import { useSDK } from "@tui/context/sdk"
 import { useSync } from "@tui/context/sync"
 import { Locale } from "@tui/util/locale"
 import { Spinner } from "@tui/component/spinner"
-import { extractMessageMarkdown, extractMessageText, relativeTime } from "./util"
+import { extractMessageMarkdown, extractMessageText, relativeTime } from "./util.tsx"
 
 type WithParts = { info: Message; parts: Part[] }
 

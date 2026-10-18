@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { provideTestInstance } from "../../fixture/fixture"
-import { tmpdir } from "../../fixture/fixture"
+import { provideTestInstance } from "../../fixture/fixture.ts"
+import { tmpdir } from "../../fixture/fixture.ts"
 
 async function app() {
   const { Server } = await import("../../../src/server/server")

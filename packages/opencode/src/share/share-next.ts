@@ -383,4 +383,4 @@ export const node = LayerNode.make({
   deps: [Account.node, EventV2Bridge.node, Config.node, Database.node, httpClient, Provider.node, Session.node],
 })
 
-export * as ShareNext from "./share-next"
+export * as ShareNext from "./share-next.ts"

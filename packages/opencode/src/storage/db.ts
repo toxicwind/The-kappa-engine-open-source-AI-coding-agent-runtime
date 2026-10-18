@@ -203,4 +203,4 @@ export function transaction<T>(
   }
 }
 
-export * as Database from "./db"
+export * as Database from "./db.ts"

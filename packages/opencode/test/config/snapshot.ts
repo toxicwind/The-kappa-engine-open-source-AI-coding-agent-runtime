@@ -1,5 +1,5 @@
 import { expect } from "bun:test"
-import { ConfigParse } from "../../src/config/parse"
+import { ConfigParse } from "../../src/config/parse.ts"
 
 export async function snapshot(file: string, actual: string) {
   const value = ConfigParse.jsonc(actual, file)

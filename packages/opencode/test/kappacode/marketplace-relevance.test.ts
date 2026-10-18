@@ -5,10 +5,10 @@ import { describe, expect } from "bun:test"
 import { Effect } from "effect"
 import fs from "fs/promises"
 import path from "path"
-import * as MarketplaceRelevance from "../../src/kappacode/marketplace/relevance"
-import type { MarketplaceItem } from "../../src/kappacode/marketplace/schema"
-import { tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import * as MarketplaceRelevance from "../../src/kappacode/marketplace/relevance.ts"
+import type { MarketplaceItem } from "../../src/kappacode/marketplace/schema.ts"
+import { tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(LayerNode.group([CrossSpawnSpawner.node, Ripgrep.node])))
 

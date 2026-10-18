@@ -1,6 +1,6 @@
 import { Effect, Schema } from "effect"
 import { InstanceRef, WorkspaceRef } from "@/effect/instance-ref"
-import { type WorkspaceAdapter, type WorkspaceAdapterContext, WorkspaceInfo } from "../types"
+import { type WorkspaceAdapter, type WorkspaceAdapterContext, WorkspaceInfo } from "../types.ts"
 
 const WorktreeConfig = Schema.Struct({
   name: WorkspaceInfo.fields.name,

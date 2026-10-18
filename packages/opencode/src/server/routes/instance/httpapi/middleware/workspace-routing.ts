@@ -3,7 +3,7 @@ import type { Target } from "@/control-plane/types"
 import { Workspace } from "@/control-plane/workspace"
 import { WorkspaceAdapterRuntime } from "@/control-plane/workspace-adapter-runtime"
 import { Session } from "@/session/session"
-import { HttpApiProxy } from "./proxy"
+import { HttpApiProxy } from "./proxy.ts"
 import * as Fence from "@/server/shared/fence"
 import { getWorkspaceRouteSessionID, isLocalWorkspaceRoute, workspaceProxyURL } from "@/server/shared/workspace-routing"
 import { forkTargetDirectory } from "@/kappacode/server/routes/fork-routing" // kappacode_change - fork honors explicit target directory
@@ -13,7 +13,7 @@ import { Context, Data, Effect, Layer, Option, Schema } from "effect"
 import { HttpClient, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { HttpApiMiddleware } from "effect/unstable/httpapi"
 import * as Socket from "effect/unstable/socket/Socket"
-import { InvalidRequestError } from "../errors"
+import { InvalidRequestError } from "../errors.ts"
 
 // Query fields this middleware reads from the URL. Spread into every
 // endpoint query schema in groups that apply WorkspaceRoutingMiddleware,

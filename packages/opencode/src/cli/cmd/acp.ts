@@ -1,9 +1,9 @@
 import { Effect } from "effect"
-import { effectCmd } from "../effect-cmd"
+import { effectCmd } from "../effect-cmd.ts"
 import { AgentSideConnection, ndJsonStream } from "@agentclientprotocol/sdk"
 import { ServerAuth } from "@/server/auth"
 import { createKappaClient } from "@kappacode/sdk/v2"
-import { withNetworkOptions, resolveNetworkOptions } from "../network"
+import { withNetworkOptions, resolveNetworkOptions } from "../network.ts"
 import { ACPProfile } from "@/acp/profile"
 
 export const AcpCommand = effectCmd({

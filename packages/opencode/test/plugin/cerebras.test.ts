@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import type { Hooks, PluginInput } from "@kappacode/plugin"
-import { CerebrasPlugin } from "../../src/plugin/cerebras"
+import { CerebrasPlugin } from "../../src/plugin/cerebras.ts"
 
 type ChatParams = NonNullable<Hooks["chat.params"]>
 

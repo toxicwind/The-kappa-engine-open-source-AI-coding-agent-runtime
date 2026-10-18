@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test"
-import { resolvePluginProviders } from "../../src/cli/cmd/providers"
+import { resolvePluginProviders } from "../../src/cli/cmd/providers.ts"
 import type { Hooks } from "@kappacode/plugin"
 
 function hookWithAuth(provider: string): Hooks {

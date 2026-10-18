@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import type { KappaPassState } from "@kappacode/kappa-gateway"
 import type { Message } from "@kappacode/sdk/v2"
 
-import { billable, creditLabel, format, passLine, resetLabel, scope } from "../../src/kappacode/plugins/sidebar-footer"
+import { billable, creditLabel, format, passLine, resetLabel, scope } from "../../src/kappacode/plugins/sidebar-footer.tsx"
 
 const kappaPass = {
   currentPeriodBaseCreditsUsd: 199,

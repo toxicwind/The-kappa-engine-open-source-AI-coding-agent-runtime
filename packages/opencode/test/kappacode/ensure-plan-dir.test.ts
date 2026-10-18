@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
-import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
-import { tmpdir } from "../fixture/fixture"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 describe("KappaSessionPrompt.ensurePlanDir", () => {
   test("creates a missing plan directory", async () => {

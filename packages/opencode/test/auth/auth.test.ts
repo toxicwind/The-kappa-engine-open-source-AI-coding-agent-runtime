@@ -1,8 +1,8 @@
 import { describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect } from "effect"
-import { Auth } from "../../src/auth"
-import { testEffect } from "../lib/effect"
+import { Auth } from "../../src/auth/index.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(Auth.node))
 

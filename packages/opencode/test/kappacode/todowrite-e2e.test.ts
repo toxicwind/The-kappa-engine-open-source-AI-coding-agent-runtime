@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { createKappaClient } from "@kappacode/sdk/v2"
 import { Effect } from "effect"
-import { cliIt } from "../lib/cli-process"
+import { cliIt } from "../lib/cli-process.ts"
 
 const todos = [
   [

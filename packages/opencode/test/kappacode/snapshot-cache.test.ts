@@ -1,11 +1,11 @@
 import { test, expect } from "bun:test"
 import { $ } from "bun"
 import { Effect } from "effect"
-import { Snapshot } from "../../src/snapshot"
-import { provideTestInstance } from "../fixture/fixture"
-import { Filesystem } from "../../src/util/filesystem"
+import { Snapshot } from "../../src/snapshot/index.ts"
+import { provideTestInstance } from "../fixture/fixture.ts"
+import { Filesystem } from "../../src/util/filesystem.ts"
 import * as Log from "@opencode-ai/core/util/log"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 void Log.init({ print: false })
 

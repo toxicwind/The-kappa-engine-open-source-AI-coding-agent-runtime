@@ -1,51 +1,51 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
-import { PlanExitTool } from "./plan"
+import { PlanExitTool } from "./plan.ts"
 import { Session } from "@/session/session"
 import { SessionCompaction } from "@/session/compaction" // kappacode_change - compaction service for the experimental compact tool
-import { QuestionTool } from "./question"
+import { QuestionTool } from "./question.ts"
 // kappacode_change start
-import { SuggestTool } from "../kappacode/suggestion/tool"
+import { SuggestTool } from "../kappacode/suggestion/tool.ts"
 import { Command } from "@/command"
 // kappacode_change end
-import { ShellTool } from "./shell"
-import { EditTool } from "./edit"
-import { GlobTool } from "./glob"
-import { GrepTool } from "./grep"
-import { ReadTool } from "./read"
-import { TaskTool } from "./task"
+import { ShellTool } from "./shell.ts"
+import { EditTool } from "./edit.ts"
+import { GlobTool } from "./glob.ts"
+import { GrepTool } from "./grep.ts"
+import { ReadTool } from "./read.ts"
+import { TaskTool } from "./task.ts"
 import { Database } from "@opencode-ai/core/database/database"
-import { TodoWriteTool } from "./todo"
-import { WebFetchTool } from "./webfetch"
-import { WriteTool } from "./write"
-import { InvalidTool } from "./invalid"
-import { SkillTool } from "./skill"
-import * as Tool from "./tool"
+import { TodoWriteTool } from "./todo.ts"
+import { WebFetchTool } from "./webfetch.ts"
+import { WriteTool } from "./write.ts"
+import { InvalidTool } from "./invalid.ts"
+import { SkillTool } from "./skill.ts"
+import * as Tool from "./tool.ts"
 import { Config } from "@/config/config"
 import { type ToolContext as PluginToolContext, type ToolDefinition } from "@kappacode/plugin"
 import type { JSONSchema7, JSONSchema7Definition } from "@ai-sdk/provider"
 import { Schema } from "effect"
 import z from "zod"
-import { Plugin } from "../plugin"
+import { Plugin } from "../plugin/index.ts"
 import { Provider } from "@/provider/provider"
 
-import { WebSearchTool } from "./websearch"
-import { KappaToolRegistry } from "../kappacode/tool/registry" // kappacode_change
-import { KappaCodeMode } from "../kappacode/tool/code-mode" // kappacode_change
+import { WebSearchTool } from "./websearch.ts"
+import { KappaToolRegistry } from "../kappacode/tool/registry.ts" // kappacode_change
+import { KappaCodeMode } from "../kappacode/tool/code-mode.ts" // kappacode_change
 import { Notebook } from "@/kappacode/notebook/service" // kappacode_change
 import { AgentManager } from "@/kappacode/agent-manager/service" // kappacode_change
 import { Wakeup } from "@/kappacode/wakeup" // kappacode_change
 import { SessionDrain } from "@/kappacode/session/drain" // kappacode_change
 import { RepoOverviewTool } from "@/kappacode/tool/repo-overview" // kappacode_change
 import { ContextInfoTool, CompactTool } from "@/kappacode/tool/context" // kappacode_change
-import { RepoCloneTool } from "./repo_clone" // kappacode_change
+import { RepoCloneTool } from "./repo_clone.ts" // kappacode_change
 import { Flag } from "@opencode-ai/core/flag/flag" // kappacode_change
 import { Auth } from "@/auth" // kappacode_change
 import { Env } from "@/env" // kappacode_change - websearch resolves its config via Env.Service
-import { LspTool } from "./lsp"
-import * as Truncate from "./truncate"
-import { ApplyPatchTool } from "./apply_patch"
+import { LspTool } from "./lsp.ts"
+import * as Truncate from "./truncate.ts"
+import { ApplyPatchTool } from "./apply_patch.ts"
 import { Glob } from "@opencode-ai/core/util/glob"
 import path from "path"
 import { pathToFileURL } from "url"
@@ -53,18 +53,18 @@ import { Effect, Layer, Context, Option } from "effect" // kappacode_change
 import { ChildProcessSpawner } from "effect/unstable/process/ChildProcessSpawner"
 import { HttpClient } from "effect/unstable/http" // kappacode_change
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Format } from "../format"
+import { Format } from "../format/index.ts"
 import { InstanceState } from "@/effect/instance-state"
 import { EffectBridge } from "@/effect/bridge"
-import { Question } from "../question"
-import { Todo } from "../session/todo"
+import { Question } from "../question/index.ts"
+import { Todo } from "../session/todo.ts"
 import { LSP } from "@/lsp/lsp"
-import { Instruction } from "../session/instruction"
+import { Instruction } from "../session/instruction.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { EventV2Bridge } from "@/event-v2-bridge"
-import { Bus } from "../bus"
-import { Agent } from "../agent/agent"
-import { Skill } from "../skill"
+import { Bus } from "../bus/index.ts"
+import { Agent } from "../agent/agent.ts"
+import { Skill } from "../skill/index.ts"
 import { Permission } from "@/permission"
 import { SessionStatus } from "@/session/status" // kappacode_change
 import { KappaSessions } from "@/kappa-sessions/kappa-sessions" // kappacode_change - provide KappaSessions.Service so the notify_user tool's init resolves
@@ -577,4 +577,4 @@ export const node = LayerNode.suspend(() =>
 )
 // kappacode_change end
 
-export * as ToolRegistry from "./registry"
+export * as ToolRegistry from "./registry.ts"

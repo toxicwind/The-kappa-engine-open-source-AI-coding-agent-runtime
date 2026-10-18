@@ -6,7 +6,7 @@ import { Slug } from "@opencode-ai/core/util/slug"
 import { LLMEvent } from "@opencode-ai/llm"
 import { Effect, Stream } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
+import { InstanceHttpApi } from "../api.ts"
 
 const COPY_NAME_AGENT: Agent.Info = {
   name: "project-copy-name",

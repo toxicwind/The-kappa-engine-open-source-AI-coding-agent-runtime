@@ -6,8 +6,8 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
 import { createKappaClient } from "@kappacode/sdk/v2" // kappacode_change
-import { reply } from "../../lib/llm-server"
-import { cliIt } from "../../lib/cli-process"
+import { reply } from "../../lib/llm-server.ts"
+import { cliIt } from "../../lib/cli-process.ts"
 
 describe("opencode run (non-interactive subprocess)", () => {
   // Happy path: prompt completes, output reaches stdout, process exits 0.

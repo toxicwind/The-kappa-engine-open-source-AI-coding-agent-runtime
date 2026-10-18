@@ -2,7 +2,7 @@ import type { Argv } from "yargs"
 import { Effect } from "effect"
 import { cmd } from "@/cli/cmd/cmd"
 import { effectCmd } from "@/cli/effect-cmd"
-import { cloudPromptOptions, withCloudPrompt } from "./cloud-stdin"
+import { cloudPromptOptions, withCloudPrompt } from "./cloud-stdin.ts"
 
 // Keep the top-level import graph light: this module is registered eagerly at CLI
 // startup, so the cloud implementation is imported inside handlers (same deferral

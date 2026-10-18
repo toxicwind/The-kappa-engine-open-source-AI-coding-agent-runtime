@@ -9,9 +9,9 @@ import { Flag } from "@opencode-ai/core/flag/flag"
 import * as Log from "@opencode-ai/core/util/log"
 import { ConfigParse } from "@/config/parse"
 import { ConfigMarkdown } from "@/config/markdown"
-import { KappacodeConfig } from "./config"
-import { BUILTIN_SKILLS } from "../skills/builtin"
-import { SkillInject } from "../skills/inject"
+import { KappacodeConfig } from "./config.ts"
+import { BUILTIN_SKILLS } from "../skills/builtin.ts"
+import { SkillInject } from "../skills/inject.ts"
 
 export namespace ClaudeMigration {
   export const VERSION = 1

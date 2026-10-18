@@ -14,8 +14,8 @@ import { Global } from "@opencode-ai/core/global"
 import { KappacodeInstruction } from "@/kappacode/session/instruction" // kappacode_change
 import { ClaudeMigration } from "@/kappacode/config/claude-migration" // kappacode_change
 import type { KappacodeMarkdown } from "@/kappacode/config/markdown" // kappacode_change
-import type { MessageV2 } from "./message-v2"
-import type { MessageID } from "./schema"
+import type { MessageV2 } from "./message-v2.ts"
+import type { MessageID } from "./schema.ts"
 
 function extract(messages: SessionV1.WithParts[]) {
   const paths = new Set<string>()
@@ -277,4 +277,4 @@ export const node = LayerNode.make({
   deps: [Config.node, FSUtil.node, Global.node, RuntimeFlags.node, httpClient],
 })
 
-export * as Instruction from "./instruction"
+export * as Instruction from "./instruction.ts"

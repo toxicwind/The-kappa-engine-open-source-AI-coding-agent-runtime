@@ -1,10 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test"
 import { Effect, Schema } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
-import { KappaToolRegistry } from "../../src/kappacode/tool/registry"
-import { Agent } from "../../src/agent/agent"
-import * as Truncate from "../../src/tool/truncate"
-import type * as Tool from "../../src/tool/tool"
+import { KappaToolRegistry } from "../../src/kappacode/tool/registry.ts"
+import { Agent } from "../../src/agent/agent.ts"
+import * as Truncate from "../../src/tool/truncate.ts"
+import type * as Tool from "../../src/tool/tool.ts"
 
 const logger = Log.create({ service: "kappacode-tool-registry" })
 const deps = { agent: {} as Agent.Interface, truncate: {} as Truncate.Interface }

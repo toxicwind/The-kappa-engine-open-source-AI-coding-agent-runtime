@@ -4,13 +4,13 @@ import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { Config } from "@/config/config" // kappacode_change
 import { InstanceState } from "@/effect/instance-state" // kappacode_change
-import { Snapshot } from "../snapshot"
+import { Snapshot } from "../snapshot/index.ts"
 import { Storage } from "@/storage/storage"
-import { Session } from "./session"
-import { MessageV2 } from "./message-v2"
-import { SessionID, MessageID, PartID } from "./schema"
-import { SessionRunState } from "./run-state"
-import { SessionSummary } from "./summary"
+import { Session } from "./session.ts"
+import { MessageV2 } from "./message-v2.ts"
+import { SessionID, MessageID, PartID } from "./schema.ts"
+import { SessionRunState } from "./run-state.ts"
+import { SessionSummary } from "./summary.ts"
 import { KappaSessionRevert } from "@/kappacode/session/revert" // kappacode_change
 
 export const RevertInput = Schema.Struct({
@@ -220,4 +220,4 @@ export const node = LayerNode.make({
   ],
 })
 
-export * as SessionRevert from "./revert"
+export * as SessionRevert from "./revert.ts"

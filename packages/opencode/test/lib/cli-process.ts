@@ -26,10 +26,10 @@ import { Deferred, Duration, Effect, Layer, Queue, Schedule, Scope, Stream } fro
 import { FetchHttpClient, HttpClient } from "effect/unstable/http"
 import { ChildProcess } from "effect/unstable/process"
 import path from "node:path"
-import { TestLLMServer } from "./llm-server"
-import { testProviderConfig } from "./test-provider"
-import { it } from "./effect"
-import { TestCli } from "../../script/kappacode/test-cli" // kappacode_change
+import { TestLLMServer } from "./llm-server.ts"
+import { testProviderConfig } from "./test-provider.ts"
+import { it } from "./effect.ts"
+import { TestCli } from "../../script/kappacode/test-cli.ts" // kappacode_change
 
 const opencodeRoot = path.resolve(import.meta.dir, "../../")
 const cliEntry = path.join(opencodeRoot, "src/index.ts")

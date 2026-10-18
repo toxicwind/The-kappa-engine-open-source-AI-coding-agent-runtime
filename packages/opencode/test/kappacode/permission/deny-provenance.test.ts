@@ -1,13 +1,13 @@
 import { describe, expect, test } from "bun:test"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { Cause, Effect, Exit, Layer } from "effect"
-import { Bus } from "../../../src/bus"
-import { Permission } from "../../../src/permission"
-import { PermissionProvenance } from "../../../src/kappacode/permission/provenance"
-import { SessionID } from "../../../src/session/schema"
+import { Bus } from "../../../src/bus/index.ts"
+import { Permission } from "../../../src/permission/index.ts"
+import { PermissionProvenance } from "../../../src/kappacode/permission/provenance.ts"
+import { SessionID } from "../../../src/session/schema.ts"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
-import { provideTmpdirInstance } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { provideTmpdirInstance } from "../../fixture/fixture.ts"
+import { testEffect } from "../../lib/effect.ts"
 
 const env = Layer.mergeAll(
   AppNodeBuilder.build(Permission.node),

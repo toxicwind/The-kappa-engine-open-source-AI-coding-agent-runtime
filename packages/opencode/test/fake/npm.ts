@@ -5,4 +5,4 @@ export const noop = Layer.mock(Npm.Service)({
   install: () => Effect.void,
 })
 
-export * as NpmTest from "./npm"
+export * as NpmTest from "./npm.ts"

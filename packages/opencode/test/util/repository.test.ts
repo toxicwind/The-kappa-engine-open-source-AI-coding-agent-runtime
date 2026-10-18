@@ -14,7 +14,7 @@ import {
   repositoryCachePath,
   sameRepositoryReference,
   validateRepositoryBranch,
-} from "../../src/util/repository"
+} from "../../src/util/repository.ts"
 
 describe("util.repository", () => {
   test("parses github shorthand and preserves cache path", () => {

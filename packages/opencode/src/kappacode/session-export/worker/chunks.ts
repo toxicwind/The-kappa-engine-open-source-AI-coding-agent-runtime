@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto"
-import { Storage } from "./storage"
-import { compressZstd, decompressZstd } from "./zstd"
+import { Storage } from "./storage.ts"
+import { compressZstd, decompressZstd } from "./zstd.ts"
 
 export type ChunkerConfig = { chunkBytes: number }
 

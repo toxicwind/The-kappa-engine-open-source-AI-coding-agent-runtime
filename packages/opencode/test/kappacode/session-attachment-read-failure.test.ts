@@ -10,10 +10,10 @@ import { Effect } from "effect"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
 import * as Log from "@opencode-ai/core/util/log"
-import { Session } from "../../src/session/session"
-import { SessionPrompt } from "../../src/session/prompt"
-import { MessageV2 } from "../../src/session/message-v2"
-import { disposeTestRuntime, provideInstance, provideTestInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture"
+import { Session } from "../../src/session/session.ts"
+import { SessionPrompt } from "../../src/session/prompt.ts"
+import { MessageV2 } from "../../src/session/message-v2.ts"
+import { disposeTestRuntime, provideInstance, provideTestInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture.ts"
 
 Log.init({ print: false })
 setDefaultTimeout(15_000)

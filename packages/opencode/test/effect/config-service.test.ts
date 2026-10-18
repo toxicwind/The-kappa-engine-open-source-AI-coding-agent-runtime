@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { Config, ConfigProvider, Context, Effect, Layer, Option } from "effect"
-import { ConfigService } from "../../src/effect/config-service"
-import { it } from "../lib/effect"
+import { ConfigService } from "../../src/effect/config-service.ts"
+import { it } from "../lib/effect.ts"
 
 class TestConfig extends ConfigService.Service<TestConfig>()("@test/ConfigService", {
   name: Config.string("NAME"),

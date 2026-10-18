@@ -5,7 +5,7 @@ import { Effect, Schema } from "effect"
 import CREATE from "./cron-create.txt"
 import LIST from "./cron-list.txt"
 import DELETE from "./cron-delete.txt"
-import { excerpt, relative } from "./wakeup-format"
+import { excerpt, relative } from "./wakeup-format.ts"
 
 export const CronCreateParams = Schema.Struct({
   prompt: Schema.String.annotate({

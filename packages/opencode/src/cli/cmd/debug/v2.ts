@@ -4,7 +4,7 @@ import { Catalog } from "@opencode-ai/core/catalog"
 import { LocationServiceMap, locationServiceMapLayer } from "@opencode-ai/core/location-services"
 import { Location } from "@opencode-ai/core/location"
 import { AbsolutePath } from "@opencode-ai/core/schema"
-import { effectCmd } from "../../effect-cmd"
+import { effectCmd } from "../../effect-cmd.ts"
 
 export const V2Command = effectCmd({
   command: "v2",

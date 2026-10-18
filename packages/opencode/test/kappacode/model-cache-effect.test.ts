@@ -2,10 +2,10 @@
 import { expect } from "bun:test"
 import { Deferred, Effect, Exit, Fiber, Layer, Option, Ref } from "effect"
 import { HttpClient, HttpClientResponse } from "effect/unstable/http"
-import { Auth } from "../../src/auth"
-import { ModelCache } from "../../src/provider/model-cache"
-import { TestConfig } from "../fixture/config"
-import { pollWithTimeout, testEffect } from "../lib/effect"
+import { Auth } from "../../src/auth/index.ts"
+import { ModelCache } from "../../src/provider/model-cache.ts"
+import { TestConfig } from "../fixture/config.ts"
+import { pollWithTimeout, testEffect } from "../lib/effect.ts"
 
 type Hit = { readonly url: string }
 

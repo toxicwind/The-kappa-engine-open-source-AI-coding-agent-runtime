@@ -483,4 +483,4 @@ export const node = LayerNode.make({
   ],
 })
 
-export * as Project from "./project"
+export * as Project from "./project.ts"

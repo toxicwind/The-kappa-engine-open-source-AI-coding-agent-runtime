@@ -1,4 +1,4 @@
-import { CloudError } from "./errors"
+import { CloudError } from "./errors.ts"
 
 const COMPLETE_GRACE_PERIOD_MS = 3000
 const DEFAULT_STREAM_TIMEOUT_MS = 30_000

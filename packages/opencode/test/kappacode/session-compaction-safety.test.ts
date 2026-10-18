@@ -3,13 +3,13 @@
 // re-shipping multi-MB base-64 images after a successful summary.
 
 import { describe, expect, test } from "bun:test"
-import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
-import { KappaSessionMessageOrder } from "../../src/kappacode/session/message-order"
-import { MessageV2 } from "../../src/session/message-v2"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt.ts"
+import { KappaSessionMessageOrder } from "../../src/kappacode/session/message-order.ts"
+import { MessageV2 } from "../../src/session/message-v2.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { MessageID, PartID, SessionID } from "../../src/session/schema"
-import type { Provider } from "../../src/provider/provider"
+import { MessageID, PartID, SessionID } from "../../src/session/schema.ts"
+import type { Provider } from "../../src/provider/provider.ts"
 
 const sessionID = SessionID.make("ses_safety")
 const model = {

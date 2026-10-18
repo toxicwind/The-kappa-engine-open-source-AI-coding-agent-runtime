@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
-import { AccountTransportError } from "../../src/account/schema"
-import { FormatError } from "../../src/cli/error"
-import { UI } from "../../src/cli/ui"
+import { AccountTransportError } from "../../src/account/schema.ts"
+import { FormatError } from "../../src/cli/error.ts"
+import { UI } from "../../src/cli/ui.ts"
 
 describe("cli.error", () => {
   test("formats legacy and tagged config errors the same way", () => {

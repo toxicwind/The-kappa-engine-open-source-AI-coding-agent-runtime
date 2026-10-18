@@ -1,9 +1,9 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
-import { Agent } from "../../src/agent/agent"
-import { processConfigItem } from "../../src/kappacode/agent"
-import { testEffect } from "../lib/effect"
+import { Agent } from "../../src/agent/agent.ts"
+import { processConfigItem } from "../../src/kappacode/agent/index.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(AppNodeBuilder.build(Agent.node))
 

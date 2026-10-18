@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
 import type { PluginInput } from "@kappacode/plugin"
-import { CodexAuthPlugin } from "../../src/plugin/openai/codex"
+import { CodexAuthPlugin } from "../../src/plugin/openai/codex.ts"
 
 test("identifies Codex refresh requests as Kappa", async () => {
   const original = globalThis.fetch

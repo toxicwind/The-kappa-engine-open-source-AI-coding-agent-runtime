@@ -9,9 +9,9 @@ import { Session } from "@/session/session"
 import { SessionCompaction } from "@/session/compaction"
 import { MessageV2 } from "@/session/message-v2"
 import { MessageID, PartID, type SessionID } from "@/session/schema"
-import { ProviderTest } from "../fake/provider"
-import { seedProject, TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { ProviderTest } from "../fake/provider.ts"
+import { seedProject, TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(
   AppNodeBuilder.build(

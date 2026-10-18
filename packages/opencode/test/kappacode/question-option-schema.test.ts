@@ -23,7 +23,7 @@ import { describe, test, expect } from "bun:test"
 import { Schema } from "effect"
 import fs from "node:fs"
 import path from "node:path"
-import { Info, Option, Prompt } from "../../src/question"
+import { Info, Option, Prompt } from "../../src/question/index.ts"
 
 const SOURCE = path.resolve(import.meta.dir, "../../../schema/src/v1/question.ts")
 

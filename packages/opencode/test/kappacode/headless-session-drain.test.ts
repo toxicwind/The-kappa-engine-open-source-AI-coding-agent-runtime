@@ -4,10 +4,10 @@ import { createKappaClient, type Event, type KappaClient } from "@kappacode/sdk/
 import path from "node:path"
 import { mkdir } from "node:fs/promises"
 import { pathToFileURL } from "node:url"
-import { cliIt, type CliFixture } from "../lib/cli-process"
-import { awaitWithTimeout } from "../lib/effect"
-import { reply } from "../lib/llm-server"
-import { testProviderConfig } from "../lib/test-provider"
+import { cliIt, type CliFixture } from "../lib/cli-process.ts"
+import { awaitWithTimeout } from "../lib/effect.ts"
+import { reply } from "../lib/llm-server.ts"
+import { testProviderConfig } from "../lib/test-provider.ts"
 
 function gate() {
   const deferred = Promise.withResolvers<void>()

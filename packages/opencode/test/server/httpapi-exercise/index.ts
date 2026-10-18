@@ -19,25 +19,25 @@
  */
 import { Effect, Layer } from "effect" // kappacode_change
 import { OpenApi } from "effect/unstable/httpapi"
-import { TestLLMServer } from "../../lib/llm-server"
+import { TestLLMServer } from "../../lib/llm-server.ts"
 import path from "path"
-import { array, boolean, check, isRecord, message, object, stable } from "./assertions"
-import { controlledPtyInput, http, route } from "./dsl"
+import { array, boolean, check, isRecord, message, object, stable } from "./assertions.ts"
+import { controlledPtyInput, http, route } from "./dsl.ts"
 import {
   cleanupExercisePaths,
   exerciseConfigDirectory,
   exerciseDataDirectory,
   exerciseDatabasePath,
   exerciseGlobalRoot,
-} from "./environment"
-import { color, printHeader, printResults } from "./report"
-import { coverageResult, parseOptions, routeKey, routeKeys, selectedScenarios, shardScenarios } from "./routing" // kappacode_change
-import { runScenario } from "./runner"
-import { disposeApps } from "./backend"
-import { publicApi, runtime } from "./runtime" // kappacode_change
-import { type Scenario, type Result } from "./types"
-import { kappaScenarios } from "../../kappacode/server/httpapi-exercise-scenarios" // kappacode_change
-import { sessionAfterDefaultAgent } from "../../kappacode/server/httpapi-exercise-ready" // kappacode_change
+} from "./environment.ts"
+import { color, printHeader, printResults } from "./report.ts"
+import { coverageResult, parseOptions, routeKey, routeKeys, selectedScenarios, shardScenarios } from "./routing.ts" // kappacode_change
+import { runScenario } from "./runner.ts"
+import { disposeApps } from "./backend.ts"
+import { publicApi, runtime } from "./runtime.ts" // kappacode_change
+import { type Scenario, type Result } from "./types.ts"
+import { kappaScenarios } from "../../kappacode/server/httpapi-exercise-scenarios.ts" // kappacode_change
+import { sessionAfterDefaultAgent } from "../../kappacode/server/httpapi-exercise-ready.ts" // kappacode_change
 
 function cursor(input: Record<string, unknown>) {
   return Buffer.from(JSON.stringify(input)).toString("base64url")

@@ -2,7 +2,7 @@ import { describe, test, expect } from "bun:test"
 import path from "path"
 import fs from "fs/promises"
 import { Filesystem } from "@/util/filesystem"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 describe("filesystem", () => {
   describe("exists()", () => {

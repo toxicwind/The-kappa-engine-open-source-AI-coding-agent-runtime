@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { effectCmd } from "../effect-cmd"
+import { effectCmd } from "../effect-cmd.ts"
 import { Session } from "@/session/session"
 import { NotFoundError } from "@/storage/storage"
 import { Database } from "@opencode-ai/core/database/database"

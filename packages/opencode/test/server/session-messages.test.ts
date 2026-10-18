@@ -4,14 +4,14 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer } from "effect"
 import { HttpClientResponse } from "effect/unstable/http"
 import { Session as SessionNs } from "@/session/session"
-import { MessageV2 } from "../../src/session/message-v2"
+import { MessageV2 } from "../../src/session/message-v2.ts"
 
-import { MessageID, PartID, type SessionID } from "../../src/session/schema"
-import { disposeAllInstances, TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { MessageID, PartID, type SessionID } from "../../src/session/schema.ts"
+import { disposeAllInstances, TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { httpApiLayer, requestInDirectory } from "./httpapi-layer"
+import { httpApiLayer, requestInDirectory } from "./httpapi-layer.ts"
 
 const it = testEffect(Layer.mergeAll(LayerNode.compile(SessionNs.node), httpApiLayer))
 

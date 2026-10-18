@@ -13,8 +13,8 @@ import { not } from "drizzle-orm"
 import { or } from "drizzle-orm"
 import { Effect, Scope } from "effect"
 import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { HistoryPayload, ReplayPayload, SessionPayload } from "../groups/sync"
+import { InstanceHttpApi } from "../api.ts"
+import { HistoryPayload, ReplayPayload, SessionPayload } from "../groups/sync.ts"
 
 export const syncHandlers = HttpApiBuilder.group(InstanceHttpApi, "sync", (handlers) =>
   Effect.gen(function* () {

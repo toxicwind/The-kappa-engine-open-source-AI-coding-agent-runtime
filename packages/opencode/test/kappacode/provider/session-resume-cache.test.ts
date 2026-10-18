@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test"
 import path from "node:path"
-import { SessionResume } from "../../../src/kappacode/session-resume"
-import { ProviderTransform } from "../../../src/provider/transform"
-import { MessageV2 } from "../../../src/session/message-v2"
+import { SessionResume } from "../../../src/kappacode/session-resume/index.ts"
+import { ProviderTransform } from "../../../src/provider/transform.ts"
+import { MessageV2 } from "../../../src/session/message-v2.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import type { Provider } from "../../../src/provider/provider"
+import type { Provider } from "../../../src/provider/provider.ts"
 import type { Part as V1Part, WithParts } from "@opencode-ai/core/v1/session"
 
 function cacheType(message: { providerOptions?: unknown }) {

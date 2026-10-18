@@ -1,4 +1,4 @@
-import { KappacodeMarkdown } from "../config/markdown"
+import { KappacodeMarkdown } from "../config/markdown.ts"
 
 export namespace KappacodeInstruction {
   export function content(text: string, item: string, options: KappacodeMarkdown.Options) {

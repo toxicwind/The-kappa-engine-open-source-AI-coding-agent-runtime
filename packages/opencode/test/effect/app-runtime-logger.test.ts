@@ -2,13 +2,13 @@ import { expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Context, Deferred, Effect, Fiber, Layer, Logger } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { AppLayer } from "../../src/effect/app-runtime"
+import { AppLayer } from "../../src/effect/app-runtime.ts"
 import { EffectBridge } from "@/effect/bridge"
-import { InstanceRef } from "../../src/effect/instance-ref"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
 import * as Observability from "@opencode-ai/core/observability"
-import { attach } from "../../src/effect/run-service"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { attach } from "../../src/effect/run-service.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const observabilityLayer = LayerNode.compile(Observability.node)
 const it = testEffect(LayerNode.compile(CrossSpawnSpawner.node))

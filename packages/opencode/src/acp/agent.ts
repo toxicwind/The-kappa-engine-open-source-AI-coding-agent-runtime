@@ -18,8 +18,8 @@ import {
 } from "@agentclientprotocol/sdk"
 import { Effect } from "effect"
 import type { KappaClient } from "@kappacode/sdk/v2"
-import * as ACPError from "./error"
-import * as ACPService from "./service"
+import * as ACPError from "./error.ts"
+import * as ACPService from "./service.ts"
 
 export function init({ sdk: _sdk }: { sdk: KappaClient }) {
   return {
@@ -92,4 +92,4 @@ function run<A>(effect: Effect.Effect<A, ACPService.Error>) {
   })
 }
 
-export * as ACP from "./agent"
+export * as ACP from "./agent.ts"

@@ -5,12 +5,12 @@ import path from "path"
 import { Effect } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import type { Tool } from "@/tool/tool"
-import { assertExternalDirectoryEffect } from "../../src/tool/external-directory"
+import { assertExternalDirectoryEffect } from "../../src/tool/external-directory.ts"
 import { Filesystem } from "@/util/filesystem"
-import { TestInstance, tmpdirScoped } from "../fixture/fixture"
-import type { Permission } from "../../src/permission"
-import { SessionID, MessageID } from "../../src/session/schema"
-import { testEffect } from "../lib/effect"
+import { TestInstance, tmpdirScoped } from "../fixture/fixture.ts"
+import type { Permission } from "../../src/permission/index.ts"
+import { SessionID, MessageID } from "../../src/session/schema.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(CrossSpawnSpawner.node))
 

@@ -1,7 +1,7 @@
 // kappacode_change - new file
 import { describe, expect, test } from "bun:test"
-import { KappaSessionProcessor } from "../../src/kappacode/session/processor"
-import type { MessageV2 } from "../../src/session/message-v2"
+import { KappaSessionProcessor } from "../../src/kappacode/session/processor.ts"
+import type { MessageV2 } from "../../src/session/message-v2.ts"
 
 const REVIEW_COMMANDS = ["review"] as const
 

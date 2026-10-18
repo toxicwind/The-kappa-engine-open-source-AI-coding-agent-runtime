@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import fs from "node:fs"
 import os from "node:os"
 import path from "node:path"
-import * as Sbom from "../../script/kappacode/sbom"
-import { LanceDBRuntime } from "../../src/kappacode/lancedb"
+import * as Sbom from "../../script/kappacode/sbom.ts"
+import { LanceDBRuntime } from "../../src/kappacode/lancedb.ts"
 import { validate } from "../../../../script/kappacode/sbom/index"
 
 const release = { version: "9.9.9", channel: "latest", commit: "d".repeat(40) }

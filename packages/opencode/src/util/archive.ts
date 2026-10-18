@@ -1,5 +1,5 @@
 import path from "path"
-import * as Process from "./process"
+import * as Process from "./process.ts"
 
 export async function extractZip(zipPath: string, destDir: string) {
   if (process.platform === "win32") {
@@ -22,4 +22,4 @@ export async function extractZip(zipPath: string, destDir: string) {
   await Process.run(["unzip", "-o", "-q", zipPath, "-d", destDir])
 }
 
-export * as Archive from "./archive"
+export * as Archive from "./archive.ts"

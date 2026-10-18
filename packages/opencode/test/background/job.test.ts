@@ -2,7 +2,7 @@ import { describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Deferred, Effect } from "effect"
 import { BackgroundJob } from "@/background/job"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(BackgroundJob.node))
 

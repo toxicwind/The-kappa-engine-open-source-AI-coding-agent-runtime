@@ -1,5 +1,5 @@
 import * as Log from "@opencode-ai/core/util/log"
-import { Daemon } from "./daemon"
+import { Daemon } from "./daemon.ts"
 
 export namespace DaemonClient {
   const log = Log.create({ service: "daemon.client" })

@@ -1,5 +1,5 @@
 import { Layer, ManagedRuntime } from "effect"
-import { attach } from "./run-service"
+import { attach } from "./run-service.ts"
 import * as Observability from "@opencode-ai/core/observability"
 
 import { FSUtil } from "@opencode-ai/core/fs-util"
@@ -61,7 +61,7 @@ import { Wakeup } from "@/kappacode/wakeup"
 // kappacode_change end
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { AppNodeBuilderV1 } from "./app-node-builder-v1"
+import { AppNodeBuilderV1 } from "./app-node-builder-v1.ts"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
 import { EventV2 } from "@opencode-ai/core/event" // kappacode_change
 import { ProjectV2 } from "@opencode-ai/core/project" // kappacode_change

@@ -7,7 +7,7 @@ import type {
   PluginMarketplaceItem,
   RawSkill,
   SkillMarketplaceItem,
-} from "./schema"
+} from "./schema.ts"
 
 const DEFAULT_BASE_URL = "https://api.kappa.ai/api/marketplace"
 const CACHE_TTL = 300_000

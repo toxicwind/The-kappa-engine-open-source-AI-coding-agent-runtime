@@ -1,8 +1,8 @@
 import { Effect, ScopedCache, Scope } from "effect"
 import { capture, type InstanceContext } from "@/kappacode/instance" // kappacode_change
 import * as KappaInstanceState from "@/kappacode/effect/instance-state" // kappacode_change
-import { InstanceRef, WorkspaceRef } from "./instance-ref"
-import { registerDisposer } from "./instance-registry"
+import { InstanceRef, WorkspaceRef } from "./instance-ref.ts"
+import { registerDisposer } from "./instance-registry.ts"
 import { WorkspaceContext } from "@/control-plane/workspace-context"
 
 const TypeId = "~opencode/InstanceState"
@@ -70,4 +70,4 @@ export const invalidate = <A, E, R>(self: InstanceState<A, E, R>) =>
     return yield* ScopedCache.invalidate(self.cache, yield* directory)
   })
 
-export * as InstanceState from "./instance-state"
+export * as InstanceState from "./instance-state.ts"

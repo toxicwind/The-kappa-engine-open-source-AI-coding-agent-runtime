@@ -1,9 +1,9 @@
 import { expect } from "bun:test"
 import { Effect, Layer, Ref } from "effect"
-import { invalidateAfterProviderAuthChange } from "../../../src/kappacode/server/provider-auth-lifecycle"
-import { InstanceStore } from "../../../src/project/instance-store"
-import { ModelCache } from "../../../src/provider/model-cache"
-import { testEffect } from "../../lib/effect"
+import { invalidateAfterProviderAuthChange } from "../../../src/kappacode/server/provider-auth-lifecycle.ts"
+import { InstanceStore } from "../../../src/project/instance-store.ts"
+import { ModelCache } from "../../../src/provider/model-cache.ts"
+import { testEffect } from "../../lib/effect.ts"
 
 const it = testEffect(Layer.empty)
 

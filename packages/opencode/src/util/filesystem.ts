@@ -284,4 +284,4 @@ export async function globUp(pattern: string, start: string, stop?: string) {
   return result
 }
 
-export * as Filesystem from "./filesystem"
+export * as Filesystem from "./filesystem.ts"

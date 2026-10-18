@@ -2,33 +2,33 @@ import { afterEach, describe, expect } from "bun:test"
 import { Effect, Schema } from "effect"
 import { OpenApi } from "effect/unstable/httpapi"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { Server } from "../../src/server/server"
-import { SessionID } from "../../src/session/schema"
-import { PublicApi } from "../../src/server/routes/instance/httpapi/public"
+import { Server } from "../../src/server/server.ts"
+import { SessionID } from "../../src/session/schema.ts"
+import { PublicApi } from "../../src/server/routes/instance/httpapi/public.ts"
 import {
   FilePaths,
   FileQuery,
   FindFileQuery,
   FindTextQuery,
-} from "../../src/server/routes/instance/httpapi/groups/file"
+} from "../../src/server/routes/instance/httpapi/groups/file.ts"
 import {
   ExperimentalPaths,
   SessionListQuery as ExperimentalSessionListQuery,
   ToolListQuery,
-} from "../../src/server/routes/instance/httpapi/groups/experimental"
-import { InstancePaths, VcsDiffQuery } from "../../src/server/routes/instance/httpapi/groups/instance"
-import { WorkspacePaths } from "../../src/server/routes/instance/httpapi/groups/workspace"
+} from "../../src/server/routes/instance/httpapi/groups/experimental.ts"
+import { InstancePaths, VcsDiffQuery } from "../../src/server/routes/instance/httpapi/groups/instance.ts"
+import { WorkspacePaths } from "../../src/server/routes/instance/httpapi/groups/workspace.ts"
 import {
   ListQuery as SessionListQuery,
   MessagesQuery,
   SessionPaths,
-} from "../../src/server/routes/instance/httpapi/groups/session"
-import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty"
+} from "../../src/server/routes/instance/httpapi/groups/session.ts"
+import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty.ts"
 import { SessionMessagesQuery } from "@opencode-ai/protocol/groups/message"
-import { QueryBoolean, QueryBooleanOpenApi } from "../../src/server/routes/instance/httpapi/groups/query"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
-import { it } from "../lib/effect"
+import { QueryBoolean, QueryBooleanOpenApi } from "../../src/server/routes/instance/httpapi/groups/query.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
+import { it } from "../lib/effect.ts"
 
 const originalWorkspaces = Flag.KILO_EXPERIMENTAL_WORKSPACES
 

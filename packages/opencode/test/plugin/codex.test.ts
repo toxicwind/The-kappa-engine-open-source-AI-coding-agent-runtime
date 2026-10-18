@@ -10,7 +10,7 @@ import {
   extractResidency,
   renderOAuthError,
   type IdTokenClaims,
-} from "../../src/plugin/openai/codex"
+} from "../../src/plugin/openai/codex.ts"
 
 function createTestJwt(payload: object): string {
   const header = Buffer.from(JSON.stringify({ alg: "none" })).toString("base64url")

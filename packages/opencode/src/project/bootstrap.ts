@@ -1,10 +1,10 @@
 import { makeGlobalNode } from "@opencode-ai/core/effect/app-node"
-import { Plugin } from "../plugin"
-import { Format } from "../format"
+import { Plugin } from "../plugin/index.ts"
+import { Format } from "../format/index.ts"
 import { LSP } from "@/lsp/lsp"
-import { Snapshot } from "../snapshot"
-import * as Project from "./project"
-import * as Vcs from "./vcs"
+import { Snapshot } from "../snapshot/index.ts"
+import * as Project from "./project.ts"
+import * as Vcs from "./vcs.ts"
 import { InstanceState } from "@/effect/instance-state"
 // kappacode_change start - ShareNext init is handled by KappacodeBootstrap; upstream dropped File/FileWatcher bootstrap init
 import { KappacodeBootstrap } from "@/kappacode/bootstrap"
@@ -12,10 +12,10 @@ import { KappacodeBootstrap } from "@/kappacode/bootstrap"
 // kappacode_change end
 import { Effect, Layer } from "effect"
 import { Config } from "@/config/config"
-import { Service } from "./bootstrap-service"
+import { Service } from "./bootstrap-service.ts"
 
-export { Service } from "./bootstrap-service"
-export type { Interface } from "./bootstrap-service"
+export { Service } from "./bootstrap-service.ts"
+export type { Interface } from "./bootstrap-service.ts"
 
 const layer = Layer.effect(
   Service,
@@ -62,4 +62,4 @@ export const node = makeGlobalNode({
   deps: [Config.node, Format.node, LSP.node, Plugin.node, Project.node, KappacodeBootstrap.node, Snapshot.node, Vcs.node], // kappacode_change
 })
 
-export * as InstanceBootstrap from "./bootstrap"
+export * as InstanceBootstrap from "./bootstrap.ts"

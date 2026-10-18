@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import { Cause, Data, Effect, Exit } from "effect"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
-import { KappaSnapshotLock } from "../../src/kappacode/snapshot/lock"
+import { KappaSnapshotLock } from "../../src/kappacode/snapshot/lock.ts"
 
 class SomeError extends Data.TaggedError("SomeError")<{ command: string }> {}
 

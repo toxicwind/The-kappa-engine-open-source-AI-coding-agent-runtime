@@ -21,13 +21,13 @@ import { eq, and, gte, isNull, desc, like, sql, inArray, lt, or } from "drizzle-
 import type { SQL } from "drizzle-orm"
 import { PartTable, SessionTable } from "@opencode-ai/core/session/sql"
 import { ProjectTable } from "@opencode-ai/core/project/sql"
-import { MessageV2 } from "./message-v2"
-import type { InstanceContext } from "../project/instance-context"
+import { MessageV2 } from "./message-v2.ts"
+import type { InstanceContext } from "../project/instance-context.ts"
 import { InstanceState } from "@/effect/instance-state"
 import { Snapshot } from "@/snapshot"
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { WorkspaceV2 } from "@opencode-ai/core/workspace"
-import { SessionID, MessageID, PartID } from "./schema"
+import { SessionID, MessageID, PartID } from "./schema.ts"
 import { SessionMessage } from "@opencode-ai/core/session/message" // kappacode_change - shared Revert.State brand
 
 import type { Provider } from "@/provider/provider"
@@ -1248,4 +1248,4 @@ export const node = LayerNode.make({
   deps: [BackgroundJob.node, RuntimeFlags.node, Database.node, EventV2Bridge.node],
 })
 
-export * as Session from "./session"
+export * as Session from "./session.ts"

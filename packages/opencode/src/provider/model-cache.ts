@@ -2,8 +2,8 @@
 import { fetchKappaModels, type KappaModelsResult } from "@kappacode/kappa-gateway"
 import { Context, Deferred, Duration, Effect, Exit, Fiber, Layer, Schema, Scope } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http"
-import { Config } from "../config/config"
-import { Auth } from "../auth"
+import { Config } from "../config/config.ts"
+import { Auth } from "../auth/index.ts"
 import { compatible, organization, token } from "@/kappacode/provider/catalog"
 import { delay, retryable } from "@/kappacode/provider/catalog-recovery"
 import * as ModelsRefresh from "@opencode-ai/core/kappacode/models-refresh"
@@ -389,4 +389,4 @@ export const node = LayerNode.make({
   deps: [Auth.node, Config.node, kappaModels, httpClient],
 })
 
-export * as ModelCache from "./model-cache"
+export * as ModelCache from "./model-cache.ts"

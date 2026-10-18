@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import { gunzipSync, inflateSync } from "node:zlib"
-import { Server } from "../../src/server/server"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
+import { Server } from "../../src/server/server.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 
 afterEach(async () => {
   await disposeAllInstances()

@@ -3,7 +3,7 @@ import { Path } from "@/kappacode/notebook/protocol"
 import { NonNegativeInt } from "@opencode-ai/core/schema"
 import * as Tool from "@/tool/tool"
 import { Effect, Schema } from "effect"
-import { runner } from "./host"
+import { runner } from "./host.ts"
 
 const Source = Schema.String.check(Schema.isMaxLength(200_000))
 const Revision = Schema.String.check(Schema.isMinLength(1), Schema.isMaxLength(200)).annotate({

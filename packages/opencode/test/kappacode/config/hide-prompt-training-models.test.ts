@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Schema } from "effect"
-import { Config } from "../../../src/config/config"
+import { Config } from "../../../src/config/config.ts"
 
 describe("hide_prompt_training_models config", () => {
   test("accepts boolean values", () => {

@@ -20,8 +20,8 @@ import {
 } from "@tui/component/dialog-workspace-create"
 import { createDebouncedSignal } from "@tui/util/signal"
 import { errorMessage } from "@/util/error"
-import { SessionPreviewPane, createLeadingTrailingSignal } from "./preview-pane"
-import { relativeTime } from "./util"
+import { SessionPreviewPane, createLeadingTrailingSignal } from "./preview-pane.tsx"
+import { relativeTime } from "./util.tsx"
 
 export function SessionSwitcherDialog() {
   const dialog = useDialog()

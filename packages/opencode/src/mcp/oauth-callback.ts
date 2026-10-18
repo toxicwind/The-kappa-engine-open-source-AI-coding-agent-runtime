@@ -2,8 +2,8 @@ import { createConnection } from "net"
 import { createServer } from "http"
 import { escapeHtml } from "@/util/html"
 import * as Log from "@opencode-ai/core/util/log" // kappacode_change
-import { OAUTH_CALLBACK_PORT, OAUTH_CALLBACK_PATH, parseRedirectUri } from "./oauth-provider"
-import * as KappaOAuthCallback from "../kappacode/mcp-oauth-callback" // kappacode_change
+import { OAUTH_CALLBACK_PORT, OAUTH_CALLBACK_PATH, parseRedirectUri } from "./oauth-provider.ts"
+import * as KappaOAuthCallback from "../kappacode/mcp-oauth-callback.ts" // kappacode_change
 
 const log = Log.create({ service: "mcp.oauth-callback" }) // kappacode_change
 
@@ -270,4 +270,4 @@ export function isRunning(): boolean {
 export const isReplaced = KappaOAuthCallback.isReplaced
 // kappacode_change end
 
-export * as McpOAuthCallback from "./oauth-callback"
+export * as McpOAuthCallback from "./oauth-callback.ts"

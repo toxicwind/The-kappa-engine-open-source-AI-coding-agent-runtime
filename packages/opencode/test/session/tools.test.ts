@@ -21,10 +21,10 @@ import { Database } from "@opencode-ai/core/database/database"
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { InstanceRef } from "@/effect/instance-ref"
 import type { InstanceContext } from "@/project/instance-context"
-import { TestConfig } from "../fixture/config"
+import { TestConfig } from "../fixture/config.ts"
 // kappacode_change end
 import { Effect, Layer, Schema } from "effect"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const callID = "call-test"
 const sessionID = SessionID.make("ses_test")

@@ -48,7 +48,7 @@ mock.module("@opencode-ai/core/util/log", () => ({
   }),
 }))
 
-import { CommitMessageRuntime, generateCommitMessage, NoChangesError } from "../../../src/kappacode/commit-message/generate"
+import { CommitMessageRuntime, generateCommitMessage, NoChangesError } from "../../../src/kappacode/commit-message/generate.ts"
 
 const context = spyOn(CommitMessageRuntime, "context").mockImplementation(async (repoPath, selectedFiles) => {
   captured = { path: repoPath, selected: selectedFiles }

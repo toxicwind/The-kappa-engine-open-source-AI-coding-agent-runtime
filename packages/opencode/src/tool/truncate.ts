@@ -2,12 +2,12 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { NodePath } from "@effect/platform-node"
 import { Cause, Duration, Effect, Layer, Option, Schedule, Context } from "effect"
 import path from "path"
-import type { Agent } from "../agent/agent"
+import type { Agent } from "../agent/agent.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { evaluate } from "@/permission/evaluate"
 import { Config } from "@/config/config"
-import { ToolID } from "./schema"
-import { TRUNCATION_DIR } from "./truncation-dir"
+import { ToolID } from "./schema.ts"
+import { TRUNCATION_DIR } from "./truncation-dir.ts"
 
 const RETENTION = Duration.days(7)
 
@@ -155,4 +155,4 @@ const layer = Layer.effect(
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [FSUtil.node] })
 
-export * as Truncate from "./truncate"
+export * as Truncate from "./truncate.ts"

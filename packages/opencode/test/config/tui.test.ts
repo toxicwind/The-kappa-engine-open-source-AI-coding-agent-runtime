@@ -10,9 +10,9 @@ import { Flag } from "@opencode-ai/core/flag/flag"
 import { Config } from "@/config/config"
 import { ConfigPlugin } from "@/config/plugin"
 import { CurrentWorkingDirectory } from "@/config/tui-cwd"
-import { TuiConfig } from "../../src/config/tui"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { TuiConfig } from "../../src/config/tui.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(LayerNode.group([Config.node, FSUtil.node])))
 const winIt = process.platform === "win32" ? it.instance : it.instance.skip

@@ -7,9 +7,9 @@ export {}
 // import path from "path"
 
 // import { ProviderV2 } from "@opencode-ai/core/provider"
-// import { tmpdir, withTestInstance } from "../fixture/fixture"
+// import { tmpdir, withTestInstance } from "../fixture/fixture.ts"
 // import { Provider } from "@/provider/provider"
-// import { Env } from "../../src/env"
+// import { Env } from "../../src/env/index.ts"
 // import { Global } from "@opencode-ai/core/global"
 // import { GitLabWorkflowLanguageModel } from "gitlab-ai-provider"
 

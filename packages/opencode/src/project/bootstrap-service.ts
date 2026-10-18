@@ -6,4 +6,4 @@ export interface Interface {
 
 export class Service extends Context.Service<Service, Interface>()("@opencode/InstanceBootstrap") {}
 
-export * as InstanceBootstrap from "./bootstrap-service"
+export * as InstanceBootstrap from "./bootstrap-service.ts"

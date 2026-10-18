@@ -2,10 +2,10 @@ import { PermissionV1 } from "@opencode-ai/core/v1/permission"
 import { Effect, Schema } from "effect"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import type { JSONSchema7 } from "@ai-sdk/provider"
-import type { MessageV2 } from "../session/message-v2"
-import type { Permission } from "../permission"
-import type { SessionID, MessageID } from "../session/schema"
-import * as Truncate from "./truncate"
+import type { MessageV2 } from "../session/message-v2.ts"
+import type { Permission } from "../permission/index.ts"
+import type { SessionID, MessageID } from "../session/schema.ts"
+import * as Truncate from "./truncate.ts"
 import { Agent } from "@/agent/agent"
 import { format } from "@/kappacode/tool/tool" // kappacode_change
 
@@ -183,4 +183,4 @@ export function init<P extends Schema.Decoder<unknown>, M extends Metadata>(
   })
 }
 
-export * as Tool from "./tool"
+export * as Tool from "./tool.ts"

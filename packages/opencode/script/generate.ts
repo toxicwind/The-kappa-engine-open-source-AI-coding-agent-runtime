@@ -1,6 +1,6 @@
 import path from "path"
 import { fileURLToPath } from "url"
-import { parseModelsSnapshot } from "../src/kappacode/provider/models-snapshot-shape" // kappacode_change
+import { parseModelsSnapshot } from "../src/kappacode/provider/models-snapshot-shape.ts" // kappacode_change
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

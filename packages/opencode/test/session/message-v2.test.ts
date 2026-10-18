@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { APICallError } from "ai"
-import { MessageV2 } from "../../src/session/message-v2"
+import { MessageV2 } from "../../src/session/message-v2.ts"
 import { ProviderTransform } from "@/provider/transform"
 import type { Provider } from "@/provider/provider"
 
-import { SessionID, MessageID, PartID } from "../../src/session/schema"
-import { Question } from "../../src/question"
+import { SessionID, MessageID, PartID } from "../../src/session/schema.ts"
+import { Question } from "../../src/question/index.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 

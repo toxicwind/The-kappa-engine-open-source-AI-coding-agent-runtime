@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { escapeHtml } from "../../src/util/html"
+import { escapeHtml } from "../../src/util/html.ts"
 
 describe("escapeHtml", () => {
   test("escapes HTML metacharacters", () => {

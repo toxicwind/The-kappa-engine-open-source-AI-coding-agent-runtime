@@ -3,9 +3,9 @@ import * as path from "path"
 import os from "os"
 import type { ConfigCommandV1 } from "@opencode-ai/core/v1/config/command"
 import { InvalidError } from "@opencode-ai/core/v1/config/error"
-import { Filesystem } from "../util/filesystem"
-import { KappacodeMarkdown } from "./config/markdown"
-import { KappacodePaths } from "./paths"
+import { Filesystem } from "../util/filesystem.ts"
+import { KappacodeMarkdown } from "./config/markdown.ts"
+import { KappacodePaths } from "./paths.ts"
 
 export namespace WorkflowsMigrator {
   const home = () => process.env.HOME || process.env.USERPROFILE || os.homedir()

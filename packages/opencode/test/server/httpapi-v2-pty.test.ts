@@ -9,10 +9,10 @@ import { mkdir } from "fs/promises"
 import { Location } from "@opencode-ai/core/location"
 import { Pty } from "@opencode-ai/core/pty"
 import { PtyTicket } from "@opencode-ai/core/pty/ticket"
-import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir, tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir, tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 // kappacode_change start - PTY route tests do not need an indexing worker per temp project;
 // detached indexing startup races PTY setup and can exhaust the Darwin test deadline.

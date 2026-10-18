@@ -4,8 +4,8 @@ import { Global } from "@opencode-ai/core/global"
 import * as Log from "@opencode-ai/core/util/log"
 import type { KappaPassState } from "@kappacode/kappa-gateway"
 import type { Message } from "@kappacode/sdk/v2"
-import { onBalanceRefresh } from "../balance-refresh"
-import { REDACTED_BALANCE } from "../pii"
+import { onBalanceRefresh } from "../balance-refresh.ts"
+import { REDACTED_BALANCE } from "../pii.ts"
 
 const id = "internal:kappa-sidebar-footer"
 const TEAM_POLL_MS = 5 * 60_000

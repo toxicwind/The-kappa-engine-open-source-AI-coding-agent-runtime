@@ -15,9 +15,9 @@ import { ConfigV2Compat } from "@/config/v2-compat"
 import { ConfigVariable } from "@/config/variable"
 import { Filesystem } from "@/util/filesystem"
 import { isRecord } from "@/util/record"
-import { KappacodeConfig } from "./config"
-import { sanitizeProjectMcpHeaders } from "./mcp-headers"
-import { KappacodeConfigSources } from "./sources"
+import { KappacodeConfig } from "./config.ts"
+import { sanitizeProjectMcpHeaders } from "./mcp-headers.ts"
+import { KappacodeConfigSources } from "./sources.ts"
 
 export namespace KappacodeConfigOverlay {
   const log = Log.create({ service: "kappacode.config.overlay" })

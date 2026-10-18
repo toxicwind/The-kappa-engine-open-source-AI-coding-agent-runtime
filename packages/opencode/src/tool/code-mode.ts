@@ -1,4 +1,4 @@
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import { CallToolResultSchema, type CallToolResult } from "@modelcontextprotocol/sdk/types.js"
 import { Cause, Effect, Schema } from "effect"
 import { CodeMode, Tool as SandboxTool, toolError } from "@opencode-ai/codemode"

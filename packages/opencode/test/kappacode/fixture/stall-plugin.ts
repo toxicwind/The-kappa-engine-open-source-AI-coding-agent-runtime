@@ -7,7 +7,7 @@
 // simulation scoped to the test's own instance instead of replacing
 // `globalThis.fetch` for the whole test process.
 
-import { createStallTransport } from "./stall-transport"
+import { createStallTransport } from "./stall-transport.ts"
 
 type Options = { state?: unknown; answer?: unknown; provider?: unknown }
 

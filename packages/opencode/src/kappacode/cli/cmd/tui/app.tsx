@@ -8,7 +8,7 @@
 import { createEffect, createMemo, on, onCleanup } from "solid-js"
 import { useKeyboard, useRenderer } from "@opentui/solid"
 import { resolveRenderLib, TextAttributes } from "@opentui/core"
-import { KappaTerminalActivity } from "./terminal-activity"
+import { KappaTerminalActivity } from "./terminal-activity.ts"
 import * as Clipboard from "@tui/clipboard"
 import { useBindings } from "@tui/keymap"
 import { useSDK } from "@tui/context/sdk"
@@ -24,14 +24,14 @@ import { registerKappaCommands } from "@/kappacode/kappa-commands"
 import { initializeTUIDependencies } from "@kappacode/kappa-gateway/tui"
 import { DialogProcessList } from "@/kappacode/cli/cmd/tui/component/dialog-process-list"
 import { useIndexingWarnings } from "@/kappacode/cli/cmd/tui/indexing-warning"
-import { KappaTerminalTitle } from "./terminal-title"
-import type { KappaTitleIcon } from "./title-icon"
+import { KappaTerminalTitle } from "./terminal-title.ts"
+import type { KappaTitleIcon } from "./title-icon.ts"
 import { Session as SessionApi } from "@/session/session"
-import { useCaffeination } from "./caffeination"
+import { useCaffeination } from "./caffeination.tsx"
 import { useLinkInteractions } from "@tui/kappacode/link-interactions"
 
 // Re-export so upstream can render the route without importing directly
-export { KappaTerminalTitle } from "./terminal-title"
+export { KappaTerminalTitle } from "./terminal-title.ts"
 
 // Hot reload TUI-local settings (keybinds/theme/ui) when changed from the Kappa Console.
 // Called from the App body (below SDKProvider and the TuiConfig provider).

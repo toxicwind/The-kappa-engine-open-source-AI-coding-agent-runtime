@@ -27,7 +27,7 @@ import {
   ConfigRulesPatch,
   TuiConfigPatch,
   TuiConfigQuery,
-} from "../groups/config-console"
+} from "../groups/config-console.ts"
 import { ConfigErrorV1 } from "@opencode-ai/core/v1/config/error"
 
 export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "config-console", (handlers) =>

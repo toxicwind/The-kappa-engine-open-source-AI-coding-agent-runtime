@@ -2,7 +2,7 @@ import { describe, test, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect } from "effect"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 import path from "path"
 
 const { effect: it } = testEffect(LayerNode.compile(FSUtil.node))

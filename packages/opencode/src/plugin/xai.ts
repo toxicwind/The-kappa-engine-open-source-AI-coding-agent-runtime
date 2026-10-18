@@ -1,5 +1,5 @@
 import type { Hooks, PluginInput } from "@kappacode/plugin"
-import { OAUTH_DUMMY_KEY } from "../auth"
+import { OAUTH_DUMMY_KEY } from "../auth/index.ts"
 import { createServer } from "http"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { escapeHtml } from "@/util/html" // kappacode_change - retained OAuth error page uses escaped diagnostics

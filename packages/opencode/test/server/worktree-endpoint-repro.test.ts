@@ -3,12 +3,12 @@ import { Effect, Layer, Queue } from "effect"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { GlobalBus, type GlobalEvent } from "@/bus/global"
 import { Worktree } from "@/worktree"
-import { Server } from "../../src/server/server"
-import { ExperimentalPaths } from "../../src/server/routes/instance/httpapi/groups/experimental"
-import { WorkspacePaths } from "../../src/server/routes/instance/httpapi/groups/workspace"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Server } from "../../src/server/server.ts"
+import { ExperimentalPaths } from "../../src/server/routes/instance/httpapi/groups/experimental.ts"
+import { WorkspacePaths } from "../../src/server/routes/instance/httpapi/groups/workspace.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const stateLayer = Layer.effectDiscard(
   Effect.gen(function* () {

@@ -3,7 +3,7 @@ import { setTimeout as sleep } from "node:timers/promises"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { Effect, Layer } from "effect"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { McpAuth } from "../../src/mcp/auth"
+import { McpAuth } from "../../src/mcp/auth.ts"
 
 function authFile() {
   let raw = ""

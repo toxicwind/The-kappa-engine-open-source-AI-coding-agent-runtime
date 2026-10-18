@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import os from "os"
 import path from "path"
-import { TestCli } from "../../script/kappacode/test-cli"
+import { TestCli } from "../../script/kappacode/test-cli.ts"
 
 const root = path.resolve(import.meta.dir, "../..")
 

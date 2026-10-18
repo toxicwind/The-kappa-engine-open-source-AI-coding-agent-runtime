@@ -2,12 +2,12 @@ import type { Hooks, PluginInput } from "@kappacode/plugin"
 import * as Log from "@opencode-ai/core/util/log" // kappacode_change
 import { escapeHtml } from "@/util/html"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
-import { OAUTH_DUMMY_KEY } from "../../auth"
+import { OAUTH_DUMMY_KEY } from "../../auth/index.ts"
 import os from "os"
 import { setTimeout as sleep } from "node:timers/promises"
 import { createServer } from "http"
 import { refreshCodexAuth } from "@/kappacode/provider/codex-refresh" // kappacode_change
-import { OpenAIWebSocketPool } from "./ws-pool"
+import { OpenAIWebSocketPool } from "./ws-pool.ts"
 
 const log = Log.create({ service: "plugin.codex" }) // kappacode_change
 

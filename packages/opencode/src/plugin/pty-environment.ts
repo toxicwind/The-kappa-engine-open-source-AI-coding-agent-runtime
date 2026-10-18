@@ -1,9 +1,9 @@
-export * as PluginPtyEnvironment from "./pty-environment"
+export * as PluginPtyEnvironment from "./pty-environment.ts"
 
 import { PtyEnvironment } from "@opencode-ai/server/pty-environment"
 import { Effect, Layer } from "effect"
 import { InstanceStore } from "@/project/instance-store"
-import { Plugin } from "."
+import { Plugin } from "./index.ts"
 
 export const layer = Layer.effect(
   PtyEnvironment.Service,

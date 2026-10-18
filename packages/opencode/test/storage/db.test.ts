@@ -5,7 +5,7 @@ import { Global } from "@opencode-ai/core/global"
 import { InstallationChannel } from "@opencode-ai/core/installation/version"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { Database } from "@/storage/db"
-import { it } from "../lib/effect"
+import { it } from "../lib/effect.ts"
 
 describe("Database.getChannelPath", () => {
   it.effect("returns database path for the current channel", () =>

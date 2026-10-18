@@ -8,7 +8,7 @@ import { GlobalBus } from "@/bus/global"
 import { Bus as ProjectBus } from "@/bus"
 import { BusEvent } from "@/bus/bus-event"
 import { EventSequenceTable, EventTable } from "@opencode-ai/core/event/sql" // kappacode_change - upstream moved the event tables to core
-import { EventID } from "./schema"
+import { EventID } from "./schema.ts"
 import { Context, Effect, Layer, Schema as EffectSchema } from "effect"
 import type { DeepMutable } from "@opencode-ai/core/schema"
 import { EventV2 } from "@opencode-ai/core/event"
@@ -441,4 +441,4 @@ export function effectPayloads() {
   ]
 }
 
-export * as SyncEvent from "."
+export * as SyncEvent from "./index.ts"

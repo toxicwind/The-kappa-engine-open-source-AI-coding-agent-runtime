@@ -1,8 +1,8 @@
 import { Context, Effect, Exit, Fiber } from "effect"
 import { WorkspaceContext } from "@/control-plane/workspace-context"
 import type { WorkspaceV2 } from "@opencode-ai/core/workspace"
-import { InstanceRef, WorkspaceRef } from "./instance-ref"
-import { attachWith } from "./run-service"
+import { InstanceRef, WorkspaceRef } from "./instance-ref.ts"
+import { attachWith } from "./run-service.ts"
 import { Instance, type InstanceContext } from "@/kappacode/instance" // kappacode_change
 
 export interface Shape {
@@ -93,4 +93,4 @@ export function make(): Effect.Effect<Shape> {
   })
 }
 
-export * as EffectBridge from "./bridge"
+export * as EffectBridge from "./bridge.ts"

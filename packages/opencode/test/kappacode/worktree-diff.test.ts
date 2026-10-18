@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
 import { $ } from "bun"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 
 /**

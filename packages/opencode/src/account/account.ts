@@ -11,8 +11,8 @@ import {
 } from "effect/unstable/http"
 
 import { withTransientReadRetry } from "@/util/effect-http-client"
-import { AccountRepo, type AccountRow } from "./repo"
-import { normalizeServerUrl } from "./url"
+import { AccountRepo, type AccountRow } from "./repo.ts"
+import { normalizeServerUrl } from "./url.ts"
 import {
   type AccountError,
   AccessToken,
@@ -33,7 +33,7 @@ import {
   PollSlow,
   PollSuccess,
   UserCode,
-} from "./schema"
+} from "./schema.ts"
 
 export {
   AccountID,
@@ -56,7 +56,7 @@ export {
   PollDenied,
   PollError,
   PollResult,
-} from "./schema"
+} from "./schema.ts"
 
 export type AccountOrgs = {
   account: Info
@@ -478,4 +478,4 @@ const layer: Layer.Layer<Service, never, AccountRepo.Service | HttpClient.HttpCl
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [AccountRepo.node, httpClient] })
 
-export * as Account from "./account"
+export * as Account from "./account.ts"

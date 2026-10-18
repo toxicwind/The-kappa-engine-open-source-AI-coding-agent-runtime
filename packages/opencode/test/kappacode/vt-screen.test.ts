@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { VtScreen } from "../../src/kappacode/cli/cmd/tui/vt/vt-screen"
+import { VtScreen } from "../../src/kappacode/cli/cmd/tui/vt/vt-screen.ts"
 
 const ESC = "\x1b"
 const CSI = ESC + "["

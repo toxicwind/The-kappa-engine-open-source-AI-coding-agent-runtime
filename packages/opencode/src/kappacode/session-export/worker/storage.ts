@@ -1,8 +1,8 @@
 import { Database, type SQLQueryBindings, type Statement } from "bun:sqlite"
 import { and, asc, eq, inArray, isNotNull, isNull, lte, or, sql } from "drizzle-orm"
 import { drizzle, type SQLiteBunDatabase } from "drizzle-orm/bun-sqlite"
-import type { ExportEventType } from "../envelope"
-import { ChunkTable, EventTable } from "./schema"
+import type { ExportEventType } from "../envelope.ts"
+import { ChunkTable, EventTable } from "./schema.ts"
 
 const tables = { ChunkTable, EventTable }
 

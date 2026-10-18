@@ -1,6 +1,6 @@
 import { SyntaxStyle, TextAttributes, type ColorInput } from "@opentui/core"
-import { type RunEntryTheme, type RunTheme } from "./theme"
-import type { StreamCommit } from "./types"
+import { type RunEntryTheme, type RunTheme } from "./theme.ts"
+import type { StreamCommit } from "./types.ts"
 
 function syntax(style?: SyntaxStyle): SyntaxStyle {
   return style ?? SyntaxStyle.fromTheme([])

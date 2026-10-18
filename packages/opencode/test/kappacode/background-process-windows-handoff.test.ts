@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import { Process } from "@/util/process"
 import path from "path"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 async function live(mode: string) {
   await using tmp = await tmpdir()

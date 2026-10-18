@@ -1,7 +1,7 @@
 // kappacode_change - new file
 import type { Diagnostic } from "vscode-languageserver-types"
 import * as Log from "@opencode-ai/core/util/log"
-import { Filesystem } from "../util/filesystem"
+import { Filesystem } from "../util/filesystem.ts"
 import path from "path"
 import fs from "fs/promises"
 

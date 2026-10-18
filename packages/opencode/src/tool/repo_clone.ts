@@ -1,6 +1,6 @@
 import { Effect, Schema } from "effect"
 import DESCRIPTION from "./repo_clone.txt"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import { Global } from "@opencode-ai/core/global" // kappacode_change
 import { Repository } from "@opencode-ai/core/repository" // kappacode_change
 import { RepositoryCache } from "@opencode-ai/core/repository-cache" // kappacode_change

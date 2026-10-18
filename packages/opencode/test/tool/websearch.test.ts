@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
-import { parseResponse } from "../../src/tool/mcp-websearch"
-import { selectWebSearchProvider, webSearchModelName, webSearchProviderLabel } from "../../src/tool/websearch"
+import { parseResponse } from "../../src/tool/mcp-websearch.ts"
+import { selectWebSearchProvider, webSearchModelName, webSearchProviderLabel } from "../../src/tool/websearch.ts"
 
-import { webSearchEnabled } from "../../src/tool/registry"
-import { it } from "../lib/effect"
+import { webSearchEnabled } from "../../src/tool/registry.ts"
+import { it } from "../lib/effect.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 
 const SESSION_ID = "ses_0196aabbccddeeff001122334455"

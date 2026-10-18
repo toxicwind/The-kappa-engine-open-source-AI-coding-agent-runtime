@@ -11,7 +11,7 @@ import fs from "fs/promises"
 import os from "os"
 import path from "path"
 import iconv from "iconv-lite"
-import * as Encoding from "../../src/kappacode/encoding"
+import * as Encoding from "../../src/kappacode/encoding.ts"
 
 const BOM = {
   utf8: Buffer.from([0xef, 0xbb, 0xbf]),

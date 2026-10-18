@@ -26,7 +26,7 @@ import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { NamedError } from "@opencode-ai/core/util/error"
-import { SessionResume } from "./index"
+import { SessionResume } from "./index.ts"
 
 export namespace SessionResumeImport {
   export type WriteInput = {

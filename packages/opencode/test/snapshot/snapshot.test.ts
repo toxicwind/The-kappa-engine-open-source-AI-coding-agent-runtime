@@ -6,15 +6,15 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import fs from "fs/promises"
 import path from "path"
 import { Effect, Fiber, Layer } from "effect"
-import { Snapshot } from "../../src/snapshot"
+import { Snapshot } from "../../src/snapshot/index.ts"
 import {
   disposeAllInstances,
   provideInstance,
   testInstanceStoreLayer,
   TestInstance,
   tmpdirScoped,
-} from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+} from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(
   Layer.mergeAll(LayerNode.compile(LayerNode.group([Snapshot.node, FSUtil.node])), testInstanceStoreLayer),

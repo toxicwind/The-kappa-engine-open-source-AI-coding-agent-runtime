@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test"
-import { clean, INSTRUCTION } from "../../src/kappacode/enhance-prompt"
+import { clean, INSTRUCTION } from "../../src/kappacode/enhance-prompt.ts"
 
 describe("enhance-prompt", () => {
   describe("instruction", () => {

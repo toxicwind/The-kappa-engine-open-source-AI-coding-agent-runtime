@@ -1,4 +1,4 @@
-import type { Storage } from "./storage"
+import type { Storage } from "./storage.ts"
 
 export function checkBufferCap(
   storage: Storage,

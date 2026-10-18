@@ -45,4 +45,4 @@ export function websocketTargetURL(url: string | URL) {
   return next.toString()
 }
 
-export * as ProxyUtil from "./proxy-util"
+export * as ProxyUtil from "./proxy-util.ts"

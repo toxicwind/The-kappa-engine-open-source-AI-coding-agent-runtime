@@ -26,9 +26,9 @@ import { PermissionV1 } from "@opencode-ai/core/v1/permission"
 
 // kappacode_change start
 import SOUL from "../kappacode/soul.txt"
-import type { EditorContext } from "../kappacode/editor-context"
-import { KappacodeSystemPrompt } from "../kappacode/system-prompt"
-import { isLing } from "../kappacode/model-match"
+import type { EditorContext } from "../kappacode/editor-context.ts"
+import { KappacodeSystemPrompt } from "../kappacode/system-prompt.ts"
+import { isLing } from "../kappacode/model-match.ts"
 import { Config } from "@/config/config"
 import * as KappaReference from "@/kappacode/reference"
 // kappacode_change end
@@ -197,4 +197,4 @@ export const node = LayerNode.make({
   deps: [Skill.node, MCP.node, Config.node, locationServiceMapNode], // kappacode_change
 })
 
-export * as SystemPrompt from "./system"
+export * as SystemPrompt from "./system.ts"

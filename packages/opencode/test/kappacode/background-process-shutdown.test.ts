@@ -6,8 +6,8 @@ import { Hash } from "@opencode-ai/core/util/hash"
 import { Effect } from "effect"
 import fs from "fs/promises"
 import path from "path"
-import { TestInstance } from "../fixture/fixture"
-import { awaitWithTimeout, it } from "../lib/effect"
+import { TestInstance } from "../fixture/fixture.ts"
+import { awaitWithTimeout, it } from "../lib/effect.ts"
 
 const read = fs.readFile
 const probe: {

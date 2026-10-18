@@ -3,10 +3,10 @@ import { Effect, Layer } from "effect"
 import { sql } from "drizzle-orm"
 import { Database } from "@opencode-ai/core/database/database"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { Config } from "../../../src/config/config"
-import { Session } from "../../../src/session/session"
-import { KappaSessionRetention } from "../../../src/kappacode/session/retention"
-import { testEffect } from "../../lib/effect"
+import { Config } from "../../../src/config/config.ts"
+import { Session } from "../../../src/session/session.ts"
+import { KappaSessionRetention } from "../../../src/kappacode/session/retention.ts"
+import { testEffect } from "../../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(Database.node))
 const bench = process.env.KILO_RETENTION_BENCH === "1" ? it.live : it.live.skip

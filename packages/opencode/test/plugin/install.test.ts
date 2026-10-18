@@ -3,8 +3,8 @@ import fs from "fs/promises"
 import path from "path"
 import { parse as parseJsonc } from "jsonc-parser"
 import { Filesystem } from "@/util/filesystem"
-import { createPlugTask, type PlugCtx, type PlugDeps } from "../../src/cli/cmd/plug"
-import { tmpdir } from "../fixture/fixture"
+import { createPlugTask, type PlugCtx, type PlugDeps } from "../../src/cli/cmd/plug.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 function deps(global: string, target: string | Error): PlugDeps {
   return {

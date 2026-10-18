@@ -7,8 +7,8 @@ import {
   isSafeId,
   normalizeMcpEntry,
   substituteParams,
-} from "../../src/kappacode/marketplace/installer"
-import { tmpdir } from "../fixture/fixture"
+} from "../../src/kappacode/marketplace/installer.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 describe("marketplace installer helpers", () => {
   test("normalizes legacy local and remote MCP config", () => {

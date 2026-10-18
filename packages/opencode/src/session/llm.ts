@@ -15,8 +15,8 @@ import { GitLabWorkflowLanguageModel } from "gitlab-ai-provider"
 import { ProviderTransform } from "@/provider/transform"
 import { Config } from "@/config/config"
 import type { Agent } from "@/agent/agent"
-import type { MessageV2 } from "./message-v2"
-import { usable } from "./overflow" // kappacode_change
+import type { MessageV2 } from "./message-v2.ts"
+import { usable } from "./overflow.ts" // kappacode_change
 import { Plugin } from "@/plugin"
 import { Permission } from "@/permission"
 import { EventV2Bridge } from "@/event-v2-bridge"
@@ -37,9 +37,9 @@ import { normalizeUsageForExport, observeFullStreamForExport } from "@/kappacode
 // kappacode_change end
 import { EffectBridge } from "@/effect/bridge"
 import { RuntimeFlags } from "@/effect/runtime-flags"
-import { LLMAISDK } from "./llm/ai-sdk"
-import { LLMNativeRuntime } from "./llm/native-runtime"
-import { LLMRequestPrep } from "./llm/request"
+import { LLMAISDK } from "./llm/ai-sdk.ts"
+import { LLMNativeRuntime } from "./llm/native-runtime.ts"
+import { LLMRequestPrep } from "./llm/request.ts"
 
 const log = Log.create({ service: "llm" }) // kappacode_change
 
@@ -513,4 +513,4 @@ export const node = LayerNode.make({
   ],
 })
 
-export * as LLM from "./llm"
+export * as LLM from "./llm.ts"

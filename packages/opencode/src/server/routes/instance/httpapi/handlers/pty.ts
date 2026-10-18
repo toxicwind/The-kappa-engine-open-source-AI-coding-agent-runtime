@@ -20,10 +20,10 @@ import { Effect, Option, Queue, Schema } from "effect" // kappacode_change - loc
 import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
 import * as Socket from "effect/unstable/socket/Socket"
-import { InstanceHttpApi } from "../api"
-import * as ApiError from "../errors"
-import { CursorQuery, PtyConnectApi } from "../groups/pty"
-import { WebSocketTracker } from "../websocket-tracker"
+import { InstanceHttpApi } from "../api.ts"
+import * as ApiError from "../errors.ts"
+import { CursorQuery, PtyConnectApi } from "../groups/pty.ts"
+import { WebSocketTracker } from "../websocket-tracker.ts"
 
 function validOrigin(request: HttpServerRequest.HttpServerRequest, opts: CorsOptions | undefined) {
   return isAllowedRequestOrigin(request.headers.origin, request.headers.host, opts)

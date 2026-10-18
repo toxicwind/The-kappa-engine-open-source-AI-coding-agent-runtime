@@ -1,11 +1,11 @@
 import { describe, expect } from "bun:test"
 import { Context, Effect, Layer } from "effect"
-import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
-import { McpPaths } from "../../src/server/routes/instance/httpapi/groups/mcp"
-import { Server } from "../../src/server/server"
-import { resetDatabase } from "../fixture/db"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server.ts"
+import { McpPaths } from "../../src/server/routes/instance/httpapi/groups/mcp.ts"
+import { Server } from "../../src/server/server.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const context = Context.empty() as Context.Context<unknown>
 const testStateLayer = Layer.effectDiscard(

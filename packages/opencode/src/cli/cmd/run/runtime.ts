@@ -15,20 +15,20 @@
 import { createKappaClient } from "@kappacode/sdk/v2"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { MessageID } from "@/session/schema"
-import { createRunDemo } from "./demo"
-import { resolveModelInfo, resolveRunTuiConfig, resolveSessionInfo } from "./runtime.boot"
-import { createRuntimeLifecycle } from "./runtime.lifecycle"
-import { trace } from "./trace"
-import { cycleVariant, formatModelLabel, resolveSavedVariant, resolveVariant, saveVariant } from "./variant.shared"
+import { createRunDemo } from "./demo.ts"
+import { resolveModelInfo, resolveRunTuiConfig, resolveSessionInfo } from "./runtime.boot.ts"
+import { createRuntimeLifecycle } from "./runtime.lifecycle.ts"
+import { trace } from "./trace.ts"
+import { cycleVariant, formatModelLabel, resolveSavedVariant, resolveVariant, saveVariant } from "./variant.shared.ts"
 // kappacode_change - preserve compatible variants when switching models
 import { resolvePreservedVariant } from "@/kappacode/cli/cmd/run/variant" // kappacode_change
-import type { LocalReplayAnchor, LocalReplayRow, RunInput, RunPrompt, RunProvider, StreamCommit } from "./types"
+import type { LocalReplayAnchor, LocalReplayRow, RunInput, RunPrompt, RunProvider, StreamCommit } from "./types.ts"
 
 /** @internal Exported for testing */
-export { pickVariant, resolveVariant } from "./variant.shared"
+export { pickVariant, resolveVariant } from "./variant.shared.ts"
 
 /** @internal Exported for testing */
-export { runPromptQueue } from "./runtime.queue"
+export { runPromptQueue } from "./runtime.queue.ts"
 
 type BootContext = Pick<
   RunInput,

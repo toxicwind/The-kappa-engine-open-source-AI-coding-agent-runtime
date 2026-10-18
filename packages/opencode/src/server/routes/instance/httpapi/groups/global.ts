@@ -9,7 +9,7 @@ import "@/kappacode/indexing-event" // kappacode_change - register indexing.stat
 import { Schema } from "effect"
 import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi" // kappacode_change - HttpApiSchema for the bodyless upgrade payload
 import semver from "semver"
-import { described } from "./metadata"
+import { described } from "./metadata.ts"
 
 const GlobalHealth = Schema.Struct({
   healthy: Schema.Literal(true),

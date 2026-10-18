@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KappaTerminalTitle } from "../../src/kappacode/cli/cmd/tui/terminal-title"
+import { KappaTerminalTitle } from "../../src/kappacode/cli/cmd/tui/terminal-title.ts"
 
 const base = "Kappa CLI"
 

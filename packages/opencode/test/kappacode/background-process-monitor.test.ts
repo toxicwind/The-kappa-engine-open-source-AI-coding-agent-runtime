@@ -8,8 +8,8 @@ import * as Truncate from "@/tool/truncate"
 import type { Tool } from "@/tool/tool"
 import { Effect, Layer } from "effect"
 import path from "path"
-import { TestInstance } from "../fixture/fixture"
-import { it } from "../lib/effect"
+import { TestInstance } from "../fixture/fixture.ts"
+import { it } from "../lib/effect.ts"
 
 // The product picks its command shell from $SHELL. Pin it so the streaming path
 // runs against a real shell on every host instead of a wrapper that buffers.

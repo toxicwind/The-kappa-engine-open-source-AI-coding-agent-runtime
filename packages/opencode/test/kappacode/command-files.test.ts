@@ -2,8 +2,8 @@ import { afterEach, describe, expect, test } from "bun:test"
 import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
-import { CommandFiles } from "../../src/kappacode/command-files"
-import type { Command } from "../../src/command"
+import { CommandFiles } from "../../src/kappacode/command-files.ts"
+import type { Command } from "../../src/command/index.ts"
 
 const roots: string[] = []
 

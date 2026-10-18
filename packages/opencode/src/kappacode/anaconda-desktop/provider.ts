@@ -1,7 +1,7 @@
 import type { Hooks, Plugin } from "@kappacode/plugin"
 import type { Model } from "@kappacode/sdk/v2"
 import type { Provider } from "@opencode-ai/core/models-dev"
-import { decodeMetadata, PROVIDER_ID, type Metadata, type Modality, type ModelDescriptor } from "./domain"
+import { decodeMetadata, PROVIDER_ID, type Metadata, type Modality, type ModelDescriptor } from "./domain.ts"
 
 export const PLACEHOLDER_MODEL_ID = "setup-required"
 

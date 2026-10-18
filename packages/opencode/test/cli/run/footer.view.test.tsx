@@ -33,7 +33,7 @@ import type {
 } from "@/cli/cmd/run/types"
 import { RunQuestionBody } from "@/cli/cmd/run/footer.question"
 import { RejectField } from "@/cli/cmd/run/footer.permission"
-import { createTuiResolvedConfig } from "../../fixture/tui-runtime"
+import { createTuiResolvedConfig } from "../../fixture/tui-runtime.ts"
 
 // kappacode_change start - keep renderer tests independent of the animated spinner's native teardown
 extend({ spinner: BoxRenderable })

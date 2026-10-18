@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { RequestError } from "@agentclientprotocol/sdk"
-import * as ACPError from "../../src/acp/error"
+import * as ACPError from "../../src/acp/error.ts"
 
 describe("acp.error", () => {
   test("maps validation failures to invalid params", () => {

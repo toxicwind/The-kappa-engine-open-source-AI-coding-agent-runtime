@@ -7,9 +7,9 @@ import { InstanceRef } from "@/effect/instance-ref"
 import { disposeInstance as runDisposers } from "@/effect/instance-registry"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Context, Deferred, Duration, Effect, Exit, Layer, Scope } from "effect"
-import { context as instanceContext, type InstanceContext } from "./instance-context" // kappacode_change
-import { InstanceBootstrap } from "./bootstrap-service"
-import * as Project from "./project"
+import { context as instanceContext, type InstanceContext } from "./instance-context.ts" // kappacode_change
+import { InstanceBootstrap } from "./bootstrap-service.ts"
+import * as Project from "./project.ts"
 
 export interface LoadInput {
   directory: string
@@ -264,4 +264,4 @@ export const node = makeGlobalNode({
   deps: [Project.node, bootstrapNode],
 })
 
-export * as InstanceStore from "./instance-store"
+export * as InstanceStore from "./instance-store.ts"

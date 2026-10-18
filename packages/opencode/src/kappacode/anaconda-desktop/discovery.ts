@@ -1,7 +1,7 @@
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Context, Duration, Effect, Layer, Option, Redacted, Result, Schema } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/unstable/http"
-import * as DesktopPlatform from "./platform"
+import * as DesktopPlatform from "./platform.ts"
 import {
   endpoint,
   normalizeLoopbackEndpoint,
@@ -25,7 +25,7 @@ import {
   type Server,
   type Status,
   type ToolCapability,
-} from "./domain"
+} from "./domain.ts"
 
 export interface Connection {
   readonly key: Redacted.Redacted<string>

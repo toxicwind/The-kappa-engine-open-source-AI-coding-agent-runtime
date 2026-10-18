@@ -1,5 +1,5 @@
 import type { KappaClient } from "@kappacode/sdk/v2"
-import { KappaRunDrain } from "../run-drain"
+import { KappaRunDrain } from "../run-drain.ts"
 import { UI } from "@/cli/ui"
 import { FormatError, FormatUnknownError } from "@/cli/error"
 import { DaemonClient } from "@/kappacode/daemon/client"

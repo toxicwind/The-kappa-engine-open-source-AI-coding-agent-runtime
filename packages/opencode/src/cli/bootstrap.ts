@@ -1,5 +1,5 @@
-import { InstanceRuntime } from "../project/instance-runtime"
-import { context } from "../project/instance-context"
+import { InstanceRuntime } from "../project/instance-runtime.ts"
+import { context } from "../project/instance-context.ts"
 
 export async function bootstrap<T>(directory: string, cb: () => Promise<T>) {
   const ctx = await InstanceRuntime.load({ directory })

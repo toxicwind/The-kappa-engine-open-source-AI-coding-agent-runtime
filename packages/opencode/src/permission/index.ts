@@ -554,4 +554,4 @@ export const node = LayerNode.make({
   deps: [EventV2Bridge.node, Config.node, Database.node], // kappacode_change
 })
 
-export * as Permission from "."
+export * as Permission from "./index.ts"

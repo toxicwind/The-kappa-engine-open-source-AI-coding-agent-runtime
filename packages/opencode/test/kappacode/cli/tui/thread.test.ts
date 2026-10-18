@@ -4,15 +4,15 @@ import path from "path"
 import { fileURLToPath } from "node:url"
 import { spawn, type Exit } from "@opencode-ai/core/pty/driver"
 import { sanitizedProcessEnv } from "@opencode-ai/core/util/opencode-process"
-import { tmpdir } from "../../../fixture/fixture"
+import { tmpdir } from "../../../fixture/fixture.ts"
 import {
   embeddedRemoteExitClient,
   resolveThreadDirectory,
   runEmbeddedRemoteExitBridge,
-} from "../../../../src/cli/cmd/tui"
-import { preload, validate } from "../../../../../src/kappacode/cli/cmd/tui"
-import { KappaTuiThreadDaemon } from "../../../../../src/kappacode/cli/cmd/tui/thread"
-import { DaemonClient } from "../../../../../src/kappacode/daemon/client"
+} from "../../../../src/cli/cmd/tui.ts"
+import { preload, validate } from "../../../../src/kappacode/cli/cmd/tui.ts"
+import { KappaTuiThreadDaemon } from "../../../../src/kappacode/cli/cmd/tui/thread.ts"
+import { DaemonClient } from "../../../../src/kappacode/daemon/client.ts"
 
 afterEach(() => {
   mock.restore()

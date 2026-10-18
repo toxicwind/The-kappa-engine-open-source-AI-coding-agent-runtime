@@ -2,7 +2,7 @@ import { Auth } from "@/auth"
 
 import { Schema } from "effect"
 import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
-import { described } from "./metadata"
+import { described } from "./metadata.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 
 const AuthParams = Schema.Struct({

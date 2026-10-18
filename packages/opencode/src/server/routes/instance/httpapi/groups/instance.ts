@@ -6,14 +6,14 @@ import { Vcs } from "@/project/vcs"
 import { Skill } from "@/skill"
 import { Schema } from "effect"
 import { HttpApi, HttpApiEndpoint, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi"
-import { Authorization } from "../middleware/authorization"
-import { InstanceContextMiddleware } from "../middleware/instance-context"
+import { Authorization } from "../middleware/authorization.ts"
+import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
 import {
   WorkspaceRoutingMiddleware,
   WorkspaceRoutingQuery,
   WorkspaceRoutingQueryFields,
-} from "../middleware/workspace-routing"
-import { described } from "./metadata"
+} from "../middleware/workspace-routing.ts"
+import { described } from "./metadata.ts"
 
 const PathInfo = Schema.Struct({
   home: Schema.String,

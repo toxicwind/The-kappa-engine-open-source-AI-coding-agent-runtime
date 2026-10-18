@@ -7,7 +7,7 @@ import {
   consumeRenameAdoption,
   markAutoTitle,
   markRenameAdopted,
-} from "../../../src/kappa-sessions/rename-adoptions"
+} from "../../../src/kappa-sessions/rename-adoptions.ts"
 
 describe("rename-adoptions", () => {
   beforeEach(() => clearAll())

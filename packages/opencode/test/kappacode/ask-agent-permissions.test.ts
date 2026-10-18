@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { Permission } from "../../src/permission"
-import { readOnlyBash } from "../../src/kappacode/agent"
+import { Permission } from "../../src/permission/index.ts"
+import { readOnlyBash } from "../../src/kappacode/agent/index.ts"
 
 /** Build the Ask agent ruleset without MCP servers */
 function askRuleset() {

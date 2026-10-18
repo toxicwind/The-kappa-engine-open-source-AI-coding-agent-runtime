@@ -1,14 +1,14 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
 import { Effect } from "effect"
 import { Telemetry } from "@kappacode/kappa-telemetry"
-import { Command } from "../../../src/command"
-import { reviewCommand } from "../../../src/kappacode/review/command"
+import { Command } from "../../../src/command/index.ts"
+import { reviewCommand } from "../../../src/kappacode/review/command.ts"
 import DESCRIPTION from "../../../src/kappacode/suggestion/tool.txt"
-import { provideTestInstance } from "../../fixture/fixture"
-import { Suggestion } from "../../../src/kappacode/suggestion"
-import { resolvePrompt } from "../../../src/kappacode/suggestion/tool"
-import { SessionID } from "../../../src/session/schema"
-import { tmpdir } from "../../fixture/fixture"
+import { provideTestInstance } from "../../fixture/fixture.ts"
+import { Suggestion } from "../../../src/kappacode/suggestion/index.ts"
+import { resolvePrompt } from "../../../src/kappacode/suggestion/tool.ts"
+import { SessionID } from "../../../src/session/schema.ts"
+import { tmpdir } from "../../fixture/fixture.ts"
 
 afterEach(() => {
   mock.restore()

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import path from "node:path"
 import { Global } from "@opencode-ai/core/global"
-import { target } from "../../src/kappacode/skill-remove"
+import { target } from "../../src/kappacode/skill-remove.ts"
 
 const info = (location: string) => ({
   name: "synthetic",

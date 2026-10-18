@@ -1,9 +1,9 @@
-import type { ExportEnvelope } from "./envelope"
+import type { ExportEnvelope } from "./envelope.ts"
 import type { Permission } from "@/permission"
 import type { MessageV2 } from "@/session/message-v2"
 import type { ModelMessage, TextStreamPart, Tool } from "ai"
 
-export type { ExportEnvelope } from "./envelope"
+export type { ExportEnvelope } from "./envelope.ts"
 
 export type LlmStreamPart = TextStreamPart<Record<string, Tool>>
 

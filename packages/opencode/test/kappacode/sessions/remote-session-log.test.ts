@@ -11,12 +11,12 @@ import { ProjectV2 } from "@opencode-ai/core/project"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
 import * as Log from "@opencode-ai/core/util/log"
-import { RemoteSender } from "../../../src/kappa-sessions/remote-sender"
-import { RemoteSessionLog } from "../../../src/kappa-sessions/remote-session-log"
-import type { RemoteWS } from "../../../src/kappa-sessions/remote-ws"
-import type { RemoteProtocol } from "../../../src/kappa-sessions/remote-protocol"
-import { SessionID } from "../../../src/session/schema"
-import { Session } from "../../../src/session/session"
+import { RemoteSender } from "../../../src/kappa-sessions/remote-sender.ts"
+import { RemoteSessionLog } from "../../../src/kappa-sessions/remote-session-log.ts"
+import type { RemoteWS } from "../../../src/kappa-sessions/remote-ws.ts"
+import type { RemoteProtocol } from "../../../src/kappa-sessions/remote-protocol.ts"
+import { SessionID } from "../../../src/session/schema.ts"
+import { Session } from "../../../src/session/session.ts"
 
 type Line = [string, Record<string, any>]
 

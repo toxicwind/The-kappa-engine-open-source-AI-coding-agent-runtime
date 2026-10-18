@@ -2,7 +2,7 @@ import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { Effect } from "effect"
 import { Agent } from "@/agent/agent"
 import { KappaModeReminders } from "@/kappacode/session/mode-reminders" // kappacode_change
-import { Session } from "./session"
+import { Session } from "./session.ts"
 
 export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   messages: SessionV1.WithParts[]
@@ -14,4 +14,4 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   // kappacode_change end
 })
 
-export * as SessionReminders from "./reminders"
+export * as SessionReminders from "./reminders.ts"

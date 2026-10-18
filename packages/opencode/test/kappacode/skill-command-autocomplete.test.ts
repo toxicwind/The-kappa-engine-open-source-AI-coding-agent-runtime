@@ -3,9 +3,9 @@ import { describe, expect } from "bun:test"
 import { Effect, Layer } from "effect"
 import path from "path"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Command } from "../../src/command"
-import { provideTmpdirInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Command } from "../../src/command/index.ts"
+import { provideTmpdirInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(AppNodeBuilder.build(Command.node), AppNodeBuilder.build(CrossSpawnSpawner.node)))
 

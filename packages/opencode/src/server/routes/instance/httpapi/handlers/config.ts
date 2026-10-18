@@ -11,8 +11,8 @@ import { Provider } from "@/provider/provider"
 import * as InstanceState from "@/effect/instance-state"
 import { Effect } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { markInstanceForDisposal } from "../lifecycle"
+import { InstanceHttpApi } from "../api.ts"
+import { markInstanceForDisposal } from "../lifecycle.ts"
 
 export const configHandlers = HttpApiBuilder.group(InstanceHttpApi, "config", (handlers) =>
   Effect.gen(function* () {

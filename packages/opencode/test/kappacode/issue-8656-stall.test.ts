@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
-import { provideTestInstance, tmpdir } from "../fixture/fixture"
-import { readStallState } from "./fixture/stall-transport"
-import { Server } from "../../src/server/server"
+import { provideTestInstance, tmpdir } from "../fixture/fixture.ts"
+import { readStallState } from "./fixture/stall-transport.ts"
+import { Server } from "../../src/server/server.ts"
 
 // Regression coverage for https://github.com/Kappa-Org/kappacode/issues/8656
 //

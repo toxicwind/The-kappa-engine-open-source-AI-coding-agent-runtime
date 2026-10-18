@@ -1,11 +1,11 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import fs from "node:fs/promises"
 import path from "path"
-import { Config } from "../../src/config/config"
-import { AppRuntime } from "../../src/effect/app-runtime"
-import { provideTestInstance } from "../fixture/fixture"
-import { Filesystem } from "../../src/util/filesystem"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
+import { Config } from "../../src/config/config.ts"
+import { AppRuntime } from "../../src/effect/app-runtime.ts"
+import { provideTestInstance } from "../fixture/fixture.ts"
+import { Filesystem } from "../../src/util/filesystem.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 import { Flag } from "@opencode-ai/core/flag/flag"
 
 const load = () => AppRuntime.runPromise(Config.Service.use((svc) => svc.get()))

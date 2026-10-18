@@ -1,7 +1,7 @@
 import { CliError, fail } from "@/cli/effect-cmd"
 import { Effect, Layer, Redacted } from "effect"
-import { CloudAuth } from "./auth"
-import { CloudCatalog } from "./catalog"
+import { CloudAuth } from "./auth.ts"
+import { CloudCatalog } from "./catalog.ts"
 import {
   CloudAgentSessionIdSchema,
   MessageIdSchema,
@@ -12,14 +12,14 @@ import {
   type AgentStartRequest,
   type AgentStartResponse,
   type GetMessageResultInput,
-} from "./contracts"
-import { CloudDefaults } from "./defaults"
-import { CloudError } from "./errors"
-import { resolveCloudAgentOrigin, resolveWebAppOrigin, type ServiceOrigin } from "./origin"
-import { CloudRepository } from "./repository"
-import { createStreamTicketClient, type StreamTicketClient } from "./stream-ticket"
-import { createCloudAgentClient, type AgentClient } from "./trpc"
-import { streamAgentEvents, type StreamAgentEventsOptions } from "./websocket-stream"
+} from "./contracts.ts"
+import { CloudDefaults } from "./defaults.ts"
+import { CloudError } from "./errors.ts"
+import { resolveCloudAgentOrigin, resolveWebAppOrigin, type ServiceOrigin } from "./origin.ts"
+import { CloudRepository } from "./repository.ts"
+import { createStreamTicketClient, type StreamTicketClient } from "./stream-ticket.ts"
+import { createCloudAgentClient, type AgentClient } from "./trpc.ts"
+import { streamAgentEvents, type StreamAgentEventsOptions } from "./websocket-stream.ts"
 
 export namespace CloudCommands {
   export interface StartInput {

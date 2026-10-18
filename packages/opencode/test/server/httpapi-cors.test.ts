@@ -4,11 +4,11 @@ import { describe, expect } from "bun:test"
 import { Config, ConfigProvider, Effect, Layer } from "effect"
 import { HttpClient, HttpClientRequest, HttpRouter, HttpServer } from "effect/unstable/http"
 import * as Socket from "effect/unstable/socket/Socket"
-import { Server } from "../../src/server/server"
-import { InstancePaths } from "../../src/server/routes/instance/httpapi/groups/instance"
-import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
-import { resetDatabase } from "../fixture/db"
-import { testEffect } from "../lib/effect"
+import { Server } from "../../src/server/server.ts"
+import { InstancePaths } from "../../src/server/routes/instance/httpapi/groups/instance.ts"
+import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const testStateLayer = Layer.effectDiscard(
   Effect.gen(function* () {

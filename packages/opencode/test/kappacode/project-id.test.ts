@@ -1,10 +1,10 @@
 import { test, expect, describe } from "bun:test"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 import fs from "fs/promises"
-import { provideTestInstance, withTestInstance } from "../fixture/fixture"
-import { getKappaProjectId } from "../../src/kappacode/project-id"
-import { disposeInstance } from "../../src/effect/instance-registry"
+import { provideTestInstance, withTestInstance } from "../fixture/fixture.ts"
+import { getKappaProjectId } from "../../src/kappacode/project-id.ts"
+import { disposeInstance } from "../../src/effect/instance-registry.ts"
 
 describe("project-id", () => {
   describe("normalization", () => {

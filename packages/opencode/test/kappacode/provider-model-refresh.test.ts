@@ -6,10 +6,10 @@ import path from "path"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { Global } from "@opencode-ai/core/global"
 import { Hash } from "@opencode-ai/core/util/hash"
-import { ModelsDev } from "../../src/provider/models"
-import { Provider } from "../../src/provider/provider"
+import { ModelsDev } from "../../src/provider/models.ts"
+import { Provider } from "../../src/provider/provider.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
-import { it } from "../lib/effect"
+import { it } from "../lib/effect.ts"
 
 const model = (id: string, name: string): ModelsDev.Model => ({
   id,

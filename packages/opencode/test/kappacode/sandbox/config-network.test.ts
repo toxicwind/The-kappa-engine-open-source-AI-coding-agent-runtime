@@ -9,8 +9,8 @@ import { InstanceRef } from "@/effect/instance-ref"
 import * as SandboxPolicy from "@/kappacode/sandbox/policy"
 import * as ToolNetwork from "@/kappacode/sandbox/network"
 import { SessionID } from "@/session/schema"
-import { TestConfig } from "../../fixture/config"
-import { testEffect } from "../../lib/effect"
+import { TestConfig } from "../../fixture/config.ts"
+import { testEffect } from "../../lib/effect.ts"
 
 const tool = ToolNetwork.builtin({ id: "webfetch" })
 const ctx = {

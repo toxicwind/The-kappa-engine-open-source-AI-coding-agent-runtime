@@ -1,7 +1,7 @@
 import type { Event, EventSessionTurnClose } from "@kappacode/sdk/v2"
 import { createEffect, createMemo, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
-import { KappaTerminalTitle } from "./terminal-title"
+import { KappaTerminalTitle } from "./terminal-title.ts"
 
 type Outcome = EventSessionTurnClose["properties"]["reason"]
 

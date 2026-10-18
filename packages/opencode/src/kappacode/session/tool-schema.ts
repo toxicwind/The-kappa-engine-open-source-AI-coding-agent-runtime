@@ -145,4 +145,4 @@ export async function sanitize(input: Record<string, Tool>): Promise<Record<stri
   return Object.fromEntries(items.map((item) => [item.name, item.tool]))
 }
 
-export * as KappaToolSchema from "./tool-schema"
+export * as KappaToolSchema from "./tool-schema.ts"

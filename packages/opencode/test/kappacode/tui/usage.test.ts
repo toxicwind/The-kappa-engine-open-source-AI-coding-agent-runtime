@@ -4,7 +4,7 @@ import {
   formatRateValue,
   hasMetrics,
   throughputLabel,
-} from "../../../src/kappacode/plugins/model-usage"
+} from "../../../src/kappacode/plugins/model-usage.ts"
 
 const step = (metrics: { generation?: number }) => ({
   metrics: { source: "computed" as const, ...metrics },

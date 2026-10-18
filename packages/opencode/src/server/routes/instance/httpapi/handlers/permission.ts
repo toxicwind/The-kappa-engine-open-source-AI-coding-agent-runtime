@@ -6,10 +6,10 @@ import { SessionID } from "@/session/schema"
 import { Effect, Schema } from "effect"
 // kappacode_change end
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { PermissionNotFoundError } from "../errors"
+import { InstanceHttpApi } from "../api.ts"
+import { PermissionNotFoundError } from "../errors.ts"
 // kappacode_change start
-import { AllowEverythingBody, SaveAlwaysRulesBody } from "../groups/permission"
+import { AllowEverythingBody, SaveAlwaysRulesBody } from "../groups/permission.ts"
 // kappacode_change end
 
 export const permissionHandlers = HttpApiBuilder.group(InstanceHttpApi, "permission", (handlers) =>

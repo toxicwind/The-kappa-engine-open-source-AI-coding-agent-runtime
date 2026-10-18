@@ -1,6 +1,6 @@
 import type { JSONSchema7 } from "@ai-sdk/provider"
 import { JsonSchema, Schema } from "effect"
-import type * as Tool from "./tool"
+import type * as Tool from "./tool.ts"
 
 type JsonObject = Record<string, unknown>
 const cache = new WeakMap<Schema.Top, JSONSchema7>()
@@ -161,4 +161,4 @@ function hasLocalReference(value: unknown): boolean {
   return Object.values(value).some(hasLocalReference)
 }
 
-export * as ToolJsonSchema from "./json-schema"
+export * as ToolJsonSchema from "./json-schema.ts"

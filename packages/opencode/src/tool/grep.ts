@@ -4,9 +4,9 @@ import { InstanceState } from "@/effect/instance-state"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Ripgrep } from "@opencode-ai/core/ripgrep"
 import * as KappaGrep from "@/kappacode/tool/grep-signal-controls" // kappacode_change
-import { assertExternalDirectoryEffect } from "./external-directory"
+import { assertExternalDirectoryEffect } from "./external-directory.ts"
 import DESCRIPTION from "./grep.txt"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 
 export const Parameters = Schema.Struct({
   pattern: Schema.String.annotate({ description: "Pattern to search for in file contents (regex by default)" }), // kappacode_change

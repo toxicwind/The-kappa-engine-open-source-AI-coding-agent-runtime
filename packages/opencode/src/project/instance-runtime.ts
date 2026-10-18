@@ -1,6 +1,6 @@
 import { AppRuntime } from "@/effect/app-runtime"
-import { type InstanceContext } from "./instance-context"
-import { InstanceStore, type LoadInput } from "./instance-store"
+import { type InstanceContext } from "./instance-context.ts"
+import { InstanceStore, type LoadInput } from "./instance-store.ts"
 
 // Bridge for Promise/ALS callers that cannot yet yield InstanceStore.Service.
 // Delete this module once those callers are migrated to Effect boundaries that
@@ -17,4 +17,4 @@ export const disposeDirectory = (directory: string) =>
 export const reloadInstance = (input: LoadInput) =>
   AppRuntime.runPromise(InstanceStore.Service.use((store) => store.reload(input)))
 
-export * as InstanceRuntime from "./instance-runtime"
+export * as InstanceRuntime from "./instance-runtime.ts"

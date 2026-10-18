@@ -1,7 +1,7 @@
 import { GlobalBus } from "@/bus/global"
 import { InstanceStore } from "@/project/instance-store"
 import { Effect } from "effect"
-import { Event } from "./event"
+import { Event } from "./event.ts"
 
 export const emitGlobalDisposed = Effect.sync(() =>
   GlobalBus.emit("event", {
@@ -25,4 +25,4 @@ export const disposeAllInstancesAndEmitGlobalDisposed = Effect.fn("Server.dispos
   },
 )
 
-export * as GlobalLifecycle from "./global-lifecycle"
+export * as GlobalLifecycle from "./global-lifecycle.ts"

@@ -1,10 +1,10 @@
 import * as fs from "fs/promises"
 import * as path from "path"
-import { Config } from "../config/config"
+import { Config } from "../config/config.ts"
 import { ConfigMCPV1 as ConfigMCP } from "@opencode-ai/core/v1/config/mcp"
 import * as Log from "@opencode-ai/core/util/log"
-import { Filesystem } from "../util/filesystem"
-import { KappacodePaths } from "./paths"
+import { Filesystem } from "../util/filesystem.ts"
+import { KappacodePaths } from "./paths.ts"
 
 export namespace McpMigrator {
   const log = Log.create({ service: "kappacode.mcp-migrator" })

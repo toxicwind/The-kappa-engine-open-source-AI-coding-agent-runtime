@@ -2,7 +2,7 @@ import { Wakeup } from "@/kappacode/wakeup"
 import { Tool } from "@/tool/tool"
 import { Effect, Schema } from "effect"
 import DESCRIPTION from "./cancel-wakeup.txt"
-import { excerpt, relative } from "./wakeup-format"
+import { excerpt, relative } from "./wakeup-format.ts"
 
 const Action = Schema.Literals(["list", "cancel"])
 type Action = Schema.Schema.Type<typeof Action>

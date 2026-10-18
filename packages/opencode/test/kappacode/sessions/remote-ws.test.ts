@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test"
-import { RemoteWS } from "../../../src/kappa-sessions/remote-ws"
+import { RemoteWS } from "../../../src/kappa-sessions/remote-ws.ts"
 import type { ServerWebSocket } from "bun"
 
 function nolog() {

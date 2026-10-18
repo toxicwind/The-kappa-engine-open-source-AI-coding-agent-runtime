@@ -69,4 +69,4 @@ function env(key: string) {
   return process.env[key.toLowerCase()] || process.env[key.toUpperCase()] || ""
 }
 
-export * as ProxyEnv from "./proxy-env"
+export * as ProxyEnv from "./proxy-env.ts"

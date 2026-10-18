@@ -3,16 +3,16 @@
 // instead of spawning a persistent typescript-language-server process.
 // This drops memory from ~500MB persistent to ~50MB peak (0 idle).
 
-import { LSPClient } from "../lsp/client"
-import { Bus } from "../bus"
-import { GlobalBus, type GlobalEvent } from "../bus/global"
-import { BusEvent } from "../bus/bus-event"
-import { TsCheck } from "./ts-check"
-import { Filesystem } from "../util/filesystem"
+import { LSPClient } from "../lsp/client.ts"
+import { Bus } from "../bus/index.ts"
+import { GlobalBus, type GlobalEvent } from "../bus/global.ts"
+import { BusEvent } from "../bus/bus-event.ts"
+import { TsCheck } from "./ts-check.ts"
+import { Filesystem } from "../util/filesystem.ts"
 import * as Log from "@opencode-ai/core/util/log"
-import { withTimeout } from "../util/timeout"
+import { withTimeout } from "../util/timeout.ts"
 import path from "path"
-import { capture, type InstanceContext } from "./instance"
+import { capture, type InstanceContext } from "./instance.ts"
 import { Schema } from "effect"
 
 export namespace TsClient {

@@ -1,1 +1,1 @@
-export * as SessionExport from "./session-export"
+export * as SessionExport from "./session-export.ts"

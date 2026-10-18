@@ -5,7 +5,7 @@ import { Global } from "@opencode-ai/core/global"
 import { Effect, Layer, Context, Option, Schema } from "effect"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
-import * as Invalidation from "../kappacode/mcp/invalidation" // kappacode_change
+import * as Invalidation from "../kappacode/mcp/invalidation.ts" // kappacode_change
 
 export const Tokens = Schema.Struct({
   accessToken: Schema.mutableKey(Schema.String),
@@ -203,4 +203,4 @@ const layer = Layer.effect(
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [FSUtil.node, EffectFlock.node] })
 
-export * as McpAuth from "./auth"
+export * as McpAuth from "./auth.ts"

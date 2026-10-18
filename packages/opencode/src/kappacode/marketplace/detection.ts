@@ -3,10 +3,10 @@ import { readdir } from "fs/promises"
 import { parse as parseJsonc } from "jsonc-parser"
 import * as Log from "@opencode-ai/core/util/log"
 import type { Skill } from "@/skill"
-import type { MarketplaceInstalledMetadata, Scope } from "./schema"
-import * as Paths from "./paths"
-import * as Companions from "./companions"
-import { pluginIdentity } from "./plugin-spec"
+import type { MarketplaceInstalledMetadata, Scope } from "./schema.ts"
+import * as Paths from "./paths.ts"
+import * as Companions from "./companions.ts"
+import { pluginIdentity } from "./plugin-spec.ts"
 
 const log = Log.create({ service: "marketplace" })
 

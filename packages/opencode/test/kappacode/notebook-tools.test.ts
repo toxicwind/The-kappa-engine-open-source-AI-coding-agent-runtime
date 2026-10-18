@@ -9,7 +9,7 @@ import * as Tool from "@/tool/tool"
 import { ToolJsonSchema } from "@/tool/json-schema"
 import { Truncate } from "@/tool/truncate"
 import { Effect, Layer } from "effect"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const calls: Notebook.Input[] = []
 const notebook = Layer.mock(Notebook.Service, {

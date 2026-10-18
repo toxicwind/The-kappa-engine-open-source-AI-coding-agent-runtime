@@ -1,4 +1,4 @@
-import type { RunPromptPart } from "./types"
+import type { RunPromptPart } from "./types.ts"
 
 type Mention = Extract<RunPromptPart, { type: "file" | "agent" }>
 

@@ -2,10 +2,10 @@ import matter from "gray-matter"
 import * as fs from "fs/promises"
 import * as path from "path"
 import os from "os"
-import type { Config } from "../config/config"
+import type { Config } from "../config/config.ts"
 import type { ConfigAgentV1 } from "@opencode-ai/core/v1/config/agent"
 import { ConfigPermissionV1 as ConfigPermission } from "@opencode-ai/core/v1/config/permission"
-import { KappacodePaths } from "./paths"
+import { KappacodePaths } from "./paths.ts"
 import type { OrganizationMode } from "@kappacode/kappa-gateway"
 
 export namespace ModesMigrator {

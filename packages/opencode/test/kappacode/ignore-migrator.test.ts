@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { IgnoreMigrator } from "../../src/kappacode/ignore-migrator"
-import { tmpdir } from "../fixture/fixture"
+import { IgnoreMigrator } from "../../src/kappacode/ignore-migrator.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 
 describe("IgnoreMigrator", () => {

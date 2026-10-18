@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
-import { explicitNetworkOptions } from "../../../../src/cli/network"
-import { getNetworkIPs, serverUrls } from "../../../../../src/kappacode/cli/server-urls"
-import { Daemon } from "../../../../../src/kappacode/daemon/daemon"
+import { explicitNetworkOptions } from "../../../../src/cli/network.ts"
+import { getNetworkIPs, serverUrls } from "../../../../src/kappacode/cli/server-urls.ts"
+import { Daemon } from "../../../../src/kappacode/daemon/daemon.ts"
 
 function opts(input: Partial<Daemon.Network> = {}): Daemon.Options {
   return {

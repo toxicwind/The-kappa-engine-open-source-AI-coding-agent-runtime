@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { ProviderTransform } from "../../../src/provider/transform"
-import type { Provider } from "../../../src/provider/provider"
+import { ProviderTransform } from "../../../src/provider/transform.ts"
+import type { Provider } from "../../../src/provider/provider.ts"
 
 function model(input: { providerID: string; api: string; npm: string }) {
   return {

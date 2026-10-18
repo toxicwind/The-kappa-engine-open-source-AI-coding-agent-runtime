@@ -2,7 +2,7 @@ import { expect, test } from "bun:test"
 import type { Event } from "@kappacode/sdk/v2"
 import { createRoot, createSignal } from "solid-js"
 import { createStore } from "solid-js/store"
-import { KappaTerminalActivity as Activity } from "../../src/kappacode/cli/cmd/tui/terminal-activity"
+import { KappaTerminalActivity as Activity } from "../../src/kappacode/cli/cmd/tui/terminal-activity.ts"
 
 function data(input: Partial<Activity.Data> = {}): Activity.Data {
   return {

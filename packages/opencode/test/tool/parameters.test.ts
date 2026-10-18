@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Result, Schema } from "effect"
-import { ToolJsonSchema } from "../../src/tool/json-schema"
+import { ToolJsonSchema } from "../../src/tool/json-schema.ts"
 
 // Each tool exports its parameters schema at module scope so this test can
 // import them without running the tool's Effect-based init. The JSON Schema
@@ -9,22 +9,22 @@ import { ToolJsonSchema } from "../../src/tool/json-schema"
 // prompt.ts` uses to emit tool schemas to the LLM, so the snapshots stay
 // provider-compatible while tools use Effect Schema internally.
 
-import { Parameters as ApplyPatch } from "../../src/tool/apply_patch"
-import { Parameters as Edit } from "../../src/tool/edit"
-import { Parameters as Glob } from "../../src/tool/glob"
-import { Parameters as Grep } from "../../src/tool/grep"
-import { Parameters as Invalid } from "../../src/tool/invalid"
-import { Parameters as Lsp } from "../../src/tool/lsp"
-import { Parameters as Plan } from "../../src/tool/plan"
-import { Parameters as Question } from "../../src/tool/question"
-import { Parameters as Read } from "../../src/tool/read"
-import { Parameters as Shell } from "../../src/tool/shell"
-import { Parameters as Skill } from "../../src/tool/skill"
-import { Parameters as Task } from "../../src/tool/task"
-import { Parameters as Todo } from "../../src/tool/todo"
-import { Parameters as WebFetch } from "../../src/tool/webfetch"
-import { Parameters as WebSearch } from "../../src/tool/websearch"
-import { Parameters as Write } from "../../src/tool/write"
+import { Parameters as ApplyPatch } from "../../src/tool/apply_patch.ts"
+import { Parameters as Edit } from "../../src/tool/edit.ts"
+import { Parameters as Glob } from "../../src/tool/glob.ts"
+import { Parameters as Grep } from "../../src/tool/grep.ts"
+import { Parameters as Invalid } from "../../src/tool/invalid.ts"
+import { Parameters as Lsp } from "../../src/tool/lsp.ts"
+import { Parameters as Plan } from "../../src/tool/plan.ts"
+import { Parameters as Question } from "../../src/tool/question.ts"
+import { Parameters as Read } from "../../src/tool/read.ts"
+import { Parameters as Shell } from "../../src/tool/shell.ts"
+import { Parameters as Skill } from "../../src/tool/skill.ts"
+import { Parameters as Task } from "../../src/tool/task.ts"
+import { Parameters as Todo } from "../../src/tool/todo.ts"
+import { Parameters as WebFetch } from "../../src/tool/webfetch.ts"
+import { Parameters as WebSearch } from "../../src/tool/websearch.ts"
+import { Parameters as Write } from "../../src/tool/write.ts"
 
 const parse = <S extends Schema.Decoder<unknown>>(schema: S, input: unknown): S["Type"] =>
   Schema.decodeUnknownSync(schema)(input)

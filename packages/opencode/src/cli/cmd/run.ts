@@ -20,14 +20,14 @@ import path from "path"
 import { pathToFileURL } from "url"
 import { open } from "node:fs/promises"
 import { Effect } from "effect"
-import { UI } from "../ui"
-import { effectCmd } from "../effect-cmd"
+import { UI } from "../ui.ts"
+import { effectCmd } from "../effect-cmd.ts"
 import { EOL } from "os"
 import { Filesystem } from "@/util/filesystem"
 import type { KappaClient, Session, ToolPart } from "@kappacode/sdk/v2"
-import { FormatError, FormatUnknownError } from "../error"
-import { INTERACTIVE_INPUT_ERROR, resolveInteractiveStdin } from "./run/runtime.stdin"
-import { readPipedStdin } from "./run-stdin" // kappacode_change - bounded piped-stdin read
+import { FormatError, FormatUnknownError } from "../error.ts"
+import { INTERACTIVE_INPUT_ERROR, resolveInteractiveStdin } from "./run/runtime.stdin.ts"
+import { readPipedStdin } from "./run-stdin.ts" // kappacode_change - bounded piped-stdin read
 // kappacode_change start - Kappa implementations (createKappaClient, run-message,
 // cloud-session, run-auto, headless, KappaRun) are dynamically imported inside the
 // handler so other CLI commands don't pay their module cost at startup.

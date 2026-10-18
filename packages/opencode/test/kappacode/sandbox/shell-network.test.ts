@@ -14,8 +14,8 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Database } from "@opencode-ai/core/database/database"
 import { run as runSandbox, type Profile } from "@kappacode/sandbox"
-import { TestConfig } from "../../fixture/config"
-import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
+import { TestConfig } from "../../fixture/config.ts"
+import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture.ts"
 
 const base = Layer.mergeAll(
   AppNodeBuilder.build(CrossSpawnSpawner.node),

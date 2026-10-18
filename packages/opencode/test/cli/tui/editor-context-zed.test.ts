@@ -4,7 +4,7 @@ import os from "node:os"
 import path from "node:path"
 import { afterEach, expect, spyOn, test } from "bun:test"
 import { isZedTerminal, offsetToPosition, resolveZedDbPath, resolveZedSelection } from "@opencode-ai/tui/editor-zed"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../fixture/fixture.ts"
 
 const originalZedTerm = process.env.ZED_TERM
 const originalTermProgram = process.env.TERM_PROGRAM

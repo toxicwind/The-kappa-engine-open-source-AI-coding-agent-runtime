@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { $ } from "bun"
 import * as fs from "fs/promises"
 import path from "path"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../fixture/fixture.ts"
 import {
   getGitContext,
   isLockFile,
@@ -11,7 +11,7 @@ import {
   mapStatus,
   isUntracked,
   MAX_DIFF_LENGTH,
-} from "../../../src/kappacode/commit-message/git-context"
+} from "../../../src/kappacode/commit-message/git-context.ts"
 
 // ── Helper: stage files in a temp git repo ──────────────────────────
 async function stage(dir: string, files: Record<string, string>) {

@@ -1,4 +1,4 @@
-import type { ExportEvent, FeedbackCaptured, PermissionDecided, ToolExecuted } from "./events"
+import type { ExportEvent, FeedbackCaptured, PermissionDecided, ToolExecuted } from "./events.ts"
 import { ulid } from "ulid"
 
 export type SyncSubscriberDeps = {

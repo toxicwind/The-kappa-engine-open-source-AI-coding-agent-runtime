@@ -1,17 +1,17 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { EventV2Bridge } from "@/event-v2-bridge"
-import * as LSPClient from "./client"
+import * as LSPClient from "./client.ts"
 import path from "path"
 import { pathToFileURL, fileURLToPath } from "url"
-import * as LSPServer from "./server"
+import * as LSPServer from "./server.ts"
 import { Config } from "@/config/config"
 import { Process } from "@/util/process"
-import { spawn as lspspawn } from "./launch"
+import { spawn as lspspawn } from "./launch.ts"
 import { Effect, Layer, Context, Schema } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import { containsPath } from "@/project/instance-context"
-import { TsClient } from "../kappacode/ts-client" // kappacode_change
+import { TsClient } from "../kappacode/ts-client.ts" // kappacode_change
 import { NonNegativeInt } from "@opencode-ai/core/schema"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { LspEvent } from "@opencode-ai/schema/lsp-event"
@@ -512,7 +512,7 @@ const layer = Layer.effect(
   }),
 )
 
-export * as Diagnostic from "./diagnostic"
+export * as Diagnostic from "./diagnostic.ts"
 
 export const node = LayerNode.make({
   service: Service,
@@ -520,4 +520,4 @@ export const node = LayerNode.make({
   deps: [Config.node, RuntimeFlags.node, FSUtil.node, EventV2Bridge.node],
 })
 
-export * as LSP from "./lsp"
+export * as LSP from "./lsp.ts"

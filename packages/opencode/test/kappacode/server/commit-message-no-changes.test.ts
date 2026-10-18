@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test"
 import path from "path"
-import { Server } from "../../../src/server/server"
-import { CommitMessageRuntime } from "../../../src/kappacode/commit-message/generate"
-import { resetDatabase } from "../../fixture/db"
-import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
+import { Server } from "../../../src/server/server.ts"
+import { CommitMessageRuntime } from "../../../src/kappacode/commit-message/generate.ts"
+import { resetDatabase } from "../../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../../fixture/fixture.ts"
 
 afterEach(async () => {
   await disposeAllInstances()

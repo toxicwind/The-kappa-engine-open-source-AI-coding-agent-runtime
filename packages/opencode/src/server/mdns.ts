@@ -44,4 +44,4 @@ export function unpublish() {
   }
 }
 
-export * as MDNS from "./mdns"
+export * as MDNS from "./mdns.ts"

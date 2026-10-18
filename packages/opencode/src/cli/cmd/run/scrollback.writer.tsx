@@ -1,11 +1,11 @@
 import { createScrollbackWriter } from "@opentui/solid"
 import { TextRenderable, type ColorInput, type ScrollbackRenderContext, type ScrollbackWriter } from "@opentui/core"
 import { Match, Switch, createMemo } from "solid-js"
-import { entryBody, entryFlags } from "./entry.body"
-import { entryColor, entryLook, entrySyntax } from "./scrollback.shared"
-import { toolFiletype, toolStructuredFinal } from "./tool"
-import { RUN_THEME_FALLBACK, transparent, type RunTheme } from "./theme"
-import type { EntryLayout, RunEntryBody, ScrollbackOptions, StreamCommit } from "./types"
+import { entryBody, entryFlags } from "./entry.body.ts"
+import { entryColor, entryLook, entrySyntax } from "./scrollback.shared.ts"
+import { toolFiletype, toolStructuredFinal } from "./tool.ts"
+import { RUN_THEME_FALLBACK, transparent, type RunTheme } from "./theme.ts"
+import type { EntryLayout, RunEntryBody, ScrollbackOptions, StreamCommit } from "./types.ts"
 
 function todoText(item: { status: string; content: string }): string {
   if (item.status === "completed") {

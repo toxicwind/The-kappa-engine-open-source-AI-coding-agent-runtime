@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
-import { spawn } from "../../src/lsp/launch"
-import { tmpdir } from "../fixture/fixture"
+import { spawn } from "../../src/lsp/launch.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 describe("lsp.launch", () => {
   // kappacode_change start

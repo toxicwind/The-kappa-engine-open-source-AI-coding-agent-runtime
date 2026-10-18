@@ -13,12 +13,12 @@ import {
   type CliRenderer,
   type ScrollbackSurface,
 } from "@opentui/core"
-import { entryBody, entryCanStream, entryDone, entryFlags } from "./entry.body"
-import { entryColor, entryLook, entrySyntax } from "./scrollback.shared"
-import { turnSummaryCommit } from "./turn-summary"
-import { entryWriter, sameEntryGroup, separatorRows, spacerWriter, turnSummaryWriter } from "./scrollback.writer"
-import { type RunTheme } from "./theme"
-import type { RunDiffStyle, RunEntryBody, StreamCommit } from "./types"
+import { entryBody, entryCanStream, entryDone, entryFlags } from "./entry.body.ts"
+import { entryColor, entryLook, entrySyntax } from "./scrollback.shared.ts"
+import { turnSummaryCommit } from "./turn-summary.ts"
+import { entryWriter, sameEntryGroup, separatorRows, spacerWriter, turnSummaryWriter } from "./scrollback.writer.tsx"
+import { type RunTheme } from "./theme.ts"
+import type { RunDiffStyle, RunEntryBody, StreamCommit } from "./types.ts"
 
 type ActiveBody = Exclude<RunEntryBody, { type: "none" | "structured" }>
 

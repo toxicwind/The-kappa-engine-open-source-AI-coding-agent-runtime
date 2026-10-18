@@ -8,9 +8,9 @@ import { Session } from "@/session/session"
 import { SessionStatus } from "@/session/status"
 import { BackgroundJob } from "@/background/job"
 import { getWorkspaceRouteSessionID, isLocalWorkspaceRoute } from "@/server/shared/workspace-routing"
-import { disposeAllInstances, provideInstance, TestInstance, tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
-import { httpApiLayer, requestInDirectory } from "../../server/httpapi-layer"
+import { disposeAllInstances, provideInstance, TestInstance, tmpdirScoped } from "../../fixture/fixture.ts"
+import { testEffect } from "../../lib/effect.ts"
+import { httpApiLayer, requestInDirectory } from "../../server/httpapi-layer.ts"
 
 const it = testEffect(
   Layer.mergeAll(

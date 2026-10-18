@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { decodeDataUrl } from "../../src/util/data-url"
+import { decodeDataUrl } from "../../src/util/data-url.ts"
 
 describe("decodeDataUrl", () => {
   test("decodes base64 data URLs", () => {

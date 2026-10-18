@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
 import { Cause, Effect, Exit } from "effect"
-import { isInterrupted, shouldReportPromptFailure } from "../../src/kappacode/effect/cause"
+import { isInterrupted, shouldReportPromptFailure } from "../../src/kappacode/effect/cause.ts"
 
 test("recognizes a pure interruption", () => {
   const exit = Effect.runSync(Effect.exit(Effect.interrupt))

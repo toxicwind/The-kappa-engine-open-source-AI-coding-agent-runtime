@@ -1,7 +1,7 @@
 import { Effect, Schema } from "effect"
 import * as path from "path"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import * as Bom from "../util/bom"
+import * as Bom from "../util/bom.ts"
 
 export const PatchSchema = Schema.Struct({
   patchText: Schema.String.annotate({ description: "The full patch text that describes all changes to be made" }),
@@ -683,4 +683,4 @@ export const maybeParseApplyPatchVerified = Effect.fn("Patch.maybeParseApplyPatc
   }
 })
 
-export * as Patch from "."
+export * as Patch from "./index.ts"

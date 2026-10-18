@@ -8,7 +8,7 @@ export function file(name: string, value: string) {
 
 export function block(name: string | undefined, source: string, value: string) {
   return (name !== undefined && board(name)) ||
-    /kappa_board(?:_message)?|part_session_step_finish_idx|recall_(?:part_search|message_role)_idx/.test(source)
+    /kilo_board(?:_message)?|part_session_step_finish_idx|recall_(?:part_search|message_role)_idx/.test(source)
     ? `// kappacode_change start\n${value}\n// kappacode_change end`
     : value
 }

@@ -17,7 +17,7 @@ import { SessionSchema } from "@opencode-ai/core/session/schema"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { AbsolutePath } from "@opencode-ai/core/schema"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { remove as cleanup } from "../cleanup"
+import { remove as cleanup } from "../cleanup.ts"
 
 // Test fixtures
 const fixtures = {

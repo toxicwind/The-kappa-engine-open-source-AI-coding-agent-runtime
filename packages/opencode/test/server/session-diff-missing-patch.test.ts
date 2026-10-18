@@ -20,10 +20,10 @@ import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { MessageID } from "@/session/schema"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
-import { httpApiLayer, requestInDirectory } from "./httpapi-layer"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
+import { httpApiLayer, requestInDirectory } from "./httpapi-layer.ts"
 
 const it = testEffect(Layer.mergeAll(LayerNode.compile(LayerNode.group([Session.node, Storage.node])), httpApiLayer))
 

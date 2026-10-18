@@ -1,5 +1,5 @@
 import { PermissionV1 } from "@opencode-ai/core/v1/permission"
-import type { Agent } from "./agent"
+import type { Agent } from "./agent.ts"
 
 /**
  * Build the `permission` ruleset for a subagent's session when it's spawned

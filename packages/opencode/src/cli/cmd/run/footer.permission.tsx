@@ -29,11 +29,11 @@ import {
   permissionShift,
   temporaryPermission,
   type PermissionOption,
-} from "./permission.shared"
-import { footerWidthPolicy } from "./footer.width"
-import { toolFiletype } from "./tool"
-import { transparent, type RunBlockTheme, type RunFooterTheme } from "./theme"
-import type { PermissionReply, RunDiffStyle } from "./types"
+} from "./permission.shared.ts"
+import { footerWidthPolicy } from "./footer.width.ts"
+import { toolFiletype } from "./tool.ts"
+import { transparent, type RunBlockTheme, type RunFooterTheme } from "./theme.ts"
+import type { PermissionReply, RunDiffStyle } from "./types.ts"
 
 function buttons(
   list: PermissionOption[],

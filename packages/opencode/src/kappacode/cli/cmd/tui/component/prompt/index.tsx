@@ -9,7 +9,7 @@ import {
   type VimDoc,
   type VimKey,
   type VimMode,
-} from "./vim"
+} from "./vim.ts"
 
 export interface VimDeps {
   input: () => TextareaRenderable | undefined

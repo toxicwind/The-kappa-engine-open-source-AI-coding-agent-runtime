@@ -9,7 +9,7 @@ import {
 } from "@/server/routes/instance/httpapi/middleware/workspace-routing"
 import { described } from "@/server/routes/instance/httpapi/groups/metadata"
 import { ProviderUsage } from "@opencode-ai/schema/kappacode/provider-usage"
-import { AnacondaDesktopApi } from "./anaconda-desktop"
+import { AnacondaDesktopApi } from "./anaconda-desktop.ts"
 import {
   Failure as AgentManagerFailure,
   Request as AgentManagerRequest,

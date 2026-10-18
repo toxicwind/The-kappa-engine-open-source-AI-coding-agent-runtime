@@ -23,12 +23,12 @@ import {
   isNewCommand,
   movePromptHistory,
   pushPromptHistory,
-} from "./prompt.shared"
+} from "./prompt.shared.ts"
 import { KILO_BASE_MODE, useBindings } from "@opencode-ai/tui/keymap"
-import { realignEditorPromptParts, resolveEditorSlashValue } from "./prompt.editor"
-import { FOOTER_MENU_ROWS, createFooterMenuState, type RunFooterMenuItem } from "./footer.menu"
-import type { RunFooterTheme } from "./theme"
-import type { FooterState, RunAgent, RunCommand, RunPrompt, RunPromptPart, RunResource, RunTuiConfig } from "./types"
+import { realignEditorPromptParts, resolveEditorSlashValue } from "./prompt.editor.ts"
+import { FOOTER_MENU_ROWS, createFooterMenuState, type RunFooterMenuItem } from "./footer.menu.tsx"
+import type { RunFooterTheme } from "./theme.ts"
+import type { FooterState, RunAgent, RunCommand, RunPrompt, RunPromptPart, RunResource, RunTuiConfig } from "./types.ts"
 
 const AUTOCOMPLETE_ROWS = FOOTER_MENU_ROWS
 const AUTOCOMPLETE_BOTTOM_ROWS = 1

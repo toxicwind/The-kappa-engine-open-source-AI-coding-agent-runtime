@@ -209,4 +209,4 @@ export function parseAPICallError(input: { providerID: ProviderV2.ID; error: API
   }
 }
 
-export * as ProviderError from "./error"
+export * as ProviderError from "./error.ts"

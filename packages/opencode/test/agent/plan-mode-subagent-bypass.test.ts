@@ -2,11 +2,11 @@ import { PermissionV1 } from "@opencode-ai/core/v1/permission"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { expect } from "bun:test"
 import { Effect } from "effect"
-import { Agent } from "../../src/agent/agent"
-import { deriveSubagentSessionPermission } from "../../src/agent/subagent-permissions"
-import { Permission } from "../../src/permission"
-import { KappaTask } from "../../src/kappacode/tool/task" // kappacode_change
-import { testEffect } from "../lib/effect"
+import { Agent } from "../../src/agent/agent.ts"
+import { deriveSubagentSessionPermission } from "../../src/agent/subagent-permissions.ts"
+import { Permission } from "../../src/permission/index.ts"
+import { KappaTask } from "../../src/kappacode/tool/task.ts" // kappacode_change
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(Agent.node))
 

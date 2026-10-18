@@ -4,9 +4,9 @@ import { describe, expect } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
 import { Effect } from "effect"
-import { Git } from "../../src/git"
-import { tmpdir } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Git } from "../../src/git/index.ts"
+import { tmpdir } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const weird = process.platform === "win32" ? "space file.txt" : "tab\tfile.txt"
 const it = testEffect(LayerNode.compile(LayerNode.group([Git.node])))

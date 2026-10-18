@@ -15,11 +15,11 @@ import { ProviderError } from "@/provider/error"
 import { Effect, Schema } from "effect"
 import type { LanguageModelV3 } from "@ai-sdk/provider"
 import { mapValues, omit, pickBy } from "remeda"
-import { reasoningSummary } from "./reasoning-summary"
+import { reasoningSummary } from "./reasoning-summary.ts"
 import type { Provider } from "@/provider/provider"
 import type { Auth } from "@/auth"
 import type { Config } from "@/config/config"
-import { organization, token } from "./catalog"
+import { organization, token } from "./catalog.ts"
 
 /** Default timeout (ms) for provider HTTP requests (connection phase). */
 export const REQUEST_TIMEOUT_MS = 300_000 // 5 minutes

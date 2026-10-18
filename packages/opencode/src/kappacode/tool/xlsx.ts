@@ -1,7 +1,7 @@
 import path from "path"
 import { Readable } from "stream"
 import { read, utils, type CellObject, type WorkBook } from "xlsx"
-import { visibility } from "./ods"
+import { visibility } from "./ods.ts"
 
 const ROW_LIMIT = 50_000
 const MAX_SIZE = 50 * 1024 * 1024

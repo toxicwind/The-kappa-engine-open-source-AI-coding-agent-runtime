@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import os from "os"
 import path from "path"
-import { tmpdir } from "../fixture/fixture"
-import { remove } from "./cleanup"
+import { tmpdir } from "../fixture/fixture.ts"
+import { remove } from "./cleanup.ts"
 
 const root = path.resolve(import.meta.dir, "../..")
 

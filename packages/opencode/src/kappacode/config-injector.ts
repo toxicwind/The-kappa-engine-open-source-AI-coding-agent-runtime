@@ -1,9 +1,9 @@
-import { Config } from "../config/config"
+import { Config } from "../config/config.ts"
 import { ConfigPermissionV1 as ConfigPermission } from "@opencode-ai/core/v1/config/permission"
-import { ModesMigrator } from "./modes-migrator"
-import { RulesMigrator } from "./rules-migrator"
-import { WorkflowsMigrator } from "./workflows-migrator"
-import { IgnoreMigrator } from "./ignore-migrator"
+import { ModesMigrator } from "./modes-migrator.ts"
+import { RulesMigrator } from "./rules-migrator.ts"
+import { WorkflowsMigrator } from "./workflows-migrator.ts"
+import { IgnoreMigrator } from "./ignore-migrator.ts"
 
 export namespace KappacodeConfigInjector {
   export interface InjectionResult {

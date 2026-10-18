@@ -1,5 +1,5 @@
-import { CloudError, ServiceRedirectError, ServiceTransportError } from "./errors"
-import type { ServiceOrigin } from "./origin"
+import { CloudError, ServiceRedirectError, ServiceTransportError } from "./errors.ts"
+import type { ServiceOrigin } from "./origin.ts"
 
 export const DEFAULT_HTTP_TIMEOUT_MS = 30_000
 

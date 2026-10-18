@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { NpmPublish } from "../../script/kappacode/npm-publish"
+import { NpmPublish } from "../../script/kappacode/npm-publish.ts"
 
 describe("npm publish retry", () => {
   test("returns after the first successful attempt", async () => {

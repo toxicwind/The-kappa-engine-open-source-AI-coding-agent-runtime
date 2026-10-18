@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { KappaRpc } from "../../../src/kappacode/util/rpc"
-import { withTimeout } from "../../../src/util/timeout"
+import { KappaRpc } from "../../../src/kappacode/util/rpc.ts"
+import { withTimeout } from "../../../src/util/timeout.ts"
 
 /**
  * Exercises the transport against a real `Worker`, which the in-process channel tests in

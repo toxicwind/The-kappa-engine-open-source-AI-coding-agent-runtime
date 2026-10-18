@@ -3,15 +3,15 @@ import { Auth } from "@/auth"
 import { InstanceStore } from "@/project/instance-store"
 import { ModelCache } from "@/provider/model-cache"
 import { Effect, Layer, Redacted, Ref } from "effect"
-import * as Discovery from "../../../../src/kappacode/anaconda-desktop/discovery"
+import * as Discovery from "../../../../src/kappacode/anaconda-desktop/discovery.ts"
 import {
   decodeMetadata,
   PROVIDER_ID,
   type Metadata,
   type ReadyStatus,
-} from "../../../../src/kappacode/anaconda-desktop/domain"
-import * as DesktopPlatform from "../../../../src/kappacode/anaconda-desktop/platform"
-import * as Desktop from "../../../../src/kappacode/anaconda-desktop/service"
+} from "../../../../src/kappacode/anaconda-desktop/domain.ts"
+import * as DesktopPlatform from "../../../../src/kappacode/anaconda-desktop/platform.ts"
+import * as Desktop from "../../../../src/kappacode/anaconda-desktop/service.ts"
 import { testEffect } from "../../../../src/lib/effect"
 
 const it = testEffect(Layer.empty)

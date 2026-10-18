@@ -19,7 +19,7 @@ import {
 } from "@opentui/core"
 import * as Locale from "@/util/locale"
 import { go } from "@/cli/logo"
-import type { RunSplashTheme } from "./theme"
+import type { RunSplashTheme } from "./theme.ts"
 
 export const SPLASH_TITLE_LIMIT = 50
 export const SPLASH_TITLE_FALLBACK = "Untitled session"

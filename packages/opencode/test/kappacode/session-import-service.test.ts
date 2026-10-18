@@ -8,10 +8,10 @@ import { AbsolutePath } from "@opencode-ai/core/schema"
 import { makeRuntime } from "@opencode-ai/core/effect/runtime"
 import { Effect } from "effect"
 import { eq } from "drizzle-orm"
-import { SessionImportService } from "../../src/kappacode/session-import/service"
-import { MessageID, PartID, SessionID } from "../../src/session/schema"
-import { resetDatabase } from "../fixture/db"
-import { tmpdir } from "../fixture/fixture"
+import { SessionImportService } from "../../src/kappacode/session-import/service.ts"
+import { MessageID, PartID, SessionID } from "../../src/session/schema.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 const projectID = ProjectV2.ID.make("proj_test")
 

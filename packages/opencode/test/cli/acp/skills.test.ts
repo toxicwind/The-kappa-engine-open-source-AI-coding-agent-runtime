@@ -3,8 +3,8 @@ import type { SessionNotification } from "@agentclientprotocol/sdk"
 import { Effect } from "effect"
 import { mkdir } from "node:fs/promises"
 import path from "node:path"
-import { cliIt } from "../../lib/cli-process"
-import { createAcpClient, initialize, newSession, verifierConfig, verifierSkill } from "./helpers"
+import { cliIt } from "../../lib/cli-process.ts"
+import { createAcpClient, initialize, newSession, verifierConfig, verifierSkill } from "./helpers.ts"
 
 describe("opencode acp skills subprocess", () => {
   cliIt.live(

@@ -5,7 +5,7 @@ import { InstanceRef } from "@/effect/instance-ref"
 import { disposeInstance, registerDisposer } from "@/effect/instance-registry"
 import { SessionDrain } from "@/kappacode/session/drain"
 import { SessionID } from "@/session/schema"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(SessionDrain.layer)
 

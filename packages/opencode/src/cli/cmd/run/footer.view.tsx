@@ -20,13 +20,13 @@ import {
   RunSkillSelectBody,
   RunSubagentSelectBody,
   RunVariantSelectBody,
-} from "./footer.command"
-import { FOOTER_MENU_ROWS, RunFooterMenu } from "./footer.menu"
-import { RunFooterSubagentBody } from "./footer.subagent"
-import { RunPromptBody, createPromptState } from "./footer.prompt"
-import { RunPermissionBody } from "./footer.permission"
-import { RunQuestionBody } from "./footer.question"
-import { footerWidthPolicy } from "./footer.width"
+} from "./footer.command.tsx"
+import { FOOTER_MENU_ROWS, RunFooterMenu } from "./footer.menu.tsx"
+import { RunFooterSubagentBody } from "./footer.subagent.tsx"
+import { RunPromptBody, createPromptState } from "./footer.prompt.tsx"
+import { RunPermissionBody } from "./footer.permission.tsx"
+import { RunQuestionBody } from "./footer.question.tsx"
+import { footerWidthPolicy } from "./footer.width.ts"
 import {
   KILO_BASE_MODE,
   formatKeyBindings,
@@ -52,9 +52,9 @@ import type {
   RunProvider,
   RunResource,
   RunTuiConfig,
-} from "./types"
-import type { RunTheme } from "./theme"
-import { modelInfo } from "./variant.shared"
+} from "./types.ts"
+import type { RunTheme } from "./theme.ts"
+import { modelInfo } from "./variant.shared.ts"
 
 registerOpencodeSpinner()
 
@@ -113,7 +113,7 @@ type RunFooterViewProps = {
   onQueuedRemove: (messageID: string) => Promise<boolean>
 }
 
-export { TEXTAREA_MIN_ROWS, TEXTAREA_MAX_ROWS } from "./footer.prompt"
+export { TEXTAREA_MIN_ROWS, TEXTAREA_MAX_ROWS } from "./footer.prompt.tsx"
 
 export function RunFooterView(props: RunFooterViewProps) {
   const term = useTerminalDimensions()

@@ -13,14 +13,14 @@ import { Global } from "@opencode-ai/core/global"
 import { Hash } from "@opencode-ai/core/util/hash"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
 import { createKappaClient } from "@kappacode/sdk/v2"
-import { Snapshot } from "../../src/snapshot"
-import { Session } from "../../src/session/session"
-import { Server } from "../../src/server/server"
-import { InstanceState } from "../../src/effect/instance-state"
-import { InstanceStore } from "../../src/project/instance-store"
-import { KappaSnapshotCleanup } from "../../src/kappacode/snapshot/cleanup"
-import { KappaSnapshotPrepare } from "../../src/kappacode/snapshot/prepare"
-import { KappaSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize"
+import { Snapshot } from "../../src/snapshot/index.ts"
+import { Session } from "../../src/session/session.ts"
+import { Server } from "../../src/server/server.ts"
+import { InstanceState } from "../../src/effect/instance-state.ts"
+import { InstanceStore } from "../../src/project/instance-store.ts"
+import { KappaSnapshotCleanup } from "../../src/kappacode/snapshot/cleanup.ts"
+import { KappaSnapshotPrepare } from "../../src/kappacode/snapshot/prepare.ts"
+import { KappaSnapshotMaterialize } from "../../src/kappacode/snapshot/materialize.ts"
 import {
   disposeAllInstances,
   provideInstance,
@@ -28,9 +28,9 @@ import {
   testInstanceStoreLayer,
   tmpdir,
   tmpdirScoped,
-} from "../fixture/fixture"
-import { resetDatabase } from "../fixture/db"
-import { pollWithTimeout, testEffect } from "../lib/effect"
+} from "../fixture/fixture.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { pollWithTimeout, testEffect } from "../lib/effect.ts"
 
 afterEach(async () => {
   await disposeAllInstances()

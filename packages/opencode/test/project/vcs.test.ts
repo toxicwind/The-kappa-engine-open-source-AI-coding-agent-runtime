@@ -12,12 +12,12 @@ import {
   testInstanceStoreLayer,
   TestInstance,
   tmpdirScoped,
-} from "../fixture/fixture"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
+} from "../fixture/fixture.ts"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
 import { Watcher } from "@opencode-ai/core/filesystem/watcher"
-import { Git } from "../../src/git"
+import { Git } from "../../src/git/index.ts"
 import { Vcs } from "@/project/vcs"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 // ---------------------------------------------------------------------------
 // Helpers

@@ -15,8 +15,8 @@ import { once } from "node:events"
 import fs from "fs/promises"
 import * as allfs from "fs/promises"
 import path from "path"
-import { provideTestInstance, TestInstance, tmpdir } from "../fixture/fixture"
-import { it } from "../lib/effect"
+import { provideTestInstance, TestInstance, tmpdir } from "../fixture/fixture.ts"
+import { it } from "../lib/effect.ts"
 
 function quote(input: string) {
   const value = input.replaceAll("\\", "/")

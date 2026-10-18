@@ -1,7 +1,7 @@
 import path from "path"
 import { type ParseError, parse, printParseErrorCode } from "jsonc-parser"
 import { Schema } from "effect"
-import { ConfigProtection } from "./permission/config-paths"
+import { ConfigProtection } from "./permission/config-paths.ts"
 import { ConfigMarkdown } from "@/config/markdown"
 import { ConfigParse } from "@/config/parse"
 import { Config } from "@/config/config"

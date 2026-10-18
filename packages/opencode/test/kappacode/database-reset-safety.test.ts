@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import path from "path"
-import { resetDatabase } from "../fixture/db"
-import { tmpdir } from "../fixture/fixture"
+import { resetDatabase } from "../fixture/db.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 
 const root = path.resolve(import.meta.dir, "..")
 const paths = [/\bDatabase\.getPath\s*\(/, /\bDatabase\.Path\b/, /kappa\.db(?:-wal|-shm)?/]

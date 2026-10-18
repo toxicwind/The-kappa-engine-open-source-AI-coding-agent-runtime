@@ -3,9 +3,9 @@ import { FSUtil } from "@opencode-ai/core/fs-util"
 import fs from "fs/promises"
 import path from "path"
 import { Effect, Layer } from "effect"
-import { Snapshot } from "../../src/snapshot"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Snapshot } from "../../src/snapshot/index.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(Layer.mergeAll(Snapshot.defaultLayer, FSUtil.defaultLayer))
 const fwd = (...parts: string[]) => path.join(...parts).replaceAll("\\", "/")

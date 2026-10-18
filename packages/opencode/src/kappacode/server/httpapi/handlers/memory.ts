@@ -13,7 +13,7 @@ import {
   MemoryPurgePayload,
   MemoryQuery,
   MemoryRememberPayload,
-} from "../groups/memory"
+} from "../groups/memory.ts"
 
 function api<T>(effect: Effect.Effect<T, MemoryError>) {
   return effect.pipe(Effect.mapError(MemoryError.toHttp))

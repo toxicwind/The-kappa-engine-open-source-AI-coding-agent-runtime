@@ -64,4 +64,4 @@ export const Service =
     return ConfigTag as ServiceClass<Self, Id, Shape<Fields>>
   }
 
-export * as ConfigService from "./config-service"
+export * as ConfigService from "./config-service.ts"

@@ -2,10 +2,10 @@ import { describe, expect, test } from "bun:test"
 import path from "node:path"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
-import type { Provider } from "../../src/provider/provider"
-import { KappaSessionPrompt } from "../../src/kappacode/session/prompt"
-import { MessageV2 } from "../../src/session/message-v2"
-import { MessageID, PartID, SessionID } from "../../src/session/schema"
+import type { Provider } from "../../src/provider/provider.ts"
+import { KappaSessionPrompt } from "../../src/kappacode/session/prompt.ts"
+import { MessageV2 } from "../../src/session/message-v2.ts"
+import { MessageID, PartID, SessionID } from "../../src/session/schema.ts"
 
 const sessionID = SessionID.make("ses_test")
 const model = {

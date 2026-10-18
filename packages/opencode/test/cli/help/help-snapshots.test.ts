@@ -15,8 +15,8 @@
 // version (changes per release), so we'd snapshot a moving target.
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { cliIt } from "../../lib/cli-process"
-import { normalizeForSnapshot, PATH_SEP } from "../../lib/snapshot"
+import { cliIt } from "../../lib/cli-process.ts"
+import { normalizeForSnapshot, PATH_SEP } from "../../lib/snapshot.ts"
 
 // Composes `normalizeForSnapshot` (CRLF + tmpdir) with two help-specific
 // rules:

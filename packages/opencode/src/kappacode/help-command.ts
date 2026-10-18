@@ -1,5 +1,5 @@
-import { cmd } from "../cli/cmd/cmd"
-import { generateHelp } from "./help"
+import { cmd } from "../cli/cmd/cmd.ts"
+import { generateHelp } from "./help.ts"
 import type { Argv } from "yargs"
 import { markLazyCommandSelection } from "@/kappacode/cli/lazy-commands"
 

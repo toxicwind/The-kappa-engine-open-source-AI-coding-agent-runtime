@@ -4,8 +4,8 @@ import { SessionV1 } from "@opencode-ai/core/v1/session"
 import type { Session } from "@/session/session"
 import { MessageV2 } from "@/session/message-v2"
 import { MessageID, PartID, SessionID } from "@/session/schema"
-import { resumeHint } from "../task-resume"
-import { KappaPartLifecycle } from "./part-lifecycle"
+import { resumeHint } from "../task-resume.ts"
+import { KappaPartLifecycle } from "./part-lifecycle.ts"
 
 const task = "task"
 type Ops = Pick<Session.Interface, "get" | "messages" | "create" | "updateMessage" | "updatePart">

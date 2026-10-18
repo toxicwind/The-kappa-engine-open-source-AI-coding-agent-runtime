@@ -3,7 +3,7 @@ import { KappaClient, type Provider } from "@kappacode/sdk/v2"
 import type { Resolved } from "@opencode-ai/tui/config"
 import { TuiConfig } from "@/config/tui"
 import { resolveDiffStyle, resolveModelInfo, resolveRunTuiConfig } from "@/cli/cmd/run/runtime.boot"
-import { createTuiResolvedConfig } from "../../fixture/tui-runtime"
+import { createTuiResolvedConfig } from "../../fixture/tui-runtime.ts"
 
 function model(id: string, providerID: string, context: number, variants?: Record<string, Record<string, never>>) {
   return {

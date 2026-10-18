@@ -43,4 +43,4 @@ export function effectPayloads() {
   ]
 }
 
-export * as BusEvent from "./bus-event"
+export * as BusEvent from "./bus-event.ts"

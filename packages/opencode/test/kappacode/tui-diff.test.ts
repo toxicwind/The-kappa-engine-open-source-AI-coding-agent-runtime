@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { splitDiffHunks } from "../../src/kappacode/tui/diff"
+import { splitDiffHunks } from "../../src/kappacode/tui/diff.ts"
 
 describe("splitDiffHunks", () => {
   test("returns original diff when there are no hunks", () => {

@@ -5,14 +5,14 @@ import { Ripgrep } from "@opencode-ai/core/ripgrep"
 import { Cause, Effect, Exit, Layer } from "effect"
 import { afterEach, describe, expect } from "bun:test"
 import path from "path"
-import type { Permission } from "../../src/permission"
+import type { Permission } from "../../src/permission/index.ts"
 import type { Tool } from "@/tool/tool"
-import { SkillTool } from "../../src/tool/skill"
+import { SkillTool } from "../../src/tool/skill.ts"
 import { ToolRegistry } from "@/tool/registry"
 import { ToolJsonSchema } from "@/tool/json-schema"
-import { disposeAllInstances, provideTmpdirInstance, TestInstance } from "../fixture/fixture" // kappacode_change
-import { SessionID, MessageID } from "../../src/session/schema"
-import { testEffect } from "../lib/effect"
+import { disposeAllInstances, provideTmpdirInstance, TestInstance } from "../fixture/fixture.ts" // kappacode_change
+import { SessionID, MessageID } from "../../src/session/schema.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const baseCtx: Omit<Tool.Context, "ask"> = {
   sessionID: SessionID.make("ses_test"),

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
-import { getAdapter, registerAdapter } from "../../src/control-plane/adapters"
+import { getAdapter, registerAdapter } from "../../src/control-plane/adapters/index.ts"
 import { ProjectV2 } from "@opencode-ai/core/project"
-import type { WorkspaceInfo } from "../../src/control-plane/types"
+import type { WorkspaceInfo } from "../../src/control-plane/types.ts"
 
 function info(projectID: WorkspaceInfo["projectID"], type: string): WorkspaceInfo {
   return {

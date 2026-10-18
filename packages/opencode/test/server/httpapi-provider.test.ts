@@ -3,11 +3,11 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect, Layer } from "effect"
 import path from "path"
-import { resetDatabase } from "../fixture/db"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
-import { preparePluginDependencies } from "../kappacode/plugin-dependencies" // kappacode_change
-import { httpApiLayer, request } from "./httpapi-layer"
+import { resetDatabase } from "../fixture/db.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
+import { preparePluginDependencies } from "../kappacode/plugin-dependencies.ts" // kappacode_change
+import { httpApiLayer, request } from "./httpapi-layer.ts"
 
 const testStateLayer = Layer.effectDiscard(
   Effect.acquireRelease(

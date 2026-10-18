@@ -4,7 +4,7 @@ import type {
   VectorStoreSearchResult,
 } from "@kappacode/kappa-indexing/engine"
 import type { IndexingStatus } from "@kappacode/kappa-indexing/status"
-import type { IndexingWarning } from "./indexing-warning"
+import type { IndexingWarning } from "./indexing-warning.ts"
 
 export type InitInput = {
   directory: string

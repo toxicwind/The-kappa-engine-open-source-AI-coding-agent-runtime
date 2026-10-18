@@ -3,10 +3,10 @@ import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
 import { Provider } from "@/provider/provider"
 import { Schema } from "effect" // kappacode_change
 import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
-import { Authorization } from "../middleware/authorization"
-import { InstanceContextMiddleware } from "../middleware/instance-context"
-import { WorkspaceRoutingMiddleware, WorkspaceRoutingQuery } from "../middleware/workspace-routing"
-import { described } from "./metadata"
+import { Authorization } from "../middleware/authorization.ts"
+import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
+import { WorkspaceRoutingMiddleware, WorkspaceRoutingQuery } from "../middleware/workspace-routing.ts"
+import { described } from "./metadata.ts"
 
 const root = "/config"
 

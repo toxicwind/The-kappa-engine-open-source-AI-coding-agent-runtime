@@ -2,12 +2,12 @@ import { afterEach, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect } from "effect"
-import { effectCmd } from "../../src/cli/effect-cmd"
-import { EffectBridge } from "../../src/effect/bridge"
-import { InstanceRef } from "../../src/effect/instance-ref"
-import { Instance } from "../../src/kappacode/instance"
-import { disposeAllInstances, TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { effectCmd } from "../../src/cli/effect-cmd.ts"
+import { EffectBridge } from "../../src/effect/bridge.ts"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
+import { Instance } from "../../src/kappacode/instance.ts"
+import { disposeAllInstances, TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(FSUtil.node))
 

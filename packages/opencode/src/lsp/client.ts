@@ -3,10 +3,10 @@ import { pathToFileURL, fileURLToPath } from "url"
 import { createMessageConnection, StreamMessageReader, StreamMessageWriter } from "vscode-jsonrpc/node"
 import type { Diagnostic as VSCodeDiagnostic } from "vscode-languageserver-types"
 import { Process } from "@/util/process"
-import { LANGUAGE_EXTENSIONS } from "./language"
+import { LANGUAGE_EXTENSIONS } from "./language.ts"
 import { Effect, Schema } from "effect"
-import type * as LSPServer from "./server"
-import { withTimeout } from "../util/timeout"
+import type * as LSPServer from "./server.ts"
+import { withTimeout } from "../util/timeout.ts"
 import { Filesystem } from "@/util/filesystem"
 import type { InstanceContext } from "@/project/instance-context"
 
@@ -647,4 +647,4 @@ export async function create(input: {
   return result
 }
 
-export * as LSPClient from "./client"
+export * as LSPClient from "./client.ts"

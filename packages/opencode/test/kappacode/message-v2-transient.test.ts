@@ -2,10 +2,10 @@ import { expect, test } from "bun:test"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
-import { MessageV2 } from "../../src/session/message-v2"
-import { KappaPartLifecycle } from "../../src/kappacode/session/part-lifecycle"
-import { MessageID, PartID, SessionID } from "../../src/session/schema"
-import type { Provider } from "../../src/provider/provider"
+import { MessageV2 } from "../../src/session/message-v2.ts"
+import { KappaPartLifecycle } from "../../src/kappacode/session/part-lifecycle.ts"
+import { MessageID, PartID, SessionID } from "../../src/session/schema.ts"
+import type { Provider } from "../../src/provider/provider.ts"
 
 const sessionID = SessionID.make("ses_transient")
 const providerID = ProviderV2.ID.make("test")

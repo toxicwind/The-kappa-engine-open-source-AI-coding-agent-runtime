@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { RemoteProtocol } from "../../../src/kappa-sessions/remote-protocol"
+import { RemoteProtocol } from "../../../src/kappa-sessions/remote-protocol.ts"
 
 describe("RemoteProtocol", () => {
   // --- Outbound (CLI → DO) ---

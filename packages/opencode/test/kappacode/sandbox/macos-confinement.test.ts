@@ -33,8 +33,8 @@ import { EditTool } from "@/tool/edit"
 import type * as Tool from "@/tool/tool"
 import { Truncate } from "@/tool/truncate"
 import { WriteTool } from "@/tool/write"
-import { disposeAllInstances, provideTmpdirInstance } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { disposeAllInstances, provideTmpdirInstance } from "../../fixture/fixture.ts"
+import { testEffect } from "../../lib/effect.ts"
 
 const gate: { run?: (() => Promise<void>) | undefined; requests?: MutationRequest[] | undefined } = {}
 const runner: MutationRunner = (profile, request) =>

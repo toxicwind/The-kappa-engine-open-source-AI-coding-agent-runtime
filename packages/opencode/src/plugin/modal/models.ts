@@ -137,4 +137,4 @@ export async function get(baseURL: string, apiKey: string, existing: Record<stri
   )
 }
 
-export * as ModalModels from "./models"
+export * as ModalModels from "./models.ts"

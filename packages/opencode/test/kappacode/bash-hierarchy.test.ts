@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test"
-import { BashHierarchy } from "../../src/kappacode/bash-hierarchy"
+import { BashHierarchy } from "../../src/kappacode/bash-hierarchy.ts"
 
 function collect(command: string[], text: string): string[] {
   const set = new Set<string>()

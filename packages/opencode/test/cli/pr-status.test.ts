@@ -35,9 +35,9 @@ const spies = [
   spyOn(realPoller, "refreshPrLink").mockImplementation(refresh),
 ]
 
-import { prLinkHandler, prStatusHandler, prUnlinkHandler } from "../../src/cli/cmd/pr"
-import { InstanceRef } from "../../src/effect/instance-ref"
-import type { InstanceContext } from "../../src/project/instance-context"
+import { prLinkHandler, prStatusHandler, prUnlinkHandler } from "../../src/cli/cmd/pr.ts"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
+import type { InstanceContext } from "../../src/project/instance-context.ts"
 
 const writeSpy = spyOn(process.stderr, "write")
 afterAll(() => {

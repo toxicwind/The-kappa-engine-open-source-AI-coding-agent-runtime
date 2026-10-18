@@ -2,9 +2,9 @@ import { expect, spyOn, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
 import { pathToFileURL } from "url"
-import { tmpdir } from "../../fixture/fixture"
-import { createTuiPluginApi } from "../../fixture/tui-plugin"
-import { mockTuiRuntime } from "../../fixture/tui-runtime"
+import { tmpdir } from "../../fixture/fixture.ts"
+import { createTuiPluginApi } from "../../fixture/tui-plugin.ts"
+import { mockTuiRuntime } from "../../fixture/tui-runtime.ts"
 
 const { TuiPluginRuntime } = await import("../../../src/plugin/tui/runtime")
 

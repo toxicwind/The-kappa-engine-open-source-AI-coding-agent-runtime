@@ -10,7 +10,7 @@ import { Config } from "@/config/config"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { errorMessage } from "@/util/error"
 import { model as modelEnv } from "@/kappacode/process/env" // kappacode_change
-import * as Formatter from "./formatter"
+import * as Formatter from "./formatter.ts"
 
 export const Status = Schema.Struct({
   name: Schema.String,
@@ -201,4 +201,4 @@ export const node = LayerNode.make({
   deps: [Config.node, AppProcess.node, RuntimeFlags.node],
 })
 
-export * as Format from "."
+export * as Format from "./index.ts"

@@ -1,7 +1,7 @@
 import type { ModelMessage, ToolResultPart } from "ai"
 import { mergeDeep, unique } from "remeda"
 import type { JSONSchema7 } from "@ai-sdk/provider"
-import type * as Provider from "./provider"
+import type * as Provider from "./provider.ts"
 import type * as ModelsDev from "@opencode-ai/core/models-dev"
 import { iife } from "@/util/iife"
 import { kappaProviderOptions } from "@/kappacode/provider-options"
@@ -2042,4 +2042,4 @@ export function schema(model: Provider.Model, schema: JSONSchema7): JSONSchema7 
   return schema
 }
 
-export * as ProviderTransform from "./transform"
+export * as ProviderTransform from "./transform.ts"

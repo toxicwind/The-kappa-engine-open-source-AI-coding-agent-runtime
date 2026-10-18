@@ -4,7 +4,7 @@ import { NonNegativeInt, optionalOmitUndefined, withStatics } from "@opencode-ai
 import { zod, ZodOverride } from "@opencode-ai/core/effect-zod"
 import { Context, Effect, Schema, Types } from "effect"
 import z from "zod"
-import { jitter, next, validate } from "./cron"
+import { jitter, next, validate } from "./cron.ts"
 
 // The pure cron engine, re-exported so the service schedules through one module.
 export { jitter, next, validate }

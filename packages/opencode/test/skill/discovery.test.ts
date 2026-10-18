@@ -2,12 +2,12 @@ import { describe, expect, beforeAll, afterAll } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect } from "effect"
-import { Discovery } from "../../src/skill/discovery"
+import { Discovery } from "../../src/skill/discovery.ts"
 import { Global } from "@opencode-ai/core/global"
 import { Filesystem } from "@/util/filesystem"
 import { rm } from "fs/promises"
 import path from "path"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 let CLOUDFLARE_SKILLS_URL: string
 let server: ReturnType<typeof Bun.serve>

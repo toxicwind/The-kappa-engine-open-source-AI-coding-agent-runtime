@@ -7,13 +7,13 @@ import { mapValues, mergeDeep, omit, pickBy, sortBy } from "remeda"
 import { NoSuchModelError, type Provider as SDK } from "ai"
 import { Npm } from "@opencode-ai/core/npm"
 import { Hash } from "@opencode-ai/core/util/hash"
-import { Plugin } from "../plugin"
+import { Plugin } from "../plugin/index.ts"
 import { serviceUse } from "@opencode-ai/core/effect/service-use"
 import { type LanguageModelV3 } from "@ai-sdk/provider"
-import * as ModelsDev from "./models" // kappacode_change - assemble dynamic Kappa models around upstream core catalog
+import * as ModelsDev from "./models.ts" // kappacode_change - assemble dynamic Kappa models around upstream core catalog
 import { failure } from "@/kappacode/provider/catalog-recovery" // kappacode_change
-import { Auth } from "../auth"
-import { Env } from "../env"
+import { Auth } from "../auth/index.ts"
+import { Env } from "../env/index.ts"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { iife } from "@/util/iife"
 import { Global } from "@opencode-ai/core/global"
@@ -26,10 +26,10 @@ import { EffectPromise } from "@/effect/promise"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { isRecord } from "@/util/record"
 import { optional, optionalOmitUndefined } from "@opencode-ai/core/schema" // kappacode_change
-import { ProviderTransform } from "./transform"
+import { ProviderTransform } from "./transform.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { ModelStatus } from "./model-status"
+import { ModelStatus } from "./model-status.ts"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 // kappacode_change start
 import {
@@ -52,7 +52,7 @@ import {
 import * as ModelsRefresh from "@/kappacode/provider/models-refresh"
 import { bedrockAuth, providerKey, vertexAuth, vertexCredentials, vertexOptions } from "@/kappacode/provider/cloud-auth"
 // kappacode_change end
-import { ProviderError } from "./error"
+import { ProviderError } from "./error.ts"
 
 const OPENAI_HEADER_TIMEOUT_DEFAULT = 300_000
 
@@ -2213,4 +2213,4 @@ export const node = LayerNode.make({
   deps: [FSUtil.node, Config.node, Auth.node, Env.node, Plugin.node, ModelsDev.node, RuntimeFlags.node],
 })
 
-export * as Provider from "./provider"
+export * as Provider from "./provider.ts"

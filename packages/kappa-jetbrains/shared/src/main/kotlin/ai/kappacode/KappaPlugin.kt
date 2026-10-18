@@ -1,11 +1,11 @@
-package ai.kappacode
+package ai.kilocode
 
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.openapi.extensions.PluginId
 
 object KiloPlugin {
-    const val ID = "ai.kappacode.jetbrains"
+    const val ID = "ai.kilocode.jetbrains"
 
     val id: PluginId = PluginId.getId(ID)
 

@@ -21,12 +21,12 @@ import * as Log from "@opencode-ai/core/util/log"
 import { NamedError } from "@opencode-ai/core/util/error"
 import type { WorkspaceV2 } from "@opencode-ai/core/workspace"
 import { WorkspaceContext } from "@/control-plane/workspace-context"
-import { Event as IndexingEvent, Warning as IndexingWarningEvent } from "./indexing-event"
-import { indexingWarningKey, type IndexingWarning } from "./indexing-warning"
-import { IndexingWorker } from "./indexing-worker-client"
-import { LanceDBRuntime } from "./lancedb"
-import { indexingWithKappaDefault, resolveKappaIndexingAuth, type KappaIndexingAuth } from "./indexing-auth"
-import { primaryWorktree } from "./primary-worktree"
+import { Event as IndexingEvent, Warning as IndexingWarningEvent } from "./indexing-event.ts"
+import { indexingWarningKey, type IndexingWarning } from "./indexing-warning.ts"
+import { IndexingWorker } from "./indexing-worker-client.ts"
+import { LanceDBRuntime } from "./lancedb.ts"
+import { indexingWithKappaDefault, resolveKappaIndexingAuth, type KappaIndexingAuth } from "./indexing-auth.ts"
+import { primaryWorktree } from "./primary-worktree.ts"
 
 const log = Log.create({ service: "kappacode-indexing" })
 const auth = makeRuntime(Auth.Service, Auth.defaultLayer)

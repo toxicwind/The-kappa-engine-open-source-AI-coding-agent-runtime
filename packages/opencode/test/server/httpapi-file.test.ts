@@ -1,11 +1,11 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import { Context, Effect } from "effect"
 import path from "path"
-import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server"
-import { FilePaths } from "../../src/server/routes/instance/httpapi/groups/file"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
-import { pollWithTimeout } from "../lib/effect"
+import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server.ts"
+import { FilePaths } from "../../src/server/routes/instance/httpapi/groups/file.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
+import { pollWithTimeout } from "../lib/effect.ts"
 
 const context = Context.empty() as Context.Context<unknown>
 

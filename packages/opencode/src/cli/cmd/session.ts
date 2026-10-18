@@ -1,13 +1,13 @@
 import type { Argv } from "yargs"
 import { Effect } from "effect"
-import { cmd } from "./cmd"
-import { effectCmd, fail } from "../effect-cmd"
+import { cmd } from "./cmd.ts"
+import { effectCmd, fail } from "../effect-cmd.ts"
 import { Session } from "@/session/session"
 import { SessionStatus } from "@/session/status" // kappacode_change
 import { Wakeup } from "@/kappacode/wakeup" // kappacode_change
 import { futureDueFor, mergeScheduled } from "@/kappacode/session/scheduled" // kappacode_change
-import { SessionID } from "../../session/schema"
-import { UI } from "../ui"
+import { SessionID } from "../../session/schema.ts"
+import { UI } from "../ui.ts"
 import { Locale } from "@/util/locale"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { Filesystem } from "@/util/filesystem"

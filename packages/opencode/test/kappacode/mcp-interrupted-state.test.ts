@@ -4,8 +4,8 @@ import fs from "node:fs/promises"
 import { expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Fiber } from "effect"
-import { MCP } from "../../src/mcp/index"
-import { pollWithTimeout, testEffect } from "../lib/effect"
+import { MCP } from "../../src/mcp/index.ts"
+import { pollWithTimeout, testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(MCP.node))
 const fixture = path.join(import.meta.dir, "fixture/mcp-pid-stdio.ts")

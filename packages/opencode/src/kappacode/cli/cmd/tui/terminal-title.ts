@@ -1,4 +1,4 @@
-import { KappaTitleIcon } from "./title-icon"
+import { KappaTitleIcon } from "./title-icon.ts"
 
 type Session = {
   id: string

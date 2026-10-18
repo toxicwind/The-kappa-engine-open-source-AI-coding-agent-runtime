@@ -38,4 +38,4 @@ export async function install(_ide: (typeof SUPPORTED_IDES)[number]["name"]) {
 }
 // kappacode_change end
 
-export * as Ide from "."
+export * as Ide from "./index.ts"

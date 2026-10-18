@@ -1,9 +1,9 @@
 import { ConfigProvider, Effect, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
-import { parse } from "./assertions"
-import { runtime, type Runtime } from "./runtime"
-import type { ActiveScenario, BackendApp, CallResult, CaptureMode, SeededContext } from "./types"
-import type { Method, RequestSpec } from "./types" // kappacode_change
+import { parse } from "./assertions.ts"
+import { runtime, type Runtime } from "./runtime.ts"
+import type { ActiveScenario, BackendApp, CallResult, CaptureMode, SeededContext } from "./types.ts"
+import type { Method, RequestSpec } from "./types.ts" // kappacode_change
 
 type CallOptions = {
   auth?: {

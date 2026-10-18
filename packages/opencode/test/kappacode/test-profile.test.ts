@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import path from "path"
-import { TestProfile } from "../../script/kappacode/test-profile"
+import { TestProfile } from "../../script/kappacode/test-profile.ts"
 
 const root = path.resolve(import.meta.dir, "..")
 const glob = new Bun.Glob("**/*.test.{ts,tsx}")

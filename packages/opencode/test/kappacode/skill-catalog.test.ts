@@ -8,12 +8,12 @@ import { expect } from "bun:test"
 import { Effect } from "effect"
 import fs from "fs/promises"
 import path from "path"
-import { Permission } from "../../src/permission"
-import { SystemPrompt } from "../../src/session/system"
-import { SkillTool } from "../../src/tool/skill"
-import { ToolRegistry } from "../../src/tool/registry"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Permission } from "../../src/permission/index.ts"
+import { SystemPrompt } from "../../src/session/system.ts"
+import { SkillTool } from "../../src/tool/skill.ts"
+import { ToolRegistry } from "../../src/tool/registry.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(
   LayerNode.compile(LayerNode.group([ToolRegistry.node, SystemPrompt.node, CrossSpawnSpawner.node, Ripgrep.node])),

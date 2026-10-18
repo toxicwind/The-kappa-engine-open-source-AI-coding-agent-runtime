@@ -3,7 +3,7 @@ import { InstanceStore } from "@/project/instance-store"
 import { Effect, Layer } from "effect"
 import { HttpServerResponse } from "effect/unstable/http"
 import { HttpApiMiddleware } from "effect/unstable/httpapi"
-import { WorkspaceRouteContext } from "./workspace-routing"
+import { WorkspaceRouteContext } from "./workspace-routing.ts"
 
 export class InstanceContextMiddleware extends HttpApiMiddleware.Service<
   InstanceContextMiddleware,

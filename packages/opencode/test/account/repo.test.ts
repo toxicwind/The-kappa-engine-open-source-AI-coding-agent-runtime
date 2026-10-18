@@ -3,10 +3,10 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer, Option } from "effect"
 import { sql } from "drizzle-orm"
 
-import { AccountRepo } from "../../src/account/repo"
-import { AccessToken, AccountID, OrgID, RefreshToken } from "../../src/account/schema"
+import { AccountRepo } from "../../src/account/repo.ts"
+import { AccessToken, AccountID, OrgID, RefreshToken } from "../../src/account/schema.ts"
 import { Database } from "@opencode-ai/core/database/database"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 
 const truncate = Layer.effectDiscard(
   Effect.gen(function* () {

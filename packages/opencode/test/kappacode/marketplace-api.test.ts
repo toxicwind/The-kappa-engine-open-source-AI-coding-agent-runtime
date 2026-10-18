@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { clearCache, fetchAll, kebabToTitleCase, parseResponse } from "../../src/kappacode/marketplace/api"
+import { clearCache, fetchAll, kebabToTitleCase, parseResponse } from "../../src/kappacode/marketplace/api.ts"
 
 function response(body: string, status = 200) {
   return new Response(body, { status, statusText: status === 200 ? "OK" : "Bad" })

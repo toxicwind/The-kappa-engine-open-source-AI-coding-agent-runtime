@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KappaSessionProcessor } from "../../../src/kappacode/session/processor"
+import { KappaSessionProcessor } from "../../../src/kappacode/session/processor.ts"
 
 describe("reasoning_content handling for reasoning models", () => {
   test("observe marks attempt.text=true on reasoning-delta", () => {

@@ -1,7 +1,7 @@
 import type { ModelMessage } from "ai"
 import { MessageV2 } from "@/session/message-v2"
-import { KappaSessionMessageOrder } from "./message-order"
-import { KappaSessionControl } from "./control"
+import { KappaSessionMessageOrder } from "./message-order.ts"
+import { KappaSessionControl } from "./control.ts"
 
 export namespace KappaSessionContinuation {
   export function target(messages: MessageV2.WithParts[]) {

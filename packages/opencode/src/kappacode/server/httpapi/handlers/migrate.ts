@@ -3,7 +3,7 @@ import { HttpApiBuilder } from "effect/unstable/httpapi"
 import { NamedError } from "@opencode-ai/core/util/error"
 import { SessionResumeImport } from "@/kappacode/session-resume/import"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
-import { MigrateFailedError, MigrateSessionsDiscoverPayload, MigrateSessionsPayload } from "../groups/migrate"
+import { MigrateFailedError, MigrateSessionsDiscoverPayload, MigrateSessionsPayload } from "../groups/migrate.ts"
 
 export const migrateHandlers = HttpApiBuilder.group(InstanceHttpApi, "migrate", (handlers) =>
   Effect.gen(function* () {

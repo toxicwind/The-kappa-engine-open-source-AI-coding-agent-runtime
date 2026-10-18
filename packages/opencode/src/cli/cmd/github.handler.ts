@@ -16,15 +16,15 @@ import type {
   WorkflowRunEvent,
   PullRequestEvent,
 } from "@octokit/webhooks-types"
-import { UI } from "../ui"
+import { UI } from "../ui.ts"
 import { ModelsDev } from "@opencode-ai/core/models-dev"
 import { InstanceRef } from "@/effect/instance-ref"
 import { SessionShare } from "@/share/session"
 import { Session } from "@/session/session"
-import type { SessionID } from "../../session/schema"
-import { MessageID, PartID } from "../../session/schema"
+import type { SessionID } from "../../session/schema.ts"
+import { MessageID, PartID } from "../../session/schema.ts"
 import { Provider } from "@/provider/provider"
-import { MessageV2 } from "../../session/message-v2"
+import { MessageV2 } from "../../session/message-v2.ts"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { EventV2 } from "@opencode-ai/core/event"
 import { SessionPrompt } from "@/session/prompt"
@@ -34,7 +34,7 @@ import { Process } from "@/util/process"
 import { parseGitHubRemote } from "@/util/repository"
 import { Effect } from "effect"
 import { GitHubSecurity } from "@/kappacode/security/github" // kappacode_change
-import { extractResponseText, formatPromptTooLargeError } from "./github.shared"
+import { extractResponseText, formatPromptTooLargeError } from "./github.shared.ts"
 
 type GitHubAuthor = {
   login: string

@@ -6,7 +6,7 @@ import { Provider } from "@/provider/provider"
 
 import { generateObject, streamObject, type ModelMessage } from "ai"
 import { Truncate } from "@/tool/truncate"
-import { Auth } from "../auth"
+import { Auth } from "../auth/index.ts"
 import { ProviderTransform } from "@/provider/transform"
 
 import PROMPT_GENERATE from "./generate.txt"
@@ -21,7 +21,7 @@ import { Global } from "@opencode-ai/core/global"
 import { KappacodePaths } from "@/kappacode/paths" // kappacode_change
 import path from "path"
 import { Plugin } from "@/plugin"
-import { Skill } from "../skill"
+import { Skill } from "../skill/index.ts"
 import { Effect, Context, Layer, Schema } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import * as Option from "effect/Option"
@@ -609,4 +609,4 @@ export const node = LayerNode.make({
   deps: [Config.node, Auth.node, Plugin.node, Skill.node, Provider.node, RuntimeFlags.node, locationServiceMapNode], // kappacode_change
 })
 
-export * as Agent from "./agent"
+export * as Agent from "./agent.ts"

@@ -7,7 +7,7 @@
 // So the stall must keep the loop running -- polling a shared gate rather than blocking on it
 // -- otherwise nothing is reproduced. The gate keeps it deterministic instead of timing
 // dependent, and the parent releases it once it has posted into the window.
-import { KappaRpc } from "../../../../src/kappacode/util/rpc"
+import { KappaRpc } from "../../../../src/kappacode/util/rpc.ts"
 
 const gate = new Int32Array(new SharedArrayBuffer(4))
 postMessage(gate)

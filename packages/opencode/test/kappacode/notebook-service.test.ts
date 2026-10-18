@@ -5,9 +5,9 @@ import { Notebook, HostError } from "@/kappacode/notebook/service"
 import { EditRequest, Event, ReadRequest, ReadResult, type Request } from "@/kappacode/notebook/protocol"
 import { SessionID } from "@/session/schema"
 import { Effect, Fiber, Layer, Queue, Schema } from "effect"
-import { TestInstance } from "../fixture/fixture"
+import { TestInstance } from "../fixture/fixture.ts"
 import { disposeInstance } from "@/effect/instance-registry"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 import { InstanceRef } from "@/effect/instance-ref"
 
 const it = testEffect(Notebook.layer("20 millis").pipe(Layer.provideMerge(Bus.layer)))

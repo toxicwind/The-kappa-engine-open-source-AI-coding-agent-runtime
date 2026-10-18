@@ -1,9 +1,9 @@
 import { describe, expect } from "bun:test"
 import { ConfigProvider, Effect, Layer } from "effect"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { RuntimeFlags } from "../../src/effect/runtime-flags"
-import { BoardEnabled } from "../../src/kappacode/board/enabled"
-import { it } from "../lib/effect"
+import { RuntimeFlags } from "../../src/effect/runtime-flags.ts"
+import { BoardEnabled } from "../../src/kappacode/board/enabled.ts"
+import { it } from "../lib/effect.ts"
 
 const fromEnv = (input: Record<string, unknown>) =>
   AppNodeBuilder.build(RuntimeFlags.node).pipe(Layer.provide(ConfigProvider.layer(ConfigProvider.fromUnknown(input))))

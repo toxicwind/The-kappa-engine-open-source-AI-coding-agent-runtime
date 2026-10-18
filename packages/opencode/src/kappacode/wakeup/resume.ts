@@ -5,7 +5,7 @@ import type { InstanceContext } from "@/project/instance-context"
 import { GoalLink } from "@/kappacode/session/goal/link"
 import { GoalState } from "@/kappacode/session/goal/state"
 import { Effect, Layer } from "effect"
-import { Fire, type Info } from "./schema"
+import { Fire, type Info } from "./schema.ts"
 
 const log = Log.create({ service: "wakeup" })
 

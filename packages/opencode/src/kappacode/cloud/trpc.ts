@@ -13,11 +13,11 @@ import {
   type Decoder,
   type GetMessageResultInput,
   type MessageResult,
-} from "./contracts"
-import { ambiguousAdmissionError, CloudError, ServiceRedirectError, ServiceTransportError } from "./errors"
-import { createBearerHttpClient, type BearerHttpClient, type BearerHttpClientOptions, type BearerRequest } from "./http"
-import { createMessageId } from "./message-id"
-import { readBoundedJson } from "./response-json"
+} from "./contracts.ts"
+import { ambiguousAdmissionError, CloudError, ServiceRedirectError, ServiceTransportError } from "./errors.ts"
+import { createBearerHttpClient, type BearerHttpClient, type BearerHttpClientOptions, type BearerRequest } from "./http.ts"
+import { createMessageId } from "./message-id.ts"
+import { readBoundedJson } from "./response-json.ts"
 
 const TrpcSuccessEnvelopeSchema = z.object({ result: z.object({ data: z.unknown() }).strict() }).strict()
 

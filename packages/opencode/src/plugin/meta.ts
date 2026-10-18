@@ -6,7 +6,7 @@ import { Global } from "@opencode-ai/core/global"
 import { Filesystem } from "@/util/filesystem"
 import { Flock } from "@opencode-ai/core/util/flock"
 
-import { parsePluginSpecifier, pluginSource } from "./shared"
+import { parsePluginSpecifier, pluginSource } from "./shared.ts"
 
 type Source = "file" | "npm"
 
@@ -185,4 +185,4 @@ export async function list(): Promise<Store> {
   return Flock.withLock(lock(file), async () => read(file))
 }
 
-export * as PluginMeta from "./meta"
+export * as PluginMeta from "./meta.ts"

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { TestShard } from "../../script/kappacode/test-shard"
+import { TestShard } from "../../script/kappacode/test-shard.ts"
 
 describe("test shard", () => {
   test("parses valid shard specifications", () => {

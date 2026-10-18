@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { RulesMigrator } from "../../src/kappacode/rules-migrator"
-import { tmpdir } from "../fixture/fixture"
+import { RulesMigrator } from "../../src/kappacode/rules-migrator.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 import fs from "fs/promises"
 

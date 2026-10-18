@@ -2,12 +2,12 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { afterEach, expect } from "bun:test"
 import { Effect, Fiber, Layer, Queue } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Question } from "../../src/question"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
-import { QuestionID } from "../../src/question/schema"
-import { SessionID } from "../../src/session/schema"
-import { disposeAllInstances } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { Question } from "../../src/question/index.ts"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
+import { QuestionID } from "../../src/question/schema.ts"
+import { SessionID } from "../../src/session/schema.ts"
+import { disposeAllInstances } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const events = AppNodeBuilder.build(EventV2Bridge.node)
 const it = testEffect(

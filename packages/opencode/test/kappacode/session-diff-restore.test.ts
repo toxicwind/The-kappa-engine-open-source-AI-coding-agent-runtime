@@ -2,8 +2,8 @@ import { afterEach, describe, expect, test } from "bun:test"
 import fs from "node:fs"
 import os from "node:os"
 import path from "node:path"
-import { appendSessionDiffs, mergeSessionDiffs } from "../../src/kappacode/session-portability/cumulative-diff"
-import { extractSessionDiffs, restoreSessionDiffs } from "../../src/kappacode/session-portability/session-diff-restore"
+import { appendSessionDiffs, mergeSessionDiffs } from "../../src/kappacode/session-portability/cumulative-diff.ts"
+import { extractSessionDiffs, restoreSessionDiffs } from "../../src/kappacode/session-portability/session-diff-restore.ts"
 import { fetchCloudSessionForImport } from "@kappacode/kappa-gateway"
 
 const dirs: string[] = []

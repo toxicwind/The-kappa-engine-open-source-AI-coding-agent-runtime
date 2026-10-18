@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KappaRpc } from "../../../src/kappacode/util/rpc"
+import { KappaRpc } from "../../../src/kappacode/util/rpc.ts"
 
 /**
  * Drives the real transport over a pair of ports, so the worker side runs the actual

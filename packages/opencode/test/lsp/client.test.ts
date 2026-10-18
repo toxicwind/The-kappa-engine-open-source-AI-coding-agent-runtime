@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import path from "path"
 import { pathToFileURL } from "url"
-import { tmpdir, withTestInstance } from "../fixture/fixture"
+import { tmpdir, withTestInstance } from "../fixture/fixture.ts"
 import { LSPClient } from "@/lsp/client"
 import * as LSPServer from "@/lsp/server"
 

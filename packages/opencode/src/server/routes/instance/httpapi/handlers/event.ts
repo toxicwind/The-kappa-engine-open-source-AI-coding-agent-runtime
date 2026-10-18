@@ -7,7 +7,7 @@ import * as Stream from "effect/Stream"
 import { HttpServerResponse } from "effect/unstable/http"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
 import * as Sse from "effect/unstable/encoding/Sse"
-import { EventApi } from "../groups/event"
+import { EventApi } from "../groups/event.ts"
 
 function eventData(data: unknown): Sse.Event {
   return {

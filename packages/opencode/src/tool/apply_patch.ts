@@ -1,23 +1,23 @@
 import * as path from "path"
 import { Effect, Schema } from "effect"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { Watcher } from "@opencode-ai/core/filesystem/watcher"
 import { InstanceState } from "@/effect/instance-state"
-import { Patch } from "../patch"
+import { Patch } from "../patch/index.ts"
 import { createTwoFilesPatch, diffLines } from "diff"
-import { assertExternalDirectoryEffect } from "./external-directory"
-import { trimDiff } from "./edit"
+import { assertExternalDirectoryEffect } from "./external-directory.ts"
+import { trimDiff } from "./edit.ts"
 import { LSP } from "@/lsp/lsp"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import DESCRIPTION from "./apply_patch.txt"
 import { FileSystem } from "@opencode-ai/core/filesystem"
-import { filterDiagnostics } from "./diagnostics" // kappacode_change
-import { ConfigValidation } from "../kappacode/config-validation" // kappacode_change
-import * as EncodedIO from "../kappacode/tool/encoded-io" // kappacode_change
-import { Format } from "../format"
+import { filterDiagnostics } from "./diagnostics.ts" // kappacode_change
+import { ConfigValidation } from "../kappacode/config-validation.ts" // kappacode_change
+import * as EncodedIO from "../kappacode/tool/encoded-io.ts" // kappacode_change
+import { Format } from "../format/index.ts"
 import * as Bom from "@/util/bom"
-import { assertMutablePath } from "../kappacode/agent-manager/protection" // kappacode_change
+import { assertMutablePath } from "../kappacode/agent-manager/protection.ts" // kappacode_change
 
 export const Parameters = Schema.Struct({
   patchText: Schema.String.annotate({ description: "The full patch text that describes all changes to be made" }),

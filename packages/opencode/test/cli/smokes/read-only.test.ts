@@ -16,7 +16,7 @@
 // cuts per-spawn cost when this suite gets bigger.
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { cliIt } from "../../lib/cli-process"
+import { cliIt } from "../../lib/cli-process.ts"
 
 describe("opencode read-only commands (smoke)", () => {
   // `mcp list` reads MCP server config and pings each one. With the empty

@@ -3,7 +3,7 @@ import { EventServiceClient } from "@/kappacode/event-service/client"
 import { KILO_EVENT_SERVICE_URL } from "@kappacode/kappa-gateway"
 import * as Log from "@opencode-ai/core/util/log"
 import { Context, Effect, Layer } from "effect"
-import type { Platform } from "./context"
+import type { Platform } from "./context.ts"
 import {
   attachedUnion,
   desiredContexts,
@@ -15,7 +15,7 @@ import {
   visibleUnion,
   type ViewerSnapshot,
   type ViewerState,
-} from "./policy"
+} from "./policy.ts"
 
 const log = Log.create({ service: "kappa-viewers" })
 

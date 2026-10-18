@@ -21,4 +21,4 @@ export function layer(overrides?: Partial<Config.Interface>) {
   return Layer.succeed(Config.Service, make(overrides))
 }
 
-export * as TestConfig from "./config"
+export * as TestConfig from "./config.ts"

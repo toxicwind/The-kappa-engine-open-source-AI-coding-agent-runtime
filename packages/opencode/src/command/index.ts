@@ -5,8 +5,8 @@ import { EffectBridge } from "@/effect/bridge"
 import type { InstanceContext } from "@/project/instance-context"
 import { Effect, Layer, Context, Schema } from "effect"
 import { Config } from "@/config/config"
-import { MCP } from "../mcp"
-import { Skill } from "../skill"
+import { MCP } from "../mcp/index.ts"
+import { Skill } from "../skill/index.ts"
 import { reviewCommand } from "@/kappacode/review/command" // kappacode_change
 import { apply as applyOverride, type Override } from "@/kappacode/command/override" // kappacode_change
 import * as Reserved from "@/kappacode/command/reserved" // kappacode_change
@@ -251,4 +251,4 @@ const layer = Layer.effect(
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [Config.node, MCP.node, Skill.node] })
 
-export * as Command from "."
+export * as Command from "./index.ts"

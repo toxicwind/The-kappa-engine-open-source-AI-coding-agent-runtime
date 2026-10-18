@@ -20,11 +20,11 @@ const generated = await import("./generate.ts")
 import { Script } from "@opencode-ai/script"
 import pkg from "../package.json"
 // kappacode_change start
-import { stageBubblewrap } from "./kappacode/bubblewrap"
-import { LanceDBRuntime } from "../src/kappacode/lancedb"
-import { KappaSandboxWorker } from "./kappacode/kappa-sandbox-worker"
-import { KappaSandboxNetwork } from "./kappacode/kappa-sandbox-network"
-import * as KappaSbom from "./kappacode/sbom"
+import { stageBubblewrap } from "./kappacode/bubblewrap.ts"
+import { LanceDBRuntime } from "../src/kappacode/lancedb.ts"
+import { KappaSandboxWorker } from "./kappacode/kappa-sandbox-worker.ts"
+import { KappaSandboxNetwork } from "./kappacode/kappa-sandbox-network.ts"
+import * as KappaSbom from "./kappacode/sbom.ts"
 import * as KappaRelease from "../../../script/kappacode/release"
 // kappacode_change end
 

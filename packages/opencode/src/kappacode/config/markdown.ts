@@ -1,7 +1,7 @@
 import { ConfigVariable } from "@/config/variable"
 import { InvalidError } from "@opencode-ai/core/v1/config/error"
 import { Filesystem } from "@/util/filesystem"
-import { ConfigVariableGuard } from "./variable"
+import { ConfigVariableGuard } from "./variable.ts"
 import path from "node:path"
 
 export namespace KappacodeMarkdown {

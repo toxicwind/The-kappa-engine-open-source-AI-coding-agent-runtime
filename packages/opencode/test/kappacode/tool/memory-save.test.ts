@@ -10,9 +10,9 @@ import { MessageID, SessionID } from "@/session/schema"
 import { Permission } from "@/permission"
 import { RemoteSender } from "@/kappa-sessions/remote-sender"
 import type { Tool } from "@/tool/tool"
-import { resetDatabase } from "../../fixture/db"
-import { provideTestInstance, tmpdir } from "../../fixture/fixture"
-import { runMemoryTool } from "./memory-runtime"
+import { resetDatabase } from "../../fixture/db.ts"
+import { provideTestInstance, tmpdir } from "../../fixture/fixture.ts"
+import { runMemoryTool } from "./memory-runtime.ts"
 
 const watch = process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER
 

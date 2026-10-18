@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
-import { RemoteExit } from "../../../../src/kappa-sessions/remote-exit"
-import { RemoteExitRpc } from "../../../../../src/kappacode/cli/cmd/tui/remote-exit-rpc"
-import { createWorkerRemoteExit } from "../../../../../src/kappacode/cli/cmd/tui/remote-exit-worker"
+import { RemoteExit } from "../../../../src/kappa-sessions/remote-exit.ts"
+import { RemoteExitRpc } from "../../../../src/kappacode/cli/cmd/tui/remote-exit-rpc.ts"
+import { createWorkerRemoteExit } from "../../../../src/kappacode/cli/cmd/tui/remote-exit-worker.ts"
 
 describe("worker remote exit lifecycle", () => {
   test("registers only after tuiReady and emits RPC instead of invoking parent state", async () => {

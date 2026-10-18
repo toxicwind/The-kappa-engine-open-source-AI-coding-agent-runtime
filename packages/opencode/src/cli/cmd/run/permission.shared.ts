@@ -14,8 +14,8 @@
 // permissionInfo() extracts display info (icon, title, lines, diff) from
 // the request, delegating to tool.ts for tool-specific formatting.
 import type { PermissionRequest } from "@kappacode/sdk/v2"
-import type { PermissionReply } from "./types"
-import { toolPath, toolPermissionInfo } from "./tool"
+import type { PermissionReply } from "./types.ts"
+import { toolPath, toolPermissionInfo } from "./tool.ts"
 
 type Dict = Record<string, unknown>
 

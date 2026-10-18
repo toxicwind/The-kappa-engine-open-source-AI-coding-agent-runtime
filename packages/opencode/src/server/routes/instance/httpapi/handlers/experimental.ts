@@ -23,7 +23,7 @@ import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse"
 import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
 import * as Log from "@opencode-ai/core/util/log" // kappacode_change
 import path from "path" // kappacode_change
-import { InstanceHttpApi } from "../api"
+import { InstanceHttpApi } from "../api.ts"
 import {
   ConsoleSwitchPayload,
   SessionListQuery,
@@ -31,7 +31,7 @@ import {
   WorktreeApiError,
   WorktreeDiffFileQuery,
   WorktreeDiffQuery,
-} from "../groups/experimental"
+} from "../groups/experimental.ts"
 
 function mapWorktreeError<A, R>(self: Effect.Effect<A, Worktree.Error, R>) {
   return self.pipe(

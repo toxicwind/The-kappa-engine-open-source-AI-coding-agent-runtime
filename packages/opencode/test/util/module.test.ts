@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import path from "path"
 import { Module } from "@opencode-ai/core/util/module"
 import { Filesystem } from "@/util/filesystem"
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 
 describe("util.module", () => {
   test("resolves package subpaths from the provided dir", async () => {

@@ -1,8 +1,8 @@
 import { Effect } from "effect"
 import { EffectBridge } from "@/effect/bridge"
 import { InstanceRef, WorkspaceRef } from "@/effect/instance-ref"
-import { getAdapter } from "./adapters"
-import type { WorkspaceAdapter, WorkspaceInfo } from "./types"
+import { getAdapter } from "./adapters/index.ts"
+import type { WorkspaceAdapter, WorkspaceInfo } from "./types.ts"
 
 const context = Effect.gen(function* () {
   return {
@@ -48,4 +48,4 @@ export const remove = (info: WorkspaceInfo) =>
     return yield* EffectBridge.fromPromise(() => adapter.remove(info, ctx))
   })
 
-export * as WorkspaceAdapterRuntime from "./workspace-adapter-runtime"
+export * as WorkspaceAdapterRuntime from "./workspace-adapter-runtime.ts"

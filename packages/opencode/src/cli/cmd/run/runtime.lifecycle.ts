@@ -16,9 +16,9 @@ import { openEditor } from "@opencode-ai/tui/editor"
 import { registerOpencodeKeymap } from "@opencode-ai/tui/keymap"
 import { Session as SessionApi } from "@/session/session"
 import * as Locale from "@/util/locale"
-import { resolveInteractiveStdin } from "./runtime.stdin"
-import { entrySplash, exitSplash, splashMeta } from "./splash"
-import { resolveRunTheme } from "./theme"
+import { resolveInteractiveStdin } from "./runtime.stdin.ts"
+import { entrySplash, exitSplash, splashMeta } from "./splash.ts"
+import { resolveRunTheme } from "./theme.ts"
 import type {
   FooterApi,
   PermissionReply,
@@ -29,8 +29,8 @@ import type {
   RunPrompt,
   RunResource,
   RunTuiConfig,
-} from "./types"
-import { formatModelLabel } from "./variant.shared"
+} from "./types.ts"
+import { formatModelLabel } from "./variant.shared.ts"
 
 const FOOTER_HEIGHT = 4
 

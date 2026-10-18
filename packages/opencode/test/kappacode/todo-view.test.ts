@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { TodoView } from "../../src/kappacode/todo-view"
+import { TodoView } from "../../src/kappacode/todo-view.ts"
 
 function item(content: string, status = "pending"): TodoView.Todo {
   return { content, status, priority: "medium" }

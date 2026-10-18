@@ -6,7 +6,7 @@ import type { TuiPluginApi } from "@kappacode/plugin/tui"
 import type { Event, Message, Part, Session } from "@kappacode/sdk/v2"
 import { createSignal } from "solid-js"
 import { MemorySidebar } from "@/kappacode/cli/cmd/tui/component/memory-status"
-import { directory } from "../../../../fixture/tui-sdk"
+import { directory } from "../../../../fixture/tui-sdk.ts"
 
 const id = "ses_memory_status"
 

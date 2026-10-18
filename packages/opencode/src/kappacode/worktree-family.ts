@@ -1,8 +1,8 @@
 import { Effect } from "effect"
-import { InstanceState } from "../effect/instance-state"
-import { Project } from "../project/project"
-import { Filesystem } from "../util/filesystem"
-import { Git } from "../git"
+import { InstanceState } from "../effect/instance-state.ts"
+import { Project } from "../project/project.ts"
+import { Filesystem } from "../util/filesystem.ts"
+import { Git } from "../git/index.ts"
 
 export namespace WorktreeFamily {
   export const list = Effect.fn("WorktreeFamily.list")(function* () {

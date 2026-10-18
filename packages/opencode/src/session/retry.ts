@@ -1,9 +1,9 @@
 import type { NamedError } from "@opencode-ai/core/util/error"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { Cause, Clock, Duration, Effect, Schedule } from "effect"
-import { MessageV2 } from "./message-v2"
+import { MessageV2 } from "./message-v2.ts"
 import { isKappaError } from "@/kappacode/kappa-errors" // kappacode_change
-import { SessionNetwork } from "./network" // kappacode_change
+import { SessionNetwork } from "./network.ts" // kappacode_change
 import { iife } from "@/util/iife"
 import { isRecord } from "@/util/record"
 
@@ -192,4 +192,4 @@ export function policy(opts: {
   )
 }
 
-export * as SessionRetry from "./retry"
+export * as SessionRetry from "./retry.ts"

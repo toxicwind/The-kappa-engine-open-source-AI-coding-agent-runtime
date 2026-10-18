@@ -12,7 +12,7 @@ import {
   loadKappaEmbeddingModels,
   mergeIndexingConfig,
   type IndexingScope,
-} from "../../src/kappacode/components/indexing-dialog-state"
+} from "../../src/kappacode/components/indexing-dialog-state.ts"
 
 describe("indexing dialog state", () => {
   test.serial("loads Kappa models directly from the public catalog", async () => {

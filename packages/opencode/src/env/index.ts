@@ -50,4 +50,4 @@ const layer = Layer.effect(
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [] })
 
-export * as Env from "."
+export * as Env from "./index.ts"

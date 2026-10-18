@@ -1,22 +1,22 @@
 import { Schema } from "effect"
 import * as path from "path"
 import { Effect } from "effect"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import { LSP } from "@/lsp/lsp"
 import { createTwoFilesPatch } from "diff"
 import DESCRIPTION from "./write.txt"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { FileSystem } from "@opencode-ai/core/filesystem"
 import { Watcher } from "@opencode-ai/core/filesystem/watcher"
-import { Format } from "../format"
+import { Format } from "../format/index.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { InstanceState } from "@/effect/instance-state"
-import { trimDiff, buildFileDiff } from "./edit" // kappacode_change
-import { assertExternalDirectoryEffect } from "./external-directory"
-import { filterDiagnostics } from "./diagnostics" // kappacode_change
-import { ConfigValidation } from "../kappacode/config-validation" // kappacode_change
-import * as EncodedIO from "../kappacode/tool/encoded-io" // kappacode_change
-import { assertMutablePath } from "../kappacode/agent-manager/protection" // kappacode_change
+import { trimDiff, buildFileDiff } from "./edit.ts" // kappacode_change
+import { assertExternalDirectoryEffect } from "./external-directory.ts"
+import { filterDiagnostics } from "./diagnostics.ts" // kappacode_change
+import { ConfigValidation } from "../kappacode/config-validation.ts" // kappacode_change
+import * as EncodedIO from "../kappacode/tool/encoded-io.ts" // kappacode_change
+import { assertMutablePath } from "../kappacode/agent-manager/protection.ts" // kappacode_change
 import * as Bom from "@/util/bom"
 
 const MAX_PROJECT_DIAGNOSTICS_FILES = 5

@@ -8,9 +8,9 @@ import { Vcs } from "@/project/vcs"
 import { Skill } from "@/skill"
 import { Effect } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { ApiVcsApplyError } from "../groups/instance"
-import { markInstanceForDisposal } from "../lifecycle"
+import { InstanceHttpApi } from "../api.ts"
+import { ApiVcsApplyError } from "../groups/instance.ts"
+import { markInstanceForDisposal } from "../lifecycle.ts"
 
 export const instanceHandlers = HttpApiBuilder.group(InstanceHttpApi, "instance", (handlers) =>
   Effect.gen(function* () {

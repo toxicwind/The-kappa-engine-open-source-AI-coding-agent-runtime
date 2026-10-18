@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
-import { ProviderTransform } from "../../../src/provider/transform"
-import type { Provider } from "../../../src/provider/provider"
+import { ProviderTransform } from "../../../src/provider/transform.ts"
+import type { Provider } from "../../../src/provider/provider.ts"
 
 function model(id: string, reasoning = true, npm = "@ai-sdk/openai-compatible"): Provider.Model {
   return {

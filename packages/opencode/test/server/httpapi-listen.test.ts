@@ -3,11 +3,11 @@ import net from "node:net"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { Server } from "../../src/server/server"
-import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty"
-import { withTimeout } from "../../src/util/timeout"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
+import { Server } from "../../src/server/server.ts"
+import { PtyPaths } from "../../src/server/routes/instance/httpapi/groups/pty.ts"
+import { withTimeout } from "../../src/util/timeout.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 
 const original = {
   KILO_SERVER_PASSWORD: Flag.KILO_SERVER_PASSWORD,

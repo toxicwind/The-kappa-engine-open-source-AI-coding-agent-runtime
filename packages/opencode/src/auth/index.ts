@@ -104,4 +104,4 @@ const layer = Layer.effect(
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [FSUtil.node] })
 export const defaultLayer = layer.pipe(Layer.provide(FSUtil.defaultLayer)) // kappacode_change - legacy Kappa runtime compatibility
 
-export * as Auth from "."
+export * as Auth from "./index.ts"

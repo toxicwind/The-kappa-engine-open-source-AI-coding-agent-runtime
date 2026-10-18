@@ -1,6 +1,6 @@
 import * as Locale from "@/util/locale"
-import type { SessionMessages } from "./session.shared"
-import type { RunProvider, StreamCommit } from "./types"
+import type { SessionMessages } from "./session.shared.ts"
+import type { RunProvider, StreamCommit } from "./types.ts"
 
 export function turnSummaryCommit(input: {
   agent: string

@@ -1,17 +1,17 @@
 // kappacode_change - new file
 import { Effect, Schema } from "effect"
-import { EffectBridge } from "../effect/bridge"
-import * as Tool from "./tool"
-import { Git } from "../git"
-import { Instance } from "../kappacode/instance"
-import { Locale } from "../util/locale"
-import { Filesystem } from "../util/filesystem" // kappacode_change
-import { WorktreeFamily } from "../kappacode/worktree-family" // kappacode_change
-import { Session } from "../session/session" // kappacode_change
-import { SessionID } from "../session/schema" // kappacode_change
-import { RecallSearch } from "../kappacode/session/recall-search" // kappacode_change
-import { SessionTranscript } from "../kappacode/session/transcript" // kappacode_change
-import { KappaSessionPromptQueue } from "../kappacode/session/prompt-queue" // kappacode_change
+import { EffectBridge } from "../effect/bridge.ts"
+import * as Tool from "./tool.ts"
+import { Git } from "../git/index.ts"
+import { Instance } from "../kappacode/instance.ts"
+import { Locale } from "../util/locale.ts"
+import { Filesystem } from "../util/filesystem.ts" // kappacode_change
+import { WorktreeFamily } from "../kappacode/worktree-family.ts" // kappacode_change
+import { Session } from "../session/session.ts" // kappacode_change
+import { SessionID } from "../session/schema.ts" // kappacode_change
+import { RecallSearch } from "../kappacode/session/recall-search.ts" // kappacode_change
+import { SessionTranscript } from "../kappacode/session/transcript.ts" // kappacode_change
+import { KappaSessionPromptQueue } from "../kappacode/session/prompt-queue.ts" // kappacode_change
 import DESCRIPTION from "./recall.txt"
 
 const Parameters = Schema.Struct({

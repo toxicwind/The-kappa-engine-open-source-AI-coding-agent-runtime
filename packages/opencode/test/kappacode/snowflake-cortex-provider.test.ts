@@ -6,8 +6,8 @@ import { ProviderV2 } from "@opencode-ai/core/provider"
 import { Provider } from "@/provider/provider"
 import { Env } from "@/env"
 import { Plugin } from "@/plugin"
-import { provideInstanceEffect, testInstanceStoreLayer, tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { provideInstanceEffect, testInstanceStoreLayer, tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(
   Layer.mergeAll(AppNodeBuilder.build(Provider.node), AppNodeBuilder.build(Env.node), AppNodeBuilder.build(Plugin.node), AppNodeBuilder.build(CrossSpawnSpawner.node)),

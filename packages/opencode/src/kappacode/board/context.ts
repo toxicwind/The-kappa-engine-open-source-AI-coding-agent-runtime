@@ -8,9 +8,9 @@ import { Session } from "@/session/session"
 import type { MessageV2 } from "@/session/message-v2"
 import type { Tool } from "@/tool/tool"
 import { KappaSessionPrompt } from "@/kappacode/session/prompt"
-import { BoardEnabled } from "./enabled"
-import { BoardStore } from "./store"
-import { BoardNotice } from "./notice"
+import { BoardEnabled } from "./enabled.ts"
+import { BoardStore } from "./store.ts"
+import { BoardNotice } from "./notice.ts"
 
 export namespace BoardContext {
   type Cache = { cursor: number; failed: boolean }

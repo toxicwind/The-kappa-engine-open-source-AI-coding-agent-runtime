@@ -5,7 +5,7 @@ import path from "path"
 import fs from "fs/promises"
 import { setTimeout as sleep } from "node:timers/promises"
 import { afterAll } from "bun:test"
-import { remove as cleanup } from "./kappacode/cleanup" // kappacode_change
+import { remove as cleanup } from "./kappacode/cleanup.ts" // kappacode_change
 
 // Set XDG env vars FIRST, before any src/ imports
 const dir = path.join(os.tmpdir(), "opencode-test-data-" + process.pid)

@@ -3,25 +3,25 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Auth } from "../../../src/auth"
-import { Bus } from "../../../src/bus"
-import { GlobalBus } from "../../../src/bus/global"
-import { Config } from "../../../src/config/config"
-import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
+import { Auth } from "../../../src/auth/index.ts"
+import { Bus } from "../../../src/bus/index.ts"
+import { GlobalBus } from "../../../src/bus/global.ts"
+import { Config } from "../../../src/config/config.ts"
+import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache.ts"
 import {
   clearAll as clearRenameMarks,
   consumeAutoTitle,
   consumeRenameAdoption,
   markAutoTitle,
   markRenameAdopted,
-} from "../../../src/kappa-sessions/rename-adoptions"
-import { Session } from "../../../src/session/session"
-import { SessionID } from "../../../src/session/schema"
+} from "../../../src/kappa-sessions/rename-adoptions.ts"
+import { Session } from "../../../src/session/session.ts"
+import { SessionID } from "../../../src/session/schema.ts"
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
-import { TestConfig } from "../../fixture/config"
-import { pollWithTimeout, testEffect } from "../../lib/effect"
-import { TestInstance } from "../../fixture/fixture"
+import { TestConfig } from "../../fixture/config.ts"
+import { pollWithTimeout, testEffect } from "../../lib/effect.ts"
+import { TestInstance } from "../../fixture/fixture.ts"
 
 const KappaSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KappaSessions
 

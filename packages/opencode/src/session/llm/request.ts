@@ -5,10 +5,10 @@ import type { RuntimeFlags } from "@/effect/runtime-flags"
 import { InstanceState } from "@/effect/instance-state"
 import { Permission } from "@/permission"
 import type { Agent } from "@/agent/agent"
-import type { MessageV2 } from "../message-v2"
+import type { MessageV2 } from "../message-v2.ts"
 import type { Provider } from "@/provider/provider"
 import { ProviderTransform } from "@/provider/transform"
-import { SystemPrompt } from "../system"
+import { SystemPrompt } from "../system.ts"
 import { USER_AGENT } from "@/installation" // kappacode_change
 import { openCodeClientHeaders } from "@/kappacode/provider/opencode-zen" // kappacode_change
 import { Effect, Record } from "effect"
@@ -285,4 +285,4 @@ export function hasToolCalls(messages: ModelMessage[]): boolean {
   return false
 }
 
-export * as LLMRequestPrep from "./request"
+export * as LLMRequestPrep from "./request.ts"

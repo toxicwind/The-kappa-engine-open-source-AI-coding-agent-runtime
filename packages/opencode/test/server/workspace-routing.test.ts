@@ -3,8 +3,8 @@ import {
   isLocalWorkspaceRoute,
   getWorkspaceRouteSessionID,
   workspaceProxyURL,
-} from "../../src/server/shared/workspace-routing"
-import { SessionID } from "../../src/session/schema"
+} from "../../src/server/shared/workspace-routing.ts"
+import { SessionID } from "../../src/session/schema.ts"
 
 describe("isLocalWorkspaceRoute", () => {
   test("GET /session is local", () => {

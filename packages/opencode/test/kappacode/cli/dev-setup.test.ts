@@ -1,8 +1,8 @@
 import { describe, test, expect } from "bun:test"
 import path from "path"
 import fs from "fs/promises"
-import { tmpdir } from "../../fixture/fixture"
-import { detectRepo, findRepoFrom } from "../../../src/kappacode/cli/dev-setup"
+import { tmpdir } from "../../fixture/fixture.ts"
+import { detectRepo, findRepoFrom } from "../../../src/kappacode/cli/dev-setup.ts"
 
 // Simulate a repo root by writing the sentinel file detectRepo looks for.
 async function makeSynthRepo(dir: string) {

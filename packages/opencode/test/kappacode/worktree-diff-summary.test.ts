@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import { $ } from "bun"
 import fs from "node:fs/promises"
 import path from "node:path"
-import { tmpdir } from "../fixture/fixture"
-import { WorktreeDiff } from "../../src/kappacode/review/worktree-diff"
+import { tmpdir } from "../fixture/fixture.ts"
+import { WorktreeDiff } from "../../src/kappacode/review/worktree-diff.ts"
 
 describe("WorktreeDiff summary", () => {
   async function setup() {

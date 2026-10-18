@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { parsePluginSpecifier } from "../../src/plugin/shared"
+import { parsePluginSpecifier } from "../../src/plugin/shared.ts"
 
 describe("parsePluginSpecifier", () => {
   test("parses standard npm package without version", () => {

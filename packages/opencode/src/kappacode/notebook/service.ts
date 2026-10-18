@@ -6,7 +6,7 @@ import { capture } from "@/kappacode/instance"
 import { Context, Deferred, Duration, Effect, Layer, LayerMap, Schema } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { ErrorCode, Event, type Failure, type Request, RequestID, type Result } from "./protocol"
+import { ErrorCode, Event, type Failure, type Request, RequestID, type Result } from "./protocol.ts"
 
 const log = Log.create({ service: "notebook-host" })
 type WithoutID<T> = T extends unknown ? Omit<T, "id"> : never
@@ -225,4 +225,4 @@ export function layer(timeout: Duration.Input = "10 minutes") {
 
 export const defaultLayer = layer().pipe(Layer.provide(Bus.layer))
 export const node = LayerNode.make({ service: Service, layer: layer(), deps: [Bus.node] })
-export * as Notebook from "./service"
+export * as Notebook from "./service.ts"

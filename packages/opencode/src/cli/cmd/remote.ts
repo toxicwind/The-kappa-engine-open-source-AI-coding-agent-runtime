@@ -1,5 +1,5 @@
 // kappacode_change - new file
-import { cmd } from "./cmd"
+import { cmd } from "./cmd.ts"
 import { buildInstanceAdvertisement } from "@/kappa-sessions/instance-advertisement"
 
 // Re-export so existing unit tests that import from this module keep working.

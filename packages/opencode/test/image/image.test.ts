@@ -5,8 +5,8 @@ import { Image } from "@/image/image"
 import { KappaAttachment } from "@/kappacode/session/attachment" // kappacode_change - pin boundary/fallback agreement
 import { Config } from "@/config/config"
 import { MessageID, PartID, SessionID } from "@/session/schema"
-import { TestConfig } from "../fixture/config"
-import { testEffect } from "../lib/effect"
+import { TestConfig } from "../fixture/config.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(Image.node, [[Config.node, TestConfig.layer()]]))
 const tiny = testEffect(

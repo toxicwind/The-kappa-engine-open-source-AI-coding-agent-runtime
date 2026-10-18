@@ -1,5 +1,5 @@
 import type { OAuthClientInformation, OAuthClientInformationMixed } from "@modelcontextprotocol/sdk/shared/auth.js"
-import type { McpAuth } from "../../mcp/auth"
+import type { McpAuth } from "../../mcp/auth.ts"
 
 // The MCP SDK binds stored OAuth credentials to the authorization server that issued
 // them by stamping an `issuer` on what it saves, and ignores credentials stamped for a

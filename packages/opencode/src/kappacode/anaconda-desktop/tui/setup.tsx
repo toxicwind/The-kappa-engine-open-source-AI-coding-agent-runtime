@@ -7,8 +7,8 @@ import { useBindings } from "@tui/keymap"
 import { useDialog } from "@tui/ui/dialog"
 import { Link } from "@tui/ui/link"
 import { useToast } from "@tui/ui/toast"
-import { PROVIDER_ID } from "../domain"
-import { complete, createSetupController, setupView, type SetupAction, type SetupState } from "./model"
+import { PROVIDER_ID } from "../domain.ts"
+import { complete, createSetupController, setupView, type SetupAction, type SetupState } from "./model.ts"
 
 type ModelComponent = (props: { providerID?: string }) => JSX.Element
 

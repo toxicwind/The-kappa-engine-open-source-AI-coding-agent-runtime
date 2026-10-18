@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KappaSessionProcessor } from "../../src/kappacode/session/processor"
+import { KappaSessionProcessor } from "../../src/kappacode/session/processor.ts"
 
 describe("session generation id", () => {
   test("extracts a bounded Gateway generation id", () => {

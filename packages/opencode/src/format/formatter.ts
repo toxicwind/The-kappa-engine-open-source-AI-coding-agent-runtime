@@ -1,5 +1,5 @@
 import { Npm } from "@opencode-ai/core/npm"
-import type { InstanceContext } from "../project/instance-context"
+import type { InstanceContext } from "../project/instance-context.ts"
 import { Filesystem } from "@/util/filesystem"
 import { Process } from "@/util/process"
 import { which } from "@opencode-ai/core/util/which"

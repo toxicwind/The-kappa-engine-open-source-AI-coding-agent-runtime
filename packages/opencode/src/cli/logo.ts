@@ -1,5 +1,5 @@
 // kappacode_change start
-import { plain } from "../kappacode/cli/logo"
+import { plain } from "../kappacode/cli/logo.ts"
 
 export const logo = {
   left: ["", "", ""],

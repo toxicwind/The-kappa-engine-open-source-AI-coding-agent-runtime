@@ -1,9 +1,9 @@
 import type { Agent } from "@/agent/agent"
-import { Capture, type CaptureDeps } from "./capture"
-import { Config } from "./config"
-import { setKillSwitch } from "./eligibility"
-import { createSequencer } from "./sequence"
-import { SyncSubscriber } from "./sync-subscriber"
+import { Capture, type CaptureDeps } from "./capture.ts"
+import { Config } from "./config.ts"
+import { setKillSwitch } from "./eligibility.ts"
+import { createSequencer } from "./sequence.ts"
+import { SyncSubscriber } from "./sync-subscriber.ts"
 
 declare global {
   const KILO_SESSION_EXPORT_WORKER_PATH: string

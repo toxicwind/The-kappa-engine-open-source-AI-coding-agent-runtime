@@ -2,8 +2,8 @@ import { expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect } from "effect"
 import { Config } from "@/config/config"
-import { Agent as AgentSvc } from "../../src/agent/agent"
-import { testEffect } from "../lib/effect"
+import { Agent as AgentSvc } from "../../src/agent/agent.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(LayerNode.compile(LayerNode.group([Config.node, AgentSvc.node])))
 

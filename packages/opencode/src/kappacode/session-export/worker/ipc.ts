@@ -1,4 +1,4 @@
-import type { ExportEvent } from "../events"
+import type { ExportEvent } from "../events.ts"
 
 export type ToWorker =
   | {

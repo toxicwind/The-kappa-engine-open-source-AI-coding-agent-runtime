@@ -1,9 +1,9 @@
 import type { Argv } from "yargs"
-import type { Provider } from "../../../provider/provider"
+import type { Provider } from "../../../provider/provider.ts"
 import type { generateText } from "ai"
-import { ProviderTransform } from "../../../provider/transform"
-import { cmd } from "../../../cli/cmd/cmd"
-import { UI } from "../../../cli/ui"
+import { ProviderTransform } from "../../../provider/transform.ts"
+import { cmd } from "../../../cli/cmd/cmd.ts"
+import { UI } from "../../../cli/ui.ts"
 import { randomUUID } from "crypto"
 
 // Keep the top-level import graph light: this module is registered eagerly at CLI

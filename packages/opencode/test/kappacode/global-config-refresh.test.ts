@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import path from "path"
 import { Global } from "@opencode-ai/core/global"
-import { Permission } from "../../src/permission"
-import { GlobalBus } from "../../src/bus/global"
-import { Server } from "../../src/server/server"
-import { registerDisposer } from "../../src/effect/instance-registry"
+import { Permission } from "../../src/permission/index.ts"
+import { GlobalBus } from "../../src/bus/global.ts"
+import { Server } from "../../src/server/server.ts"
+import { registerDisposer } from "../../src/effect/instance-registry.ts"
 import * as Log from "@opencode-ai/core/util/log"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 
 void Log.init({ print: false })
 

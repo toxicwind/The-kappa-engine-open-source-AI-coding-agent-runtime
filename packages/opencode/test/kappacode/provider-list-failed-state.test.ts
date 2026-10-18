@@ -12,10 +12,10 @@ import * as Log from "@opencode-ai/core/util/log"
 
 Log.init({ print: false })
 
-import { Auth } from "../../src/auth"
-import { ModelCache } from "../../src/provider/model-cache"
-import { TestConfig } from "../fixture/config"
-import { testEffect } from "../lib/effect"
+import { Auth } from "../../src/auth/index.ts"
+import { ModelCache } from "../../src/provider/model-cache.ts"
+import { TestConfig } from "../fixture/config.ts"
+import { testEffect } from "../lib/effect.ts"
 
 type Failure = { kind: "unauthorized" | "network" | "schema" | "http"; status?: number }
 type Result = { models: ModelsDev.Provider["models"]; error?: Failure }

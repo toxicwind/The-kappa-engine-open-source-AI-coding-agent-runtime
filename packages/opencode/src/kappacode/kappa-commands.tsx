@@ -17,8 +17,8 @@ import { DialogKappaTeamSelect } from "./components/dialog-kappa-team-select.js"
 import { DialogKappaProfile } from "./components/dialog-kappa-profile.js"
 import { DialogIndexing } from "./components/dialog-indexing.js"
 import { DialogProviderUsage } from "./components/dialog-provider-usage.js"
-import { indexingEnabled } from "./indexing-feature"
-import { refreshBalance } from "./balance-refresh"
+import { indexingEnabled } from "./indexing-feature.ts"
+import { refreshBalance } from "./balance-refresh.ts"
 import { showAboutDialog } from "./cli/cmd/tui/component/dialog-about.js"
 
 // These types are OpenCode-internal and imported at runtime

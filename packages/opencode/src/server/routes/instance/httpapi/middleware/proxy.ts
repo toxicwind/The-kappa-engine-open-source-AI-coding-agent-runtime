@@ -2,7 +2,7 @@ import { ProxyUtil } from "@/server/proxy-util"
 import { Effect, Stream } from "effect"
 import { HttpBody, HttpClient, HttpClientRequest, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import * as Socket from "effect/unstable/socket/Socket"
-import { WebSocketTracker } from "../websocket-tracker"
+import { WebSocketTracker } from "../websocket-tracker.ts"
 
 function requestBody(request: HttpServerRequest.HttpServerRequest) {
   if (request.method === "GET" || request.method === "HEAD") return HttpBody.empty
@@ -138,4 +138,4 @@ export function http(
   }).pipe(Effect.catch(() => Effect.succeed(HttpServerResponse.empty({ status: 500 }))))
 }
 
-export * as HttpApiProxy from "./proxy"
+export * as HttpApiProxy from "./proxy.ts"

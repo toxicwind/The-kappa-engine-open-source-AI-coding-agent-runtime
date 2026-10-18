@@ -1,6 +1,6 @@
 import { rm } from "fs/promises"
 import { Database } from "@opencode-ai/core/database/database"
-import { disposeAllInstances } from "./fixture"
+import { disposeAllInstances } from "./fixture.ts"
 
 export async function resetDatabase() {
   // kappacode_change start

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from "bun:test"
-import { KappaShutdown } from "../../src/kappacode/cli/shutdown"
+import { KappaShutdown } from "../../src/kappacode/cli/shutdown.ts"
 
 const calls: string[] = []
 const timeouts: Array<number | undefined> = []

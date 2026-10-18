@@ -1,6 +1,6 @@
-import type { ToWorker } from "./worker/ipc"
-import { Config } from "./config"
-import { isEligible, type EligibilityInput } from "./eligibility"
+import type { ToWorker } from "./worker/ipc.ts"
+import { Config } from "./config.ts"
+import { isEligible, type EligibilityInput } from "./eligibility.ts"
 import type { Permission } from "@/permission"
 import type { ModelMessage, Tool } from "ai"
 import { ulid } from "ulid"
@@ -13,8 +13,8 @@ import type {
   LlmRequestStarted,
   SessionDegraded,
   CaptureMetadata,
-} from "./events"
-import { startBaselineFiber, startDeltaFiber } from "./workspace-fiber"
+} from "./events.ts"
+import { startBaselineFiber, startDeltaFiber } from "./workspace-fiber.ts"
 
 export type CaptureDeps = {
   worker: { postMessage: (msg: ToWorker) => void; terminate: () => void }

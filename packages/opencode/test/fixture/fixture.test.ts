@@ -1,7 +1,7 @@
 import { $ } from "bun"
 import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
-import { tmpdir } from "./fixture"
+import { tmpdir } from "./fixture.ts"
 
 describe("tmpdir", () => {
   test("disables fsmonitor for git fixtures", async () => {

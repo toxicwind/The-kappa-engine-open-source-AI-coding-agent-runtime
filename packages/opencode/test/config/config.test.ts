@@ -8,19 +8,19 @@ import { NamedError } from "@opencode-ai/core/util/error"
 import { FetchHttpClient, HttpClient, HttpClientResponse } from "effect/unstable/http"
 import { Config } from "@/config/config"
 import { ConfigManaged } from "@/config/managed"
-import { ConfigParse } from "../../src/config/parse"
-import { ConfigV2Compat } from "../../src/config/v2-compat"
-import { snapshot } from "./snapshot"
+import { ConfigParse } from "../../src/config/parse.ts"
+import { ConfigV2Compat } from "../../src/config/v2-compat.ts"
+import { snapshot } from "./snapshot.ts"
 import { Npm } from "@opencode-ai/core/npm"
 
-import { InstanceRef } from "../../src/effect/instance-ref"
-import type { InstanceContext } from "../../src/project/instance-context"
-import { Auth } from "../../src/auth"
-import { Account } from "../../src/account/account"
-import { AccessToken, AccountID, OrgID } from "../../src/account/schema"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
+import type { InstanceContext } from "../../src/project/instance-context.ts"
+import { Auth } from "../../src/auth/index.ts"
+import { Account } from "../../src/account/account.ts"
+import { AccessToken, AccountID, OrgID } from "../../src/account/schema.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
-import { Env } from "../../src/env"
-import { Git } from "../../src/git" // kappacode_change
+import { Env } from "../../src/env/index.ts"
+import { Git } from "../../src/git/index.ts" // kappacode_change
 import {
   provideTmpdirInstance,
   TestInstance,
@@ -29,10 +29,10 @@ import {
   withTestInstance,
   provideInstanceEffect,
   testInstanceStoreLayer,
-} from "../fixture/fixture"
+} from "../fixture/fixture.ts"
 import { InstanceRuntime } from "@/project/instance-runtime"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { testEffect } from "../lib/effect"
+import { testEffect } from "../lib/effect.ts"
 import path from "path"
 import fs from "fs/promises"
 import os from "os"
@@ -42,9 +42,9 @@ import { ProjectV2 } from "@opencode-ai/core/project"
 import { Filesystem } from "@/util/filesystem"
 import { ConfigPlugin } from "@/config/plugin"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
-import { AccountTest } from "../fake/account"
-import { AuthTest } from "../fake/auth"
-import { NpmTest } from "../fake/npm"
+import { AccountTest } from "../fake/account.ts"
+import { AuthTest } from "../fake/auth.ts"
+import { NpmTest } from "../fake/npm.ts"
 import { isIndexingPlugin } from "@kappacode/kappa-indexing/detect" // kappacode_change
 import { isAtomicChatPlugin } from "@/kappacode/atomic-chat-feature" // kappacode_change
 

@@ -10,17 +10,17 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer } from "effect"
 import { eq } from "drizzle-orm"
 
-import { SessionPaths } from "../../src/server/routes/instance/httpapi/groups/session"
+import { SessionPaths } from "../../src/server/routes/instance/httpapi/groups/session.ts"
 import { Session } from "@/session/session"
-import { MessageID, PartID } from "../../src/session/schema"
+import { MessageID, PartID } from "../../src/session/schema.ts"
 import { Database } from "@opencode-ai/core/database/database"
 import { PartTable } from "@opencode-ai/core/session/sql"
-import { resetDatabase } from "../fixture/db"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { resetDatabase } from "../fixture/db.ts"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { httpApiLayer, requestInDirectory } from "./httpapi-layer"
+import { httpApiLayer, requestInDirectory } from "./httpapi-layer.ts"
 
 const it = testEffect(Layer.mergeAll(LayerNode.compile(LayerNode.group([Session.node, Database.node])), httpApiLayer))
 

@@ -1,4 +1,4 @@
-import { prepareForkedPart as _prepareForkedPart, remapChildren as _remapChildren } from "./fork"
+import { prepareForkedPart as _prepareForkedPart, remapChildren as _remapChildren } from "./fork.ts"
 import z from "zod"
 import { Cause, Effect, Schema } from "effect"
 import { Bus } from "@/bus"
@@ -21,7 +21,7 @@ import { ENV_FEATURE } from "@kappacode/kappa-gateway"
 import { existsSync } from "fs"
 import path from "path"
 import { iife } from "@/util/iife"
-import { KappaSessionEvent, type KappaSessionCloseReason } from "./event"
+import { KappaSessionEvent, type KappaSessionCloseReason } from "./event.ts"
 
 export namespace KappaSession {
   const log = Log.create({ service: "session.kappa" })
@@ -502,4 +502,4 @@ export namespace KappaSession {
   export const remapChildren = _remapChildren
 }
 
-export { kappaSessionFork } from "./fork-command"
+export { kappaSessionFork } from "./fork-command.ts"

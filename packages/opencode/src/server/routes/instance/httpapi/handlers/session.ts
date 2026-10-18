@@ -29,7 +29,7 @@ import * as Stream from "effect/Stream"
 import { InstanceState } from "@/effect/instance-state"
 import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { HttpApiBuilder, HttpApiError, HttpApiSchema } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
+import { InstanceHttpApi } from "../api.ts"
 import {
   AbortQuery, // kappacode_change
   CommandPayload,
@@ -46,9 +46,9 @@ import {
   SummarizePayload,
   UpdatePayload,
   ViewedPayload, // kappacode_change
-} from "../groups/session"
-import { InvalidRequestError, PermissionNotFoundError } from "../errors" // kappacode_change - InvalidRequestError carries a readable message for rejected attachments
-import * as SessionError from "./session-errors"
+} from "../groups/session.ts"
+import { InvalidRequestError, PermissionNotFoundError } from "../errors.ts" // kappacode_change - InvalidRequestError carries a readable message for rejected attachments
+import * as SessionError from "./session-errors.ts"
 
 const tryParseJson = (text: string) =>
   Effect.try({

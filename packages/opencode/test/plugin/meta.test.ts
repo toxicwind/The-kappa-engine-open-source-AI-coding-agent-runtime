@@ -3,7 +3,7 @@ import fs from "fs/promises"
 import path from "path"
 import { pathToFileURL } from "url"
 
-import { tmpdir } from "../fixture/fixture"
+import { tmpdir } from "../fixture/fixture.ts"
 import { Process } from "@/util/process"
 import { Filesystem } from "@/util/filesystem"
 

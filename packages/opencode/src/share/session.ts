@@ -54,4 +54,4 @@ export const node = LayerNode.make({
   deps: [Config.node, Session.node, RuntimeFlags.node], // kappacode_change - Kappa public sharing uses KappaSession
 })
 
-export * as SessionShare from "./session"
+export * as SessionShare from "./session.ts"

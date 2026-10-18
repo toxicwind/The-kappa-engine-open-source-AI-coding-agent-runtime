@@ -4,7 +4,7 @@ import { createRoot, createSignal } from "solid-js"
 import { createStore, produce } from "solid-js/store"
 import { GoalSync } from "@/kappacode/cli/cmd/tui/goal-sync"
 import { GoalState } from "@/kappacode/session/goal/state"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../fixture/fixture.ts"
 import { directory, json, mount, wait } from "../../../../tui/test/cli/cmd/tui/sync-fixture"
 
 const info: Session = {

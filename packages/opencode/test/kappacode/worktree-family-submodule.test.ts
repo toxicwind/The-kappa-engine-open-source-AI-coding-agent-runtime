@@ -5,12 +5,12 @@ import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Effect, Layer } from "effect"
 import * as fs from "fs/promises"
 import path from "path"
-import { Git } from "../../src/git"
-import { WorktreeFamily } from "../../src/kappacode/worktree-family"
-import { Project } from "../../src/project/project"
+import { Git } from "../../src/git/index.ts"
+import { WorktreeFamily } from "../../src/kappacode/worktree-family.ts"
+import { Project } from "../../src/project/project.ts"
 import * as Log from "@opencode-ai/core/util/log"
-import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 Log.init({ print: false })
 

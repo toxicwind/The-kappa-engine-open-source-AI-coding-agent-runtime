@@ -1,12 +1,12 @@
 import { Schema } from "effect"
-import { SessionID } from "./schema"
+import { SessionID } from "./schema.ts"
 
 import { NonNegativeInt } from "@opencode-ai/core/schema"
-import { MessageError } from "./message-error"
-import { AuthError, OutputLengthError } from "./message-error"
+import { MessageError } from "./message-error.ts"
+import { AuthError, OutputLengthError } from "./message-error.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-export { AuthError, OutputLengthError } from "./message-error"
+export { AuthError, OutputLengthError } from "./message-error.ts"
 
 export const ToolCall = Schema.Struct({
   state: Schema.Literal("call"),
@@ -145,4 +145,4 @@ export const Info = Schema.Struct({
 }).annotate({ identifier: "Message" })
 export type Info = Schema.Schema.Type<typeof Info>
 
-export * as Message from "./message"
+export * as Message from "./message.ts"

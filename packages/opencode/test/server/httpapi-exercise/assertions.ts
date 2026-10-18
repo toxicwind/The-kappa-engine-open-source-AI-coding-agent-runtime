@@ -1,4 +1,4 @@
-import type { CallResult, JsonObject } from "./types"
+import type { CallResult, JsonObject } from "./types.ts"
 
 export function parse(text: string): unknown {
   if (!text) return undefined

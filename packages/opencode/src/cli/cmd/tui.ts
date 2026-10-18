@@ -1,5 +1,5 @@
 import { cmd } from "@/cli/cmd/cmd"
-import { type rpc } from "../tui/worker"
+import { type rpc } from "../tui/worker.ts"
 import path from "path"
 import { text as streamText } from "node:stream/consumers"
 import { fileURLToPath } from "url"

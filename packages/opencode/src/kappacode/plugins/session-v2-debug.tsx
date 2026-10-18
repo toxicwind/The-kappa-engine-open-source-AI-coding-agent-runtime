@@ -1,6 +1,6 @@
 import type { TuiPlugin, TuiPluginApi } from "@kappacode/plugin/tui"
 import type { InternalTuiPlugin } from "@/plugin/tui/internal"
-import { SyncProviderV2, useSyncV2 } from "./sync-v2"
+import { SyncProviderV2, useSyncV2 } from "./sync-v2.tsx"
 import { SplitBorder } from "@tui/ui/border"
 import { Spinner } from "@tui/component/spinner"
 import { useTheme } from "@tui/context/theme"

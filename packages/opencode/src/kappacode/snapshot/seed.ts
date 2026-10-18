@@ -3,7 +3,7 @@ import path from "path"
 import { stat } from "node:fs/promises"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import * as Log from "@opencode-ai/core/util/log"
-import { KappaSnapshotMaterialize } from "./materialize"
+import { KappaSnapshotMaterialize } from "./materialize.ts"
 
 export namespace KappaSnapshotSeed {
   const log = Log.create({ service: "snapshot.seed" })

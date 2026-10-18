@@ -1,7 +1,7 @@
-import type { ExportEvent } from "../events"
-import type { Chunker } from "./chunks"
-import { isHighRiskPath, type Scrubber } from "./scrub"
-import type { Storage } from "./storage"
+import type { ExportEvent } from "../events.ts"
+import type { Chunker } from "./chunks.ts"
+import { isHighRiskPath, type Scrubber } from "./scrub.ts"
+import type { Storage } from "./storage.ts"
 
 export type HandlerCtx = {
   storage: Storage

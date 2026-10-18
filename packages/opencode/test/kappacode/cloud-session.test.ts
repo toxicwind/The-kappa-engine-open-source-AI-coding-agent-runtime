@@ -1,5 +1,5 @@
 import { describe, expect, test, mock } from "bun:test"
-import { importCloudSession, reportCloudImportError } from "../../src/kappacode/cloud-session"
+import { importCloudSession, reportCloudImportError } from "../../src/kappacode/cloud-session.ts"
 
 const errorMock = mock()
 mock.module("@/cli/ui", () => ({ UI: { error: errorMock } }))

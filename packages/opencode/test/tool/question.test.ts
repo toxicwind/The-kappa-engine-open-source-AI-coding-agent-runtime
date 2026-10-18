@@ -1,13 +1,13 @@
 import { describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Fiber, Queue } from "effect"
-import { QuestionTool } from "../../src/tool/question"
-import { Question } from "../../src/question"
-import { SessionID, MessageID } from "../../src/session/schema"
-import { Agent } from "../../src/agent/agent"
+import { QuestionTool } from "../../src/tool/question.ts"
+import { Question } from "../../src/question/index.ts"
+import { SessionID, MessageID } from "../../src/session/schema.ts"
+import { Agent } from "../../src/agent/agent.ts"
 import { Truncate } from "@/tool/truncate"
-import { testEffect } from "../lib/effect"
-import { EventV2Bridge } from "../../src/event-v2-bridge"
+import { testEffect } from "../lib/effect.ts"
+import { EventV2Bridge } from "../../src/event-v2-bridge.ts"
 
 const ctx = {
   sessionID: SessionID.make("ses_test-session"),

@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm"
 import { ProjectTable } from "@opencode-ai/core/project/sql"
 import type { ProjectV2 } from "@opencode-ai/core/project"
 import { Slug } from "@opencode-ai/core/util/slug"
-import { errorMessage } from "../util/error"
+import { errorMessage } from "../util/error.ts"
 import { GlobalBus } from "@/bus/global"
 import { Git } from "@/git"
 import { Effect, Layer, Path, Schema, Scope, Context } from "effect"
@@ -631,4 +631,4 @@ export const node = LayerNode.make({
   deps: [FSUtil.node, path, AppProcess.node, Git.node, Project.node, InstanceStore.node, Database.node],
 })
 
-export * as Worktree from "."
+export * as Worktree from "./index.ts"

@@ -1,4 +1,4 @@
-import type { McpAuth } from "../../mcp/auth"
+import type { McpAuth } from "../../mcp/auth.ts"
 
 // Automatic OAuth invalidation must never delete credentials that a concurrent
 // operation already replaced. The SDK calls `invalidateCredentials` after a

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { formatIndexingLabel } from "../../src/kappacode/indexing-label"
+import { formatIndexingLabel } from "../../src/kappacode/indexing-label.ts"
 
 describe("indexing label", () => {
   test("formats in-progress status with counts", () => {

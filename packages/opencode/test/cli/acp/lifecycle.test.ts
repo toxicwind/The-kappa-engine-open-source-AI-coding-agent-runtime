@@ -6,9 +6,9 @@ import type {
   ResumeSessionResponse,
 } from "@agentclientprotocol/sdk"
 import { Duration, Effect } from "effect"
-import { cliIt } from "../../lib/cli-process"
-import { expectOk, selectConfigOption } from "./acp-test-client"
-import { createAcpClient, initialize, newSession, verifierConfig } from "./helpers"
+import { cliIt } from "../../lib/cli-process.ts"
+import { expectOk, selectConfigOption } from "./acp-test-client.ts"
+import { createAcpClient, initialize, newSession, verifierConfig } from "./helpers.ts"
 
 describe("opencode acp lifecycle subprocess", () => {
   cliIt.live(

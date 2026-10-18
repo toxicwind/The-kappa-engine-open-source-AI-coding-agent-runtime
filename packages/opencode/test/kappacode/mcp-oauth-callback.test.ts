@@ -1,8 +1,8 @@
 import { describe, expect, test, afterEach } from "bun:test"
 import { createServer, request, type Server } from "http"
-import * as KappaOAuthCallback from "../../src/kappacode/mcp-oauth-callback"
-import { McpOAuthCallback } from "../../src/mcp/oauth-callback"
-import { parseRedirectUri } from "../../src/mcp/oauth-provider"
+import * as KappaOAuthCallback from "../../src/kappacode/mcp-oauth-callback.ts"
+import { McpOAuthCallback } from "../../src/mcp/oauth-callback.ts"
+import { parseRedirectUri } from "../../src/mcp/oauth-provider.ts"
 
 async function freePort(): Promise<number> {
   const probe = createServer()

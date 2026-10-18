@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { Schema } from "effect"
-import { Provider } from "../../src/provider/provider"
-import { patchModelsDevModel } from "../../src/kappacode/provider/provider"
+import { Provider } from "../../src/provider/provider.ts"
+import { patchModelsDevModel } from "../../src/kappacode/provider/provider.ts"
 
 describe("Kappa provider model metadata", () => {
   test("preserves Auto Efficient routing models from Models.dev data", () => {

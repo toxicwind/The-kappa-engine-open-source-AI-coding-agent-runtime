@@ -1,6 +1,6 @@
 import type { Hooks } from "@kappacode/plugin"
 import * as Log from "@opencode-ai/core/util/log" // kappacode_change
-import { ModalModels } from "./models"
+import { ModalModels } from "./models.ts"
 
 const log = Log.create({ service: "plugin.modal" }) // kappacode_change
 

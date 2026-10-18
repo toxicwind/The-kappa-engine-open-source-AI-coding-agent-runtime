@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, test } from "bun:test"
 import fs from "fs"
-import { remove as cleanup } from "../cleanup"
+import { remove as cleanup } from "../cleanup.ts"
 import os from "os"
 import path from "path"
 import { Effect, Fiber } from "effect"
@@ -16,7 +16,7 @@ import { Wakeup } from "@/kappacode/wakeup"
 import { InstanceStore } from "@/project/instance-store"
 import { Session } from "@/session/session"
 import { SessionPrompt } from "@/session/prompt"
-import { pollWithTimeout } from "../../lib/effect"
+import { pollWithTimeout } from "../../lib/effect.ts"
 
 const saved = {
   id: ModelV2.ID.make("test-model"),

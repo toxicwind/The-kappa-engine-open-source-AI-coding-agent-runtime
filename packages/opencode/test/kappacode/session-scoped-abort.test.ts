@@ -15,9 +15,9 @@ import { SessionPrompt } from "@/session/prompt"
 import { MessageID, SessionID } from "@/session/schema"
 import { Session } from "@/session/session"
 import { SessionStatus } from "@/session/status"
-import { provideTmpdirServer } from "../fixture/fixture"
-import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
-import { reply, TestLLMServer } from "../lib/llm-server"
+import { provideTmpdirServer } from "../fixture/fixture.ts"
+import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect.ts"
+import { reply, TestLLMServer } from "../lib/llm-server.ts"
 
 const it = testEffect(
   LayerNode.compile(

@@ -2,12 +2,12 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { afterEach, expect, test } from "bun:test"
 import type { ConfigV1 } from "@opencode-ai/core/v1/config/config"
 import { Effect } from "effect"
-import { Agent } from "../../src/agent/agent"
-import { Permission } from "../../src/permission"
-import { KappaTask } from "../../src/kappacode/tool/task"
-import { deriveSubagentSessionPermission } from "../../src/agent/subagent-permissions"
-import { provideTestInstance } from "../fixture/fixture"
-import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture"
+import { Agent } from "../../src/agent/agent.ts"
+import { Permission } from "../../src/permission/index.ts"
+import { KappaTask } from "../../src/kappacode/tool/task.ts"
+import { deriveSubagentSessionPermission } from "../../src/agent/subagent-permissions.ts"
+import { provideTestInstance } from "../fixture/fixture.ts"
+import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../fixture/fixture.ts"
 
 function load<A>(dir: string, fn: (svc: Agent.Interface) => Effect.Effect<A>) {
   return Effect.runPromise(

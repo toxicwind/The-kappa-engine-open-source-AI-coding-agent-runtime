@@ -11,9 +11,9 @@ import type { Tool } from "@/tool/tool"
 import { SkillTool } from "@/tool/skill"
 import { SkillInject } from "@/kappacode/skills/inject"
 import { ToolRegistry } from "@/tool/registry"
-import { disposeAllInstances, TestInstance } from "../../fixture/fixture"
+import { disposeAllInstances, TestInstance } from "../../fixture/fixture.ts"
 import { SessionID, MessageID } from "@/session/schema"
-import { testEffect } from "../../lib/effect"
+import { testEffect } from "../../lib/effect.ts"
 
 // Global (~/.claude) skills are trusted, but Global.Service snapshots the home
 // path when its layer is built, so KILO_TEST_HOME must be set before the runtime

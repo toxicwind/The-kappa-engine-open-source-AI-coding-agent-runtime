@@ -1,5 +1,5 @@
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { SessionID } from "./schema"
+import { SessionID } from "./schema.ts"
 import { Effect, Layer, Context } from "effect"
 import { Database } from "@opencode-ai/core/database/database"
 import { eq } from "drizzle-orm"
@@ -75,4 +75,4 @@ export const defaultLayer = layer.pipe(Layer.provide(EventV2Bridge.defaultLayer)
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [EventV2Bridge.node, Database.node] })
 
-export * as Todo from "./todo"
+export * as Todo from "./todo.ts"

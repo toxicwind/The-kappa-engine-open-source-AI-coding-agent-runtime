@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test"
-import { McpMigrator } from "../../src/kappacode/mcp-migrator"
-import { tmpdir } from "../fixture/fixture"
+import { McpMigrator } from "../../src/kappacode/mcp-migrator.ts"
+import { tmpdir } from "../fixture/fixture.ts"
 import path from "path"
 
 describe("McpMigrator", () => {

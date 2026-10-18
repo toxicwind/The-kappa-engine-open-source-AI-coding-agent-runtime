@@ -3,12 +3,12 @@ import { SessionProjector } from "@opencode-ai/core/session/projector"
 import { expect, spyOn } from "bun:test"
 import { Effect } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Auth } from "../../src/auth"
-import { RuntimeFlags } from "../../src/effect/runtime-flags"
-import { Session } from "../../src/session/session"
-import { SessionShare } from "../../src/share/session"
-import { Storage } from "../../src/storage/storage"
-import { testEffect } from "../lib/effect"
+import { Auth } from "../../src/auth/index.ts"
+import { RuntimeFlags } from "../../src/effect/runtime-flags.ts"
+import { Session } from "../../src/session/session.ts"
+import { SessionShare } from "../../src/share/session.ts"
+import { Storage } from "../../src/storage/storage.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(
   LayerNode.compile(

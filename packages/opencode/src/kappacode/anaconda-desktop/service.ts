@@ -3,8 +3,8 @@ import { invalidateAfterProviderAuthChange } from "@/kappacode/server/provider-a
 import { InstanceStore } from "@/project/instance-store"
 import { ModelCache } from "@/provider/model-cache"
 import { Context, Effect, Layer, Redacted } from "effect"
-import * as Discovery from "./discovery"
-import * as DesktopPlatform from "./platform"
+import * as Discovery from "./discovery.ts"
+import * as DesktopPlatform from "./platform.ts"
 import {
   encodeMetadata,
   NotReadyError,
@@ -14,7 +14,7 @@ import {
   type PlatformError,
   type ReadyStatus,
   type Status,
-} from "./domain"
+} from "./domain.ts"
 
 export interface Interface {
   readonly status: () => Effect.Effect<Status>

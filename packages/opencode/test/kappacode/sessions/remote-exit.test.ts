@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test"
-import { RemoteExit } from "../../../src/kappa-sessions/remote-exit"
+import { RemoteExit } from "../../../src/kappa-sessions/remote-exit.ts"
 
 describe("RemoteExit", () => {
   const cleanups: Array<() => void> = []

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import type { ContentBlock } from "@agentclientprotocol/sdk"
 import { pathToFileURL } from "node:url"
-import { contentBlockToParts, partsToContentChunks, promptContentToParts } from "../../src/acp/content"
+import { contentBlockToParts, partsToContentChunks, promptContentToParts } from "../../src/acp/content.ts"
 
 describe("acp content conversion", () => {
   test("plain text block becomes a text part", () => {

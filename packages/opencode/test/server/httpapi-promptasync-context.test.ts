@@ -15,25 +15,25 @@ import { HttpClient, HttpRouter, HttpServerResponse } from "effect/unstable/http
 import * as Socket from "effect/unstable/socket/Socket"
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema } from "effect/unstable/httpapi"
 import { mkdir } from "node:fs/promises"
-import { registerAdapter } from "../../src/control-plane/adapters"
-import type { WorkspaceAdapter } from "../../src/control-plane/types"
-import { Workspace } from "../../src/control-plane/workspace"
-import { InstanceRef, WorkspaceRef } from "../../src/effect/instance-ref"
-import { Project } from "../../src/project/project"
-import { Session } from "../../src/session/session"
+import { registerAdapter } from "../../src/control-plane/adapters/index.ts"
+import type { WorkspaceAdapter } from "../../src/control-plane/types.ts"
+import { Workspace } from "../../src/control-plane/workspace.ts"
+import { InstanceRef, WorkspaceRef } from "../../src/effect/instance-ref.ts"
+import { Project } from "../../src/project/project.ts"
+import { Session } from "../../src/session/session.ts"
 import {
   InstanceContextMiddleware,
   instanceContextLayer,
-} from "../../src/server/routes/instance/httpapi/middleware/instance-context"
+} from "../../src/server/routes/instance/httpapi/middleware/instance-context.ts"
 import {
   WorkspaceRoutingMiddleware,
   WorkspaceRoutingQuery,
   workspaceRoutingLayer,
-} from "../../src/server/routes/instance/httpapi/middleware/workspace-routing"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdirScoped } from "../fixture/fixture"
-import { workspaceLayerWithRuntimeFlags } from "../fixture/workspace"
-import { testEffect } from "../lib/effect"
+} from "../../src/server/routes/instance/httpapi/middleware/workspace-routing.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdirScoped } from "../fixture/fixture.ts"
+import { workspaceLayerWithRuntimeFlags } from "../fixture/workspace.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const testStateLayer = Layer.effectDiscard(
   Effect.gen(function* () {

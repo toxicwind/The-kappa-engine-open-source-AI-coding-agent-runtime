@@ -1,2 +1,2 @@
 // kappacode_change - new file
-export { SuggestTool } from "../kappacode/suggestion/tool"
+export { SuggestTool } from "../kappacode/suggestion/tool.ts"

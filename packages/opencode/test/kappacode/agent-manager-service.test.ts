@@ -7,8 +7,8 @@ import { Event, type Request } from "@/kappacode/agent-manager/protocol"
 import { AgentManager, HostError } from "@/kappacode/agent-manager/service"
 import { SessionID } from "@/session/schema"
 import { Effect, Fiber, Layer, Queue } from "effect"
-import { TestInstance } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { TestInstance } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 const it = testEffect(AgentManager.layer("20 millis").pipe(Layer.provideMerge(Bus.layer)))
 const isolation = testEffect(AgentManager.layer("20 millis").pipe(Layer.provideMerge(Bus.layer)))

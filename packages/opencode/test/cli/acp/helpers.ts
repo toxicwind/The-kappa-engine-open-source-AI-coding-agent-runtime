@@ -1,15 +1,15 @@
 import { expect } from "bun:test"
 import type { InitializeResponse, NewSessionResponse, SessionConfigOption } from "@agentclientprotocol/sdk"
 import { Effect } from "effect"
-import type { CliFixture } from "../../lib/cli-process"
-import { testProviderConfig } from "../../lib/test-provider"
+import type { CliFixture } from "../../lib/cli-process.ts"
+import { testProviderConfig } from "../../lib/test-provider.ts"
 import {
   createAcpClient as createJsonRpcAcpClient,
   expectOk,
   flattenSelectOptions,
   selectConfigOption,
   type AcpClient,
-} from "./acp-test-client"
+} from "./acp-test-client.ts"
 
 export function createAcpClient(input: Pick<CliFixture, "opencode">, env?: Record<string, string>) {
   return Effect.gen(function* () {

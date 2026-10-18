@@ -6,7 +6,7 @@ import { Database } from "@opencode-ai/core/database/database"
 import { SessionTable } from "@opencode-ai/core/session/sql"
 import { BoardStore } from "@/kappacode/board/store"
 import { SessionID } from "@/session/schema"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../fixture/fixture.ts"
 
 const use = <A, E>(effect: Effect.Effect<A, E, Database.Service>, file = ":memory:") =>
   Effect.runPromise(Effect.provide(Database.layerFromPath(file))(Effect.scoped(effect)))

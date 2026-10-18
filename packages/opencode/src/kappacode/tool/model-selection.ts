@@ -1,5 +1,5 @@
 import type { Provider } from "@/provider/provider"
-import { matchesQuery } from "./model-search"
+import { matchesQuery } from "./model-search.ts"
 
 type Source = {
   model: { providerID: Provider.Model["providerID"]; modelID: Provider.Model["id"] }

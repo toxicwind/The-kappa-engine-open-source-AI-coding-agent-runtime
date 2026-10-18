@@ -2,13 +2,13 @@ import { describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Deferred, Effect, Fiber, Layer } from "effect"
-import { InstanceRef } from "../../src/effect/instance-ref"
-import { registerDisposer } from "../../src/effect/instance-registry"
-import { InstanceBootstrap } from "../../src/project/bootstrap"
-import { InstanceStore } from "../../src/project/instance-store"
-import { capture } from "../../src/kappacode/instance" // kappacode_change
-import { tmpdirScoped } from "../fixture/fixture"
-import { testEffect } from "../lib/effect"
+import { InstanceRef } from "../../src/effect/instance-ref.ts"
+import { registerDisposer } from "../../src/effect/instance-registry.ts"
+import { InstanceBootstrap } from "../../src/project/bootstrap.ts"
+import { InstanceStore } from "../../src/project/instance-store.ts"
+import { capture } from "../../src/kappacode/instance.ts" // kappacode_change
+import { tmpdirScoped } from "../fixture/fixture.ts"
+import { testEffect } from "../lib/effect.ts"
 
 let bootstrapRun: Effect.Effect<void> = Effect.void
 const noopBootstrap = Layer.succeed(

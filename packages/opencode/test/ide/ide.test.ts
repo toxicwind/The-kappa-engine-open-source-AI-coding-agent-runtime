@@ -1,5 +1,5 @@
 import { describe, expect, test, afterEach } from "bun:test"
-import { Ide } from "../../src/ide"
+import { Ide } from "../../src/ide/index.ts"
 
 describe("ide", () => {
   const original = { ...process.env }

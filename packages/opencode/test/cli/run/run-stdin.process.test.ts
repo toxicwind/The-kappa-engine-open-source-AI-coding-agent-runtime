@@ -11,7 +11,7 @@
 // a writable stdin; run.stdin.write/end drive it. See test/lib/cli-process.ts.
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { cliIt } from "../../lib/cli-process"
+import { cliIt } from "../../lib/cli-process.ts"
 
 describe("kappa run piped stdin (subprocess)", () => {
   // THE regression: argv message + stdin pipe held open (never write, never

@@ -8,7 +8,7 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
 import { HttpClient } from "effect/unstable/http"
-import { cliIt } from "../../lib/cli-process"
+import { cliIt } from "../../lib/cli-process.ts"
 
 describe("opencode serve (subprocess)", () => {
   // Smoke test: server starts, binds a port, and /global/health responds.

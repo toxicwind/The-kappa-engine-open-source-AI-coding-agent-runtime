@@ -1,7 +1,7 @@
 import { createKappaClient } from "@kappacode/sdk/v2"
 import { RGBA, type CliRenderer } from "@opentui/core"
 import type { HostPluginApi } from "@opencode-ai/tui/plugin/slots"
-import { createTuiResolvedConfig } from "./tui-runtime"
+import { createTuiResolvedConfig } from "./tui-runtime.ts"
 
 type Count = {
   event_add: number

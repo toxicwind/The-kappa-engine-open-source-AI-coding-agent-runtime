@@ -1,7 +1,7 @@
 import { Effect, Schema } from "effect"
 import * as Tool from "@/tool/tool"
-import { GoalPolicy } from "./policy"
-import type { Goal } from "./runner"
+import { GoalPolicy } from "./policy.ts"
+import type { Goal } from "./runner.ts"
 
 const Parameters = Schema.Struct({
   status: Schema.Literals(["complete", "blocked"]),

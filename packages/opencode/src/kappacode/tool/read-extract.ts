@@ -1,7 +1,7 @@
 import type { Readable } from "stream"
-import * as Docx from "./read-docx"
-import * as Notebook from "./notebook"
-import * as Xlsx from "./xlsx"
+import * as Docx from "./read-docx.ts"
+import * as Notebook from "./notebook.ts"
+import * as Xlsx from "./xlsx.ts"
 
 export function binary(filepath: string) {
   return Docx.accepts(filepath) || Xlsx.is(filepath)

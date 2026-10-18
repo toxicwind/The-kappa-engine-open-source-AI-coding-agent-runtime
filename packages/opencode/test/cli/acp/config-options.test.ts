@@ -1,8 +1,8 @@
 import { describe, expect } from "bun:test"
 import type { SetSessionConfigOptionResponse } from "@agentclientprotocol/sdk"
 import { Effect } from "effect"
-import { cliIt } from "../../lib/cli-process"
-import { expectOk, flattenSelectOptions, selectConfigOption } from "./acp-test-client"
+import { cliIt } from "../../lib/cli-process.ts"
+import { expectOk, flattenSelectOptions, selectConfigOption } from "./acp-test-client.ts"
 import {
   createAcpClient,
   expectAlternateValue,
@@ -10,7 +10,7 @@ import {
   initialize,
   newSession,
   verifierConfig,
-} from "./helpers"
+} from "./helpers.ts"
 
 describe("opencode acp config option subprocess", () => {
   cliIt.live(

@@ -14,7 +14,7 @@ import {
 } from "@/cli/cmd/run/variant.shared"
 import type { SessionMessages } from "@/cli/cmd/run/session.shared"
 import type { RunProvider } from "@/cli/cmd/run/types"
-import { testEffect } from "../../lib/effect"
+import { testEffect } from "../../lib/effect.ts"
 
 const model = {
   providerID: "openai",

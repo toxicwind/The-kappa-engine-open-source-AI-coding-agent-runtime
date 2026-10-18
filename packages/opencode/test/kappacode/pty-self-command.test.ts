@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { KappaPtySelfCommand } from "../../src/kappacode/pty/self-command"
+import { KappaPtySelfCommand } from "../../src/kappacode/pty/self-command.ts"
 
 describe("pty self-command", () => {
   test("does not forward bundled bun entrypoints", () => {

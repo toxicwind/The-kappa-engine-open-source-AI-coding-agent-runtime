@@ -1,9 +1,9 @@
 import { Effect, Fiber, Stream } from "effect" // kappacode_change - Fiber
 import os from "os"
 import { createWriteStream } from "node:fs"
-import * as Tool from "./tool"
+import * as Tool from "./tool.ts"
 import path from "path"
-import { containsPath, type InstanceContext } from "../project/instance-context"
+import { containsPath, type InstanceContext } from "../project/instance-context.ts"
 import { InstanceState } from "@/effect/instance-state"
 import { lazy } from "@/util/lazy"
 import { Language, type Node } from "web-tree-sitter"
@@ -14,9 +14,9 @@ import { Config } from "@/config/config"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { model as modelEnv } from "@/kappacode/process/env" // kappacode_change
 import { Shell } from "@opencode-ai/core/shell"
-import { ShellID } from "./shell/id"
+import { ShellID } from "./shell/id.ts"
 
-import * as Truncate from "./truncate"
+import * as Truncate from "./truncate.ts"
 import { Plugin } from "@/plugin"
 import { normalizeUrls } from "@/kappacode/util/url" // kappacode_change
 import { CommandTimeout } from "@/kappacode/command-timeout" // kappacode_change
@@ -25,12 +25,12 @@ import { unparsed } from "@/kappacode/tool/shell-unparsed" // kappacode_change
 import { pattern } from "@/kappacode/tool/shell-pattern" // kappacode_change
 import { ChildProcess } from "effect/unstable/process"
 import { ChildProcessSpawner } from "effect/unstable/process/ChildProcessSpawner"
-import { ShellPrompt, type Parameters } from "./shell/prompt"
+import { ShellPrompt, type Parameters } from "./shell/prompt.ts"
 import { BashArity } from "@/permission/arity"
 import { mutates as mutatesGit } from "@/kappacode/sandbox/git" // kappacode_change
 import * as SandboxPolicy from "@/kappacode/sandbox/policy" // kappacode_change
 
-export { Parameters } from "./shell/prompt"
+export { Parameters } from "./shell/prompt.ts"
 
 const MAX_METADATA_LENGTH = 30_000
 const CWD = new Set(["cd", "chdir", "popd", "pushd", "push-location", "set-location"])

@@ -2,8 +2,8 @@ import { MCP } from "@/mcp"
 import { RuntimeFlags } from "@/effect/runtime-flags" // kappacode_change
 import { Effect, Schema } from "effect"
 import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { McpServerNotFoundError } from "../errors"
+import { InstanceHttpApi } from "../api.ts"
+import { McpServerNotFoundError } from "../errors.ts"
 // kappacode_change start - client-driven authentication payload
 import {
   AddPayload,
@@ -11,7 +11,7 @@ import {
   AuthCallbackPayload,
   StatusMap,
   UnsupportedOAuthError,
-} from "../groups/mcp"
+} from "../groups/mcp.ts"
 // kappacode_change end
 import { McpApps } from "@/kappacode/mcp/apps" // kappacode_change
 

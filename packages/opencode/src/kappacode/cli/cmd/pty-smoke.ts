@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, readdir, readFile, rm } from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 import { stripVTControlCharacters } from "node:util"
-import { VtScreen } from "./tui/vt/vt-screen"
+import { VtScreen } from "./tui/vt/vt-screen.ts"
 
 const OUTPUT_LIMIT = 20_000
 const LOG_TAIL = 80

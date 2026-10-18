@@ -2,10 +2,10 @@ import { afterEach, expect, test } from "bun:test"
 import { ConfigProvider, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
 import path from "path"
-import { KappacodePaths } from "../../src/kappacode/server/httpapi/groups/kappacode"
-import * as HttpApiServer from "../../src/server/routes/instance/httpapi/server"
-import { resetDatabase } from "../fixture/db"
-import { disposeAllInstances, tmpdir } from "../fixture/fixture"
+import { KappacodePaths } from "../../src/kappacode/server/httpapi/groups/kappacode.ts"
+import * as HttpApiServer from "../../src/server/routes/instance/httpapi/server.ts"
+import { resetDatabase } from "../fixture/db.ts"
+import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 
 afterEach(async () => {
   await disposeAllInstances()

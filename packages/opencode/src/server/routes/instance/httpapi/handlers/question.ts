@@ -2,8 +2,8 @@ import { Question } from "@/question"
 import { QuestionID } from "@/question/schema"
 import { Effect } from "effect"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
-import { InstanceHttpApi } from "../api"
-import { QuestionNotFoundError } from "../errors"
+import { InstanceHttpApi } from "../api.ts"
+import { QuestionNotFoundError } from "../errors.ts"
 
 export const questionHandlers = HttpApiBuilder.group(InstanceHttpApi, "question", (handlers) =>
   Effect.gen(function* () {

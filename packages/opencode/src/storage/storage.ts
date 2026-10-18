@@ -345,4 +345,4 @@ export const layerFromDir = (dir: string) => make(dir)
 
 export const node = LayerNode.make({ service: Service, layer: layer, deps: [FSUtil.node, Git.node] })
 
-export * as Storage from "./storage"
+export * as Storage from "./storage.ts"

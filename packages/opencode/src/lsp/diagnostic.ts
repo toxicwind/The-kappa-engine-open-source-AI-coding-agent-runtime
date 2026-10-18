@@ -1,4 +1,4 @@
-import * as LSPClient from "./client"
+import * as LSPClient from "./client.ts"
 
 const MAX_PER_FILE = 20
 
@@ -26,4 +26,4 @@ export function report(file: string, issues: LSPClient.Diagnostic[]) {
   return `<diagnostics file="${file}">\n${limited.map(pretty).join("\n")}${suffix}\n</diagnostics>`
 }
 
-export * as Diagnostic from "./diagnostic"
+export * as Diagnostic from "./diagnostic.ts"

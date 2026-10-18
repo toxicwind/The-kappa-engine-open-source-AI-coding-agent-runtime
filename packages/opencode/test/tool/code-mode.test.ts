@@ -12,7 +12,7 @@ import * as Truncate from "@/tool/truncate"
 import { MessageID, SessionID } from "@/session/schema"
 import { Cause, Effect, Exit, Layer, ManagedRuntime, Schema } from "effect" // kappacode_change
 import { InstanceRef } from "@/effect/instance-ref" // kappacode_change
-import { TestConfig } from "../fixture/config" // kappacode_change
+import { TestConfig } from "../fixture/config.ts" // kappacode_change
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { Database } from "@opencode-ai/core/database/database" // kappacode_change
 import * as SandboxNetwork from "@/kappacode/sandbox/network" // kappacode_change

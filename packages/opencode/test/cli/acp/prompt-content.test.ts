@@ -4,9 +4,9 @@ import { Effect } from "effect"
 import { writeFile } from "node:fs/promises"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
-import { cliIt } from "../../lib/cli-process"
-import { expectOk } from "./acp-test-client"
-import { createAcpClient, initialize, newSession, verifierConfig } from "./helpers"
+import { cliIt } from "../../lib/cli-process.ts"
+import { expectOk } from "./acp-test-client.ts"
+import { createAcpClient, initialize, newSession, verifierConfig } from "./helpers.ts"
 
 const tinyPng = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
 

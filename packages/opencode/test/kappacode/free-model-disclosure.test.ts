@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { FreeModelDisclosure } from "../../src/kappacode/components/free-model-disclosure"
+import { FreeModelDisclosure } from "../../src/kappacode/components/free-model-disclosure.ts"
 
 describe("FreeModelDisclosure", () => {
   test("uses compact CLI labels", () => {

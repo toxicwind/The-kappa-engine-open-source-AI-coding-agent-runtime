@@ -5,9 +5,9 @@
 import { describe, expect } from "bun:test"
 import { createKappaClient } from "@kappacode/sdk/v2"
 import { Effect } from "effect"
-import { cliIt } from "../lib/cli-process"
-import { awaitWithTimeout } from "../lib/effect"
-import { reply } from "../lib/llm-server"
+import { cliIt } from "../lib/cli-process.ts"
+import { awaitWithTimeout } from "../lib/effect.ts"
+import { reply } from "../lib/llm-server.ts"
 
 const permission = [{ permission: "*", action: "allow", pattern: "*" }] as const
 

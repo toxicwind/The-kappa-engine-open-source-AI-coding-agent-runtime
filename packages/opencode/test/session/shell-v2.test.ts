@@ -2,7 +2,7 @@
 import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
 import * as DateTime from "effect/DateTime"
-import { SessionID } from "../../src/session/schema"
+import { SessionID } from "../../src/session/schema.ts"
 import { EventV2 } from "@opencode-ai/core/event"
 import { SessionEvent } from "@opencode-ai/core/session/event"
 import { SessionMessageUpdater } from "@opencode-ai/core/session/message-updater"

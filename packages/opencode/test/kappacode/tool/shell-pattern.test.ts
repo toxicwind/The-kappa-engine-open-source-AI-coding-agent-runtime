@@ -12,11 +12,11 @@ import { Effect, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import type { PermissionV1 } from "@opencode-ai/core/v1/permission"
-import { hardenExplore, patchAgents } from "../../../src/kappacode/agent"
-import { Permission } from "../../../src/permission"
-import { ShellPermission } from "../../../src/tool/shell"
-import { SessionID, MessageID } from "../../../src/session/schema"
-import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../../fixture/fixture"
+import { hardenExplore, patchAgents } from "../../../src/kappacode/agent/index.ts"
+import { Permission } from "../../../src/permission/index.ts"
+import { ShellPermission } from "../../../src/tool/shell.ts"
+import { SessionID, MessageID } from "../../../src/session/schema.ts"
+import { disposeAllInstances, provideInstance, testInstanceStoreLayer, tmpdir } from "../../fixture/fixture.ts"
 
 const layer = Layer.mergeAll(
   AppNodeBuilder.build(CrossSpawnSpawner.node),

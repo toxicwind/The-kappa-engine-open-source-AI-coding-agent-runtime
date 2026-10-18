@@ -1,6 +1,6 @@
 import type { ProjectV2 } from "@opencode-ai/core/project"
-import type { WorkspaceAdapter, WorkspaceAdapterEntry } from "../types"
-import { WorktreeAdapter } from "./worktree"
+import type { WorkspaceAdapter, WorkspaceAdapterEntry } from "../types.ts"
+import { WorktreeAdapter } from "./worktree.ts"
 
 const BUILTIN: Record<string, WorkspaceAdapter> = {
   worktree: WorktreeAdapter,

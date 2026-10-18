@@ -9,10 +9,10 @@ import { Context, Effect, Layer } from "effect"
 import { resolve } from "@opencode-ai/tui/config"
 import { TuiConfig } from "@/config/tui"
 import { makeRuntime } from "@/effect/run-service"
-import { reusePendingTask } from "./runtime.shared"
-import { resolveSession, sessionHistory } from "./session.shared"
-import type { RunDiffStyle, RunInput, RunPrompt, RunProvider, RunTuiConfig } from "./types"
-import { pickVariant } from "./variant.shared"
+import { reusePendingTask } from "./runtime.shared.ts"
+import { resolveSession, sessionHistory } from "./session.shared.ts"
+import type { RunDiffStyle, RunInput, RunPrompt, RunProvider, RunTuiConfig } from "./types.ts"
+import { pickVariant } from "./variant.shared.ts"
 
 export type ModelInfo = {
   providers: RunProvider[]
