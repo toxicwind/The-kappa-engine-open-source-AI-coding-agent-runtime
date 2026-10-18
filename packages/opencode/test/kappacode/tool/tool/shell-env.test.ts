@@ -13,8 +13,8 @@ import { ShellTool } from "@/tool/shell"
 import { Truncate } from "@/tool/truncate"
 import type { Tool } from "@/tool/tool"
 import { InstanceStore } from "@/project/instance-store"
-import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 const layer = Layer.mergeAll(
   AppNodeBuilder.build(CrossSpawnSpawner.node),

@@ -39,11 +39,11 @@
       "entityType": "tables"
     },
     {
-      "name": "kilo_board_message",
+      "name": "kappa_board_message",
       "entityType": "tables"
     },
     {
-      "name": "kilo_board",
+      "name": "kappa_board",
       "entityType": "tables"
     },
     {
@@ -558,7 +558,7 @@
       "generated": null,
       "name": "id",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -568,7 +568,7 @@
       "generated": null,
       "name": "board_root_session_id",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "integer",
@@ -578,7 +578,7 @@
       "generated": null,
       "name": "seq",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "integer",
@@ -588,7 +588,7 @@
       "generated": null,
       "name": "time_created",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -598,7 +598,7 @@
       "generated": null,
       "name": "sender_session_id",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -608,7 +608,7 @@
       "generated": null,
       "name": "recipient",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -618,7 +618,7 @@
       "generated": null,
       "name": "type",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -628,7 +628,7 @@
       "generated": null,
       "name": "body",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -638,7 +638,7 @@
       "generated": null,
       "name": "reply_to",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -648,7 +648,7 @@
       "generated": null,
       "name": "source_message_id",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -658,7 +658,7 @@
       "generated": null,
       "name": "source_call_id",
       "entityType": "columns",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "type": "text",
@@ -668,7 +668,7 @@
       "generated": null,
       "name": "root_session_id",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "text",
@@ -678,7 +678,7 @@
       "generated": null,
       "name": "objective",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "text",
@@ -688,7 +688,7 @@
       "generated": null,
       "name": "objective_message_id",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "integer",
@@ -698,7 +698,7 @@
       "generated": null,
       "name": "next_seq",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "integer",
@@ -708,7 +708,7 @@
       "generated": null,
       "name": "cleared_seq",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "integer",
@@ -718,7 +718,7 @@
       "generated": null,
       "name": "message_count",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "integer",
@@ -728,7 +728,7 @@
       "generated": null,
       "name": "message_bytes",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "integer",
@@ -738,7 +738,7 @@
       "generated": null,
       "name": "time_created",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "integer",
@@ -748,7 +748,7 @@
       "generated": null,
       "name": "time_updated",
       "entityType": "columns",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "type": "text",
@@ -1739,16 +1739,16 @@
       "columns": [
         "board_root_session_id"
       ],
-      "tableTo": "kilo_board",
+      "tableTo": "kappa_board",
       "columnsTo": [
         "root_session_id"
       ],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "nameExplicit": false,
-      "name": "fk_kilo_board_message_board_root_session_id_kilo_board_root_session_id_fk",
+      "name": "fk_kappa_board_message_board_root_session_id_kappa_board_root_session_id_fk",
       "entityType": "fks",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "columns": [
@@ -1761,9 +1761,9 @@
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "nameExplicit": false,
-      "name": "fk_kilo_board_root_session_id_session_id_fk",
+      "name": "fk_kappa_board_root_session_id_session_id_fk",
       "entityType": "fks",
-      "table": "kilo_board"
+      "table": "kappa_board"
     },
     {
       "columns": [
@@ -2013,8 +2013,8 @@
         "id"
       ],
       "nameExplicit": false,
-      "name": "kilo_board_message_pk",
-      "table": "kilo_board_message",
+      "name": "kappa_board_message_pk",
+      "table": "kappa_board_message",
       "entityType": "pks"
     },
     {
@@ -2022,8 +2022,8 @@
         "root_session_id"
       ],
       "nameExplicit": false,
-      "name": "kilo_board_pk",
-      "table": "kilo_board",
+      "name": "kappa_board_pk",
+      "table": "kappa_board",
       "entityType": "pks"
     },
     {
@@ -2161,9 +2161,9 @@
       "isUnique": true,
       "where": null,
       "origin": "manual",
-      "name": "kilo_board_message_board_seq_idx",
+      "name": "kappa_board_message_board_seq_idx",
       "entityType": "indexes",
-      "table": "kilo_board_message"
+      "table": "kappa_board_message"
     },
     {
       "columns": [

@@ -2,7 +2,7 @@ import { describe, expect } from "bun:test"
 import { Cause, Effect, Exit } from "effect"
 import { run, type Profile } from "@kappacode/sandbox"
 import * as Network from "@/kappacode/sandbox/network"
-import { it } from "../../lib/effect"
+import { it } from "../../../lib/effect"
 
 function profile(mode: Profile["network"]["mode"]): Profile {
   return {

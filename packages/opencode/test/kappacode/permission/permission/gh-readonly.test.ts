@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { hardenExplore, patchAgents } from "../../../src/kappacode/agent"
-import { Permission } from "../../../src/permission"
+import { hardenExplore, patchAgents } from "../../../../src/kappacode/agent"
+import { Permission } from "../../../../src/permission"
 
 function agents(user: Permission.Ruleset = []) {
   const items: Parameters<typeof patchAgents>[0] = Object.fromEntries(

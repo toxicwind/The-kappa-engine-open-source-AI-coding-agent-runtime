@@ -2,26 +2,26 @@ import { describe, expect, test } from "bun:test"
 import { afterEach, mock, spyOn } from "bun:test"
 import { Effect } from "effect"
 import { ProjectV2 } from "@opencode-ai/core/project"
-import { RemoteCommand } from "../../../src/kappa-sessions/remote-command"
-import { RemoteModelCatalog } from "../../../src/kappa-sessions/remote-model-catalog"
-import { RemoteSender } from "../../../src/kappa-sessions/remote-sender"
-import type { PrLink } from "../../../src/kappa-sessions/pr-link"
-import type { RemoteWS } from "../../../src/kappa-sessions/remote-ws"
-import type { RemoteProtocol } from "../../../src/kappa-sessions/remote-protocol"
-import type { SessionPrompt } from "../../../src/session/prompt"
-import { Question } from "../../../src/question"
-import { QuestionID } from "../../../src/question/schema"
-import { Permission } from "../../../src/permission"
+import { RemoteCommand } from "../../../../src/kappa-sessions/remote-command"
+import { RemoteModelCatalog } from "../../../../src/kappa-sessions/remote-model-catalog"
+import { RemoteSender } from "../../../../src/kappa-sessions/remote-sender"
+import type { PrLink } from "../../../../src/kappa-sessions/pr-link"
+import type { RemoteWS } from "../../../../src/kappa-sessions/remote-ws"
+import type { RemoteProtocol } from "../../../../src/kappa-sessions/remote-protocol"
+import type { SessionPrompt } from "../../../../src/session/prompt"
+import { Question } from "../../../../src/question"
+import { QuestionID } from "../../../../src/question/schema"
+import { Permission } from "../../../../src/permission"
 import { PermissionV1 } from "@opencode-ai/core/v1/permission"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-import { MessageID, SessionID } from "../../../src/session/schema"
-import { Session } from "../../../src/session/session"
-import { Suggestion } from "../../../src/kappacode/suggestion"
-import { KappaSessionPromptQueue } from "../../../src/kappacode/session/prompt-queue"
+import { MessageID, SessionID } from "../../../../src/session/schema"
+import { Session } from "../../../../src/session/session"
+import { Suggestion } from "../../../../src/kappacode/suggestion"
+import { KappaSessionPromptQueue } from "../../../../src/kappacode/session/prompt-queue"
 import { mkdir, symlink, writeFile } from "node:fs/promises"
 import { join } from "node:path"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../../fixture/fixture"
 
 function fakeConn() {
   const sent: any[] = []
@@ -4414,7 +4414,7 @@ describe("RemoteSender slash commands", () => {
     const titles: { sessionID: string; title: string }[] = []
     const warnings: unknown[][] = []
     const sid = SessionID.make("ses_renamed")
-    const { clear, consumeRenameAdoption } = await import("../../../src/kappa-sessions/rename-adoptions")
+    const { clear, consumeRenameAdoption } = await import("../../../../src/kappa-sessions/rename-adoptions")
     clear(sid)
 
     const sender = RemoteSender.create({
@@ -4519,7 +4519,7 @@ describe("RemoteSender slash commands", () => {
     const { conn } = fakeConn()
     const sid = SessionID.make("ses_rename_fail")
     const { clear, consumeRenameAdoption, markRenameAdopted } = await import(
-      "../../../src/kappa-sessions/rename-adoptions"
+      "../../../../src/kappa-sessions/rename-adoptions"
     )
     clear(sid)
 

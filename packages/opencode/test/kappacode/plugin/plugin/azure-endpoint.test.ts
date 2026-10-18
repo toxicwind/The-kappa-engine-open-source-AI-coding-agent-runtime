@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import type { Hooks } from "@kappacode/plugin"
-import { OAUTH_DUMMY_KEY } from "../../../src/auth"
-import { createAzureAuthHooks } from "../../../src/plugin/azure"
+import { OAUTH_DUMMY_KEY } from "../../../../src/auth"
+import { createAzureAuthHooks } from "../../../../src/plugin/azure"
 
 const keys = ["AZURE_RESOURCE_NAME", "AZURE_OPENAI_RESOURCE_NAME", "AZURE_OPENAI_ENDPOINT"] as const
 const saved = Object.fromEntries(keys.map((key) => [key, process.env[key]]))

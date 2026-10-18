@@ -2,10 +2,10 @@
 import path from "path"
 import fs from "fs/promises"
 import { describe, expect, test } from "bun:test"
-import { ConfigProtection } from "../../../src/kappacode/permission/config-paths"
+import { ConfigProtection } from "../../../../src/kappacode/permission/config-paths"
 import { Global } from "@opencode-ai/core/global"
-import { KappacodePaths } from "../../../src/kappacode/paths"
-import { tmpdir } from "../../fixture/fixture"
+import { KappacodePaths } from "../../../../src/kappacode/paths"
+import { tmpdir } from "../../../fixture/fixture"
 
 describe("ConfigProtection.isRequest", () => {
   const config = path.resolve(Global.Path.config)

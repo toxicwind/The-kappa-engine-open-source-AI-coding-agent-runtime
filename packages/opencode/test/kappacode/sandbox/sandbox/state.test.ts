@@ -16,8 +16,8 @@ import * as Network from "@/kappacode/sandbox/network"
 import * as SandboxPolicy from "@/kappacode/sandbox/policy"
 import { SandboxStore } from "@/kappacode/sandbox/store"
 import { SessionID } from "@/session/schema"
-import { TestInstance } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { TestInstance } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 const it = testEffect(
   Layer.mergeAll(

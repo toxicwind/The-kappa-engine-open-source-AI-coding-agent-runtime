@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { IngestDrain } from "../../../src/kappa-sessions/ingest-drain"
+import { IngestDrain } from "../../../../src/kappa-sessions/ingest-drain"
 
 describe("IngestDrain once-guard", () => {
   test("overlapping invocations share a single underlying drain call", async () => {

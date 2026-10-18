@@ -25,9 +25,9 @@ import { PromptStashProvider } from "@tui/prompt/stash"
 import { DialogProvider } from "@tui/ui/dialog"
 import { ToastProvider } from "@tui/ui/toast"
 import { NudgeProvider } from "@/kappacode/cli/cmd/tui/context/nudge"
-import { tmpdir } from "../../../../../fixture/fixture"
-import { TestTuiContexts } from "../../../../../fixture/tui-environment"
-import { createEventSource, createFetch, directory, json } from "../../../../../../../tui/test/fixture/tui-sdk"
+import { tmpdir } from "../../../../../../fixture/fixture"
+import { TestTuiContexts } from "../../../../../../fixture/tui-environment"
+import { createEventSource, createFetch, directory, json } from "../../../../../../../../tui/test/fixture/tui-sdk"
 
 async function mount(root: string, vim = true) {
   await Bun.write(`${root}/kv.json`, JSON.stringify({ animations_enabled: false }))

@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, test } from "bun:test"
 import fs from "fs"
-import { remove as cleanup } from "../cleanup"
+import { remove as cleanup } from "../../cleanup"
 import os from "os"
 import path from "path"
 import { Context, Effect, Layer } from "effect"
@@ -20,7 +20,7 @@ import { Session } from "@/session/session"
 import { SessionPrompt } from "@/session/prompt"
 import { SessionID } from "@/session/schema"
 import { Storage } from "@/storage/storage"
-import { pollWithTimeout, testEffect } from "../../lib/effect"
+import { pollWithTimeout, testEffect } from "../../../lib/effect"
 
 // The layer and stub-Fire helpers mirror wakeup.test.ts, extended to record
 // the Fire options so a cron fire can be told apart from a wakeup fire.

@@ -6,8 +6,8 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Git } from "@/git"
 import { Storage } from "@/storage/storage"
-import { tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { tmpdirScoped } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 const it = testEffect(LayerNode.compile(LayerNode.group([FSUtil.node, CrossSpawnSpawner.node])))
 

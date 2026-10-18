@@ -9,7 +9,7 @@ import { ProjectV2 } from "@opencode-ai/core/project"
 import { MessageTable, PartTable, SessionTable } from "@opencode-ai/core/session/sql"
 import { Effect, Schema } from "effect"
 import { eq } from "drizzle-orm"
-import { SessionID } from "../../../src/session/schema"
+import { SessionID } from "../../../../src/session/schema"
 
 const bodies = new Map<string, unknown>()
 const ingest = Bun.serve({
@@ -42,10 +42,10 @@ const [runtime, gateway, server, fixture] = await (async () => {
   process.env.KILO_SESSION_INGEST_URL = ingest.url.origin
   try {
     return await Promise.all([
-      import("../../../src/effect/app-runtime"),
-      import("../../../src/kappacode/server/httpapi/groups/kappa-gateway"),
-      import("../../../src/server/routes/instance/httpapi/server"),
-      import("../../fixture/fixture"),
+      import("../../../../src/effect/app-runtime"),
+      import("../../../../src/kappacode/server/httpapi/groups/kappa-gateway"),
+      import("../../../../src/server/routes/instance/httpapi/server"),
+      import("../../../fixture/fixture"),
     ])
   } finally {
     if (disabled === undefined) delete process.env.KILO_DISABLE_SESSION_INGEST

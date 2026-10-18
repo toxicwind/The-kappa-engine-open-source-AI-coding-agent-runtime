@@ -88,7 +88,7 @@ export default {
       `)
       // kappacode_change start
       yield* tx.run(`
-        CREATE TABLE \`kilo_board_message\` (
+        CREATE TABLE \`kappa_board_message\` (
           \`id\` text PRIMARY KEY,
           \`board_root_session_id\` text NOT NULL,
           \`seq\` integer NOT NULL,
@@ -100,13 +100,13 @@ export default {
           \`reply_to\` text,
           \`source_message_id\` text NOT NULL,
           \`source_call_id\` text NOT NULL,
-          CONSTRAINT \`fk_kilo_board_message_board_root_session_id_kilo_board_root_session_id_fk\` FOREIGN KEY (\`board_root_session_id\`) REFERENCES \`kilo_board\`(\`root_session_id\`) ON DELETE CASCADE
+          CONSTRAINT \`fk_kappa_board_message_board_root_session_id_kappa_board_root_session_id_fk\` FOREIGN KEY (\`board_root_session_id\`) REFERENCES \`kappa_board\`(\`root_session_id\`) ON DELETE CASCADE
         );
       `)
       // kappacode_change end
       // kappacode_change start
       yield* tx.run(`
-        CREATE TABLE \`kilo_board\` (
+        CREATE TABLE \`kappa_board\` (
           \`root_session_id\` text PRIMARY KEY,
           \`objective\` text NOT NULL,
           \`objective_message_id\` text,
@@ -116,7 +116,7 @@ export default {
           \`message_bytes\` integer DEFAULT 0 NOT NULL,
           \`time_created\` integer NOT NULL,
           \`time_updated\` integer NOT NULL,
-          CONSTRAINT \`fk_kilo_board_root_session_id_session_id_fk\` FOREIGN KEY (\`root_session_id\`) REFERENCES \`session\`(\`id\`) ON DELETE CASCADE
+          CONSTRAINT \`fk_kappa_board_root_session_id_session_id_fk\` FOREIGN KEY (\`root_session_id\`) REFERENCES \`session\`(\`id\`) ON DELETE CASCADE
         );
       `)
       // kappacode_change end
@@ -274,7 +274,7 @@ export default {
       yield* tx.run(`CREATE INDEX \`event_aggregate_type_seq_idx\` ON \`event\` (\`aggregate_id\`,\`type\`,\`seq\`);`)
       // kappacode_change start
       yield* tx.run(
-        `CREATE UNIQUE INDEX \`kilo_board_message_board_seq_idx\` ON \`kilo_board_message\` (\`board_root_session_id\`,\`seq\`);`,
+        `CREATE UNIQUE INDEX \`kappa_board_message_board_seq_idx\` ON \`kappa_board_message\` (\`board_root_session_id\`,\`seq\`);`,
       )
       // kappacode_change end
       yield* tx.run(

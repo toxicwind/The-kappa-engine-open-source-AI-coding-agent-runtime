@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { ProviderV2 } from "@opencode-ai/core/provider"
-import { resolve } from "../../../src/kappacode/session/workflow-variant"
+import { resolve } from "../../../../src/kappacode/session/workflow-variant"
 
 const selected = { variants: { high: {} } }
 const model = { providerID: ProviderV2.ID.make("anthropic"), modelID: ModelV2.ID.make("claude-sonnet") }

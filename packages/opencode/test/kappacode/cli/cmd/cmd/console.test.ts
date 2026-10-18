@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { explicitNetworkOptions } from "../../../../src/cli/network"
+import { explicitNetworkOptions } from "../../../../../src/cli/network"
 import { getNetworkIPs, serverUrls } from "../../../../../src/kappacode/cli/server-urls.ts"
 import { Daemon } from "../../../../../src/kappacode/daemon/daemon.ts"
 

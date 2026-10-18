@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { createWorkerShutdown } from "../../../src/cli/tui/worker-shutdown"
+import { createWorkerShutdown } from "../../../../src/cli/tui/worker-shutdown"
 
 describe("createWorkerShutdown", () => {
   test("invokes drain before dispose and stopServer", async () => {

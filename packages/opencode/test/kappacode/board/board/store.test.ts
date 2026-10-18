@@ -6,7 +6,7 @@ import { Database } from "@opencode-ai/core/database/database"
 import { SessionTable } from "@opencode-ai/core/session/sql"
 import { BoardStore } from "@/kappacode/board/store"
 import { SessionID } from "@/session/schema"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../../fixture/fixture"
 
 const use = <A, E>(effect: Effect.Effect<A, E, Database.Service>, file = ":memory:") =>
   Effect.runPromise(Effect.provide(Database.layerFromPath(file))(Effect.scoped(effect)))
@@ -56,7 +56,7 @@ describe("BoardStore", () => {
           messages: [],
           hasMore: false,
         })
-        expect(yield* db.all(sql`SELECT * FROM kilo_board`)).toEqual([])
+        expect(yield* db.all(sql`SELECT * FROM kappa_board`)).toEqual([])
         const posts = yield* Effect.forEach(
           Array.from({ length: 5 }, (_, index) => index),
           (index) =>
@@ -152,7 +152,7 @@ describe("BoardStore", () => {
           body: "Before reset",
         }
         const first = yield* BoardStore.post(args)
-        yield* db.run(sql`UPDATE kilo_board SET message_count = 1000, message_bytes = ${2 * 1024 * 1024}`)
+        yield* db.run(sql`UPDATE kappa_board SET message_count = 1000, message_bytes = ${2 * 1024 * 1024}`)
         expect((yield* BoardStore.post({ ...args, callID: "full" }).pipe(Effect.exit))._tag).toBe("Failure")
         expect(
           (yield* BoardStore.reset({ ...input, sessionID: id("child"), revision: 1 }).pipe(Effect.exit))._tag,
@@ -173,7 +173,7 @@ describe("BoardStore", () => {
         })
         expect(yield* BoardStore.post(args)).toEqual(first)
         expect(
-          yield* db.get(sql`SELECT next_seq, cleared_seq, message_count, message_bytes, objective FROM kilo_board`),
+          yield* db.get(sql`SELECT next_seq, cleared_seq, message_count, message_bytes, objective FROM kappa_board`),
         ).toEqual({
           next_seq: 2,
           cleared_seq: 1,
@@ -187,7 +187,7 @@ describe("BoardStore", () => {
         expect((yield* BoardStore.observe({ ...input, before: first.id })).messages).toEqual([])
         expect((yield* BoardStore.reset({ ...input, revision: 1 }).pipe(Effect.exit))._tag).toBe("Failure")
         expect((yield* BoardStore.observe(input)).messages).toEqual([next])
-        expect(yield* db.all(sql`SELECT seq FROM kilo_board_message ORDER BY seq`)).toEqual([{ seq: 1 }, { seq: 2 }])
+        expect(yield* db.all(sql`SELECT seq FROM kappa_board_message ORDER BY seq`)).toEqual([{ seq: 1 }, { seq: 2 }])
         expect(yield* db.all(sql`SELECT id FROM session`)).toHaveLength(3)
         expect(yield* db.all(sql`SELECT id FROM session_message`)).toHaveLength(1)
       }),
@@ -240,7 +240,7 @@ describe("BoardStore", () => {
           body: "Confirmed",
           reply_to: first.id,
         })
-        return { scope, first, second, raw: yield* db.get(sql`SELECT objective, objective_message_id FROM kilo_board`) }
+        return { scope, first, second, raw: yield* db.get(sql`SELECT objective, objective_message_id FROM kappa_board`) }
       }),
     )
     expect(result.scope).toMatchObject({ root: id("root"), agent: id("child"), objective: "Build the shared board" })
@@ -316,7 +316,7 @@ describe("BoardStore", () => {
                   ]
             yield* Effect.forEach(statements, (statement) => db.run(statement), { discard: true })
             expect((yield* BoardStore.scope(id("child"))).objective).toBe(index === 0 ? "" : text)
-            expect(yield* db.get(sql`SELECT objective_message_id FROM kilo_board`)).toEqual({
+            expect(yield* db.get(sql`SELECT objective_message_id FROM kappa_board`)).toEqual({
               objective_message_id: index === 0 ? null : message,
             })
           }
@@ -354,13 +354,13 @@ describe("BoardStore", () => {
             VALUES (${part}, ${message}, 'ses_root', 0, 0, ${JSON.stringify(data)})`)
         }
         expect((yield* BoardStore.scope(id("root"))).objective).toBe("Build the shared board")
-        yield* db.run(sql`DELETE FROM kilo_board`)
+        yield* db.run(sql`DELETE FROM kappa_board`)
         yield* db.run(sql`DELETE FROM session_message WHERE seq IS NOT NULL`)
         expect((yield* BoardStore.scope(id("root"))).objective).toBe("Unsequenced objective")
-        yield* db.run(sql`DELETE FROM kilo_board`)
+        yield* db.run(sql`DELETE FROM kappa_board`)
         yield* db.run(sql`DELETE FROM session_message`)
         expect((yield* BoardStore.scope(id("root"))).objective).toBe("Legacy objective")
-        expect(yield* db.get(sql`SELECT objective_message_id FROM kilo_board`)).toEqual({
+        expect(yield* db.get(sql`SELECT objective_message_id FROM kappa_board`)).toEqual({
           objective_message_id: "msg_a",
         })
       }),
@@ -725,7 +725,7 @@ describe("BoardStore", () => {
         yield* db.run(sql`DELETE FROM session WHERE id IN ('ses_child', 'ses_sibling')`)
         const retained = yield* BoardStore.read({ sessionID: id("root") })
         yield* db.run(sql`DELETE FROM session WHERE id = 'ses_root'`)
-        const deleted = yield* db.all(sql`SELECT id FROM kilo_board_message`)
+        const deleted = yield* db.all(sql`SELECT id FROM kappa_board_message`)
         return { post, other, cursor, retained, deleted }
       }),
     )
@@ -835,7 +835,7 @@ describe("BoardStore", () => {
         const first = yield* BoardStore.activity({ sessionID: id("root"), after: 0 })
         const page = yield* BoardStore.read({ sessionID: id("root"), limit: 50 })
         const rest = yield* BoardStore.read({ sessionID: id("root"), since: page.cursor })
-        const sequences = yield* db.all<{ seq: number }>(sql`SELECT seq FROM kilo_board_message ORDER BY seq`)
+        const sequences = yield* db.all<{ seq: number }>(sql`SELECT seq FROM kappa_board_message ORDER BY seq`)
         yield* BoardStore.post({
           sessionID: id("root"),
           messageID: "msg_outgoing",
@@ -889,7 +889,7 @@ describe("BoardStore", () => {
           type: "INFO",
           body: "x",
         })
-        yield* db.run(sql`UPDATE kilo_board SET message_bytes = ${2 * 1024 * 1024 - 4096}`)
+        yield* db.run(sql`UPDATE kappa_board SET message_bytes = ${2 * 1024 * 1024 - 4096}`)
         const first = yield* BoardStore.post({
           sessionID: id("root"),
           messageID: "msg_big",
@@ -897,7 +897,7 @@ describe("BoardStore", () => {
           type: "INFO",
           body: "x".repeat(4096 - Buffer.byteLength(BoardStore.format(probe)) + 1),
         })
-        expect(yield* db.get(sql`SELECT message_bytes FROM kilo_board`)).toEqual({ message_bytes: 2 * 1024 * 1024 })
+        expect(yield* db.get(sql`SELECT message_bytes FROM kappa_board`)).toEqual({ message_bytes: 2 * 1024 * 1024 })
         const read = yield* BoardStore.read({ sessionID: id("child"), since: probe.id, limit: 1 })
         return { first, read }
       }),

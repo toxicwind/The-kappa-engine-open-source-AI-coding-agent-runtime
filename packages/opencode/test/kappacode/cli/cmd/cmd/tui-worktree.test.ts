@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import path from "path"
-import { tmpdir } from "../../../fixture/fixture"
+import { tmpdir } from "../../../../fixture/fixture"
 import { ensureGitExclude, slugify } from "@/kappacode/cli/cmd/tui-worktree"
 import { Filesystem } from "@/util/filesystem"
 

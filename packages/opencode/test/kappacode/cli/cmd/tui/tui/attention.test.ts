@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import Attention from "@/kappacode/plugins/attention"
 import type { Event, Session, SessionNetworkWait, SuggestionRequest } from "@kappacode/sdk/v2"
 import type { TuiAttentionNotifyInput } from "@kappacode/plugin/tui"
-import { createTuiPluginApi } from "../../../../fixture/tui-plugin"
+import { createTuiPluginApi } from "../../../../../fixture/tui-plugin"
 
 async function setup() {
   const notifications: TuiAttentionNotifyInput[] = []

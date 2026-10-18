@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, setDefaultTimeout, test } from "bun:test"
 import path from "path"
 import * as Log from "@opencode-ai/core/util/log"
-import { Server } from "../../../src/server/server"
-import type { Config } from "../../../src/config/config"
-import { resetDatabase } from "../../fixture/db"
-import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
+import { Server } from "../../../../src/server/server"
+import type { Config } from "../../../../src/config/config"
+import { resetDatabase } from "../../../fixture/db"
+import { disposeAllInstances, tmpdir } from "../../../fixture/fixture"
 
 void Log.init({ print: false })
 setDefaultTimeout(90_000)

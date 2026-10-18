@@ -12,9 +12,9 @@ import { SessionPrompt } from "@/session/prompt"
 import { SessionStatus } from "@/session/status"
 import { MessageV2 } from "@/session/message-v2"
 import { PartID } from "@/session/schema"
-import { TestInstance } from "../../fixture/fixture"
-import { awaitWithTimeout, testEffect } from "../../lib/effect"
-import { reply, TestLLMServer } from "../../lib/llm-server"
+import { TestInstance } from "../../../fixture/fixture"
+import { awaitWithTimeout, testEffect } from "../../../lib/effect"
+import { reply, TestLLMServer } from "../../../lib/llm-server"
 
 const it = testEffect(
   LayerNode.compile(

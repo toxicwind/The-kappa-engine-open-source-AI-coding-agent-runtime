@@ -6,7 +6,7 @@ import { EventV2Bridge } from "@/event-v2-bridge"
 import { McpAuth } from "@/mcp/auth"
 import { McpBrowser } from "@/mcp/browser"
 import { MCP } from "@/mcp/index"
-import { testEffect } from "../../lib/effect"
+import { testEffect } from "../../../lib/effect"
 
 const browser = Layer.mock(McpBrowser.Service, {
   open: () => Effect.die("unexpected browser open"),

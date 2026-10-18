@@ -8,9 +8,9 @@ import { Session } from "@/session/session"
 import { SessionStatus } from "@/session/status"
 import { BackgroundJob } from "@/background/job"
 import { getWorkspaceRouteSessionID, isLocalWorkspaceRoute } from "@/server/shared/workspace-routing"
-import { disposeAllInstances, provideInstance, TestInstance, tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
-import { httpApiLayer, requestInDirectory } from "../../server/httpapi-layer"
+import { disposeAllInstances, provideInstance, TestInstance, tmpdirScoped } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
+import { httpApiLayer, requestInDirectory } from "../../../server/httpapi-layer"
 
 const it = testEffect(
   Layer.mergeAll(
@@ -64,7 +64,7 @@ describe("shared board HTTP routes", () => {
           hasMore: false,
         })
         expect(
-          yield* db.get(sql`SELECT root_session_id FROM kilo_board WHERE root_session_id = ${root.id}`),
+          yield* db.get(sql`SELECT root_session_id FROM kappa_board WHERE root_session_id = ${root.id}`),
         ).toBeUndefined()
         expect(yield* sessions.messages({ sessionID: root.id })).toEqual([])
         expect(yield* sessions.messages({ sessionID: child.id })).toEqual([])

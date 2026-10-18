@@ -12,7 +12,7 @@ import { Git } from "@/git"
 import { Wakeup } from "@/kappacode/wakeup"
 import { SessionID } from "@/session/schema"
 import { Storage } from "@/storage/storage"
-import { pollWithTimeout, testEffect } from "../../lib/effect"
+import { pollWithTimeout, testEffect } from "../../../lib/effect"
 
 type FireMode = { inPlace?: boolean } | undefined
 type Published = { type: string; data: unknown }

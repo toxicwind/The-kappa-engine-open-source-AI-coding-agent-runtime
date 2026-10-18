@@ -2,12 +2,12 @@ import { afterEach, expect } from "bun:test"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { Effect, Layer } from "effect"
-import { Auth } from "../../../src/auth"
-import { ModelCache } from "../../../src/provider/model-cache"
-import { Server } from "../../../src/server/server"
-import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
-import { resetDatabase } from "../../fixture/db"
-import { testEffectShared } from "../../lib/effect"
+import { Auth } from "../../../../src/auth"
+import { ModelCache } from "../../../../src/provider/model-cache"
+import { Server } from "../../../../src/server/server"
+import { disposeAllInstances, tmpdir } from "../../../fixture/fixture"
+import { resetDatabase } from "../../../fixture/db"
+import { testEffectShared } from "../../../lib/effect"
 
 const it = testEffectShared(Layer.merge(AppNodeBuilder.build(ModelCache.node), AppNodeBuilder.build(Auth.node)))
 

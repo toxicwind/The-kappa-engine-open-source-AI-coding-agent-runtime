@@ -4,12 +4,12 @@ import fs from "fs/promises"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { Effect, Layer, Logger } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
-import { CurrentWorkingDirectory } from "../../../src/config/tui-cwd"
-import { TuiConfig } from "../../../src/config/tui"
-import { Server } from "../../../src/server/server"
-import { GlobalBus, type GlobalEvent } from "../../../src/bus/global"
-import { resetDatabase } from "../../fixture/db"
-import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
+import { CurrentWorkingDirectory } from "../../../../src/config/tui-cwd"
+import { TuiConfig } from "../../../../src/config/tui"
+import { Server } from "../../../../src/server/server"
+import { GlobalBus, type GlobalEvent } from "../../../../src/bus/global"
+import { resetDatabase } from "../../../fixture/db"
+import { disposeAllInstances, tmpdir } from "../../../fixture/fixture"
 
 void Log.init({ print: false })
 

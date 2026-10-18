@@ -12,7 +12,7 @@ import {
 } from "../../../../src/kappacode/anaconda-desktop/domain.ts"
 import * as DesktopPlatform from "../../../../src/kappacode/anaconda-desktop/platform.ts"
 import * as Desktop from "../../../../src/kappacode/anaconda-desktop/service.ts"
-import { testEffect } from "../../../../src/lib/effect"
+import { testEffect } from "../../../../test/lib/effect"
 
 const it = testEffect(Layer.empty)
 

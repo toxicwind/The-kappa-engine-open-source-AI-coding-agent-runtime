@@ -4,10 +4,10 @@ import { ConfigProvider, Layer } from "effect"
 import { HttpRouter } from "effect/unstable/http"
 import { mkdir, symlink } from "fs/promises"
 import path from "path"
-import { ServerAuth } from "../../../src/server/auth"
-import { HttpApiApp } from "../../../src/server/routes/instance/httpapi/server"
-import { resetDatabase } from "../../fixture/db"
-import { disposeAllInstances, tmpdir } from "../../fixture/fixture"
+import { ServerAuth } from "../../../../src/server/auth"
+import { HttpApiApp } from "../../../../src/server/routes/instance/httpapi/server"
+import { resetDatabase } from "../../../fixture/db"
+import { disposeAllInstances, tmpdir } from "../../../fixture/fixture"
 
 const original = {
   password: Flag.KILO_SERVER_PASSWORD,

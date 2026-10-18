@@ -14,9 +14,9 @@ import { RuntimeFlags } from "@/effect/runtime-flags"
 import { Instruction } from "@/session/instruction"
 import { Skill } from "@/skill"
 import { ClaudeMigration } from "@/kappacode/config/claude-migration"
-import { TestConfig } from "../../fixture/config"
-import { provideTmpdirInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { TestConfig } from "../../../fixture/config"
+import { provideTmpdirInstance, testInstanceStoreLayer, tmpdirScoped } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 const base = AppNodeBuilder.build(
   LayerNode.group([CrossSpawnSpawner.node, LayerNodePlatform.filesystem, InstanceStore.node]),

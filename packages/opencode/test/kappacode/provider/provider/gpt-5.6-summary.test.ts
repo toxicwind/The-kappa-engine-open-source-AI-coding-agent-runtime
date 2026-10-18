@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { ProviderTransform } from "../../../src/provider/transform"
-import type { Provider } from "../../../src/provider/provider"
+import { ProviderTransform } from "../../../../src/provider/transform"
+import type { Provider } from "../../../../src/provider/provider"
 
 function model(api = "gpt-5.6-sol-fast", npm = "@ai-sdk/openai") {
   return {

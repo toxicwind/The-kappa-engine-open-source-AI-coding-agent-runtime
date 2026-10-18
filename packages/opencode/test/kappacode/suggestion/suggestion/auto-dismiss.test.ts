@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test"
 import { Effect } from "effect"
-import { KappaSessionPromptQueue } from "../../../src/kappacode/session/prompt-queue"
-import { Suggestion } from "../../../src/kappacode/suggestion"
-import { provideTestInstance } from "../../fixture/fixture"
-import { MessageID, SessionID } from "../../../src/session/schema"
-import { tmpdir } from "../../fixture/fixture"
+import { KappaSessionPromptQueue } from "../../../../src/kappacode/session/prompt-queue"
+import { Suggestion } from "../../../../src/kappacode/suggestion"
+import { provideTestInstance } from "../../../fixture/fixture"
+import { MessageID, SessionID } from "../../../../src/session/schema"
+import { tmpdir } from "../../../fixture/fixture"
 
 describe("Suggestion.show auto-dismiss on queued followup", () => {
   test("show rejects immediately when a followup is queued on the session", async () => {

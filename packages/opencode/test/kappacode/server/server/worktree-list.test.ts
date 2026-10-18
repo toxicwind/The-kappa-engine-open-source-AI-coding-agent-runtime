@@ -4,11 +4,11 @@ import path from "path"
 import { Effect, Layer, Schema } from "effect"
 import { HttpRouter } from "effect/unstable/http"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { HttpApiApp } from "../../../src/server/routes/instance/httpapi/server"
-import { ExperimentalPaths } from "../../../src/server/routes/instance/httpapi/groups/experimental"
-import { resetDatabase } from "../../fixture/db"
-import { TestInstance } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { HttpApiApp } from "../../../../src/server/routes/instance/httpapi/server"
+import { ExperimentalPaths } from "../../../../src/server/routes/instance/httpapi/groups/experimental"
+import { resetDatabase } from "../../../fixture/db"
+import { TestInstance } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 const state = Layer.effectDiscard(
   Effect.gen(function* () {

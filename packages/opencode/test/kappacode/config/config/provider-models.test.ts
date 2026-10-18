@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { ProviderModels } from "../../../src/kappacode/config/provider-models"
+import { ProviderModels } from "../../../../src/kappacode/config/provider-models"
 
 test("skips malformed models without dropping valid siblings", () => {
   const result = ProviderModels.sanitize(

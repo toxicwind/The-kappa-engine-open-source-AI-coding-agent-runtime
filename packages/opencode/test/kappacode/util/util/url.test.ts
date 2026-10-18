@@ -1,6 +1,6 @@
 // kappacode_change - new file
 import { describe, expect, test } from "bun:test"
-import { normalizeUrls } from "../../../src/kappacode/util/url"
+import { normalizeUrls } from "../../../../src/kappacode/util/url"
 
 describe("normalizeUrls", () => {
   describe("homograph / IDN conversion", () => {

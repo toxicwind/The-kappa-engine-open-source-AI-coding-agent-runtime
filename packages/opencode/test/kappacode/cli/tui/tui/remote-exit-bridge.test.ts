@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { RemoteExitRpc } from "../../../../../src/kappacode/cli/cmd/tui/remote-exit-rpc.ts"
 import { createParentRemoteExitBridge } from "../../../../../src/kappacode/cli/cmd/tui/remote-exit-bridge.ts"
-import { Rpc } from "../../../../src/util/rpc"
+import { Rpc } from "../../../../../src/util/rpc"
 
 describe("parent remote exit RPC bridge", () => {
   test("subscribes before readiness and invokes the idempotent local Exit", async () => {

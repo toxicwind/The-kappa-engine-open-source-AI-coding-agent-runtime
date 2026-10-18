@@ -715,7 +715,7 @@ export namespace KappaSessions {
             knownTitles.set(sessionID, session.title)
             try {
               await ingest.sync(sessionID, [
-                { type: "kilo_meta", data: await meta(sessionID, session) },
+                { type: "kappa_meta", data: await meta(sessionID, session) },
                 { type: "session", data: transport(session) },
               ])
             } catch (error) {
@@ -1742,7 +1742,7 @@ export namespace KappaSessions {
 
     await ingest.sync(sessionId, [
       {
-        type: "kilo_meta",
+        type: "kappa_meta",
         data: await meta(sessionId, session),
       },
       {

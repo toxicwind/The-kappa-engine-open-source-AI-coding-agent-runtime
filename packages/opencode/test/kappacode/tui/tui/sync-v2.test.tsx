@@ -6,7 +6,7 @@ import { onMount } from "solid-js"
 import { ProjectProvider, useProject } from "@tui/context/project"
 import { SDKProvider } from "@tui/context/sdk"
 import { SyncProviderV2, useSyncV2 } from "@/kappacode/plugins/sync-v2"
-import { createEventSource, createFetch, directory, json } from "../../../../tui/test/fixture/tui-sdk"
+import { createEventSource, createFetch, directory, json } from "../../../../../tui/test/fixture/tui-sdk"
 
 async function wait(fn: () => boolean, timeout = 2000) {
   const start = Date.now()

@@ -69,7 +69,6 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@actions/github": "6.0.1",
-    "secretsmith": "workspace:*",
     "@agentclientprotocol/sdk": "0.21.0",
     "@ai-sdk/alibaba": "1.0.17",
     "@ai-sdk/amazon-bedrock": "4.0.166",
@@ -172,6 +171,7 @@
     "partial-json": "0.1.7",
     "remeda": "catalog:",
     "ripgrep": "0.3.1",
+    "secretsmith": "workspace:*",
     "semver": "^7.6.3",
     "simple-git": "4.0.2",
     "solid-js": "catalog:",

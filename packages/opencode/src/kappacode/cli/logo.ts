@@ -9,13 +9,13 @@
  */
 export const LOGO_MODERN = [
   "     :::    :::     :::     :::::::::  :::::::::     :::   ",
-  "     +:+   +:+    +:+ +:+   :+:    :+: +:+    +:+  +:+ +:+ ",
+  "     +:+   +:+    +:+ +:+   :+:    +:+ +:+    +:+  +:+ +:+ ",
   "    +:+  +:+    +:+   +:+  +:+    +:+ +:+    +:+ +:+   +:+ ",
   "   +#++:++    +#++:++#++: +#++:++#+  +#++:++#+ +#++:++#++: ",
   "  +#+  +#+   +#+     +#+ +#+        +#+       +#+     +#+   ",
   " #+#   #+#  #+#     #+# #+#        #+#       #+#     #+#    ",
   "###    ### ###     ### ###        ###       ###     ###    ",
-].join("\n");
+];
 
 /**
  * Option 2: plain — Hard-block geometry without combining characters.
@@ -27,7 +27,7 @@ export const LOGO_PLAIN = [
   " █████    ███████  ██████   ██████   ███████ ",
   " ██  ██   ██   ██  ██       ██       ██   ██ ",
   " ██   ██  ██   ██  ██       ██       ██   ██ ",
-].join("\n");
+];
 
 /**
  * Option 3: fallback — Pure full-block art with CP437 drop shadows (~).
@@ -40,7 +40,7 @@ export const LOGO_FALLBACK = [
   " ██~~██   ██~~~██  ██~~~~   ██~~~~   ██~~~██ ",
   " ██   ██  ██   ██  ██       ██       ██   ██ ",
   " ~~   ~~  ~~   ~~  ~~       ~~       ~~   ~~ ",
-].join("\n");
+];
 
 function flag(value: string | undefined) {
   const key = value?.toLowerCase()
@@ -87,6 +87,6 @@ export function session(
   env = process.env,
   platform = process.platform,
 ) {
-  const lines = LOGO_MODERN.split("\n")
+  const lines = LOGO_MODERN
   return [``, `${lines[0]}${dim}${title}${normal}`, `${lines[1]}${dim}kappa -s ${id}${normal}`, lines[2]].join("\n")
 }

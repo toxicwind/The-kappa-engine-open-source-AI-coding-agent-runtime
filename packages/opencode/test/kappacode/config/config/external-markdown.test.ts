@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
 import fs from "node:fs/promises"
 import path from "node:path"
-import { ExternalMarkdown } from "../../../src/kappacode/config/external-markdown"
-import { tmpdir } from "../../fixture/fixture"
+import { ExternalMarkdown } from "../../../../src/kappacode/config/external-markdown"
+import { tmpdir } from "../../../fixture/fixture"
 
 describe("external Markdown sources", () => {
   test("requires a global allow for the exact canonical directory", async () => {

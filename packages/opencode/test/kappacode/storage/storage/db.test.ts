@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import path from "path"
 import { Global } from "@opencode-ai/core/global"
 import { InstallationChannel } from "@opencode-ai/core/installation/version"
-import { Database } from "../../../src/storage/db"
-import { tmpdir } from "../../fixture/fixture"
+import { Database } from "../../../../src/storage/db"
+import { tmpdir } from "../../../fixture/fixture"
 
 const custom = ["latest", "beta", "prod"].includes(InstallationChannel) ? test.skip : test
 

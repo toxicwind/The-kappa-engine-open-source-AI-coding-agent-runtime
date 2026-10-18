@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test"
-import { provideTestInstance } from "../../fixture/fixture"
-import { tmpdir } from "../../fixture/fixture"
+import { provideTestInstance } from "../../../fixture/fixture"
+import { tmpdir } from "../../../fixture/fixture"
 
 async function app() {
-  const { Server } = await import("../../../src/server/server")
+  const { Server } = await import("../../../../src/server/server")
   return Server.Default().app
 }
 

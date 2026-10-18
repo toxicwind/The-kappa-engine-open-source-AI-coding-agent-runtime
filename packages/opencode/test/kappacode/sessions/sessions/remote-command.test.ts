@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test"
-import { RemoteCommand } from "../../../src/kappa-sessions/remote-command"
-import { RemoteExit } from "../../../src/kappa-sessions/remote-exit"
-import type { Info as SessionInfo } from "../../../src/session/session"
-import { MessageV2 } from "../../../src/session/message-v2"
-import { MessageID, SessionID } from "../../../src/session/schema"
+import { RemoteCommand } from "../../../../src/kappa-sessions/remote-command"
+import { RemoteExit } from "../../../../src/kappa-sessions/remote-exit"
+import type { Info as SessionInfo } from "../../../../src/session/session"
+import { MessageV2 } from "../../../../src/session/message-v2"
+import { MessageID, SessionID } from "../../../../src/session/schema"
 
 describe("RemoteCommand", () => {
   test("validates list command protocol requests", () => {

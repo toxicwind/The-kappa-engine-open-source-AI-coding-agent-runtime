@@ -3,27 +3,27 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Auth } from "../../../src/auth"
-import { Bus } from "../../../src/bus"
-import { GlobalBus } from "../../../src/bus/global"
-import { Config } from "../../../src/config/config"
-import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
+import { Auth } from "../../../../src/auth"
+import { Bus } from "../../../../src/bus"
+import { GlobalBus } from "../../../../src/bus/global"
+import { Config } from "../../../../src/config/config"
+import { clearInFlightCache } from "../../../../src/kappa-sessions/inflight-cache"
 import {
   clearAll as clearRenameMarks,
   consumeAutoTitle,
   consumeRenameAdoption,
   markAutoTitle,
   markRenameAdopted,
-} from "../../../src/kappa-sessions/rename-adoptions"
-import { Session } from "../../../src/session/session"
-import { SessionID } from "../../../src/session/schema"
+} from "../../../../src/kappa-sessions/rename-adoptions"
+import { Session } from "../../../../src/session/session"
+import { SessionID } from "../../../../src/session/schema"
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { SessionProjector } from "@opencode-ai/core/session/projector"
-import { TestConfig } from "../../fixture/config"
-import { pollWithTimeout, testEffect } from "../../lib/effect"
-import { TestInstance } from "../../fixture/fixture"
+import { TestConfig } from "../../../fixture/config"
+import { pollWithTimeout, testEffect } from "../../../lib/effect"
+import { TestInstance } from "../../../fixture/fixture"
 
-const KappaSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KappaSessions
+const KappaSessions = (await import("../../../../src/kappa-sessions/kappa-sessions")).KappaSessions
 
 // Session must be provideMerged so yield* Session.Service and the
 // KappaSessions Updated handler share one store (otherwise get() misses creates).
@@ -105,7 +105,7 @@ function metaItems(requests: Req[]) {
     const data = r.body?.data
     if (!Array.isArray(data)) continue
     for (const item of data) {
-      if (item?.type === "kilo_meta") items.push(item.data)
+      if (item?.type === "kappa_meta") items.push(item.data)
     }
   }
   return items

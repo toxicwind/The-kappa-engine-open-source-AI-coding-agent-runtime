@@ -48,7 +48,7 @@ describe("KAPPA CLI logo variants", () => {
   test("all committed logos render as multi-line art", () => {
     const logos = [LOGO_MODERN, LOGO_PLAIN, LOGO_FALLBACK]
     for (const logo of logos) {
-      const lines = logo.split("\n")
+      const lines = logo
       expect(lines.length).toBeGreaterThan(0)
       for (const line of lines) {
         expect(line.length).toBeGreaterThan(0)

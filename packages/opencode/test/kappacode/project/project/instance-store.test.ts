@@ -2,12 +2,12 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect } from "bun:test"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Deferred, Effect, Exit, Fiber, Layer, Scope } from "effect"
-import { GlobalBus } from "../../../src/bus/global"
-import { registerDisposer } from "../../../src/effect/instance-registry"
-import { InstanceBootstrap } from "../../../src/project/bootstrap-service"
-import { InstanceStore } from "../../../src/project/instance-store"
-import { tmpdirScoped } from "../../fixture/fixture"
-import { awaitWithTimeout, testEffect } from "../../lib/effect"
+import { GlobalBus } from "../../../../src/bus/global"
+import { registerDisposer } from "../../../../src/effect/instance-registry"
+import { InstanceBootstrap } from "../../../../src/project/bootstrap-service"
+import { InstanceStore } from "../../../../src/project/instance-store"
+import { tmpdirScoped } from "../../../fixture/fixture"
+import { awaitWithTimeout, testEffect } from "../../../lib/effect"
 
 const bootstrap = Layer.succeed(InstanceBootstrap.Service, InstanceBootstrap.Service.of({ run: Effect.void }))
 const it = testEffect(

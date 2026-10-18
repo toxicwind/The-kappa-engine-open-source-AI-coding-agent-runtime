@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { apply } from "../../../src/kappacode/command/override"
+import { apply } from "../../../../src/kappacode/command/override"
 
 const hints = (template: string) => (template ? [template] : [])
 

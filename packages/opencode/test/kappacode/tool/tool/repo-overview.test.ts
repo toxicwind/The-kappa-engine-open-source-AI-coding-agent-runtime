@@ -10,8 +10,8 @@ import { Global } from "@opencode-ai/core/global"
 import { MessageID, SessionID } from "@/session/schema"
 import { Truncate } from "@/tool/truncate"
 import { RepoOverviewTool } from "@/kappacode/tool/repo-overview"
-import { disposeAllInstances, provideTmpdirInstance, tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { disposeAllInstances, provideTmpdirInstance, tmpdirScoped } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 afterEach(async () => {
   await disposeAllInstances()

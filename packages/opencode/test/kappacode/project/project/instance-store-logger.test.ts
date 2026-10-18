@@ -2,10 +2,10 @@ import { expect } from "bun:test"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Effect, Layer, Logger } from "effect"
-import { InstanceBootstrap } from "../../../src/project/bootstrap-service"
-import { InstanceStore } from "../../../src/project/instance-store"
-import { tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { InstanceBootstrap } from "../../../../src/project/bootstrap-service"
+import { InstanceStore } from "../../../../src/project/instance-store"
+import { tmpdirScoped } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 let run: Effect.Effect<void> = Effect.void
 const bootstrap = Layer.succeed(

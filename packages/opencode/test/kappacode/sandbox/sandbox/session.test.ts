@@ -25,8 +25,8 @@ import { SessionStatus } from "@/session/status"
 import { Shell } from "@opencode-ai/core/shell"
 import { Storage } from "@/storage/storage"
 import { SyncEvent } from "@/sync"
-import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { provideInstance, testInstanceStoreLayer, tmpdirScoped } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 const it = testEffect(
   Layer.mergeAll(

@@ -12,7 +12,7 @@ export namespace IngestQueue {
 
   export type Data =
     | {
-        type: "kilo_meta"
+        type: "kappa_meta"
         data: {
           platform: string
           orgId?: string
@@ -148,7 +148,7 @@ export namespace IngestQueue {
     function key(item: Data) {
       // Stable keys are important so updates for the same entity collapse to a single queued item.
       // If we can't derive a stable key, we fall back to a random key (ulid) so the item is still sent.
-      if (item.type === "kilo_meta") return "kilo_meta"
+      if (item.type === "kappa_meta") return "kappa_meta"
       if (item.type === "session") return "session"
       if (item.type === "session_diff") return "session_diff"
       if (item.type === "session_open") return "session_open"

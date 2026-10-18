@@ -1,6 +1,6 @@
 import { expect } from "bun:test"
 import { Effect } from "effect"
-import { cliIt } from "../../lib/cli-process"
+import { cliIt } from "../../../lib/cli-process"
 
 cliIt.live(
   "nested lazy command completion includes subcommands",

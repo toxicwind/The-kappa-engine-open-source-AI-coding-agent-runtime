@@ -32,10 +32,10 @@ import * as Tool from "@/tool/tool"
 import { ToolRegistry } from "@/tool/registry"
 import { Truncate } from "@/tool/truncate"
 import { WriteTool } from "@/tool/write"
-import { TestConfig } from "../../fixture/config"
-import { tmpdirScoped } from "../../fixture/fixture"
-import { ProviderTest } from "../../fake/provider"
-import { testEffect } from "../../lib/effect"
+import { TestConfig } from "../../../fixture/config"
+import { tmpdirScoped } from "../../../fixture/fixture"
+import { ProviderTest } from "../../../fake/provider"
+import { testEffect } from "../../../lib/effect"
 
 const projectID = ProjectV2.ID.make("sandbox-session-tools")
 const sessionID = SessionID.make("ses_sandbox-session-tools")

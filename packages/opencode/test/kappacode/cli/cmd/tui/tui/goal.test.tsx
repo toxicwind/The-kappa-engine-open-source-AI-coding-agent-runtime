@@ -9,8 +9,8 @@ import { ThemeProvider } from "@tui/context/theme"
 import { OpencodeKeymapProvider, registerOpencodeKeymap } from "@tui/keymap"
 import { DialogProvider } from "@tui/ui/dialog"
 import { ToastProvider } from "@tui/ui/toast"
-import { tmpdir } from "../../../../fixture/fixture"
-import { TestTuiContexts } from "../../../../fixture/tui-environment"
+import { tmpdir } from "../../../../../fixture/fixture"
+import { TestTuiContexts } from "../../../../../fixture/tui-environment"
 
 test("goal metadata requires text and explicit active state", () => {
   for (const goal of [undefined, null, false, "goal", {}, { text: 3 }, { text: " \n " }]) {

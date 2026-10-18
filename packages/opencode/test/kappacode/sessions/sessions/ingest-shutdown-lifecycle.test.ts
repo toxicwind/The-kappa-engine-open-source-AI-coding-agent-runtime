@@ -1,6 +1,6 @@
 import { expect, spyOn, test } from "bun:test"
-import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
-import { KappaShutdown } from "../../../src/kappacode/cli/shutdown"
+import { clearInFlightCache } from "../../../../src/kappa-sessions/inflight-cache"
+import { KappaShutdown } from "../../../../src/kappacode/cli/shutdown"
 
 test("KappaSessions drains queued ingest before instance disposal", async () => {
   const token = process.env.KILO_API_KEY

@@ -2,17 +2,17 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { expect, spyOn, beforeEach, afterEach } from "bun:test"
 import { Effect, Fiber, Layer } from "effect"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
-import { Auth } from "../../../src/auth"
-import { Bus } from "../../../src/bus"
-import type { Config } from "../../../src/config/config"
-import { clearInFlightCache } from "../../../src/kappa-sessions/inflight-cache"
-import { Session } from "../../../src/session/session"
-import { TestConfig } from "../../fixture/config"
-import { testEffect } from "../../lib/effect"
-import { InstanceStore } from "../../../src/project/instance-store"
-import { TestInstance, testInstanceStoreLayer, tmpdirScoped } from "../../fixture/fixture"
+import { Auth } from "../../../../src/auth"
+import { Bus } from "../../../../src/bus"
+import type { Config } from "../../../../src/config/config"
+import { clearInFlightCache } from "../../../../src/kappa-sessions/inflight-cache"
+import { Session } from "../../../../src/session/session"
+import { TestConfig } from "../../../fixture/config"
+import { testEffect } from "../../../lib/effect"
+import { InstanceStore } from "../../../../src/project/instance-store"
+import { TestInstance, testInstanceStoreLayer, tmpdirScoped } from "../../../fixture/fixture"
 
-const KappaSessions = (await import("../../../src/kappa-sessions/kappa-sessions")).KappaSessions
+const KappaSessions = (await import("../../../../src/kappa-sessions/kappa-sessions")).KappaSessions
 
 let originalNotificationTimeout: string | undefined
 

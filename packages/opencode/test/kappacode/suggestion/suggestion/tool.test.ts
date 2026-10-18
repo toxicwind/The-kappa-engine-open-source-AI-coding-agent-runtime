@@ -1,14 +1,14 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { afterEach, beforeEach, describe, expect, spyOn } from "bun:test"
 import { Effect, Fiber, Layer } from "effect"
-import { Command } from "../../../src/command"
-import { Suggestion } from "../../../src/kappacode/suggestion"
-import { SuggestTool } from "../../../src/kappacode/suggestion/tool"
-import { Tool } from "../../../src/tool/tool"
-import { Truncate } from "../../../src/tool/truncate"
-import { Agent } from "../../../src/agent/agent"
-import { SessionStatus } from "../../../src/session/status"
-import { testEffect } from "../../lib/effect"
+import { Command } from "../../../../src/command"
+import { Suggestion } from "../../../../src/kappacode/suggestion"
+import { SuggestTool } from "../../../../src/kappacode/suggestion/tool"
+import { Tool } from "../../../../src/tool/tool"
+import { Truncate } from "../../../../src/tool/truncate"
+import { Agent } from "../../../../src/agent/agent"
+import { SessionStatus } from "../../../../src/session/status"
+import { testEffect } from "../../../lib/effect"
 
 const cmds: Record<string, Command.Info> = {}
 const names: string[] = []

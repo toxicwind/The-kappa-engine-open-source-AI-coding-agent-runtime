@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import { requestTimeout, wrapFirstByte, REQUEST_TIMEOUT_MS } from "../../../src/kappacode/provider/provider"
-import { ProviderError } from "../../../src/provider/error"
+import { requestTimeout, wrapFirstByte, REQUEST_TIMEOUT_MS } from "../../../../src/kappacode/provider/provider"
+import { ProviderError } from "../../../../src/provider/error"
 
 const sse = (body: BodyInit | null) =>
   new Response(body, { headers: { "content-type": "text/event-stream" }, status: 200 })

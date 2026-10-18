@@ -7,7 +7,7 @@ import {
   MAX_KILO_EXA_RESULTS,
   type KappaExaParams,
   callKappaExa,
-} from "../../../src/kappacode/tool/websearch-kappa-exa"
+} from "../../../../src/kappacode/tool/websearch-kappa-exa"
 
 type Recorded = {
   url?: string

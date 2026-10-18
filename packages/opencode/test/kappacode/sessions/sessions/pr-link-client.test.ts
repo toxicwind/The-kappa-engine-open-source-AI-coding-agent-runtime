@@ -21,7 +21,7 @@ import {
 import { refreshPrLink, startPrLinkPoll } from "@/kappa-sessions/pr-link-poller"
 import { Storage } from "@/storage/storage"
 import { Process } from "@/util/process"
-import { tmpdir } from "../../fixture/fixture"
+import { tmpdir } from "../../../fixture/fixture"
 
 const clients = ["vscode", "jetbrains", "desktop", "acp", "run", "unknown"]
 const branch = "feature/pr-client"

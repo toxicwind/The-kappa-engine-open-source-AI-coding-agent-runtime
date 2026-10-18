@@ -1,6 +1,6 @@
 // kappacode_change - new file
 import { describe, expect, test } from "bun:test"
-import { Config } from "../../../src/config/config"
+import { Config } from "../../../../src/config/config"
 import { Schema } from "effect"
 
 describe("Config.Info experimental.openTelemetry default", () => {

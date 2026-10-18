@@ -5,8 +5,8 @@ import { Effect } from "effect"
 import { Env } from "@/env"
 import { Plugin } from "@/plugin/index"
 import { Provider } from "@/provider/provider"
-import { disposeAllInstances } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { disposeAllInstances } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 const originalEnv = new Map<string, string | undefined>()
 

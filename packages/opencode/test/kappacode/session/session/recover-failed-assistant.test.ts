@@ -9,7 +9,7 @@ import { KappaSessionPrompt } from "@/kappacode/session/prompt"
 import { MessageID, PartID } from "@/session/schema"
 import { Session } from "@/session/session"
 import { SessionStatus } from "@/session/status"
-import { testEffect } from "../../lib/effect"
+import { testEffect } from "../../../lib/effect"
 
 const env = LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node, SessionStatus.node]))
 const it = testEffect(env)

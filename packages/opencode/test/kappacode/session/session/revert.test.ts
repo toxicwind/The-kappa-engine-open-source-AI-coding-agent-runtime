@@ -17,8 +17,8 @@ import { SessionRevert } from "@/session/revert"
 import { MessageID, PartID } from "@/session/schema"
 import { Session } from "@/session/session"
 import { Snapshot } from "@/snapshot"
-import { provideInstance, provideTmpdirInstance } from "../../fixture/fixture"
-import { testEffect } from "../../lib/effect"
+import { provideInstance, provideTmpdirInstance } from "../../../fixture/fixture"
+import { testEffect } from "../../../lib/effect"
 
 // plant an index.lock the way a concurrent git write would
 const snapshotGitdir = () => path.join(Global.Path.data, "snapshot", Instance.project.id, Hash.fast(Instance.worktree))

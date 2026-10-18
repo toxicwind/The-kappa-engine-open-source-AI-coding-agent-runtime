@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import type { AnacondaDesktopStatus } from "@kappacode/sdk/v2"
-import { DOWNLOAD_URL } from "../../../../src/kappacode/anaconda-desktop/domain"
-import { setupView } from "../../../../src/kappacode/anaconda-desktop/tui/model"
+import { DOWNLOAD_URL } from "../../../../../src/kappacode/anaconda-desktop/domain"
+import { setupView } from "../../../../../src/kappacode/anaconda-desktop/tui/model"
 
 const ready = (toolcall: "supported" | "unsupported" | "unknown" = "supported"): AnacondaDesktopStatus => ({
   type: "ready",

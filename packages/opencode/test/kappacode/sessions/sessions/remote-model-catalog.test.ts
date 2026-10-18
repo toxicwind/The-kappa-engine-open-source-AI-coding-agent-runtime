@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { RemoteModelCatalog } from "../../../src/kappa-sessions/remote-model-catalog"
+import { RemoteModelCatalog } from "../../../../src/kappa-sessions/remote-model-catalog"
 
 function sanitizedModel(providerID: string, id: string, name: string, extra: Record<string, unknown> = {}) {
   return {

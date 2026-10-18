@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
-import { KappaCli } from "../../../src/kappacode/cli/setup"
-import { createHelpCommand } from "../../../src/kappacode/help-command"
-import { resetLazyCommandSelection } from "../../../src/kappacode/cli/lazy-commands"
+import { KappaCli } from "../../../../src/kappacode/cli/setup"
+import { createHelpCommand } from "../../../../src/kappacode/help-command"
+import { resetLazyCommandSelection } from "../../../../src/kappacode/cli/lazy-commands"
 import yargs from "yargs"
 
 describe("CLI bootstrap runtime selection", () => {
