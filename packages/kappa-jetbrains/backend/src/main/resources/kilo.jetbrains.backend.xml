@@ -6,24 +6,24 @@
     </dependencies>
 
     <extensions defaultExtensionNs="com.intellij">
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloAppRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloAgentBehaviorRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloProviderRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloProjectRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloSessionRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloMigrationRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloWorktreeRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloRunRpcApiProvider"/>
-        <platform.rpc.backend.remoteApiProvider implementation="ai.kilocode.backend.rpc.KiloMarketplaceRpcApiProvider"/>
-        <applicationService serviceImplementation="ai.kilocode.backend.migration.KiloBackendLegacyMigrationStoreService"/>
-        <directoryIndexExcludePolicy implementation="ai.kilocode.backend.workspace.KiloWorktreeExcludePolicy"/>
-        <postStartupActivity implementation="ai.kilocode.backend.app.KiloBackendRetentionStartupActivity"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloAppRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloAgentBehaviorRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloProviderRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloProjectRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloSessionRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloMigrationRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloWorktreeRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloRunRpcApiProvider"/>
+        <platform.rpc.backend.remoteApiProvider implementation="ai.kappacode.backend.rpc.KiloMarketplaceRpcApiProvider"/>
+        <applicationService serviceImplementation="ai.kappacode.backend.migration.KiloBackendLegacyMigrationStoreService"/>
+        <directoryIndexExcludePolicy implementation="ai.kappacode.backend.workspace.KiloWorktreeExcludePolicy"/>
+        <postStartupActivity implementation="ai.kappacode.backend.app.KiloBackendRetentionStartupActivity"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="ai.kilocode.backend.plugin.KiloBackendAppLifecycleListener"
+        <listener class="ai.kappacode.backend.plugin.KiloBackendAppLifecycleListener"
                   topic="com.intellij.ide.AppLifecycleListener"/>
-        <listener class="ai.kilocode.backend.plugin.KiloBackendDynamicPluginListener"
+        <listener class="ai.kappacode.backend.plugin.KiloBackendDynamicPluginListener"
                   topic="com.intellij.ide.plugins.DynamicPluginListener"/>
     </applicationListeners>
 </idea-plugin>

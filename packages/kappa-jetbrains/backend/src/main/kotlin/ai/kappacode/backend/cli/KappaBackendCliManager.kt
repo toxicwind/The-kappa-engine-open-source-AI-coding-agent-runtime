@@ -1,6 +1,6 @@
 package ai.kappacode.backend.cli
 
-import ai.kappacode.KiloPlugin
+import ai.kappacode.KappaPlugin
 import ai.kappacode.backend.dev.KiloDevMode
 import ai.kappacode.log.KiloLog
 import com.intellij.execution.process.OSProcessUtil
@@ -646,7 +646,7 @@ private fun ideEnv(log: KiloLog): Map<String, String> = buildMap {
     }.onFailure { log.info("Could not read ApplicationInfo: ${it.message}") }
 
     runCatching {
-        val version = KiloPlugin.version()
+        val version = KappaPlugin.version()
         if (version != null) put("KILO_APP_VERSION", version)
     }.onFailure { log.info("Could not read plugin version: ${it.message}") }
 

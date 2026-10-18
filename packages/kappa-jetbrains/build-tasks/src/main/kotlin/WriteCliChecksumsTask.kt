@@ -45,7 +45,7 @@ abstract class WriteCliChecksumsTask : DefaultTask() {
         val ver = cliVersion.get()
         val assets = assets(ver)
         val values = PLATFORMS.associateWith { platform ->
-            val name = "kappa-$platform.${ext(platform)}"
+            val name = "kilo-$platform.${ext(platform)}"
             assets[name] ?: throw GradleException("Kilo CLI release $ver did not include $name")
         }
 

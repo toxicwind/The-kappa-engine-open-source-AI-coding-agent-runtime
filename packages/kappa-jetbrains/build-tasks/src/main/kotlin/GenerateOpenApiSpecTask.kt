@@ -128,13 +128,13 @@ abstract class GenerateOpenApiSpecTask : DefaultTask() {
         val exe = File(dir, "bin/${exe()}")
         val done = File(dir, ".complete")
         val cached = done.takeIf { it.isFile }?.readText()?.trim()
-        val archive = File(dir, "kappa-$platform.$ext")
+        val archive = File(dir, "kilo-$platform.$ext")
         if (exe.isFile && cached != null && cached.matches(DIGEST) && matches(archive, cached)) {
             if (!windows()) exe.setExecutable(true)
             return exe
         }
 
-        val name = "kappa-$platform.$ext"
+        val name = "kilo-$platform.$ext"
         val digest = asset(version, name)
         if (dir.exists() && !dir.deleteRecursively()) {
             throw GradleException("Failed to delete cached pinned Kilo CLI under ${dir.absolutePath}")
@@ -142,7 +142,7 @@ abstract class GenerateOpenApiSpecTask : DefaultTask() {
         if (!dir.isDirectory && !dir.mkdirs()) {
             throw GradleException("Failed to create pinned Kilo CLI cache directory ${dir.absolutePath}")
         }
-        download("https://github.com/Kilo-Org/kilocode/releases/download/v$version/kappa-$platform.$ext", archive)
+        download("https://github.com/Kilo-Org/kilocode/releases/download/v$version/kilo-$platform.$ext", archive)
         verify(archive, digest)
         extract(archive, dir)
         if (!exe.isFile) throw GradleException("Downloaded CLI archive did not contain bin/${exe()}")
@@ -297,7 +297,7 @@ abstract class GenerateOpenApiSpecTask : DefaultTask() {
         }
         target.parentFile.mkdirs()
         target.outputStream().use(copy)
-        if (!windows() && (target.name == "kappa" || target.name == "bwrap")) target.setExecutable(true)
+        if (!windows() && (target.name == "kilo" || target.name == "bwrap")) target.setExecutable(true)
     }
 
     private fun platform(): String {
@@ -316,7 +316,7 @@ abstract class GenerateOpenApiSpecTask : DefaultTask() {
         return "$name-$arch"
     }
 
-    private fun exe() = if (windows()) "kappa.exe" else "kappa"
+    private fun exe() = if (windows()) "kilo.exe" else "kilo"
 
     private fun windows() = System.getProperty("os.name").lowercase().contains("windows")
 }

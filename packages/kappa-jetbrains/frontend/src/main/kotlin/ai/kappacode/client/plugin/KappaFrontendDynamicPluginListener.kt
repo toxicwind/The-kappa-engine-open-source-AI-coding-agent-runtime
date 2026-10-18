@@ -1,6 +1,6 @@
 package ai.kappacode.client.plugin
 
-import ai.kappacode.KiloPlugin
+import ai.kappacode.KappaPlugin
 import ai.kappacode.client.KILO_TOOL_WINDOW_ID
 import ai.kappacode.client.agentManager.worktree.unregisterWorktreeSessionEditorKind
 import ai.kappacode.client.session.ui.attachment.unregisterAttachmentEditorKind
@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities
 
 class KiloFrontendDynamicPluginListener : DynamicPluginListener {
     override fun beforePluginUnload(pluginDescriptor: IdeaPluginDescriptor, isUpdate: Boolean) {
-        if (pluginDescriptor.pluginId != KiloPlugin.id) return
+        if (pluginDescriptor.pluginId != KappaPlugin.id) return
         KiloFrontendUnloadCleanup.cleanup(isUpdate)
     }
 }

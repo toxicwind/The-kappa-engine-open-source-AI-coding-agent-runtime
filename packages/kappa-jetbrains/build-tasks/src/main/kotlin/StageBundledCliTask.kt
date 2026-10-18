@@ -56,7 +56,7 @@ abstract class StageBundledCliTask : DefaultTask() {
         val assets = assets(ver)
         val files = PLATFORMS.associateWith { platform ->
             val ext = ext(platform)
-            val name = "kappa-$platform.$ext"
+            val name = "kilo-$platform.$ext"
             val digest = assets[name] ?: throw GradleException("Kilo CLI release $ver did not include $name")
             val file = cacheDir.dir(ver).map { it.dir(platform).file(name) }.get().asFile
             fetch(ver, platform, name, digest, file)

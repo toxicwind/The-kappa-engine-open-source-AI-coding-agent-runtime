@@ -138,9 +138,9 @@ openApiGenerate {
     library.set("jvm-okhttp4")
     inputSpec.set(generatedSpec)
     outputDir.set(layout.buildDirectory.dir("generated/openapi").get().asFile.absolutePath)
-    packageName.set("ai.kilocode.jetbrains.api")
-    apiPackage.set("ai.kilocode.jetbrains.api.client")
-    modelPackage.set("ai.kilocode.jetbrains.api.model")
+    packageName.set("ai.kappacode.jetbrains.api")
+    apiPackage.set("ai.kappacode.jetbrains.api.client")
+    modelPackage.set("ai.kappacode.jetbrains.api.model")
     configOptions.set(mapOf(
         "serializationLibrary" to "kotlinx_serialization",
         "omitGradleWrapper" to "true",

@@ -1,6 +1,6 @@
 package ai.kappacode.log
 
-import ai.kappacode.KiloPlugin
+import ai.kappacode.KappaPlugin
 import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.diagnostic.Logger
@@ -83,7 +83,7 @@ interface KiloLog {
                 put("jetbrainsBuild", info.build.asString())
             }.onFailure { log?.info("Could not read ApplicationInfo for environment payload: ${it.message}") }
             runCatching {
-                val version = KiloPlugin.version()
+                val version = KappaPlugin.version()
                 if (version != null) {
                     put("pluginVersion", version)
                     put("appVersion", version)
