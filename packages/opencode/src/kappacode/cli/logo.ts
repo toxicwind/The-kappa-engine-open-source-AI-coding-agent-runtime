@@ -4,16 +4,17 @@
 // KILO_UNICODE_LOGO env override preserved.
 
 /**
- * Option 1: modern — 6-row ANSI Shadow KAPPA with zero trailing text.
- * Uses U+2588 full block + U+2581–U+258F shade blocks for crisp edges.
+ * Option 1: modern — 7-row ANSI Shadow KAPPA with zero trailing text.
+ * Uses box-drawing glyphs with `+` / `#` / `:` character shapes for crisp edges.
  */
 export const LOGO_MODERN = [
-  " ██╗  ██╗  █████╗  ██████╗  ██████╗   █████╗  ",
-  " ██║ ██╔╝ ██╔══██╗ ██╔══██╗ ██╔══██╗ ██╔══██╗ ",
-  " █████╔╝  ███████║ ██████╔╝ ██████╔╝ ███████║ ",
-  " ██╔═██╗  ██╔══██║ ██╔═══╝  ██╔═══╝  ██╔══██║ ",
-  " ██║  ██╗ ██║  ██║ ██║      ██║      ██║  ██║ ",
-  " ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝      ╚═╝      ╚═╝  ╚═╝ ",
+  " :::    :::     :::     :::::::::  :::::::::     :::   ",
+  "    +:+   +:+    +:+ :+:   :+:    :+: :+:    +:+  +:+ +:+ ",
+  "   +:+  +:+    +:+   +:+  +:+    +:+ +:+    +:+ +:+   +:+ ",
+  "  +#++:++    +#++:++#++: +#++:++#+  +#++:++#+ +#++:++#++: ",
+  " +#+  +#+   +#+     +#+ +#+        +#+       +#+     +#+   ",
+  " #+#   #+#  #+#     #+# #+#        #+#       #+#     #+#   ",
+  "###    ### ###     ### ###        ###       ###     ###   ",
 ].join("\n");
 
 /**
