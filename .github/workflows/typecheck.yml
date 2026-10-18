@@ -31,14 +31,14 @@ jobs:
               - '**'
               - '!.changeset/**'
               - '!.kilo/plans/**'
-              - '!packages/kilo-jetbrains/**'
+              - '!packages/kappa-jetbrains/**'
             jetbrains:
               - '**'
               - '!.changeset/**'
               - '!.kilo/plans/**'
               - '!packages/opencode/**'
-              - '!packages/kilo-vscode/**'
-              - '!packages/kilo-docs/**'
+              - '!packages/kappa-vscode/**'
+              - '!packages/kappa-docs/**'
   # kilocode_change end
 
   typecheck-js:
@@ -55,10 +55,10 @@ jobs:
 
       # kilocode_change start
       - name: Run TypeScript typecheck
-        run: bun turbo typecheck --filter='!@kilocode/kilo-jetbrains'
+        run: bun turbo typecheck --filter='!@kappacode/kappa-jetbrains'
 
       - name: Build Kilo Console
-        run: bun turbo build --filter=@kilocode/kilo-console
+        run: bun turbo build --filter=@kappacode/kappa-console
       # kilocode_change end
 
   # kilocode_change start
@@ -87,7 +87,7 @@ jobs:
 
       - name: Run JetBrains typecheck
         run: ./gradlew typecheck
-        working-directory: packages/kilo-jetbrains
+        working-directory: packages/kappa-jetbrains
 
   required:
     name: typecheck

@@ -47,9 +47,9 @@ jobs:
               - '**'
               - '!.changeset/**'
               - '!.kilo/plans/**'
-              - '!packages/kilo-jetbrains/**'
-              - '!packages/kilo-vscode/**'
-              - '!packages/kilo-docs/**'
+              - '!packages/kappa-jetbrains/**'
+              - '!packages/kappa-vscode/**'
+              - '!packages/kappa-docs/**'
               - '!packages/extensions/zed/**'
               - '!specs/**'
               - '!perf/**'
@@ -184,7 +184,7 @@ jobs:
 
       - name: Run non-CLI unit tests
         if: matrix.settings.run && matrix.settings.packages
-        run: bun turbo test:ci --output-logs=errors-only --log-order=grouped --log-prefix=task --filter='!@kilocode/cli' --filter='!@kilocode/kilo-jetbrains'
+        run: bun turbo test:ci --output-logs=errors-only --log-order=grouped --log-prefix=task --filter='!@kappacode/cli' --filter='!@kappacode/kappa-jetbrains'
         env:
           KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "true" # kilocode_change - non-CLI tests use the watcher-free unit-test profile
 
@@ -193,32 +193,32 @@ jobs:
       - name: Run cross-platform PTY service tests
         if: matrix.settings.run && matrix.settings.pty
         working-directory: packages/core
-        run: bun test test/kilocode/pty-platform.test.ts --timeout 60000
+        run: bun test test/kappacode/pty-platform.test.ts --timeout 60000
 
       - name: Run cross-platform PTY route and TUI smoke tests
         if: matrix.settings.run && matrix.settings.pty
         working-directory: packages/opencode
         run: |
-          bun test test/kilocode/pty-smoke.test.ts --timeout 60000
+          bun test test/kappacode/pty-smoke.test.ts --timeout 60000
           bun test test/server/httpapi-pty.test.ts --test-name-pattern "serves Agent Manager regular terminal" --timeout 60000
           bun test test/server/httpapi-v2-pty.test.ts --test-name-pattern "serves Agent Manager script terminal" --timeout 60000
 
       - name: Run Windows worktree cleanup regression
         if: matrix.settings.run && matrix.settings.pty && runner.os == 'Windows'
-        working-directory: packages/kilo-vscode
+        working-directory: packages/kappa-vscode
         run: bun test tests/unit/worktree-manager.test.ts --test-name-pattern "keeps a Windows worktree tracked while a live process locks its directory" --timeout 30000
       # kilocode_change end
       # kilocode_change start - ensure the Darwin profile cannot suppress its own validation
       - name: Validate Darwin CLI test profile
         if: matrix.settings.run && matrix.settings.os == 'macos'
         working-directory: packages/opencode
-        run: bun test test/kilocode/test-profile.test.ts
+        run: bun test test/kappacode/test-profile.test.ts
       # kilocode_change end
 
       # kilocode_change start - run Kilo CLI tests through platform-specific shards
       - name: Run CLI unit tests
         if: matrix.settings.run
-        run: bun turbo test:ci --output-logs=errors-only --log-order=grouped --log-prefix=task --filter='@kilocode/cli'
+        run: bun turbo test:ci --output-logs=errors-only --log-order=grouped --log-prefix=task --filter='@kappacode/cli'
         env:
           KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "true" # kilocode_change - was Windows-only; the CLI now starts a watcher per instance, too heavy/racy for unit tests. Watcher tests opt back in.
           KILO_TEST_PROFILE: ${{ matrix.settings.os == 'macos' && 'darwin' || '' }}
@@ -306,7 +306,7 @@ jobs:
         working-directory: packages/client
         run: bun run check:generated
       - name: Run HttpApi exerciser gates
-        run: bun turbo test:httpapi --filter='@kilocode/cli'
+        run: bun turbo test:httpapi --filter='@kappacode/cli'
         env:
           KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "true" # kilocode_change - a watcher per scenario instance is too heavy for the exerciser
 
