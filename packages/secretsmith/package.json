@@ -1,12 +1,22 @@
 {
-  "name": "@kappacode/secretsmith",
-  "version": "0.0.0",
-  "private": true,
+  "name": "secretsmith",
+  "version": "2.0.0-bun",
+  "description": "Bun drop-in for the estate secretsmith \u2014 freedesktop Secret Service client with full CRUD, token resolution, and a CLI mirror. Importable from any Bun caller (forge, agents).",
   "type": "module",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts"
   },
+  "bin": {
+    "secretsmith-bun": "./bin/secretsmith-bun.ts"
+  },
   "scripts": {
-    "typecheck": "tsc --noEmit"
-  }
+    "test": "bun test",
+    "doctor": "bun bin/secretsmith-bun.ts --doctor"
+  },
+  "engines": {
+    "bun": ">=1.4.0"
+  },
+  "private": true
 }

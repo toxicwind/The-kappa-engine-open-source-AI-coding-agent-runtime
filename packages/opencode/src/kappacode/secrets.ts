@@ -1,4 +1,4 @@
-import { resolve } from "../../../../../../secretsmith/bun/src/index.ts"
+import { resolve } from "secretsmith"
 
 // Provider environment variables and the keyring attributes used to look them
 // up when the variable is not set in the environment. The keyring lookup uses
