@@ -3,7 +3,10 @@ import type { SendMessageFailedMessage } from "../types/messages"
 
 export function failedPrompt(failed: Pick<SendMessageFailedMessage, "text" | "review" | "browserFeedback">) {
   if (!failed.review && !failed.browserFeedback) return { text: failed.text, comments: [], browsers: [] }
-  const parsed = partFeedback({ kappa: { review: failed.review, browserFeedback: failed.browserFeedback } }, failed.text)
+  const parsed = partFeedback(
+    { kappa: { review: failed.review, browserFeedback: failed.browserFeedback } },
+    failed.text,
+  )
   if (!parsed) return undefined
   return {
     text: parsed.body,

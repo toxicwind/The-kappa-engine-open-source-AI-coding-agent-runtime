@@ -43,7 +43,14 @@ describe("nativeTitle", () => {
     for (const state of ["busy", "waiting", "done", "scheduled", "error", "idle", "idle", "invalid", null]) {
       await listener.current?.({ type: "sessionActivity", state })
     }
-    expect(titles).toEqual(["◔ Kappa Code", "⚠ Kappa Code", "✓ Kappa Code", "◷ Kappa Code", "⚠ Kappa Code", "Kappa Code"])
+    expect(titles).toEqual([
+      "◔ Kappa Code",
+      "⚠ Kappa Code",
+      "✓ Kappa Code",
+      "◷ Kappa Code",
+      "⚠ Kappa Code",
+      "Kappa Code",
+    ])
     provider.dispose()
   })
 

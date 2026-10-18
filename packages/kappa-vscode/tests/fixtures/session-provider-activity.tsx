@@ -2268,7 +2268,9 @@ try {
         const instance = peer.value
         assert(instance)
         instance.selectAgent("code")
-        setSettings(target === "configured" ? { agent: { code: { model: "kappa/unset-effort", variant: "high" } } } : {})
+        setSettings(
+          target === "configured" ? { agent: { code: { model: "kappa/unset-effort", variant: "high" } } } : {},
+        )
         await emit({
           type: "variantsLoaded",
           variants: target === "remembered" ? { "agent/code/kappa/z-first": "high" } : {},
@@ -2320,7 +2322,10 @@ try {
     const instance = peer.value
     assert(instance)
     setSettings({
-      agent: { code: { model: "kappa/z-first", variant: "high" }, ask: { model: "kappa/unset-effort", variant: "low" } },
+      agent: {
+        code: { model: "kappa/z-first", variant: "high" },
+        ask: { model: "kappa/unset-effort", variant: "low" },
+      },
     })
     await emit({ type: "variantsLoaded", variants: {} })
     instance.selectAgent("code")
@@ -2442,7 +2447,10 @@ try {
   // overriding a local choice. The worktree dialog's effort matches chat's.
   {
     setSettings({
-      agent: { code: { model: "kappa/z-first", variant: "high" }, ask: { model: "kappa/unset-effort", variant: "low" } },
+      agent: {
+        code: { model: "kappa/z-first", variant: "high" },
+        ask: { model: "kappa/unset-effort", variant: "low" },
+      },
     })
     await emit({ type: "variantsLoaded", variants: { "agent/code/kappa/z-first": "low" } })
     value.clearCurrentSession()

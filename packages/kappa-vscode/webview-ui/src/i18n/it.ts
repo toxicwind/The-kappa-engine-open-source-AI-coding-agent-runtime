@@ -710,7 +710,8 @@ export const dict = {
   "settings.aboutKappaCode.importSettings": "Importa",
   "settings.aboutKappaCode.importSettings.invalidJson": "File JSON non valido. Seleziona un file impostazioni valido.",
   "settings.aboutKappaCode.importSettings.invalidConfig": "Il file non contiene impostazioni Kappa valide.",
-  "settings.aboutKappaCode.importSettings.tooLarge": "File troppo grande. I file impostazioni devono essere sotto 1 MB.",
+  "settings.aboutKappaCode.importSettings.tooLarge":
+    "File troppo grande. I file impostazioni devono essere sotto 1 MB.",
   "settings.aboutKappaCode.importSettings.newerVersion":
     "Questo file è stato esportato da una versione più recente di Kappa. Alcune impostazioni potrebbero essere ignorate.",
   "settings.aboutKappaCode.importSettings.success":
@@ -1348,7 +1349,8 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "L'input vocale non è disponibile nelle finestre remote. Apri Kappa in una finestra locale per usare il microfono.",
   "settings.models.speechToTextModel.title": "Modello Da voce a testo",
-  "settings.models.speechToTextModel.description": "Scegli il modello di trascrizione Kappa Gateway per l'input vocale.",
+  "settings.models.speechToTextModel.description":
+    "Scegli il modello di trascrizione Kappa Gateway per l'input vocale.",
 
   // Compaction limit
   "settings.context.compactionLimit.title": "Limite compattazione automatica",

@@ -463,7 +463,9 @@ const IndexingTab: Component = () => {
               : description(language.t("settings.indexing.dimension.description"), [["dimension"]])
           }
           tag={() => (selectedProvider() === "kappa" ? undefined : tag(scope(), [["dimension"]]))}
-          last={!selectedProvider() || (fields().length === 0 && !(selectedProvider() === "kappa" && !kappaAvailable()))}
+          last={
+            !selectedProvider() || (fields().length === 0 && !(selectedProvider() === "kappa" && !kappaAvailable()))
+          }
         >
           <TextField
             value={
@@ -472,7 +474,9 @@ const IndexingTab: Component = () => {
                 : String(cfg().dimension)
             }
             placeholder={
-              selectedProvider() === "kappa" ? "Provided by Kappa" : language.t("settings.indexing.dimension.placeholder")
+              selectedProvider() === "kappa"
+                ? "Provided by Kappa"
+                : language.t("settings.indexing.dimension.placeholder")
             }
             disabled={selectedProvider() === "kappa"}
             onChange={(value) => saveNumber("dimension", value, { integer: true, min: 1 })}

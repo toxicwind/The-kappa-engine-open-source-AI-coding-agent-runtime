@@ -161,7 +161,8 @@ describe("Extension — package.json command sync", () => {
   })
 
   it("declares the Agent Manager terminal destination setting", () => {
-    const setting = pkg.contributes?.configuration?.properties?.["kappa-code.new.agentManager.terminalButtonDestination"]
+    const setting =
+      pkg.contributes?.configuration?.properties?.["kappa-code.new.agentManager.terminalButtonDestination"]
     expect(setting).toMatchObject({
       type: "string",
       scope: "application",
@@ -214,7 +215,10 @@ describe("Extension — package.json command sync", () => {
 
     const source = fs.readFileSync(EXTENSION_FILE, "utf-8")
     const closeTask = sliceBlock(source, source.indexOf('vscode.commands.registerCommand("kappa-code.new.closeTask"'))
-    const closeAll = sliceBlock(source, source.indexOf('vscode.commands.registerCommand("kappa-code.new.closeAllTasks"'))
+    const closeAll = sliceBlock(
+      source,
+      source.indexOf('vscode.commands.registerCommand("kappa-code.new.closeAllTasks"'),
+    )
     expect(closeTask).toContain('taskTarget().postMessage({ type: "action", action: "closeTask" })')
     expect(closeAll).toContain('taskTarget().postMessage({ type: "action", action: "closeAllTasks" })')
 

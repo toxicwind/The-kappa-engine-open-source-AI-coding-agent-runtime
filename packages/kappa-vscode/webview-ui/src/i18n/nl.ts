@@ -97,7 +97,8 @@ export const dict = {
     "Gesprek teruggedraaid. De herstelstatus van de werkruimte is niet beschikbaar voor deze eerdere terugdraaiing.",
   "revert.banner.workspace.enableSnapshots": "Snapshots inschakelen",
   "revert.disabled.agentBusy": "Wacht tot de agent klaar is",
-  "revert.error.body": "De repository is mogelijk in gebruik. Probeer het opnieuw of bekijk de Kappa-logs voor details.",
+  "revert.error.body":
+    "De repository is mogelijk in gebruik. Probeer het opnieuw of bekijk de Kappa-logs voor details.",
   "command.session.compact": "Sessie comprimeren",
   "command.session.export": "Sessietranscript exporteren",
 
@@ -819,7 +820,8 @@ export const dict = {
   "settings.aboutKappaCode.versionInfo": "Versie-informatie",
   "settings.aboutKappaCode.version.label": "Versie:",
   "settings.aboutKappaCode.community": "Community & Ondersteuning",
-  "settings.aboutKappaCode.feedback.prefix": "Als je vragen of feedback hebt, voel je vrij om een issue aan te maken op",
+  "settings.aboutKappaCode.feedback.prefix":
+    "Als je vragen of feedback hebt, voel je vrij om een issue aan te maken op",
   "settings.aboutKappaCode.feedback.or": "of",
   "settings.aboutKappaCode.support.prefix":
     "Voor vragen over facturering of je account, neem contact op met Klantenservice op",
@@ -1237,7 +1239,8 @@ export const dict = {
   "settings.display.username.title": "Gebruikersnaam",
   "settings.display.username.description": "Aangepaste gebruikersnaam weergegeven in gesprekken",
   "settings.display.fontSize.title": "Lettergrootte",
-  "settings.display.fontSize.description": "Pas de lettergrootte van de Kappa webview UI onafhankelijk van VS Code aan.",
+  "settings.display.fontSize.description":
+    "Pas de lettergrootte van de Kappa webview UI onafhankelijk van VS Code aan.",
   "settings.display.reasoningDisplay.title": "Redeneringsblokken",
   "settings.display.reasoningDisplay.description":
     "Kies hoe redeneringsblokken starten. Uitgeklapt toont de volledige tekst, Voorbeeld beperkt het tot een kort, scrollbaar voorbeeld, en Kop toont alleen de titel en streamingindicator totdat je het opent.",

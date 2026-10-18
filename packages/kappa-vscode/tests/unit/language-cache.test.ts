@@ -163,7 +163,12 @@ describe("language dictionary cache", () => {
           .getImportDeclarations()
           .filter((item) => item.getNamedImports().some((name) => name.getName() === "dict"))
           .map((item) => item.getModuleSpecifierValue()),
-      ).toEqual(["@kappacode/kappa-ui/i18n/en", "../i18n/en", "../../agent-manager/i18n/en", "@kappacode/kappa-i18n/en"])
+      ).toEqual([
+        "@kappacode/kappa-ui/i18n/en",
+        "../i18n/en",
+        "../../agent-manager/i18n/en",
+        "@kappacode/kappa-i18n/en",
+      ])
       expect(state.requests).toHaveLength(0)
       expect(Object.keys(state.cache)).toEqual(["en"])
       expect(await state.load("en")).toBe(state.cache.en)

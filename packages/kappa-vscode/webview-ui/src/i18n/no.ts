@@ -1458,5 +1458,6 @@ export const dict = {
   "chat.search.searchingHistory": "Søker i tidligere meldinger…",
   "browserTab.noSession":
     "Åpne nettleseren fra en økt for å forhåndsvise en lokal applikasjon eller en offentlig HTTPS-side.",
-  "browserTab.disabled": "Den integrerte nettleseren er deaktivert. Aktiver den i Kappa-innstillinger > Eksperimentelt.",
+  "browserTab.disabled":
+    "Den integrerte nettleseren er deaktivert. Aktiver den i Kappa-innstillinger > Eksperimentelt.",
 } satisfies Partial<Record<Keys, string>>

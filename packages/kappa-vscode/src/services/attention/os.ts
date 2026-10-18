@@ -116,7 +116,10 @@ export function notificationCommand(
   }
   if (platform === "linux") {
     // Only the body is markup; the summary is taken literally.
-    return { cmd: "notify-send", args: ["--app-name=Kappa Code", "--urgency=normal", "Kappa Code", pango(text(notice))] }
+    return {
+      cmd: "notify-send",
+      args: ["--app-name=Kappa Code", "--urgency=normal", "Kappa Code", pango(text(notice))],
+    }
   }
 }
 

@@ -521,7 +521,8 @@ export const dict = {
   "settings.config.title": "Відкрити файл конфігурації Kappa ({{scope}})",
   "settings.config.placeholder":
     "Файли конфігурації об'єднуються по порядку; файли, позначені як завантажені, наразі впливають на налаштування.",
-  "settings.config.noWorkspace": "Відкрийте папку робочої області, щоб відредагувати локальний файл конфігурації Kappa.",
+  "settings.config.noWorkspace":
+    "Відкрийте папку робочої області, щоб відредагувати локальний файл конфігурації Kappa.",
   "settings.config.openFailed": "Не вдалося відкрити файл конфігурації Kappa ({{scope}}): {{message}}",
   "settings.config.source.xdg": "Глобальна конфігурація XDG",
   "settings.config.source.homeKappa": "Конфігурація .kappa (Home)",
@@ -933,7 +934,8 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "Голосове введення недоступне у віддалених вікнах. Відкрийте Kappa у локальному вікні, щоб використовувати мікрофон.",
   "settings.models.speechToTextModel.title": "Модель мовлення в текст",
-  "settings.models.speechToTextModel.description": "Виберіть модель транскрипції Kappa Gateway для голосового введення.",
+  "settings.models.speechToTextModel.description":
+    "Виберіть модель транскрипції Kappa Gateway для голосового введення.",
   "settings.experimental.nativeNotebookTools.title": "Власні інструменти для блокнотів",
   "settings.experimental.nativeNotebookTools.description":
     "Увімкнути експериментальні інструменти для читання, редагування та виконання блокнотів VS Code",

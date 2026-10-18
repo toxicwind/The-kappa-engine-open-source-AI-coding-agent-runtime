@@ -50,6 +50,6 @@ jobs:
         working-directory: packages/kappa-vscode
         run: bun run knip
 
-      - name: Check for kilocode_change markers
+      - name: Check for kappacode_change markers
         working-directory: packages/kappa-vscode
-        run: bun run check-kilocode-change
+        run: bun run check-kappacode-change

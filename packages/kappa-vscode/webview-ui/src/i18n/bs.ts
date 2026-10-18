@@ -845,7 +845,8 @@ export const dict = {
   "settings.aboutKappaCode.importSettings": "Uvezi",
   "settings.aboutKappaCode.importSettings.invalidJson": "Nevažeći JSON fajl. Odaberite važeći fajl s postavkama.",
   "settings.aboutKappaCode.importSettings.invalidConfig": "Fajl ne sadrži važeće Kappa postavke.",
-  "settings.aboutKappaCode.importSettings.tooLarge": "Fajl je prevelik. Fajlovi s postavkama moraju biti manji od 1 MB.",
+  "settings.aboutKappaCode.importSettings.tooLarge":
+    "Fajl je prevelik. Fajlovi s postavkama moraju biti manji od 1 MB.",
   "settings.aboutKappaCode.importSettings.newerVersion":
     "Ovaj fajl je izvezen iz novije verzije Kappa-a. Neke postavke mogu biti zanemarene.",
   "settings.aboutKappaCode.importSettings.success":

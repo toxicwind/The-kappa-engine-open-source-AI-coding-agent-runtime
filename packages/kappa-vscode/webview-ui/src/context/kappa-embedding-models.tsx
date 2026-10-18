@@ -25,7 +25,9 @@ export const KappaEmbeddingModelsProvider: ParentComponent = (props) => {
 
   onCleanup(unsubscribe)
 
-  return <KappaEmbeddingModelsContext.Provider value={{ catalog }}>{props.children}</KappaEmbeddingModelsContext.Provider>
+  return (
+    <KappaEmbeddingModelsContext.Provider value={{ catalog }}>{props.children}</KappaEmbeddingModelsContext.Provider>
+  )
 }
 
 export function useKappaEmbeddingModels(): KappaEmbeddingModelsContextValue {

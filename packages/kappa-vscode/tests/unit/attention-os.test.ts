@@ -98,7 +98,9 @@ describe("OS attention notifications", () => {
       "linux",
     )
 
-    expect(command?.args.at(-1)).toBe("Kappa task completed.\nWorkspace: foo &amp; bar\nSession: &lt;b&gt;fix&lt;/b&gt;")
+    expect(command?.args.at(-1)).toBe(
+      "Kappa task completed.\nWorkspace: foo &amp; bar\nSession: &lt;b&gt;fix&lt;/b&gt;",
+    )
     // Quotes and apostrophes are not markup, so they stay readable.
     expect(notificationCommand({ message: `it's "done"` }, "linux")?.args.at(-1)).toBe(`it's "done"`)
   })

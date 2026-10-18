@@ -471,7 +471,9 @@ export const SessionProvider: ParentComponent = (props) => {
       if (warnedModels.has(key)) continue
       if (isModelValid(env.providers, env.connected, model)) continue
       warnedModels.add(key)
-      console.warn(`[Kappa New] Configured model for ${agent.name} is unavailable: ${model.providerID}/${model.modelID}`)
+      console.warn(
+        `[Kappa New] Configured model for ${agent.name} is unavailable: ${model.providerID}/${model.modelID}`,
+      )
     }
   })
 

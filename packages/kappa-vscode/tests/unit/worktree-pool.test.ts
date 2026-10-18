@@ -59,7 +59,10 @@ function createManager(root: string, poolSize = 1, rewarmDelay = 0, logs?: strin
 
 function metaFile(wt: string): string {
   const pointer = readFileSync(path.join(wt, ".git"), "utf-8")
-  return path.join(path.resolve(wt, pointer.match(/^gitdir:\s*(.+)$/m)![1]!.trim()), "kappa-agent-manager-metadata.json")
+  return path.join(
+    path.resolve(wt, pointer.match(/^gitdir:\s*(.+)$/m)![1]!.trim()),
+    "kappa-agent-manager-metadata.json",
+  )
 }
 
 /** A slot as older versions created it, inside `.kappa/worktrees/`. */

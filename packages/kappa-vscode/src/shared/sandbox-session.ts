@@ -13,7 +13,11 @@ export function sandboxMetadata(enabled: boolean, metadata?: Record<string, unkn
   }
 }
 
-export async function sandboxDefault(preference: SandboxPreference | undefined, client: KappaClient, directory: string) {
+export async function sandboxDefault(
+  preference: SandboxPreference | undefined,
+  client: KappaClient,
+  directory: string,
+) {
   await preference?.wait()
   const explicit = preference?.explicit()
   if (explicit !== undefined) return explicit

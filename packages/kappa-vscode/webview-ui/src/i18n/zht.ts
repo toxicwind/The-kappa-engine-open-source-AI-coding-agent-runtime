@@ -854,7 +854,8 @@ export const dict = {
     "使用相容 OpenAI 的轉錄 API 取代 Kappa Gateway。模型從 /models 讀取，音訊傳送到 /audio/transcriptions。留空則使用 Kappa Gateway。",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "語音轉文字 API 金鑰",
-  "settings.models.speechToTextApiKey.description": "傳送到自訂轉錄基礎 URL 的 Bearer 權杖。儲存在你的 Kappa 設定檔中。",
+  "settings.models.speechToTextApiKey.description":
+    "傳送到自訂轉錄基礎 URL 的 Bearer 權杖。儲存在你的 Kappa 設定檔中。",
   "settings.models.speechToTextApiKey.placeholder": "sk-...",
   "settings.models.speechToText.disabledDescription":
     "啟用並登入 Kappa 供應商以使用 Speech to Text，或在下方設定自訂轉錄基礎 URL。",

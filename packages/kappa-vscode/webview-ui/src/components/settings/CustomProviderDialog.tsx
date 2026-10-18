@@ -563,7 +563,11 @@ const CustomProviderDialog = (props: CustomProviderDialogProps) => {
         <div style={{ display: "flex", gap: "16px", "align-items": "center" }}>
           <ProviderIcon id="synthetic" width={20} height={20} />
           <div
-            style={{ "font-size": "var(--kappa-font-size-16)", "font-weight": "500", color: "var(--vscode-foreground)" }}
+            style={{
+              "font-size": "var(--kappa-font-size-16)",
+              "font-weight": "500",
+              color: "var(--vscode-foreground)",
+            }}
           >
             {editing() ? language.t("provider.custom.edit.title") : language.t("provider.custom.title")}
           </div>

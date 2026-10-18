@@ -122,7 +122,9 @@ describe("roo import", () => {
   })
 
   it("recovers indexed metadata, selects the newest duplicate, and diagnoses unusable tasks", async () => {
-    const source = await detectRooCodeSessions({ globalStorageUri: { fsPath: "/storage/kappacode.kappa-code" } } as never)
+    const source = await detectRooCodeSessions({
+      globalStorageUri: { fsPath: "/storage/kappacode.kappa-code" },
+    } as never)
 
     expect(source?.sessions).toEqual([
       { id, title: "New root", directory: "/new", time: Number(id) + 1 },
@@ -153,7 +155,9 @@ describe("roo import", () => {
   })
 
   it("namespaces generated Roo IDs without changing the visible session slug", async () => {
-    const source = await detectRooCodeSessions({ globalStorageUri: { fsPath: "/storage/kappacode.kappa-code" } } as never)
+    const source = await detectRooCodeSessions({
+      globalStorageUri: { fsPath: "/storage/kappacode.kappa-code" },
+    } as never)
     const entry = source?.catalog.get(id)
     expect(entry).toBeDefined()
 

@@ -38,7 +38,7 @@ export default [
   // Existing complexity violations are capped at their current max.
   // New code must stay ≤ 20. Do not raise complexity caps; refactor instead.
   {
-    files: ["src/KiloProvider.ts"],
+    files: ["src/KappaProvider.ts"],
     // This is the extension integration surface; do not gate feature work on line-count churn.
     rules: { complexity: ["error", 150], "max-lines": "off" },
   },
@@ -85,7 +85,7 @@ export default [
   },
   {
     files: [
-      "src/kilo-provider-utils.ts",
+      "src/kappa-provider-utils.ts",
       "src/services/autocomplete/continuedev/core/autocomplete/postprocessing/index.ts",
     ],
     rules: { complexity: ["error", 27] },

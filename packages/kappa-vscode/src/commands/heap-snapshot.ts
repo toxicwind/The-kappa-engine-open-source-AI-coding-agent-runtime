@@ -1,7 +1,10 @@
 import * as vscode from "vscode"
 import type { KappaConnectionService } from "../services/cli-backend/connection-service"
 
-export function registerHeapSnapshot(context: vscode.ExtensionContext, connectionService: KappaConnectionService): void {
+export function registerHeapSnapshot(
+  context: vscode.ExtensionContext,
+  connectionService: KappaConnectionService,
+): void {
   context.subscriptions.push(
     vscode.commands.registerCommand("kappa-code.new.takeHeapSnapshot", async () => {
       try {

@@ -2818,7 +2818,9 @@ export class KappaProvider implements vscode.WebviewViewProvider, TelemetryPrope
     const result = await this.connectionService
       .getClientAsync(directory)
       .then((client) =>
-        force ? client.kappacode.providerUsage.refresh({ directory }) : client.kappacode.providerUsage.get({ directory }),
+        force
+          ? client.kappacode.providerUsage.refresh({ directory })
+          : client.kappacode.providerUsage.get({ directory }),
       )
       .catch((error) => {
         console.error("[Kappa New] KappaProvider: Failed to fetch provider usage:", error)
@@ -4331,7 +4333,9 @@ export class KappaProvider implements vscode.WebviewViewProvider, TelemetryPrope
         }
 
         const delay = backoff(attempt, result.response?.headers)
-        console.log(`[Kappa New] KappaProvider: Retry on ${status}, attempt ${attempt}/${MAX_RETRIES}, delay ${delay}ms`)
+        console.log(
+          `[Kappa New] KappaProvider: Retry on ${status}, attempt ${attempt}/${MAX_RETRIES}, delay ${delay}ms`,
+        )
 
         this.postMessage({
           type: "sessionStatus",
