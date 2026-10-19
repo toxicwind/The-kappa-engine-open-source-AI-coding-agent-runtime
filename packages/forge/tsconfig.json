@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@tsconfig/bun/tsconfig.json",
+  // kilocode_change - stub package: no TypeScript sources. An explicit empty
+  // program keeps `tsc --noEmit` from falling back to the repo-root config and
+  // re-typechecking the whole monorepo (6575 files, ~4GB heap -> SIGKILL 137
+  // on CI runners). When sources land here, replace "files" with "include".
+  "files": []
+}
