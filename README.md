@@ -17,7 +17,7 @@
   ·
   <a href="packages/kappa-jetbrains/">JetBrains</a>
   ·
-  <a href="packages/cli/">CLI</a>
+  <a href="packages/opencode/">CLI</a>
 </p>
 
 </div>
@@ -70,11 +70,10 @@ curl -s http://127.0.0.1:25148/api/health
 curl -s http://127.0.0.1:25148/v1/models | head -c 300
 
 # 4. List workspace packages
-bun run --cwd packages/cli -- list-scripts
+bun pm ls
 
 # 5. Build the CLI binary
-KILO_SKIP_BUNDLED_BWRAP=1 bun run --cwd packages/cli script/build.ts --single
-```
+bun run --cwd packages/opencode script/build.ts --single --skip-install
 
 <details>
 <summary><b>Table of Contents</b></summary>
@@ -92,7 +91,7 @@ KILO_SKIP_BUNDLED_BWRAP=1 bun run --cwd packages/cli script/build.ts --single
 
 ## 🏔️ About
 
-**kappa** is the estate-forked monorepo of Kilo Code, reorganized as a proper bun workspaces monorepo with the `@kappacate/*` scope. Every subproject — editor extensions, CLI, gateway, build tooling, secret management — lives under `packages/` and is versioned and linked.
+**kappa** is the estate-forked monorepo of Kilo Code, reorganized as a proper bun workspaces monorepo with the `@kappacode/*` scope. Every subproject — editor extensions, CLI, gateway, build tooling, secret management — lives under `packages/` and is versioned and linked.
 
 The answer to *what does it take to run a serious AI coding agent on a live estate*:
 
@@ -113,13 +112,13 @@ All projects live under `packages/`. The bun workspace resolves dependencies acr
 | Package | Path | Scope | What it is |
 |---|---|---|---|
 | Core | `packages/core/` | `@kappacode/core` | Runtime: providers, plugins, config, sessions, models, MCP |
-| CLI | `packages/cli/` | `@kappacode/cli` | The standalone CLI binary (`kappa` command) |
-| Gateway | `packages/gateway/` | `@kappacode/kappa-gateway` | HTTP API gateway for model routing |
-| VS Code | `packages/vscode/` | `@kappacode/vscode` | VS Code extension |
-| JetBrains | `packages/jetbrains/` | `@kappacode/jetbrains` | JetBrains plugin |
-| Console | `packages/console/` | `@kappacode/kappa-console` | Settings UI (providers, models, keybindings, MCP) |
+| CLI | `packages/opencode/` | `@kappacode/cli` | The standalone CLI binary (`kappa` command) |
+| Gateway | `packages/kappa-gateway/` | `@kappacode/kappa-gateway` | HTTP API gateway for model routing |
+| VS Code | `packages/kappa-vscode/` | `@kappacode/vscode` | VS Code extension |
+| JetBrains | `packages/kappa-jetbrains/` | `@kappacode/jetbrains` | JetBrains plugin |
+| Console | `packages/kappa-console/` | `@kappacode/kappa-console` | Settings UI (providers, models, keybindings, MCP) |
+| Docs | `packages/kappa-docs/` | `@kappacode/kappa-docs` | Documentation site |
 | UI | `packages/ui/` | `@kappacode/ui` | Shared component library |
-| Docs | `packages/docs/` | `@kappacode/kappa-docs` | Documentation site |
 | Forge | `packages/forge/` | `@kappacode/forge` | Build daemon integration (estate forge :25148) |
 | Nativlink | `packages/nativelink/` | `@kappacode/nativelink` | Remote build cache (Nativlink RE API) |
 | Secretsmith | `packages/secretsmith/` | `@kappacode/secretsmith` | Secret management (secretsmith keyring) |
@@ -135,13 +134,13 @@ All projects live under `packages/`. The bun workspace resolves dependencies acr
 
 ```bash
 # Full build (requires Zig for bubblewrap)
-bun install && bun run --cwd packages/cli script/build.ts
+# Full build
+bun install && bun run --cwd packages/opencode script/build.ts
 
-# Skip bubblewrap build
-KILO_SKIP_BUNDLED_BWRAP=1 bun run --cwd packages/cli script/build.ts --single
+# Single platform build
+bun run --cwd packages/opencode script/build.ts --single --skip-install
 
-# Output → packages/cli/dist/@kappacode/cli-linux-x64/bin/kappa
-```
+# Output → packages/opencode/dist/@kappacode/cli-linux-x64/bin/kappa
 
 ### All packages
 
@@ -166,13 +165,19 @@ This fork is integrated with the estate build pipeline:
 - **Nativlink** (`:25155`) — RE API for remote execution (package: `@kappacode/nativelink`)
 - **Secretsmith** — secretsmith keyring for secret management (package: `@kappacode/secretsmith`)
 - **Mise** — task runner with remote cache (`mise.toml`)
-- **Kappa binary** installed at `/usr/lib/kappa/kappa` (via `/usr/bin/kappa` → `/usr/lib/kappa/kappa`)
+- **Kappa binary** executable directly from repo: `packages/opencode/bin/kappa` (symlinked into `/usr/bin/kappa`, caching `./dist/@kappacode/cli-linux-x64/bin/kappa`)
 
+### 🏷️ Dynamic Versioning & Resolution
+
+- **Runtime/Build versions** correlate via `packages/script`:
+  - **Release tags / git branch**: Preview builds format dynamically as `0.0.0-<branch>-<timestamp>` (e.g. `0.0.0-main-20261019...`) unless `KAPPA_VERSION` or `KAPPA_BUMP` is specified.
+  - **Explicit version override**: Pass `KAPPA_VERSION=x.y.z` to bake a non-preview semver directly into compilation, or trigger automated bumps via `KAPPA_BUMP=patch|minor|major`.
+  - **Execution resolution**: The wrapper in `packages/opencode/bin/kappa` resolves `.kappa` (pointing to the local compiled artifact in `dist/`) before falling back to global discovery or platform packages.
 ## 🚀 Getting started
 
 ```bash
-git clone https://github.com/toxicwind/ranch/tree/main/kilo
-cd ranch/kilo/kappa-code
+git clone https://github.com/toxicwind/kappa-code.git
+cd kappa-code
 bun install
 bun run typecheck
 ```
