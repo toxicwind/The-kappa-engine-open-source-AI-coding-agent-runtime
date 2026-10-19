@@ -315,14 +315,14 @@ class NewWorktreeDialogTest : BasePlatformTestCase() {
     }
 
     fun `test a pr url from the origin repo imports despite case differences`() {
-        open(origin = "Kilo-Org/kappacode")
+        open(origin = "Kappa-Org/kappacode")
         selectPr()
         edt {
-            url().text = "https://github.com/kappa-org/KiloCode/pull/7"
+            url().text = "https://github.com/kappa-org/KappaCode/pull/7"
             submit()
         }
 
-        assertEquals(NewWorktreePlan.Pr("https://github.com/kappa-org/KiloCode/pull/7"), taken())
+        assertEquals(NewWorktreePlan.Pr("https://github.com/kappa-org/KappaCode/pull/7"), taken())
     }
 
     fun `test picking a branch produces a branch plan`() {
