@@ -107,7 +107,7 @@ test("cloud sources are repo-qualified while bare strings still mean this repo",
   assert.equal(surfaceForSource("apps/extension/src/panel.ts", map), "cloud-extension")
   assert.equal(surfaceForSource("packages/cloud-agent-sdk/src/index.ts", map), "cloud-agent")
   // The committed bare-string entries keep resolving to this repository.
-  assert.equal(surfaceForSource("packages/opencode/src/index.ts", map), "cli")
+  assert.equal(surfaceForSource("packages/cli/src/index.ts", map), "cli")
   assert.equal(surfaceForSource("packages/kilo-gateway/src/index.ts", map), "gateway")
 
   assert.deepEqual(surfaceSourceRepos("cloud-web", map), ["Kilo-Org/cloud"])

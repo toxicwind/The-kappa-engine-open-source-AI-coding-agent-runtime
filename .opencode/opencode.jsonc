@@ -10,7 +10,7 @@
   },
   "permission": {
     "edit": {
-      "packages/opencode/migration/*": "deny",
+      "packages/cli/migration/*": "deny",
     },
   },
   "references": {

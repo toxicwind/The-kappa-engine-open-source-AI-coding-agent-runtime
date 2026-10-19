@@ -78,11 +78,11 @@ conflict hunk. Specifically check:
   same file (imports, signatures, call sites) that will break if we drop it?
 
 When HEAD includes a non-obvious Kilo-specific wrapper (e.g. a helper in
-`packages/opencode/src/kilocode/`), find out why it exists before deciding to
+`packages/cli/src/kilocode/`), find out why it exists before deciding to
 keep or bypass it:
 
 ```bash
-git log --all --oneline -S "<symbol>" -- packages/opencode/src/kilocode/
+git log --all --oneline -S "<symbol>" -- packages/cli/src/kilocode/
 git log --all --oneline -- <kilo-file>
 ```
 
@@ -241,11 +241,11 @@ be broken. Check every auto-merged file for:
 ### 8. Run the full checks once everything is resolved
 
 - `git diff --name-only --diff-filter=U` returns empty
-- `bun run typecheck` from `packages/opencode/` (targeted) and from repo root
+- `bun run typecheck` from `packages/cli/` (targeted) and from repo root
   (catches non-conflicted call-site breakage)
 - relevant targeted tests. Tests that hang or time out in an unrelated part of
   the graph may be pre-existing — note them, don't block the merge on them
-- `bun run script/check-opencode-annotations.ts` if `packages/opencode/` shared
+- `bun run script/check-opencode-annotations.ts` if `packages/cli/` shared
   files changed. Note that this tool compares against the merge base via `HEAD`
   and will be silent until the merge commit lands
 - other CI guards that touched files imply (knip for `kilo-vscode/`,

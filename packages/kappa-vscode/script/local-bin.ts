@@ -23,8 +23,8 @@ const compiledOnly = process.argv.includes("--compiled")
  *
  * Strategy:
  * 1) If `bin/kappa` already exists -> ok.
- * 2) Else try to locate a prebuilt binary produced by `packages/opencode` build.
- * 3) Else try to build it via `bun run build --single` in `packages/opencode`.
+ * 2) Else try to locate a prebuilt binary produced by `packages/cli` build.
+ * 3) Else try to build it via `bun run build --single` in `packages/cli`.
  * 4) Copy the resulting binary into `packages/kappa-vscode/bin/kappa` and chmod +x.
  *
  * This script is intended to be run from `packages/kappa-vscode` as part of build/package.

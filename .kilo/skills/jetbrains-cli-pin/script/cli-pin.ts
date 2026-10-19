@@ -101,7 +101,7 @@ if (cmd === "pin") {
 } else if (cmd === "regen") {
   if (await pinned()) throw new Error("regen requires the unpinned state; run 'unpin' first")
   await writeBunHint()
-  await $`rm -rf packages/opencode/dist`
+  await $`rm -rf packages/cli/dist`
   await $`./gradlew :backend:buildRepoCli --no-configuration-cache`.cwd(jb)
   await $`./gradlew :backend:stageRepoCli --no-configuration-cache`.cwd(jb)
   if (!(await Bun.file(zip).exists())) throw new Error(`Expected staged CLI at ${zip} after regen`)

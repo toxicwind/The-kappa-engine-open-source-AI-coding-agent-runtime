@@ -80,7 +80,7 @@ const paths: [string, string][] = [
   ["packages/kappa-vscode/src/agent-manager/", "area:agent-manager"],
   ["packages/kappa-vscode/webview-ui/agent-manager/", "area:agent-manager"],
   ["packages/kappa-vscode/", "area:vscode"],
-  ["packages/opencode/", "area:cli"],
+  ["packages/cli/", "area:cli"],
   ["packages/core/", "area:cli"],
   ["packages/server/", "area:cli"],
   ["packages/tui/", "area:cli"],

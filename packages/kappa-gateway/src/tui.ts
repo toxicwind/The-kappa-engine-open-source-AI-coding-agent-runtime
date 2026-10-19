@@ -21,7 +21,7 @@ export { formatProfileInfo, getOrganizationOptions, getDefaultOrganizationSelect
 // ============================================================================
 // NOTE: TUI Components Moved to OpenCode
 // ============================================================================
-// All TUI components with JSX have been moved to packages/opencode/src/kappacode/
+// All TUI components with JSX have been moved to packages/cli/src/kappacode/
 // to ensure correct JSX transpilation with @opentui/solid.
 //
 // Components moved:

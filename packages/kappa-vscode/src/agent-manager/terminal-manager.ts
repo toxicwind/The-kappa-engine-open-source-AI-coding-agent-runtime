@@ -45,7 +45,7 @@ export interface TerminalManagerDeps {
  *
  * `cwd` is stored because it is required on every SDK call (the server
  * uses the `directory` query param to route requests to the right
- * per-instance PTY map — see `packages/opencode/src/server/instance/middleware.ts`).
+ * per-instance PTY map — see `packages/cli/src/server/instance/middleware.ts`).
  */
 interface Entry {
   terminalId: string

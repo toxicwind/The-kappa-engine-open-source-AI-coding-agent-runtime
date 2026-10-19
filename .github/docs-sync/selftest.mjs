@@ -3632,7 +3632,7 @@ function case12_surfaceSegmentation() {
   const stub = startSurfaceStub({
     openPrs: [],
     commits: {
-      "packages/opencode/": [stubCommit("alice", 1), stubCommit("bob", 5)],
+      "packages/cli/": [stubCommit("alice", 1), stubCommit("bob", 5)],
       "packages/kilo-vscode/": [stubCommit("erin", 1), stubCommit("frank", 3)],
       "packages/kilo-gateway/": [stubCommit("carol", 2), stubCommit("dave", 4)],
     },
@@ -3809,7 +3809,7 @@ function case15_surfaceUpdate() {
       },
     ],
     commits: {
-      "packages/opencode/": [stubCommit("alice", 1), stubCommit("bob", 5)],
+      "packages/cli/": [stubCommit("alice", 1), stubCommit("bob", 5)],
       "packages/kilo-gateway/": [stubCommit("carol", 2), stubCommit("dave", 4)],
     },
     permissions: { alice: "write", bob: "write", carol: "write", dave: "write" },
@@ -3855,7 +3855,7 @@ function case16_surfaceDeletion() {
   const stub = startSurfaceStub({
     openPrs: [],
     commits: {
-      "packages/opencode/": [stubCommit("alice", 1)],
+      "packages/cli/": [stubCommit("alice", 1)],
       "packages/kilo-gateway/": [stubCommit("carol", 2), stubCommit("dave", 4)],
     },
     permissions: { alice: "write", carol: "write", dave: "write" },
@@ -4204,7 +4204,7 @@ function case21_twoSurfacesOneUnmapped() {
   const stub = startSurfaceStub({
     openPrs: [],
     commits: {
-      "packages/opencode/": [stubCommit("alice", 1), stubCommit("bob", 5)],
+      "packages/cli/": [stubCommit("alice", 1), stubCommit("bob", 5)],
       "packages/kilo-vscode/": [stubCommit("erin", 1), stubCommit("frank", 3)],
     },
     permissions: { alice: "write", bob: "write", erin: "write", frank: "write" },

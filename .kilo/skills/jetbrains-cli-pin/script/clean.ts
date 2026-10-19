@@ -14,7 +14,7 @@ export async function clean(jb = "packages/kilo-jetbrains") {
 
   // Stale per-platform CLI binaries. build.ts only rm -rf dist for the platforms it
   // builds, so old platform dirs can survive; wipe the whole tree.
-  await $`rm -rf packages/opencode/dist`
+  await $`rm -rf packages/cli/dist`
 
   // Belt-and-suspenders in case gradle clean was skipped or ran offline.
   await $`rm -rf ${jb}/backend/build/generated`.nothrow()

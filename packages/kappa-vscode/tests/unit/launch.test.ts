@@ -13,7 +13,7 @@ afterEach(() => {
 async function fixture() {
   const repo = realpathSync(mkdtempSync(join(tmpdir(), "kappa-launch-")))
   dirs.push(repo)
-  for (const path of ["", "packages/kappa-vscode", "packages/opencode", "packages/sdk/js"]) {
+  for (const path of ["", "packages/kappa-vscode", "packages/cli", "packages/sdk/js"]) {
     const dir = join(repo, path)
     mkdirSync(dir, { recursive: true })
     symlinkSync(join(source, path, "node_modules"), join(dir, "node_modules"), "junction")

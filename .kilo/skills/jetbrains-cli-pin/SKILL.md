@@ -50,7 +50,7 @@ leak across a pin/unpin flip:
 
 | Artifact | Path |
 |---|---|
-| Repo CLI binaries | `packages/opencode/dist/` |
+| Repo CLI binaries | `packages/cli/dist/` |
 | Staged CLI archive | `packages/kilo-jetbrains/backend/build/generated/kilo-cli-res/kilo-cli.zip` |
 | Generated props / checksums / OpenAPI client | `packages/kilo-jetbrains/backend/build/generated/` |
 | Compiled resources (bundled zip on classpath) | `packages/kilo-jetbrains/backend/build/resources/` |

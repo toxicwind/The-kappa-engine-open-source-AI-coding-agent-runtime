@@ -13,7 +13,7 @@ the user's typed inputs are gone. Reported against plugin 7.0.2.
    (`ProvidersSettingsUi.kt:585` `doValidate`). The save really does write a
    `provider.<id>` block to config, but when the UI re-reads the provider list the
    CLI deletes any provider with no models
-   (`packages/opencode/src/provider/provider.ts:1667`), and
+   (`packages/cli/src/provider/provider.ts:1667`), and
    `@ai-sdk/openai-compatible` has no automatic model discovery. The provider is on
    disk but never rendered.
 
@@ -154,6 +154,6 @@ From `packages/kilo-jetbrains/`:
   (`KiloProviderService.fetchCustomModels`) into the dialog as a "Fetch models"
   button. This would improve UX further but is not required to fix the silent
   failure; track separately.
-- Changing the CLI's zero-model drop in `packages/opencode/src/provider/provider.ts`
+- Changing the CLI's zero-model drop in `packages/cli/src/provider/provider.ts`
   is intentionally avoided — it is shared upstream code, and the fix above prevents
   the JetBrains client from ever reaching that path.

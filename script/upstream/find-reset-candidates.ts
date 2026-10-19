@@ -24,7 +24,7 @@
  *
  * Usage:
  *   bun run script/upstream/find-reset-candidates.ts
- *   bun run script/upstream/find-reset-candidates.ts packages/opencode/src/agent
+ *   bun run script/upstream/find-reset-candidates.ts packages/cli/src/agent
  *   bun run script/upstream/find-reset-candidates.ts --dry-run --review-limit 3
  */
 

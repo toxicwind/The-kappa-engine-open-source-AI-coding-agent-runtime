@@ -17,7 +17,7 @@ import { $ } from "bun"
 import { fileURLToPath } from "url"
 
 const root = fileURLToPath(new URL("../../", import.meta.url))
-const files = ["packages/kappa-vscode/CHANGELOG.md", "packages/opencode/CHANGELOG.md"].map((p) => Bun.file(root + p))
+const files = ["packages/kappa-vscode/CHANGELOG.md", "packages/cli/CHANGELOG.md"].map((p) => Bun.file(root + p))
 
 export function retitle(content: string, version: string) {
   return content.replace(/^## .+$/m, `## ${version}`)

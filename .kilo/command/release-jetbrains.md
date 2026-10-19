@@ -134,7 +134,7 @@ git fetch origin refs/tags/<from-tag>:refs/tags/<from-tag> refs/tags/<tag>:refs/
 4. Use the release range and path filter as the primary relevance signal:
 
 ```bash
-git log --oneline <from-tag>..<tag> -- packages/opencode packages/kilo-jetbrains
+git log --oneline <from-tag>..<tag> -- packages/cli packages/kilo-jetbrains
 ```
 
 Keep JetBrains and CLI/runtime changes. Drop unrelated VS Code, docs, gateway, telemetry, i18n, desktop, and webview-only changes unless they affect the CLI bundled into the JetBrains plugin.

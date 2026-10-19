@@ -1,6 +1,6 @@
 import { debug, warn } from "../utils/logger"
 
-const INDEX = "packages/opencode/src/index.ts"
+const INDEX = "packages/cli/src/index.ts"
 const IMPORT = /^import \{ WebCommand \} from "\.\/cli\/cmd\/web"\n/m
 const REGISTER = /^(\s*)\.command\(WebCommand\)\n/m
 const REFERENCE = /\bWebCommand\b|["']\.\/cli\/cmd\/web["']/
@@ -32,7 +32,7 @@ export async function transformKiloWeb(options: { dryRun?: boolean; verbose?: bo
   if (transformed.removals > 0 && !options.dryRun) await Bun.write(INDEX, transformed.result)
   if (transformed.removals > 0 && options.verbose) debug("Removed unsupported Kilo web command registration")
   if (transformed.review) {
-    warn("Kilo web command shape changed upstream — review packages/opencode/src/index.ts; merge continues")
+    warn("Kilo web command shape changed upstream — review packages/cli/src/index.ts; merge continues")
   }
   return transformed
 }

@@ -48,7 +48,7 @@ describe("memory capture parsing", () => {
       typedSchema,
       JSON.stringify({
         operations: [
-          { op: "upsert_project_fact", key: "repo_tests", value: "Run tests from packages/opencode." },
+          { op: "upsert_project_fact", key: "repo_tests", value: "Run tests from packages/cli." },
           {
             op: "upsert_project_decision",
             key: "file_store",
@@ -70,7 +70,7 @@ describe("memory capture parsing", () => {
         file: "project.md",
         section: "Facts",
         key: "repo_tests",
-        text: "Run tests from packages/opencode.",
+        text: "Run tests from packages/cli.",
       },
       {
         action: "add",
@@ -269,7 +269,7 @@ describe("memory capture parsing", () => {
           file: "project.md",
           section: "Facts",
           key: "instruction_sources",
-          text: "Sources: system/developer instructions, AGENTS.md, packages/opencode/AGENTS.md, and ~/.claude/CLAUDE.md.",
+          text: "Sources: system/developer instructions, AGENTS.md, packages/cli/AGENTS.md, and ~/.claude/CLAUDE.md.",
         },
         {
           action: "add",
@@ -454,14 +454,14 @@ describe("memory capture parsing", () => {
         file: "project.md" as const,
         section: "Facts",
         key: "repo_tests",
-        text: "repo_tests Run memory tests from packages/opencode.",
+        text: "repo_tests Run memory tests from packages/cli.",
       },
     ]
     const verified = verifySkips({
       items,
       skipped: [
         // Fully scoped to the stored entry → confirmed.
-        { reason: "duplicate", text: "Run memory tests from packages/opencode.", file: "project.md", section: "Facts" },
+        { reason: "duplicate", text: "Run memory tests from packages/cli.", file: "project.md", section: "Facts" },
         // Unscoped → unverified regardless of any text overlap.
         { reason: "duplicate", text: "New durable workflow preference." },
       ],
@@ -544,7 +544,7 @@ describe("memory capture parsing", () => {
           file: "corrections.md",
           section: "Corrections",
           key: "repo_tests",
-          text: "repo_tests Run memory tests from packages/opencode.",
+          text: "repo_tests Run memory tests from packages/cli.",
         },
       ],
       skipped: [],
@@ -554,7 +554,7 @@ describe("memory capture parsing", () => {
           file: "project.md",
           section: "Facts",
           key: "repo_tests",
-          text: "Run memory tests from packages/opencode.",
+          text: "Run memory tests from packages/cli.",
         },
       ],
     })
@@ -570,7 +570,7 @@ describe("memory capture parsing", () => {
         file: "corrections.md" as const,
         section: "Corrections",
         key: "repo_tests",
-        text: "repo_tests Run memory tests from packages/opencode.",
+        text: "repo_tests Run memory tests from packages/cli.",
       },
     ]
     const verified = verifySkips({
@@ -580,14 +580,14 @@ describe("memory capture parsing", () => {
         // unconfirmed, downgraded to advisory instead of confirmed cross-scope.
         {
           reason: "duplicate",
-          text: "Run memory tests from packages/opencode.",
+          text: "Run memory tests from packages/cli.",
           file: "project.md",
           section: "Facts",
         },
         // Same text, correctly scoped to where the entry actually lives → confirmed.
         {
           reason: "duplicate",
-          text: "Run memory tests from packages/opencode.",
+          text: "Run memory tests from packages/cli.",
           file: "corrections.md",
           section: "Corrections",
         },
@@ -608,7 +608,7 @@ describe("memory capture parsing", () => {
         file: "project.md" as const,
         section: "Decisions",
         key: "repo_tests",
-        text: "repo_tests Run memory tests from packages/opencode.",
+        text: "repo_tests Run memory tests from packages/cli.",
       },
     ]
     const verified = verifySkips({
@@ -616,13 +616,13 @@ describe("memory capture parsing", () => {
       skipped: [
         // Claims project.md but not the section; the only match lives in Decisions. Confirming would
         // risk a cross-section false positive, so it must downgrade to advisory.
-        { reason: "duplicate", text: "Run memory tests from packages/opencode.", file: "project.md" },
+        { reason: "duplicate", text: "Run memory tests from packages/cli.", file: "project.md" },
       ],
     })
 
     expect(verified.skipped[0]).toEqual({
       reason: "unsupported",
-      text: "Run memory tests from packages/opencode.",
+      text: "Run memory tests from packages/cli.",
     })
   })
 
@@ -853,7 +853,7 @@ describe("memory capture parsing", () => {
     ).toMatchObject({ reason: "out_of_scope" })
     // ...but a fact that merely cites the file mid-sentence is kept.
     expect(
-      MemoryOperations.reject({ text: "Run tests from packages/opencode per the rule in .claude/claude.md." }),
+      MemoryOperations.reject({ text: "Run tests from packages/cli per the rule in .claude/claude.md." }),
     ).toBeUndefined()
   })
 })

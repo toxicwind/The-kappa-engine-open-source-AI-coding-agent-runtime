@@ -101,7 +101,7 @@ jobs:
       - name: Build
         id: build
         run: |
-          ./packages/opencode/script/build.ts
+          ./packages/cli/script/build.ts
         env:
           KILO_VERSION: ${{ needs.version.outputs.version }}
           KILO_RELEASE: ${{ needs.version.outputs.release }}
@@ -117,10 +117,10 @@ jobs:
         id: sbom
         if: needs.version.outputs.release != ''
         run: |
-          bun run script/kilocode/sbom.ts verify --manifest "$MANIFEST" --dir packages/opencode/dist
+          bun run script/kilocode/sbom.ts verify --manifest "$MANIFEST" --dir packages/cli/dist
           bun run script/kilocode/sbom.ts matrix --manifest "$MANIFEST" --output subjects
         env:
-          MANIFEST: packages/opencode/dist/cli-sbom-evidence.json
+          MANIFEST: packages/cli/dist/cli-sbom-evidence.json
           SBOM_ENFORCE: ${{ vars.SBOM_ENFORCE }}
 
       - name: Upload CLI SBOM evidence
@@ -129,9 +129,9 @@ jobs:
         with:
           name: kilo-cli-sboms
           path: |
-            packages/opencode/dist/*.cdx.json
-            packages/opencode/dist/cli-sbom-evidence.json
-            packages/opencode/dist/kilo-cli-SHA256SUMS
+            packages/cli/dist/*.cdx.json
+            packages/cli/dist/cli-sbom-evidence.json
+            packages/cli/dist/kilo-cli-SHA256SUMS
           if-no-files-found: error
       # kilocode_change end
 
@@ -146,8 +146,8 @@ jobs:
       # blacksmith ubuntu-2404. See actions/upload-artifact#36, actions/toolkit#1533.
       - name: Pack CLI dist into tar.zst
         run: |
-          find packages/opencode/dist -name '*.map' -delete
-          tar --zstd -cf /tmp/kilo-cli.tar.zst -C packages/opencode/dist .
+          find packages/cli/dist -name '*.map' -delete
+          tar --zstd -cf /tmp/kilo-cli.tar.zst -C packages/cli/dist .
 
       - uses: actions/upload-artifact@v7
         with:
@@ -567,8 +567,8 @@ jobs:
 
       - name: Unpack CLI dist
         run: |
-          mkdir -p packages/opencode/dist
-          tar --zstd -xf /tmp/kilo-cli-signed.tar.zst -C packages/opencode/dist
+          mkdir -p packages/cli/dist
+          tar --zstd -xf /tmp/kilo-cli-signed.tar.zst -C packages/cli/dist
 
       - name: Apply changesets to changelog
         run: bun script/kilocode/changeset-version.ts
@@ -580,7 +580,7 @@ jobs:
         run: bun script/build.ts
         working-directory: ./packages/kilo-vscode
         env:
-          CLI_DIST_DIR: ../../packages/opencode/dist
+          CLI_DIST_DIR: ../../packages/cli/dist
           KILO_VERSION: ${{ needs.build-cli.outputs.version }}
           KILO_PRE_RELEASE: ${{ inputs.pre_release }}
           GH_REPO: ${{ github.repository }}
@@ -668,8 +668,8 @@ jobs:
 
       - name: Unpack CLI dist
         run: |
-          mkdir -p packages/opencode/dist
-          tar --zstd -xf /tmp/kilo-cli-signed.tar.zst -C packages/opencode/dist
+          mkdir -p packages/cli/dist
+          tar --zstd -xf /tmp/kilo-cli-signed.tar.zst -C packages/cli/dist
       # kilocode_change end
       - uses: actions/download-artifact@v8
         with:

@@ -286,11 +286,11 @@ class MdViewHybridTest : BasePlatformTestCase() {
     fun `test prose inline code is styled without code chrome or editor`() {
         view.applyStyle(customStyle())
 
-        view.set("Use `packages/opencode/src/session/prompt.ts` here")
+        view.set("Use `packages/cli/src/session/prompt.ts` here")
         val pane = htmls().single()
         val color = MdCommon.hex(SessionUiStyle.View.Markdown.string())
 
-        assertTrue(view.html().contains("<code style=\"color: $color\"><a class=\"kappa-file-ref\" href=\"packages/opencode/src/session/prompt.ts\">packages/opencode/src/session/prompt.ts</a></code>"))
+        assertTrue(view.html().contains("<code style=\"color: $color\"><a class=\"kappa-file-ref\" href=\"packages/cli/src/session/prompt.ts\">packages/cli/src/session/prompt.ts</a></code>"))
         assertTrue(pane.text.contains("<code style=\"color: $color\">"))
         assertFalse(pane.text.contains("#cc8866"))
         assertFalse(pane.text.contains("background:"))
@@ -300,10 +300,10 @@ class MdViewHybridTest : BasePlatformTestCase() {
     }
 
     fun `test prose file refs are styled as file links`() {
-        view.set("See packages/opencode/src/session/prompt.ts before continuing")
+        view.set("See packages/cli/src/session/prompt.ts before continuing")
         val html = view.html()
 
-        assertTrue(html.contains("<a class=\"kappa-file-ref\" href=\"packages/opencode/src/session/prompt.ts\">packages/opencode/src/session/prompt.ts</a>"))
+        assertTrue(html.contains("<a class=\"kappa-file-ref\" href=\"packages/cli/src/session/prompt.ts\">packages/cli/src/session/prompt.ts</a>"))
         assertTrue(view.overrideSheet().contains("a.kappa-file-ref, code a.kappa-file-ref"))
         assertTrue(view.overrideSheet().contains("text-decoration: underline"))
     }
@@ -389,7 +389,7 @@ class MdViewHybridTest : BasePlatformTestCase() {
     }
 
     fun `test existing links are not nested as file refs`() {
-        view.set("[prompt](packages/opencode/src/session/prompt.ts)")
+        view.set("[prompt](packages/cli/src/session/prompt.ts)")
         val html = view.html()
 
         assertTrue(html.contains("prompt"))
@@ -397,9 +397,9 @@ class MdViewHybridTest : BasePlatformTestCase() {
     }
 
     fun `test fenced code file refs are not linkified`() {
-        view.set("```text\npackages/opencode/src/session/prompt.ts\n```\n\nSee packages/opencode/src/session/prompt.ts")
+        view.set("```text\npackages/cli/src/session/prompt.ts\n```\n\nSee packages/cli/src/session/prompt.ts")
 
-        assertEquals("packages/opencode/src/session/prompt.ts", editors().single().text)
+        assertEquals("packages/cli/src/session/prompt.ts", editors().single().text)
         assertFalse(view.html().substringBefore("</pre>").contains("kappa-file-ref"))
         assertTrue(htmls().single().text.contains("kappa-file-ref"))
     }

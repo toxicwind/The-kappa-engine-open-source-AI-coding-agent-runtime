@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * Watches packages/opencode/src/ for changes and rebuilds the CLI binary,
+ * Watches packages/cli/src/ for changes and rebuilds the CLI binary,
  * then copies it into packages/kappa-vscode/bin/kappa.
  *
  * Used during development so the VS Code extension always has an up-to-date

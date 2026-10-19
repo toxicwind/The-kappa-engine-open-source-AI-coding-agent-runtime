@@ -77,7 +77,7 @@ export const defaultConfig: MergeConfig = {
     // Kilo-specific command files
     ".opencode/command/commit.md",
     // Kilo-specific publish scripts
-    "packages/opencode/script/publish-registries.ts",
+    "packages/cli/script/publish-registries.ts",
     // Generated OpenAPI spec - kept ours and regenerated post-merge via script/generate.ts
     "packages/sdk/openapi.json",
     // GitHub Action - Kilo version is fully ported and complete
@@ -134,11 +134,11 @@ export const defaultConfig: MergeConfig = {
     "nix/desktop.nix",
     "nix/opencode.nix",
     // opencode CLI bin (Kilo uses its own build output)
-    "packages/opencode/bin/opencode",
+    "packages/cli/bin/opencode",
     // Kilo does not ship upstream's embedded web UI command.
-    "packages/opencode/src/cli/cmd/web.ts",
+    "packages/cli/src/cli/cmd/web.ts",
     // Removed prompt file
-    "packages/opencode/src/session/prompt/build-switch.txt",
+    "packages/cli/src/session/prompt/build-switch.txt",
     // Upstream app translation automation targets products and binaries Kilo does not ship
     "script/translate-app.ts",
     "script/translate-app.test.ts",
@@ -181,14 +181,14 @@ export const defaultConfig: MergeConfig = {
   // These are files with only branding differences, no logic changes
   takeTheirsAndTransform: [
     // Model-facing prompts that need Kilo product identity and documentation links
-    "packages/opencode/src/session/prompt/meta.txt",
+    "packages/cli/src/session/prompt/meta.txt",
     // UI components
     "packages/ui/src/components/**/*.tsx",
     "packages/ui/src/context/**/*.tsx",
   ],
 
   // Script files with GitHub API references
-  scriptFiles: ["script/*.ts", "packages/opencode/script/*.ts"],
+  scriptFiles: ["script/*.ts", "packages/cli/script/*.ts"],
 
   // Extension files
   extensionFiles: ["packages/extensions/**/*"],
@@ -213,8 +213,8 @@ export const defaultConfig: MergeConfig = {
   ],
 
   kiloDirectories: [
-    "packages/opencode/src/kilocode",
-    "packages/opencode/test/kilocode",
+    "packages/cli/src/kilocode",
+    "packages/cli/test/kilocode",
     "packages/kappa-gateway",
     "packages/kappa-telemetry",
     "packages/kappa-vscode",

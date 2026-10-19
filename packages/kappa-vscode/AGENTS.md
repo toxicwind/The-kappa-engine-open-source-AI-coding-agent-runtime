@@ -20,12 +20,12 @@ Kappa Code is an open source AI coding agent platform. It ships as a CLI and edi
 
 ### Products and How They Relate
 
-All products are thin clients over the **CLI** (`packages/opencode/`, published as `@kappacode/cli`). The CLI is a fork of upstream [OpenCode](https://github.com/anomalyco/opencode) with Kappa-specific additions (gateway auth, telemetry, migration, code review, branding). It contains the full AI agent runtime, tool execution, session management, provider integrations (500+ models), and an HTTP API server.
+All products are thin clients over the **CLI** (`packages/cli/`, published as `@kappacode/cli`). The CLI is a fork of upstream [OpenCode](https://github.com/anomalyco/opencode) with Kappa-specific additions (gateway auth, telemetry, migration, code review, branding). It contains the full AI agent runtime, tool execution, session management, provider integrations (500+ models), and an HTTP API server.
 
 The VS Code extension spawns or connects to a `kappa serve` process and communicates via HTTP REST + SSE using the auto-generated `@kappacode/sdk`. CLI clients can also use in-process transports, as shown below.
 
 ```
-                        @kappacode/cli  (packages/opencode/)
+                        @kappacode/cli  (packages/cli/)
                      ┌────────────────────────────────┐
                      │  AI agents, tools, sessions,    │
                      │  providers, config, MCP, LSP    │
@@ -40,8 +40,8 @@ The VS Code extension spawns or connects to a `kappa serve` process and communic
 
 | Product | Package | What it is | How it uses the CLI |
 |---|---|---|---|
-| Kappa CLI (TUI) | `packages/opencode/` | Interactive terminal UI (SolidJS + OpenTUI) | In-process — TUI and server run together |
-| Kappa CLI (`kappa run`) | `packages/opencode/` | Non-interactive headless mode for scripting | In-process — no network socket |
+| Kappa CLI (TUI) | `packages/cli/` | Interactive terminal UI (SolidJS + OpenTUI) | In-process — TUI and server run together |
+| Kappa CLI (`kappa run`) | `packages/cli/` | Non-interactive headless mode for scripting | In-process — no network socket |
 | **Kappa VS Code Extension** | **`packages/kappa-vscode/`** | VS Code extension with sidebar chat + Agent Manager | Bundles CLI binary, spawns `kappa serve --port 0` as child process |
 
 ### Kappa-Domain Packages
@@ -59,7 +59,7 @@ The VS Code extension spawns or connects to a `kappa serve` process and communic
 
 | Package | Name | Role |
 |---|---|---|
-| `packages/opencode/` | `@kappacode/cli` | Core CLI — forked from upstream OpenCode. AI agents, tools, sessions, server. |
+| `packages/cli/` | `@kappacode/cli` | Core CLI — forked from upstream OpenCode. AI agents, tools, sessions, server. |
 | `packages/sdk/js/` | `@kappacode/sdk` | Auto-generated TypeScript SDK client for the server API. Do not edit `src/gen/` or `src/v2/gen/` by hand. |
 | `packages/ui/` | `@opencode-ai/ui` | Shared UI primitives |
 | `packages/core/` | `@opencode-ai/core` | Shared runtime and utilities (`src/util/`) |
@@ -98,7 +98,7 @@ Or use `--force` to rebuild:
 bun script/local-bin.ts --force
 ```
 
-The script checks for a prebuilt binary in `packages/opencode/dist/`, builds the CLI if needed, and copies it to `bin/kappa`.
+The script checks for a prebuilt binary in `packages/cli/dist/`, builds the CLI if needed, and copies it to `bin/kappa`.
 
 ## Architecture
 

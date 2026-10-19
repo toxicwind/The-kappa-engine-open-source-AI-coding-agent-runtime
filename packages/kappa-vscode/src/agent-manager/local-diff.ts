@@ -31,7 +31,7 @@ const MAX_SUMMARY_FILES = 32
  * `windowsHide: true` and the shared semaphore. No Bun involvement.
  */
 
-/** Ported from `packages/opencode/src/file/ignore.ts` — identical patterns,
+/** Ported from `packages/cli/src/file/ignore.ts` — identical patterns,
  *  no runtime dependency on minimatch/picomatch. */
 export { generatedLike } from "../diff/shared/git-attributes"
 

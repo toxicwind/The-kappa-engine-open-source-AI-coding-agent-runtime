@@ -32,14 +32,14 @@ describe("memory facade", () => {
         root: t.root,
         file: "environment.md",
         section: "Commands",
-        text: "Run CLI tests from packages/opencode.",
+        text: "Run CLI tests from packages/cli.",
       })
 
       const ctx = await Memory.context({ root: t.root, record: false })
       const recall = await Memory.recall({ root: t.root, query: "CLI tests packages opencode" })
 
-      expect(ctx.blocks[0]?.text).toContain("packages/opencode")
-      expect(recall.result?.block).toContain("packages/opencode")
+      expect(ctx.blocks[0]?.text).toContain("packages/cli")
+      expect(recall.result?.block).toContain("packages/cli")
     } finally {
       await t.done()
     }

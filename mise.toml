@@ -7,16 +7,16 @@ enabled = true
 
 [tasks.kappa-build]
 description = "Build the main kappa single binary -> dist/@kappacode/*/bin/kappa"
-run = "bun run --cwd packages/opencode script/build.ts --single --skip-install"
+run = "bun run --cwd packages/cli script/build.ts --single --skip-install"
 sources = [
   "package.json",
   "bun.lock",
-  "packages/opencode/src/**/*.{ts,tsx}",
-  "packages/opencode/script/**/*.ts",
+  "packages/cli/src/**/*.{ts,tsx}",
+  "packages/cli/script/**/*.ts",
   "packages/llm/src/**/*.ts",
   "packages/kappa-console/src/**/*.{ts,tsx}",
 ]
-outputs = ["packages/opencode/dist/**/bin/kappa"]
+outputs = ["packages/cli/dist/**/bin/kappa"]
 
 [tasks.kappa-install]
 description = "Install kappacode workspace dependencies once, richly cached"

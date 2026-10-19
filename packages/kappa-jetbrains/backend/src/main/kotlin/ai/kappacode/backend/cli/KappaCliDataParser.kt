@@ -877,7 +877,7 @@ object KiloCliDataParser {
      * The status is taken verbatim from the CLI.
      *
      * Classifying a transport failure as "sign-in required" belongs to the CLI, which does it once
-     * in `packages/opencode/src/kappacode/mcp/auth-failure.ts` and reports `needs_auth` directly —
+     * in `packages/cli/src/kappacode/mcp/auth-failure.ts` and reports `needs_auth` directly —
      * including for a rejected browser flow, a failed token exchange, and HTTP 401/403 rejections.
      * Re-deriving that here from the human-readable `error` text would duplicate the rules and drift
      * from them, so the plugin only reads the structured field.

@@ -338,4 +338,4 @@ Java 21 is required for Gradle; only check `java -version` if a Gradle command f
 ## Out of scope
 
 - Editing headers, per-model capabilities (reasoning), or config scope (global vs workspace) beyond the current add dialog.
-- Any changes to shared `packages/opencode/` code, RPC contracts, or DTOs.
+- Any changes to shared `packages/cli/` code, RPC contracts, or DTOs.

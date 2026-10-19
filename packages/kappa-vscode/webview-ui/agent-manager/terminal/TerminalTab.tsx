@@ -4,7 +4,7 @@
  * Mounts an xterm Terminal in a ref'd div and opens a WebSocket directly
  * to the CLI server's `/pty/:id/connect` endpoint. Output frames come back
  * as text (PTY bytes) or binary (control frames with a leading 0x00 byte
- * carrying cursor metadata — see `packages/opencode/src/pty/index.ts:46`).
+ * carrying cursor metadata — see `packages/cli/src/pty/index.ts:46`).
  *
  * The extension host is only involved at terminal create/close/resize time;
  * once the WebSocket is up, raw bytes bypass postMessage entirely.

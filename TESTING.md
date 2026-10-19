@@ -28,7 +28,7 @@ rm -f /tmp/kilo-serve.pid /tmp/kilo-serve.log
 
 Testing local backend fixes against a real running server, talking to it over HTTP the same way the VS Code extension, TUI, and `kilo run --attach` do — but without any of those clients. Every request is a `curl` the agent can copy-paste.
 
-For in-process tests (no socket, fastest loop) see `packages/opencode/test/kilocode/server/permission-allow-everything.test.ts` for the `Server.Default().app.request(...)` pattern. That's the right tool inside the `packages/opencode/` test suite; this doc is for out-of-process HTTP testing.
+For in-process tests (no socket, fastest loop) see `packages/cli/test/kilocode/server/permission-allow-everything.test.ts` for the `Server.Default().app.request(...)` pattern. That's the right tool inside the `packages/cli/` test suite; this doc is for out-of-process HTTP testing.
 
 ## 2. `kilo serve` vs `bun dev serve` — important
 
@@ -36,9 +36,9 @@ For in-process tests (no socket, fastest loop) see `packages/opencode/test/kiloc
 |---|---|
 | `kilo serve` | The npm-installed production CLI on `$PATH`. **Not the code in this repo.** |
 | `bun dev serve …` (repo root) | The local main-branch backend from this worktree. **This is what you want.** |
-| `bun run --cwd packages/opencode --conditions=browser src/index.ts serve …` | Same as `bun dev serve`, fully expanded. |
+| `bun run --cwd packages/cli --conditions=browser src/index.ts serve …` | Same as `bun dev serve`, fully expanded. |
 
-Root `package.json` defines `"dev"` as the full `bun run --cwd packages/opencode --conditions=browser src/index.ts` invocation, so `bun dev <args>` forwards `<args>` to the local CLI entry point (`packages/opencode/src/index.ts`) without touching the installed binary.
+Root `package.json` defines `"dev"` as the full `bun run --cwd packages/cli --conditions=browser src/index.ts` invocation, so `bun dev <args>` forwards `<args>` to the local CLI entry point (`packages/cli/src/index.ts`) without touching the installed binary.
 
 `bun dev` imports the source directly — no rebuild is needed between code edits. Just kill the running server and relaunch.
 
@@ -80,7 +80,7 @@ BASE="http://127.0.0.1:$PORT"
 # no AUTH var needed
 ```
 
-### Flags (`packages/opencode/src/cli/network.ts`)
+### Flags (`packages/cli/src/cli/network.ts`)
 
 | Flag | Default | Notes |
 |---|---|---|
@@ -186,7 +186,7 @@ kill "$(cat /tmp/kilo-serve.pid)" 2>/dev/null || true
 rm -f /tmp/kilo-serve.pid /tmp/kilo-serve.log
 ```
 
-`ServeCommand` handles `SIGTERM` / `SIGINT` / `SIGHUP` and runs `Instance.disposeAll()` + `server.stop(true)` before exiting (`packages/opencode/src/cli/cmd/serve.ts:29-31`). `-9` is only needed if the process hangs past ~5 s.
+`ServeCommand` handles `SIGTERM` / `SIGINT` / `SIGHUP` and runs `Instance.disposeAll()` + `server.stop(true)` before exiting (`packages/cli/src/cli/cmd/serve.ts:29-31`). `-9` is only needed if the process hangs past ~5 s.
 
 ## 7. Useful environment variables
 
@@ -244,7 +244,7 @@ Reminder: this script **connects to** the server you launched in Section 3 — i
 - Missing `x-kilo-directory` (or `?directory=`) returns `400` from `InstanceMiddleware`.
 - `curl` without `-N` buffers SSE output — you won't see events until the connection closes.
 - Hardcoding port `4096` breaks when a previous run didn't exit cleanly. Parse the log instead.
-- `--port` must appear literally in `argv` to override `opencode.json`'s `server.port` (`packages/opencode/src/cli/network.ts:45`).
+- `--port` must appear literally in `argv` to override `opencode.json`'s `server.port` (`packages/cli/src/cli/network.ts:45`).
 - `KILO_SERVER_PASSWORD` must be set **before** launch — changing it after doesn't rotate credentials.
 - When sharing `/tmp/kilo-serve.log` / `.pid` across terminals, unique-suffix the paths to avoid clobbering parallel runs.
 

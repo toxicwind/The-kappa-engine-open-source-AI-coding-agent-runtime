@@ -5,7 +5,7 @@ description: "Architecture of the Kappa CLI runtime, daemon, server, persistence
 
 # CLI Runtime Architecture
 
-The CLI (`packages/opencode/`) is Kappa Code's local agent engine. It owns agent execution, tools, sessions, provider integration, configuration, local persistence, directory routing, and HTTP surfaces used by editor clients and Kappa Console.
+The CLI (`packages/cli/`) is Kappa Code's local agent engine. It owns agent execution, tools, sessions, provider integration, configuration, local persistence, directory routing, and HTTP surfaces used by editor clients and Kappa Console.
 
 {% callout type="info" title="Scope" %}
 This page describes repository-defined local runtime behavior. It is not an endpoint catalog or a statement about cloud deployment configuration.
@@ -17,7 +17,7 @@ These terms describe local execution. They are separate from hosted Cloud Agent 
 
 | Term | Meaning |
 |---|---|
-| Kappa CLI runtime | Local agent engine in `packages/opencode/` |
+| Kappa CLI runtime | Local agent engine in `packages/cli/` |
 | `kappa serve` server | Local HTTP and SSE process used by editor clients and Kappa Console; selected browser-oriented paths also use WebSocket |
 | Local daemon | Detached reusable `kappa serve` server managed by `kappa daemon` commands |
 | Directory context | Normalized local filesystem directory used to select local runtime state |
@@ -237,9 +237,9 @@ Slow initial tracking has guarded behavior:
 
 CLI server contract flows through generated and handwritten layers:
 
-1. Effect `HttpApi` groups under `packages/opencode/src/server/routes/instance/httpapi/` define routes.
-2. `packages/opencode/src/server/routes/instance/httpapi/public.ts` normalizes public OpenAPI to legacy-compatible request and response shapes.
-3. Kappa-specific API groups and handlers live under `packages/opencode/src/kappacode/server/httpapi/` and enter shared API through narrow injection seams.
+1. Effect `HttpApi` groups under `packages/cli/src/server/routes/instance/httpapi/` define routes.
+2. `packages/cli/src/server/routes/instance/httpapi/public.ts` normalizes public OpenAPI to legacy-compatible request and response shapes.
+3. Kappa-specific API groups and handlers live under `packages/cli/src/kappacode/server/httpapi/` and enter shared API through narrow injection seams.
 4. `packages/sdk/js/script/build.ts` generates TypeScript v2 client from CLI OpenAPI.
 5. `packages/sdk/js/src/v2/client.ts` adds `createKappaClient()` wrapper for directory and workspace routing, Electron and Node fetch compatibility, and clearer empty-response errors.
 6. Root `./script/generate.ts` runs SDK generation, emits tracked OpenAPI artifact, updates CLI docs, and formats outputs.
@@ -319,15 +319,15 @@ Paths below are relative to [`Kappa-Org/kappacode`](https://github.com/Kappa-Org
 
 | Concern | Source paths |
 |---|---|
-| CLI entry points | `packages/opencode/src/cli/cmd/` |
-| Daemon | `packages/opencode/src/kappacode/daemon/` |
-| HTTP server | `packages/opencode/src/server/` |
-| Directory and workspace routing | `packages/opencode/src/server/routes/instance/httpapi/middleware/workspace-routing.ts` |
-| SQLite | `packages/opencode/src/storage/db.ts` |
-| Snapshots | `packages/opencode/src/snapshot/index.ts`{% linebreak /%}`packages/opencode/src/kappacode/snapshot/track.ts` |
+| CLI entry points | `packages/cli/src/cli/cmd/` |
+| Daemon | `packages/cli/src/kappacode/daemon/` |
+| HTTP server | `packages/cli/src/server/` |
+| Directory and workspace routing | `packages/cli/src/server/routes/instance/httpapi/middleware/workspace-routing.ts` |
+| SQLite | `packages/cli/src/storage/db.ts` |
+| Snapshots | `packages/cli/src/snapshot/index.ts`{% linebreak /%}`packages/cli/src/kappacode/snapshot/track.ts` |
 | SDK | `packages/sdk/js/`{% linebreak /%}`script/generate.ts` |
-| Console | `packages/kappa-console/`{% linebreak /%}`packages/opencode/src/kappacode/console/` |
-| Indexing | `packages/kappa-indexing/`{% linebreak /%}`packages/opencode/src/kappacode/indexing.ts` |
+| Console | `packages/kappa-console/`{% linebreak /%}`packages/cli/src/kappacode/console/` |
+| Indexing | `packages/kappa-indexing/`{% linebreak /%}`packages/cli/src/kappacode/indexing.ts` |
 
 ## Related pages
 

@@ -151,7 +151,7 @@ export function purl(name: string, version: string) {
 /**
  * Walk the shipped dependency graph of a workspace package.
  *
- * `workspace` is a `bun.lock` workspace path such as `packages/opencode`.
+ * `workspace` is a `bun.lock` workspace path such as `packages/cli`.
  * Workspace-internal packages are recorded as first-party components rather
  * than given fabricated npm purls, and their own dependencies are followed
  * because they are compiled into the same artifact.

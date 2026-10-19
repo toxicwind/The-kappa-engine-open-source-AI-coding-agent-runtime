@@ -5,7 +5,7 @@ on:
     paths:
       - "packages/kilo-vscode/src/**"
       - "packages/kilo-vscode/webview-ui/**"
-      - "packages/opencode/src/**"
+      - "packages/cli/src/**"
       - "packages/kilo-docs/source-links.md"
       - "script/extract-source-links.ts"
       - ".github/workflows/source-check-links.yml"

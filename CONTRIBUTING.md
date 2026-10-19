@@ -69,7 +69,7 @@ Do **not** run `bun test` from the repo root. The root test script intentionally
 
 ### CLI checks
 
-From `packages/opencode/`:
+From `packages/cli/`:
 
 ```bash
 bun run typecheck
@@ -77,7 +77,7 @@ bun test
 bun test ./path/to/file.test.ts
 ```
 
-For backend/API validation, see [`TESTING.md`](./TESTING.md). It covers starting the local backend with `bun dev serve` and making `curl` requests against it. After changing server endpoints in `packages/opencode/src/server/`, run `./script/generate.ts` from the repo root to regenerate `packages/sdk/js/`.
+For backend/API validation, see [`TESTING.md`](./TESTING.md). It covers starting the local backend with `bun dev serve` and making `curl` requests against it. After changing server endpoints in `packages/cli/src/server/`, run `./script/generate.ts` from the repo root to regenerate `packages/sdk/js/`.
 
 ### VS Code extension checks
 
@@ -108,8 +108,8 @@ For manual docs validation, run the docs site locally, preview the affected page
 
 - User-facing changes usually need a changeset (`bunx changeset add` or a file under `.changeset/`).
 - After changing server endpoints, regenerate the SDK with `./script/generate.ts`.
-- After adding or changing guarded URLs in `packages/kilo-vscode/`, `packages/kilo-vscode/webview-ui/`, or `packages/opencode/src/`, run `bun run script/extract-source-links.ts` from the repo root.
-- When editing shared `packages/opencode/` files, keep Kilo changes small and mark Kilo-only edits with `// kilocode_change` for a single line or `// kilocode_change start` / `// kilocode_change end` for a block. Do not add these markers inside `kilocode`-named paths.
+- After adding or changing guarded URLs in `packages/kilo-vscode/`, `packages/kilo-vscode/webview-ui/`, or `packages/cli/src/`, run `bun run script/extract-source-links.ts` from the repo root.
+- When editing shared `packages/cli/` files, keep Kilo changes small and mark Kilo-only edits with `// kilocode_change` for a single line or `// kilocode_change start` / `// kilocode_change end` for a block. Do not add these markers inside `kilocode`-named paths.
 
 ### Developing the VS Code Extension
 
@@ -151,7 +151,7 @@ bun turbo test:ci --filter=@kilocode/kilo-jetbrains
 
 ### Running against a different directory
 
-By default, `bun dev` runs Kilo CLI in the `packages/opencode` directory. To run it against a different directory or repository:
+By default, `bun dev` runs Kilo CLI in the `packages/cli` directory. To run it against a different directory or repository:
 
 ```bash
 bun dev <directory>
@@ -202,13 +202,13 @@ kilodev run --dir "$PWD" "…" # subcommands pass through; use --dir for run/ser
 To compile a standalone executable:
 
 ```bash
-./packages/opencode/script/build.ts --single
+./packages/cli/script/build.ts --single
 ```
 
 Then run it with:
 
 ```bash
-./packages/opencode/dist/@kilocode/cli-<platform>/bin/kilo
+./packages/cli/dist/@kilocode/cli-<platform>/bin/kilo
 ```
 
 Replace `<platform>` with your platform (e.g., `darwin-arm64`, `linux-x64`).

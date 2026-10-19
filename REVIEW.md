@@ -13,7 +13,7 @@ CI already runs and will report failures directly. Do **not** comment on:
 - `knip` unused exports
 - `kilocode_change` marker rules — both directions:
   - Missing markers on shared opencode files (`script/check-opencode-annotations.ts`)
-  - Markers present in kilo-only paths like `packages/kilo-vscode/`, `packages/kilo-ui/`, `packages/opencode/src/kilocode/` (`bun run check-kilocode-change`)
+  - Markers present in kilo-only paths like `packages/kilo-vscode/`, `packages/kilo-ui/`, `packages/cli/src/kilocode/` (`bun run check-kilocode-change`)
 - Workflow allowlist drift (`script/check-workflows.ts`)
 - Stale `packages/kilo-docs/source-links.md` (`script/extract-source-links.ts`)
 - Markdown table padding (`script/check-md-table-padding.ts`)
@@ -40,7 +40,7 @@ Read enough of the surrounding file to actually understand the change — diffs 
 
 The full guide is in `AGENTS.md`. Don't be a zealot — only flag actual violations, and recognize when the existing code already complies through a different mechanism.
 
-- **No `let`**: prefer `const` with ternary or IIFE (`packages/opencode/src/util/iife.ts`). But `let` is fine when it's genuinely the simplest option; don't demand IIFE rewrites for trivial cases.
+- **No `let`**: prefer `const` with ternary or IIFE (`packages/cli/src/util/iife.ts`). But `let` is fine when it's genuinely the simplest option; don't demand IIFE rewrites for trivial cases.
 - **No `else`**: prefer early returns. Don't complain about `else` if the code already uses early returns elsewhere. You **may** flag excessive nesting regardless.
 - **No empty `catch`**: always flag — empty catches hide bugs.
 - **Avoid `try`/`catch` where possible**: if a try/catch is added, consider whether it's needed at all.
@@ -56,19 +56,19 @@ When suggesting fixes, ensure the suggestion is valid TypeScript (matched braces
 
 Kilo CLI is a fork of opencode. Minimizing diff against upstream is a top priority.
 
-- If a change modifies a shared opencode file (anything under `packages/opencode/` not in a path containing `kilocode`), ask whether the logic could live in a Kilo-only directory instead (`packages/opencode/src/kilocode/`, `packages/kilo-gateway/`, etc.) or be reduced to a smaller hook.
+- If a change modifies a shared opencode file (anything under `packages/cli/` not in a path containing `kilocode`), ask whether the logic could live in a Kilo-only directory instead (`packages/cli/src/kilocode/`, `packages/kilo-gateway/`, etc.) or be reduced to a smaller hook.
 - Refactors or reorganizations of upstream code are a red flag — flag them unless clearly justified.
 - See `.kilo/skills/kilocode-merge-minimizer/SKILL.md` for the decision rules.
 
 ### 4. Cloud config schema mirror
 
-When `Config.Info` in `packages/opencode/src/config/config.ts` gains a new `kilocode_change` field, the matching JSON Schema entry must also be added in the cloud repo (`apps/web/src/app/config.json/extras.ts`). CI does **not** check this — flag it as a reminder if you see a new config field added.
+When `Config.Info` in `packages/cli/src/config/config.ts` gains a new `kilocode_change` field, the matching JSON Schema entry must also be added in the cloud repo (`apps/web/src/app/config.json/extras.ts`). CI does **not** check this — flag it as a reminder if you see a new config field added.
 
 ### 5. Test quality
 
 - Tests should exercise real implementation, not duplicate logic into the test.
 - Mocks should be avoided where reasonable; flag mock-heavy tests that look like they're testing the mock rather than the code.
-- New behavior in `packages/opencode/` should generally come with a test under `packages/opencode/test/`.
+- New behavior in `packages/cli/` should generally come with a test under `packages/cli/test/`.
 
 ### 6. User-facing changes
 

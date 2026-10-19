@@ -10,7 +10,7 @@
 import type { Session } from "@kappacode/sdk/v2"
 import { running } from "../util/session"
 
-// Must match `KIND` in packages/opencode/src/kappacode/session/steering.ts.
+// Must match `KIND` in packages/cli/src/kappacode/session/steering.ts.
 export const KIND = "subagent_steer"
 
 type Target = Pick<Session, "parentID" | "agent" | "model"> | undefined

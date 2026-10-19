@@ -4,7 +4,7 @@
 
 Background subagents are enabled by default, so a session can have several async agents running at once. The parent transcript shows a task card while the agent runs and injects the result when it finishes, but the card scrolls away. Once it is off screen there is no way to see that agents are still running, how many, or what they are doing.
 
-The CLI already solves this. It keeps a per-session subagent list with status (`running`, `done`, `cancelled`, `error`), shows a `subagents` hint in the status line, and opens a subagent inspector tab. See `packages/opencode/src/cli/cmd/run/subagent-data.ts` and `footer.command.tsx`.
+The CLI already solves this. It keeps a per-session subagent list with status (`running`, `done`, `cancelled`, `error`), shows a `subagents` hint in the status line, and opens a subagent inspector tab. See `packages/cli/src/cli/cmd/run/subagent-data.ts` and `footer.command.tsx`.
 
 ## Goal
 
@@ -66,7 +66,7 @@ An agent counts as running only when its child session status is `busy` or `retr
 
 ## Implementation
 
-1. `packages/opencode/src/kappacode/server/httpapi/`
+1. `packages/cli/src/kappacode/server/httpapi/`
    Kappa-owned parent-scoped background-job list and cancellation routes.
 2. `webview-ui/src/components/chat/open-subagent.ts`
    Shared helper holding the Agent Manager vs sidebar branch. Extracted from `TaskToolExpanded.openInTab` so the task card and the strip cannot drift apart.

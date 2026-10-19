@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import { removeKiloWeb } from "./remove-kappa-web"
 
-const INDEX = "packages/opencode/src/index.ts"
+const INDEX = "packages/cli/src/index.ts"
 
 test("replaces the known Kilo web command import and registration with Kilo omissions", () => {
   const source = [
@@ -37,7 +37,7 @@ test("flags an unfamiliar web command shape without changing it", () => {
 
 test("does not transform other files", () => {
   const source = 'import { WebCommand } from "./cli/cmd/web"\n'
-  expect(removeKiloWeb("packages/opencode/src/other.ts", source)).toEqual({
+  expect(removeKiloWeb("packages/cli/src/other.ts", source)).toEqual({
     result: source,
     removals: 0,
     review: false,

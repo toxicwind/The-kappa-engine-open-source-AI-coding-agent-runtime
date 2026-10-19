@@ -30,7 +30,7 @@ const USAGE = { inputTokens: { total: 12 }, outputTokens: { total: 8 } }
 function view(over: Partial<MemoryPorts.TurnView> = {}): MemoryPorts.TurnView {
   return {
     user: "what commands are needed for this repo setup?",
-    assistant: "Use bun install, then bun test ./test from packages/opencode.",
+    assistant: "Use bun install, then bun test ./test from packages/cli.",
     recent: "User: setup?\n\nAssistant: bun install then bun test.",
     lastAssistantID: "msg_assistant",
     sessionModel: { providerID: "test", modelID: "fake-memory-model" },
@@ -102,7 +102,7 @@ describe("MemoryCapture (fake ports)", () => {
         model: model({
           digest: '{"topic":"repo setup","summary":"Explored repo setup commands. Next step: verify memory tests."}',
           typed:
-            '{"operations":[{"op":"upsert_environment_fact","section":"Commands","key":"cli_memory_tests","value":"Run bun test ./test from packages/opencode."}],"skipped":[]}',
+            '{"operations":[{"op":"upsert_environment_fact","section":"Commands","key":"cli_memory_tests","value":"Run bun test ./test from packages/cli."}],"skipped":[]}',
         }),
       })
 

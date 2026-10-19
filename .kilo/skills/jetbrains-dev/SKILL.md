@@ -30,10 +30,10 @@ For a one-shot pin/unpin/regen that also cleans every leftover CLI binary and bu
 
 | Ask | Do |
 |---|---|
-| Unpin / use local repo CLI | Set `kilo.cli.pinned=false`, then run `./gradlew :backend:buildRepoCli` from `packages/kilo-jetbrains/`. `:backend:stageRepoCli` bundles `packages/opencode/dist/@kilocode/cli-<os>-<arch>/bin/`; runtime extracts it instead of downloading. |
+| Unpin / use local repo CLI | Set `kilo.cli.pinned=false`, then run `./gradlew :backend:buildRepoCli` from `packages/kilo-jetbrains/`. `:backend:stageRepoCli` bundles `packages/cli/dist/@kilocode/cli-<os>-<arch>/bin/`; runtime extracts it instead of downloading. |
 | Re-pin / use release CLI | Set `kilo.cli.pinned=true`. This is the default and the only releasable state. |
 
-`kilo.cli.pinned=false` is dev-only: OpenAPI generation runs from local `packages/opencode/` source and the local binary is bundled. Production Gradle builds, `script/build-version.sh`, and the release scripts hard-fail on `false`, so restore `true` before releasing.
+`kilo.cli.pinned=false` is dev-only: OpenAPI generation runs from local `packages/cli/` source and the local binary is bundled. Production Gradle builds, `script/build-version.sh`, and the release scripts hard-fail on `false`, so restore `true` before releasing.
 
 **Pinned CLI version** (`packages/kilo-jetbrains/package.json` `version`) controls which GitHub CLI release the plugin downloads and generates the client from. The JetBrains release locks the value already merged to `origin/main`. Checking or bumping the pin (`check-pin.ts` / `set-pin.ts`) is part of the `/release-jetbrains` command flow — see `.kilo/command/release-jetbrains.md` for the full process (resolve version, pin verification, prepare, changelog, publish).
 
@@ -60,7 +60,7 @@ CLI releases also attempt a pin bump PR automatically after publishing and label
 - **Marketplace version build**: Use `script/build-version.sh <version>` from `packages/kilo-jetbrains/` to clean, build, sign, and verify the JetBrains Marketplace plugin ZIP. Pass `--skip-verification` only when explicitly needed.
 - **Test version build**: If the user asks for a JetBrains test build, still require a version and use `script/build-version.sh <version> --skip-signing --skip-verification` from `packages/kilo-jetbrains/` so no signing secrets are needed. Add `--skip-clean` only when the user wants a faster incremental test build.
 - **Typecheck**: `bun run typecheck` or `./gradlew typecheck` from `packages/kilo-jetbrains/` — compiles all Kotlin sources including the generated API client. A cold pinned build downloads the pinned CLI release via `generateOpenApiSpec` and needs network access; Gradle-cached incremental runs skip the download. Repo CLI mode (`-Pkilo.cli.pinned=false`) generates the spec from local source and bundles the staged local CLI binary.
-- **Build local repo CLI for JetBrains dev**: `./gradlew :backend:buildRepoCli` from `packages/kilo-jetbrains/` builds `packages/opencode/dist/@kilocode/cli-<os>-<arch>/bin/`. `stageRepoCli` intentionally does not depend on this task; missing binaries fail with instructions instead of silently starting a slow CLI build.
+- **Build local repo CLI for JetBrains dev**: `./gradlew :backend:buildRepoCli` from `packages/kilo-jetbrains/` builds `packages/cli/dist/@kilocode/cli-<os>-<arch>/bin/`. `stageRepoCli` intentionally does not depend on this task; missing binaries fail with instructions instead of silently starting a slow CLI build.
 - **Full build**: `bun run build` from `packages/kilo-jetbrains/` (runs Gradle `buildPlugin`).
 - **Gradle only**: `./gradlew buildPlugin` from `packages/kilo-jetbrains/`.
 - **Java checks**: Do not run `java -version` as a routine preflight. Gradle commands already fail clearly when Java is missing or incompatible; check Java only when diagnosing that failure mode.
@@ -80,5 +80,5 @@ Do not start a second `runIde*` task for a checkout while a sandbox IDE launched
 
 ### CLI/SDK Change Awareness
 
-- JetBrains runtime behavior normally depends on the downloaded CLI release pinned by `packages/kilo-jetbrains/package.json`; local `packages/opencode/` changes are used only with `kilo.cli.pinned=false` repo CLI mode.
+- JetBrains runtime behavior normally depends on the downloaded CLI release pinned by `packages/kilo-jetbrains/package.json`; local `packages/cli/` changes are used only with `kilo.cli.pinned=false` repo CLI mode.
 - If there are relevant server/API changes outside `packages/kilo-jetbrains/`, warn the user that JetBrains may need a newly published/pinned CLI release and regenerated SDK artifacts.

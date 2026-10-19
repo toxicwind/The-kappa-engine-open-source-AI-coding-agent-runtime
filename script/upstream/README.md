@@ -151,7 +151,7 @@ Configuration is defined in `utils/config.ts`:
 
   // Kilo-specific directories (preserved)
   kiloDirectories: [
-    "packages/opencode/src/kilocode",
+    "packages/cli/src/kilocode",
     "packages/kappa-gateway",
     "packages/kappa-telemetry",
     // ...
@@ -318,7 +318,7 @@ Line counting uses an in-process multiset diff (pure JS, no subprocess) for spee
 
 `markers-only`, `cosmetic-only`, and `small-diff` buckets are auto-reset unless `--dry-run` is passed. A markdown summary is printed to stdout so you can review what happened and spot-check the resulting `git diff`. All resets land as uncommitted working-tree changes; `git diff` / `git checkout` is your safety net.
 
-Tighten the blast radius with `--review-limit 0` (only `markers-only` and `cosmetic-only`) or by scoping with a `path` argument (e.g. `packages/opencode/src/mcp`).
+Tighten the blast radius with `--review-limit 0` (only `markers-only` and `cosmetic-only`) or by scoping with a `path` argument (e.g. `packages/cli/src/mcp`).
 
 ## Using Custom Base Branches
 

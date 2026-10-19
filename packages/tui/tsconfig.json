@@ -8,10 +8,10 @@
     "noUncheckedIndexedAccess": false,
     // kappacode_change - resolve Kappa integrations retained during upstream's standalone TUI extraction
     "paths": {
-      "@/*": ["../opencode/src/*"],
+      "@/*": ["../cli/src/*"],
       "@tui/*": ["./src/*"]
     }
   },
   // kappacode_change - include ambient declarations used by retained Kappa imports from opencode
-  "include": ["src", "test", "../opencode/src/*.d.ts"]
+  "include": ["src", "test", "../cli/src/*.d.ts"]
 }

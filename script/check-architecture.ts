@@ -8,9 +8,9 @@
  *
  * Rules checked:
  * 1. core-directionality: packages/core, packages/llm, and packages/schema must
- *    never import from packages/opencode (@/*), @kappacode/cli, or packages/kappa-vscode.
+ *    never import from packages/cli (@/*), @kappacode/cli, or packages/kappa-vscode.
  * 2. kappa-instance-state: No unclassified InstanceState.make singletons in Kilo-owned code
- *    (packages/opencode/src/kilocode, packages/opencode/src/kappa-sessions, packages/kappa-*).
+ *    (packages/cli/src/kilocode, packages/cli/src/kappa-sessions, packages/kappa-*).
  * 3. kappa-database-constructors: Direct SQLite instantiation (new Database / new DatabaseSync)
  *    in Kilo-owned code is restricted to allowed exceptions.
  * 4. kappa-tool-process-env: Direct process.env reads in Kilo tools must be classified.
@@ -44,7 +44,7 @@ function isKiloOwned(filePath: string): boolean {
 const DOMAIN_SCOPES = ["packages/core/src", "packages/llm/src", "packages/schema/src"]
 const FORBIDDEN_IMPORT_PATTERNS = [
   { pattern: /from\s+["']@\/.*["']/, reason: "internal opencode alias (@/*) in domain package" },
-  { pattern: /from\s+["'].*packages\/opencode.*["']/, reason: "direct packages/opencode import in domain package" },
+  { pattern: /from\s+["'].*packages\/opencode.*["']/, reason: "direct packages/cli import in domain package" },
   { pattern: /from\s+["']@kappacode\/cli(?:[\/].*)?["']/, reason: "@kappacode/cli package import in domain package" },
   { pattern: /from\s+["'].*packages\/kappa-vscode.*["']/, reason: "packages/kappa-vscode import in domain package" },
 ]
@@ -169,7 +169,7 @@ for (const file of Object.keys(allowedDb)) {
 const allowedToolEnv: Record<string, { count: number; owner: string; reason: string }> =
   allowlist.rules["kappa-tool-process-env"]?.allowed ?? {}
 
-const toolGlob = new Bun.Glob("packages/opencode/src/tool/**/*.ts")
+const toolGlob = new Bun.Glob("packages/cli/src/tool/**/*.ts")
 const toolEnvHits = new Map<string, number>()
 
 for (const file of toolGlob.scanSync({ cwd: ROOT, onlyFiles: true })) {
@@ -213,7 +213,7 @@ for (const file of Object.keys(allowedToolEnv)) {
 // Rule 5: HttpApi Handler Boundaries (No raw OS operations in Kilo handlers)
 // ---------------------------------------------------------------------------
 
-const handlerGlob = new Bun.Glob("packages/opencode/src/**/httpapi/handlers/**/*.ts")
+const handlerGlob = new Bun.Glob("packages/cli/src/**/httpapi/handlers/**/*.ts")
 for (const file of handlerGlob.scanSync({ cwd: ROOT, onlyFiles: true })) {
   const normPath = file.replaceAll("\\", "/")
   if (!isKiloOwned(normPath)) continue

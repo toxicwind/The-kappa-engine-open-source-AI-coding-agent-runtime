@@ -23,7 +23,7 @@ abstract class StageRepoCliTask : DefaultTask() {
         if (!exe.isFile) {
             throw GradleException(
                 "Repo CLI binary not found at ${exe.absolutePath}. Run ./gradlew :backend:buildRepoCli " +
-                    "(or bun run script/build.ts --single --skip-install in packages/opencode) first."
+                    "(or bun run script/build.ts --single --skip-install in packages/cli) first."
             )
         }
 

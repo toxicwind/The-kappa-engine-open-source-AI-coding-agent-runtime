@@ -28,7 +28,7 @@
 
               : "''${KILO_ROOT:?KILO_ROOT is not set. Enter the flake dev shell from the repo root.}"
               export KILO_DEV_CWD="$PWD"
-              exec ${bun}/bin/bun --cwd "$KILO_ROOT/packages/opencode" --conditions=browser ./src/index.ts "$@"
+              exec ${bun}/bin/bun --cwd "$KILO_ROOT/packages/cli" --conditions=browser ./src/index.ts "$@"
             '';
 
             kilo-install-bin = pkgs.writeShellScriptBin "kilo-install" ''

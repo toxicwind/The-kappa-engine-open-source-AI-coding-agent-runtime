@@ -10,7 +10,7 @@ Maintainers can use the Kappa `/release-jetbrains` command to drive this process
 
 JetBrains plugin builds and runtime downloads use the Kappa Core version pinned in `packages/kappa-jetbrains/package.json`, so verify that pin points at a published `v<version>` release before creating the release tag.
 
-`kappa.cli.pinned=false` in `packages/kappa-jetbrains/gradle.properties` is local development mode only. It generates the client from `packages/opencode/` and bundles a locally built CLI into the plugin; production Gradle builds and release scripts fail until the property is restored to `true`.
+`kappa.cli.pinned=false` in `packages/kappa-jetbrains/gradle.properties` is local development mode only. It generates the client from `packages/cli/` and bundles a locally built CLI into the plugin; production Gradle builds and release scripts fail until the property is restored to `true`.
 
 The command lives at `.kappa/command/release-jetbrains.md` and reuses helper scripts at `.kappa/skills/release-jetbrains/script/`. It does not move or recreate release tags, and merge permission is only required if the user explicitly asks it to merge the release PR automatically.
 

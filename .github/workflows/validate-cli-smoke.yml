@@ -54,7 +54,7 @@ jobs:
       - uses: ./.github/actions/setup-bun
 
       - name: Build CLI for this host
-        working-directory: packages/opencode
+        working-directory: packages/cli
         run: bun run script/build.ts --single --skip-install
         env:
           KILO_VERSION: 0.0.0-smoke
@@ -62,7 +62,7 @@ jobs:
 
       - name: Run compiled PTY smoke
         if: runner.os != 'Windows'
-        working-directory: packages/opencode
+        working-directory: packages/cli
         run: |
           binary="./dist/${{ matrix.package }}/bin/kilo"
           "$binary" --version
@@ -84,7 +84,7 @@ jobs:
 
       - name: Run compiled PTY smoke (Windows)
         if: runner.os == 'Windows'
-        working-directory: packages/opencode
+        working-directory: packages/cli
         shell: pwsh
         run: |
           $package = "${{ matrix.package }}".Replace("/", "\")

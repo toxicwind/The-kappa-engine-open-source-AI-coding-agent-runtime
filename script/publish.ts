@@ -91,7 +91,7 @@ if (Script.release) {
 }
 
 console.log("\n=== cli ===\n")
-await import(`../packages/opencode/script/publish.ts`)
+await import(`../packages/cli/script/publish.ts`)
 
 // kilocode_change - Kilo does not ship the upstream preview CLI package
 

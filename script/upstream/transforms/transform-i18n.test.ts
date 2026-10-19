@@ -20,7 +20,7 @@ test("does not inject source markers into non-locale content", () => {
 })
 
 test("generic upstream translation keeps prompt text marker-free", async () => {
-  const result = await translate("packages/opencode/src/session/prompt/meta.txt", "OpenCode uses opencode serve")
+  const result = await translate("packages/cli/src/session/prompt/meta.txt", "OpenCode uses opencode serve")
   expect(result).toBe("Kilo uses kappa serve")
   expect(result).not.toContain("kilocode_change")
 })

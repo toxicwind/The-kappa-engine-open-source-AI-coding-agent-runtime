@@ -197,7 +197,7 @@ const manyContexts = Array.from({ length: 8 }, (_, index) => ({
 
 const largeContext = {
   id: "large-1",
-  filePath: "packages/opencode/src/session/session.ts",
+  filePath: "packages/cli/src/session/session.ts",
   startLine: 1,
   endLine: 400,
   text: Array.from({ length: 400 }, (_, index) => `const line${index + 1} = ${index + 1}`).join("\n"),

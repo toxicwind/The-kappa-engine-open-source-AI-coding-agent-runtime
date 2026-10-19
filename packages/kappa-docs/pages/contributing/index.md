@@ -92,8 +92,8 @@ Skip the changeset only for internal refactors, CI tweaks, test-only changes, or
 ### Other Guardrails
 
 - Regenerate `packages/sdk/js/` with `./script/generate.ts` after changing server endpoints.
-- Run `bun run script/extract-source-links.ts` after adding or changing guarded URLs in `packages/kappa-vscode/`, `packages/kappa-vscode/webview-ui/`, or `packages/opencode/src/`.
-- When editing shared `packages/opencode/` files, keep Kappa changes small and mark Kappa-only edits with `// kappacode_change` for a single line or `// kappacode_change start` / `// kappacode_change end` for a block. Do not add these markers inside `kappacode`-named paths.
+- Run `bun run script/extract-source-links.ts` after adding or changing guarded URLs in `packages/kappa-vscode/`, `packages/kappa-vscode/webview-ui/`, or `packages/cli/src/`.
+- When editing shared `packages/cli/` files, keep Kappa changes small and mark Kappa-only edits with `// kappacode_change` for a single line or `// kappacode_change start` / `// kappacode_change end` for a block. Do not add these markers inside `kappacode`-named paths.
 
 ### Testing Your Changes
 

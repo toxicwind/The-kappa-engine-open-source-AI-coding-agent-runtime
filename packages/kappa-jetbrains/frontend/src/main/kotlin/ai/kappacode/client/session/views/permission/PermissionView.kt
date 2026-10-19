@@ -313,7 +313,7 @@ class PermissionView(
     // Escape control chars (CR/LF/ESC/etc.) and bidi/format characters so a skill command can't
     // repaint the prompt or use Trojan-Source reordering to make the displayed text differ from
     // what executes; newlines become a visible marker. Mirrors displayCommand in the CLI
-    // (packages/opencode/src/kappacode/skills/display.ts); keep the ranges in sync.
+    // (packages/cli/src/kappacode/skills/display.ts); keep the ranges in sync.
     private fun escapeControl(command: String): String = buildString {
         for (ch in command) {
             val code = ch.code

@@ -13,5 +13,5 @@ test("keeps explicitly configured files", () => {
 })
 
 test("does not keep unrelated files", () => {
-  expect(shouldKeepOurs("packages/opencode/src/index.ts", [])).toBe(false)
+  expect(shouldKeepOurs("packages/cli/src/index.ts", [])).toBe(false)
 })

@@ -349,10 +349,10 @@ describe("memory core package", () => {
       await Memory.apply({
         root: t.root,
         ops: [
-          { action: "add", key: "repo_tests", text: "Run CLI memory tests from packages/opencode." },
-          { action: "add", key: "repo_tests_copy", text: "Run CLI memory tests from packages/opencode." },
+          { action: "add", key: "repo_tests", text: "Run CLI memory tests from packages/cli." },
+          { action: "add", key: "repo_tests_copy", text: "Run CLI memory tests from packages/cli." },
           { action: "remove", query: "repo_tests" },
-          { action: "add", key: "repo_tests", text: "Run CLI memory tests from packages/opencode." },
+          { action: "add", key: "repo_tests", text: "Run CLI memory tests from packages/cli." },
         ],
       })
       // A secret-like op is skipped (recorded), not thrown, so the sibling clean op still applies.
@@ -562,7 +562,7 @@ describe("memory core package", () => {
         file: "environment.md",
         section: "Commands",
         key: "cli_tests",
-        text: "Run CLI tests from packages/opencode with bun test.",
+        text: "Run CLI tests from packages/cli with bun test.",
       })
 
       const result = await Memory.recall({ root: t.root, query: "what command runs cli tests?" })
@@ -640,16 +640,16 @@ describe("memory core package", () => {
       await Memory.remember({
         root: t.root,
         key: "memory_tests",
-        text: "Run memory tests from packages/opencode with bun test ./test/kappacode/memory.",
+        text: "Run memory tests from packages/cli with bun test ./test/kappacode/memory.",
       })
       await Memory.recordSession({
         root: t.root,
         sessionID: "ses_memory_tests",
-        summary: "Discussed running memory tests from packages/opencode.",
+        summary: "Discussed running memory tests from packages/cli.",
         time: Date.UTC(2026, 0, 1),
       })
 
-      const result = await MemoryRecall.search({ root: t.root, query: "memory tests packages/opencode", limit: 5 })
+      const result = await MemoryRecall.search({ root: t.root, query: "memory tests packages/cli", limit: 5 })
 
       expect(result?.block).toContain("memory_tests")
       expect(result?.block).not.toContain("ses_memory_tests")
@@ -755,7 +755,7 @@ describe("memory core package", () => {
       await Memory.apply({
         root: t.root,
         ops: [
-          { action: "add", key: "pruebas_cli", text: "Ejecuta las pruebas CLI desde packages/opencode." },
+          { action: "add", key: "pruebas_cli", text: "Ejecuta las pruebas CLI desde packages/cli." },
           { action: "add", key: "memoire", text: "Les corrections de mémoire restent dans corrections.md." },
           { action: "add", key: "設定", text: "日本語の設定は packages/kappa-vscode に保存します。" },
         ],

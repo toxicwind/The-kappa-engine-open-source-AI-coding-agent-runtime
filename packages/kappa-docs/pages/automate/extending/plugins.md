@@ -602,7 +602,7 @@ The hook receives the `sessionID`, `agent`, `model`, `provider`, compacted `mess
 
 Plugins can also target the Kappa TUI itself — registering slash commands, routes, slots, dialogs, and keybinds. TUI plugins are SolidJS modules exported from `"./tui"` in your plugin package, or theme-only packages declared with `oc-themes`.
 
-TUI plugins live in a separate module namespace (`@kappacode/plugin/tui`) and have their own API surface (`TuiPluginApi`). Because the TUI API is larger and still evolving, this guide doesn't cover it exhaustively — use the types in `@kappacode/plugin/tui` as the reference, and look at the built-in TUI plugins under `packages/opencode/src/cli/cmd/tui/feature-plugins/` for working examples.
+TUI plugins live in a separate module namespace (`@kappacode/plugin/tui`) and have their own API surface (`TuiPluginApi`). Because the TUI API is larger and still evolving, this guide doesn't cover it exhaustively — use the types in `@kappacode/plugin/tui` as the reference, and look at the built-in TUI plugins under `packages/cli/src/cli/cmd/tui/feature-plugins/` for working examples.
 
 Common TUI APIs include:
 

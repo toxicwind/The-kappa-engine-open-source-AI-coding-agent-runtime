@@ -7,7 +7,7 @@ import path from "node:path"
 const SOURCE_EXTS = new Set([".ts", ".tsx", ".js", ".jsx", ".yml", ".yaml", ".toml", ".sh", ".bash", ".zsh"])
 const FILES = new Map<string, string>()
 const SCOPES = [
-  "packages/opencode",
+  "packages/cli",
   "packages/extensions",
   "packages/ui",
   "packages/shared",
@@ -98,9 +98,9 @@ function exec(root: string, args: string[]) {
 function repo() {
   const root = mkdtempSync(path.join(os.tmpdir(), "kappa-annotations-"))
   mkdirSync(path.join(root, "script"), { recursive: true })
-  mkdirSync(path.join(root, "packages/opencode/src"), { recursive: true })
+  mkdirSync(path.join(root, "packages/cli/src"), { recursive: true })
   copyFileSync(SCRIPT, path.join(root, "script/check-opencode-annotations.ts"))
-  writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 1\n")
+  writeFileSync(path.join(root, "packages/cli/src/shared.ts"), "export const value = 1\n")
   exec(root, ["init"])
   exec(root, ["checkout", "-B", "main"])
   exec(root, ["add", "."])
@@ -122,7 +122,7 @@ describe("CLI worktree mode", () => {
   test("default mode ignores local edits, worktree mode reports them", () => {
     const root = repo()
     try {
-      writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 2\n")
+      writeFileSync(path.join(root, "packages/cli/src/shared.ts"), "export const value = 2\n")
 
       const head = check(root)
       expect(head.status).toBe(0)
@@ -130,7 +130,7 @@ describe("CLI worktree mode", () => {
 
       const local = check(root, ["--worktree"])
       expect(local.status).toBe(1)
-      expect(local.stderr).toContain("packages/opencode/src/shared.ts:1")
+      expect(local.stderr).toContain("packages/cli/src/shared.ts:1")
       expect(local.stderr).toContain("export const value = 2")
     } finally {
       rmSync(root, { recursive: true, force: true })
@@ -140,11 +140,11 @@ describe("CLI worktree mode", () => {
   test("worktree mode reports untracked shared source files", () => {
     const root = repo()
     try {
-      writeFileSync(path.join(root, "packages/opencode/src/new.ts"), "export const value = 1\n")
+      writeFileSync(path.join(root, "packages/cli/src/new.ts"), "export const value = 1\n")
 
       const local = check(root, ["--worktree"])
       expect(local.status).toBe(1)
-      expect(local.stderr).toContain("packages/opencode/src/new.ts:1")
+      expect(local.stderr).toContain("packages/cli/src/new.ts:1")
       expect(local.stderr).toContain("export const value = 1")
     } finally {
       rmSync(root, { recursive: true, force: true })
@@ -154,12 +154,12 @@ describe("CLI worktree mode", () => {
   test("worktree mode reports staged shared source edits", () => {
     const root = repo()
     try {
-      writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 4\n")
-      exec(root, ["add", "packages/opencode/src/shared.ts"])
+      writeFileSync(path.join(root, "packages/cli/src/shared.ts"), "export const value = 4\n")
+      exec(root, ["add", "packages/cli/src/shared.ts"])
 
       const local = check(root, ["--worktree"])
       expect(local.status).toBe(1)
-      expect(local.stderr).toContain("packages/opencode/src/shared.ts:1")
+      expect(local.stderr).toContain("packages/cli/src/shared.ts:1")
       expect(local.stderr).toContain("export const value = 4")
     } finally {
       rmSync(root, { recursive: true, force: true })
@@ -170,7 +170,7 @@ describe("CLI worktree mode", () => {
     const root = repo()
     try {
       exec(root, ["checkout", "-B", "upstream"])
-      writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 2\n")
+      writeFileSync(path.join(root, "packages/cli/src/shared.ts"), "export const value = 2\n")
       exec(root, ["add", "."])
       exec(root, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "-m", "upstream"])
       exec(root, ["checkout", "main"])
@@ -184,11 +184,11 @@ describe("CLI worktree mode", () => {
       expect(upstream.status).toBe(0)
       expect(upstream.stdout).toContain("No shared upstream source files changed")
 
-      writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 3\n")
+      writeFileSync(path.join(root, "packages/cli/src/shared.ts"), "export const value = 3\n")
 
       const local = check(root, ["--worktree"])
       expect(local.status).toBe(1)
-      expect(local.stderr).toContain("packages/opencode/src/shared.ts:1")
+      expect(local.stderr).toContain("packages/cli/src/shared.ts:1")
       expect(local.stderr).toContain("export const value = 3")
     } finally {
       rmSync(root, { recursive: true, force: true })
@@ -199,7 +199,7 @@ describe("CLI worktree mode", () => {
     const root = repo()
     try {
       exec(root, ["checkout", "-B", "merge-author/opencode-v1.18.15"])
-      writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 2\n")
+      writeFileSync(path.join(root, "packages/cli/src/shared.ts"), "export const value = 2\n")
       exec(root, ["add", "."])
       exec(root, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "-m", "upstream"])
       exec(root, ["checkout", "main"])
@@ -223,7 +223,7 @@ describe("CLI worktree mode", () => {
     const root = repo()
     try {
       exec(root, ["checkout", "-B", "update"])
-      writeFileSync(path.join(root, "packages/opencode/src/shared.ts"), "export const value = 2\n")
+      writeFileSync(path.join(root, "packages/cli/src/shared.ts"), "export const value = 2\n")
       exec(root, ["add", "."])
       exec(root, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "-m", "update"])
       exec(root, ["checkout", "main"])
@@ -237,7 +237,7 @@ describe("CLI worktree mode", () => {
 
       const out = check(root)
       expect(out.status).toBe(1)
-      expect(out.stderr).toContain("packages/opencode/src/shared.ts:1")
+      expect(out.stderr).toContain("packages/cli/src/shared.ts:1")
     } finally {
       rmSync(root, { recursive: true, force: true })
     }
@@ -272,14 +272,14 @@ describe("CLI default mode", () => {
   test("judges the committed revision, never a worktree dirty with the round's edits", () => {
     const root = repo()
     try {
-      const file = path.join(root, "packages/opencode/src/shared.ts")
+      const file = path.join(root, "packages/cli/src/shared.ts")
       // A committed Kappa change: two marked lines inserted above the upstream
       // body. Both added lines are covered in HEAD.
       writeFileSync(
         file,
         "const kilo1 = 1 // kappacode_change\nconst kilo2 = 2 // kappacode_change\nexport const value = 1\n",
       )
-      exec(root, ["add", "packages/opencode/src/shared.ts"])
+      exec(root, ["add", "packages/cli/src/shared.ts"])
       exec(root, ["-c", "user.name=Kappa", "-c", "user.email=kappa@example.com", "commit", "-m", "kappa change"])
       // The round's own edits are still uncommitted: one marked line is gone, so
       // the committed line numbers no longer point at the committed lines. A
@@ -394,11 +394,11 @@ describe("hasMarker", () => {
 describe("isExempt", () => {
   const cases: Array<[string, boolean]> = [
     // exempt — "kappacode" in path
-    ["packages/opencode/src/kappacode/foo.ts", true],
-    ["packages/opencode/test/kappacode/bar.test.ts", true],
-    ["packages/opencode/src/some/kappacode/deep/path.ts", true],
-    ["packages/opencode/src/kappacode/deep/nested/file.tsx", true],
-    ["packages/opencode/src/kappa-sessions/session.ts", true],
+    ["packages/cli/src/kappacode/foo.ts", true],
+    ["packages/cli/test/kappacode/bar.test.ts", true],
+    ["packages/cli/src/some/kappacode/deep/path.ts", true],
+    ["packages/cli/src/kappacode/deep/nested/file.tsx", true],
+    ["packages/cli/src/kappa-sessions/session.ts", true],
     ["packages/kappa-ui/src/components/icon.tsx", true],
     ["packages/kappa-vscode/src/extension.ts", true],
     ["script/upstream/merge.ts", true],
@@ -406,26 +406,26 @@ describe("isExempt", () => {
     ["packages/script/tests/check-opencode-annotations.test.ts", true],
     [".github/workflows/check-opencode-annotations.yml", true],
     // exempt — "kappacode" in filename
-    ["packages/opencode/src/foo/kappacode.ts", true],
-    ["packages/opencode/src/bar/kappacode.test.ts", true],
-    ["packages/opencode/src/file.kappacode.ts", true],
+    ["packages/cli/src/foo/kappacode.ts", true],
+    ["packages/cli/src/bar/kappacode.test.ts", true],
+    ["packages/cli/src/file.kappacode.ts", true],
     // exempt — case-insensitive
-    ["packages/opencode/src/KappaCode/foo.ts", true],
-    ["packages/opencode/src/KAPPACODE/bar.ts", true],
+    ["packages/cli/src/KappaCode/foo.ts", true],
+    ["packages/cli/src/KAPPACODE/bar.ts", true],
     // NOT exempt
-    ["packages/opencode/src/index.ts", false],
-    ["packages/opencode/src/cli/cmd/tui/routes/home.tsx", false],
-    ["packages/opencode/src/cli/cmd/tui/routes/session/index.tsx", false],
-    ["packages/opencode/src/tool/registry.ts", false],
-    ["packages/opencode/src/config/config.ts", false],
-    ["packages/opencode/src/indexing/search-service.ts", false],
+    ["packages/cli/src/index.ts", false],
+    ["packages/cli/src/cli/cmd/tui/routes/home.tsx", false],
+    ["packages/cli/src/cli/cmd/tui/routes/session/index.tsx", false],
+    ["packages/cli/src/tool/registry.ts", false],
+    ["packages/cli/src/config/config.ts", false],
+    ["packages/cli/src/indexing/search-service.ts", false],
     ["packages/ui/src/components/icon.tsx", false],
     ["packages/extensions/zed/extension.toml", false],
     ["github/script/release", false],
     ["github/script/publish", false],
     ["script/changelog.ts", false],
     // kappacode_change is not the same as kappacode
-    ["packages/opencode/src/check-opencode-annotations.ts", false],
+    ["packages/cli/src/check-opencode-annotations.ts", false],
   ]
 
   test.each(cases)("%j → exempt=%j", (file, expected) => {
@@ -435,7 +435,7 @@ describe("isExempt", () => {
 
 describe("isChecked", () => {
   const cases: Array<[string, boolean]> = [
-    ["packages/opencode/src/index.ts", true],
+    ["packages/cli/src/index.ts", true],
     ["packages/ui/src/components/icon.tsx", true],
     ["sdks/vscode/src/extension.ts", false],
     ["packages/extensions/zed/extension.toml", true],
@@ -1101,7 +1101,7 @@ describe("checkLine — additional patterns", () => {
   }
 
   test("real-world dialog-status.tsx pattern — multiple inline blocks", () => {
-    // Based on actual file: packages/opencode/src/cli/cmd/tui/component/dialog-status.tsx
+    // Based on actual file: packages/cli/src/cli/cmd/tui/component/dialog-status.tsx
     const text = [
       "{/* kappacode_change start */}",
       "<KappaDialog>",

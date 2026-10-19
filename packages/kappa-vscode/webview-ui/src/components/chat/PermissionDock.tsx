@@ -28,7 +28,7 @@ import {
 import { PermissionCommand } from "./PermissionCommand"
 import { PermissionDiff } from "./PermissionDiff"
 import { permissionDiffs } from "./permission-diff-utils"
-import { normalizeUrls } from "../../../../../opencode/src/kappacode/util/url"
+import { normalizeUrls } from "../../../../../cli/src/kappacode/util/url"
 import type { PermissionRequest } from "../../types/messages"
 import { isEnterKeyCommitNotIme } from "../../utils/ime-enter"
 

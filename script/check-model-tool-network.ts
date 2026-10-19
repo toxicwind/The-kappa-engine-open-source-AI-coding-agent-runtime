@@ -9,7 +9,7 @@
 // outside the scanned directories. Runtime enforcement remains in @kappacode/sandbox.
 
 import path from "node:path"
-import { host, opaque } from "../packages/opencode/src/kilocode/sandbox/network-tools"
+import { host, opaque } from "../packages/cli/src/kilocode/sandbox/network-tools"
 
 const root = path.resolve(import.meta.dir, "..")
 const source = path.join(root, "packages", "opencode", "src")
@@ -80,7 +80,7 @@ const clients = [...allow.entries()].flatMap(([key, entry]) => {
   const name = key.slice(split + 1)
   const count = hits.filter((hit) => hit.file === file && hit.name === name).length
   if (count === entry.count) return []
-  return [`  packages/opencode/src/${file}: expected ${entry.count} ${name} site(s), found ${count} (${entry.reason})`]
+  return [`  packages/cli/src/${file}: expected ${entry.count} ${name} site(s), found ${count} (${entry.reason})`]
 })
 const tools = (
   await Promise.all(
@@ -88,7 +88,7 @@ const tools = (
       const text = await Bun.file(path.join(source, item.file)).text()
       const id = item.id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
       if (new RegExp(`Tool\\.define(?:<[\\s\\S]{0,500}?>)?\\(\\s*["']${id}["']`).test(text)) return []
-      return [`  packages/opencode/src/${item.file}: opaque classification must match Tool.define("${item.id}")`]
+      return [`  packages/cli/src/${item.file}: opaque classification must match Tool.define("${item.id}")`]
     }),
   )
 ).flat()
@@ -132,7 +132,7 @@ const structure = [
 if (invalid.length > 0 || drift.length > 0 || structure.length > 0) {
   if (invalid.length > 0) {
     console.error("Found model-tool network clients that bypass the sandbox capability:")
-    for (const hit of invalid) console.error(`  packages/opencode/src/${hit.file}:${hit.line} (${hit.name})`)
+    for (const hit of invalid) console.error(`  packages/cli/src/${hit.file}:${hit.line} (${hit.name})`)
     console.error("")
   }
   if (drift.length > 0) {

@@ -11,7 +11,7 @@ const cache = join(root, "node_modules", ".cache", "sdk-build.json")
 const inputs = [
   "package.json",
   "bun.lock",
-  "packages/opencode",
+  "packages/cli",
   "packages/core",
   "packages/effect-drizzle-sqlite",
   "packages/effect-sqlite-node",

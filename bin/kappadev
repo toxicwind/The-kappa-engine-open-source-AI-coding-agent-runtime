@@ -15,6 +15,6 @@ for a in "$@"; do
   esac
 done
 if [[ -z "$first" ]]; then
-  exec bun run --cwd "$dir/packages/opencode" --conditions=browser src/index.ts --project "$PWD" "$@"
+  exec bun run --cwd "$dir/packages/cli" --conditions=browser src/index.ts --project "$PWD" "$@"
 fi
-exec bun run --cwd "$dir/packages/opencode" --conditions=browser src/index.ts "$@"
+exec bun run --cwd "$dir/packages/cli" --conditions=browser src/index.ts "$@"

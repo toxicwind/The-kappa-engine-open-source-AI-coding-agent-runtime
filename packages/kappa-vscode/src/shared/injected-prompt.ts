@@ -5,7 +5,7 @@ import { PUSH_INSTRUCTION, record } from "./review-comments"
  * as worktree updates or expanded slash-command templates. Stored in
  * `TextPart.metadata.kappa.injected` so it persists with the message. The
  * server stamps the same shape for slash commands in
- * `packages/opencode/src/kappacode/session/processor.ts`.
+ * `packages/cli/src/kappacode/session/processor.ts`.
  */
 export interface InjectedPrompt {
   /** Short label shown in the message header, e.g. "Update from base". */

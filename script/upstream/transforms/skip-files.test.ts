@@ -29,11 +29,11 @@ test("matches upstream-only translation automation", () => {
 })
 
 test("matches the unsupported Kilo web command", () => {
-  expect(shouldSkip("packages/opencode/src/cli/cmd/web.ts", defaultConfig.skipFiles)).toBe(true)
+  expect(shouldSkip("packages/cli/src/cli/cmd/web.ts", defaultConfig.skipFiles)).toBe(true)
 })
 
 test("transforms the Muse Spark prompt for Kilo branding", () => {
-  expect(defaultConfig.takeTheirsAndTransform).toContain("packages/opencode/src/session/prompt/meta.txt")
+  expect(defaultConfig.takeTheirsAndTransform).toContain("packages/cli/src/session/prompt/meta.txt")
 })
 
 test("matches removed vscode sdk glob paths", () => {

@@ -27,7 +27,7 @@ export interface PreserveOptions {
  * Get the current Kilo version from the main package.json
  */
 export async function getCurrentVersion(): Promise<string> {
-  const pkg = await Bun.file("packages/opencode/package.json").json()
+  const pkg = await Bun.file("packages/cli/package.json").json()
   return pkg.version
 }
 

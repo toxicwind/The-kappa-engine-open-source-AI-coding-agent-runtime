@@ -56,7 +56,7 @@ const VSCODE = path.join(REPO, "packages/kappa-vscode")
 const WEBVIEW_ROOTS = [
   VSCODE,
   path.join(REPO, "packages/kappa-ui"),
-  path.join(REPO, "packages/opencode"),
+  path.join(REPO, "packages/cli"),
   path.join(REPO, "packages/kappa-gateway"),
 ]
 

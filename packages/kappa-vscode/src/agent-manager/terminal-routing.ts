@@ -258,7 +258,7 @@ export class TerminalRouter {
    * Build the WebSocket URL for a given PTY.
    *
    * Uses the `?auth_token=` query param the server already understands
-   * (`packages/opencode/src/server/middleware.ts:48`): base64-encoded
+   * (`packages/cli/src/server/middleware.ts:48`): base64-encoded
    * `username:password`. Browsers cannot set HTTP headers on
    * `new WebSocket(...)`, so query-param auth is the only option. Safe
    * because the server binds loopback-only and the password rotates on

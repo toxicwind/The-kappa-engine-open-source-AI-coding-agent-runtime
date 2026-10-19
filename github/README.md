@@ -133,6 +133,6 @@ If you encounter issues or have feedback, please create an issue at https://gith
 
 ## Development
 
-This directory contains the composite GitHub Action definition. The actual implementation is in the Kilo CLI (`packages/opencode/src/cli/cmd/github.ts`).
+This directory contains the composite GitHub Action definition. The actual implementation is in the Kilo CLI (`packages/cli/src/cli/cmd/github.ts`).
 
 To test locally, see the main [AGENTS.md](../AGENTS.md) for development instructions.

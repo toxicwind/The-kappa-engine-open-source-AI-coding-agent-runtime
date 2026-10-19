@@ -137,7 +137,7 @@ updates:
           - "minor"
           - "patch"
 
-# Deliberately not covered: docker (packages/opencode/Dockerfile) and
+# Deliberately not covered: docker (packages/cli/Dockerfile) and
 # github-actions (.github/workflows/**). Both paths are shared/upstream code
 # with no "kilo" in their path, so dependabot-auto-merge.yml would never
 # auto-merge them anyway, and .github/workflows/** changes routinely fail

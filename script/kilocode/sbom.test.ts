@@ -437,7 +437,7 @@ describe("deps", () => {
     const parsed = await Deps.load(path.join(import.meta.dir, "..", "..", "bun.lock"))
     const result = Deps.closure({
       lock: parsed,
-      workspace: "packages/opencode",
+      workspace: "packages/cli",
       platform: { os: "linux", arch: "x64" },
     })
     expect(result.components.length).toBeGreaterThan(50)

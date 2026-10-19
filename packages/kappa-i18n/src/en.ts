@@ -108,7 +108,7 @@ export const dict = {
 
   // Plan follow-up question shown after plan_exit. The English strings here must match
   // the canonical `label`/`header`/`question` sent by the backend — those canonical labels
-  // are still what the backend matches on (see packages/opencode/src/kappacode/plan-followup.ts).
+  // are still what the backend matches on (see packages/cli/src/kappacode/plan-followup.ts).
   "plan.followup.header": "Implement",
   "plan.followup.question": "Ready to implement?",
   "plan.followup.answer.newSession": "Start new session",
@@ -120,7 +120,7 @@ export const dict = {
 
   // Slow-repo snapshot prompt. The English strings here are the canonical
   // labels sent by the backend and must stay in sync with
-  // packages/opencode/src/kappacode/snapshot/track.ts.
+  // packages/cli/src/kappacode/snapshot/track.ts.
   "snapshot.slowRepo.header": "Snapshot is slow",
   "snapshot.slowRepo.question":
     "It is taking a long time to initialize the snapshot system, likely due to the size of the repository.\n\nDo you want to disable Snapshots for this repository?",

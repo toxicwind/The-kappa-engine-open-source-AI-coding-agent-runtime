@@ -15,4 +15,4 @@ query-filters:
 # JavaScript, so TypeScript syntax in these dev-only scripts (e.g. `as const`)
 # is reported as "Could not process some files due to syntax errors".
 paths-ignore:
-  - packages/opencode/script/run-workspace-server
+  - packages/cli/script/run-workspace-server

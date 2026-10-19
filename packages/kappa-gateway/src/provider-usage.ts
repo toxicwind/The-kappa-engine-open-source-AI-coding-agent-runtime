@@ -2,7 +2,7 @@
  * Shared display formatting for provider usage windows.
  *
  * This is the single source of truth for how a quota window is presented.
- * Both the TUI dialog (packages/opencode) and the VS Code webview consume it
+ * Both the TUI dialog (packages/cli) and the VS Code webview consume it
  * so the two surfaces can never drift; labels are injectable for i18n.
  */
 

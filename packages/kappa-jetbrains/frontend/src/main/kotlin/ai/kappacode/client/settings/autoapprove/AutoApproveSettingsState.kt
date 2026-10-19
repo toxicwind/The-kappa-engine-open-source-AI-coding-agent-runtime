@@ -18,7 +18,7 @@ internal data class PermissionDraft(val rules: Map<String, PermissionRuleDto> = 
 internal val LEVELS = listOf("allow", "ask", "deny")
 
 // Mirrors the CLI's effective default rules for JetBrains. `edit` is JetBrains-only: the plugin's
-// client-keyed defaults layer in packages/opencode/src/kappacode/agent/index.ts sets `edit: ask`,
+// client-keyed defaults layer in packages/cli/src/kappacode/agent/index.ts sets `edit: ask`,
 // so the settings row must show "Ask" as the inherited level. The VS Code DEFAULT_RULES
 // (webview-ui/.../settings/permission-utils.ts) intentionally does not include `edit`.
 private val DEFAULT_LEVEL = mapOf(

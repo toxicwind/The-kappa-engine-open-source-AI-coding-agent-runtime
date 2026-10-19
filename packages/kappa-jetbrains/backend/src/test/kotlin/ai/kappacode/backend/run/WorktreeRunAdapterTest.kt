@@ -23,7 +23,7 @@ class WorktreeRunAdapterTest {
     @Test
     fun `nested project path keeps its subdirectory under the worktree`() {
         assertEquals(path("$worktree/packages/kappa-jetbrains"), rebase("/repo/packages/kappa-jetbrains"))
-        assertEquals(path("$worktree/packages/opencode"), rebase("/repo/packages/opencode/"))
+        assertEquals(path("$worktree/packages/cli"), rebase("/repo/packages/cli/"))
     }
 
     @Test

@@ -28,7 +28,7 @@ const HOME = process.env.HOME ?? "/home/toxic"
 const suites = [
   ["0.0", "packages/llm/test/kilocode", `${BUN} test fingerprint.test.ts`],
   ["0.1", "packages/llm", `${BUN} test`],
-  ["0.2", "packages/opencode", `${BUN} test ./test`],
+  ["0.2", "packages/cli", `${BUN} test ./test`],
   ["0.3", "packages/llm", `${BUN} test test/schema.test.ts`],
 ] as const
 

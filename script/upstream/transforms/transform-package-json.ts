@@ -256,8 +256,8 @@ const PACKAGE_NAME_MAP: Record<string, string> = {
 // NOTE: When adding new Kilo-specific workspace dependencies (packages starting with @kappacode/kappa-*),
 // add them here to prevent them from being removed during upstream merges
 const KILO_DEPENDENCIES: Record<string, Record<string, string>> = {
-  // packages/opencode/package.json needs these
-  "packages/opencode/package.json": {
+  // packages/cli/package.json needs these
+  "packages/cli/package.json": {
     "@kappacode/kappa-gateway": "workspace:*",
     "@kappacode/kappa-telemetry": "workspace:*",
   },
@@ -265,7 +265,7 @@ const KILO_DEPENDENCIES: Record<string, Record<string, string>> = {
 
 // Kilo-specific bin entries to set on specific packages
 const KILO_BIN: Record<string, Record<string, string>> = {
-  "packages/opencode/package.json": {
+  "packages/cli/package.json": {
     kappa: "./bin/kappa",
     kilocode: "./bin/kappa",
   },
@@ -274,7 +274,7 @@ const KILO_BIN: Record<string, Record<string, string>> = {
 // Packages that should have their name transformed
 const TRANSFORM_PACKAGE_NAMES: Record<string, string> = {
   "package.json": "@kappacode/kappa",
-  "packages/opencode/package.json": "@kappacode/cli",
+  "packages/cli/package.json": "@kappacode/cli",
   "packages/plugin/package.json": "@kappacode/plugin",
   "packages/sdk/js/package.json": "@kappacode/sdk",
 }
@@ -295,7 +295,7 @@ const PRESERVE_SCRIPTS: Record<string, string[]> = {
     "dev:local",
     "test:script:ci",
   ],
-  "packages/opencode/package.json": ["test", "test:ci"],
+  "packages/cli/package.json": ["test", "test:ci"],
   // Upstream-shared packages where Kilo adds a JUnit test:ci script for CI.
   // Without these entries every merge silently schedules zero tests for them.
   "packages/core/package.json": ["test:ci"],
@@ -431,7 +431,7 @@ export function fixMetadata(
   ours: Record<string, unknown> | null,
   changes: string[],
 ): void {
-  if (path !== "packages/opencode/package.json") return
+  if (path !== "packages/cli/package.json") return
   if (!ours) return
   if (Array.isArray(ours.keywords) && JSON.stringify(pkg.keywords) !== JSON.stringify(ours.keywords)) {
     pkg.keywords = ours.keywords

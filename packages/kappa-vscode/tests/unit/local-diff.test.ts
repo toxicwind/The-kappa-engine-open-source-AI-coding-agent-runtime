@@ -155,7 +155,7 @@ async function setup(dir: string, base: string): Promise<void> {
 describe("generatedLike", () => {
   it("matches files in ignored folders", () => {
     expect(generatedLike("node_modules/foo.js")).toBe(true)
-    expect(generatedLike("packages/opencode/node_modules/foo/index.js")).toBe(true)
+    expect(generatedLike("packages/cli/node_modules/foo/index.js")).toBe(true)
     expect(generatedLike("dist/bundle.js")).toBe(true)
     expect(generatedLike("build/out.js")).toBe(true)
     expect(generatedLike(".git/HEAD")).toBe(true)

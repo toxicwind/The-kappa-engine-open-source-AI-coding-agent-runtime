@@ -10,7 +10,7 @@ on:
       - "packages/*/src/kilocode/**"
       - "packages/*/src/kilo-*/**"
       - "packages/plugin-atomic-chat/**"
-      - "packages/opencode/**"
+      - "packages/cli/**"
       - "packages/core/**"
       - "packages/llm/**"
       - "packages/schema/**"

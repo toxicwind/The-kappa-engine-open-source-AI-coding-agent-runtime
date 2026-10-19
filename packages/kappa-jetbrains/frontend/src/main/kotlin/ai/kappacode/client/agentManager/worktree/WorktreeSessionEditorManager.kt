@@ -429,7 +429,7 @@ open class WorktreeSessionEditorManager(
     }
 }
 
-// Mirrors the CLI's Session.isDefaultTitle (packages/opencode/src/session/session.ts): a session
+// Mirrors the CLI's Session.isDefaultTitle (packages/cli/src/session/session.ts): a session
 // keeps a "New session - <ISO>" / "Child session - <ISO>" placeholder until the agent names it.
 private val DEFAULT_SESSION_TITLE =
     Regex("^(New session - |Child session - )\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$")

@@ -38,7 +38,7 @@ No renames of the config key, tool names, permissions, stored IDs, or migrations
 
 ## Tasks
 
-### A. CLI default-on semantics (owner: packages/opencode + changeset) - DONE
+### A. CLI default-on semantics (owner: packages/cli + changeset) - DONE
 Owns: `src/effect/runtime-flags.ts`, `src/kilocode/board/enabled.ts`, board-enabled/board-tools/
 runtime-flags tests, `.changeset/swarm-enabled-by-default.md`.
 

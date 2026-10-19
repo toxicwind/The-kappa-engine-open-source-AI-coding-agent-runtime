@@ -53,7 +53,7 @@ class KiloMcpAuthService internal constructor(
     companion object {
         private val LOG = KiloLog.create(KiloMcpAuthService::class.java)
 
-        // Above the CLI's 5-minute OAuth callback timeout (packages/opencode/src/mcp/oauth-callback.ts),
+        // Above the CLI's 5-minute OAuth callback timeout (packages/cli/src/mcp/oauth-callback.ts),
         // so the CLI names the failure first.
         private const val DEFAULT_AUTH_TIMEOUT_MS = 6 * 60 * 1000L
         private const val DEFAULT_DEDUPE_WINDOW_MS = 4000L

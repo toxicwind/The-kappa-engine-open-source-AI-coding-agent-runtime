@@ -142,7 +142,7 @@ const invalid = hits.filter((hit) => !allow[hit.file])
 const drift = Object.entries(allow).flatMap(([file, reason]) => {
   const count = hits.filter((hit) => hit.file === file).length
   if (count === 1) return []
-  return [`  packages/opencode/src/${file}: expected 1 classified site, found ${count} (${reason})`]
+  return [`  packages/cli/src/${file}: expected 1 classified site, found ${count} (${reason})`]
 })
 
 const testHits: Array<{ file: string; line: number }> = []
@@ -159,14 +159,14 @@ const testDrift = Object.entries(testAllow).flatMap(([file, entry]) => {
   const count = testHits.filter((hit) => hit.file === file).length
   if (count === entry.count) return []
   return [
-    `  packages/opencode/test/${file}: expected ${entry.count} classified reference(s), found ${count} (${entry.reason})`,
+    `  packages/cli/test/${file}: expected ${entry.count} classified reference(s), found ${count} (${entry.reason})`,
   ]
 })
 
 if (invalid.length > 0 || drift.length > 0 || testInvalid.length > 0 || testDrift.length > 0) {
   if (invalid.length > 0) {
     console.error("Found unclassified service-local Effect runtimes in shared opencode modules:")
-    for (const hit of invalid) console.error(`  packages/opencode/src/${hit.file}:${hit.line}`)
+    for (const hit of invalid) console.error(`  packages/cli/src/${hit.file}:${hit.line}`)
     console.error("")
   }
   if (drift.length > 0) {
@@ -176,7 +176,7 @@ if (invalid.length > 0 || drift.length > 0 || testInvalid.length > 0 || testDrif
   }
   if (testInvalid.length > 0) {
     console.error("Found unclassified AppRuntime use in opencode tests:")
-    for (const hit of testInvalid) console.error(`  packages/opencode/test/${hit.file}:${hit.line}`)
+    for (const hit of testInvalid) console.error(`  packages/cli/test/${hit.file}:${hit.line}`)
     console.error("")
   }
   if (testDrift.length > 0) {

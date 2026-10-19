@@ -26,7 +26,7 @@ val pinned = providers.gradleProperty("kilo.cli.pinned").map { it.trim().toBoole
 val repoCli = pinned.map { !it }
 val bundled = providers.gradleProperty("kilo.cli.bundled").map { it.trim().toBoolean() }.orElse(false)
 val downloadsCli = repoCli.zip(bundled) { repo, bundle -> !repo && !bundle }
-val repoRootDir = rootProject.layout.projectDirectory.dir("../opencode")
+val repoRootDir = rootProject.layout.projectDirectory.dir("../cli")
 val local = rootProject.layout.projectDirectory.file(".gradle/kilo-cli-pin.properties")
 val bunPathProvider = providers.fileContents(local).asText.map { text ->
     text.lineSequence().firstNotNullOfOrNull { line ->

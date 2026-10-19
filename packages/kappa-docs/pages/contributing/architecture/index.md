@@ -51,7 +51,7 @@ Local execution and hosted execution are separate boundaries. Editor clients use
 | Term | Meaning |
 |---|---|
 | Kappa Code | Umbrella product across local clients, Kappa CLI runtime, and Kappa Cloud services |
-| Kappa CLI runtime | Local agent engine in `packages/opencode/`; owns tools, sessions, config, persistence, and provider routing |
+| Kappa CLI runtime | Local agent engine in `packages/cli/`; owns tools, sessions, config, persistence, and provider routing |
 | `kappa serve` server | Local HTTP and SSE process used by editor clients and Kappa Console; selected browser-oriented paths also use WebSocket |
 | Local daemon | Detached reusable `kappa serve` server managed by `kappa daemon` commands |
 | Directory context | Normalized local filesystem directory used to select local runtime state |
@@ -154,10 +154,10 @@ These local surfaces live in [`Kappa-Org/kappacode`](https://github.com/Kappa-Or
 
 | Surface | Package in `Kappa-Org/kappacode` | Runtime model |
 |---|---|---|
-| Kappa CLI TUI | `packages/opencode/` | Interactive local client with daemon attach and worker-backed fallback paths |
-| `kappa run` | `packages/opencode/` | Headless prompt execution through explicit attach, daemon attach, or embedded fallback |
-| `kappa serve` | `packages/opencode/` | Local HTTP + SSE server for local clients |
-| Kappa Console (deprecated) | `packages/kappa-console/`{% linebreak /%}`packages/opencode/` | Deprecated browser UI served at `/console` by a started or reused local daemon |
+| Kappa CLI TUI | `packages/cli/` | Interactive local client with daemon attach and worker-backed fallback paths |
+| `kappa run` | `packages/cli/` | Headless prompt execution through explicit attach, daemon attach, or embedded fallback |
+| `kappa serve` | `packages/cli/` | Local HTTP + SSE server for local clients |
+| Kappa Console (deprecated) | `packages/kappa-console/`{% linebreak /%}`packages/cli/` | Deprecated browser UI served at `/console` by a started or reused local daemon |
 | VS Code extension | `packages/kappa-vscode/` | Extension host starts one shared editor-owned `kappa serve` server and routes webviews through HTTP + global SSE; SDK directory selects local runtime instance |
 | JetBrains plugin | `packages/kappa-jetbrains/` | Split-mode Swing plugin; backend module starts one editor-owned `kappa serve` server and caches workspace clients by directory |
 

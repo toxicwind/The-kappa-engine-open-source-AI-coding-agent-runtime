@@ -38,7 +38,7 @@ Changing runtime config precedence affects first path. Adding or changing config
 
 ## Source of truth
 
-Canonical CLI config source is Effect Schema `Config.Info` in `packages/opencode/src/config/config.ts` in [`Kappa-Org/kappacode`](https://github.com/Kappa-Org/kappacode). CLI derives `.zod` compatibility surface from Effect Schema for plugin and SDK consumers. Do not maintain separate handwritten Zod definition for Kappa config fields.
+Canonical CLI config source is Effect Schema `Config.Info` in `packages/cli/src/config/config.ts` in [`Kappa-Org/kappacode`](https://github.com/Kappa-Org/kappacode). CLI derives `.zod` compatibility surface from Effect Schema for plugin and SDK consumers. Do not maintain separate handwritten Zod definition for Kappa config fields.
 
 ## Cloud schema endpoint
 
@@ -71,11 +71,11 @@ Treat schema synchronization as cross-repository contract. Tests should detect b
 
 ## Adding or changing Kappa-only config key
 
-1. Add or update Effect Schema field with `kappacode_change` marker in `packages/opencode/src/config/config.ts`.
+1. Add or update Effect Schema field with `kappacode_change` marker in `packages/cli/src/config/config.ts`.
 2. Generate JSON Schema shape:
 
 ```sh
-bun --bun packages/opencode/script/schema.ts /tmp/kappa.json
+bun --bun packages/cli/script/schema.ts /tmp/kappa.json
 jq '.properties.<new_key>' /tmp/kappa.json
 ```
 
@@ -94,7 +94,7 @@ Repository column identifies source root for each relative path.
 
 | Repository | Source path | Role |
 |---|---|---|
-| `Kappa-Org/kappacode` | `packages/opencode/src/config/config.ts` | Canonical Effect Schema and derived `.zod` surface |
+| `Kappa-Org/kappacode` | `packages/cli/src/config/config.ts` | Canonical Effect Schema and derived `.zod` surface |
 | `Kappa-Org/cloud` | `apps/web/src/app/config.json/route.ts` | Cloud overlay route |
 | `Kappa-Org/cloud` | `apps/web/src/app/config.json/extras.ts` | Kappa overlay buckets |
 | `Kappa-Org/cloud` | `apps/web/src/tests/cli-config-schema.test.ts` | Cloud schema assertions |

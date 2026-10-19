@@ -23,7 +23,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { Artifact, Deps, Manifest, Policy, Scan, compose, serialize } from "../../../script/kappacode/sbom/index"
 import type { Component, Gap, Manifest as ManifestType } from "../../../script/kappacode/sbom/index"
-import * as Cli from "../../opencode/script/kappacode/sbom"
+import * as Cli from "../../cli/script/kappacode/sbom"
 
 const root = path.resolve(import.meta.dir, "..")
 const repo = path.resolve(root, "../..")

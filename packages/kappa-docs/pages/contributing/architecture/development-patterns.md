@@ -22,8 +22,8 @@ Prefer Kappa-owned seams over broad changes to shared OpenCode files. Follow nei
 
 | Change shape | Preferred location or action | Reason |
 |---|---|---|
-| Additive Kappa CLI behavior | `packages/opencode/src/kappacode/` | Keeps Kappa-only behavior out of upstream-owned files |
-| Kappa CLI test for additive behavior | `packages/opencode/test/kappacode/` | Avoids shared tests that encode only Kappa behavior |
+| Additive Kappa CLI behavior | `packages/cli/src/kappacode/` | Keeps Kappa-only behavior out of upstream-owned files |
+| Kappa CLI test for additive behavior | `packages/cli/test/kappacode/` | Avoids shared tests that encode only Kappa behavior |
 | Required shared OpenCode edit | Small import, route, or injection seam in shared file plus `kappacode_change` marker | Keeps upstream diff narrow and merge review obvious |
 | VS Code, JetBrains, docs, indexing, UI, gateway, or telemetry change | Existing Kappa-owned package | These packages are Kappa-owned; do not add `kappacode_change` markers |
 | CLI server endpoint change | Effect `HttpApi` route plus handler; then run root SDK generator | Keeps server contract and generated JavaScript SDK aligned |
@@ -37,8 +37,8 @@ Kappa CLI forks upstream OpenCode. Prefer Kappa-owned directories and packages f
 
 | Prefer | Avoid unless necessary |
 |---|---|
-| `packages/opencode/src/kappacode/` | Broad edits to shared `packages/opencode/src/` files |
-| `packages/opencode/test/kappacode/` | Shared tests that encode only Kappa behavior |
+| `packages/cli/src/kappacode/` | Broad edits to shared `packages/cli/src/` files |
+| `packages/cli/test/kappacode/` | Shared tests that encode only Kappa behavior |
 | `packages/kappa-vscode/`, `packages/kappa-jetbrains/`, `packages/kappa-docs/`, `packages/kappa-indexing/` | Moving Kappa-only behavior into upstream-owned modules |
 | Narrow import or route seams in shared files | Refactors that enlarge upstream merge conflicts |
 
@@ -57,7 +57,7 @@ Marker exemptions apply to paths already owned by Kappa, including paths whose n
 
 | Guard | When to run |
 |---|---|
-| `bun run script/check-opencode-annotations.ts` | PR touches `packages/opencode/`; verifies shared OpenCode Kappa edits are annotated |
+| `bun run script/check-opencode-annotations.ts` | PR touches `packages/cli/`; verifies shared OpenCode Kappa edits are annotated |
 | `bun run script/check-opencode-promise-facades.ts` | Service adapter changes; prevents new runtime-backed Promise facades in shared Effect services |
 | `bun run check-kappacode-change` from `packages/kappa-vscode/` | VS Code or Kappa UI changes; markers must not appear in fully Kappa-owned packages |
 | `bun run script/check-workflows.ts` | Workflow add or remove changes; keeps workflow allowlist explicit |
@@ -68,9 +68,9 @@ CLI server uses Effect `HttpApi` and publishes OpenAPI-compatible HTTP + SSE sur
 
 | Rule | Reason |
 |---|---|
-| Define shared routes under `packages/opencode/src/server/routes/instance/httpapi/` | Keeps route contract close to runtime handlers |
-| Normalize public spec in `packages/opencode/src/server/routes/instance/httpapi/public.ts` | Preserves legacy-compatible request and response shapes during Effect migration |
-| Put additive Kappa groups and handlers under `packages/opencode/src/kappacode/server/httpapi/` | Reduces edits in shared upstream-owned files |
+| Define shared routes under `packages/cli/src/server/routes/instance/httpapi/` | Keeps route contract close to runtime handlers |
+| Normalize public spec in `packages/cli/src/server/routes/instance/httpapi/public.ts` | Preserves legacy-compatible request and response shapes during Effect migration |
+| Put additive Kappa groups and handlers under `packages/cli/src/kappacode/server/httpapi/` | Reduces edits in shared upstream-owned files |
 | Inject Kappa APIs through narrow shared seam | Keeps upstream diff small and marker placement obvious |
 | Preserve route spans and stable attributes | Keeps diagnostics and telemetry understandable |
 
@@ -94,7 +94,7 @@ Runtime config loading and editor validation are separate paths. New Kappa-only 
 For new public APIs, prefer flat ESM exports inside module, then namespace re-exports from index files when grouped access helps callers.
 
 ```typescript
-// packages/opencode/src/session/session.ts
+// packages/cli/src/session/session.ts
 export const create = fn(CreateSchema, async (input) => {
   // ...
 })
@@ -103,7 +103,7 @@ export const list = fn(ListSchema, async (input) => {
   // ...
 })
 
-// packages/opencode/src/session/index.ts
+// packages/cli/src/session/index.ts
 export * as Session from "./session"
 ```
 
@@ -142,7 +142,7 @@ Reuse tool helpers, permission gates, and telemetry conventions before adding ab
 |---|---|
 | Package manager | Bun workspaces |
 | Task orchestration | Turborepo |
-| CLI executable | Bun compile build in `packages/opencode/script/build.ts` |
+| CLI executable | Bun compile build in `packages/cli/script/build.ts` |
 | VS Code extension and webviews | esbuild |
 | JetBrains plugin | Gradle, Kotlin JVM toolchain 21, build-local OpenAPI generation |
 | Type checking | `tsgo` through `bun turbo typecheck`; Gradle compile checks for JetBrains |
@@ -165,11 +165,11 @@ Paths below are relative to [`Kappa-Org/kappacode`](https://github.com/Kappa-Org
 
 | Concern | Source path |
 |---|---|
-| Tool definition API | `packages/opencode/src/tool/tool.ts` |
-| Tool example | `packages/opencode/src/tool/read.ts` |
-| Server APIs | `packages/opencode/src/server/routes/instance/httpapi/` |
-| Public OpenAPI normalization | `packages/opencode/src/server/routes/instance/httpapi/public.ts` |
-| Kappa route seam | `packages/opencode/src/kappacode/server/httpapi/` |
+| Tool definition API | `packages/cli/src/tool/tool.ts` |
+| Tool example | `packages/cli/src/tool/read.ts` |
+| Server APIs | `packages/cli/src/server/routes/instance/httpapi/` |
+| Public OpenAPI normalization | `packages/cli/src/server/routes/instance/httpapi/public.ts` |
+| Kappa route seam | `packages/cli/src/kappacode/server/httpapi/` |
 | JavaScript SDK generation | `packages/sdk/js/script/build.ts`{% linebreak /%}`script/generate.ts` |
 | JetBrains client generation | `packages/kappa-jetbrains/backend/build.gradle.kts` |
 | Upstream merge automation | `script/upstream/` |

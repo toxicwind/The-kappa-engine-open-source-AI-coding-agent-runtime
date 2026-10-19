@@ -16,9 +16,9 @@ import {
 test("fixScripts preserves Kilo-only root scripts from base", () => {
   const ours = {
     scripts: {
-      dev: "KILO_CLIENT=cli bun run --cwd packages/opencode --conditions=node src/index.ts",
+      dev: "KILO_CLIENT=cli bun run --cwd packages/cli --conditions=node src/index.ts",
       "dev-setup": "kappa dev-setup",
-      postinstall: "bun run --cwd packages/opencode fix-node-pty && bun run script/setup-git.ts",
+      postinstall: "bun run --cwd packages/cli fix-node-pty && bun run script/setup-git.ts",
       extension: "bun --cwd packages/kappa-vscode script/launch.ts",
       "extension:isolated": "bun --cwd packages/kappa-vscode script/launch.ts --isolated",
       "extension:isolated:clean": "bun --cwd packages/kappa-vscode script/launch.ts --isolated --clean",
@@ -27,8 +27,8 @@ test("fixScripts preserves Kilo-only root scripts from base", () => {
   }
   const pkg: Record<string, unknown> = {
     scripts: {
-      dev: "bun run --cwd packages/opencode --conditions=browser src/index.ts",
-      postinstall: "bun run --cwd packages/opencode fix-node-pty",
+      dev: "bun run --cwd packages/cli --conditions=browser src/index.ts",
+      postinstall: "bun run --cwd packages/cli fix-node-pty",
     },
   }
   const changes: string[] = []
@@ -79,7 +79,7 @@ test("mergeWithNewestVersions preserves an absent dependency section", () => {
 test("fixScripts removes upstream-only dead scripts from root", () => {
   const pkg: Record<string, unknown> = {
     scripts: {
-      dev: "bun run --cwd packages/opencode src/index.ts",
+      dev: "bun run --cwd packages/cli src/index.ts",
       "dev:desktop": "bun --cwd packages/desktop-electron dev",
       "dev:web": "bun --cwd packages/app dev",
       "dev:console": "ulimit -n 10240 2>/dev/null; bun run --cwd packages/console/app dev",
@@ -101,7 +101,7 @@ test("fixScripts preserves opencode test scripts", () => {
   const ours = { scripts: { test: "bun test", "test:ci": "bun test --ci" } }
   const pkg: Record<string, unknown> = { scripts: { test: "vitest" } }
   const changes: string[] = []
-  fixScripts(pkg, "packages/opencode/package.json", ours, changes)
+  fixScripts(pkg, "packages/cli/package.json", ours, changes)
   const scripts = pkg.scripts as Record<string, string>
   expect(scripts.test).toBe("bun test")
   expect(scripts["test:ci"]).toBe("bun test --ci")
@@ -114,10 +114,10 @@ test("fixScripts preserves dev:local and shared-package test:ci scripts", () => 
   fixScripts(
     root,
     "package.json",
-    { scripts: { "dev:local": "bun run packages/opencode/script/dev-local.ts" } },
+    { scripts: { "dev:local": "bun run packages/cli/script/dev-local.ts" } },
     changes,
   )
-  expect((root.scripts as Record<string, string>)["dev:local"]).toBe("bun run packages/opencode/script/dev-local.ts")
+  expect((root.scripts as Record<string, string>)["dev:local"]).toBe("bun run packages/cli/script/dev-local.ts")
 
   for (const path of [
     "packages/client/package.json",
@@ -213,7 +213,7 @@ test("fixMetadata preserves opencode publish metadata from base", () => {
   const ours = { keywords: ["cli", "kappa", "opencode"], private: false }
   const pkg: Record<string, unknown> = { keywords: ["opencode"], private: true }
   const changes: string[] = []
-  fixMetadata(pkg, "packages/opencode/package.json", ours, changes)
+  fixMetadata(pkg, "packages/cli/package.json", ours, changes)
   expect(pkg.keywords).toEqual(ours.keywords)
   expect(pkg.private).toBe(false)
   expect(changes).toContain("keywords: preserved from base")
@@ -290,7 +290,7 @@ test("fixPackageManager accepts upstream Bun upgrades", () => {
 test("fixPackageManager ignores nested package.json files", () => {
   const pkg: Record<string, unknown> = { packageManager: "bun@1.3.13" }
   const changes: string[] = []
-  fixPackageManager(pkg, "packages/opencode/package.json", { packageManager: "bun@1.3.14" }, changes)
+  fixPackageManager(pkg, "packages/cli/package.json", { packageManager: "bun@1.3.14" }, changes)
   expect(pkg.packageManager).toBe("bun@1.3.13")
   expect(changes).toEqual([])
 })

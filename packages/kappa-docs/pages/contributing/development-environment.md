@@ -6,7 +6,7 @@ description: "Set up your development environment for contributing"
 # Development Environment
 
 {% callout type="info" %}
-**New versions of the VS Code extension and CLI are being developed in [Kappa-Org/kappacode](https://github.com/Kappa-Org/kappacode)** (extension at `packages/kappa-vscode`, CLI at `packages/opencode`). For extension and CLI development, please head over to that repository.
+**New versions of the VS Code extension and CLI are being developed in [Kappa-Org/kappacode](https://github.com/Kappa-Org/kappacode)** (extension at `packages/kappa-vscode`, CLI at `packages/cli`). For extension and CLI development, please head over to that repository.
 {% /callout %}
 
 This document will help you set up your development environment and understand how to work with the codebase. Whether you're fixing bugs, adding features, or just exploring the code, this guide will get you started.
@@ -64,7 +64,7 @@ Kappa has bug bounties. To be eligible, make sure your GitHub account is connect
 
 The project is organized into several key packages:
 
-- **`packages/opencode/`** - Kappa CLI, agent runtime, local HTTP server, session management, and TUI
+- **`packages/cli/`** - Kappa CLI, agent runtime, local HTTP server, session management, and TUI
 - **`packages/kappa-vscode/`** - VS Code extension, webview UI, Agent Manager, and extension packaging
 - **`packages/sdk/js/`** - Generated TypeScript SDK for the local server API
 - **`packages/kappa-docs/`** - Documentation site
@@ -80,7 +80,7 @@ To run the CLI from the repo root:
 bun dev
 ```
 
-`bun dev` and `bun run dev` are equivalent. Both run the local source in `packages/opencode/`; they do not use a globally installed `kappa` binary.
+`bun dev` and `bun run dev` are equivalent. Both run the local source in `packages/cli/`; they do not use a globally installed `kappa` binary.
 
 ### Backend/API Validation
 
@@ -92,7 +92,7 @@ bun dev serve
 
 and validating behavior with `curl` requests against the local server.
 
-If you change server endpoints in `packages/opencode/src/server/`, regenerate the SDK from the repo root:
+If you change server endpoints in `packages/cli/src/server/`, regenerate the SDK from the repo root:
 
 ```bash
 ./script/generate.ts
@@ -183,7 +183,7 @@ Do **not** run `bun test` from the repo root. The root test script intentionally
 
 ### CLI Checks
 
-From `packages/opencode/`:
+From `packages/cli/`:
 
 ```bash
 bun run typecheck
@@ -248,8 +248,8 @@ Agent limitations, local resource constraints, OOM constraints, or an agent prom
 
 - User-facing changes usually need a changeset. Run `bunx changeset add` or add a file under `.changeset/`.
 - After changing server endpoints, run `./script/generate.ts` from the repo root to regenerate `packages/sdk/js/`.
-- After adding or changing guarded URLs in `packages/kappa-vscode/`, `packages/kappa-vscode/webview-ui/`, or `packages/opencode/src/`, run `bun run script/extract-source-links.ts` from the repo root.
-- When editing shared `packages/opencode/` files, keep changes small and mark Kappa-only edits with `// kappacode_change` for a single line or `// kappacode_change start` / `// kappacode_change end` for a block. Do not add these markers inside `kappacode`-named paths.
+- After adding or changing guarded URLs in `packages/kappa-vscode/`, `packages/kappa-vscode/webview-ui/`, or `packages/cli/src/`, run `bun run script/extract-source-links.ts` from the repo root.
+- When editing shared `packages/cli/` files, keep changes small and mark Kappa-only edits with `// kappacode_change` for a single line or `// kappacode_change start` / `// kappacode_change end` for a block. Do not add these markers inside `kappacode`-named paths.
 
 ## Git Hooks
 

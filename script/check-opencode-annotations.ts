@@ -21,8 +21,8 @@
  * Extensionless files with shebangs are treated as source files.
  *
  * Exempt paths (no markers needed — entirely Kilo-specific):
- *   - packages/opencode/src/kilocode/**
- *   - packages/opencode/test/kilocode/**
+ *   - packages/cli/src/kilocode/**
+ *   - packages/cli/test/kilocode/**
  *   - Any path containing "kappacode" in directory or filename
  *   - Any path with a directory starting with "kappa-" (e.g. kappa-sessions/)
  *   - script/upstream/**
@@ -36,7 +36,7 @@ import path from "node:path"
 const ROOT = path.resolve(import.meta.dir, "..")
 const SOURCE_EXTS = new Set([".ts", ".tsx", ".js", ".jsx", ".yml", ".yaml", ".toml", ".sh", ".bash", ".zsh"])
 const SCOPES = [
-  "packages/opencode",
+  "packages/cli",
   "packages/core",
   "packages/llm",
   "packages/schema",
@@ -351,8 +351,8 @@ console.error(
     "  // kilocode_change - new file",
     "",
     "Exempt paths (no markers needed):",
-    "  - packages/opencode/src/kilocode/**",
-    "  - packages/opencode/test/kilocode/**",
+    "  - packages/cli/src/kilocode/**",
+    "  - packages/cli/test/kilocode/**",
     "  - Any path containing 'kilocode' in the directory or filename",
     "  - Any directory starting with 'kappa-' (e.g. kappa-sessions/)",
     "  - script/upstream/**",

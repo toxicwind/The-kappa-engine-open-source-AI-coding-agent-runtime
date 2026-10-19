@@ -77,22 +77,22 @@ class MdViewTest : BasePlatformTestCase() {
     }
 
     fun `test set renders prose file refs as underlined brown links`() {
-        view.set("See packages/opencode/src/session/prompt.ts")
+        view.set("See packages/cli/src/session/prompt.ts")
         val color = MdCommon.hex(SessionUiStyle.View.Markdown.string())
         val html = view.html()
         val sheet = view.overrideSheet()
 
-        assertTrue(html.contains("<a class=\"kappa-file-ref\" href=\"packages/opencode/src/session/prompt.ts\">packages/opencode/src/session/prompt.ts</a>"))
+        assertTrue(html.contains("<a class=\"kappa-file-ref\" href=\"packages/cli/src/session/prompt.ts\">packages/cli/src/session/prompt.ts</a>"))
         assertTrue(sheet.contains("a.kappa-file-ref, code a.kappa-file-ref { color: $color; font-family:"))
         assertTrue(sheet.contains("monospace; text-decoration: underline"))
     }
 
     fun `test inline code file refs keep code color and become file links`() {
-        view.set("See `packages/opencode/src/session/prompt.ts`")
+        view.set("See `packages/cli/src/session/prompt.ts`")
         val color = MdCommon.hex(SessionUiStyle.View.Markdown.string())
         val html = view.html()
 
-        assertTrue(html.contains("<code style=\"color: $color\"><a class=\"kappa-file-ref\" href=\"packages/opencode/src/session/prompt.ts\">packages/opencode/src/session/prompt.ts</a></code>"))
+        assertTrue(html.contains("<code style=\"color: $color\"><a class=\"kappa-file-ref\" href=\"packages/cli/src/session/prompt.ts\">packages/cli/src/session/prompt.ts</a></code>"))
         assertFalse(html.contains("background:"))
     }
 
@@ -112,7 +112,7 @@ class MdViewTest : BasePlatformTestCase() {
     }
 
     fun `test existing markdown links are not file ref links`() {
-        view.set("[prompt](packages/opencode/src/session/prompt.ts)")
+        view.set("[prompt](packages/cli/src/session/prompt.ts)")
         val html = view.html()
 
         assertTrue(html.contains("prompt"))
@@ -120,10 +120,10 @@ class MdViewTest : BasePlatformTestCase() {
     }
 
     fun `test fenced code file refs are not file ref links`() {
-        view.set("```text\npackages/opencode/src/session/prompt.ts\n```")
+        view.set("```text\npackages/cli/src/session/prompt.ts\n```")
         val html = view.html()
 
-        assertTrue(html.contains("packages/opencode/src/session/prompt.ts"))
+        assertTrue(html.contains("packages/cli/src/session/prompt.ts"))
         assertFalse(html.contains("kappa-file-ref"))
     }
 
@@ -229,11 +229,11 @@ class MdViewTest : BasePlatformTestCase() {
     }
 
     fun `test inline code urls do not swallow following file refs`() {
-        view.set("`https://example.com/a` then packages/opencode/src/session/prompt.ts")
+        view.set("`https://example.com/a` then packages/cli/src/session/prompt.ts")
         val html = view.html()
 
         assertTrue(html.contains("href=\"https://example.com/a\">https://example.com/a</a>"))
-        assertTrue(html.contains("<a class=\"kappa-file-ref\" href=\"packages/opencode/src/session/prompt.ts\">"))
+        assertTrue(html.contains("<a class=\"kappa-file-ref\" href=\"packages/cli/src/session/prompt.ts\">"))
     }
 
     fun `test inline code urls stop at characters that cannot appear in a url`() {
@@ -469,7 +469,7 @@ class MdViewTest : BasePlatformTestCase() {
         val style = SessionEditorStyle.create(family = "Courier New", size = 21)
 
         view.applyStyle(style)
-        view.set("hello `code` packages/opencode/src/session/prompt.ts")
+        view.set("hello `code` packages/cli/src/session/prompt.ts")
         val sheet = view.overrideSheet()
 
         assertTrue(sheet.contains("body { color:"))

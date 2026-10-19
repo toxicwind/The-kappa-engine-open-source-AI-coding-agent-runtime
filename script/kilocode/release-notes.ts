@@ -67,7 +67,7 @@ export async function publishNotes(input: { version: string; prerelease: boolean
     Bun.file(new URL("../../packages/kappa-vscode/CHANGELOG.md", import.meta.url)).text(),
     // The inherited "opencode" folder contains Kilo's CLI (@kappacode/cli), not upstream release notes.
     // Read Kilo's changelog, including compact upstream summaries added when those changes are merged into Kilo.
-    Bun.file(new URL("../../packages/opencode/CHANGELOG.md", import.meta.url)).text(),
+    Bun.file(new URL("../../packages/cli/CHANGELOG.md", import.meta.url)).text(),
   ])
   const body = buildReleaseNotes({ ...input, releases, vscode, cli })
   const notes = `${input.temp ?? "/tmp"}/release-notes.txt`

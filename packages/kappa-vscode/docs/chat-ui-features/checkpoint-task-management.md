@@ -2,7 +2,7 @@
 
 **Priority:** P1
 
-CLI-side snapshot service is fully implemented (`packages/opencode/src/snapshot/`). Extension has a settings toggle. What's missing is the management UI.
+CLI-side snapshot service is fully implemented (`packages/cli/src/snapshot/`). Extension has a settings toggle. What's missing is the management UI.
 
 ## Remaining Work
 

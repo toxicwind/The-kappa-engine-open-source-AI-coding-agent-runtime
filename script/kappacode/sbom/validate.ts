@@ -35,7 +35,7 @@ type CycloneDxLibrary = {
 }
 
 // `@cyclonedx/cyclonedx-library` ships a dual node/browser conditional
-// `types` export, and `packages/opencode`'s shared tsconfig sets
+// `types` export, and `packages/cli`'s shared tsconfig sets
 // `customConditions: ["browser"]` project-wide (an upstream opencode
 // setting, applied to the whole program rather than per-file). That makes a
 // typed `import` of this package resolve the browser variant everywhere that

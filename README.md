@@ -17,7 +17,7 @@
   ·
   <a href="packages/kappa-jetbrains/">JetBrains</a>
   ·
-  <a href="packages/opencode/">CLI</a>
+  <a href="packages/cli/">CLI</a>
 </p>
 
 </div>
@@ -73,7 +73,7 @@ curl -s http://127.0.0.1:25148/v1/models | head -c 300
 bun pm ls
 
 # 5. Build the CLI binary
-bun run --cwd packages/opencode script/build.ts --single --skip-install
+bun run --cwd packages/cli script/build.ts --single --skip-install
 
 <details>
 <summary><b>Table of Contents</b></summary>
@@ -112,7 +112,7 @@ All projects live under `packages/`. The bun workspace resolves dependencies acr
 | Package | Path | Scope | What it is |
 |---|---|---|---|
 | Core | `packages/core/` | `@kappacode/core` | Runtime: providers, plugins, config, sessions, models, MCP |
-| CLI | `packages/opencode/` | `@kappacode/cli` | The standalone CLI binary (`kappa` command) |
+| CLI | `packages/cli/` | `@kappacode/cli` | The standalone CLI binary (`kappa` command) |
 | Gateway | `packages/kappa-gateway/` | `@kappacode/kappa-gateway` | HTTP API gateway for model routing |
 | VS Code | `packages/kappa-vscode/` | `@kappacode/vscode` | VS Code extension |
 | JetBrains | `packages/kappa-jetbrains/` | `@kappacode/jetbrains` | JetBrains plugin |
@@ -135,12 +135,12 @@ All projects live under `packages/`. The bun workspace resolves dependencies acr
 ```bash
 # Full build (requires Zig for bubblewrap)
 # Full build
-bun install && bun run --cwd packages/opencode script/build.ts
+bun install && bun run --cwd packages/cli script/build.ts
 
 # Single platform build
-bun run --cwd packages/opencode script/build.ts --single --skip-install
+bun run --cwd packages/cli script/build.ts --single --skip-install
 
-# Output → packages/opencode/dist/@kappacode/cli-linux-x64/bin/kappa
+# Output → packages/cli/dist/@kappacode/cli-linux-x64/bin/kappa
 
 ### All packages
 
@@ -165,14 +165,14 @@ This fork is integrated with the estate build pipeline:
 - **Nativlink** (`:25155`) — RE API for remote execution (package: `@kappacode/nativelink`)
 - **Secretsmith** — secretsmith keyring for secret management (package: `@kappacode/secretsmith`)
 - **Mise** — task runner with remote cache (`mise.toml`)
-- **Kappa binary** executable directly from repo: `packages/opencode/bin/kappa` (symlinked into `/usr/bin/kappa`, caching `./dist/@kappacode/cli-linux-x64/bin/kappa`)
+- **Kappa binary** executable directly from repo: `packages/cli/bin/kappa` (symlinked into `/usr/bin/kappa`, caching `./dist/@kappacode/cli-linux-x64/bin/kappa`)
 
 ### 🏷️ Dynamic Versioning & Resolution
 
 - **Runtime/Build versions** correlate via `packages/script`:
   - **Release tags / git branch**: Preview builds format dynamically as `0.0.0-<branch>-<timestamp>` (e.g. `0.0.0-main-20261019...`) unless `KAPPA_VERSION` or `KAPPA_BUMP` is specified.
   - **Explicit version override**: Pass `KAPPA_VERSION=x.y.z` to bake a non-preview semver directly into compilation, or trigger automated bumps via `KAPPA_BUMP=patch|minor|major`.
-  - **Execution resolution**: The wrapper in `packages/opencode/bin/kappa` resolves `.kappa` (pointing to the local compiled artifact in `dist/`) before falling back to global discovery or platform packages.
+  - **Execution resolution**: The wrapper in `packages/cli/bin/kappa` resolves `.kappa` (pointing to the local compiled artifact in `dist/`) before falling back to global discovery or platform packages.
 ## 🚀 Getting started
 
 ```bash

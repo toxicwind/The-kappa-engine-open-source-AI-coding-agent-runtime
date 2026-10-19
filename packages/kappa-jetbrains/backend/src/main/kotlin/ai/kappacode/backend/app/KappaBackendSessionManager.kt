@@ -231,7 +231,7 @@ class KiloBackendSessionManager(
      *
      * Uses raw HTTP for the same reason as [create]: the generated client sends a malformed empty
      * body. The CLI accepts a bodyless fork and `?directory=` overrides the source session directory
-     * (see packages/opencode/src/kappacode/server/httpapi/session-fork.ts and fork-routing.ts).
+     * (see packages/cli/src/kappacode/server/httpapi/session-fork.ts and fork-routing.ts).
      */
     fun fork(id: String, dir: String, messageId: String? = null): SessionDto {
         val h = http ?: throw IllegalStateException("Session manager not started")

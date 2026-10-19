@@ -123,10 +123,10 @@
   },
   {
     "name": "remember operation keeps text",
-    "input": "/memory remember use bun test from packages/opencode",
+    "input": "/memory remember use bun test from packages/cli",
     "result": "operation",
     "operation": "remember",
-    "text": "use bun test from packages/opencode"
+    "text": "use bun test from packages/cli"
   },
   {
     "name": "correct operation keeps multiline text",

@@ -1361,7 +1361,7 @@ const headerParts: Record<string, Part[]> = {
       tool: "read",
       state: {
         status: "completed",
-        input: { filePath: "packages/opencode/src/cli/index.ts" },
+        input: { filePath: "packages/cli/src/cli/index.ts" },
         output: "export async function main() { /* existing CLI bootstrap */ }",
         title: "Read CLI entrypoint",
       },
@@ -1381,9 +1381,9 @@ const headerParts: Record<string, Part[]> = {
       tool: "glob",
       state: {
         status: "completed",
-        input: { pattern: "packages/opencode/src/**/*.ts" },
+        input: { pattern: "packages/cli/src/**/*.ts" },
         output:
-          "packages/opencode/src/cli/index.ts\npackages/opencode/src/command/run.ts\npackages/opencode/src/config/config.ts",
+          "packages/cli/src/cli/index.ts\npackages/cli/src/command/run.ts\npackages/cli/src/config/config.ts",
         title: "Find CLI files",
       },
     },
@@ -1395,7 +1395,7 @@ const headerParts: Record<string, Part[]> = {
       tool: "edit",
       state: {
         status: "completed",
-        input: { filePath: "packages/opencode/src/cli/index.ts" },
+        input: { filePath: "packages/cli/src/cli/index.ts" },
         output: "Updated the command registry to expose the new interface hook.",
         title: "Update CLI registry",
       },
@@ -1421,7 +1421,7 @@ const headerParts: Record<string, Part[]> = {
       tool: "write",
       state: {
         status: "completed",
-        input: { filePath: "packages/opencode/src/cli/interface.ts" },
+        input: { filePath: "packages/cli/src/cli/interface.ts" },
         output: "Created the CLI interface implementation scaffold.",
         title: "Create interface scaffold",
       },
@@ -1441,7 +1441,7 @@ const headerParts: Record<string, Part[]> = {
       tool: "bash",
       state: {
         status: "running",
-        input: { command: "bun test packages/opencode/test/cli.test.ts", description: "Run CLI tests" },
+        input: { command: "bun test packages/cli/test/cli.test.ts", description: "Run CLI tests" },
         title: "Run CLI tests",
       },
     },

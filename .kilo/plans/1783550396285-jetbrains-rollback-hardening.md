@@ -4,7 +4,7 @@ Harden the new JetBrains rollback/redo feature: (1) communicate when only messag
 reverted because snapshots are disabled, and (2–4) close the code-duplication, testing,
 end-to-end, and AGENTS-conformance gaps.
 
-All work is inside `packages/kilo-jetbrains/`. No shared `packages/opencode/` files change,
+All work is inside `packages/kilo-jetbrains/`. No shared `packages/cli/` files change,
 so no `kilocode_change` markers are needed.
 
 ## Context an implementer needs

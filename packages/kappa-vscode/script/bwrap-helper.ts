@@ -94,7 +94,7 @@ export async function ensureBwrapForTarget(target: string, root?: string): Promi
   }
   if (validLocalBwrap(dest)) return dest
 
-  const { buildBubblewrap } = await import("../../opencode/script/kappacode/bubblewrap")
+  const { buildBubblewrap } = await import("../../cli/script/kappacode/bubblewrap")
   const built = await buildBubblewrap(arch(target))
   stage(built.executable, dest, built.digest)
   return dest
