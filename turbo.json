@@ -37,7 +37,7 @@
       "outputs": [".artifacts/unit/junit.xml"],
       "passThroughEnv": ["*"]
     },
-    "@kilocode/cli#test:httpapi": {
+    "@kappacode/cli#test:httpapi": {
       "dependsOn": ["^build"],
       "cache": false,
       "outputs": [],
