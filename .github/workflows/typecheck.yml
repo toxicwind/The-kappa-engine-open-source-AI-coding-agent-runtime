@@ -46,6 +46,13 @@ jobs:
     needs: changes # kilocode_change
     if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.javascript == 'true' # kilocode_change
     runs-on: ${{ github.repository == 'Kilo-Org/kilocode' && 'blacksmith-4vcpu-ubuntu-2404' || 'ubuntu-latest' }} # kilocode_change
+    # kilocode_change start
+    # ci-watch: cap turbo parallelism to bound peak RSS of concurrent tsc/tsgo
+    # processes; @opencode-ai/tui#typecheck (tsgo) was SIGKILLed (137) under
+    # default full parallelism on ubuntu-latest runners.
+    env:
+      TURBO_CONCURRENCY: '4'
+    # kilocode_change end
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6 # kilocode_change
