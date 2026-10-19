@@ -4,7 +4,7 @@ This guide walks you through setting up Mistral's Codestral model for free autoc
 
 ## Prerequisites
 
-- A [Kappa Code account](https://app.kappa.ai) (free to create)
+- A [Kappa Code account](https://app.kilo.ai) (free to create)
 - A Mistral AI account with a Codestral API key
 
 ## Step 1: Navigate to Codestral in Mistral AI Studio
@@ -31,8 +31,8 @@ The Codestral API key is separate from the standard Mistral La Plateforme API ke
 
 ## Step 4: Add Your Key via BYOK in Kappa
 
-1. Log into the [Kappa platform](https://app.kappa.ai).
-2. Navigate to the [Bring Your Own Key (BYOK) page](https://app.kappa.ai/byok), available in the sidebar under **Account**.
+1. Log into the [Kappa platform](https://app.kilo.ai).
+2. Navigate to the [Bring Your Own Key (BYOK) page](https://app.kilo.ai/byok), available in the sidebar under **Account**.
 3. Click **Add Your First Key** (or **Add Key** if you already have keys configured).
 4. Select **Codestral** as the provider.
 5. Paste your Codestral API key.
@@ -44,23 +44,23 @@ For more details on BYOK, see the [Bring Your Own Key documentation](/docs/getti
 
 ## Step 5: Verify Autocomplete is Working
 
-Once your BYOK key is saved, Kappa Code's autocomplete will automatically use your Codestral key through the Kappa Gateway. No additional configuration is needed in the extension.
+Once your BYOK key is saved, Kappa Code's autocomplete will automatically use your Codestral key through the Kilo Gateway. No additional configuration is needed in the extension.
 
 1. Open VS Code with the Kappa Code extension installed.
 2. Start typing in any code file — you should see inline ghost-text suggestions powered by Codestral.
 3. Press `Tab` to accept a suggestion.
 
-The autocomplete status bar in VS Code shows the current provider ("Kappa Gateway") and tracks cumulative cost. With BYOK, requests are billed directly by Mistral at their rates (Codestral has a free tier) and show as $0.00 on your Kappa balance.
+The autocomplete status bar in VS Code shows the current provider ("Kilo Gateway") and tracks cumulative cost. With BYOK, requests are billed directly by Mistral at their rates (Codestral has a free tier) and show as $0.00 on your Kappa balance.
 
 ## How It Works
 
 When you add a Codestral BYOK key, the request flow is:
 
 ```
-Your Editor → Kappa Gateway (with your key) → Mistral
+Your Editor → Kilo Gateway (with your key) → Mistral
 ```
 
-- The Kappa Gateway detects your BYOK key and routes autocomplete requests using it.
+- The Kilo Gateway detects your BYOK key and routes autocomplete requests using it.
 - You are billed directly by Mistral — Kappa does not add any markup.
 - If your BYOK key is invalid, the request will fail (it does not fall back to Kappa's keys).
 

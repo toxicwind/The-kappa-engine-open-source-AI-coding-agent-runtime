@@ -45,7 +45,7 @@ const VALID_BENCH_RESPONSE = JSON.stringify({
 const VALID_AUTO_ROUTING_RESPONSE = JSON.stringify({
   data: [
     {
-      id: "kappa-auto/efficient",
+      id: "kilo-auto/efficient",
       name: "Kappa Auto Efficient",
       context_length: 128000,
       max_completion_tokens: 16384,
@@ -151,12 +151,12 @@ test("falls back to public endpoint on 401 and returns models", async () => {
 test.each([
   { kappacodeToken: "expired-token", kappacodeOrganizationId: "org-123" },
   { kappacodeOrganizationId: "org-123" },
-  { kappacodeToken: "expired-token", baseURL: "https://api.kappa.ai/api/organizations/org-123" },
+  { kappacodeToken: "expired-token", baseURL: "https://api.kilo.ai/api/organizations/org-123" },
   { kappacodeToken: "expired-token", baseURL: "https://gateway.test/api/organizations/org-123" },
   { kappacodeToken: "https://gateway.test/api/organizations/org-token:expired-token" },
   {
     kappacodeToken: "https://gateway.test/api/organizations/org-token:expired-token",
-    baseURL: "https://api.kappa.ai/api/openrouter",
+    baseURL: "https://api.kilo.ai/api/openrouter",
   },
 ])("never retries an organization-scoped 401 against the public catalog: %j", async (options) => {
   const fetch = spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 401 }))
@@ -263,7 +263,7 @@ test("preserves Auto Efficient routing metadata as a dedicated model field", asy
   ;(globalThis as any).fetch = orig
 
   expect(result.error).toBeUndefined()
-  expect(result.models["kappa-auto/efficient"].autoRouting).toEqual({
+  expect(result.models["kilo-auto/efficient"].autoRouting).toEqual({
     models: ["google/gemini-2.5-flash", "anthropic/claude-sonnet-4.6"],
   })
 })

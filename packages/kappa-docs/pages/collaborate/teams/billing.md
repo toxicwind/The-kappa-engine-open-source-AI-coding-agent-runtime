@@ -19,7 +19,7 @@ $1 of purchased credits funds $1 of usage. The 5% processing fee is charged sepa
 
 ## Organization Credits
 
-Organization Owners can purchase Kappa credits on the [Organization dashboard](https://app.kappa.ai).
+Organization Owners can purchase Kappa credits on the [Organization dashboard](https://app.kilo.ai).
 
 Organization credits are purchased on behalf of all users in the organization. Every member of the organization can use the credits in the organization's balance with the Kappa Code model provider.
 
@@ -78,7 +78,7 @@ A 5% payment-processing fee applies to every Kappa Pass purchase, including recu
 - **Pooled credits** — each service window's Kappa Pass credits are issued to the organization's pool rather than to individuals.
 - **Child organizations** — if your organization has direct child organizations, you can allocate part of the pooled capacity to each child. Anything not allocated stays with the parent organization.
 
-Organization owners and billing managers can purchase Kappa Pass, manage allocations, and cancel from your organization's **Subscriptions** page on the [Organization dashboard](https://app.kappa.ai). Cancellation takes effect at the end of the current paid period. Regular members do not see these controls.
+Organization owners and billing managers can purchase Kappa Pass, manage allocations, and cancel from your organization's **Subscriptions** page on the [Organization dashboard](https://app.kilo.ai). Cancellation takes effect at the end of the current paid period. Regular members do not see these controls.
 
 If a seat reduction leaves your allocations larger than the remaining capacity, the subscription becomes overallocated and the Subscriptions page walks you through reconciling it.
 

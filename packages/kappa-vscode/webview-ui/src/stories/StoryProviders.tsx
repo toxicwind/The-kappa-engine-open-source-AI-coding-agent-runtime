@@ -71,7 +71,7 @@ const plural = (key: UiI18nPluralKey, count: number, params?: Record<string, str
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
-// Mock providers — pre-loaded Kappa Gateway model for stories
+// Mock providers — pre-loaded Kilo Gateway model for stories
 // ---------------------------------------------------------------------------
 
 const MOCK_PROVIDERS = {

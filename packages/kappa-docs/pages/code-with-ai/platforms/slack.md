@@ -104,13 +104,13 @@ Good for:
 Before using Kappa for Slack:
 
 - You need a Kappa Code account with available credits
-- Your Git provider integration (GitHub or GitLab) must be configured via the Integrations tab at [app.kappa.ai](https://app.kappa.ai) so Kappa can access your repositories
+- Your Git provider integration (GitHub or GitLab) must be configured via the Integrations tab at [app.kilo.ai](https://app.kilo.ai) so Kappa can access your repositories
 
 ---
 
 ## Setup
 
-To install Kappa for Slack, go to the Integrations menu in the sidebar at [app.kappa.ai](https://app.kappa.ai) and set up the Slack integration:
+To install Kappa for Slack, go to the Integrations menu in the sidebar at [app.kilo.ai](https://app.kilo.ai) and set up the Slack integration:
 
 {% image src="/docs/img/connect/slack/slackbot-integrations.webp" alt="Kappa Integrations page where you install the Slack integration" width="800" /%}
 
@@ -144,7 +144,7 @@ To make proper use of all of the Kappa Slack bot's capabilities, it's important 
 
 You can customize which AI model Kappa uses for generating responses.
 
-1. Go to your Kappa Workspace at [app.kappa.ai](https://app.kappa.ai)
+1. Go to your Kappa Workspace at [app.kilo.ai](https://app.kilo.ai)
 2. Navigate to **Integrations > Slack**
 3. Select your preferred model
 

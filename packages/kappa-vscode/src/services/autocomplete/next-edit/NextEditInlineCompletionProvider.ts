@@ -11,7 +11,7 @@ const INLINE_COMPLETION_ACCEPTED_COMMAND = "kappa-code.new.autocomplete.nextEdit
 const DEFAULT_DEBOUNCE_MS = 250
 
 export interface NextEditProviderDeps {
-  /** Routes Mercury calls through the local Kappa gateway (handles auth + BYOK). */
+  /** Routes Mercury calls through the local Kilo gateway (handles auth + BYOK). */
   connectionService: KappaConnectionService
   /** Optional source of recently-viewed snippets (kappacode's VisibleCodeTracker can adapt to this). */
   getRecentlyViewedSnippets?: (document: vscode.TextDocument) => MercuryRecentSnippet[]

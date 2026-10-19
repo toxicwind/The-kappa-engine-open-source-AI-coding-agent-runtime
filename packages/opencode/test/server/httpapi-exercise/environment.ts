@@ -14,7 +14,7 @@ process.env.KAPPA_DISABLE_SHARE = "true"
 process.env.KAPPA_DISABLE_SESSION_INGEST = "true" // kappacode_change - isolate the exerciser from async Kappa session sync
 process.env.KAPPA_DISABLE_PRESENCE = "1" // kappacode_change - presence now has a default Event Service URL; never open real sockets from the exerciser
 process.env.KAPPA_DISABLE_CODEBASE_INDEXING = "vscode-no-workspace" // kappacode_change - route scenarios do not need an indexing worker per temp project
-process.env.KAPPA_MARKETPLACE_BASE_URL = "http://127.0.0.1:9" // kappacode_change - keep marketplace catalog fetches hermetic; the list scenario degrades to an empty catalog instead of calling api.kappa.ai
+process.env.KAPPA_MARKETPLACE_BASE_URL = "http://127.0.0.1:9" // kappacode_change - keep marketplace catalog fetches hermetic; the list scenario degrades to an empty catalog instead of calling api.kilo.ai
 export const exerciseConfigDirectory = path.join(exerciseGlobalRoot, "config", "opencode")
 export const exerciseDataDirectory = path.join(exerciseGlobalRoot, "data", "kappa") // kappacode_change
 

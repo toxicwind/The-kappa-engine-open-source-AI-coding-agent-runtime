@@ -39,14 +39,14 @@ kappa auth list
 You can use ChatGPT to sign in to Kappa, connect your subscription for model requests, or both. These are separate options and neither requires an OpenAI API key. See [using ChatGPT with Kappa](/docs/ai-providers/openai-chatgpt-plus-pro) for setup and billing details.
 
 {% callout type="tip" title="Add Credits" %}
-[Add credits to your account](https://app.kappa.ai/profile), or sign up for [Kappa Pass](https://kappa.ai/pricing/kappa-pass).
+[Add credits to your account](https://app.kilo.ai/profile), or sign up for [Kappa Pass](https://kappa.ai/pricing/kappa-pass).
 {% /callout %}
 
-## Kappa Gateway API Key
+## Kilo Gateway API Key
 
 If you're using the [Kappa AI Gateway](/docs/gateway/) outside of the Kappa Code extension (for example, with the Vercel AI SDK or OpenAI SDK), you'll need an API key:
 
-1. Go to [app.kappa.ai](https://app.kappa.ai)
+1. Go to [app.kilo.ai](https://app.kilo.ai)
 2. Go to **Your Profile** on your **personal account** (not in an organization)
 3. Scroll to the bottom of the page
 4. Copy your API key

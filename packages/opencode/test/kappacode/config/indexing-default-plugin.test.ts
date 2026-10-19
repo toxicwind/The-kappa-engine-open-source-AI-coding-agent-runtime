@@ -87,7 +87,7 @@ describe("kappacode default indexing plugin", () => {
           await Filesystem.write(
             path.join(dir, "opencode.json"),
             JSON.stringify({
-              $schema: "https://app.kappa.ai/config.json",
+              $schema: "https://app.kilo.ai/config.json",
               plugin: ["global-plugin-1"],
             }),
           )

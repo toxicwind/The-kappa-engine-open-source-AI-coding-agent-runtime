@@ -11,7 +11,7 @@ Kappa Code supports accessing Poolside's Laguna models directly through Poolside
 **Website:** [https://poolside.ai/](https://poolside.ai/)
 
 {% callout type="tip" %}
-Poolside models are also available through [Kappa Gateway](/docs/gateway). Free models require no authentication; paid models use your Kappa account — see [Authentication](/docs/getting-started/setup-authentication) to sign in, and [Kappa Gateway authentication](/docs/gateway/authentication) for how the Gateway handles free and paid access.
+Poolside models are also available through [Kilo Gateway](/docs/gateway). Free models require no authentication; paid models use your Kappa account — see [Authentication](/docs/getting-started/setup-authentication) to sign in, and [Kilo Gateway authentication](/docs/gateway/authentication) for how the Gateway handles free and paid access.
 {% /callout %}
 
 ## Getting an API Key

@@ -110,7 +110,7 @@ Three credential boundaries coexist. Keep them separate when tracing request pat
 | Boundary | Protects | Owner |
 |---|---|---|
 | Local `kappa serve` access | HTTP, SSE, and selected WebSocket access to local server | Kappa CLI server and spawning local client |
-| Outbound provider authentication | Model provider, Kappa Gateway, catalog, and indexing access | Kappa CLI provider router and auth stores |
+| Outbound provider authentication | Model provider, Kilo Gateway, catalog, and indexing access | Kappa CLI provider router and auth stores |
 | Remote MCP OAuth | Browser authorization and credentials for remote MCP server | Kappa CLI MCP runtime |
 
 ### Local `kappa serve` access
@@ -135,7 +135,7 @@ Provider auth records use `api`, `oauth`, or `wellknown` variants in `${Global.P
 | Path | Behavior |
 |---|---|
 | Direct providers | Use provider-specific keys, OAuth records, environment values, and configured endpoints |
-| Kappa Gateway | Resolves Kappa model access and model catalog through gateway client |
+| Kilo Gateway | Resolves Kappa model access and model catalog through gateway client |
 | Anonymous Kappa | If no Kappa key exists, provider loader sets API key value `anonymous`; gateway model catalog can fall back to public unauthenticated endpoint |
 | Organization catalog | Kappa model fetch includes organization ID when resolved from config, auth, or environment |
 | Model cache | Caches provider model results for five minutes; failed loads invalidate cache for retry |
@@ -176,7 +176,7 @@ Remote HTTP proxy responses can include sync fence metadata. Router waits for ma
 | Instance store | Caches normalized directory-scoped runtime contexts |
 | SQLite and storage services | Persist structured records and remaining JSON-owned data |
 | Snapshot service | Tracks git-backed file baselines for diffs and revert flows |
-| Provider router | Resolves direct providers, Kappa Gateway, custom endpoints, and credentials |
+| Provider router | Resolves direct providers, Kilo Gateway, custom endpoints, and credentials |
 | HTTP server | Publishes REST, WebSocket, and SSE surfaces |
 
 ## Daemon lifecycle

@@ -15,7 +15,7 @@ Kappa Code provides its own built-in API provider that gives you access to the l
 When you sign up for Kappa Code, you can start immediately with free models, or add credits to your account to access premium models.
 
 1. **Sign up:** Complete the registration process
-2. **Add credits:** Top up your account at [app.kappa.ai](https://app.kappa.ai/profile)
+2. **Add credits:** Top up your account at [app.kilo.ai](https://app.kilo.ai/profile)
 3. **Start Coding:** Use 500+ models including the latest frontier coding models
 
 ## Registration Process
@@ -35,11 +35,11 @@ Kappa Code offers a streamlined registration that connects you directly to front
 
 Kappa Code provides access to the latest frontier coding models through its built-in provider. The specific models available are automatically updated and managed by the Kappa Code service, ensuring you always have access to the most capable models for coding tasks.
 
-## Kappa Gateway integration
+## Kilo Gateway integration
 
-Kappa Code routes requests through the Kappa Gateway for model access, usage tracking, and organization controls. For BYOK setup, provider routing, and full model availability, use the Gateway docs as the source of truth:
+Kappa Code routes requests through the Kilo Gateway for model access, usage tracking, and organization controls. For BYOK setup, provider routing, and full model availability, use the Gateway docs as the source of truth:
 
-- [Kappa Gateway overview](/docs/gateway)
+- [Kilo Gateway overview](/docs/gateway)
 - [Models & Providers](/docs/gateway/models-and-providers)
 - [Authentication & BYOK](/docs/gateway/authentication)
 
@@ -56,7 +56,7 @@ Once you've completed the registration process, Kappa Code is automatically conf
 With the Kappa Code provider, if you sign up with Google you can also connect other sign in accounts - like GitHub - by:
 
 1. Go to your profile
-2. Select [**Connected Accounts**](https://app.kappa.ai/connected-accounts)
+2. Select [**Connected Accounts**](https://app.kilo.ai/connected-accounts)
 3. Under "Link a New account" select the type of account to link
 4. Complete the OAuth authorization, and you'll see your connected accounts!
 

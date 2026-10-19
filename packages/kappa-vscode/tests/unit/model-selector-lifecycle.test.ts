@@ -68,7 +68,7 @@ function check(code: string) {
         } })
         return items
       }
-      const [models, setModels] = createSignal(catalog([model("alpha"), model("bravo"), model("charlie", "anthropic"), model("hidden", "offline"), model("kappa-auto/small")]))
+      const [models, setModels] = createSignal(catalog([model("alpha"), model("bravo"), model("charlie", "anthropic"), model("hidden", "offline"), model("kilo-auto/small")]))
       const [connected, setConnected] = createSignal(["anthropic"])
       const [value, setValue] = createSignal({ providerID: "kappa", modelID: "alpha" })
       const [override, setOverride] = createSignal()
@@ -133,7 +133,7 @@ describe("ModelSelector closed popup work", () => {
       try {
         await flush()
         state.setValue(null)
-        state.refresh([model("hidden", "offline"), model("kappa-auto/small")])
+        state.refresh([model("hidden", "offline"), model("kilo-auto/small")])
         assert.equal(state.hasProviders(), false)
         assert.equal(state.canOpen(), false)
         assert.equal(state.triggerLabel(), "dialog.model.noProviders")
@@ -147,7 +147,7 @@ describe("ModelSelector closed popup work", () => {
         empty(state)
         assert.equal(state.stats.filters, 0)
         const small = scene({ includeAutoSmall: true })
-        small.refresh([model("kappa-auto/small")])
+        small.refresh([model("kilo-auto/small")])
         assert.equal(small.canOpen(), true)
         small.dispose()
         const clear = scene()

@@ -67,7 +67,7 @@ flowchart LR
 | Kappa Bot | GitHub, Slack, or Linear command ingress | Web control plane bot libraries | Cloud Agent for requested repository work | Command response and coding-session result |
 | Code Review | Pull-request webhook or review dispatch | Database queue and `code-review-infra` Durable Object per review | Cloud Agent review session | Pull-request feedback; dispatch next waiting review |
 | Auto Triage | GitHub issue event or dispatch queue | Web duplicate check and `auto-triage-infra` Durable Object per ticket | Cloud Agent only when classification session is needed | Labels, status, callback, and timeout alarm |
-| Auto Fix | `kappa-auto-fix` label or dispatch rule | `auto-fix-infra` Durable Object per fix ticket | Cloud Agent branch and pull-request work | Pull request and lifecycle status callback |
+| Auto Fix | `kilo-auto-fix` label or dispatch rule | `auto-fix-infra` Durable Object per fix ticket | Cloud Agent branch and pull-request work | Pull request and lifecycle status callback |
 | Security Agent | Interactive or scheduled Dependabot sync plus analysis queue | `security-sync` and `security-auto-analysis` Workers | Model triage in `security-auto-analysis`; Cloud Agent only for selected deep analysis | Finding state, audit records, and stale-analysis cleanup |
 | Webhook Agent Ingest | HTTP webhook or scheduled alarm | `webhook-agent-ingest` queue and `TriggerDO` | Cloud Agent destination | Destination delivery and queue retry behavior |
 
@@ -107,7 +107,7 @@ Auto Triage classifies GitHub issues and applies labels or status updates. Dupli
 | Duplicate check | Calls Next.js API and can complete without Cloud Agent |
 | Execution | Cloud Agent session runs structured classification prompt when needed |
 | Callback | `POST /tickets/:ticketId/classification-callback` with per-ticket secret |
-| Output | High-confidence classification applies labels such as `kappa-auto-fix` for downstream Auto Fix |
+| Output | High-confidence classification applies labels such as `kilo-auto-fix` for downstream Auto Fix |
 | Recovery | Durable Object alarm marks stuck ticket failed |
 
 ## Auto Fix

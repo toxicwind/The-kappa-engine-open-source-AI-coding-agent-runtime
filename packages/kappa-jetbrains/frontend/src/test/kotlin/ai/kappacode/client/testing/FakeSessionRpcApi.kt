@@ -73,7 +73,7 @@ class FakeSessionRpcApi : KiloSessionRpcApi {
 
     /** Share/unshare call tracking and behaviour. */
     val shares = mutableListOf<Triple<String, String, Boolean>>()
-    var shareUrl = "https://app.kappa.ai/s/token"
+    var shareUrl = "https://app.kilo.ai/s/token"
     var shareThrows: Exception? = null
 
     /** Push chat events here; tests collect from [events]. */

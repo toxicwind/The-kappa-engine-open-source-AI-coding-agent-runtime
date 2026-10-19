@@ -17,7 +17,7 @@ const message = {
   role: "assistant",
   time: { created: 1, completed: 2 },
   parentID: "msg_0",
-  modelID: "kappa-auto/balanced",
+  modelID: "kilo-auto/balanced",
   providerID: "kappa",
   mode: "build",
   agent: "build",

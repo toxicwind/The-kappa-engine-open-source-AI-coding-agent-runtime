@@ -13,11 +13,11 @@ describe("isEligible", () => {
   beforeEach(() => resetEligibility())
   afterEach(() => resetEligibility())
 
-  test("free Kappa Gateway personal context is eligible", () => {
+  test("free Kilo Gateway personal context is eligible", () => {
     expect(isEligible(base)).toBe(true)
   })
 
-  test("paid Kappa Gateway is ineligible", () => {
+  test("paid Kilo Gateway is ineligible", () => {
     expect(isEligible({ ...base, model: { ...base.model, isFree: false } })).toBe(false)
   })
 

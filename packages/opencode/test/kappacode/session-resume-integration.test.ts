@@ -257,7 +257,7 @@ const writeText = Effect.fn("test.writeText")(function* (file: string, text: str
 const writeConfig = Effect.fn("test.writeConfig")(function* (dir: string, config: Partial<Config.Info>) {
   yield* writeText(
     path.join(dir, "opencode.json"),
-    JSON.stringify({ $schema: "https://app.kappa.ai/config.json", ...config }),
+    JSON.stringify({ $schema: "https://app.kilo.ai/config.json", ...config }),
   )
 })
 

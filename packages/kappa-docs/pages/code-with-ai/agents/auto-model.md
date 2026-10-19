@@ -9,19 +9,19 @@ Auto Model is a smart routing system that selects an underlying model for each r
 
 | Tier | Best For | Pricing |
 |---|---|---|
-| `kappa-auto/frontier` | Maximum capability with the best available models | Paid |
-| `kappa-auto/efficient` | Lowest cost per task, with capability matched to difficulty | Paid |
-| `kappa-auto/free` | The best free models available | Free |
+| `kilo-auto/frontier` | Maximum capability with the best available models | Paid |
+| `kilo-auto/efficient` | Lowest cost per task, with capability matched to difficulty | Paid |
+| `kilo-auto/free` | The best free models available | Free |
 
 ## How It Works
 
-1. Select an Auto Model tier (e.g. `kappa-auto/frontier`) in the model dropdown
+1. Select an Auto Model tier (e.g. `kilo-auto/frontier`) in the model dropdown
 2. Start working in any mode (Code, Architect, Debug, etc.)
 3. The system automatically routes your requests to the best model for that task
 
 That's it. No configuration needed.
 
-You can see which underlying models are used, as well as the cost, in the expanded model picker. Model mapping information is also available on the [Gateway Model page](/docs/gateway/models-and-providers#kappa-autofrontier).
+You can see which underlying models are used, as well as the cost, in the expanded model picker. Model mapping information is also available on the [Gateway Model page](/docs/gateway/models-and-providers#kilo-autofrontier).
 
 {% callout type="info" title="Models can change" %}
 The underlying models behind each Auto Model tier are updated server-side as better options become available or as providers change pricing and availability. The tier you select stays the same; the model it routes to may change over time.
@@ -43,9 +43,9 @@ You get lean costs on routine work and stronger models when the work demands it 
 
 ### Custom Efficient pools
 
-You can constrain `kappa-auto/efficient` to the exact models you trust by configuring an **Efficient model pool** on the **Auto routing** card:
+You can constrain `kilo-auto/efficient` to the exact models you trust by configuring an **Efficient model pool** on the **Auto routing** card:
 
-- **Personal** — your [profile page](https://app.kappa.ai/profile)
+- **Personal** — your [profile page](https://app.kilo.ai/profile)
 - **Organization** — your organization's **Providers & Models** page. Owners and billing managers can edit; members see a read-only view.
 
 A pool holds 1–10 exact model and thinking-variant pairs. Variants stay distinct, so the same model with different thinking variants (for example `max` and `xhigh`) counts as separate entries. Leave the pool empty to inherit: an organization without a pool uses each member's personal pool, and a member without a personal pool uses the platform pool.
@@ -99,7 +99,7 @@ Select an Auto Model tier from the model dropdown in the Kappa Code chat interfa
 
 1. Open Kappa Code in VS Code or JetBrains
 2. Click the model selector dropdown
-3. Choose an Auto Model such as `kappa-auto/frontier` or `kappa-auto/efficient`
+3. Choose an Auto Model such as `kilo-auto/frontier` or `kilo-auto/efficient`
 4. Start chatting - the right model is selected automatically based on your current mode
 
 ## When to Use Auto Model

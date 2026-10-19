@@ -28,7 +28,7 @@ export interface Entry {
   virtual?: boolean
 }
 
-const SCHEMA = "https://app.kappa.ai/config.json"
+const SCHEMA = "https://app.kilo.ai/config.json"
 
 const MODERN = ["kappa.jsonc", "kappa.json"]
 const LEGACY = ["opencode.jsonc", "opencode.json"]

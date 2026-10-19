@@ -4,7 +4,7 @@
  * Payload rules:
  * - Non-Kappa-Gateway providers: providerID, modelID, variant?, rating, previousRating? only.
  *   No session or message IDs — they can't be correlated to upstream data.
- * - Kappa Gateway providers: add sessionID, messageID, parentMessageID. The
+ * - Kilo Gateway providers: add sessionID, messageID, parentMessageID. The
  *   gateway can join parentMessageID against its `x-kappa-request` header logs.
  */
 

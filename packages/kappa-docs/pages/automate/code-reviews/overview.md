@@ -27,7 +27,7 @@ Kappa's **Code Reviews** feature automatically analyzes your pull or merge reque
 
 Before enabling Code Reviews:
 
-- **A platform integration must be configured:** Connect your GitHub or GitLab account via the [Integrations page](https://app.kappa.ai/integrations) so that the Review Agent can access your repositories. See the [Integration setup guide](/docs/automate/integrations) for detailed instructions.
+- **A platform integration must be configured:** Connect your GitHub or GitLab account via the [Integrations page](https://app.kilo.ai/integrations) so that the Review Agent can access your repositories. See the [Integration setup guide](/docs/automate/integrations) for detailed instructions.
 - **Kappa Code credits:** The AI model uses credits when analyzing your code.
 
 ## Cost
@@ -39,7 +39,7 @@ Before enabling Code Reviews:
 
 ## Getting Started
 
-1. Go to the **Code Reviews** page in your [personal dashboard](https://app.kappa.ai/profile) or [organization dashboard](https://app.kappa.ai/organizations).
+1. Go to the **Code Reviews** page in your [personal dashboard](https://app.kilo.ai/profile) or [organization dashboard](https://app.kilo.ai/organizations).
 2. Toggle **Enable AI Code Review** to on.
 3. Choose an **AI Model** (e.g., Claude Sonnet 4.5).
 4. Select a **Review Style** — Strict, Balanced, or Lenient.
@@ -60,7 +60,7 @@ To use it:
 
 1. Create `REVIEW.md` at the repository root.
 2. Commit it to the base branch used by pull requests or merge requests.
-3. Open Code Reviews settings in the [Kappa web app](https://app.kappa.ai/code-reviews) and enable **Use REVIEW.md**.
+3. Open Code Reviews settings in the [Kappa web app](https://app.kilo.ai/code-reviews) and enable **Use REVIEW.md**.
 4. Save the configuration and run a review.
 
 Kappa reads `REVIEW.md` from the PR/MR base branch, not the feature branch. That prevents an unreviewed change from rewriting the review policy used to evaluate itself. If the file is disabled, missing, empty, or unreadable, Kappa falls back to built-in guidance. If it is longer than 10,000 characters, Kappa truncates it and notes that in the review summary footer.

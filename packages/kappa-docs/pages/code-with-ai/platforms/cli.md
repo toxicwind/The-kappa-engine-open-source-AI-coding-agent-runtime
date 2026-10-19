@@ -143,12 +143,12 @@ The `kappa console` command and its browser interface are deprecated and will be
 
 `/reload` reloads every instance of the project, including the main checkout and sibling worktrees. Kappa refuses the reload while any session in the project is running; wait for it to finish or abort it first.
 
-#### Kappa Gateway Commands (when connected)
+#### Kilo Gateway Commands (when connected)
 
 | Command | Aliases | Description |
 |---|---|---|
-| `/profile` | `/me`, `/whoami` | View your Kappa Gateway profile |
-| `/teams` | `/team`, `/org`, `/orgs` | Switch between Kappa Gateway teams |
+| `/profile` | `/me`, `/whoami` | View your Kilo Gateway profile |
+| `/teams` | `/team`, `/org`, `/orgs` | Switch between Kilo Gateway teams |
 | `/remote` | - | Toggle remote mode for Cloud Agent access |
 
 #### Built-in Commands
@@ -280,7 +280,7 @@ You can set permissions globally (with `*`), and override specific tools.
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "permission": {
     "*": "ask",
     "bash": "allow",
@@ -293,7 +293,7 @@ You can also set all permissions at once:
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "permission": "allow"
 }
 ```
@@ -304,7 +304,7 @@ For most permissions, you can use an object to apply different actions based on 
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "permission": {
     "bash": {
       "*": "ask",
@@ -345,7 +345,7 @@ Use `external_directory` to allow tool calls that touch paths outside the workin
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "permission": {
     "external_directory": {
       "~/projects/personal/**": "allow"
@@ -358,7 +358,7 @@ Any directory allowed here inherits the same defaults as the current workspace. 
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "permission": {
     "external_directory": {
       "~/projects/personal/**": "allow"
@@ -395,7 +395,7 @@ Project-level configuration takes precedence over global settings.
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "model": "anthropic/claude-sonnet-4-20250514",
   "provider": {
     "anthropic": {
@@ -661,7 +661,7 @@ kappa --continue
 
 ## Remote Connections
 
-Remote Connections let you access your local CLI sessions from the Cloud Agents web interface. Requires [Kappa Gateway](/docs/gateway) connection.
+Remote Connections let you access your local CLI sessions from the Cloud Agents web interface. Requires [Kilo Gateway](/docs/gateway) connection.
 
 ### Enabling Remote Mode
 
@@ -671,7 +671,7 @@ Remote Connections let you access your local CLI sessions from the Cloud Agents 
 /remote
 ```
 
-Requires connection to Kappa Gateway. The `/remote` command appears only when authenticated.
+Requires connection to Kilo Gateway. The `/remote` command appears only when authenticated.
 
 **Enable by default:**
 
@@ -685,13 +685,13 @@ Add to `~/.config/kappa/config.json`:
 
 ### Using Remote Mode
 
-Once enabled, start a CLI session and open [Cloud Agents](https://app.kappa.ai/cloud). Your local session appears in the dashboard. See [Cloud Agent Remote Connections](/docs/code-with-ai/platforms/cloud-agent#remote-connections) for details.
+Once enabled, start a CLI session and open [Cloud Agents](https://app.kilo.ai/cloud). Your local session appears in the dashboard. See [Cloud Agent Remote Connections](/docs/code-with-ai/platforms/cloud-agent#remote-connections) for details.
 
 A connected client can start a session in a child folder of the CLI's launch directory, or continue an existing cloud session locally. Requested folders must remain within the launch directory; absolute paths and paths that escape it are rejected.
 
 ### Requirements
 
-- Connection to Kappa Gateway
+- Connection to Kilo Gateway
 - Same Kappa account on CLI and Cloud Agent
 - CLI must remain running with internet connection
 

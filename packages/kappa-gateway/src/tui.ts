@@ -1,5 +1,5 @@
 /**
- * Kappa Gateway TUI Integration
+ * Kilo Gateway TUI Integration
  *
  * This module provides TUI-specific functionality for kappa-gateway.
  * It requires OpenCode TUI dependencies to be injected at runtime.
@@ -29,7 +29,7 @@ export { formatProfileInfo, getOrganizationOptions, getDefaultOrganizationSelect
 // - DialogKappaTeamSelect -> @/kappacode/components/dialog-kappa-team-select
 // - DialogKappaOrganization -> @/kappacode/components/dialog-kappa-organization
 // - DialogKappaProfile -> @/kappacode/components/dialog-kappa-profile
-// - KappaAutoMethod -> @/kappacode/components/dialog-kappa-auto-method
+// - KappaAutoMethod -> @/kappacode/components/dialog-kilo-auto-method
 // - KappaNews -> @/kappacode/components/kappa-news
 // - NotificationBanner -> @/kappacode/components/notification-banner
 // - DialogKappaNotifications -> @/kappacode/components/dialog-kappa-notifications

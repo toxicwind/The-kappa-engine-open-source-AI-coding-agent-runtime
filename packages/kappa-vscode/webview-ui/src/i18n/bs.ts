@@ -498,7 +498,7 @@ export const dict = {
     "Zadani model i napor zaključivanja za podagente task-tool-a. Ostavite nepodešeno da naslijedi model pozivnog agenta.",
   "settings.models.hidePromptTraining.title": "Sakrij modele koji treniraju na promptovima",
   "settings.models.hidePromptTraining.description":
-    "Sakrij Kappa Gateway modele čiji pružaoci mogu koristiti vaše promptove za treniranje.",
+    "Sakrij Kilo Gateway modele čiji pružaoci mogu koristiti vaše promptove za treniranje.",
   "settings.providers.modeModels": "Model po režimu",
   "settings.providers.modeModels.description":
     "Zamijenite podrazumijevani model za određene režime. Ako nije postavljeno, koristi se globalni podrazumijevani model.",
@@ -704,7 +704,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Plan: Status nepoznat",
   "profile.usage.action.manage": "Upravljaj",
   "profile.usage.action.managePlan": "Upravljaj planom {{plan}}",
-  "profile.usage.routing": "Naplata plana je aktivna. Kappa Gateway usmjeravanje je {{state}}.",
+  "profile.usage.routing": "Naplata plana je aktivna. Kilo Gateway usmjeravanje je {{state}}.",
   "profile.usage.routingState.disabled": "onemogućeno",
   "profile.usage.routingState.missing": "odsutno",
   "profile.usage.routingState.replaced": "zamijenjeno",
@@ -932,7 +932,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Osnovni URL za govor u tekst",
   "settings.models.speechToTextBaseUrl.description":
-    "Koristite API za transkripciju kompatibilan s OpenAI umjesto Kappa Gatewaya. Modeli se čitaju s /models, a zvuk se šalje na /audio/transcriptions. Ostavite prazno da biste koristili Kappa Gateway.",
+    "Koristite API za transkripciju kompatibilan s OpenAI umjesto Kilo Gatewaya. Modeli se čitaju s /models, a zvuk se šalje na /audio/transcriptions. Ostavite prazno da biste koristili Kilo Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "API ključ za govor u tekst",
   "settings.models.speechToTextApiKey.description":
@@ -943,7 +943,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "Glasovni unos nije dostupan u udaljenim prozorima. Otvorite Kappa u lokalnom prozoru da biste koristili mikrofon.",
   "settings.models.speechToTextModel.title": "Model govora u tekst",
-  "settings.models.speechToTextModel.description": "Odaberite Kappa Gateway model za transkripciju za glasovni unos.",
+  "settings.models.speechToTextModel.description": "Odaberite Kilo Gateway model za transkripciju za glasovni unos.",
   "settings.experimental.nativeNotebookTools.title": "Izvorni alati za bilježnice",
   "settings.experimental.nativeNotebookTools.description":
     "Omogući eksperimentalne alate za čitanje, uređivanje i izvršavanje VS Code bilježnica",

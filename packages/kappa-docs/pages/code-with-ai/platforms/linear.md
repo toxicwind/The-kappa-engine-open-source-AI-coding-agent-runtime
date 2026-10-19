@@ -68,14 +68,14 @@ When Kappa creates a pull request, it links back to the Linear issue so everythi
 ## Prerequisites
 
 - A Kappa Code account with available credits
-- Your GitHub or GitLab integration configured via the Integrations tab at [app.kappa.ai](https://app.kappa.ai)
+- Your GitHub or GitLab integration configured via the Integrations tab at [app.kilo.ai](https://app.kilo.ai)
 - Access to a Linear workspace where you can install integrations
 
 ---
 
 ## Setup
 
-1. Go to [app.kappa.ai](https://app.kappa.ai) and navigate to the **Integrations** tab
+1. Go to [app.kilo.ai](https://app.kilo.ai) and navigate to the **Integrations** tab
 2. Set up the **Linear** integration
 3. Authorize Kappa to access your Linear workspace
 
@@ -116,7 +116,7 @@ Kappa Code credits are consumed the same way as any other Kappa interface. Credi
 ## Troubleshooting
 
 **The bot isn't responding to mentions.**
-Confirm that the Linear integration is set up in the Integrations tab at [app.kappa.ai](https://app.kappa.ai) and that the bot has access to your workspace.
+Confirm that the Linear integration is set up in the Integrations tab at [app.kilo.ai](https://app.kilo.ai) and that the bot has access to your workspace.
 
 **The bot can't access the repository.**
 Make sure your GitHub or GitLab integration is configured and that the relevant repositories are authorized.

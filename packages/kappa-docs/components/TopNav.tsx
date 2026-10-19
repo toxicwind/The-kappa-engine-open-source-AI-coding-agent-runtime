@@ -31,7 +31,7 @@ const mainNavItems: NavItem[] = [
   { label: "Collaborate", href: "/collaborate" },
   { label: "Automate", href: "/automate" },
   { label: "Deploy & Secure", href: "/deploy-secure" },
-  { label: "Kappa Gateway", href: "/gateway" },
+  { label: "Kilo Gateway", href: "/gateway" },
   { label: "Kappa Desktop", href: "/desktop", badge: "Beta" },
   { label: "Contributing", href: "/contributing" },
 ]
@@ -335,7 +335,7 @@ export function TopNav({ onMobileMenuToggle, isMobileMenuOpen = false, showMobil
           <Link href="https://kappa.ai/github" className="github-link desktop-nav">
             GitHub
           </Link>
-          <Link href="https://app.kappa.ai" className="signin-btn desktop-nav">
+          <Link href="https://app.kilo.ai" className="signin-btn desktop-nav">
             Sign in
           </Link>
         </div>

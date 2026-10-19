@@ -49,7 +49,7 @@ class MockCliServer : AutoCloseable {
     @Volatile var notificationsStatus = 200
 
     // Auth / OAuth responses
-    @Volatile var authorizeResponse = """{"url":"https://auth.kappa.ai/device","method":"code","instructions":"Open URL and enter code: TEST-1234"}"""
+    @Volatile var authorizeResponse = """{"url":"https://auth.kilo.ai/device","method":"code","instructions":"Open URL and enter code: TEST-1234"}"""
     @Volatile var authorizeStatus = 200
     @Volatile var callbackStatus = 200
     @Volatile var authRemoveStatus = 200
@@ -145,7 +145,7 @@ class MockCliServer : AutoCloseable {
     @Volatile var sessionForkStatus = 200
     @Volatile var lastForkPath: String? = null
     @Volatile var lastForkBody: String? = null
-    @Volatile var sessionShare = """{"id":"ses_test","slug":"test","projectID":"prj_test","directory":"/test","title":"New Session","version":"1.0.0","time":{"created":1000,"updated":1000},"share":{"url":"https://app.kappa.ai/s/tok"}}"""
+    @Volatile var sessionShare = """{"id":"ses_test","slug":"test","projectID":"prj_test","directory":"/test","title":"New Session","version":"1.0.0","time":{"created":1000,"updated":1000},"share":{"url":"https://app.kilo.ai/s/tok"}}"""
     @Volatile var sessionUnshare = """{"id":"ses_test","slug":"test","projectID":"prj_test","directory":"/test","title":"New Session","version":"1.0.0","time":{"created":1000,"updated":1000}}"""
     @Volatile var sessionShareStatus = 200
     @Volatile var lastSharePath: String? = null

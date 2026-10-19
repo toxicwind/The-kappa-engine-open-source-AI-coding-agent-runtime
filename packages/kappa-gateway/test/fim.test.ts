@@ -2,16 +2,16 @@ import { describe, expect, test } from "bun:test"
 import { resolveFimTarget } from "../src/fim"
 
 describe("FIM target resolution", () => {
-  test("keeps gateway autocomplete models on Kappa Gateway", () => {
+  test("keeps gateway autocomplete models on Kilo Gateway", () => {
     expect(resolveFimTarget("kappa", "mistralai/codestral-2508")).toEqual({
       provider: "kappa",
       model: "mistralai/codestral-2508",
-      url: "https://api.kappa.ai/api/fim/completions",
+      url: "https://api.kilo.ai/api/fim/completions",
     })
     expect(resolveFimTarget("kappa", "inception/mercury-edit-2")).toEqual({
       provider: "kappa",
       model: "inception/mercury-edit-2",
-      url: "https://api.kappa.ai/api/fim/completions",
+      url: "https://api.kilo.ai/api/fim/completions",
     })
   })
 
@@ -31,22 +31,22 @@ describe("FIM target resolution", () => {
     expect(resolveFimTarget()).toEqual({
       provider: "kappa",
       model: "mistralai/codestral-2501",
-      url: "https://api.kappa.ai/api/fim/completions",
+      url: "https://api.kilo.ai/api/fim/completions",
     })
     expect(resolveFimTarget(undefined, "mistralai/codestral-2508")).toEqual({
       provider: "kappa",
       model: "mistralai/codestral-2508",
-      url: "https://api.kappa.ai/api/fim/completions",
+      url: "https://api.kilo.ai/api/fim/completions",
     })
     expect(resolveFimTarget(undefined, "inception/mercury-edit")).toEqual({
       provider: "kappa",
       model: "inception/mercury-edit",
-      url: "https://api.kappa.ai/api/fim/completions",
+      url: "https://api.kilo.ai/api/fim/completions",
     })
     expect(resolveFimTarget("kappa", "custom/fim-model")).toEqual({
       provider: "kappa",
       model: "custom/fim-model",
-      url: "https://api.kappa.ai/api/fim/completions",
+      url: "https://api.kilo.ai/api/fim/completions",
     })
   })
 })

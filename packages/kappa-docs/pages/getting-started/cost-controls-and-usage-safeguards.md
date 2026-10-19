@@ -52,7 +52,7 @@ Individual accounts stop spending when their balance reaches zero — further re
 
 Organization accounts can additionally configure **per-user daily spending limits**. When a member reaches their daily cap, subsequent requests are blocked until midnight UTC, when the limit resets.
 
-**Where to configure:** Organization spending limits are managed in the organization dashboard at [app.kappa.ai](https://app.kappa.ai). Individual credit top-up is at Settings → Adding Credits.
+**Where to configure:** Organization spending limits are managed in the organization dashboard at [app.kilo.ai](https://app.kilo.ai). Individual credit top-up is at Settings → Adding Credits.
 
 ### Spend alerts
 
@@ -65,11 +65,11 @@ Two rule kinds are available, and you can switch each one on or off on its own:
 
 Each rule can send by email to the scope's billing contacts and by push to a signed-in Kappa mobile app. Push needs the app installed and its **Spend alerts** notification category on; in the mobile app, spend alerts are their own category, so you can turn them off without silencing agent notifications.
 
-**Where to configure:** the spend view at [app.kappa.ai](https://app.kappa.ai), or the same view in the Kappa mobile app. For an organization, owners, admins, and billing managers can manage the alerts.
+**Where to configure:** the spend view at [app.kilo.ai](https://app.kilo.ai), or the same view in the Kappa mobile app. For an organization, owners, admins, and billing managers can manage the alerts.
 
 ### Free model rate limits
 
-Requests to free models (`kappa-auto/free` and other free-tier models) are rate-limited to **200 requests per hour**. If you exceed this, requests return HTTP 429 and you must wait before continuing.
+Requests to free models (`kilo-auto/free` and other free-tier models) are rate-limited to **200 requests per hour**. If you exceed this, requests return HTTP 429 and you must wait before continuing.
 
 ### Practical recommendations
 
@@ -166,13 +166,13 @@ Kappa has auto-models that can help you control costs; more information is avail
 
 | Task type | Suggested approach |
 |---|---|
-| Quick questions, syntax lookups, simple formatting | `kappa-auto/efficient` or a lightweight model |
-| Routine edits, test generation, straightforward refactors | `kappa-auto/efficient` or a mid-tier model |
-| Complex debugging, tracing unexpected behavior | `kappa-auto/frontier` or a strong reasoning model; Debug mode |
-| Architecture planning, design decisions | `kappa-auto/frontier`; Architect mode |
+| Quick questions, syntax lookups, simple formatting | `kilo-auto/efficient` or a lightweight model |
+| Routine edits, test generation, straightforward refactors | `kilo-auto/efficient` or a mid-tier model |
+| Complex debugging, tracing unexpected behavior | `kilo-auto/frontier` or a strong reasoning model; Debug mode |
+| Architecture planning, design decisions | `kilo-auto/frontier`; Architect mode |
 | Repository-wide analysis or search | A model with a large context window (256K+); Architect mode |
-| Code review and summarization | `kappa-auto/efficient` or a cost-effective model |
-| Automated background tasks (CI, scripting) | `kappa-auto/efficient` or `kappa-auto/free` |
+| Code review and summarization | `kilo-auto/efficient` or a cost-effective model |
+| Automated background tasks (CI, scripting) | `kilo-auto/efficient` or `kilo-auto/free` |
 
 ### Manually selecting a model
 
@@ -189,10 +189,10 @@ You can set a default model for each agent (Code, Architect, Debug, Plan, or a c
 {
   "agent": {
     "code": {
-      "model": "kappa-auto/efficient"
+      "model": "kilo-auto/efficient"
     },
     "architect": {
-      "model": "kappa-auto/frontier"
+      "model": "kilo-auto/frontier"
     }
   }
 }
@@ -247,7 +247,7 @@ The **Usage** tab of the organization dashboard provides:
 
 This gives administrators visibility into which team members, models, and projects are driving the majority of spend.
 
-**Where to access:** [app.kappa.ai](https://app.kappa.ai) → Usage tab. 
+**Where to access:** [app.kilo.ai](https://app.kilo.ai) → Usage tab. 
 
 ### Administrative permissions
 
@@ -259,8 +259,8 @@ Dashboard administrative actions (model restrictions, spending limits, billing m
 
 ### Cost-conscious individual developer
 
-- Use `kappa-auto/efficient` as the default model
-- Switch to `kappa-auto/free` for low-stakes questions and exploration
+- Use `kilo-auto/efficient` as the default model
+- Switch to `kilo-auto/free` for low-stakes questions and exploration
 - Enable auto-compaction (on by default); set `compaction.threshold_percent: 80` to compact earlier
 - Set Code agent max output tokens to 16k or below
 - Keep `doom_loop` permission at `ask`
@@ -279,17 +279,17 @@ Dashboard administrative actions (model restrictions, spending limits, billing m
 
 ### Team using multiple models
 
-- Assign `kappa-auto/efficient` to Code and Debug agents for everyday work
-- Assign `kappa-auto/frontier` to Architect (or Plan) agent for planning tasks
-- Set `kappa-auto/efficient` as the compaction model for all agents
+- Assign `kilo-auto/efficient` to Code and Debug agents for everyday work
+- Assign `kilo-auto/frontier` to Architect (or Plan) agent for planning tasks
+- Set `kilo-auto/efficient` as the compaction model for all agents
 - If on an Enterprise plan, use Providers & Models to block high-cost models that are not needed for your team's typical work
 
 ```jsonc
 {
   "agent": {
-    "code": { "model": "kappa-auto/efficient" },
-    "debug": { "model": "kappa-auto/efficient" },
-    "architect": { "model": "kappa-auto/frontier" },
+    "code": { "model": "kilo-auto/efficient" },
+    "debug": { "model": "kilo-auto/efficient" },
+    "architect": { "model": "kilo-auto/frontier" },
     "compaction": { "model": "anthropic/claude-haiku-4-5" }
   }
 }
@@ -300,19 +300,19 @@ Dashboard administrative actions (model restrictions, spending limits, billing m
 The snippet below is a ready-to-copy `kappa.jsonc` that turns on every available cost-control knob at its most restrictive setting. Drop it into your project root (or your global `~/.config/kappa/kappa.jsonc`) and adjust individual values upward as you get comfortable with how each one behaves.
 
 {% callout type="tip" %}
-This configuration uses only `kappa-auto/efficient`.
+This configuration uses only `kilo-auto/efficient`.
 {% /callout %}
 
 ```jsonc
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
 
   // ── Model selection ──────────────────────────────────────────────────────
   // Route all requests through the two lowest-cost Kappa Auto tiers.
-  // kappa-auto/efficient: lowest-cost paid tier (classifies each request by
+  // kilo-auto/efficient: lowest-cost paid tier (classifies each request by
   //   difficulty and routes to the cheapest benchmark-proven model).
-  "model": "kappa-auto/efficient",
-  "subagent_model": "kappa-auto/efficient", // default model for Task-tool subagents
+  "model": "kilo-auto/efficient",
+  "subagent_model": "kilo-auto/efficient", // default model for Task-tool subagents
 
   // ── Per-agent model and step limits ─────────────────────────────────────
   // Assign the cheapest suitable tier to each agent and cap how many
@@ -320,37 +320,37 @@ This configuration uses only `kappa-auto/efficient`.
   // Raise `steps` for agents that need more room; lower it to tighten cost.
   "agent": {
     "code": {
-      "model": "kappa-auto/efficient",
+      "model": "kilo-auto/efficient",
       "steps": 20 // hard cap on agentic iterations per turn
     },
     "plan": {
-      "model": "kappa-auto/efficient",
+      "model": "kilo-auto/efficient",
       "steps": 10
     },
     "debug": {
-      "model": "kappa-auto/efficient",
+      "model": "kilo-auto/efficient",
       "steps": 20
     },
     "ask": {
-      "model": "kappa-auto/efficient",
+      "model": "kilo-auto/efficient",
       "steps": 5
     },
     "orchestrator": {
-      "model": "kappa-auto/efficient",
+      "model": "kilo-auto/efficient",
       "steps": 10
     },
     "explore": {
-      "model": "kappa-auto/free",  
+      "model": "kilo-auto/free",  
       "steps": 15
     },
     "general": {
-      "model": "kappa-auto/efficient",
+      "model": "kilo-auto/efficient",
       "steps": 15
     },
     // Dedicated agents for background summarization 
-    "compaction": { "model": "kappa-auto/free" },
-    "title":      { "model": "kappa-auto/free" },
-    "summary":    { "model": "kappa-auto/free" }
+    "compaction": { "model": "kilo-auto/free" },
+    "title":      { "model": "kilo-auto/free" },
+    "summary":    { "model": "kilo-auto/free" }
   },
 
   // ── Compaction (context management) ─────────────────────────────────────
@@ -395,13 +395,13 @@ Every field in this block is documented in the sections above. Use it as a start
 
 If your spend is higher than expected:
 
-- **Check your usage dashboard** at [app.kappa.ai/usage](https://app.kappa.ai/usage) for a breakdown by day, model, and project
+- **Check your usage dashboard** at [app.kilo.ai/usage](https://app.kilo.ai/usage) for a breakdown by day, model, and project
 - **Review the model in use** — an accidental switch to a frontier model for routine tasks can significantly raise costs
 - **Look for long sessions** — sessions that were never compacted carry their full history as input tokens on every request; use `/compact` to reset them
 - **Check MCP server configuration** — unused MCP servers add tool definitions to every system prompt
 - **Review permission settings** — auto-approving all actions with no `doom_loop` guard removes the friction that normally slows down runaway loops
 
-For further reading: [4 Levers to Take Control of Your AI Spend](https://blog.kappa.ai/p/4-spend-levers)
+For further reading: [4 Levers to Take Control of Your AI Spend](https://blog.kilo.ai/p/4-spend-levers)
 
 ## Related
 

@@ -45,7 +45,7 @@ async function finish(result: ReturnType<typeof streamText>) {
   throw new Error("missing finish-step")
 }
 
-describe("Kappa Gateway response metadata", () => {
+describe("Kilo Gateway response metadata", () => {
   test("surfaces Anthropic terminal cost and routed model", async () => {
     const sdk = createKappa({
       kappacodeToken: "test",

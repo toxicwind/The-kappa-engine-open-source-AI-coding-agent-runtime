@@ -493,7 +493,7 @@ export const dict = {
     "Модель по умолчанию и уровень рассуждения для субагентов task-tool. Оставьте пустым, чтобы унаследовать модель вызывающего агента.",
   "settings.models.hidePromptTraining.title": "Скрывать модели, обучающиеся на запросах",
   "settings.models.hidePromptTraining.description":
-    "Скрывать модели Kappa Gateway, поставщики которых могут использовать ваши запросы для обучения.",
+    "Скрывать модели Kilo Gateway, поставщики которых могут использовать ваши запросы для обучения.",
   "settings.providers.modeModels": "Модель для режима",
   "settings.providers.modeModels.description":
     "Переопределите модель по умолчанию для определённых режимов. Если не задано, используется глобальная модель по умолчанию.",
@@ -701,7 +701,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Тариф: Статус неизвестен",
   "profile.usage.action.manage": "Управлять",
   "profile.usage.action.managePlan": "Управление {{plan}}",
-  "profile.usage.routing": "Оплата тарифа активна. Маршрутизация через Kappa Gateway {{state}}.",
+  "profile.usage.routing": "Оплата тарифа активна. Маршрутизация через Kilo Gateway {{state}}.",
   "profile.usage.routingState.disabled": "отключена",
   "profile.usage.routingState.missing": "отсутствует",
   "profile.usage.routingState.replaced": "заменена",
@@ -927,7 +927,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Базовый URL речи в текст",
   "settings.models.speechToTextBaseUrl.description":
-    "Использовать совместимый с OpenAI API транскрипции вместо Kappa Gateway. Модели читаются из /models, аудио отправляется в /audio/transcriptions. Оставьте пустым, чтобы использовать Kappa Gateway.",
+    "Использовать совместимый с OpenAI API транскрипции вместо Kilo Gateway. Модели читаются из /models, аудио отправляется в /audio/transcriptions. Оставьте пустым, чтобы использовать Kilo Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Ключ API речи в текст",
   "settings.models.speechToTextApiKey.description":
@@ -938,7 +938,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "Голосовой ввод недоступен в удалённых окнах. Откройте Kappa в локальном окне, чтобы использовать микрофон.",
   "settings.models.speechToTextModel.title": "Модель речи в текст",
-  "settings.models.speechToTextModel.description": "Выберите модель транскрипции Kappa Gateway для голосового ввода.",
+  "settings.models.speechToTextModel.description": "Выберите модель транскрипции Kilo Gateway для голосового ввода.",
   "settings.experimental.nativeNotebookTools.title": "Нативные инструменты блокнотов",
   "settings.experimental.nativeNotebookTools.description":
     "Включить экспериментальные инструменты для чтения, редактирования и выполнения блокнотов VS Code",

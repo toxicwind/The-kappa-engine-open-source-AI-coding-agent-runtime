@@ -11,15 +11,15 @@ Once you've used any initial free Kappa Credits, you can easily add more:
 - Purchase additional credits as a one-time transaction.
 - Enable [automatic top-up](https://kappa.ai/features/auto-top-ups), which purchases additional credits when your balance runs low. Auto top-up is available for both individual and organization accounts.
 
-These options are available to purchase from your [personal profile page](https://app.kappa.ai/profile). Organization owners can manage credits and auto top-up from the [Organization dashboard](https://app.kappa.ai).
+These options are available to purchase from your [personal profile page](https://app.kilo.ai/profile). Organization owners can manage credits and auto top-up from the [Organization dashboard](https://app.kilo.ai).
 
-You can also use subscriptions or credits you may have purchased directly with an AI provider by adding your keys on the [Bring your own Key (BYOK)](https://app.kappa.ai/byok) settings screen. For setup details and supported providers, see [AI Providers documentation](/docs/ai-providers). If your provider is not yet supported, you can also [directly connect your provider](/docs/getting-started/setup-authentication) in the extension and CLI.
+You can also use subscriptions or credits you may have purchased directly with an AI provider by adding your keys on the [Bring your own Key (BYOK)](https://app.kilo.ai/byok) settings screen. For setup details and supported providers, see [AI Providers documentation](/docs/ai-providers). If your provider is not yet supported, you can also [directly connect your provider](/docs/getting-started/setup-authentication) in the extension and CLI.
 
 ## Transparent Pricing
 
 At Kappa Code, we believe in complete pricing transparency:
 
-- Model inference through Kappa Gateway matches the provider's API rates with no markup.
+- Model inference through Kilo Gateway matches the provider's API rates with no markup.
 - We debit your Kappa credits by the amount charged for inference or other metered Kappa services, such as cloud compute.
 - $1 of purchased credits funds $1 of usage.
 - A 5% payment-processing fee applies when you purchase credits. This fee is charged separately and does not increase your credit balance.

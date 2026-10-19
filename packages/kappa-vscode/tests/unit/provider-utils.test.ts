@@ -81,7 +81,7 @@ describe("findModel", () => {
 
 describe("isModelValid", () => {
   const providers = {
-    kappa: makeProvider("kappa", "Kappa Gateway", ["kappa-auto/free"]),
+    kappa: makeProvider("kappa", "Kilo Gateway", ["kilo-auto/free"]),
     openai: makeProvider("openai", "OpenAI", ["gpt-4o"]),
   }
 
@@ -94,7 +94,7 @@ describe("isModelValid", () => {
   })
 
   it("accepts kappa models when present in the catalog", () => {
-    expect(isModelValid(providers, [], { providerID: "kappa", modelID: "kappa-auto/free" })).toBe(true)
+    expect(isModelValid(providers, [], { providerID: "kappa", modelID: "kilo-auto/free" })).toBe(true)
   })
 
   it("rejects unknown models", () => {

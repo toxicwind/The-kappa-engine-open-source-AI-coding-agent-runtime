@@ -11,7 +11,7 @@ const response = () =>
   )
 
 describe("fetchKappaEmbeddingModelCatalog", () => {
-  test("fetches catalog from Kappa Gateway", async () => {
+  test("fetches catalog from Kilo Gateway", async () => {
     const prev = global.fetch
     const fn = mock(() => Promise.resolve(response())) as unknown as typeof fetch
     global.fetch = fn

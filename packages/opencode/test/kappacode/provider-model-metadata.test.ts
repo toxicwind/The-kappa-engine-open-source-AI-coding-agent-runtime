@@ -16,11 +16,11 @@ describe("Kappa provider model metadata", () => {
 
   test("Provider.Model schema accepts Auto Efficient routing models", () => {
     const model = Schema.decodeUnknownSync(Provider.Model)({
-      id: "kappa-auto/efficient",
+      id: "kilo-auto/efficient",
       providerID: "kappa",
       api: { id: "kappa", url: "https://kappacode.ai", npm: "@kappacode/kappa-gateway" },
       name: "Kappa Auto Efficient",
-      family: "kappa-auto",
+      family: "kilo-auto",
       capabilities: {
         temperature: true,
         reasoning: false,

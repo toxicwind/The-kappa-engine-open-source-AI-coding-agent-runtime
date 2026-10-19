@@ -809,7 +809,7 @@ class ProvidersSettingsUiTest : BasePlatformTestCase() {
         assertTrue(rows.isEmpty())
     }
 
-    fun `test connected kappa gateway has no provider settings actions`() {
+    fun `test connected kilo gateway has no provider settings actions`() {
         val rows = providerListRows(
             ProviderSettingsDto(
                 providers = listOf(provider("kappa", "Kilo Gateway")),

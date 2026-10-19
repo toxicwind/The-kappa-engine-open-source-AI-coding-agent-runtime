@@ -549,7 +549,7 @@ describe("fetchProviderData", () => {
     { name: "uses the first allowed model when the default is empty", recommended: "", expected: "org/first" },
     {
       name: "ignores a default outside the organization catalog",
-      recommended: "kappa-auto/free",
+      recommended: "kilo-auto/free",
       expected: "org/first",
     },
     { name: "ignores inherited catalog properties", recommended: "toString", expected: "org/first" },
@@ -584,7 +584,7 @@ describe("fetchProviderData", () => {
                   : [
                       {
                         id: "kappa",
-                        name: "Kappa Gateway",
+                        name: "Kilo Gateway",
                         models: item.empty
                           ? {}
                           : { "org/first": { id: "org/first" }, "org/default": { id: "org/default" } },
@@ -627,11 +627,11 @@ describe("fetchProviderData", () => {
         list: async () => ({
           data: {
             all: [
-              { id: "kappa", models: { "kappa-auto/free": {} } },
+              { id: "kappa", models: { "kilo-auto/free": {} } },
               { id: "external", models: { model: {} } },
             ],
             connected: ["kappa", "external"],
-            default: { kappa: "kappa-auto/free", external: "model" },
+            default: { kappa: "kilo-auto/free", external: "model" },
           },
         }),
         auth: async () => ({ data: {} }),
@@ -656,7 +656,7 @@ describe("fetchProviderData", () => {
     let calls = 0
     const client = {
       provider: {
-        list: async () => ({ data: { all: [], connected: [], default: { kappa: "kappa-auto/free" } } }),
+        list: async () => ({ data: { all: [], connected: [], default: { kappa: "kilo-auto/free" } } }),
         auth: async () => ({ data: {} }),
       },
       kappa: { authStatus: async () => ({ data: { authenticated: true, type: "oauth" } }) },
@@ -672,7 +672,7 @@ describe("fetchProviderData", () => {
     expect(result.ready).toBe(true)
     expect(result.organizationId).toBeNull()
     expect(calls).toBe(0)
-    expect(result.response.default).toEqual({ kappa: "kappa-auto/free" })
+    expect(result.response.default).toEqual({ kappa: "kilo-auto/free" })
   })
 
   it("derives api auth state and strips keys from provider payloads", async () => {
@@ -713,9 +713,9 @@ describe("fetchProviderData", () => {
       provider: {
         list: async () => ({
           data: {
-            all: [{ id: "kappa", name: "Kappa Gateway", source: "custom", env: [], models: {} }],
+            all: [{ id: "kappa", name: "Kilo Gateway", source: "custom", env: [], models: {} }],
             connected: ["kappa"],
-            default: { kappa: "kappa-auto/frontier" },
+            default: { kappa: "kilo-auto/frontier" },
           },
         }),
         auth: async () => ({ data: {} }),
@@ -735,9 +735,9 @@ describe("fetchProviderData", () => {
       provider: {
         list: async () => ({
           data: {
-            all: [{ id: "kappa", name: "Kappa Gateway", source: "config", key: "configured", env: [], models: {} }],
+            all: [{ id: "kappa", name: "Kilo Gateway", source: "config", key: "configured", env: [], models: {} }],
             connected: ["kappa"],
-            default: { kappa: "kappa-auto/frontier" },
+            default: { kappa: "kilo-auto/frontier" },
           },
         }),
         auth: async () => ({ data: {} }),

@@ -17,11 +17,11 @@ Each of these consumes credits by default. **To use Kappa entirely for free, con
 
 ## Free Agentic Usage
 
-Kappa provides free models for coding tasks through the Kappa Gateway and partner providers.
+Kappa provides free models for coding tasks through the Kilo Gateway and partner providers.
 
 ### Auto Free
 
-The easiest way to get started is [**Auto Free**](/docs/code-with-ai/agents/auto-model) (`kappa-auto/free`). This is a Kappa-provided model tier that automatically routes your requests to the best available free models — no configuration needed.
+The easiest way to get started is [**Auto Free**](/docs/code-with-ai/agents/auto-model) (`kilo-auto/free`). This is a Kappa-provided model tier that automatically routes your requests to the best available free models — no configuration needed.
 
 {% callout type="warning" title="Data handling for Auto Free" %}
 Auto Free may route your requests to providers that log prompts and outputs and use them to improve their services. Do not submit personal or confidential data when using Auto Free. In particular, it may route to NVIDIA's free endpoints.
@@ -65,7 +65,7 @@ By default, autocomplete routes through the Kappa provider and uses credits. If 
 
 ### How to Get It Free
 
-Add your own Mistral AI API key via **BYOK (Bring Your Own Key)** on the Kappa Gateway. Mistral offers a free tier for Codestral. When you configure a BYOK key, autocomplete requests use your key directly — at no cost on your Kappa balance.
+Add your own Mistral AI API key via **BYOK (Bring Your Own Key)** on the Kilo Gateway. Mistral offers a free tier for Codestral. When you configure a BYOK key, autocomplete requests use your key directly — at no cost on your Kappa balance.
 
 See the [Mistral Setup Guide](/docs/code-with-ai/features/autocomplete/mistral-setup) for step-by-step instructions.
 

@@ -11,7 +11,7 @@ describe("KappaEmbedder", () => {
     setOpenAIConstructorHook(undefined)
   })
 
-  test("uses Kappa Gateway headers and configured embedding model", async () => {
+  test("uses Kilo Gateway headers and configured embedding model", async () => {
     const seen: unknown[] = []
     setOpenAIConstructorHook((cfg) => seen.push(cfg))
     mockEmbeddingsCreate.mockResolvedValue({
@@ -28,7 +28,7 @@ describe("KappaEmbedder", () => {
     await embedder.createEmbeddings(["hello"])
 
     expect(seen[0]).toEqual({
-      baseURL: "https://api.kappa.ai/api/gateway/",
+      baseURL: "https://api.kilo.ai/api/gateway/",
       apiKey: "kappa-token",
       defaultHeaders: {
         "X-KAPPACODE-FEATURE": KAPPA_INDEXING_FEATURE,

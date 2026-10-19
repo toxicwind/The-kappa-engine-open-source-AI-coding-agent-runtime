@@ -1500,7 +1500,7 @@ export namespace KappaSessions {
       throw new Error(`Unable to share session ${sessionId}: server did not return a share token`)
     }
 
-    const url = `https://app.kappa.ai/s/${result.share_token}`
+    const url = `https://app.kilo.ai/s/${result.share_token}`
 
     await save(sessionId, {
       ...current,

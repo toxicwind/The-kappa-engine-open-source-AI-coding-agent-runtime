@@ -5,7 +5,7 @@ description: "Manage your team from the Kappa Code dashboard"
 
 # Dashboard
 
-The Kappa seats dashboard is the first screen that comes up when you visit [the Kappa Code web app](https://app.kappa.ai). It provides complete visibility into your team's AI usage, costs, and management.
+The Kappa seats dashboard is the first screen that comes up when you visit [the Kappa Code web app](https://app.kilo.ai). It provides complete visibility into your team's AI usage, costs, and management.
 
 {% image src="/docs/img/teams/dashboard.png" alt="Invite your team members" width="700" /%}
 

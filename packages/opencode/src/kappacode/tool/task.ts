@@ -45,7 +45,7 @@ export namespace KappaTask {
     }),
     provider: Schema.optional(Schema.NullOr(Schema.String)).annotate({
       description:
-        "Optional provider ID from agent_manager_models. Only set when the user explicitly requests a provider. Requires model; omit or send null to prefer the current turn's provider, then Kappa Gateway.",
+        "Optional provider ID from agent_manager_models. Only set when the user explicitly requests a provider. Requires model; omit or send null to prefer the current turn's provider, then Kilo Gateway.",
     }),
     variant: Schema.optional(Schema.NullOr(Schema.String)).annotate({
       description:

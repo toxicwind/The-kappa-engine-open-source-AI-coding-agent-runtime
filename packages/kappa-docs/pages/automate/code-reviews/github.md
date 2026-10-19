@@ -9,7 +9,7 @@ Kappa's Code Reviews integrate with GitHub via a **GitHub App** to automatically
 
 ## Prerequisites
 
-- A Kappa Code account at [app.kappa.ai](https://app.kappa.ai)
+- A Kappa Code account at [app.kilo.ai](https://app.kilo.ai)
 - A GitHub account with access to the repositories you want to review
 - Kappa Code credits for AI model usage
 
@@ -31,7 +31,7 @@ The GitHub App requests the following permissions:
 ### Step 2: Configure the Review Agent
 
 1. Go to **Code Reviews**:
-   - **Personal**: [app.kappa.ai/code-reviews](https://app.kappa.ai/code-reviews)
+   - **Personal**: [app.kilo.ai/code-reviews](https://app.kilo.ai/code-reviews)
    - **Organization**: Your organization → Code Reviews
 2. Toggle **Enable AI Code Review** to on
 3. Configure your preferences:

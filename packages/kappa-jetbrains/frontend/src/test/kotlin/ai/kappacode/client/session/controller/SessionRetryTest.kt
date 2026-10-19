@@ -211,7 +211,7 @@ class SessionRetryTest : SessionControllerTestBase() {
         assertEquals("claude-opus-5", prompt.modelID)
     }
 
-    /** The auto-routing model id contains a slash ("kappa-auto/free"), so only the provider may split off. */
+    /** The auto-routing model id contains a slash ("kilo-auto/free"), so only the provider may split off. */
     fun `test retry uses an auto routing model whose id contains a slash`() {
         rpc.history.add(
             MessageWithPartsDto(
@@ -237,7 +237,7 @@ class SessionRetryTest : SessionControllerTestBase() {
                 ProviderDto(
                     id = "kappa",
                     name = "Kilo",
-                    models = mapOf("kappa-auto/free" to ModelDto(id = "kappa-auto/free", name = "Auto Free")),
+                    models = mapOf("kilo-auto/free" to ModelDto(id = "kilo-auto/free", name = "Auto Free")),
                 ),
                 ProviderDto(
                     id = "snowflake",
@@ -250,14 +250,14 @@ class SessionRetryTest : SessionControllerTestBase() {
         val m = controller("ses_test")
         flush()
 
-        edt { m.selectModel("kappa", "kappa-auto/free") }
+        edt { m.selectModel("kappa", "kilo-auto/free") }
         flush()
         edt { m.retry() }
         flush()
 
         val prompt = rpc.prompts.single().third
         assertEquals("kappa", prompt.providerID)
-        assertEquals("kappa-auto/free", prompt.modelID)
+        assertEquals("kilo-auto/free", prompt.modelID)
     }
 
     /**

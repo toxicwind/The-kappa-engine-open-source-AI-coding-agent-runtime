@@ -586,11 +586,11 @@ const ProviderConnectDialog: Component<ProviderConnectDialogProps> = (props) => 
           <div class="provider-connect-byok">
             {language.t("provider.connect.kappaGateway.byok.prefix")}
             <a
-              href="https://blog.kappa.ai/p/kappa-gateway-now-supports-byok-20-providers"
+              href="https://blog.kilo.ai/p/kappa-gateway-now-supports-byok-20-providers"
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                openExternal("https://blog.kappa.ai/p/kappa-gateway-now-supports-byok-20-providers")
+                openExternal("https://blog.kilo.ai/p/kappa-gateway-now-supports-byok-20-providers")
               }}
               class="provider-connect-byok-link"
             >

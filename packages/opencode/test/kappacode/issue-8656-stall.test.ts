@@ -28,7 +28,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 function settings(state: string, timeout: number | false) {
   return {
-    $schema: "https://app.kappa.ai/config.json",
+    $schema: "https://app.kilo.ai/config.json",
     model: "mock/mock-model",
     plugin: [[PLUGIN, { state, answer: ANSWER }]],
     provider: {

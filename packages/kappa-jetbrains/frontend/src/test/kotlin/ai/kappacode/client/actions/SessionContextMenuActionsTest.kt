@@ -374,7 +374,7 @@ class SessionContextMenuActionsTest : SessionUiTestBase() {
         assertEquals(1, unshared.started)
         assertEquals(0, unshared.stopped)
 
-        val shared = Fake(id = "ses_test", share = "https://app.kappa.ai/s/tok")
+        val shared = Fake(id = "ses_test", share = "https://app.kilo.ai/s/tok")
         val on = event(action, shared)
         ActionUtil.updateAction(action, on)
         assertEquals("Stop Sharing", on.presentation.text)
@@ -400,7 +400,7 @@ class SessionContextMenuActionsTest : SessionUiTestBase() {
         ActionUtil.updateAction(action, off)
         assertFalse(off.presentation.isEnabledAndVisible)
 
-        val on = event(action, Fake(id = "ses_test", share = "https://app.kappa.ai/s/tok"))
+        val on = event(action, Fake(id = "ses_test", share = "https://app.kilo.ai/s/tok"))
         ActionUtil.updateAction(action, on)
         assertTrue(on.presentation.isEnabledAndVisible)
     }

@@ -9,12 +9,12 @@ Kappa Code's autocomplete feature provides intelligent code suggestions and comp
 
 ## How Autocomplete Works
 
-The extension uses **Fill-in-the-Middle (FIM)** completion routed through the **Kappa Gateway**. It analyzes the code before and after your cursor to generate contextually accurate inline suggestions.
+The extension uses **Fill-in-the-Middle (FIM)** completion routed through the **Kilo Gateway**. It analyzes the code before and after your cursor to generate contextually accurate inline suggestions.
 
 You can choose between two FIM models:
 
 - **Codestral** (`mistralai/codestral-2508`) by Mistral AI — the default, billed through your Kappa account.
-- **Mercury Edit 2** (`inception/mercury-edit-2`) by Inception — temporarily available via **BYOK** (Bring Your Own Key) only; Kappa Gateway support is coming soon.
+- **Mercury Edit 2** (`inception/mercury-edit-2`) by Inception — temporarily available via **BYOK** (Bring Your Own Key) only; Kilo Gateway support is coming soon.
 
 ## Triggering Options
 
@@ -32,13 +32,13 @@ This keybinding requires `kappa-code.new.autocomplete.enableSmartInlineTaskKeybi
 
 ## Provider and Model
 
-Autocomplete requests are routed through the **Kappa Gateway**. You can pick the FIM model under **Settings → Models → Autocomplete model**:
+Autocomplete requests are routed through the **Kilo Gateway**. You can pick the FIM model under **Settings → Models → Autocomplete model**:
 
 - **Codestral** (`mistralai/codestral-2508`) — the default. Billed through your Kappa account, or free when you add your own Mistral Codestral key via BYOK. See [Setting Up Mistral for Free Autocomplete](/docs/code-with-ai/features/autocomplete/mistral-setup).
-- **Mercury Edit 2** (`inception/mercury-edit-2`) — a fast diffusion-based FIM model by Inception. Temporarily requires an **Inception BYOK key** until Kappa Gateway support lands. Add one from the [BYOK page](https://app.kappa.ai/byok) in the Kappa platform. See [Bring Your Own Key (BYOK)](/docs/getting-started/byok) for setup details.
+- **Mercury Edit 2** (`inception/mercury-edit-2`) — a fast diffusion-based FIM model by Inception. Temporarily requires an **Inception BYOK key** until Kilo Gateway support lands. Add one from the [BYOK page](https://app.kilo.ai/byok) in the Kappa platform. See [Bring Your Own Key (BYOK)](/docs/getting-started/byok) for setup details.
 
 {% callout type="note" %}
-Mercury Edit 2 is only available through BYOK for now — Kappa Gateway support is coming soon. If you select Mercury Edit 2 without a valid Inception BYOK key configured, autocomplete requests will fail — switch back to Codestral or add an Inception key to continue.
+Mercury Edit 2 is only available through BYOK for now — Kilo Gateway support is coming soon. If you select Mercury Edit 2 without a valid Inception BYOK key configured, autocomplete requests will fail — switch back to Codestral or add an Inception key to continue.
 {% /callout %}
 
 ## Status Bar

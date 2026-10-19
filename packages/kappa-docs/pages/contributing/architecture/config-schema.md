@@ -14,7 +14,7 @@ JSON Schema does not load, apply, or override runtime config.
 
 ```jsonc
 {
-  "$schema": "https://app.kappa.ai/config.json"
+  "$schema": "https://app.kilo.ai/config.json"
 }
 ```
 
@@ -29,7 +29,7 @@ flowchart LR
   subgraph schema ["Editor validation and completion"]
     info["Config.Info<br/>Effect Schema"] --> generated["Locally generated schema<br/>for verification"]
     upstream["https://opencode.ai/config.json"] --> overlay["Kappa Cloud merge route"]
-    extras["Kappa extras.ts overlay buckets"] --> overlay --> endpoint["https://app.kappa.ai/config.json"] --> editor["Editor validation and completion"]
+    extras["Kappa extras.ts overlay buckets"] --> overlay --> endpoint["https://app.kilo.ai/config.json"] --> editor["Editor validation and completion"]
     generated -. "Keep aligned" .-> extras
   end
 ```
@@ -44,7 +44,7 @@ Canonical CLI config source is Effect Schema `Config.Info` in `packages/opencode
 
 Static source review of [`Kappa-Org/cloud`](https://github.com/Kappa-Org/cloud) shows this route behavior:
 
-1. Editor fetches `https://app.kappa.ai/config.json` because config file references `$schema`.
+1. Editor fetches `https://app.kilo.ai/config.json` because config file references `$schema`.
 2. Cloud route `apps/web/src/app/config.json/route.ts` fetches `https://opencode.ai/config.json`.
 3. Route runs `merge()` and returns upstream schema with Kappa additions and overrides.
 4. `merge()` overlays buckets from `apps/web/src/app/config.json/extras.ts`.

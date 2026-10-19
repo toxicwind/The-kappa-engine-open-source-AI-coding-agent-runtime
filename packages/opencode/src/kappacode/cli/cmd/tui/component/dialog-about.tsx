@@ -127,7 +127,7 @@ export function DialogAbout() {
 
       <box gap={1}>
         <text fg={theme.textMuted} wrapMode="word">
-          Open source AI coding agent. Access hundreds of models through Kappa Gateway.
+          Open source AI coding agent. Access hundreds of models through Kilo Gateway.
         </text>
 
         <box gap={0}>

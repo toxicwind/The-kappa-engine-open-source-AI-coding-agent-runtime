@@ -66,7 +66,7 @@ export function page(params: URLSearchParams, path: string, extra?: Record<strin
 }
 
 export function cloud(path = "/profile") {
-  return `https://app.kappa.ai${path}`
+  return `https://app.kilo.ai${path}`
 }
 
 export function usage(id: string | null | undefined) {

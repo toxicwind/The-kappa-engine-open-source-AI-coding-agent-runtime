@@ -107951,8 +107951,8 @@
     "id": "kappa",
     "env": ["KAPPA_API_KEY"],
     "npm": "@ai-sdk/openai-compatible",
-    "api": "https://api.kappa.ai/api/gateway",
-    "name": "Kappa Gateway",
+    "api": "https://api.kilo.ai/api/gateway",
+    "name": "Kilo Gateway",
     "doc": "https://kappa.ai",
     "models": {
       "inclusionai/ling-2.6-1t": {
@@ -108473,8 +108473,8 @@
           "cache_write": 6.25
         }
       },
-      "kappa-auto/balanced": {
-        "id": "kappa-auto/balanced",
+      "kilo-auto/balanced": {
+        "id": "kilo-auto/balanced",
         "name": "Kappa Auto Balanced",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": false,
@@ -108498,8 +108498,8 @@
           "output": 3
         }
       },
-      "kappa-auto/small": {
-        "id": "kappa-auto/small",
+      "kilo-auto/small": {
+        "id": "kilo-auto/small",
         "name": "Kappa Auto Small",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": true,
@@ -108523,8 +108523,8 @@
           "output": 0.4
         }
       },
-      "kappa-auto/free": {
-        "id": "kappa-auto/free",
+      "kilo-auto/free": {
+        "id": "kilo-auto/free",
         "name": "Kappa Auto Free",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": false,
@@ -108548,8 +108548,8 @@
           "output": 0
         }
       },
-      "kappa-auto/frontier": {
-        "id": "kappa-auto/frontier",
+      "kilo-auto/frontier": {
+        "id": "kilo-auto/frontier",
         "name": "Kappa Auto Frontier",
         "description": "Automatic model router for matching prompts to suitable backends and budgets",
         "attachment": true,

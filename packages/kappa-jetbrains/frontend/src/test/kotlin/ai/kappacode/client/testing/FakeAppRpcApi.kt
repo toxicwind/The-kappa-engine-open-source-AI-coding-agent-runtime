@@ -341,7 +341,7 @@ class FakeAppRpcApi : KiloAppRpcApi {
     }
 
     var fakeProfile: ProfileDto? = null
-    var fakeDeviceAuth = DeviceAuthDto(code = "TEST-1234", verificationUrl = "https://auth.kappa.ai/device")
+    var fakeDeviceAuth = DeviceAuthDto(code = "TEST-1234", verificationUrl = "https://auth.kilo.ai/device")
     val orgProfiles = mutableMapOf<String?, ProfileDto?>()
     val orgSelections = mutableListOf<String?>()
     val telemetry = mutableListOf<TelemetryCaptureDto>()

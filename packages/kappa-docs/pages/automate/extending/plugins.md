@@ -40,7 +40,7 @@ Add an array of plugin specifiers to your config file:
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "plugin": [
     "@your-org/your-plugin",
     "your-plugin@1.2.3",
@@ -108,7 +108,7 @@ The command resolves the package, reads its `package.json` for plugin entrypoint
 
 Plugins from all sources run on every session. They load in this order:
 
-1. Internal built-ins (Kappa Gateway auth, Codex auth, Copilot auth, Cloudflare, etc.)
+1. Internal built-ins (Kilo Gateway auth, Codex auth, Copilot auth, Cloudflare, etc.)
 2. Global config plugin array (`~/.config/kappa/kappa.json`)
 3. Global plugin directory (`~/.config/kappa/plugin/`)
 4. Project config plugin array (`kappa.json` / `opencode.json`)

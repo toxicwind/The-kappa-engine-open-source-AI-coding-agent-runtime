@@ -415,7 +415,7 @@ try {
       Date.now = original
     }
   }
-  const auto = { providerID: "kappa", modelID: "kappa-auto/free" }
+  const auto = { providerID: "kappa", modelID: "kilo-auto/free" }
   const personal = { providerID: "kappa", modelID: "personal" }
   const first = { providerID: "kappa", modelID: "z-first" }
   const recommended = { providerID: "kappa", modelID: "a-recommended" }

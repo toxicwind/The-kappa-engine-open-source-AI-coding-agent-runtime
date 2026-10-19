@@ -39,7 +39,7 @@ describe("buildFeedbackProperties — non-Kappa providers", () => {
   })
 })
 
-describe("buildFeedbackProperties — Kappa Gateway", () => {
+describe("buildFeedbackProperties — Kilo Gateway", () => {
   it("includes sessionID, messageID, parentMessageID", () => {
     const props = buildFeedbackProperties({ ...baseInput, providerID: "kappa", next: "up" })
     expect(props).toEqual({

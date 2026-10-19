@@ -10,10 +10,10 @@ function makeProvider(id: string, models: string[]): Provider {
   return result
 }
 
-const KAPPA_AUTO: ModelSelection = { providerID: "kappa", modelID: "kappa-auto/free" }
+const KAPPA_AUTO: ModelSelection = { providerID: "kappa", modelID: "kilo-auto/free" }
 
 const providers: Record<string, Provider> = {
-  kappa: makeProvider("kappa", ["kappa-auto/free", "z-first", "z-recommended"]),
+  kappa: makeProvider("kappa", ["kilo-auto/free", "z-first", "z-recommended"]),
   anthropic: makeProvider("anthropic", ["claude-sonnet-4"]),
   openai: makeProvider("openai", ["gpt-4.1"]),
 }

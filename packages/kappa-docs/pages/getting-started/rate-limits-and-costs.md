@@ -13,9 +13,9 @@ Auto Model is Kappa's smart routing system. Instead of selecting a specific prov
 
 | Tier | Name | Best For | Cost |
 |---|---|---|---|
-| `kappa-auto/frontier` | Auto Frontier | Maximum capability — routes to top-tier models for planning/architect/debug and high-quality models for coding | Paid (highest) |
-| `kappa-auto/efficient` | Auto Efficient | Lowest cost per task — classifies each request by difficulty and routes to the cheapest benchmark-proven model for that task | Paid (lowest) |
-| `kappa-auto/free` | Auto Free | No credits required — rotates through available free models | Free |
+| `kilo-auto/frontier` | Auto Frontier | Maximum capability — routes to top-tier models for planning/architect/debug and high-quality models for coding | Paid (highest) |
+| `kilo-auto/efficient` | Auto Efficient | Lowest cost per task — classifies each request by difficulty and routes to the cheapest benchmark-proven model for that task | Paid (lowest) |
+| `kilo-auto/free` | Auto Free | No credits required — rotates through available free models | Free |
 
 {% callout type="info" title="Live model assignments" %}
 The underlying models behind each tier are updated server-side as better options become available or as providers change pricing. See [kappa.ai/models](https://kappa.ai/models) for current model assignments and live pricing.
@@ -67,7 +67,7 @@ Kappa automatically applies prompt caching on supported providers. Repeated cont
 
 ## Rate Limits
 
-- **Free models** (`kappa-auto/free`): 200 requests per hour per IP.
+- **Free models** (`kilo-auto/free`): 200 requests per hour per IP.
 - **Paid models**: Kappa does not impose gateway-level rate limits on paid traffic. However, [org-level per-user daily spending limits](/docs/gateway/usage-and-billing) and upstream provider rate limits can still apply.
 
 

@@ -223,7 +223,7 @@ const installHooks = Effect.fn("test.installTitleHooks")(function* () {
 function providerCfg(url: string): Partial<ConfigV1.Info> {
   return {
     // Pin title/small generation to the TestLLMServer provider. Without this,
-    // getSmallModel("test") falls through to kappa-auto/small and ensureTitle
+    // getSmallModel("test") falls through to kilo-auto/small and ensureTitle
     // never hits the local fixture (no setTitle, no E2E Title).
     small_model: "test/test-model",
     provider: {
@@ -259,7 +259,7 @@ const writeConfig = Effect.fn("test.writeConfig")(function* (dir: string, config
   const fs = yield* FSUtil.Service
   yield* fs.writeWithDirs(
     path.join(dir, "opencode.json"),
-    JSON.stringify({ $schema: "https://app.kappa.ai/config.json", ...config }),
+    JSON.stringify({ $schema: "https://app.kilo.ai/config.json", ...config }),
   )
 })
 

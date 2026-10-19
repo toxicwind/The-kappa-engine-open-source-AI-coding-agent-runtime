@@ -91,7 +91,7 @@ export async function fetchOrganizationModes(token: string, organizationId: stri
     cache.set(organizationId, { modes, timestamp: Date.now() })
     return modes
   } catch (err) {
-    console.warn("[Kappa Gateway] Error fetching organization modes:", err)
+    console.warn("[Kilo Gateway] Error fetching organization modes:", err)
     return []
   }
 }

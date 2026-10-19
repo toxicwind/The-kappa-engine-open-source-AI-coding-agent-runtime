@@ -17,7 +17,7 @@ function user(text: string, synthetic = false): MessageV2.WithParts {
       agent: "code",
       model: {
         providerID: ProviderV2.ID.make("kappa"),
-        modelID: ModelV2.ID.make("kappa-auto/small"),
+        modelID: ModelV2.ID.make("kilo-auto/small"),
       },
     },
     parts: [

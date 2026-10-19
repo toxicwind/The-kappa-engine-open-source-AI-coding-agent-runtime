@@ -104,7 +104,7 @@ afterEach(async () => {
 })
 
 describe("HttpApi Kappa next edit", () => {
-  test("requires Kappa Gateway authentication for the Kappa-backed model", async () => {
+  test("requires Kilo Gateway authentication for the Kappa-backed model", async () => {
     process.env.KAPPA_AUTH_CONTENT = "{}"
     expect((await send()).status).toBe(401)
   })

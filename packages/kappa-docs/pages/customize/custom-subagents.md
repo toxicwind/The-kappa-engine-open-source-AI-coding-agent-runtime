@@ -54,7 +54,7 @@ Add agents to the `agent` section of your `kappa.jsonc` config file. Any key tha
 
 ```json
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "agent": {
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",

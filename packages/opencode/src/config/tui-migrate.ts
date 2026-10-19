@@ -9,7 +9,7 @@ import { Global } from "@opencode-ai/core/global"
 import { Filesystem } from "@/util/filesystem"
 import * as ConfigPaths from "@/config/paths"
 
-const TUI_SCHEMA_URL = "https://app.kappa.ai/tui.json" // kappacode_change
+const TUI_SCHEMA_URL = "https://app.kilo.ai/tui.json" // kappacode_change
 
 const decodeTheme = Schema.decodeUnknownOption(Schema.String)
 const decodeRecord = Schema.decodeUnknownOption(Schema.Record(Schema.String, Schema.Unknown))

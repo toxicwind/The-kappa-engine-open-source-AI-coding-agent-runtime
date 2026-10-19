@@ -50,7 +50,7 @@ export const ModelSelectorNoProviders: Story = {
     <StoryProviders>
       <div style={{ display: "flex", "align-items": "center", gap: "8px" }}>
         <ModelSelectorBase
-          value={{ providerID: "kappa", modelID: "kappa-auto/frontier" }}
+          value={{ providerID: "kappa", modelID: "kilo-auto/frontier" }}
           onSelect={() => {}}
           placement="bottom-start"
         />
@@ -61,7 +61,7 @@ export const ModelSelectorNoProviders: Story = {
 
 const ACCESSIBLE_MODELS: EnrichedModel[] = [
   {
-    id: "kappa-auto/efficient",
+    id: "kilo-auto/efficient",
     name: "Kappa Auto Efficient",
     providerID: "kappa",
     providerName: "Kappa",
@@ -73,7 +73,7 @@ const ACCESSIBLE_MODELS: EnrichedModel[] = [
     autoRouting: { models: ["google/gemini-2.5-flash", "anthropic/claude-sonnet-4.6"] },
   },
   {
-    id: "kappa-auto/frontier",
+    id: "kilo-auto/frontier",
     name: "Kappa Auto Frontier",
     providerID: "kappa",
     providerName: "Kappa",
@@ -84,7 +84,7 @@ const ACCESSIBLE_MODELS: EnrichedModel[] = [
     autoRouting: { models: ["openai/gpt-5.5", "anthropic/claude-opus-4.6"] },
   },
   {
-    id: "kappa-auto/legacy",
+    id: "kilo-auto/legacy",
     name: "Kappa Auto Legacy",
     providerID: "kappa",
     providerName: "Kappa",

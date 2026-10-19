@@ -815,7 +815,7 @@
 - Keep diagnostics edits responsive during large edits.
 - Warn when posting to the shared board targets a stopped subagent.
 - Keep a session goal running when a new message arrives instead of dropping it.
-- Only route auxiliary tasks to `kappa-auto/small` when using Kappa credentials.
+- Only route auxiliary tasks to `kilo-auto/small` when using Kappa credentials.
 - Stop looping on repeated malformed tool calls.
 - Keep Keep Awake active while a wakeup is scheduled, and clear it when a session with pending wakeups is deleted.
 - Speed up local recall searches and improve match ranking.
@@ -931,7 +931,7 @@
 - Keep diagnostics edits responsive during large edits.
 - Warn when posting to the shared board targets a stopped subagent.
 - Keep a session goal running when a new message arrives instead of dropping it.
-- Only route auxiliary tasks to `kappa-auto/small` when using Kappa credentials.
+- Only route auxiliary tasks to `kilo-auto/small` when using Kappa credentials.
 - Stop looping on repeated malformed tool calls.
 - Keep Keep Awake active while a wakeup is scheduled, and clear it when a session with pending wakeups is deleted.
 - Speed up local recall searches and improve match ranking.

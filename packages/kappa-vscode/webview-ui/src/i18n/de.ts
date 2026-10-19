@@ -949,7 +949,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Sprache-zu-Text-Basis-URL",
   "settings.models.speechToTextBaseUrl.description":
-    "Eine OpenAI-kompatible Transkriptions-API statt Kappa Gateway verwenden. Modelle werden von /models gelesen, Audio geht an /audio/transcriptions. Leer lassen, um Kappa Gateway zu verwenden.",
+    "Eine OpenAI-kompatible Transkriptions-API statt Kilo Gateway verwenden. Modelle werden von /models gelesen, Audio geht an /audio/transcriptions. Leer lassen, um Kilo Gateway zu verwenden.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Sprache-zu-Text-API-Schlüssel",
   "settings.models.speechToTextApiKey.description":
@@ -961,7 +961,7 @@ export const dict = {
     "Spracheingabe ist in Remote-Fenstern nicht verfügbar. Öffnen Sie Kappa in einem lokalen Fenster, um das Mikrofon zu verwenden.",
   "settings.models.speechToTextModel.title": "Sprache-zu-Text-Modell",
   "settings.models.speechToTextModel.description":
-    "Wählen Sie das Kappa Gateway-Transkriptionsmodell für die Spracheingabe.",
+    "Wählen Sie das Kilo Gateway-Transkriptionsmodell für die Spracheingabe.",
   "settings.experimental.nativeNotebookTools.title": "Native Notebook-Tools",
   "settings.experimental.nativeNotebookTools.description":
     "Experimentelle Tools zum Lesen, Bearbeiten und Ausführen von VS Code-Notebooks aktivieren",

@@ -241,7 +241,7 @@ export namespace KappaSession {
       if (regular !== undefined) return regular
     }
 
-    // 2. Anthropic Messages or OpenAI Responses via OpenRouter. The Kappa Gateway wrapper
+    // 2. Anthropic Messages or OpenAI Responses via OpenRouter. The Kilo Gateway wrapper
     //    restores the verbatim usage payload under the AI SDK's raw usage escape hatch.
     //    Kappa doesn't charge end users a per-request fee, so only upstream cost is relevant.
     const usage = input.usage?.providerMetadata

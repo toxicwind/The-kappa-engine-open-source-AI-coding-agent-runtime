@@ -4,7 +4,7 @@
   "version": "7.8.10",
   "type": "module",
   "license": "MIT",
-  "description": "Unified Kappa Gateway package for OpenCode - authentication, provider, and API integration",
+  "description": "Unified Kilo Gateway package for OpenCode - authentication, provider, and API integration",
   "keywords": [
     "kappa",
     "kappacode",

@@ -541,7 +541,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Piano: Stato sconosciuto",
   "profile.usage.action.manage": "Gestisci",
   "profile.usage.action.managePlan": "Gestisci {{plan}}",
-  "profile.usage.routing": "La fatturazione del piano è attiva. L'instradamento tramite Kappa Gateway è {{state}}.",
+  "profile.usage.routing": "La fatturazione del piano è attiva. L'instradamento tramite Kilo Gateway è {{state}}.",
   "profile.usage.routingState.disabled": "disabilitato",
   "profile.usage.routingState.missing": "mancante",
   "profile.usage.routingState.replaced": "sostituito",
@@ -1338,7 +1338,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "URL di base Da voce a testo",
   "settings.models.speechToTextBaseUrl.description":
-    "Usa un'API di trascrizione compatibile con OpenAI al posto di Kappa Gateway. I modelli vengono letti da /models e l'audio viene inviato a /audio/transcriptions. Lascia vuoto per usare Kappa Gateway.",
+    "Usa un'API di trascrizione compatibile con OpenAI al posto di Kilo Gateway. I modelli vengono letti da /models e l'audio viene inviato a /audio/transcriptions. Lascia vuoto per usare Kilo Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Chiave API Da voce a testo",
   "settings.models.speechToTextApiKey.description":
@@ -1350,7 +1350,7 @@ export const dict = {
     "L'input vocale non è disponibile nelle finestre remote. Apri Kappa in una finestra locale per usare il microfono.",
   "settings.models.speechToTextModel.title": "Modello Da voce a testo",
   "settings.models.speechToTextModel.description":
-    "Scegli il modello di trascrizione Kappa Gateway per l'input vocale.",
+    "Scegli il modello di trascrizione Kilo Gateway per l'input vocale.",
 
   // Compaction limit
   "settings.context.compactionLimit.title": "Limite compattazione automatica",
@@ -1363,7 +1363,7 @@ export const dict = {
     "Modello e sforzo di ragionamento predefiniti per i sub-agent del tool task. Lascia non impostato per ereditare il modello dell'agente chiamante.",
   "settings.models.hidePromptTraining.title": "Nascondi i modelli che usano i prompt per l'addestramento",
   "settings.models.hidePromptTraining.description":
-    "Nascondi i modelli Kappa Gateway i cui provider potrebbero usare i tuoi prompt per l'addestramento.",
+    "Nascondi i modelli Kilo Gateway i cui provider potrebbero usare i tuoi prompt per l'addestramento.",
 
   // Autocomplete hint
   "settings.autocomplete.modelsHint":

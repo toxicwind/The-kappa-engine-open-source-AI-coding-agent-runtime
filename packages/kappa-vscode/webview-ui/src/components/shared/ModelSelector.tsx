@@ -123,7 +123,7 @@ export interface ModelSelectorBaseProps {
   allowClear?: boolean
   /** Label shown for the clear option */
   clearLabel?: string
-  /** Include the kappa-auto/small model in the list — defaults to false */
+  /** Include the kilo-auto/small model in the list — defaults to false */
   includeAutoSmall?: boolean
   /** Override the provider catalog for constrained selectors. */
   models?: EnrichedModel[]
@@ -232,8 +232,8 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
     window.addEventListener("mouseup", onUp)
   }
 
-  // Only show models from Kappa Gateway or connected providers.
-  // kappa-auto/small is excluded unless includeAutoSmall is explicitly true.
+  // Only show models from Kilo Gateway or connected providers.
+  // kilo-auto/small is excluded unless includeAutoSmall is explicitly true.
   const available = (m: EnrichedModel, c: string[]) =>
     (props.includeAutoSmall || !isSmall(m)) && (m.providerID === KAPPA_GATEWAY_ID || c.includes(m.providerID))
 

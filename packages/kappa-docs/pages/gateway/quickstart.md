@@ -35,7 +35,7 @@ Create a `.env` file and add your Kappa API key:
 KAPPA_API_KEY=your_api_key_here
 ```
 
-For step-by-step instructions on getting an API key, please see the [Kappa Gateway API Key instructions](/docs/getting-started/setup-authentication#kappa-gateway-api-key).
+For step-by-step instructions on getting an API key, please see the [Kilo Gateway API Key instructions](/docs/getting-started/setup-authentication#kappa-gateway-api-key).
 
 ### 4. Create and run your script
 
@@ -47,7 +47,7 @@ import { createOpenAI } from "@ai-sdk/openai"
 import "dotenv/config"
 
 const kappa = createOpenAI({
-  baseURL: "https://api.kappa.ai/api/gateway",
+  baseURL: "https://api.kilo.ai/api/gateway",
   apiKey: process.env.KAPPA_API_KEY,
 })
 
@@ -89,7 +89,7 @@ import OpenAI from "openai"
 
 const client = new OpenAI({
   apiKey: process.env.KAPPA_API_KEY,
-  baseURL: "https://api.kappa.ai/api/gateway",
+  baseURL: "https://api.kilo.ai/api/gateway",
 })
 
 const response = await client.chat.completions.create({
@@ -109,7 +109,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key=os.getenv("KAPPA_API_KEY"),
-    base_url="https://api.kappa.ai/api/gateway",
+    base_url="https://api.kilo.ai/api/gateway",
 )
 
 response = client.chat.completions.create(
@@ -128,7 +128,7 @@ print(response.choices[0].message.content)
 ## Using cURL
 
 ```bash
-curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
+curl -X POST "https://api.kilo.ai/api/gateway/chat/completions" \
   -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

@@ -1,5 +1,5 @@
 /**
- * TUI-specific helper functions for Kappa Gateway integration
+ * TUI-specific helper functions for Kilo Gateway integration
  *
  * This module provides utilities that are consumed by the TUI layer
  * to implement organization selection, profile display, and team management.
@@ -42,8 +42,8 @@ export function formatProfileInfo(
 
   // Add usage details link
   const usageUrl = currentOrgId
-    ? `https://app.kappa.ai/organizations/${currentOrgId}/usage-details`
-    : "https://app.kappa.ai/usage"
+    ? `https://app.kilo.ai/organizations/${currentOrgId}/usage-details`
+    : "https://app.kilo.ai/usage"
   content += `\nUsage Details: ${usageUrl}`
 
   return content

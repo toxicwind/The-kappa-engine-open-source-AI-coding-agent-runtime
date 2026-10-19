@@ -611,7 +611,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Plan: Status unknown",
   "profile.usage.action.manage": "Manage",
   "profile.usage.action.managePlan": "Manage {{plan}}",
-  "profile.usage.routing": "Plan billing is active. Kappa Gateway routing is {{state}}.",
+  "profile.usage.routing": "Plan billing is active. Kilo Gateway routing is {{state}}.",
   "profile.usage.routingState.disabled": "disabled",
   "profile.usage.routingState.missing": "missing",
   "profile.usage.routingState.replaced": "replaced",
@@ -903,18 +903,18 @@ export const dict = {
   "settings.experimental.imageGenerationModel.placeholder": "Default (Auto Router)",
 
   "settings.models.speechToText.disabledDescription":
-    "Kappa Gateway is selected. Enable and sign in to the Kappa provider to choose a supported model, or enter a custom transcription base URL above.",
+    "Kilo Gateway is selected. Enable and sign in to the Kappa provider to choose a supported model, or enter a custom transcription base URL above.",
   "settings.models.speechToText.remoteDescription":
     "Voice input is unavailable in remote windows. Open Kappa in a local window to use the microphone.",
   "settings.models.speechToTextModel.title": "Speech to Text Model",
   "settings.models.speechToTextModel.description":
-    "Kappa Gateway is the active speech-to-text source. Choose its transcription model for voice input.",
+    "Kilo Gateway is the active speech-to-text source. Choose its transcription model for voice input.",
   "settings.models.speechToTextModel.customDescription":
     "Model ID sent to your custom transcription endpoint, for example whisper-1. Voice input is unavailable until you set one.",
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Speech to Text Base URL",
   "settings.models.speechToTextBaseUrl.description":
-    "Use an OpenAI-compatible transcription API instead of Kappa Gateway. Models are read from /models and audio is sent to /audio/transcriptions. Leave empty to use Kappa Gateway.",
+    "Use an OpenAI-compatible transcription API instead of Kilo Gateway. Models are read from /models and audio is sent to /audio/transcriptions. Leave empty to use Kilo Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Speech to Text API Key",
   "settings.models.speechToTextApiKey.description":
@@ -1296,7 +1296,7 @@ export const dict = {
     "Default model and reasoning effort for task-tool subagents. Leave unset to inherit the calling agent's model.",
   "settings.models.hidePromptTraining.title": "Hide Prompt-Training Models",
   "settings.models.hidePromptTraining.description":
-    "Hide Kappa Gateway models whose providers may use your prompts for training.",
+    "Hide Kilo Gateway models whose providers may use your prompts for training.",
   "settings.providers.modeModels": "Model per Mode",
   "settings.providers.modeModels.description":
     "Override the default model for specific modes. If not set, the global default model is used.",

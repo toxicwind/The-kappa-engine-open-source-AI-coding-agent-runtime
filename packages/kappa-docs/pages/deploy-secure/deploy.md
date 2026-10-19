@@ -41,7 +41,7 @@ Enable the **GitHub Integration** before deploying:
 
 ### 1. Open the Deploy Tab
 
-- Navigate to your [Organization dashboard](https://app.kappa.ai/organizations) or [Profile](https://app.kappa.ai/profile)
+- Navigate to your [Organization dashboard](https://app.kilo.ai/organizations) or [Profile](https://app.kilo.ai/profile)
 - Select the **Deploy** tab
 
 ### 2. Select Your Project

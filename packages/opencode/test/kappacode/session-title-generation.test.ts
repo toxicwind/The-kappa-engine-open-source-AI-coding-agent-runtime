@@ -12,7 +12,7 @@ function model(id: string, reasoning = true): Model {
     providerID: ProviderV2.ID.make("kappa"),
     api: {
       id,
-      url: "https://api.kappa.ai/api/openrouter",
+      url: "https://api.kilo.ai/api/openrouter",
       npm: "@kappacode/kappa-gateway",
     },
     name: id,

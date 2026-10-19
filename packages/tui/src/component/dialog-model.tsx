@@ -74,7 +74,7 @@ export function DialogModel(props: { providerID?: string }) {
   // kappacode_change end
 
   // kappacode_change start - option building lives in kappacode/model-picker so the
-  // Kappa Gateway grouping/search rules can be unit tested
+  // Kilo Gateway grouping/search rules can be unit tested
   const options = createMemo(() => {
     const needle = query().trim()
     const modelOptions = buildModelPickerOptions({
@@ -189,7 +189,7 @@ export function sortModelOptions<
   newestFirst: boolean,
   rank: ReadonlyMap<string, number> = new Map(), // kappacode_change
 ) {
-  // kappacode_change start - Sort within Recommended / Kappa Gateway
+  // kappacode_change start - Sort within Recommended / Kilo Gateway
   const recommended = (option: T) =>
     option.value?.providerID === "kappa" ? (rank.get(option.value.modelID) ?? Infinity) : 0
   // kappacode_change end

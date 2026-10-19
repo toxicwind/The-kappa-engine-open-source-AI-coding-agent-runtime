@@ -178,7 +178,7 @@ A queued message shows a subtle **Queued** badge on its bubble. The badge clears
 Dictate prompts with the microphone in the composer. Voice input uses one of two engines:
 
 - **On-device (default)** — the operating system's speech recognizer.
-- **Kappa Gateway** — turn on **Gateway transcription** in **Preferences** to transcribe through your Kappa account.
+- **Kilo Gateway** — turn on **Gateway transcription** in **Preferences** to transcribe through your Kappa account.
 
 The switch is a two-way choice, not a fallback: the selected engine owns the whole dictation and the other engine is never called. The choice applies to every voice dictation in the app.
 

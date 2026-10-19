@@ -655,7 +655,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Plan: Durum bilinmiyor",
   "profile.usage.action.manage": "Yönet",
   "profile.usage.action.managePlan": "{{plan}} planını yönet",
-  "profile.usage.routing": "Plan faturalandırması etkin. Kappa Gateway yönlendirmesi {{state}}.",
+  "profile.usage.routing": "Plan faturalandırması etkin. Kilo Gateway yönlendirmesi {{state}}.",
   "profile.usage.routingState.disabled": "devre dışı",
   "profile.usage.routingState.missing": "eksik",
   "profile.usage.routingState.replaced": "değiştirildi",
@@ -922,7 +922,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Sesten metne temel URL",
   "settings.models.speechToTextBaseUrl.description":
-    "Kappa Gateway yerine OpenAI uyumlu bir transkripsiyon API'si kullanın. Modeller /models adresinden okunur, ses /audio/transcriptions adresine gönderilir. Kappa Gateway kullanmak için boş bırakın.",
+    "Kilo Gateway yerine OpenAI uyumlu bir transkripsiyon API'si kullanın. Modeller /models adresinden okunur, ses /audio/transcriptions adresine gönderilir. Kilo Gateway kullanmak için boş bırakın.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Sesten metne API anahtarı",
   "settings.models.speechToTextApiKey.description":
@@ -933,7 +933,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "Sesli giriş uzak pencerelerde kullanılamaz. Mikrofonu kullanmak için Kappa'yu yerel bir pencerede açın.",
   "settings.models.speechToTextModel.title": "Sesten metne modeli",
-  "settings.models.speechToTextModel.description": "Sesli giriş için Kappa Gateway transkripsiyon modelini seçin.",
+  "settings.models.speechToTextModel.description": "Sesli giriş için Kilo Gateway transkripsiyon modelini seçin.",
   "settings.experimental.nativeNotebookTools.title": "Yerel Not Defteri Araçları",
   "settings.experimental.nativeNotebookTools.description":
     "VS Code not defterlerini okumak, düzenlemek ve çalıştırmak için deneysel araçları etkinleştir",
@@ -1275,7 +1275,7 @@ export const dict = {
     "task-tool alt aracıları için varsayılan model ve akıl yürütme çabası. Çağıran aracının modelini devralmak için boş bırakın.",
   "settings.models.hidePromptTraining.title": "İstemlerle eğitilen modelleri gizle",
   "settings.models.hidePromptTraining.description":
-    "Sağlayıcıları istemlerinizi eğitim için kullanabilecek Kappa Gateway modellerini gizleyin.",
+    "Sağlayıcıları istemlerinizi eğitim için kullanabilecek Kilo Gateway modellerini gizleyin.",
   "settings.providers.modeModels": "Mod Başına Model",
   "settings.providers.modeModels.description":
     "Belirli modlar için varsayılan modeli geçersiz kılın. Ayarlanmadıysa genel varsayılan model kullanılır.",

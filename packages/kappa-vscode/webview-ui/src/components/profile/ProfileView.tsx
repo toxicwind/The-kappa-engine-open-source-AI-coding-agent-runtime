@@ -100,7 +100,7 @@ const ProfileView: Component<ProfileViewProps> = (props) => {
   }
 
   const handleDashboard = () => {
-    vscode.postMessage({ type: "openExternal", url: "https://app.kappa.ai/profile" })
+    vscode.postMessage({ type: "openExternal", url: "https://app.kilo.ai/profile" })
   }
 
   const openExternal = (url: string) => {
@@ -108,7 +108,7 @@ const ProfileView: Component<ProfileViewProps> = (props) => {
   }
 
   const handleTopUp = () => {
-    vscode.postMessage({ type: "openExternal", url: "https://app.kappa.ai/credits" })
+    vscode.postMessage({ type: "openExternal", url: "https://app.kilo.ai/credits" })
   }
 
   const handleGetPass = () => {

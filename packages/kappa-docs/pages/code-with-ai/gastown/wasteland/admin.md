@@ -67,7 +67,7 @@ The Mayor calls the `gt_wasteland_post` tool, which runs `wl post` on your behal
 Navigate to your wasteland → **Wanted** tab → click **Post new item**.
 
 <!-- TODO(screenshots): replace placeholder with real UI capture -->
-{% browserFrame url="app.kappa.ai/wasteland/my-org/wl-internal/wanted/post" caption="Posting a wanted item — title, description, priority, and type fields" %}
+{% browserFrame url="app.kilo.ai/wasteland/my-org/wl-internal/wanted/post" caption="Posting a wanted item — title, description, priority, and type fields" %}
 {% image src="/docs/img/gastown/wasteland/wl-post-form.png" alt="Wanted item post form" /%}
 {% /browserFrame %}
 
@@ -101,7 +101,7 @@ The review inbox requires **both** owner-level membership and admin mode (`is_up
 {% /callout %}
 
 <!-- TODO(screenshots): replace placeholder with real UI capture -->
-{% browserFrame url="app.kappa.ai/wasteland/my-org/wl-internal/review" caption="The review inbox — pending submissions grouped by type" %}
+{% browserFrame url="app.kilo.ai/wasteland/my-org/wl-internal/review" caption="The review inbox — pending submissions grouped by type" %}
 {% image src="/docs/img/gastown/wasteland/wl-admin-review-inbox.png" alt="Admin review inbox showing pending submissions" /%}
 {% /browserFrame %}
 

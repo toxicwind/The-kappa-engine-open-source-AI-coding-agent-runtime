@@ -295,7 +295,7 @@ export function patchCustomLoaderResult(
 // ---------------------------------------------------------------------------
 
 export function kappaSmallModelPriority(providerID: string): string[] | undefined {
-  if (providerID.startsWith("kappa")) return ["kappa-auto/small"]
+  if (providerID.startsWith("kappa")) return ["kilo-auto/small"]
   return undefined
 }
 
@@ -304,7 +304,7 @@ export function kappaSmallModelPriority(providerID: string): string[] | undefine
  * auth entry, or an apiKey in the kappa provider config. Mirrors the hasKey
  * check in the kappa custom loader. The kappa provider is autoloaded with an
  * anonymous key even without credentials, so this gates the cloud
- * kappa-auto/small fallback to users who can actually reach it.
+ * kilo-auto/small fallback to users who can actually reach it.
  */
 export function hasKappaCredentials(
   cfg: { provider?: Record<string, { options?: { apiKey?: string } } | null> },

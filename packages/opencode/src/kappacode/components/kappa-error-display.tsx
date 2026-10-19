@@ -41,7 +41,7 @@ export function KappaErrorBlock(props: KappaErrorBlockProps) {
         >
           <text fg={theme.text}>{title()}</text>
           <text fg={theme.textMuted}>{description()}</text>
-          <text fg={theme.primary}>{"Run /connect or `kappa auth login` to connect to Kappa Gateway"}</text>
+          <text fg={theme.primary}>{"Run /connect or `kappa auth login` to connect to Kilo Gateway"}</text>
         </box>
       </Match>
     </Switch>

@@ -1603,10 +1603,10 @@ class KiloCliDataParserTest {
                 "title": "Shared",
                 "version": "1",
                 "time": { "created": 0.0, "updated": 0.0 },
-                "share": { "url": "https://app.kappa.ai/s/tok" }
+                "share": { "url": "https://app.kilo.ai/s/tok" }
             }"""
 
-            assertEquals("https://app.kappa.ai/s/tok", KiloCliDataParser.parseSession(raw).share?.url)
+            assertEquals("https://app.kilo.ai/s/tok", KiloCliDataParser.parseSession(raw).share?.url)
         }
 
         // ---- parseSessionBoard ----

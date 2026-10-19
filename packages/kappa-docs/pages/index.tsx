@@ -18,14 +18,14 @@ const terminalContent = {
   ),
   gateway: (
     <>
-      <span className="terminal-comment"># Call Kappa Gateway with a quick curl script</span>
+      <span className="terminal-comment"># Call Kilo Gateway with a quick curl script</span>
       {"\n"}
       <span className="terminal-prompt">$</span> export KAPPA_API_KEY="YOUR_API_KEY"
       {"\n"}
-      <span className="terminal-prompt">$</span> curl https://api.kappa.ai/api/gateway/chat/completions \{"\n"}
+      <span className="terminal-prompt">$</span> curl https://api.kilo.ai/api/gateway/chat/completions \{"\n"}
       -H "Authorization: Bearer $KAPPA_API_KEY" \{"\n"}
       -H "Content-Type: application/json" \{"\n"}
-      {`  -d '{"model":"anthropic/claude-sonnet-4.5","messages":[{"role":"user","content":"Say hi from Kappa Gateway"}]}'`}
+      {`  -d '{"model":"anthropic/claude-sonnet-4.5","messages":[{"role":"user","content":"Say hi from Kilo Gateway"}]}'`}
     </>
   ),
   firstTask: (
@@ -154,7 +154,7 @@ const categories = [
     ],
   },
   {
-    title: "Kappa Gateway",
+    title: "Kilo Gateway",
     description:
       "A unified API to access hundreds of AI models through a single endpoint with streaming, BYOK, and usage tracking.",
     href: "/gateway",
@@ -216,7 +216,7 @@ export default function HomePage() {
               Get started with Kappa Code →
             </Link>
             <Link href="/gateway" className="btn btn-secondary">
-              Explore Kappa Gateway
+              Explore Kilo Gateway
             </Link>
           </div>
         </div>
@@ -295,7 +295,7 @@ export default function HomePage() {
       <section className="terminal-section">
         <div className="terminal-intro">
           <h2 className="section-title">Try it out</h2>
-          <p className="terminal-description">Get started quickly with Kappa Code and Kappa Gateway</p>
+          <p className="terminal-description">Get started quickly with Kappa Code and Kilo Gateway</p>
         </div>
         <div className="terminal-container">
           <div className="terminal-tabs">
@@ -321,7 +321,7 @@ export default function HomePage() {
               className={`terminal-tab ${activeTab === "gateway" ? "active" : ""}`}
               onClick={() => setActiveTab("gateway")}
             >
-              Kappa Gateway
+              Kilo Gateway
             </button>
           </div>
           <div className="terminal-window">

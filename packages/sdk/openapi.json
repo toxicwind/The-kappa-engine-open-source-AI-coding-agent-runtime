@@ -13219,8 +13219,8 @@
             }
           }
         },
-        "description": "Fetch user profile and organizations from Kappa Gateway",
-        "summary": "Get Kappa Gateway profile",
+        "description": "Fetch user profile and organizations from Kilo Gateway",
+        "summary": "Get Kilo Gateway profile",
         "x-codeSamples": [
           {
             "lang": "js",
@@ -13554,7 +13554,7 @@
             }
           }
         },
-        "description": "Proxy a Fill-in-the-Middle completion request to the Kappa Gateway",
+        "description": "Proxy a Fill-in-the-Middle completion request to the Kilo Gateway",
         "summary": "FIM completion",
         "requestBody": {
           "content": {
@@ -13807,7 +13807,7 @@
             }
           }
         },
-        "description": "Proxy an audio transcription request to the Kappa Gateway",
+        "description": "Proxy an audio transcription request to the Kilo Gateway",
         "summary": "Speech to text transcription",
         "requestBody": {
           "content": {
@@ -13923,7 +13923,7 @@
             }
           }
         },
-        "description": "List image-capable models from the Kappa Gateway OpenRouter passthrough",
+        "description": "List image-capable models from the Kilo Gateway OpenRouter passthrough",
         "summary": "Image generation models",
         "x-codeSamples": [
           {
@@ -13998,7 +13998,7 @@
             }
           }
         },
-        "description": "List transcription-capable models from the Kappa Gateway catalog",
+        "description": "List transcription-capable models from the Kilo Gateway catalog",
         "summary": "Speech-to-text models",
         "x-codeSamples": [
           {
@@ -14098,7 +14098,7 @@
             }
           }
         },
-        "description": "Fetch notifications from Kappa Gateway for CLI display",
+        "description": "Fetch notifications from Kilo Gateway for CLI display",
         "summary": "Get Kappa notifications",
         "x-codeSamples": [
           {
@@ -14160,8 +14160,8 @@
             }
           }
         },
-        "description": "Switch to a different Kappa Gateway organization",
-        "summary": "Update Kappa Gateway organization",
+        "description": "Switch to a different Kilo Gateway organization",
+        "summary": "Update Kilo Gateway organization",
         "requestBody": {
           "content": {
             "application/json": {
@@ -62001,7 +62001,7 @@
     },
     {
       "name": "kappa",
-      "description": "Kappa Gateway routes."
+      "description": "Kilo Gateway routes."
     },
     {
       "name": "kappacode",

@@ -1,7 +1,7 @@
 // Kappa-specific translations and overrides
 // Keys here will override any matching keys from upstream translations
 export const dict = {
-  // Kappa Gateway provider translations
+  // Kilo Gateway provider translations
   "provider.connect.kappaGateway.byok.prefix": "For more usage stats, ",
   "provider.connect.kappaGateway.byok.link": "BYOK via Kappa's Gateway",
   "provider.connect.kappaGateway.byok.suffix": ".",

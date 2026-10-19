@@ -494,7 +494,7 @@ export const dict = {
     "task-tool サブエージェントのデフォルトモデルと推論の労力。呼び出し元のエージェントのモデルを継承する場合は未設定のままにしてください。",
   "settings.models.hidePromptTraining.title": "プロンプトを学習に使用するモデルを非表示",
   "settings.models.hidePromptTraining.description":
-    "プロバイダーがプロンプトを学習に使用する可能性のある Kappa Gateway モデルを非表示にします。",
+    "プロバイダーがプロンプトを学習に使用する可能性のある Kilo Gateway モデルを非表示にします。",
   "settings.providers.modeModels": "モードごとのモデル",
   "settings.providers.modeModels.description":
     "特定のモードのデフォルトモデルを上書きします。設定されていない場合、グローバルデフォルトモデルが使用されます。",
@@ -699,7 +699,7 @@ export const dict = {
   "profile.usage.plan.unknown": "プラン：ステータス不明",
   "profile.usage.action.manage": "管理",
   "profile.usage.action.managePlan": "{{plan}} を管理",
-  "profile.usage.routing": "プランの請求は有効です。Kappa Gatewayのルーティングは{{state}}です。",
+  "profile.usage.routing": "プランの請求は有効です。Kilo Gatewayのルーティングは{{state}}です。",
   "profile.usage.routingState.disabled": "無効",
   "profile.usage.routingState.missing": "欠落",
   "profile.usage.routingState.replaced": "置換済み",
@@ -926,7 +926,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "音声認識ベース URL",
   "settings.models.speechToTextBaseUrl.description":
-    "Kappa Gateway の代わりに OpenAI 互換の文字起こし API を使用します。モデルは /models から読み込まれ、音声は /audio/transcriptions に送信されます。空欄にすると Kappa Gateway を使用します。",
+    "Kilo Gateway の代わりに OpenAI 互換の文字起こし API を使用します。モデルは /models から読み込まれ、音声は /audio/transcriptions に送信されます。空欄にすると Kilo Gateway を使用します。",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "音声認識 API キー",
   "settings.models.speechToTextApiKey.description":
@@ -937,7 +937,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "音声入力はリモートウィンドウでは利用できません。マイクを使用するには、ローカルウィンドウで Kappa を開いてください。",
   "settings.models.speechToTextModel.title": "音声認識モデル",
-  "settings.models.speechToTextModel.description": "音声入力に使用するKappa Gateway文字起こしモデルを選択します。",
+  "settings.models.speechToTextModel.description": "音声入力に使用するKilo Gateway文字起こしモデルを選択します。",
   "settings.experimental.nativeNotebookTools.title": "ネイティブノートブックツール",
   "settings.experimental.nativeNotebookTools.description":
     "VS Codeノートブックの読み取り、編集、実行を行う実験的なツールを有効にします",

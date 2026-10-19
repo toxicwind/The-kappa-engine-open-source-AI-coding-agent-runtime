@@ -1,5 +1,5 @@
 /**
- * Custom OAuth handler for Kappa Gateway
+ * Custom OAuth handler for Kilo Gateway
  *
  * Handles the device authorization flow and organization selection
  * before completing authentication.

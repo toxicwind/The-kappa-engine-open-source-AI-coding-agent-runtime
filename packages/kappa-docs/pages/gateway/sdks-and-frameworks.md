@@ -5,7 +5,7 @@ description: "Integrate with the Kappa AI Gateway using the Vercel AI SDK, OpenA
 
 # SDKs & Frameworks
 
-The Kappa AI Gateway is OpenAI-compatible, meaning any SDK or framework that works with the OpenAI API can work with the Kappa Gateway by changing the base URL.
+The Kappa AI Gateway is OpenAI-compatible, meaning any SDK or framework that works with the OpenAI API can work with the Kilo Gateway by changing the base URL.
 
 ## Vercel AI SDK (Recommended)
 
@@ -24,7 +24,7 @@ import { streamText } from "ai"
 import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
-  baseURL: "https://api.kappa.ai/api/gateway",
+  baseURL: "https://api.kilo.ai/api/gateway",
   apiKey: process.env.KAPPA_API_KEY,
 })
 
@@ -46,7 +46,7 @@ import { createOpenAI } from "@ai-sdk/openai"
 import { z } from "zod"
 
 const kappa = createOpenAI({
-  baseURL: "https://api.kappa.ai/api/gateway",
+  baseURL: "https://api.kilo.ai/api/gateway",
   apiKey: process.env.KAPPA_API_KEY,
 })
 
@@ -78,7 +78,7 @@ import { streamText } from "ai"
 import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
-  baseURL: "https://api.kappa.ai/api/gateway",
+  baseURL: "https://api.kilo.ai/api/gateway",
   apiKey: process.env.KAPPA_API_KEY,
 })
 
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
 
 ## OpenAI SDK
 
-The official OpenAI SDKs work with the Kappa Gateway by setting the base URL.
+The official OpenAI SDKs work with the Kilo Gateway by setting the base URL.
 
 ### TypeScript / JavaScript
 
@@ -109,7 +109,7 @@ import OpenAI from "openai"
 
 const client = new OpenAI({
   apiKey: process.env.KAPPA_API_KEY,
-  baseURL: "https://api.kappa.ai/api/gateway",
+  baseURL: "https://api.kilo.ai/api/gateway",
 })
 
 // Non-streaming
@@ -148,7 +148,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key=os.getenv("KAPPA_API_KEY"),
-    base_url="https://api.kappa.ai/api/gateway",
+    base_url="https://api.kilo.ai/api/gateway",
 )
 
 # Non-streaming
@@ -182,7 +182,7 @@ for chunk in stream:
 ### Non-streaming request
 
 ```bash
-curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
+curl -X POST "https://api.kilo.ai/api/gateway/chat/completions" \
   -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -196,7 +196,7 @@ curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
 ### Streaming request
 
 ```bash
-curl -N -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
+curl -N -X POST "https://api.kilo.ai/api/gateway/chat/completions" \
   -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -239,7 +239,7 @@ func main() {
     jsonBody, _ := json.Marshal(body)
 
     req, _ := http.NewRequest("POST",
-        "https://api.kappa.ai/api/gateway/chat/completions",
+        "https://api.kilo.ai/api/gateway/chat/completions",
         bytes.NewBuffer(jsonBody))
 
     req.Header.Set("Authorization", "Bearer "+os.Getenv("KAPPA_API_KEY"))
@@ -262,7 +262,7 @@ func main() {
 require 'net/http'
 require 'json'
 
-uri = URI('https://api.kappa.ai/api/gateway/chat/completions')
+uri = URI('https://api.kilo.ai/api/gateway/chat/completions')
 http = Net::HTTP.new(uri.host, uri.port)
 http.use_ssl = true
 
@@ -296,7 +296,7 @@ The Kappa AI Gateway works with any framework that supports OpenAI-compatible AP
 
 ### Pi coding agent
 
-Use the Kappa-maintained [Pi provider extension](https://github.com/Kappa-Org/kappa-pi-provider) to access Kappa Gateway models from the [Pi coding agent](https://pi.dev).
+Use the Kappa-maintained [Pi provider extension](https://github.com/Kappa-Org/kappa-pi-provider) to access Kilo Gateway models from the [Pi coding agent](https://pi.dev).
 
 ```bash
 pi install git:github.com/Kappa-Org/kappa-pi-provider
@@ -312,7 +312,7 @@ from langchain_openai import ChatOpenAI
 llm = ChatOpenAI(
     model="anthropic/claude-sonnet-4.5",
     api_key=os.getenv("KAPPA_API_KEY"),
-    base_url="https://api.kappa.ai/api/gateway",
+    base_url="https://api.kilo.ai/api/gateway",
 )
 
 response = llm.invoke("Explain photosynthesis in simple terms.")
@@ -328,7 +328,7 @@ const model = new ChatOpenAI({
   modelName: "anthropic/claude-sonnet-4.5",
   openAIApiKey: process.env.KAPPA_API_KEY,
   configuration: {
-    baseURL: "https://api.kappa.ai/api/gateway",
+    baseURL: "https://api.kilo.ai/api/gateway",
   },
 })
 

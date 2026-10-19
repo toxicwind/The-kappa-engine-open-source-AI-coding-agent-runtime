@@ -59,7 +59,7 @@ export function getOrganizationId(auth: KappaAuth | undefined) {
 
 export async function getProfile(auth: AuthStore): Promise<KappaProfileResult> {
   const info = await auth.get("kappa")
-  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kappa Gateway")
+  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kilo Gateway")
 
   const currentOrgId = info.accountId ?? null
   const [profile, balance, kappaPass] = await Promise.all([
@@ -83,7 +83,7 @@ export async function getNotifications(auth: AuthStore) {
 
 export async function setOrganization(deps: OrganizationDeps, organizationId: string | null) {
   const info = await deps.auth.get("kappa")
-  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kappa Gateway")
+  if (!info || info.type !== "oauth") throw new UnauthorizedError("Not authenticated with Kilo Gateway")
 
   await deps.auth.set("kappa", {
     type: "oauth",
@@ -120,7 +120,7 @@ export async function getCloudSessions(token: string, input: CloudSessionsInput)
 
   if (!response.ok) {
     const text = await response.text()
-    console.error("[Kappa Gateway] cloud-sessions: tRPC request failed", {
+    console.error("[Kilo Gateway] cloud-sessions: tRPC request failed", {
       status: response.status,
       body: text.slice(0, 500),
     })

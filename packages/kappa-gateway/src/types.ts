@@ -85,7 +85,7 @@ export interface KappaProviderOptions {
   /**
    * Base URL for the KappaCode API
    * Can be overridden by KAPPA_API_URL environment variable
-   * @default "https://api.kappa.ai"
+   * @default "https://api.kilo.ai"
    */
   baseURL?: string
 

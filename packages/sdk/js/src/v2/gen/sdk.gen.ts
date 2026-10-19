@@ -6782,7 +6782,7 @@ export class Audio extends HeyApiClient {
   /**
    * Speech to text transcription
    *
-   * Proxy an audio transcription request to the Kappa Gateway
+   * Proxy an audio transcription request to the Kilo Gateway
    */
   public transcriptions<ThrowOnError extends boolean = false>(
     parameters: {
@@ -6836,7 +6836,7 @@ export class Models extends HeyApiClient {
   /**
    * Image generation models
    *
-   * List image-capable models from the Kappa Gateway OpenRouter passthrough
+   * List image-capable models from the Kilo Gateway OpenRouter passthrough
    */
   public images<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6866,7 +6866,7 @@ export class Models extends HeyApiClient {
   /**
    * Speech-to-text models
    *
-   * List transcription-capable models from the Kappa Gateway catalog
+   * List transcription-capable models from the Kilo Gateway catalog
    */
   public transcriptions<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6900,9 +6900,9 @@ export class Models extends HeyApiClient {
 
 export class Organization extends HeyApiClient {
   /**
-   * Update Kappa Gateway organization
+   * Update Kilo Gateway organization
    *
-   * Switch to a different Kappa Gateway organization
+   * Switch to a different Kilo Gateway organization
    */
   public set<ThrowOnError extends boolean = false>(
     parameters: {
@@ -7023,9 +7023,9 @@ export class Cloud extends HeyApiClient {
 
 export class Kappa extends HeyApiClient {
   /**
-   * Get Kappa Gateway profile
+   * Get Kilo Gateway profile
    *
-   * Fetch user profile and organizations from Kappa Gateway
+   * Fetch user profile and organizations from Kilo Gateway
    */
   public profile<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -7115,7 +7115,7 @@ export class Kappa extends HeyApiClient {
   /**
    * FIM completion
    *
-   * Proxy a Fill-in-the-Middle completion request to the Kappa Gateway
+   * Proxy a Fill-in-the-Middle completion request to the Kilo Gateway
    */
   public fim<ThrowOnError extends boolean = false>(
     parameters: {
@@ -7222,7 +7222,7 @@ export class Kappa extends HeyApiClient {
   /**
    * Get Kappa notifications
    *
-   * Fetch notifications from Kappa Gateway for CLI display
+   * Fetch notifications from Kilo Gateway for CLI display
    */
   public notifications<ThrowOnError extends boolean = false>(
     parameters?: {

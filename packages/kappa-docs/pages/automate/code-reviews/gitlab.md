@@ -11,7 +11,7 @@ Both **GitLab.com** and **self-hosted GitLab instances** are supported.
 
 ## Prerequisites
 
-- A Kappa Code account at [app.kappa.ai](https://app.kappa.ai)
+- A Kappa Code account at [app.kilo.ai](https://app.kilo.ai)
 - A GitLab account with **Maintainer** role (or higher) on the projects you want to review
 - Kappa Code credits for AI model usage
 
@@ -28,7 +28,7 @@ Once connected, return here to configure the Review Agent.
 ### Step 2: Configure the Review Agent
 
 1. Go to **Code Reviews**:
-   - **Personal**: [app.kappa.ai/code-reviews](https://app.kappa.ai/code-reviews)
+   - **Personal**: [app.kilo.ai/code-reviews](https://app.kilo.ai/code-reviews)
    - **Organization**: Your organization → Code Reviews
 2. Toggle **Enable AI Code Review** to on
 3. Configure your preferences:
@@ -89,7 +89,7 @@ Kappa manages webhooks automatically:
 
 You don't need to set up webhooks manually. If automatic webhook creation fails due to permissions, you can add the webhook manually in **GitLab → Project → Settings → Webhooks**:
 
-- **URL**: `https://app.kappa.ai/api/webhooks/gitlab`
+- **URL**: `https://app.kilo.ai/api/webhooks/gitlab`
 - **Secret token**: Available in your integration settings
 - **Trigger**: Merge request events
 
@@ -137,4 +137,4 @@ You need **Maintainer role** on the GitLab project. Both webhook creation and bo
 - Verify your instance URL is accessible from the internet
 - Ensure HTTPS is configured
 - Check that OAuth application scopes include all required scopes
-- Verify the redirect URI matches: `https://app.kappa.ai/api/integrations/gitlab/callback`
+- Verify the redirect URI matches: `https://app.kilo.ai/api/integrations/gitlab/callback`

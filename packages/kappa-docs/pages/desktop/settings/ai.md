@@ -19,7 +19,7 @@ Select **+ Add** to open the **Kappa Marketplace**, where you can browse special
 
 The **AI Providers** section lists your enabled AI providers, and **Add AI Provider** (top-right) connects a new one.
 
-The **Kappa Gateway** is the default path to models. When you're signed in it shows your account email and available balance; when you're signed out, use **Sign In**. Manage your account from the [Account](/docs/desktop/settings/general#account) section.
+The **Kilo Gateway** is the default path to models. When you're signed in it shows your account email and available balance; when you're signed out, use **Sign In**. Manage your account from the [Account](/docs/desktop/settings/general#account) section.
 
 Other providers appear below the gateway:
 

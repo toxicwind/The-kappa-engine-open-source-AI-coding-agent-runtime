@@ -1,5 +1,5 @@
 /**
- * Kappa Gateway Configuration Constants
+ * Kilo Gateway Configuration Constants
  * Centralized configuration for all API endpoints, headers, and settings
  */
 
@@ -7,7 +7,7 @@
 export const ENV_KAPPA_API_URL = "KAPPA_API_URL"
 
 /** Default Kappa API URL */
-export const DEFAULT_KAPPA_API_URL = "https://api.kappa.ai"
+export const DEFAULT_KAPPA_API_URL = "https://api.kilo.ai"
 
 /** Base URL for Kappa API - can be overridden by KAPPA_API_URL env var */
 export const KAPPA_API_BASE = process.env[ENV_KAPPA_API_URL] || DEFAULT_KAPPA_API_URL
@@ -28,10 +28,10 @@ export const KAPPA_OPENROUTER_BASE = `${KAPPA_API_BASE}/api/openrouter`
 export const POLL_INTERVAL_MS = 3000
 
 /** Default model for authenticated users */
-export const DEFAULT_MODEL = "kappa-auto/free"
+export const DEFAULT_MODEL = "kilo-auto/free"
 
 /** Default model for anonymous/free usage */
-export const DEFAULT_FREE_MODEL = "kappa-auto/free"
+export const DEFAULT_FREE_MODEL = "kilo-auto/free"
 
 /** Token expiration duration in milliseconds (1 year) */
 export const TOKEN_EXPIRATION_MS = 365 * 24 * 60 * 60 * 1000

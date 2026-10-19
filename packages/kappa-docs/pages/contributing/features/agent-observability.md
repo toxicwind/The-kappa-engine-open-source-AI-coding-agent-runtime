@@ -68,7 +68,7 @@ Candidate session aggregates:
 
 ### Alert policy
 
-Burn-rate evaluation infrastructure exists. Proposed alert routing should page only for recommended models using Kappa Gateway; other conditions can create tickets or remain disabled.
+Burn-rate evaluation infrastructure exists. Proposed alert routing should page only for recommended models using Kilo Gateway; other conditions can create tickets or remain disabled.
 
 | Window | Burn rate | Proposed action |
 |---|---|---|

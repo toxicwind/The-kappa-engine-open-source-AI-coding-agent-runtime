@@ -26,7 +26,7 @@ export type ShareData =
   | { type: "model"; data: unknown }
 
 // kappacode_change start
-/** Extract share token from a Kappa share URL like https://app.kappa.ai/s/<jwt> */
+/** Extract share token from a Kappa share URL like https://app.kilo.ai/s/<jwt> */
 export function parseShareUrl(url: string): string | null {
   const match = url.match(/^https?:\/\/app\.kappa\.ai\/s\/([A-Za-z0-9_.-]+)$/)
   return match ? match[1] : null
@@ -160,7 +160,7 @@ const runImport = Effect.fn("Cli.import.body")(function* (file: string, ctx: Ins
     // kappacode_change start - Migrate to upstream ShareNext architecture #10281
     const slug = parseShareUrl(file)
     if (!slug) {
-      process.stdout.write(`Invalid URL format. Expected: https://app.kappa.ai/s/<id>`)
+      process.stdout.write(`Invalid URL format. Expected: https://app.kilo.ai/s/<id>`)
       process.stdout.write(EOL)
       return
     }

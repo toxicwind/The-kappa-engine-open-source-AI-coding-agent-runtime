@@ -21,7 +21,7 @@ import type { EnrichedModel } from "../../webview-ui/src/context/provider"
 const labels = { select: "Select model", noProviders: "No providers", notSet: "Not set" }
 
 describe("providerSortKey", () => {
-  it("returns 0 for kappa gateway", () => {
+  it("returns 0 for kilo gateway", () => {
     expect(providerSortKey(KAPPA_GATEWAY_ID)).toBe(0)
   })
 
@@ -120,9 +120,9 @@ describe("isFree", () => {
 
 describe("isAuto", () => {
   it("matches only Kappa Auto model ids", () => {
-    expect(isAuto({ providerID: KAPPA_GATEWAY_ID, id: "kappa-auto/efficient" })).toBe(true)
+    expect(isAuto({ providerID: KAPPA_GATEWAY_ID, id: "kilo-auto/efficient" })).toBe(true)
     expect(isAuto({ providerID: KAPPA_GATEWAY_ID, id: "auto-small" })).toBe(true)
-    expect(isAuto({ providerID: "anthropic", id: "kappa-auto/efficient" })).toBe(false)
+    expect(isAuto({ providerID: "anthropic", id: "kilo-auto/efficient" })).toBe(false)
     expect(isAuto({ providerID: KAPPA_GATEWAY_ID, id: "anthropic/claude-sonnet" })).toBe(false)
   })
 })
@@ -133,7 +133,7 @@ describe("autoChoices", () => {
       autoChoices(
         {
           providerID: KAPPA_GATEWAY_ID,
-          id: "kappa-auto/efficient",
+          id: "kilo-auto/efficient",
           autoRouting: { models: ["provider/model", "missing/model"] },
         },
         [{ id: "provider/model", name: "Provider: Model" }],
@@ -149,7 +149,7 @@ describe("autoChoices", () => {
       autoChoices(
         {
           providerID: KAPPA_GATEWAY_ID,
-          id: "kappa-auto/frontier",
+          id: "kilo-auto/frontier",
           autoRouting: { models: ["provider/model"] },
         },
         [{ id: "provider/model", name: "Provider: Model" }],
@@ -158,14 +158,14 @@ describe("autoChoices", () => {
     expect(
       autoChoices({
         providerID: KAPPA_GATEWAY_ID,
-        id: "kappa-auto/free",
+        id: "kilo-auto/free",
         autoRouting: { models: ["provider/model"] },
       }),
     ).toEqual([{ id: "provider/model", name: "provider/model" }])
   })
 
   it("ignores missing routes and non-Auto models", () => {
-    expect(autoChoices({ providerID: KAPPA_GATEWAY_ID, id: "kappa-auto/efficient" })).toEqual([])
+    expect(autoChoices({ providerID: KAPPA_GATEWAY_ID, id: "kilo-auto/efficient" })).toEqual([])
     expect(
       autoChoices({
         providerID: KAPPA_GATEWAY_ID,
@@ -197,7 +197,7 @@ const SEARCH_MODELS: EnrichedModel[] = [
   { id: "gpt-5.6-sol", name: "GPT-5.6 Sol", providerID: "openai", providerName: "OpenAI" },
   { id: "gpt-5.6-sol", name: "GPT-5.6 Sol", providerID: "kappa", providerName: "Kappa" },
   { id: "gpt-5.6", name: "GPT-5.6", providerID: "anthropic", providerName: "Anthropic" },
-  { id: "xai/grok-4.20", name: "SpaceXAI: Grok 4.20", providerID: "kappa", providerName: "Kappa Gateway" },
+  { id: "xai/grok-4.20", name: "SpaceXAI: Grok 4.20", providerID: "kappa", providerName: "Kilo Gateway" },
 ]
 
 describe("rankModelSearch", () => {
@@ -263,7 +263,7 @@ describe("buildTriggerLabel", () => {
     expect(buildTriggerLabel("GPT-4o", "openai", null, false, "", true, labels)).toBe("GPT-4o")
   })
 
-  it("strips sub-provider prefix from resolved name for kappa gateway models", () => {
+  it("strips sub-provider prefix from resolved name for kilo gateway models", () => {
     expect(buildTriggerLabel("Anthropic: Claude Sonnet", KAPPA_GATEWAY_ID, null, false, "", true, labels)).toBe(
       "Claude Sonnet",
     )
@@ -283,9 +283,9 @@ describe("buildTriggerLabel", () => {
     expect(buildTriggerLabel("GPT-5.6 Luna", "openai", null, false, "", true, labels)).toBe("GPT-5.6 Luna")
   })
 
-  it("returns modelID for kappa gateway raw selection", () => {
-    const raw = { providerID: "kappa", modelID: "kappa-auto/frontier" }
-    expect(buildTriggerLabel(undefined, undefined, raw, false, "", true, labels)).toBe("kappa-auto/frontier")
+  it("returns modelID for kilo gateway raw selection", () => {
+    const raw = { providerID: "kappa", modelID: "kilo-auto/frontier" }
+    expect(buildTriggerLabel(undefined, undefined, raw, false, "", true, labels)).toBe("kilo-auto/frontier")
   })
 
   it("returns providerID / modelID for non-kappa raw selection", () => {

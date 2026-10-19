@@ -446,7 +446,7 @@ export const dict = {
     "النموذج الافتراضي وجهد التفكير للوكلاء الفرعيين لـ task-tool. اتركه فارغًا ليرث نموذج الوكيل المستدعي.",
   "settings.models.hidePromptTraining.title": "إخفاء النماذج التي تدرّب على المطالبات",
   "settings.models.hidePromptTraining.description":
-    "إخفاء نماذج Kappa Gateway التي قد يستخدم مزودوها مطالباتك لأغراض التدريب.",
+    "إخفاء نماذج Kilo Gateway التي قد يستخدم مزودوها مطالباتك لأغراض التدريب.",
   "settings.providers.modeModels": "نموذج لكل وضع",
   "settings.providers.modeModels.description":
     "تجاوز النموذج الافتراضي لأوضاع محددة. إذا لم يتم التعيين، يتم استخدام النموذج الافتراضي العام.",
@@ -649,7 +649,7 @@ export const dict = {
   "profile.usage.plan.unknown": "الخطة: الحالة غير معروفة",
   "profile.usage.action.manage": "إدارة",
   "profile.usage.action.managePlan": "إدارة {{plan}}",
-  "profile.usage.routing": "فوترة الخطة مفعّلة. توجيه Kappa Gateway {{state}}.",
+  "profile.usage.routing": "فوترة الخطة مفعّلة. توجيه Kilo Gateway {{state}}.",
   "profile.usage.routingState.disabled": "معطّل",
   "profile.usage.routingState.missing": "مفقود",
   "profile.usage.routingState.replaced": "تم استبداله",
@@ -907,7 +907,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "عنوان URL الأساسي لتحويل الصوت إلى نص",
   "settings.models.speechToTextBaseUrl.description":
-    "استخدم واجهة نسخ متوافقة مع OpenAI بدلاً من Kappa Gateway. تُقرأ النماذج من /models ويُرسل الصوت إلى /audio/transcriptions. اتركه فارغًا لاستخدام Kappa Gateway.",
+    "استخدم واجهة نسخ متوافقة مع OpenAI بدلاً من Kilo Gateway. تُقرأ النماذج من /models ويُرسل الصوت إلى /audio/transcriptions. اتركه فارغًا لاستخدام Kilo Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "مفتاح API لتحويل الصوت إلى نص",
   "settings.models.speechToTextApiKey.description":
@@ -918,7 +918,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "الإدخال الصوتي غير متاح في النوافذ البعيدة. افتح Kappa في نافذة محلية لاستخدام الميكروفون.",
   "settings.models.speechToTextModel.title": "نموذج تحويل الصوت إلى نص",
-  "settings.models.speechToTextModel.description": "اختر نموذج نسخ Kappa Gateway للإدخال الصوتي.",
+  "settings.models.speechToTextModel.description": "اختر نموذج نسخ Kilo Gateway للإدخال الصوتي.",
   "settings.experimental.nativeNotebookTools.title": "أدوات الدفاتر الأصلية",
   "settings.experimental.nativeNotebookTools.description":
     "تمكين الأدوات التجريبية لقراءة دفاتر VS Code وتحريرها وتنفيذها",

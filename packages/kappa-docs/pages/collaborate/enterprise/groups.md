@@ -23,7 +23,7 @@ This is an **Enterprise-only** feature. The Groups page and policy enforcement a
 
 ## Managing groups
 
-Open **Groups** in your organization's sidebar on the [Organization dashboard](https://app.kappa.ai).
+Open **Groups** in your organization's sidebar on the [Organization dashboard](https://app.kilo.ai).
 
 1. Click **Create group**
 2. Give the group a name and optional description

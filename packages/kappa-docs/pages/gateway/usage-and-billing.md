@@ -36,7 +36,7 @@ Model inference is deducted from your balance at the upstream provider's rate wi
 
 ### Individual accounts
 
-Your account balance is the difference between total credits purchased and total usage. Check your balance in the [Kappa dashboard](https://app.kappa.ai).
+Your account balance is the difference between total credits purchased and total usage. Check your balance in the [Kappa dashboard](https://app.kilo.ai).
 
 When your balance reaches zero, requests to paid models will return HTTP 402 with a link to add credits:
 
@@ -46,7 +46,7 @@ When your balance reaches zero, requests to paid models will return HTTP 402 wit
     "message": "Insufficient balance. Please add credits to continue.",
     "code": 402,
     "metadata": {
-      "buyCreditsUrl": "https://app.kappa.ai/credits"
+      "buyCreditsUrl": "https://app.kilo.ai/credits"
     }
   }
 }

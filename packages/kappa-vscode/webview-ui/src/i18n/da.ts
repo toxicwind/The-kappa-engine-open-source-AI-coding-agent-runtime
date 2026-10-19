@@ -497,7 +497,7 @@ export const dict = {
     "Standardmodel og ræsonnementsindsats for task-tool-underagenter. Lad den være tom for at nedarve den kaldende agents model.",
   "settings.models.hidePromptTraining.title": "Skjul modeller, der træner på prompts",
   "settings.models.hidePromptTraining.description":
-    "Skjul Kappa Gateway-modeller, hvis udbydere muligvis bruger dine prompts til træning.",
+    "Skjul Kilo Gateway-modeller, hvis udbydere muligvis bruger dine prompts til træning.",
   "settings.providers.modeModels": "Model pr. tilstand",
   "settings.providers.modeModels.description":
     "Tilsidesæt standardmodellen for bestemte tilstande. Hvis ikke angivet, bruges den globale standardmodel.",
@@ -703,7 +703,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Abonnement: Status ukendt",
   "profile.usage.action.manage": "Administrer",
   "profile.usage.action.managePlan": "Administrer {{plan}}",
-  "profile.usage.routing": "Abonnementsfakturering er aktiv. Kappa Gateway-routing er {{state}}.",
+  "profile.usage.routing": "Abonnementsfakturering er aktiv. Kilo Gateway-routing er {{state}}.",
   "profile.usage.routingState.disabled": "deaktiveret",
   "profile.usage.routingState.missing": "fraværende",
   "profile.usage.routingState.replaced": "erstattet",
@@ -931,7 +931,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Tale til tekst-basis-URL",
   "settings.models.speechToTextBaseUrl.description":
-    "Brug en OpenAI-kompatibel transskriptions-API i stedet for Kappa Gateway. Modeller læses fra /models, og lyd sendes til /audio/transcriptions. Lad feltet stå tomt for at bruge Kappa Gateway.",
+    "Brug en OpenAI-kompatibel transskriptions-API i stedet for Kilo Gateway. Modeller læses fra /models, og lyd sendes til /audio/transcriptions. Lad feltet stå tomt for at bruge Kilo Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Tale til tekst-API-nøgle",
   "settings.models.speechToTextApiKey.description":
@@ -942,7 +942,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "Stemmeinput er ikke tilgængelig i fjernvinduer. Åbn Kappa i et lokalt vindue for at bruge mikrofonen.",
   "settings.models.speechToTextModel.title": "Model til tale til tekst",
-  "settings.models.speechToTextModel.description": "Vælg Kappa Gateway-transskriptionsmodellen til stemmeinput.",
+  "settings.models.speechToTextModel.description": "Vælg Kilo Gateway-transskriptionsmodellen til stemmeinput.",
   "settings.experimental.nativeNotebookTools.title": "Indbyggede notebook-værktøjer",
   "settings.experimental.nativeNotebookTools.description":
     "Aktivér eksperimentelle værktøjer til at læse, redigere og køre VS Code-notebooks",

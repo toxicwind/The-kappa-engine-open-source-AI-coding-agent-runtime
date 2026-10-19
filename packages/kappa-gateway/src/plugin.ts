@@ -2,9 +2,9 @@ import type { Plugin } from "@kappacode/plugin"
 import { authenticateWithDeviceAuthTUI } from "./auth/device-auth-tui.js"
 
 /**
- * Kappa Gateway Authentication Plugin
+ * Kilo Gateway Authentication Plugin
  *
- * Provides device authorization flow for Kappa Gateway
+ * Provides device authorization flow for Kilo Gateway
  * to integrate with OpenCode's auth system.
  *
  * This version uses the TUI-compatible flow that works with both CLI and TUI contexts.
@@ -45,7 +45,7 @@ export const KappaAuthPlugin: Plugin = async (ctx) => {
       methods: [
         {
           type: "oauth",
-          label: "Kappa Gateway (Device Authorization)",
+          label: "Kilo Gateway (Device Authorization)",
           async authorize() {
             // Use the TUI-compatible version that returns immediately
             // This works with both TUI dialogs and Web UI

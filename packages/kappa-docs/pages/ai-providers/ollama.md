@@ -13,7 +13,7 @@ Kappa Code supports running models locally using Ollama. This provides privacy, 
 {% callout type="info" title="Local Ollama vs. Ollama Cloud" %}
 Use the **Ollama** provider for a local Ollama daemon started with `ollama serve`. Local models use the `ollama/<model_name>` format, for example `ollama/qwen3-coder:30b`, and connect to your local base URL.
 
-**Ollama Cloud** appears in Kappa Gateway and BYOK flows. It is a hosted provider path and does not connect to `http://localhost:11434`.
+**Ollama Cloud** appears in Kilo Gateway and BYOK flows. It is a hosted provider path and does not connect to `http://localhost:11434`.
 {% /callout %}
 
 <!-- <image src="/docs/img/providers/ollama-devstral-snake.png" alt="Vibe coding a Snake game using devstral" width="500" />
@@ -92,7 +92,7 @@ The extension stores this in your `kappa.json` config file. You can also edit th
 
 Ollama runs locally, so no API key is needed. Configure the base URL if Ollama is running on a different host:
 
-Use `ollama/<model_name>` for the selected model. If you see `ollama-cloud/...`, you are using the hosted Kappa Gateway/BYOK provider instead of your local Ollama server.
+Use `ollama/<model_name>` for the selected model. If you see `ollama-cloud/...`, you are using the hosted Kilo Gateway/BYOK provider instead of your local Ollama server.
 
 **Config file** (`~/.config/kappa/kappa.json` or `./kappa.json`):
 

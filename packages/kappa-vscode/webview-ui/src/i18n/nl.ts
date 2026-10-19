@@ -657,7 +657,7 @@ export const dict = {
   "profile.usage.plan.unknown": "Abonnement: Status onbekend",
   "profile.usage.action.manage": "Beheren",
   "profile.usage.action.managePlan": "{{plan}} beheren",
-  "profile.usage.routing": "De abonnementsfacturering is actief. Kappa Gateway-routering is {{state}}.",
+  "profile.usage.routing": "De abonnementsfacturering is actief. Kilo Gateway-routering is {{state}}.",
   "profile.usage.routingState.disabled": "uitgeschakeld",
   "profile.usage.routingState.missing": "afwezig",
   "profile.usage.routingState.replaced": "vervangen",
@@ -930,7 +930,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Spraak-naar-tekst-basis-URL",
   "settings.models.speechToTextBaseUrl.description":
-    "Gebruik een OpenAI-compatibele transcriptie-API in plaats van Kappa Gateway. Modellen worden gelezen van /models en audio gaat naar /audio/transcriptions. Laat leeg om Kappa Gateway te gebruiken.",
+    "Gebruik een OpenAI-compatibele transcriptie-API in plaats van Kilo Gateway. Modellen worden gelezen van /models en audio gaat naar /audio/transcriptions. Laat leeg om Kilo Gateway te gebruiken.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Spraak-naar-tekst-API-sleutel",
   "settings.models.speechToTextApiKey.description":
@@ -941,7 +941,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "Spraakinvoer is niet beschikbaar in externe vensters. Open Kappa in een lokaal venster om de microfoon te gebruiken.",
   "settings.models.speechToTextModel.title": "Spraak-naar-tekst-model",
-  "settings.models.speechToTextModel.description": "Kies het Kappa Gateway-transcriptiemodel voor spraakinvoer.",
+  "settings.models.speechToTextModel.description": "Kies het Kilo Gateway-transcriptiemodel voor spraakinvoer.",
   "settings.experimental.nativeNotebookTools.title": "Native notebooktools",
   "settings.experimental.nativeNotebookTools.description":
     "Experimentele tools inschakelen voor het lezen, bewerken en uitvoeren van VS Code-notebooks",
@@ -1290,7 +1290,7 @@ export const dict = {
     "Standaardmodel en redeneerinspanning voor task-tool subagenten. Laat leeg om het model van de aanroepende agent over te nemen.",
   "settings.models.hidePromptTraining.title": "Modellen die prompts voor training gebruiken verbergen",
   "settings.models.hidePromptTraining.description":
-    "Verberg Kappa Gateway-modellen waarvan providers je prompts mogelijk voor training gebruiken.",
+    "Verberg Kilo Gateway-modellen waarvan providers je prompts mogelijk voor training gebruiken.",
   "settings.providers.modeModels": "Model per Modus",
   "settings.providers.modeModels.description":
     "Overschrijf het standaard model voor specifieke modi. Indien niet ingesteld, wordt het globale standaard model gebruikt.",

@@ -82,7 +82,7 @@ class KiloWorkspaceRpcApiImpl internal constructor(
 ) : KiloWorkspaceRpcApi {
     companion object {
         private val LOG = KiloLog.create(KiloWorkspaceRpcApiImpl::class.java)
-        private const val SCHEMA = "https://app.kappa.ai/config.json"
+        private const val SCHEMA = "https://app.kilo.ai/config.json"
         private val MODERN = listOf("kappa.jsonc", "kappa.json")
         private val LEGACY = listOf("opencode.jsonc", "opencode.json")
         private val GLOBAL = MODERN + LEGACY + "config.json"

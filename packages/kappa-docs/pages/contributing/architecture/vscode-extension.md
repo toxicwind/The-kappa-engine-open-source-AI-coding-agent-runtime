@@ -133,7 +133,7 @@ Extension-specific behavior belongs in VS Code settings. Agent runtime behavior 
 | Empty-window cwd | Uses extension global storage directory when no VS Code workspace folder exists |
 | Empty-window indexing | Sets `KAPPA_DISABLE_CODEBASE_INDEXING=vscode-no-workspace` so CLI reports indexing disabled |
 
-Speech-to-text captures audio locally, then sends completed recording through shared editor-owned `kappa serve` server to authenticated Kappa Gateway transcription path. It is batch transcription, not direct provider streaming.
+Speech-to-text captures audio locally, then sends completed recording through shared editor-owned `kappa serve` server to authenticated Kilo Gateway transcription path. It is batch transcription, not direct provider streaming.
 
 ## Recovery
 

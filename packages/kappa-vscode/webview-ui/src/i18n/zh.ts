@@ -474,7 +474,7 @@ export const dict = {
   "settings.providers.subagentModel.title": "子代理模型",
   "settings.providers.subagentModel.description": "task-tool 子代理的默认模型和推理工作量。留空以继承调用代理的模型。",
   "settings.models.hidePromptTraining.title": "隐藏使用提示词训练的模型",
-  "settings.models.hidePromptTraining.description": "隐藏提供商可能会使用您的提示词进行训练的 Kappa Gateway 模型。",
+  "settings.models.hidePromptTraining.description": "隐藏提供商可能会使用您的提示词进行训练的 Kilo Gateway 模型。",
   "settings.providers.modeModels": "按模式选择模型",
   "settings.providers.modeModels.description": "为特定模式覆盖默认模型。如果未设置，将使用全局默认模型。",
   "provider.custom.title": "自定义提供商",
@@ -675,7 +675,7 @@ export const dict = {
   "profile.usage.plan.unknown": "套餐：状态未知",
   "profile.usage.action.manage": "管理",
   "profile.usage.action.managePlan": "管理 {{plan}}",
-  "profile.usage.routing": "套餐账单处于有效状态。Kappa Gateway 路由状态为 {{state}}。",
+  "profile.usage.routing": "套餐账单处于有效状态。Kilo Gateway 路由状态为 {{state}}。",
   "profile.usage.routingState.disabled": "已禁用",
   "profile.usage.routingState.missing": "缺失",
   "profile.usage.routingState.replaced": "已替换",
@@ -890,7 +890,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "语音转文本基础 URL",
   "settings.models.speechToTextBaseUrl.description":
-    "使用兼容 OpenAI 的转录 API 代替 Kappa Gateway。模型从 /models 读取，音频发送到 /audio/transcriptions。留空则使用 Kappa Gateway。",
+    "使用兼容 OpenAI 的转录 API 代替 Kilo Gateway。模型从 /models 读取，音频发送到 /audio/transcriptions。留空则使用 Kilo Gateway。",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "语音转文本 API 密钥",
   "settings.models.speechToTextApiKey.description":
@@ -901,7 +901,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "远程窗口中无法使用语音输入。请在本地窗口中打开 Kappa 以使用麦克风。",
   "settings.models.speechToTextModel.title": "语音转文本模型",
-  "settings.models.speechToTextModel.description": "选择用于语音输入的 Kappa Gateway 转录模型。",
+  "settings.models.speechToTextModel.description": "选择用于语音输入的 Kilo Gateway 转录模型。",
   "settings.experimental.nativeNotebookTools.title": "原生笔记本工具",
   "settings.experimental.nativeNotebookTools.description": "启用用于读取、编辑和执行 VS Code 笔记本的实验性工具",
   "settings.experimental.globIncludeIgnored.title": "搜索被忽略的路径",

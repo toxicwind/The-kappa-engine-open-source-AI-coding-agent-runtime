@@ -15,7 +15,7 @@ The hierarchy has one level. A parent organization can have direct sub-organizat
 
 ## Access sub-organization management
 
-1. Sign in to the [Kappa Web App](https://app.kappa.ai).
+1. Sign in to the [Kappa Web App](https://app.kilo.ai).
 2. Open the parent organization.
 3. Select **Sub-organizations** in the organization navigation, or select **Manage Sub-Organizations** from the Sub-organizations card on the organization overview.
 

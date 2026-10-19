@@ -62,7 +62,7 @@ function check(code: string) {
     const x = { providerID: "kappa", modelID: "x" }
     const y = { providerID: "kappa", modelID: "y" }
     const z = { providerID: "kappa", modelID: "z" }
-    const free = { providerID: "kappa", modelID: "kappa-auto/free" }
+    const free = { providerID: "kappa", modelID: "kilo-auto/free" }
     const external = { providerID: "external", modelID: "custom" }
     const catalog = (...models) => Object.fromEntries(
       [...new Set(models.map((model) => model.providerID))].map((id) => [id, {

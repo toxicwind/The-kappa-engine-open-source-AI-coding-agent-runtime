@@ -43,7 +43,7 @@ it.live("nvidia billing origin header can be overridden from config", () =>
         Bun.write(
           path.join(dir, "opencode.json"),
           JSON.stringify({
-            $schema: "https://app.kappa.ai/config.json",
+            $schema: "https://app.kilo.ai/config.json",
             provider: {
               nvidia: {
                 options: {

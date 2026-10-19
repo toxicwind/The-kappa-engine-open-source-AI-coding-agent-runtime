@@ -656,7 +656,7 @@ export const dict = {
   "profile.usage.plan.unknown": "План: Статус невідомий",
   "profile.usage.action.manage": "Керувати",
   "profile.usage.action.managePlan": "Керування {{plan}}",
-  "profile.usage.routing": "Оплата плану активна. Маршрутизація через Kappa Gateway {{state}}.",
+  "profile.usage.routing": "Оплата плану активна. Маршрутизація через Kilo Gateway {{state}}.",
   "profile.usage.routingState.disabled": "вимкнена",
   "profile.usage.routingState.missing": "відсутня",
   "profile.usage.routingState.replaced": "замінена",
@@ -923,7 +923,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "Базова URL-адреса мовлення в текст",
   "settings.models.speechToTextBaseUrl.description":
-    "Використовуйте сумісний з OpenAI API транскрипції замість Kappa Gateway. Моделі читаються з /models, а аудіо надсилається на /audio/transcriptions. Залиште порожнім, щоб використовувати Kappa Gateway.",
+    "Використовуйте сумісний з OpenAI API транскрипції замість Kilo Gateway. Моделі читаються з /models, а аудіо надсилається на /audio/transcriptions. Залиште порожнім, щоб використовувати Kilo Gateway.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "Ключ API мовлення в текст",
   "settings.models.speechToTextApiKey.description":
@@ -935,7 +935,7 @@ export const dict = {
     "Голосове введення недоступне у віддалених вікнах. Відкрийте Kappa у локальному вікні, щоб використовувати мікрофон.",
   "settings.models.speechToTextModel.title": "Модель мовлення в текст",
   "settings.models.speechToTextModel.description":
-    "Виберіть модель транскрипції Kappa Gateway для голосового введення.",
+    "Виберіть модель транскрипції Kilo Gateway для голосового введення.",
   "settings.experimental.nativeNotebookTools.title": "Власні інструменти для блокнотів",
   "settings.experimental.nativeNotebookTools.description":
     "Увімкнути експериментальні інструменти для читання, редагування та виконання блокнотів VS Code",
@@ -1275,7 +1275,7 @@ export const dict = {
     "Модель за замовчуванням та рівень міркування для субагентів task-tool. Залиште порожнім, щоб успадкувати модель агента, що викликає.",
   "settings.models.hidePromptTraining.title": "Приховувати моделі, що навчаються на запитах",
   "settings.models.hidePromptTraining.description":
-    "Приховувати моделі Kappa Gateway, постачальники яких можуть використовувати ваші запити для навчання.",
+    "Приховувати моделі Kilo Gateway, постачальники яких можуть використовувати ваші запити для навчання.",
   "settings.providers.modeModels": "Модель для кожного режиму",
   "settings.providers.modeModels.description":
     "Перевизначити стандартну модель для певних режимів. Якщо не встановлено, використовується загальна стандартна модель.",

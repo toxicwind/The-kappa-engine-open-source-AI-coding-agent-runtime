@@ -963,9 +963,9 @@ describe("modelReferenceToken", () => {
 
 describe("segmentMentionText", () => {
   it("marks inserted mention tokens and keeps plain text as-is", () => {
-    const tokens = new Set(["kappa/kappa-auto/free", "Fix auth bug", "/repo/.kappa/worktrees/feature"])
+    const tokens = new Set(["kappa/kilo-auto/free", "Fix auth bug", "/repo/.kappa/worktrees/feature"])
     const segments = segmentMentionText(
-      "see @Fix auth bug then @/repo/.kappa/worktrees/feature use @kappa/kappa-auto/free",
+      "see @Fix auth bug then @/repo/.kappa/worktrees/feature use @kappa/kilo-auto/free",
       tokens,
     )
     expect(segments.map((segment) => [segment.mention, segment.text])).toEqual([
@@ -974,7 +974,7 @@ describe("segmentMentionText", () => {
       [false, " then "],
       [true, "@/repo/.kappa/worktrees/feature"],
       [false, " use "],
-      [true, "@kappa/kappa-auto/free"],
+      [true, "@kappa/kilo-auto/free"],
     ])
   })
 

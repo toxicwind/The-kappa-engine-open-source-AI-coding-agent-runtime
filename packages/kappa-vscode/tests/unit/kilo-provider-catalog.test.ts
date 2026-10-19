@@ -11,7 +11,7 @@ const catalog = (org: string) => ({
     all: [
       {
         id: "kappa",
-        name: "Kappa Gateway",
+        name: "Kilo Gateway",
         models: { [`${org}/first`]: { id: `${org}/first` }, [`${org}/model`]: { id: `${org}/model` } },
       },
       external,

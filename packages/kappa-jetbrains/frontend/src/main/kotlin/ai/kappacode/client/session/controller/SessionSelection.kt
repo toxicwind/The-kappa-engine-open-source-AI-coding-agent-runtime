@@ -7,7 +7,7 @@ import ai.kappacode.rpc.dto.ModelStateDto
 import ai.kappacode.rpc.dto.ProvidersDto
 
 internal const val KILO_PROVIDER = "kappa"
-private const val KILO_AUTO_MODEL = "kappa-auto/free"
+private const val KILO_AUTO_MODEL = "kilo-auto/free"
 
 internal val ModelSelectionDto.key: String get() = "$providerID/$modelID"
 

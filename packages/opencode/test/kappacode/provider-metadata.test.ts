@@ -17,7 +17,7 @@ describe("providerMetadata", () => {
     })
   })
 
-  test("uses the Kappa icon for Kappa Gateway", () => {
+  test("uses the Kappa icon for Kilo Gateway", () => {
     expect(providerMetadata("kappa")).toEqual({
       noteKey: "settings.providers.note.kappa",
       icon: "kappa",

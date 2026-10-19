@@ -110,7 +110,7 @@ describe("session routed model", () => {
 
     const routed = RoutedModelMeta.info(undefined, parts, false, {
       providerID: "kappa",
-      modelID: "kappa-auto/efficient",
+      modelID: "kilo-auto/efficient",
     })
     expect(routed.labels.get("reasoning")).toBe("gpt-5.5")
     expect(routed.footer).toBe("gpt-5.5")
@@ -126,11 +126,11 @@ describe("session routed model", () => {
 
     const same = RoutedModelMeta.info(
       undefined,
-      [reason, finish({ providerID: "kappa", modelID: "kappa-auto/efficient" })],
+      [reason, finish({ providerID: "kappa", modelID: "kilo-auto/efficient" })],
       false,
       {
         providerID: "kappa",
-        modelID: "kappa-auto/efficient",
+        modelID: "kilo-auto/efficient",
       },
     )
     expect(same.labels.size).toBe(0)
@@ -143,7 +143,7 @@ describe("session routed model", () => {
 
     const routed = RoutedModelMeta.info(undefined, parts, false, {
       providerID: "kappa",
-      modelID: "kappa-auto/efficient",
+      modelID: "kilo-auto/efficient",
     })
     expect(routed.labels.size).toBe(0)
     expect(routed.footer).toBe("qwen 3.7-plus")
@@ -161,7 +161,7 @@ describe("session routed model", () => {
 
     const routed = RoutedModelMeta.info(undefined, parts, false, {
       providerID: "kappa",
-      modelID: "kappa-auto/efficient",
+      modelID: "kilo-auto/efficient",
     })
     expect(routed.labels.get("reasoning")).toBe("qwen 3.7-plus")
     expect(routed.labels.has("reasoning-2")).toBe(false)
@@ -176,7 +176,7 @@ describe("session routed model", () => {
     expect(
       KappaRoutedModel.readAuto(meta, {
         providerID: ProviderV2.ID.kappa,
-        modelID: "kappa-auto/efficient",
+        modelID: "kilo-auto/efficient",
       }),
     ).toEqual({
       providerID: ProviderV2.ID.kappa,

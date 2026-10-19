@@ -1,6 +1,6 @@
 ---
 title: "Using Nebius Token Factory with Kappa Code | Nebius Inference"
-description: "Configure Nebius Token Factory in Kappa Code — locally with your own API key, shared across your team via BYOK in Kappa Cloud, or org-wide through the Kappa Gateway."
+description: "Configure Nebius Token Factory in Kappa Code — locally with your own API key, shared across your team via BYOK in Kappa Cloud, or org-wide through the Kilo Gateway."
 sidebar_label: Nebius Token Factory
 ---
 
@@ -10,7 +10,7 @@ Nebius Token Factory provides inference for a wide range of models on Nebius inf
 
 1. **Locally** — add your own API key in the VS Code extension, JetBrains plugin, or CLI.
 2. **In Kappa Cloud** — store the key as a BYOK key so Cloud Agents and your team can use it.
-3. **Org-wide via Kappa Gateway** — let organization owners control which Nebius models and regions your team can use.
+3. **Org-wide via Kilo Gateway** — let organization owners control which Nebius models and regions your team can use.
 
 **Website:** [https://nebius.com/](https://nebius.com/)
 
@@ -96,7 +96,7 @@ Once your key is configured, open the model picker and select any model tagged *
 Storing your key as a [BYOK (Bring Your Own Key)](/docs/getting-started/byok) key in Kappa Cloud makes it available to Cloud Agents and, at the organization level, to every member of your team through a shared usage pool. Requests are billed directly by Nebius at your account's rates — Kappa adds no markup.
 
 1. Log into the Kappa platform and select your personal account or the organization you want to add the key to.
-2. Navigate to the [Bring Your Own Key (BYOK) page](https://app.kappa.ai/byok), available in the sidebar under **Account**.
+2. Navigate to the [Bring Your Own Key (BYOK) page](https://app.kilo.ai/byok), available in the sidebar under **Account**.
 3. Click **Add API Key**, select **Nebius Token Factory** as the provider, and paste your key.
 4. Save.
 
@@ -104,24 +104,24 @@ Storing your key as a [BYOK (Bring Your Own Key)](/docs/getting-started/byok) ke
 
 Organization-level keys apply to all members of the organization and require owner or billing manager access to manage. For details on how BYOK routing works, see [Bring Your Own Key (BYOK)](/docs/getting-started/byok).
 
-## Control Nebius Access Org-Wide (Kappa Gateway)
+## Control Nebius Access Org-Wide (Kilo Gateway)
 
 {% callout type="info" %}
 Model access controls are an **Enterprise-only** feature. Organizations on other plans have unrestricted access to all models and providers.
 {% /callout %}
 
-The [Kappa Gateway](/docs/gateway) provides access to 500+ models from 60+ providers, including Nebius Token Factory. As an organization owner, you can control which models and provider routes your team can use:
+The [Kilo Gateway](/docs/gateway) provides access to 500+ models from 60+ providers, including Nebius Token Factory. As an organization owner, you can control which models and provider routes your team can use:
 
 1. Navigate to your organization's **Providers & Models** page.
 2. Toggle **Nebius Token Factory** on the **Providers** tab to control access to all of its models at once.
 3. Toggle individual models on the **Models** tab. Use the data policy (trains on data, retains prompts) and location filters to review providers.
 
-{% image src="/docs/img/nebius/gateway-allowlist.png" alt="Kappa Gateway provider list showing Nebius Token Factory enabled, with region and training-data filters" width="800" caption="Kappa Gateway provider allowlist showing Nebius Token Factory enabled, with region and training-data filters" /%}
+{% image src="/docs/img/nebius/gateway-allowlist.png" alt="Kilo Gateway provider list showing Nebius Token Factory enabled, with region and training-data filters" width="800" caption="Kilo Gateway provider allowlist showing Nebius Token Factory enabled, with region and training-data filters" /%}
 
-Team members can then select the allowed Nebius models through the Kappa Gateway. For details, see [Model Access Controls](/docs/collaborate/enterprise/model-access-controls).
+Team members can then select the allowed Nebius models through the Kilo Gateway. For details, see [Model Access Controls](/docs/collaborate/enterprise/model-access-controls).
 
 ## Tips and Notes
 
 - **Model Selection:** Nebius Token Factory offers a wide range of models. Experiment to find the best one for your needs.
 - **Pricing:** You pay Nebius directly based on your usage. See the [Nebius Token Factory pricing](https://nebius.com/prices) page for current rates.
-- **BYOK badge:** When you use the Kappa Gateway provider, models that can use one of your saved personal or organization BYOK keys display a `BYOK` badge in the model picker.
+- **BYOK badge:** When you use the Kilo Gateway provider, models that can use one of your saved personal or organization BYOK keys display a `BYOK` badge in the model picker.

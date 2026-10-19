@@ -55,7 +55,7 @@ describe("KappaPlugin", () => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
-            url: "https://api.kappa.ai/api/gateway",
+            url: "https://api.kilo.ai/api/gateway",
           }
           provider.request = { headers: { Existing: "value" }, body: {} }
         })
@@ -79,7 +79,7 @@ describe("KappaPlugin", () => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
-            url: "https://api.kappa.ai/api/gateway",
+            url: "https://api.kilo.ai/api/gateway",
           }
         })
       })
@@ -105,7 +105,7 @@ describe("KappaPlugin", () => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
-            url: "https://api.kappa.ai/api/gateway",
+            url: "https://api.kilo.ai/api/gateway",
           }
         })
         catalog.provider.update(ProviderV2.ID.make("custom-kappa"), (provider) => {
@@ -123,7 +123,7 @@ describe("KappaPlugin", () => {
   )
 
   // kappacode_change start
-  it.effect("routes the Kappa catalog through the Kappa Gateway SDK", () =>
+  it.effect("routes the Kappa catalog through the Kilo Gateway SDK", () =>
     withEnv({ KAPPA_API_KEY: undefined, KAPPA_ORG_ID: undefined }, () =>
       Effect.gen(function* () {
         const aisdk = yield* AISDK.Service
@@ -133,7 +133,7 @@ describe("KappaPlugin", () => {
             provider.api = {
               type: "aisdk",
               package: "@ai-sdk/openai-compatible",
-              url: "https://api.kappa.ai/api/gateway",
+              url: "https://api.kilo.ai/api/gateway",
             }
             provider.request = { headers: {}, body: { apiKey: "stored-token" } }
           })
@@ -144,15 +144,15 @@ describe("KappaPlugin", () => {
         expect(updated?.api).toEqual({
           type: "aisdk",
           package: "@kappacode/kappa-gateway",
-          url: "https://api.kappa.ai/api/openrouter",
+          url: "https://api.kilo.ai/api/openrouter",
         })
         expect(updated?.request.body.kappacodeToken).toBe("stored-token")
 
         const result = yield* aisdk.runSDK({
           model: ModelV2.Info.make({
-            ...ModelV2.Info.empty(ProviderV2.ID.kappa, ModelV2.ID.make("kappa-auto/free")),
+            ...ModelV2.Info.empty(ProviderV2.ID.kappa, ModelV2.ID.make("kilo-auto/free")),
             api: {
-              id: ModelV2.ID.make("kappa-auto/free"),
+              id: ModelV2.ID.make("kilo-auto/free"),
               type: "aisdk",
               package: "@kappacode/kappa-gateway",
             },

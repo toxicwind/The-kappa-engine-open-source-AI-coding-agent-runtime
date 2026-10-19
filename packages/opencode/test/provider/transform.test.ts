@@ -1694,7 +1694,7 @@ describe("ProviderTransform.schema - gemini non-object properties removal", () =
     expect(result.properties.issue_fields.items.required).toBeUndefined()
   })
 
-  test("sanitizes gemini schemas routed through the Kappa Gateway", () => {
+  test("sanitizes gemini schemas routed through the Kilo Gateway", () => {
     const gatewayGeminiModel = {
       providerID: "kappacode",
       api: {
@@ -3733,12 +3733,12 @@ describe("ProviderTransform.message - cache control on gateway", () => {
     expect(result[1].content[1].providerOptions?.openai?.promptCacheBreakpoint).toBeUndefined()
   })
 
-  test("kappa gateway with openai gpt-5.6 applies caching options", () => {
+  test("kilo gateway with openai gpt-5.6 applies caching options", () => {
     const model = createModel({
       providerID: "kappa",
       api: {
         id: "openai/gpt-5.6",
-        url: "https://api.kappa.ai/api/gateway",
+        url: "https://api.kilo.ai/api/gateway",
         npm: "@kappacode/kappa-gateway",
       },
       id: "openai/gpt-5.6",
@@ -4680,7 +4680,7 @@ describe("ProviderTransform.variants", () => {
 
   // kappacode_change start
   describe("@kappacode/kappa-gateway", () => {
-    test("mercury-2 uses server-provided variants from kappa gateway", () => {
+    test("mercury-2 uses server-provided variants from kilo gateway", () => {
       const serverVariants = {
         low: { reasoningEffort: "low" },
         medium: { reasoningEffort: "medium" },
@@ -4691,7 +4691,7 @@ describe("ProviderTransform.variants", () => {
         providerID: "kappa",
         api: {
           id: "inception/mercury-2",
-          url: "https://gateway.kappa.ai",
+          url: "https://gateway.kilo.ai",
           npm: "@kappacode/kappa-gateway",
         },
         variants: serverVariants,
@@ -6076,7 +6076,7 @@ describe("ProviderTransform.variants", () => {
           providerID: "kappa",
           api: {
             id: "anthropic/claude-sonnet-4",
-            url: "https://gateway.kappa.ai",
+            url: "https://gateway.kilo.ai",
             npm: "@kappacode/kappa-gateway",
           },
         })
@@ -6090,7 +6090,7 @@ describe("ProviderTransform.variants", () => {
           providerID: "kappa",
           api: {
             id: "openai/gpt-4",
-            url: "https://gateway.kappa.ai",
+            url: "https://gateway.kilo.ai",
             npm: "@kappacode/kappa-gateway",
           },
         })
@@ -6104,7 +6104,7 @@ describe("ProviderTransform.variants", () => {
           providerID: "kappa",
           api: {
             id: "google/gemini-2.0-flash",
-            url: "https://gateway.kappa.ai",
+            url: "https://gateway.kilo.ai",
             npm: "@kappacode/kappa-gateway",
           },
         })

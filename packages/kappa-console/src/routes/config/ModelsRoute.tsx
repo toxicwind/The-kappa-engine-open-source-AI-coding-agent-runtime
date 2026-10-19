@@ -203,7 +203,7 @@ export function ModelsDefaultRoute() {
           <header class="ui-card-header">
             <div>
               <h2>Model visibility</h2>
-              <p>Control which Kappa Gateway models appear in model lists.</p>
+              <p>Control which Kilo Gateway models appear in model lists.</p>
             </div>
             <Show when={state.ctx.query()?.scope === "project" && privacy()?.overridden}>
               <Button
@@ -226,7 +226,7 @@ export function ModelsDefaultRoute() {
             >
               <span>
                 <strong>Hide prompt-training models</strong>
-                <small>Hide Kappa Gateway models whose providers may use your prompts for training.</small>
+                <small>Hide Kilo Gateway models whose providers may use your prompts for training.</small>
                 <Show when={privacy()?.reason}>{(reason) => <small>{reason()}</small>}</Show>
               </span>
               <span class="tags">
@@ -430,7 +430,7 @@ export function ModelsAvailableRoute() {
                   class="models-privacy-filter"
                   classList={{ selected: state.privacy() }}
                   type="button"
-                  aria-label="Hide Kappa Gateway models whose providers may use prompts for training"
+                  aria-label="Hide Kilo Gateway models whose providers may use prompts for training"
                   aria-pressed={state.privacy()}
                   onClick={() => state.setPrivacy(!state.privacy())}
                 >

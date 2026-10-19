@@ -47,7 +47,7 @@ export namespace KappaRoutedModel {
     input: { providerID: ProviderV2.ID; modelID: string; selected?: string },
   ) {
     if (input.providerID !== ProviderV2.ID.kappa) return undefined
-    if (!input.modelID.startsWith("kappa-auto/") && !input.modelID.startsWith("openrouter/") && !input.modelID.includes("fable")) return undefined
+    if (!input.modelID.startsWith("kilo-auto/") && !input.modelID.startsWith("openrouter/") && !input.modelID.includes("fable")) return undefined
     const model = read(meta, input.providerID)
     if (!model) return undefined
     if (model.modelID === input.modelID || model.modelID === input.selected) return undefined

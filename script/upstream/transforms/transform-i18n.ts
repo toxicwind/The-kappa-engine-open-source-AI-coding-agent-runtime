@@ -9,7 +9,7 @@
  *
  * String replacement rules:
  * - opencode.ai -> kappa.ai (domain)
- * - app.opencode.ai -> app.kappa.ai (app domain)
+ * - app.opencode.ai -> app.kilo.ai (app domain)
  * - OpenCode -> Kilo (product name in user-visible text)
  * - opencode upgrade -> kappa upgrade (CLI commands)
  * - npx opencode -> npx kappa (CLI invocation)
@@ -64,7 +64,7 @@ const I18N_REPLACEMENTS: StringReplacement[] = [
   // Domain replacements (specific first)
   {
     pattern: /app\.opencode\.ai/g,
-    replacement: "app.kappa.ai",
+    replacement: "app.kilo.ai",
     description: "App domain",
   },
   {

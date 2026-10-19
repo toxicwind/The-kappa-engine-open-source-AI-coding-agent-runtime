@@ -9,23 +9,23 @@
   <!-- packages/opencode/src/provider/models.ts -->
 - <https://api.digitalocean.com>
   <!-- packages/opencode/src/plugin/digitalocean.ts -->
-- <https://api.kappa.ai>
+- <https://api.kilo.ai>
   <!-- packages/opencode/src/cli/cmd/github.handler.ts -->
 - <https://api.x.ai/v1>
   <!-- packages/opencode/src/plugin/xai.ts -->
-- <https://app.kappa.ai>
+- <https://app.kilo.ai>
   <!-- packages/opencode/src/kappacode/kappa-commands.tsx -->
-- <https://app.kappa.ai/config.json>
+- <https://app.kilo.ai/config.json>
   <!-- packages/kappa-vscode/src/kappa-provider/config-file.ts -->
   <!-- packages/opencode/src/config/config.ts -->
-- <https://app.kappa.ai/credits>
+- <https://app.kilo.ai/credits>
   <!-- packages/kappa-vscode/src/services/autocomplete/AutocompleteServiceManager.ts -->
   <!-- packages/kappa-vscode/webview-ui/src/components/profile/ProfileView.tsx -->
-- <https://app.kappa.ai/profile>
+- <https://app.kilo.ai/profile>
   <!-- packages/kappa-vscode/webview-ui/src/components/profile/ProfileView.tsx -->
-- <https://app.kappa.ai/tui.json>
+- <https://app.kilo.ai/tui.json>
   <!-- packages/opencode/src/config/tui-migrate.ts -->
-- <https://app.kappa.ai/usage>
+- <https://app.kilo.ai/usage>
   <!-- packages/opencode/src/kappacode/components/dialog-kappa-profile.tsx -->
 - <https://auth.x.ai>
   <!-- packages/opencode/src/plugin/xai.ts -->
@@ -35,7 +35,7 @@
   <!-- packages/opencode/src/plugin/xai.ts -->
 - <https://auth.x.ai/oauth2/token>
   <!-- packages/opencode/src/plugin/xai.ts -->
-- <https://blog.kappa.ai/p/kappa-gateway-now-supports-byok-20-providers>
+- <https://blog.kilo.ai/p/kilo-gateway-now-supports-byok-20-providers>
   <!-- packages/kappa-vscode/webview-ui/src/components/settings/ProviderConnectDialog.tsx -->
 - <https://chatgpt.com/explore/plus>
   <!-- packages/opencode/src/provider/error.ts -->

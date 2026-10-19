@@ -138,7 +138,7 @@ export const fromCatalogModel = (
       : produce(model, (draft) => {
           Object.assign(draft.request.body, credential.metadata)
         })
-  // kappacode_change start - Kappa Gateway consumes the migrated OAuth account as its organization route.
+  // kappacode_change start - Kilo Gateway consumes the migrated OAuth account as its organization route.
   // Only the account id crosses into the request body; other oauth metadata stays out of provider requests.
   const resolved =
     credential?.type === "oauth" && credential.metadata?.accountID !== undefined

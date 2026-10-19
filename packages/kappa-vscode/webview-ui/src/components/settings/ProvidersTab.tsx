@@ -145,7 +145,7 @@ const ProvidersTab: Component = () => {
 
   function connectProvider(item: Provider) {
     if (item.id === KAPPA_PROVIDER_ID) {
-      // Route Kappa Gateway sign-in through the Profile view so the user sees
+      // Route Kilo Gateway sign-in through the Profile view so the user sees
       // the full device-auth UI (URL, QR, code, timer, cancel). Triggering
       // `startLogin()` from here alone would run the flow silently with no
       // way to recover if the browser is dismissed.
@@ -168,7 +168,7 @@ const ProvidersTab: Component = () => {
   return (
     <div>
       <Show when={!disabledIds().has(KAPPA_PROVIDER_ID)}>
-        {/* Kappa Gateway — always at the top, not editable */}
+        {/* Kilo Gateway — always at the top, not editable */}
         <Card>
           <div
             style={{
@@ -187,7 +187,7 @@ const ProvidersTab: Component = () => {
                 color: "var(--vscode-foreground)",
               }}
             >
-              Kappa Gateway
+              Kilo Gateway
             </span>
             <Show
               when={kappaLoggedIn()}

@@ -731,7 +731,7 @@ class KiloBackendProviderSettingsManagerTest {
     }
 
     @Test
-    fun `disconnecting kappa gateway returns error without logout`() = runBlocking {
+    fun `disconnecting kilo gateway returns error without logout`() = runBlocking {
         mock.providers = """{
             "all":[{"id":"kappa","name":"Kilo Gateway","source":"custom","models":{}}],
             "default":{},

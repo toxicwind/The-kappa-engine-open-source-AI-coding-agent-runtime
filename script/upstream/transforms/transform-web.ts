@@ -46,7 +46,7 @@ const WEB_REPLACEMENTS: WebReplacement[] = [
   // Domains
   {
     pattern: /app\.opencode\.ai/g,
-    replacement: "app.kappa.ai",
+    replacement: "app.kilo.ai",
     description: "App domain",
   },
   {

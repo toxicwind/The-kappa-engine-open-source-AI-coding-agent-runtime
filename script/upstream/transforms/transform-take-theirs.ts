@@ -52,7 +52,7 @@ const BRANDING_REPLACEMENTS: BrandingReplacement[] = [
   // Domain replacements (specific first)
   {
     pattern: /app\.opencode\.ai/g,
-    replacement: "app.kappa.ai",
+    replacement: "app.kilo.ai",
     description: "App domain",
   },
   {

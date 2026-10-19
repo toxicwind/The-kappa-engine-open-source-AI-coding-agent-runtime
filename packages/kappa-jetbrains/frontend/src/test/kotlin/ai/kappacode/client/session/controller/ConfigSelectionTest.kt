@@ -132,7 +132,7 @@ class ConfigSelectionTest : SessionControllerTestBase() {
                 ProviderDto(
                     id = "kappa",
                     name = "Kilo",
-                    models = mapOf("kappa-auto/free" to ModelDto(id = "kappa-auto/free", name = "Auto")),
+                    models = mapOf("kilo-auto/free" to ModelDto(id = "kilo-auto/free", name = "Auto")),
                 ),
                 ProviderDto(
                     id = "anthropic",
@@ -259,7 +259,7 @@ class ConfigSelectionTest : SessionControllerTestBase() {
                 ProviderDto(
                     id = "kappa",
                     name = "Kilo",
-                    models = mapOf("kappa-auto/free" to ModelDto(id = "kappa-auto/free", name = "Auto")),
+                    models = mapOf("kilo-auto/free" to ModelDto(id = "kilo-auto/free", name = "Auto")),
                 ),
                 ProviderDto(
                     id = "openai",
@@ -287,7 +287,7 @@ class ConfigSelectionTest : SessionControllerTestBase() {
                 ProviderDto(
                     id = "kappa",
                     name = "Kilo",
-                    models = mapOf("kappa-auto/free" to ModelDto(id = "kappa-auto/free", name = "Auto")),
+                    models = mapOf("kilo-auto/free" to ModelDto(id = "kilo-auto/free", name = "Auto")),
                 ),
                 ProviderDto(
                     id = "anthropic",
@@ -318,7 +318,7 @@ class ConfigSelectionTest : SessionControllerTestBase() {
                 ProviderDto(
                     id = "kappa",
                     name = "Kilo",
-                    models = mapOf("kappa-auto/free" to ModelDto(id = "kappa-auto/free", name = "Auto")),
+                    models = mapOf("kilo-auto/free" to ModelDto(id = "kilo-auto/free", name = "Auto")),
                 ),
                 ProviderDto(
                     id = "anthropic",
@@ -353,7 +353,7 @@ class ConfigSelectionTest : SessionControllerTestBase() {
                 ProviderDto(
                     id = "kappa",
                     name = "Kilo",
-                    models = mapOf("kappa-auto/free" to ModelDto(id = "kappa-auto/free", name = "Auto")),
+                    models = mapOf("kilo-auto/free" to ModelDto(id = "kilo-auto/free", name = "Auto")),
                 ),
                 ProviderDto(
                     id = "openai",
@@ -368,8 +368,8 @@ class ConfigSelectionTest : SessionControllerTestBase() {
         collect(m)
         flush()
 
-        assertEquals("kappa/kappa-auto/free", m.model.defaultModel)
-        assertEquals("kappa/kappa-auto/free", m.model.model)
+        assertEquals("kappa/kilo-auto/free", m.model.defaultModel)
+        assertEquals("kappa/kilo-auto/free", m.model.model)
         assertFalse(m.model.modelOverride)
     }
 

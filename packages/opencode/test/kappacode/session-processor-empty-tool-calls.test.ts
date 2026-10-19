@@ -582,7 +582,7 @@ describe("session processor empty tool-calls", () => {
           const session = yield* Session.Service
           const selection = {
             providerID: ProviderV2.ID.kappa,
-            modelID: ModelV2.ID.make("kappa-auto/efficient"),
+            modelID: ModelV2.ID.make("kilo-auto/efficient"),
           }
 
           yield* test.reply(

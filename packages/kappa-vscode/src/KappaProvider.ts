@@ -879,7 +879,7 @@ export class KappaProvider implements vscode.WebviewViewProvider, TelemetryPrope
     }
 
     // Always attempt to fetch+push profile when connected.
-    // Profile returns 401 when user isn't logged into Kappa Gateway — that's expected.
+    // Profile returns 401 when user isn't logged into Kilo Gateway — that's expected.
     // Use fire-and-forget (no throwOnError) to match old getProfile() which returned null on error.
     if (this.connectionState === "connected" && this.client) {
       console.log("[Kappa New] KappaProvider: 👤 syncWebviewState fetching profile...")

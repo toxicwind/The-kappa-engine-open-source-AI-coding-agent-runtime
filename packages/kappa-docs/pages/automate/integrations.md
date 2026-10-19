@@ -38,7 +38,7 @@ Before connecting:
 
 ### 1. Open the Integrations Page
 
-Go to your **Personal** or **Organization Dashboard**, and navigate to the [Integrations](https://app.kappa.ai/integrations) tab.
+Go to your **Personal** or **Organization Dashboard**, and navigate to the [Integrations](https://app.kilo.ai/integrations) tab.
 
 ### 2. Start the Connection Flow
 
@@ -73,7 +73,7 @@ You can connect GitLab using **OAuth** or a **Personal Access Token (PAT)**. Bot
 {% tab label="OAuth (GitLab.com)" %}
 
 1. Go to the **Integrations** page:
-   - **Personal**: [app.kappa.ai/integrations/gitlab](https://app.kappa.ai/integrations/gitlab)
+   - **Personal**: [app.kilo.ai/integrations/gitlab](https://app.kilo.ai/integrations/gitlab)
    - **Organization**: Your organization → Integrations → GitLab
 2. Click **Connect GitLab**
 3. Authorize the application on GitLab
@@ -87,7 +87,7 @@ For self-hosted GitLab instances using OAuth, you need to register an OAuth appl
 1. In your GitLab instance, go to **Admin Area → Applications** (or **User Settings → Applications**)
 2. Create a new application:
    - **Name**: `Kappa Code`
-   - **Redirect URI**: `https://app.kappa.ai/api/integrations/gitlab/callback`
+   - **Redirect URI**: `https://app.kilo.ai/api/integrations/gitlab/callback`
    - **Scopes**: `api`, `read_user`, `read_repository`, `write_repository`
    - **Confidential**: Yes
 3. Copy the **Application ID** and **Secret**
@@ -117,7 +117,7 @@ For self-hosted GitLab instances using OAuth, you need to register an OAuth appl
 Use the DoltHub integration page to connect your DoltHub account. Kappa uses this OAuth connection for [Kappa Connect](/docs/code-with-ai/platforms/kappa-connect) and as the default auth method for [Gas Town Wasteland](/docs/code-with-ai/gastown/wasteland).
 
 1. Go to the **Integrations** page:
-   - **Personal**: [app.kappa.ai/integrations/dolthub](https://app.kappa.ai/integrations/dolthub)
+   - **Personal**: [app.kilo.ai/integrations/dolthub](https://app.kilo.ai/integrations/dolthub)
    - **Organization**: Your organization → Integrations → DoltHub
 2. Click **Connect DoltHub**.
 3. Approve Kappa on DoltHub.
@@ -230,4 +230,4 @@ You need **Maintainer role** on the GitLab project for webhook and bot token cre
 - Verify your instance URL is accessible from the internet
 - Ensure HTTPS is configured
 - Check that OAuth application scopes include all required scopes
-- Verify the redirect URI matches: `https://app.kappa.ai/api/integrations/gitlab/callback`
+- Verify the redirect URI matches: `https://app.kilo.ai/api/integrations/gitlab/callback`

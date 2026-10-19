@@ -101,7 +101,7 @@ const components: Record<string, string> = {
   "jetbrains plugin": "area:jetbrains",
   "desktop or web app": "area:desktop",
   documentation: "area:docs",
-  "kappa gateway or account": "area:gateway",
+  "kilo gateway or account": "area:gateway",
   sdk: "area:sdk",
 }
 

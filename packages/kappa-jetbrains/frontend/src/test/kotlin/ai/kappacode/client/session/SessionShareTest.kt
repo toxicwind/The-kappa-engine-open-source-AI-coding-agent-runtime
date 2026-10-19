@@ -48,14 +48,14 @@ class SessionShareTest : SessionUiTestBase() {
         settle()
 
         assertEquals(listOf(Triple("ses_test", "/test", true)), rpc.shares)
-        assertEquals("https://app.kappa.ai/s/token", clipboard())
-        assertEquals("https://app.kappa.ai/s/token", actions().share)
+        assertEquals("https://app.kilo.ai/s/token", clipboard())
+        assertEquals("https://app.kilo.ai/s/token", actions().share)
     }
 
     fun `test unshare calls the backend and clears the link`() {
         open()
-        rpc.listed.add(session("ses_test").copy(share = SessionShareDto("https://app.kappa.ai/s/token")))
-        controller().model.setSession(session("ses_test").copy(share = SessionShareDto("https://app.kappa.ai/s/token")))
+        rpc.listed.add(session("ses_test").copy(share = SessionShareDto("https://app.kilo.ai/s/token")))
+        controller().model.setSession(session("ses_test").copy(share = SessionShareDto("https://app.kilo.ai/s/token")))
         assertNotNull(actions().share)
 
         actions().stopShare()
@@ -87,7 +87,7 @@ class SessionShareTest : SessionUiTestBase() {
         emit(
             ChatEventDto.SessionUpdated(
                 "ses_test",
-                session("ses_test").copy(share = SessionShareDto("https://app.kappa.ai/s/tok")),
+                session("ses_test").copy(share = SessionShareDto("https://app.kilo.ai/s/tok")),
             ),
         )
 

@@ -3932,7 +3932,7 @@ describe("RemoteSender slash commands", () => {
       data: {
         protocolVersion: 1,
         agent: "build",
-        model: { providerID: "kappa", modelID: "kappa-auto/efficient", variant: "high" },
+        model: { providerID: "kappa", modelID: "kilo-auto/efficient", variant: "high" },
         orgId: org,
       },
     })
@@ -3943,7 +3943,7 @@ describe("RemoteSender slash commands", () => {
       {
         agent: "build",
         model: {
-          id: ModelV2.ID.make("kappa-auto/efficient"),
+          id: ModelV2.ID.make("kilo-auto/efficient"),
           providerID: ProviderV2.ID.make("kappa"),
           variant: "high",
         },
@@ -4068,7 +4068,7 @@ describe("RemoteSender slash commands", () => {
         data: {
           protocolVersion: 1,
           agent: "build",
-          model: { providerID: "kappa", modelID: "kappa-auto/efficient", variant: "high" },
+          model: { providerID: "kappa", modelID: "kilo-auto/efficient", variant: "high" },
           orgId: org,
         },
       })
@@ -4079,7 +4079,7 @@ describe("RemoteSender slash commands", () => {
         {
           agent: "build",
           model: {
-            id: ModelV2.ID.make("kappa-auto/efficient"),
+            id: ModelV2.ID.make("kilo-auto/efficient"),
             providerID: ProviderV2.ID.make("kappa"),
             variant: "high",
           },

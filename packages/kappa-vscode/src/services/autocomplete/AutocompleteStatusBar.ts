@@ -3,7 +3,7 @@ import { t } from "../i18n"
 import type { AutocompleteStatusBarStateProps } from "./types"
 import { humanFormatSessionCost, formatTime } from "./statusbar-utils"
 
-const SUPPORTED_PROVIDER_DISPLAY_NAME = "Kappa Gateway"
+const SUPPORTED_PROVIDER_DISPLAY_NAME = "Kilo Gateway"
 const SETTINGS_COMMAND = `command:kappa-code.new.settingsButtonClicked?${encodeURIComponent(JSON.stringify(["autocomplete"]))}`
 
 export class AutocompleteStatusBar {

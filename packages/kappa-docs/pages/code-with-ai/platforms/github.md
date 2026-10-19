@@ -72,14 +72,14 @@ For implementation requests, the bot creates a new branch, commits the changes, 
 ## Prerequisites
 
 - A Kappa Code account with available credits
-- Your GitHub integration configured via the Integrations tab at [app.kappa.ai](https://app.kappa.ai)
+- Your GitHub integration configured via the Integrations tab at [app.kilo.ai](https://app.kilo.ai)
 - The Kappa Code Bot GitHub App installed on the relevant repositories
 
 ---
 
 ## Setup
 
-1. Go to [app.kappa.ai](https://app.kappa.ai) and navigate to the **Integrations** tab
+1. Go to [app.kilo.ai](https://app.kilo.ai) and navigate to the **Integrations** tab
 2. Connect your GitHub account through the **KappaConnect** GitHub App if you haven't already
 3. Install the **Kappa Code Bot** GitHub App on your repositories at [github.com/apps/kappa-code-bot](https://github.com/apps/kappa-code-bot/)
 

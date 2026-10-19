@@ -324,7 +324,7 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
 
         async function getInstallation() {
           // kappacode_change start - updated to new endpoint
-          return await fetch(`https://api.kappa.ai/api/integrations/github/check-installation?owner=${app.owner}`)
+          return await fetch(`https://api.kilo.ai/api/integrations/github/check-installation?owner=${app.owner}`)
             .then((res) => res.json())
             .then((data) => data.installation)
           // kappacode_change end
@@ -714,7 +714,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
 
     function normalizeOidcBaseUrl(): string {
       const value = process.env["OIDC_BASE_URL"]
-      if (!value) return "https://api.kappa.ai" // kappacode_change
+      if (!value) return "https://api.kilo.ai" // kappacode_change
       return value.replace(/\/+$/, "")
     }
 

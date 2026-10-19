@@ -22,7 +22,7 @@ If you have any remaining credits in your organization, you can contact Support 
 
 Account deletion is permanent. Cancel active subscriptions before starting.
 
-1. Open the [profile page](https://app.kappa.ai/profile) and find **Danger Zone**.
+1. Open the [profile page](https://app.kilo.ai/profile) and find **Danger Zone**.
 2. Click **Delete account**, then **Send confirmation code**.
 3. Enter the code sent to your account email and confirm deletion.
 

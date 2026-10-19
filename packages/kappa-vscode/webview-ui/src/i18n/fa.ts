@@ -618,7 +618,7 @@ export const dict = {
   "profile.usage.plan.unknown": "طرح: وضعیت نامشخص",
   "profile.usage.action.manage": "مدیریت",
   "profile.usage.action.managePlan": "مدیریت {{plan}}",
-  "profile.usage.routing": "صورتحساب طرح فعال است. مسیریابی Kappa Gateway {{state}} است.",
+  "profile.usage.routing": "صورتحساب طرح فعال است. مسیریابی Kilo Gateway {{state}} است.",
   "profile.usage.routingState.disabled": "غیرفعال",
   "profile.usage.routingState.missing": "ناموجود",
   "profile.usage.routingState.replaced": "جایگزین‌شده",
@@ -915,7 +915,7 @@ export const dict = {
   "settings.models.speechToTextModel.customPlaceholder": "whisper-1",
   "settings.models.speechToTextBaseUrl.title": "نشانی پایه تبدیل گفتار به متن",
   "settings.models.speechToTextBaseUrl.description":
-    "به‌جای Kappa Gateway از یک API رونویسی سازگار با OpenAI استفاده کنید. مدل‌ها از /models خوانده می‌شوند و صدا به /audio/transcriptions فرستاده می‌شود. برای استفاده از Kappa Gateway خالی بگذارید.",
+    "به‌جای Kilo Gateway از یک API رونویسی سازگار با OpenAI استفاده کنید. مدل‌ها از /models خوانده می‌شوند و صدا به /audio/transcriptions فرستاده می‌شود. برای استفاده از Kilo Gateway خالی بگذارید.",
   "settings.models.speechToTextBaseUrl.placeholder": "https://api.openai.com/v1",
   "settings.models.speechToTextApiKey.title": "کلید API تبدیل گفتار به متن",
   "settings.models.speechToTextApiKey.description":
@@ -926,7 +926,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "ورودی صوتی در پنجره‌های راه دور در دسترس نیست. برای استفاده از میکروفون، Kappa را در یک پنجره محلی باز کنید.",
   "settings.models.speechToTextModel.title": "مدل تبدیل گفتار به متن",
-  "settings.models.speechToTextModel.description": "مدل رونویسی Kappa Gateway را برای ورودی صوتی انتخاب کنید.",
+  "settings.models.speechToTextModel.description": "مدل رونویسی Kilo Gateway را برای ورودی صوتی انتخاب کنید.",
   "settings.experimental.nativeNotebookTools.title": "ابزارهای بومی Notebook",
   "settings.experimental.nativeNotebookTools.description":
     "ابزارهای آزمایشی برای خواندن، ویرایش و اجرای VS Code notebooks را فعال کنید",
@@ -1295,7 +1295,7 @@ export const dict = {
     "مدل پیش‌فرض و میزان استدلال برای زیرعامل‌های ابزار-وظیفه. برای به ارث بردن مدل عامل فراخواننده، خالی بگذارید.",
   "settings.models.hidePromptTraining.title": "پنهان کردن مدل‌های آموزش پرامپت",
   "settings.models.hidePromptTraining.description":
-    "مدل‌های Kappa Gateway را که ارائه‌دهندگانشان ممکن است از پرامپت‌های شما برای آموزش استفاده کنند پنهان کنید.",
+    "مدل‌های Kilo Gateway را که ارائه‌دهندگانشان ممکن است از پرامپت‌های شما برای آموزش استفاده کنند پنهان کنید.",
   "settings.providers.modeModels": "مدل به ازای حالت",
   "settings.providers.modeModels.description":
     "مدل پیش‌فرض را برای حالت‌های خاص بازنویسی کنید. در صورت عدم تنظیم، از مدل پیش‌فرض سراسری استفاده می‌شود.",

@@ -224,7 +224,7 @@ describe("Kappa PublicApi OpenAPI contract", () => {
     expect(branch).toEqual({ anyOf: [{ type: "string" }, { type: "null" }] })
   })
 
-  test("keeps Kappa gateway responses nullable", () => {
+  test("keeps Kilo gateway responses nullable", () => {
     const spec = OpenApi.fromApi(PublicApi)
     const response = (path: string) => {
       const body = spec.paths[path]?.get?.responses?.["200"] as Body | undefined

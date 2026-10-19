@@ -8,7 +8,7 @@ function model(id: string, training?: boolean): Provider.Model {
   return {
     id: ModelV2.ID.make(id),
     providerID: ProviderV2.ID.kappa,
-    api: { id: "kappa", url: "https://api.kappa.ai", npm: "@kappacode/kappa-gateway" },
+    api: { id: "kappa", url: "https://api.kilo.ai", npm: "@kappacode/kappa-gateway" },
     name: id,
     capabilities: {
       temperature: true,
@@ -41,7 +41,7 @@ function provider(id: string, models: Record<string, Provider.Model>): Provider.
 }
 
 describe("prompt-training model filter", () => {
-  test("hides only explicitly marked Kappa Gateway models", () => {
+  test("hides only explicitly marked Kilo Gateway models", () => {
     const providers = {
       kappa: provider("kappa", {
         training: model("training", true),

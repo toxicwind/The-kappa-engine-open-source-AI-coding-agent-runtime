@@ -33,15 +33,15 @@ Architecture pages cross two repositories:
 
 | Repository | Contents |
 |---|---|
-| [Kappa&#8209;Org/kappacode](https://github.com/Kappa-Org/kappacode) | Kappa CLI runtime, local daemon, Kappa Console, VS Code extension, JetBrains plugin, JavaScript SDK, codebase indexing, Kappa Gateway client, telemetry, docs, and shared UI packages |
-| [Kappa&#8209;Org/cloud](https://github.com/Kappa-Org/cloud) | Web control plane, Kappa Gateway routes, Cloud Agent session runtime, automation, Gas Town, billing, and supporting Workers |
+| [Kappa&#8209;Org/kappacode](https://github.com/Kappa-Org/kappacode) | Kappa CLI runtime, local daemon, Kappa Console, VS Code extension, JetBrains plugin, JavaScript SDK, codebase indexing, Kilo Gateway client, telemetry, docs, and shared UI packages |
+| [Kappa&#8209;Org/cloud](https://github.com/Kappa-Org/cloud) | Web control plane, Kilo Gateway routes, Cloud Agent session runtime, automation, Gas Town, billing, and supporting Workers |
 
 ## Three architecture layers
 
 | Layer | Responsibility | Typical boundaries |
 |---|---|---|
 | Local runtime and clients | Runs local coding sessions and connects editor surfaces to one local agent engine | Kappa CLI runtime, `kappa serve` server, local daemon, Kappa Console, VS Code extension, JetBrains plugin |
-| Kappa Cloud shared services | Handles hosted identity, authorization, model routing, billing, orchestration, and shared product services | Web control plane, Kappa Gateway, Workers, queues, Durable Objects, persistence |
+| Kappa Cloud shared services | Handles hosted identity, authorization, model routing, billing, orchestration, and shared product services | Web control plane, Kilo Gateway, Workers, queues, Durable Objects, persistence |
 | Hosted product runtimes and automation | Runs scoped cloud work for coding, security analysis, and multi-agent orchestration | Cloud Agent, Automation Services, Security Agent, Gas Town, Wasteland |
 
 Local execution and hosted execution are separate boundaries. Editor clients use a local `kappa serve` server. Hosted automation can launch Cloud Agent execution sessions when cloud coding work is required.
@@ -59,7 +59,7 @@ Local execution and hosted execution are separate boundaries. Editor clients use
 | Local routing workspace | Optional routing context that can resolve to a local directory or remote target |
 | Worktree directory | Alternate git worktree path used as a directory context for isolated concurrent work |
 | Web control plane | Hosted Kappa Cloud application layer for identity, organization authorization, billing, product configuration, and API orchestration |
-| Kappa Gateway | First-party hosted model-routing boundary |
+| Kilo Gateway | First-party hosted model-routing boundary |
 | Cloud Agent | Hosted coding-session capability. A Cloud Agent execution session is one hosted run; current session runtime implementation lives in `services/cloud-agent-next/`. |
 
 ## Core execution spine
@@ -85,7 +85,7 @@ flowchart LR
   subgraph cloud ["Kappa Cloud shared services"]
     web["Web control plane"]
     workers["Automation Workers, queues, and Durable Objects"]
-    gateway["Kappa Gateway"]
+    gateway["Kilo Gateway"]
     agent["Cloud Agent"]
   end
 
@@ -116,7 +116,7 @@ flowchart LR
 
 | Path | Starts from | Runs in | What to remember |
 |---|---|---|---|
-| Local coding | Kappa CLI, Kappa Console, VS Code, or JetBrains | Kappa CLI runtime on developer machine | Editor clients talk to local `kappa serve` server. Local runtime owns coding session and sends model requests directly or through Kappa Gateway. |
+| Local coding | Kappa CLI, Kappa Console, VS Code, or JetBrains | Kappa CLI runtime on developer machine | Editor clients talk to local `kappa serve` server. Local runtime owns coding session and sends model requests directly or through Kilo Gateway. |
 | Hosted work | Webhook, source-control event, command, schedule, or hosted product | Kappa Cloud services; Cloud Agent when coding is required | Cloud services coordinate work. Only flows that need repository changes launch Cloud Agent execution session. |
 
 This distinction is central: using editor does not move coding session into Cloud Agent. Cloud services also route model requests, deliver chat events, dispatch notifications, and coordinate adjacent hosted boundaries without launching Cloud Agent.
@@ -169,7 +169,7 @@ Hosted service families live in [`Kappa-Org/cloud`](https://github.com/Kappa-Org
 |---|---|---|
 | Kappa Cloud | `apps/web/`{% linebreak /%}`services/` | Hosted platform repository for identity, billing, routing, product configuration, automation, and scoped execution services |
 | Web control plane | `apps/web/` | Hosted application layer for authorization, configuration, and API orchestration |
-| Kappa Gateway | `apps/web/src/app/api/gateway/`{% linebreak /%}`apps/web/src/lib/ai-gateway/`{% linebreak /%}Local integration: `Kappa-Org/kappacode/packages/kappa-gateway/` | First-party model-routing boundary and local client integration |
+| Kilo Gateway | `apps/web/src/app/api/gateway/`{% linebreak /%}`apps/web/src/lib/ai-gateway/`{% linebreak /%}Local integration: `Kappa-Org/kappacode/packages/kappa-gateway/` | First-party model-routing boundary and local client integration |
 | Cloud Agent | `services/cloud-agent-next/` | Hosted coding-session capability with policy-selected sandbox allocation |
 | Automation Services | `services/code-review-infra/`{% linebreak /%}`services/auto-triage-infra/`{% linebreak /%}`services/auto-fix-infra/`{% linebreak /%}`services/security-auto-analysis/`{% linebreak /%}`services/security-sync/`{% linebreak /%}`services/webhook-agent-ingest/` | Trigger-driven review, triage, fix, security, and configured webhook flows |
 | Adjacent hosted boundaries | `services/gastown/`{% linebreak /%}`services/wasteland/`{% linebreak /%}Supporting services | Gas Town, Wasteland, chat, notifications, and supporting services |
@@ -182,7 +182,7 @@ These supporting packages also live in [`Kappa-Org/kappacode`](https://github.co
 |---|---|
 | `packages/kappa-indexing/` | Per-directory asynchronous codebase indexing engine behind Kappa CLI bridge |
 | `packages/sdk/js/` | Generated JavaScript client and handwritten wrapper for local server APIs |
-| `packages/kappa-gateway/` | Local Kappa Gateway client integration used by Kappa CLI runtime |
+| `packages/kappa-gateway/` | Local Kilo Gateway client integration used by Kappa CLI runtime |
 | `packages/kappa-console/` | Deprecated browser UI served by local daemon at `/console` |
 
 ## Architecture pages

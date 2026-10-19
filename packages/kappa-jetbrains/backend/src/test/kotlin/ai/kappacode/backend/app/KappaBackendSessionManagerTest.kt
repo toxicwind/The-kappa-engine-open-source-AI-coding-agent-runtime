@@ -126,7 +126,7 @@ class KiloBackendSessionManagerTest {
         mock.sessions = """[
             {
                 "id":"ses_1","slug":"s1","projectID":"prj","directory":"/test","title":"Session 1","version":"1",
-                "time":{"created":1000,"updated":2000},"share":{"url":"https://app.kappa.ai/s/tok"}
+                "time":{"created":1000,"updated":2000},"share":{"url":"https://app.kilo.ai/s/tok"}
             },
             {"id":"ses_2","slug":"s2","projectID":"prj","directory":"/test","title":"Session 2","version":"1","time":{"created":3000,"updated":4000}}
         ]"""
@@ -139,7 +139,7 @@ class KiloBackendSessionManagerTest {
         assertEquals("Session 1", result.sessions[0].title)
         assertEquals(1000.0, result.sessions[0].time.created)
         assertEquals("ses_2", result.sessions[1].id)
-        assertEquals("https://app.kappa.ai/s/tok", result.sessions.first().share?.url)
+        assertEquals("https://app.kilo.ai/s/tok", result.sessions.first().share?.url)
         assertNull(result.sessions.last().share)
     }
 
@@ -153,7 +153,7 @@ class KiloBackendSessionManagerTest {
             {
                 "id":"ses_shared","slug":"shared","projectID":"prj","directory":"/test",
                 "title":"Shared","version":"1","time":{"created":1000,"updated":2000},
-                "share":{"url":"https://app.kappa.ai/s/tok"}
+                "share":{"url":"https://app.kilo.ai/s/tok"}
             }
         ]"""
         val app = setup()
@@ -162,7 +162,7 @@ class KiloBackendSessionManagerTest {
         val session = app.sessions.get("ses_shared", "/test")
 
         assertEquals("ses_shared", session.id)
-        assertEquals("https://app.kappa.ai/s/tok", session.share?.url)
+        assertEquals("https://app.kilo.ai/s/tok", session.share?.url)
         assertNull(app.sessions.get("ses_unshared", "/test").share)
     }
 
@@ -206,7 +206,7 @@ class KiloBackendSessionManagerTest {
             {
                 "id":"ses_1","slug":"s1","projectID":"prj","directory":"/repo","title":"Session 1","version":"1",
                 "time":{"created":1000,"updated":5000},"project":{"id":"prj","worktree":"/repo","name":"Repo"},
-                "summary":{"additions":10,"deletions":2,"files":3},"share":{"url":"https://app.kappa.ai/s/tok"}
+                "summary":{"additions":10,"deletions":2,"files":3},"share":{"url":"https://app.kilo.ai/s/tok"}
             },
             {"id":"ses_2","slug":"s2","projectID":"prj","directory":"/repo-wt","title":"Session 2","version":"1","time":{"created":2000,"updated":4000},"project":{"id":"prj","worktree":"/repo","name":"Repo"},"parentID":"ses_parent"}
         ]"""
@@ -221,7 +221,7 @@ class KiloBackendSessionManagerTest {
         assertEquals("/repo", result.sessions[0].directory)
         assertEquals(10, result.sessions[0].summary?.additions)
         assertEquals("ses_parent", result.sessions[1].parentID)
-        assertEquals("https://app.kappa.ai/s/tok", result.sessions.first().share?.url)
+        assertEquals("https://app.kilo.ai/s/tok", result.sessions.first().share?.url)
         assertNull(result.sessions.last().share)
     }
 
@@ -502,7 +502,7 @@ class KiloBackendSessionManagerTest {
 
         val session = app.sessions.share("ses_1", "/my dir/project")
 
-        assertEquals("https://app.kappa.ai/s/tok", session.share?.url)
+        assertEquals("https://app.kilo.ai/s/tok", session.share?.url)
         assertEquals("POST", mock.lastShareMethod)
         val path = mock.lastSharePath ?: error("missing share request")
         assertTrue(path.startsWith("/session/ses_1/share?"), "Expected share path, got $path")

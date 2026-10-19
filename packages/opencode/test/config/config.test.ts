@@ -116,7 +116,7 @@ const layer = configLayer()
 const it = testEffect(layer)
 const configIt = (options?: Parameters<typeof configLayer>[0]) => testEffect(configLayer(options))
 
-const schemaConfig = (config: object) => ({ $schema: "https://app.kappa.ai/config.json", ...config }) // kappacode_change
+const schemaConfig = (config: object) => ({ $schema: "https://app.kilo.ai/config.json", ...config }) // kappacode_change
 
 const provideCurrentInstance = <A, E, R>(effect: Effect.Effect<A, E, R>, ctx: InstanceContext) =>
   effect.pipe(Effect.provideService(InstanceRef, ctx))
@@ -325,7 +325,7 @@ it.effect("creates global jsonc config with schema when no global configs exist"
       yield* Config.use.get().pipe(provideInstanceEffect(dir))
 
       const content = yield* FSUtil.use.readFileString(path.join(dir, "kappa.jsonc")) // kappacode_change
-      expect(content).toContain('"$schema": "https://app.kappa.ai/config.json"') // kappacode_change
+      expect(content).toContain('"$schema": "https://app.kilo.ai/config.json"') // kappacode_change
     }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
   ),
 )
@@ -352,7 +352,7 @@ it.instance("loads JSON config file", () =>
     // kappacode_change start
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       model: "test/model",
       username: "testuser",
     })
@@ -368,7 +368,7 @@ it.instance("preserves Kappa provider free model metadata", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       model: "kappa/free-e2e",
       provider: {
         kappa: {
@@ -686,7 +686,7 @@ it.instance("loads JSONC config file", () =>
       path.join(test.directory, "kappa.jsonc"),
       `{
         // This is a comment
-        "$schema": "https://app.kappa.ai/config.json",
+        "$schema": "https://app.kilo.ai/config.json",
         "model": "test/model",
         "username": "testuser"
       }`,
@@ -704,14 +704,14 @@ it.instance("jsonc overrides json in the same directory", () =>
     yield* writeConfigEffect(
       test.directory,
       {
-        $schema: "https://app.kappa.ai/config.json", // kappacode_change
+        $schema: "https://app.kilo.ai/config.json", // kappacode_change
         model: "base",
         username: "base",
       },
       "kappa.jsonc", // kappacode_change
     )
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       model: "override",
     })
     const config = yield* Config.use.get()
@@ -725,11 +725,11 @@ it.instance("prefers .kappa directory config over legacy .kappacode", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(path.join(test.directory, ".kappacode"), {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       model: "legacy/model",
     })
     yield* writeConfigEffect(path.join(test.directory, ".kappa"), {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       model: "new/model",
     })
 
@@ -747,7 +747,7 @@ it.instance("rejects environment variable substitution in project config", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
       yield* writeConfigEffect(test.directory, {
-        $schema: "https://app.kappa.ai/config.json",
+        $schema: "https://app.kilo.ai/config.json",
         username: "{env:TEST_VAR}",
       })
       const config = yield* Config.use.get()
@@ -765,11 +765,11 @@ it.instance("injects $schema into config without existing schema", () =>
     yield* FSUtil.use.writeWithDirs(path.join(test.directory, "kappa.json"), JSON.stringify({ username: "test-user" }))
     const config = yield* Config.use.get()
     expect(config.username).toBe("test-user")
-    expect(config.$schema).toBe("https://app.kappa.ai/config.json")
+    expect(config.$schema).toBe("https://app.kilo.ai/config.json")
 
     // Read the file to verify $schema was injected
     const content = yield* FSUtil.use.readFileString(path.join(test.directory, "kappa.json"))
-    expect(content).toContain('"$schema": "https://app.kappa.ai/config.json"')
+    expect(content).toContain('"$schema": "https://app.kilo.ai/config.json"')
     const schemaIndex = content.indexOf('"$schema"')
     const usernameIndex = content.indexOf('"username"')
     expect(schemaIndex).toBeLessThan(usernameIndex)
@@ -786,11 +786,11 @@ it.instance("injects $schema into comment-first JSONC config", () =>
     )
     const config = yield* Config.use.get()
     expect(config.model).toBe("test/model")
-    expect(config.$schema).toBe("https://app.kappa.ai/config.json")
+    expect(config.$schema).toBe("https://app.kilo.ai/config.json")
 
     // Read the file to verify $schema was injected correctly
     const content = yield* FSUtil.use.readFileString(path.join(test.directory, "kappa.jsonc"))
-    expect(content).toContain('"$schema": "https://app.kappa.ai/config.json"')
+    expect(content).toContain('"$schema": "https://app.kilo.ai/config.json"')
     expect(content).toContain("// project config")
     const schemaIndex = content.indexOf('"$schema"')
     const modelIndex = content.indexOf('"model"')
@@ -805,7 +805,7 @@ it.instance("does not write config when $schema already present", () =>
     // Config already has $schema - should not rewrite file
     yield* FSUtil.use.writeWithDirs(
       filepath,
-      JSON.stringify({ $schema: "https://app.kappa.ai/config.json", username: "test-user" }),
+      JSON.stringify({ $schema: "https://app.kilo.ai/config.json", username: "test-user" }),
     )
     const before = yield* Effect.promise(() => fs.stat(filepath))
 
@@ -822,7 +822,7 @@ it.instance("allows {file:} that stays inside the project root", () =>
     const test = yield* TestInstance
     yield* FSUtil.use.writeWithDirs(path.join(test.directory, "included.txt"), "in-project")
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       username: "{file:included.txt}",
     })
     const config = yield* Config.use.get()
@@ -834,7 +834,7 @@ it.instance("rejects {file:} that reads an absolute path from project config", (
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       username: "{file:/etc/passwd}",
     })
     const config = yield* Config.use.get()
@@ -848,7 +848,7 @@ it.instance("rejects {file:} that escapes the project root with parent directori
     const outside = path.join(path.dirname(test.directory), "secret.txt")
     yield* FSUtil.use.writeWithDirs(outside, "outside-secret")
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       username: "{file:../secret.txt}",
     })
     const config = yield* Config.use.get()
@@ -864,7 +864,7 @@ it.instance("rejects {file:} that escapes the project root through a symlink", (
     yield* FSUtil.use.writeWithDirs(outside, "outside-secret")
     yield* Effect.promise(() => fs.symlink(outside, link))
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       username: "{file:secret-link}",
     })
     const config = yield* Config.use.get()
@@ -878,7 +878,7 @@ it.instance("blocks provider apiKey {file:} exfiltration that escapes the projec
     const outside = path.join(path.dirname(test.directory), "creds.txt")
     yield* FSUtil.use.writeWithDirs(outside, "leaked-credential")
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       provider: {
         "openai-compatible": {
           options: { baseURL: "http://127.0.0.1:4444/v1", apiKey: "{file:../creds.txt}" },
@@ -897,7 +897,7 @@ it.instance("still allows global config to read absolute files", () =>
       const secret = path.join(dir, "secret.txt")
       yield* FSUtil.use.writeWithDirs(secret, "global-secret")
       yield* writeConfigEffect(dir, {
-        $schema: "https://app.kappa.ai/config.json",
+        $schema: "https://app.kilo.ai/config.json",
         username: `{file:${secret}}`,
       })
       const config = yield* Config.use.get()
@@ -955,7 +955,7 @@ it.instance("validates config schema and reports warning on invalid values", () 
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       model: 42,
     })
     // invalid schema surfaces as warnings, not a throw
@@ -982,7 +982,7 @@ it.instance("handles agent configuration", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: {
         test_agent: {
           model: "test/model",
@@ -1006,7 +1006,7 @@ it.instance("treats agent variant as model-scoped setting (not provider option)"
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: {
         test_agent: {
           model: "openai/gpt-5.2",
@@ -1030,7 +1030,7 @@ it.instance("handles command configuration", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       command: {
         test_command: {
           template: "test template",
@@ -1052,7 +1052,7 @@ it.instance("migrates autoshare to share field", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       autoshare: true,
     })
     const config = yield* Config.use.get()
@@ -1065,7 +1065,7 @@ it.instance("migrates mode field to agent field", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       mode: {
         test_mode: {
           model: "test/model",
@@ -1540,7 +1540,7 @@ it.instance("migrates legacy tools config to permissions - allow", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: { test: { tools: { bash: true, read: true } } },
     })
 
@@ -1556,7 +1556,7 @@ it.instance("migrates legacy tools config to permissions - deny", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: { test: { tools: { bash: false, webfetch: false } } },
     })
 
@@ -1572,7 +1572,7 @@ it.instance("migrates legacy write tool to edit permission", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: { test: { tools: { write: true } } },
     })
 
@@ -1588,7 +1588,7 @@ it.instance(
   "managed settings override user settings",
   Effect.gen(function* () {
     yield* writeManagedSettingsEffect({
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       model: "managed/model",
       share: "disabled",
     })
@@ -1605,7 +1605,7 @@ it.instance(
   "managed settings override project settings",
   Effect.gen(function* () {
     yield* writeManagedSettingsEffect({
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       autoupdate: false,
       disabled_providers: ["openai"],
     })
@@ -1640,7 +1640,7 @@ it.instance("migrates legacy edit tool to edit permission", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: { test: { tools: { edit: false } } },
     })
 
@@ -1653,7 +1653,7 @@ it.instance("migrates legacy patch tool to edit permission", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: { test: { tools: { patch: true } } },
     })
 
@@ -1666,7 +1666,7 @@ it.instance("migrates mixed legacy tools config", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: { test: { tools: { bash: true, write: true, read: false, webfetch: true } } },
     })
 
@@ -1684,7 +1684,7 @@ it.instance("merges legacy tools with existing permission config", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       agent: { test: { permission: { glob: "allow" }, tools: { bash: true } } },
     })
 
@@ -1720,7 +1720,7 @@ it.instance("permission config preserves user key order", () =>
     yield* writeConfigEffect(
       test.directory,
       {
-        $schema: "https://app.kappa.ai/config.json", // kappacode_change
+        $schema: "https://app.kilo.ai/config.json", // kappacode_change
         permission: {
           "*": "deny",
           edit: "ask",
@@ -1795,7 +1795,7 @@ it.instance("local mcp accepts `env` as an alias for `environment`", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       mcp: {
         context7: {
           type: "local",
@@ -1819,7 +1819,7 @@ it.instance("local mcp prefers `environment` over `env` when both are present", 
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json",
+      $schema: "https://app.kilo.ai/config.json",
       mcp: {
         context7: {
           type: "local",
@@ -1845,7 +1845,7 @@ it.instance("project config can override MCP server enabled status", () =>
     // kappacode_change - base config in .json, override in .jsonc (jsonc loads second and wins)
     // Simulates a base config (like from remote .well-known) with disabled MCP.
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       mcp: {
         jira: {
           type: "remote",
@@ -1863,7 +1863,7 @@ it.instance("project config can override MCP server enabled status", () =>
     yield* writeConfigEffect(
       test.directory,
       {
-        $schema: "https://app.kappa.ai/config.json", // kappacode_change
+        $schema: "https://app.kilo.ai/config.json", // kappacode_change
         mcp: {
           jira: {
             type: "remote",
@@ -1895,7 +1895,7 @@ it.instance("MCP config deep merges preserving base config properties", () =>
     // kappacode_change - base config in .json, override in .jsonc (jsonc loads second and wins)
     // kappacode_change - Base config with full MCP definition
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       mcp: {
         myserver: {
           type: "remote",
@@ -1911,7 +1911,7 @@ it.instance("MCP config deep merges preserving base config properties", () =>
     yield* writeConfigEffect(
       test.directory,
       {
-        $schema: "https://app.kappa.ai/config.json", // kappacode_change
+        $schema: "https://app.kilo.ai/config.json", // kappacode_change
         mcp: {
           myserver: {
             type: "remote",
@@ -1940,7 +1940,7 @@ it.instance("local .kappa config can override MCP from project config", () =>
   Effect.gen(function* () {
     const test = yield* TestInstance
     yield* writeConfigEffect(test.directory, {
-      $schema: "https://app.kappa.ai/config.json", // kappacode_change
+      $schema: "https://app.kilo.ai/config.json", // kappacode_change
       mcp: {
         docs: {
           type: "remote",
@@ -1952,7 +1952,7 @@ it.instance("local .kappa config can override MCP from project config", () =>
     yield* writeConfigEffect(
       path.join(test.directory, ".kappa"), // kappacode_change
       {
-        $schema: "https://app.kappa.ai/config.json", // kappacode_change
+        $schema: "https://app.kilo.ai/config.json", // kappacode_change
         mcp: {
           docs: {
             type: "remote",
@@ -2369,7 +2369,7 @@ describe("KAPPA_DISABLE_PROJECT_CONFIG", () => {
         const configDir = yield* tmpdirScoped()
         // kappacode_change start
         yield* writeConfigEffect(configDir, {
-          $schema: "https://app.kappa.ai/config.json",
+          $schema: "https://app.kilo.ai/config.json",
           model: "configdir/model",
         })
         // kappacode_change end

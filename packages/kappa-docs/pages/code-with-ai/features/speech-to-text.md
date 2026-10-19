@@ -5,7 +5,7 @@ description: Dictate prompts through your signed-in Kappa account.
 
 # Voice Transcription
 
-Use voice input in prompt fields instead of typing. When the Kappa provider is enabled and you are signed in, the microphone appears automatically and transcription uses your account through Kappa Gateway.
+Use voice input in prompt fields instead of typing. When the Kappa provider is enabled and you are signed in, the microphone appears automatically and transcription uses your account through Kilo Gateway.
 
 ---
 
@@ -35,7 +35,7 @@ Download from [ffmpeg.org/download.html](https://ffmpeg.org/download.html) and a
 
 ### Sign in
 
-Enable and sign in to the Kappa provider to use voice input in prompt fields. Requests use your Kappa account through Kappa Gateway, so no separate OpenAI provider profile or API key is needed.
+Enable and sign in to the Kappa provider to use voice input in prompt fields. Requests use your Kappa account through Kilo Gateway, so no separate OpenAI provider profile or API key is needed.
 
 ---
 
@@ -43,13 +43,13 @@ Enable and sign in to the Kappa provider to use voice input in prompt fields. Re
 
 You can optionally choose a transcription model in **Settings** > **Models** > **Speech to Text Model**. Kappa stores this choice as `experimental.speech_to_text_model` in your global Kappa CLI config (`~/.config/kappa/kappa.jsonc`).
 
-The model list is discovered from the Kappa Gateway and reflects the transcription models available to your account or organization, so newly available models appear automatically.
+The model list is discovered from the Kilo Gateway and reflects the transcription models available to your account or organization, so newly available models appear automatically.
 
 ---
 
 ## Use your own transcription service
 
-By default the model list and the audio itself go through Kappa Gateway. To use another service, set a base URL in **Settings** > **Models** > **Speech to Text Base URL**. Any OpenAI-compatible transcription API works, including OpenAI, Groq, and a self-hosted Whisper server.
+By default the model list and the audio itself go through Kilo Gateway. To use another service, set a base URL in **Settings** > **Models** > **Speech to Text Base URL**. Any OpenAI-compatible transcription API works, including OpenAI, Groq, and a self-hosted Whisper server.
 
 ```json
 {
@@ -64,10 +64,10 @@ By default the model list and the audio itself go through Kappa Gateway. To use 
 With a base URL set:
 
 - The model list is read from `{base_url}/models`, and the model field accepts any ID that service exposes
-- Audio is uploaded straight to `{base_url}/audio/transcriptions` as a multipart request, so it never passes through Kappa Gateway
+- Audio is uploaded straight to `{base_url}/audio/transcriptions` as a multipart request, so it never passes through Kilo Gateway
 - The API key is sent as a bearer token, and voice input works without signing in to Kappa
 
-Leave the base URL empty to go back to Kappa Gateway.
+Leave the base URL empty to go back to Kilo Gateway.
 
 {% callout type="warning" %}
 The API key is stored as plain text in your Kappa config file. For a local server that needs no credentials, leave the key empty.
@@ -93,7 +93,7 @@ The feature includes real-time audio level visualization and voice activity dete
 ## Review details
 
 - **Audio processing**: Uses FFmpeg for system audio capture
-- **Transcription**: Sends audio through Kappa Gateway with the selected transcription model, or straight to your own base URL when one is set
+- **Transcription**: Sends audio through Kilo Gateway with the selected transcription model, or straight to your own base URL when one is set
 
 ---
 
@@ -120,5 +120,5 @@ Voice transcription has these requirements:
 
 - Requires an active internet connection, unless your custom base URL points at a local service
 - Requires a local VS Code window. In remote windows audio capture runs on the remote machine, which usually has no microphone
-- Requires Kappa Gateway access through your Kappa account, or a custom OpenAI-compatible base URL
+- Requires Kilo Gateway access through your Kappa account, or a custom OpenAI-compatible base URL
 - Transcription accuracy depends on audio quality and speech clarity

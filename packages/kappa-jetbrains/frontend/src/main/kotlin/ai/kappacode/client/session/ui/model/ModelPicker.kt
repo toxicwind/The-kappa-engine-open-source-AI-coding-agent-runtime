@@ -244,7 +244,7 @@ internal object ModelSearch {
 }
 
 internal object ModelText {
-    private val small = setOf("kappa-auto/small", "auto-small")
+    private val small = setOf("kilo-auto/small", "auto-small")
 
     data class Parts(val provider: String?, val model: String)
 

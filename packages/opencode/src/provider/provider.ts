@@ -2136,13 +2136,13 @@ const layer = Layer.effect(
       // unconditionally would route auxiliary tasks (session titles, commit messages, branch names)
       // to the cloud for users without kappa access and break offline/local-only setups.
       const kappaFallback = s.providers[ProviderV2.ID.make("kappa")]
-      if (kappaFallback?.models["kappa-auto/small"]) {
+      if (kappaFallback?.models["kilo-auto/small"]) {
         const hasCreds = hasKappaCredentials(
           cfg,
           yield* auth.get(ProviderV2.ID.make("kappa")).pipe(Effect.orDie),
           yield* env.all(),
         )
-        if (hasCreds) return kappaFallback.models["kappa-auto/small"]
+        if (hasCreds) return kappaFallback.models["kilo-auto/small"]
       }
       // kappacode_change end
 

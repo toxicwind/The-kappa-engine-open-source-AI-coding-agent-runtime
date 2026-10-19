@@ -25,7 +25,7 @@ const KAPPA_NEXTEDIT_URL = KAPPA_API_BASE + "/api/edit/completions"
 
 /**
  * Pick the upstream edit endpoint for a (provider, model) pair. Today this is
- * either Inception's `/v1/edit/completions` (direct BYOK) or the Kappa Gateway's
+ * either Inception's `/v1/edit/completions` (direct BYOK) or the Kilo Gateway's
  * `/api/edit/completions` proxy, which forwards to Inception server-side.
  * Mistral does not expose a comparable surface.
  */

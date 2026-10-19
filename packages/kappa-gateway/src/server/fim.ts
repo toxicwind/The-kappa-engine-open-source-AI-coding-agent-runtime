@@ -74,7 +74,7 @@ export function createFimHandler(Auth: Auth) {
     const token = target.provider === "kappa" ? proxy?.token : await getProviderKey(Auth, target.provider)
 
     if (target.provider === "kappa" && !proxy?.auth) {
-      return c.json({ error: "Not authenticated with Kappa Gateway" }, 401)
+      return c.json({ error: "Not authenticated with Kilo Gateway" }, 401)
     }
 
     if (target.provider === "kappa" && !token) {

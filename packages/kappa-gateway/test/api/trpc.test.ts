@@ -62,7 +62,7 @@ describe("Cloud tRPC client", () => {
         result([
           {
             ...subscription,
-            routeLabel: "MiniMax via Kappa Gateway",
+            routeLabel: "MiniMax via Kilo Gateway",
             billingPeriodDays: 30,
             currentPeriodStart: "2026-06-01T00:00:00.000Z",
             currentPeriodEnd: "2026-07-01T00:00:00.000Z",

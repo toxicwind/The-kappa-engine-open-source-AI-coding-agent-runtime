@@ -166,7 +166,7 @@ describe("LLM request output tokens", () => {
 
   const adaptive = { high: { reasoning: { enabled: true, effort: "high" }, verbosity: "high" } }
 
-  it.instance("requests the full output limit for Claude on the Kappa gateway", () =>
+  it.instance("requests the full output limit for Claude on the Kilo gateway", () =>
     Effect.gen(function* () {
       const mdl = claude({
         id: "anthropic/claude-opus-5.5",
@@ -183,7 +183,7 @@ describe("LLM request output tokens", () => {
     Effect.gen(function* () {
       for (const npm of ["@kappacode/kappa-gateway", "@ai-sdk/anthropic"]) {
         for (const family of ["claude", "Claude-Sonnet"]) {
-          const mdl = { ...claude({ id: "kappa-auto/frontier", npm, output: 128_000 }), family }
+          const mdl = { ...claude({ id: "kilo-auto/frontier", npm, output: 128_000 }), family }
           expect(yield* run({ model: mdl })).toBe(128_000)
         }
       }
@@ -205,8 +205,8 @@ describe("LLM request output tokens", () => {
   it.instance("keeps the default for mixed auto routes with a Claude candidate", () =>
     Effect.gen(function* () {
       const mdl = {
-        ...claude({ id: "kappa-auto/efficient", npm: "@kappacode/kappa-gateway", output: 65_536 }),
-        family: "kappa-auto",
+        ...claude({ id: "kilo-auto/efficient", npm: "@kappacode/kappa-gateway", output: 65_536 }),
+        family: "kilo-auto",
         autoRouting: { models: ["anthropic/claude-sonnet-5", "google/gemini-2.5-flash"] },
       }
       expect(yield* run({ model: mdl })).toBe(32_000)

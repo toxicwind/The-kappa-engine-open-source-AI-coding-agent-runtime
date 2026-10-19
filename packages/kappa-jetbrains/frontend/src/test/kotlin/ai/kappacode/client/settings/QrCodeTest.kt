@@ -12,14 +12,14 @@ class QrCodeTest {
 
     @Test
     fun `generates qr image with requested size`() {
-        val img = QrCode.image("https://app.kappa.ai/device-auth?code=TEST", 64)
+        val img = QrCode.image("https://app.kilo.ai/device-auth?code=TEST", 64)
         assertEquals(64, img.width)
         assertEquals(64, img.height)
     }
 
     @Test
     fun `generated image contains black and white pixels`() {
-        val img = QrCode.image("https://app.kappa.ai/device-auth?code=TEST", 64)
+        val img = QrCode.image("https://app.kilo.ai/device-auth?code=TEST", 64)
         var hasBlack = false
         var hasWhite = false
         outer@ for (y in 0 until img.height) {
@@ -36,8 +36,8 @@ class QrCodeTest {
 
     @Test
     fun `different inputs produce different images`() {
-        val a = QrCode.image("https://auth.kappa.ai/device?code=AAA", 64)
-        val b = QrCode.image("https://auth.kappa.ai/device?code=ZZZ", 64)
+        val a = QrCode.image("https://auth.kilo.ai/device?code=AAA", 64)
+        val b = QrCode.image("https://auth.kilo.ai/device?code=ZZZ", 64)
         var differs = false
         outer@ for (y in 0 until a.height) {
             for (x in 0 until a.width) {
@@ -66,7 +66,7 @@ class QrCodeTest {
 
     @Test
     fun `icon wraps image with correct dimensions`() {
-        val icon = QrCode.icon("https://auth.kappa.ai/device", 64)
+        val icon = QrCode.icon("https://auth.kilo.ai/device", 64)
         assertEquals(64, icon.iconWidth)
         assertEquals(64, icon.iconHeight)
     }

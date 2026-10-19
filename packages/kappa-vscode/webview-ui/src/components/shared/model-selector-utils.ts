@@ -9,7 +9,7 @@ import {
 
 export { KAPPA_GATEWAY_ID, PROVIDER_ORDER }
 
-export const KAPPA_AUTO_SMALL_IDS = new Set(["kappa-auto/small", "auto-small"])
+export const KAPPA_AUTO_SMALL_IDS = new Set(["kilo-auto/small", "auto-small"])
 const AUTO_FALLBACK = "Routes requests automatically."
 
 interface Choice {
@@ -19,7 +19,7 @@ interface Choice {
 
 export function isAuto(model: Pick<EnrichedModel, "providerID" | "id">): boolean {
   return (
-    model.providerID === KAPPA_GATEWAY_ID && (model.id.startsWith("kappa-auto/") || KAPPA_AUTO_SMALL_IDS.has(model.id))
+    model.providerID === KAPPA_GATEWAY_ID && (model.id.startsWith("kilo-auto/") || KAPPA_AUTO_SMALL_IDS.has(model.id))
   )
 }
 

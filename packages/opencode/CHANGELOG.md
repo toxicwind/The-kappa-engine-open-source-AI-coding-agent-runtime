@@ -136,7 +136,7 @@
 
 - [#13321](https://github.com/Kappa-Org/kappacode/pull/13321) [`ad173c7`](https://github.com/Kappa-Org/kappacode/commit/ad173c7e9ae71ced66cf12db333ac1ec10a01069) Thanks [@maphew](https://github.com/maphew)! - Stop sending prompt_cache_breakpoint to custom OpenAI-compatible providers, and to first-party provider IDs rerouted through custom endpoint overrides; both reject the parameter with HTTP 400.
 
-- [#14592](https://github.com/Kappa-Org/kappacode/pull/14592) [`c4506f7`](https://github.com/Kappa-Org/kappacode/commit/c4506f7ef87139654da357779ef6882568803a07) - Show Kappa Gateway models that don't report their supported parameters, such as Jev Router.
+- [#14592](https://github.com/Kappa-Org/kappacode/pull/14592) [`c4506f7`](https://github.com/Kappa-Org/kappacode/commit/c4506f7ef87139654da357779ef6882568803a07) - Show Kilo Gateway models that don't report their supported parameters, such as Jev Router.
 
 - [#14319](https://github.com/Kappa-Org/kappacode/pull/14319) [`52019c9`](https://github.com/Kappa-Org/kappacode/commit/52019c9f90a01beddccdc01483b861ebe132bafb) Thanks [@hdcodedev](https://github.com/hdcodedev)! - Report revert failures instead of failing silently. A failed revert or redo now shows an error toast, and the snapshot steps behind it log the git exit code and stderr when they give up.
 
@@ -397,7 +397,7 @@
 
 - [#14075](https://github.com/Kappa-Org/kappacode/pull/14075) [`fdf1bca`](https://github.com/Kappa-Org/kappacode/commit/fdf1bca9d9ac4b1371fc25ea895ab6ee48f91cd1) - Detect the session pull-request link from local git signals, the PR URL a session prints in its own output, and at most one REST lookup, so Kappa no longer burns the GitHub GraphQL rate limit probing for a PR on a timer.
 
-- [#13192](https://github.com/Kappa-Org/kappacode/pull/13192) [`1e73d38`](https://github.com/Kappa-Org/kappacode/commit/1e73d3862489c23e5937f51fc02d2e21b99c6b74) Thanks [@maphew](https://github.com/maphew)! - Only route auxiliary tasks (session titles, commit messages, branch names) to the cloud kappa-auto/small model when kappa credentials are configured; otherwise fall back to the session's own model so offline and local-only setups keep working.
+- [#13192](https://github.com/Kappa-Org/kappacode/pull/13192) [`1e73d38`](https://github.com/Kappa-Org/kappacode/commit/1e73d3862489c23e5937f51fc02d2e21b99c6b74) Thanks [@maphew](https://github.com/maphew)! - Only route auxiliary tasks (session titles, commit messages, branch names) to the cloud kilo-auto/small model when kappa credentials are configured; otherwise fall back to the session's own model so offline and local-only setups keep working.
 
 - [#14115](https://github.com/Kappa-Org/kappacode/pull/14115) [`f40394f`](https://github.com/Kappa-Org/kappacode/commit/f40394f07a92e7fc3441b03485096d08777212ed) - Start the first snapshot of a new worktree several times faster. Seeding now reuses the checkout's index state instead of re-hashing every file, snapshot preparation reconciles the working tree before the first prompt arrives, and repacking snapshot objects waits until the snapshot repository is idle instead of blocking the tool steps of the running turn.
 
@@ -763,7 +763,7 @@
 
 - [#13103](https://github.com/Kappa-Org/kappacode/pull/13103) [`591772d`](https://github.com/Kappa-Org/kappacode/commit/591772d92875762460636b42233ad1ad552e8596) - Use provider model catalogs instead of hardcoded model-name heuristics for reasoning variants.
 
-- [#13170](https://github.com/Kappa-Org/kappacode/pull/13170) [`3acb1ec`](https://github.com/Kappa-Org/kappacode/commit/3acb1ec38693e7f75bb38e832a23ace097c7440a) - Keep recently used Kappa Gateway models visible in the TUI picker, and find them when filtering by kappa.
+- [#13170](https://github.com/Kappa-Org/kappacode/pull/13170) [`3acb1ec`](https://github.com/Kappa-Org/kappacode/commit/3acb1ec38693e7f75bb38e832a23ace097c7440a) - Keep recently used Kilo Gateway models visible in the TUI picker, and find them when filtering by kappa.
 
 - [#13247](https://github.com/Kappa-Org/kappacode/pull/13247) [`0d5d334`](https://github.com/Kappa-Org/kappacode/commit/0d5d334480bc2093a12b27a34b03cac88cf33422) - Fix TUI sessions where new turns stopped appearing until the session was reopened
 
@@ -1141,7 +1141,7 @@
 
 - [#12314](https://github.com/Kappa-Org/kappacode/pull/12314) [`520679a`](https://github.com/Kappa-Org/kappacode/commit/520679a91f320656cb4dbffe74f0a37e521d45c2) - Keep the CLI sidebar branch label in sync when Git branches change outside Kappa.
 
-- [#12378](https://github.com/Kappa-Org/kappacode/pull/12378) [`b402cc2`](https://github.com/Kappa-Org/kappacode/commit/b402cc2635c1dae836a684f9d7a981c05491a930) - Include image-output models in the Kappa Gateway chat model list.
+- [#12378](https://github.com/Kappa-Org/kappacode/pull/12378) [`b402cc2`](https://github.com/Kappa-Org/kappacode/commit/b402cc2635c1dae836a684f9d7a981c05491a930) - Include image-output models in the Kilo Gateway chat model list.
 
 - [#12335](https://github.com/Kappa-Org/kappacode/pull/12335) [`99227f6`](https://github.com/Kappa-Org/kappacode/commit/99227f67478b44b06a18935792bd655c774f174a) Thanks [@shssoichiro](https://github.com/shssoichiro)! - Start the TUI from standalone CLI installations without requiring project-local OpenTUI dependencies.
 
@@ -1266,7 +1266,7 @@
 
   The upgrade command's version resolution for curl-detected installations used GitHub's `/releases/latest` endpoint, which now returns JetBrains plugin releases (e.g. `jetbrains/v7.0.4`) instead of the latest CLI release. This caused `kappa upgrade` to fail for curl installs. Version resolution now uses the npm `latest` dist-tag, matching the install script fix.
 
-- [#11837](https://github.com/Kappa-Org/kappacode/pull/11837) [`654e10e`](https://github.com/Kappa-Org/kappacode/commit/654e10e25b320fc4518dec192e3fb63137b47182) Thanks [@mjnaderi](https://github.com/mjnaderi)! - Show the Kappa Gateway rate-limit message when login has too many pending authorization requests.
+- [#11837](https://github.com/Kappa-Org/kappacode/pull/11837) [`654e10e`](https://github.com/Kappa-Org/kappacode/commit/654e10e25b320fc4518dec192e3fb63137b47182) Thanks [@mjnaderi](https://github.com/mjnaderi)! - Show the Kilo Gateway rate-limit message when login has too many pending authorization requests.
 
 - [#12162](https://github.com/Kappa-Org/kappacode/pull/12162) [`3ee9144`](https://github.com/Kappa-Org/kappacode/commit/3ee91448eeadf353fc611d8e42ac1f5c8cb5eac0) - Show troubleshooting and migration guidance when Google Gemini rejects API credentials.
 
@@ -1404,7 +1404,7 @@
 
 - [#11714](https://github.com/Kappa-Org/kappacode/pull/11714) [`7b2063f`](https://github.com/Kappa-Org/kappacode/commit/7b2063f35440fd65e9ec2d38fd656da960ff48b6) - Connect to a local Anaconda Desktop text-generation model server from the CLI or VS Code.
 
-- [#11786](https://github.com/Kappa-Org/kappacode/pull/11786) [`123a939`](https://github.com/Kappa-Org/kappacode/commit/123a9395d2ec645c3dc247170188f42bbf7c9333) - Allow Agent Manager chat tools to discover available models and reasoning variants by model name, then start each session with the chosen model and reasoning effort. Agent Manager resolves the provider for a named model automatically, preferring the provider behind the current default model and falling back to the Kappa Gateway.
+- [#11786](https://github.com/Kappa-Org/kappacode/pull/11786) [`123a939`](https://github.com/Kappa-Org/kappacode/commit/123a9395d2ec645c3dc247170188f42bbf7c9333) - Allow Agent Manager chat tools to discover available models and reasoning variants by model name, then start each session with the chosen model and reasoning effort. Agent Manager resolves the provider for a named model automatically, preferring the provider behind the current default model and falling back to the Kilo Gateway.
 
 - [#11456](https://github.com/Kappa-Org/kappacode/pull/11456) [`afa9633`](https://github.com/Kappa-Org/kappacode/commit/afa963375e17188b736c8b246f32e13f46401480) - Allow background processes to transfer from subagents to parent sessions, or remain accessible from every session in their project after Kappa restarts.
 
@@ -1544,15 +1544,15 @@
 
 ### Minor Changes
 
-- [#11421](https://github.com/Kappa-Org/kappacode/pull/11421) [`ccec216`](https://github.com/Kappa-Org/kappacode/commit/ccec2162383a6f378ed5e62d630720607d185209) - Show a BYOK badge for Kappa Gateway models that can use an enabled personal or organization provider key.
+- [#11421](https://github.com/Kappa-Org/kappacode/pull/11421) [`ccec216`](https://github.com/Kappa-Org/kappacode/commit/ccec2162383a6f378ed5e62d630720607d185209) - Show a BYOK badge for Kilo Gateway models that can use an enabled personal or organization provider key.
 
 - [#11028](https://github.com/Kappa-Org/kappacode/pull/11028) [`a6ded9b`](https://github.com/Kappa-Org/kappacode/commit/a6ded9b60a65f41a9a68f65d8ababa478cf51f52) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Display local and network URLs when the server binds to 0.0.0.0
 
 ### Patch Changes
 
-- [#11412](https://github.com/Kappa-Org/kappacode/pull/11412) [`2c9e72c`](https://github.com/Kappa-Org/kappacode/commit/2c9e72c14a87387199fd42546746bbea30aa1570) - Deny provider data collection for Kappa Gateway requests when prompt-training models are hidden.
+- [#11412](https://github.com/Kappa-Org/kappacode/pull/11412) [`2c9e72c`](https://github.com/Kappa-Org/kappacode/commit/2c9e72c14a87387199fd42546746bbea30aa1570) - Deny provider data collection for Kilo Gateway requests when prompt-training models are hidden.
 
-- [#11301](https://github.com/Kappa-Org/kappacode/pull/11301) [`081b653`](https://github.com/Kappa-Org/kappacode/commit/081b65325f539a4c71db90ce9a89dba4cfa3226f) - Add a privacy filter to the Console model explorer that hides Kappa Gateway models whose providers may use prompts for training.
+- [#11301](https://github.com/Kappa-Org/kappacode/pull/11301) [`081b653`](https://github.com/Kappa-Org/kappacode/commit/081b65325f539a4c71db90ce9a89dba4cfa3226f) - Add a privacy filter to the Console model explorer that hides Kilo Gateway models whose providers may use prompts for training.
 
 - [#11026](https://github.com/Kappa-Org/kappacode/pull/11026) [`e2ebf8b`](https://github.com/Kappa-Org/kappacode/commit/e2ebf8b7c8299cb42e68ef33e74507caef448206) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Skip automatic browser launch on Linux when no display is detected.
 
@@ -1605,7 +1605,7 @@
 
 - [#11279](https://github.com/Kappa-Org/kappacode/pull/11279) [`e91eef2`](https://github.com/Kappa-Org/kappacode/commit/e91eef2b384e64ffdbbd5d9fad99d534ecb7a2e8) - Show current-worktree sessions by default in the TUI sessions dialog and keep all/current scope toggling working when a scope has no sessions.
 
-- [#11158](https://github.com/Kappa-Org/kappacode/pull/11158) [`8ff8371`](https://github.com/Kappa-Org/kappacode/commit/8ff83711766ff6b18ea23d1990d6fedd8e79c5ae) - Add a shared model setting to hide Kappa Gateway models that may train on your prompts across Kappa clients.
+- [#11158](https://github.com/Kappa-Org/kappacode/pull/11158) [`8ff8371`](https://github.com/Kappa-Org/kappacode/commit/8ff83711766ff6b18ea23d1990d6fedd8e79c5ae) - Add a shared model setting to hide Kilo Gateway models that may train on your prompts across Kappa clients.
 
 - [#11270](https://github.com/Kappa-Org/kappacode/pull/11270) [`c5d39d0`](https://github.com/Kappa-Org/kappacode/commit/c5d39d090c34f9fea834718a799bb921ee69df3c) - Replace remaining OpenCode-branded CLI and TUI copy with Kappa branding.
 
@@ -1917,7 +1917,7 @@
 
 - [#10883](https://github.com/Kappa-Org/kappacode/pull/10883) [`1cdc398`](https://github.com/Kappa-Org/kappacode/commit/1cdc39856f461b4dc183fe5b273b7fc1314b9a64) - Restore `kappa console` startup in packaged CLI builds.
 
-- [#10863](https://github.com/Kappa-Org/kappacode/pull/10863) [`35aa9bb`](https://github.com/Kappa-Org/kappacode/commit/35aa9bbbb38557df292f105fd5324bf37807f518) - Restore Kappa Gateway-backed Mercury Next Edit completions.
+- [#10863](https://github.com/Kappa-Org/kappacode/pull/10863) [`35aa9bb`](https://github.com/Kappa-Org/kappacode/commit/35aa9bbbb38557df292f105fd5324bf37807f518) - Restore Kilo Gateway-backed Mercury Next Edit completions.
 
 - [#10829](https://github.com/Kappa-Org/kappacode/pull/10829) [`e64c1fb`](https://github.com/Kappa-Org/kappacode/commit/e64c1fb65ec6895f7e97786f52806195f25606c0) - Restore full-session forks in Agent Manager after the HTTP API migration.
 
@@ -2092,7 +2092,7 @@
 
 - [#10158](https://github.com/Kappa-Org/kappacode/pull/10158) [`d8245a0`](https://github.com/Kappa-Org/kappacode/commit/d8245a0ceb0989b8596c5a5d17fd1095ba9521be) - Fix Mermaid diagrams rendering with empty text inside every shape by restoring the `foreignObject` HTML integration point that DOMPurify dropped in 3.1.7.
 
-- [#10197](https://github.com/Kappa-Org/kappacode/pull/10197) [`1ea86fb`](https://github.com/Kappa-Org/kappacode/commit/1ea86fb6e15cbe486cb0af6f26995d0b1b2745a2) - Prevent Kappa Gateway Responses requests from replaying transient provider item IDs when request storage is disabled.
+- [#10197](https://github.com/Kappa-Org/kappacode/pull/10197) [`1ea86fb`](https://github.com/Kappa-Org/kappacode/commit/1ea86fb6e15cbe486cb0af6f26995d0b1b2745a2) - Prevent Kilo Gateway Responses requests from replaying transient provider item IDs when request storage is disabled.
 
 - Updated dependencies [[`4860e65`](https://github.com/Kappa-Org/kappacode/commit/4860e654ca1cc46c4e99acc3f40d4f1302e34944), [`1af7973`](https://github.com/Kappa-Org/kappacode/commit/1af79731a8ed925f1f69aa536ba90a53b89e8dfb), [`1ea86fb`](https://github.com/Kappa-Org/kappacode/commit/1ea86fb6e15cbe486cb0af6f26995d0b1b2745a2), [`f5dc95b`](https://github.com/Kappa-Org/kappacode/commit/f5dc95b99394c17ad7140bb034bc15a0f9de60b6)]:
   - @kappacode/sdk@7.3.0
@@ -2146,7 +2146,7 @@
 
 - [#10016](https://github.com/Kappa-Org/kappacode/pull/10016) [`d2ae16a`](https://github.com/Kappa-Org/kappacode/commit/d2ae16a9216f0de6e1cb08950f739108515e7998) - Support configuring Azure OpenAI resource names or endpoint URLs from the provider settings flow, and document using the native Azure provider for GPT-5 family deployments.
 
-- [#10014](https://github.com/Kappa-Org/kappacode/pull/10014) [`4b88379`](https://github.com/Kappa-Org/kappacode/commit/4b883792fb8219cf5c4d811ce23b930f6a597ddf) - Improved accuracy of Kappa Gateway cost reporting.
+- [#10014](https://github.com/Kappa-Org/kappacode/pull/10014) [`4b88379`](https://github.com/Kappa-Org/kappacode/commit/4b883792fb8219cf5c4d811ce23b930f6a597ddf) - Improved accuracy of Kilo Gateway cost reporting.
 
 - [#10012](https://github.com/Kappa-Org/kappacode/pull/10012) [`0363006`](https://github.com/Kappa-Org/kappacode/commit/03630064ad865b31cb9e3ed591acd6f07ece4d0c) - Recover compaction when large tool results or media attachments exceed provider payload limits.
 
@@ -2156,7 +2156,7 @@
 
 ### Minor Changes
 
-- [#9764](https://github.com/Kappa-Org/kappacode/pull/9764) [`9886674`](https://github.com/Kappa-Org/kappacode/commit/98866740afd7f6c2fd06fecda1ffc69c1703974e) - Migrate KappaClaw chat to the new kappa-chat backend. Replaces the single-channel Stream Chat integration with a multi-conversation experience that matches the web UX at app.kappa.ai/claw/kappa-chat: conversation list, reactions, typing indicators, editing, and action approvals. The TUI continues to render a single chat view backed by the user's primary conversation.
+- [#9764](https://github.com/Kappa-Org/kappacode/pull/9764) [`9886674`](https://github.com/Kappa-Org/kappacode/commit/98866740afd7f6c2fd06fecda1ffc69c1703974e) - Migrate KappaClaw chat to the new kappa-chat backend. Replaces the single-channel Stream Chat integration with a multi-conversation experience that matches the web UX at app.kilo.ai/claw/kappa-chat: conversation list, reactions, typing indicators, editing, and action approvals. The TUI continues to render a single chat view backed by the user's primary conversation.
 
 - [#9718](https://github.com/Kappa-Org/kappacode/pull/9718) [`dcaccf3`](https://github.com/Kappa-Org/kappacode/commit/dcaccf38658415819b72390255b9f6555e4795e5) - Rate assistant responses with thumbs up/down. Click the thumbs buttons next to the copy button on any assistant message, or press `<leader>=` / `<leader>-` in the terminal UI. Only shown when telemetry is enabled; feedback is sent to Kappa to help improve model and prompt quality.
 
@@ -2292,7 +2292,7 @@
 
 ### Patch Changes
 
-- [#9526](https://github.com/Kappa-Org/kappacode/pull/9526) [`c8113f2`](https://github.com/Kappa-Org/kappacode/commit/c8113f27b190f5c08ce642da57d68646132e1828) - Fix multi-turn DeepSeek reasoning round-tripping on OpenRouter by bumping `@openrouter/ai-sdk-provider` to 2.8.1 in both the CLI and Kappa Gateway packages and letting the SDK handle reasoning details, plus pulling in upstream DeepSeek variant, reasoning-effort, and assistant-reasoning fixes. New DeepSeek conversations are fixed; existing sessions that already stored empty reasoning metadata may still need to be restarted.
+- [#9526](https://github.com/Kappa-Org/kappacode/pull/9526) [`c8113f2`](https://github.com/Kappa-Org/kappacode/commit/c8113f27b190f5c08ce642da57d68646132e1828) - Fix multi-turn DeepSeek reasoning round-tripping on OpenRouter by bumping `@openrouter/ai-sdk-provider` to 2.8.1 in both the CLI and Kilo Gateway packages and letting the SDK handle reasoning details, plus pulling in upstream DeepSeek variant, reasoning-effort, and assistant-reasoning fixes. New DeepSeek conversations are fixed; existing sessions that already stored empty reasoning metadata may still need to be restarted.
 
 - Updated dependencies [[`c8113f2`](https://github.com/Kappa-Org/kappacode/commit/c8113f27b190f5c08ce642da57d68646132e1828)]:
   - @kappacode/kappa-gateway@7.2.25
@@ -2354,7 +2354,7 @@
 
 ### Patch Changes
 
-- [#9276](https://github.com/Kappa-Org/kappacode/pull/9276) [`e6310c5`](https://github.com/Kappa-Org/kappacode/commit/e6310c5292b43745c3c6e75a08bb584f7f1fd6d5) - Add Alibaba to `kappaProviderOptions` so thinking is enabled correctly when routing through the Kappa gateway with `ai_sdk_provider: "alibaba"`.
+- [#9276](https://github.com/Kappa-Org/kappacode/pull/9276) [`e6310c5`](https://github.com/Kappa-Org/kappacode/commit/e6310c5292b43745c3c6e75a08bb584f7f1fd6d5) - Add Alibaba to `kappaProviderOptions` so thinking is enabled correctly when routing through the Kilo gateway with `ai_sdk_provider: "alibaba"`.
 
 - [#9120](https://github.com/Kappa-Org/kappacode/pull/9120) [`d40fc1c`](https://github.com/Kappa-Org/kappacode/commit/d40fc1c71cde67568c37f30a9653ec1ac2a84131) - Make the `description` parameter of the bash tool optional.
 
@@ -2384,7 +2384,7 @@
 
 ### Patch Changes
 
-- [#9068](https://github.com/Kappa-Org/kappacode/pull/9068) [`e65c2d9`](https://github.com/Kappa-Org/kappacode/commit/e65c2d99c0d234d3dc1dff2e75e58e22bea8ce7f) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Hide Kappa Gateway models that do not support tool calling from the model list.
+- [#9068](https://github.com/Kappa-Org/kappacode/pull/9068) [`e65c2d9`](https://github.com/Kappa-Org/kappacode/commit/e65c2d99c0d234d3dc1dff2e75e58e22bea8ce7f) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Hide Kilo Gateway models that do not support tool calling from the model list.
 
 - [#9069](https://github.com/Kappa-Org/kappacode/pull/9069) [`e60c326`](https://github.com/Kappa-Org/kappacode/commit/e60c3263191c5746bea6bd93cd291c28f5d1ab0f) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Support adaptive reasoning for Claude Opus 4.7 and expose the `xhigh` effort level for adaptive Anthropic models
 

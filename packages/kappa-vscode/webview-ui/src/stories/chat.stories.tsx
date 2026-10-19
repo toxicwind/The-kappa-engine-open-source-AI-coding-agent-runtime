@@ -1631,7 +1631,7 @@ const usageData = {
 const usageProviders = {
   kappa: {
     id: "kappa",
-    name: "Kappa Gateway",
+    name: "Kilo Gateway",
     models: {
       "qwen/qwen3.7-plus": { id: "qwen/qwen3.7-plus", name: "Qwen: Qwen3.7 Plus (20% off)" },
     },
@@ -1694,8 +1694,8 @@ export const TaskUsageExpanded200: Story = {
 
 const MOCK_NOTIFICATION = {
   id: "notif-1",
-  title: "Try BYOK for Kappa Gateway",
-  message: "Bring your own API key for even more flexibility with Kappa Gateway models.",
+  title: "Try BYOK for Kilo Gateway",
+  message: "Bring your own API key for even more flexibility with Kilo Gateway models.",
   action: { actionText: "Learn more", actionURL: "https://kappa.ai/docs" },
 }
 

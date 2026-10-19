@@ -19,7 +19,7 @@ Cloud Agents let you run Kappa Code in the cloud from any device, without relyin
 Before using Cloud Agents:
 
 - **A GitHub, GitLab, or Bitbucket integration must be configured**
-  Connect your account via the [Integrations tab](https://app.kappa.ai/integrations) so that Cloud Agents can access your repositories. For Bitbucket, use your organization's **Integrations** page; its repositories are available in both web and mobile Cloud Agent sessions.
+  Connect your account via the [Integrations tab](https://app.kilo.ai/integrations) so that Cloud Agents can access your repositories. For Bitbucket, use your organization's **Integrations** page; its repositories are available in both web and mobile Cloud Agent sessions.
 
 ## Cost
 
@@ -43,7 +43,7 @@ If a compute billing check fails, follow the recovery action next to the compose
 
 ## How to Use
 
-1. **Connect your GitHub, GitLab, or Bitbucket account** in the [Integrations](https://app.kappa.ai/integrations) tab of your personal or organization dashboard. Bitbucket requires an organization.
+1. **Connect your GitHub, GitLab, or Bitbucket account** in the [Integrations](https://app.kilo.ai/integrations) tab of your personal or organization dashboard. Bitbucket requires an organization.
 2. **Select a repository** to use as your workspace.
 3. **Add environment variables** (secrets supported) and set optional startup commands.
 4. **Start chatting with Kappa Code.**
@@ -208,7 +208,7 @@ session against a repository.
 
 ### Accessing Triggers
 
-Triggers are accessible from the main sidebar under **Webhooks / Triggers** and link to [https://app.kappa.ai/cloud/triggers](https://app.kappa.ai/cloud/triggers) for personal accounts. Organization-level trigger configurations are available through your organization's sidebar.
+Triggers are accessible from the main sidebar under **Webhooks / Triggers** and link to [https://app.kilo.ai/cloud/triggers](https://app.kilo.ai/cloud/triggers) for personal accounts. Organization-level trigger configurations are available through your organization's sidebar.
 
 ### Activation Modes
 

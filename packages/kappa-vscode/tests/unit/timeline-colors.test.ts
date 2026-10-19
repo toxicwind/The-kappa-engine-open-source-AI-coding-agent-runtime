@@ -118,7 +118,7 @@ describe("timeline labels", () => {
           role: "assistant",
           createdAt: "now",
           providerID: "kappa",
-          modelID: "kappa-auto/efficient",
+          modelID: "kilo-auto/efficient",
         },
       ),
     ).toBe("Step finish · openai/gpt-5.5")

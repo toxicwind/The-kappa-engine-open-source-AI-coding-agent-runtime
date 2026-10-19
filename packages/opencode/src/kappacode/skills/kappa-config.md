@@ -218,11 +218,11 @@ Rules are evaluated top-to-bottom — the **last** matching rule wins. Put broad
 
 Use `disabled_providers` to prevent specific providers from loading. This is useful when you want to exclude providers that are built-in, or auto-detected via environment variables, from appearing in the model picker.
 
-For example, this configuration will hide all models from the built-in Kappa Gateway as well as any from the OpenAI provider which may be enabled automatically through environment variables.
+For example, this configuration will hide all models from the built-in Kilo Gateway as well as any from the OpenAI provider which may be enabled automatically through environment variables.
 
 ```jsonc
 {
-  "$schema": "https://app.kappa.ai/config.json",
+  "$schema": "https://app.kilo.ai/config.json",
   "disabled_providers": ["kappa", "openai"],
 }
 ```

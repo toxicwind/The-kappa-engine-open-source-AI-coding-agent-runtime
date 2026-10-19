@@ -84,7 +84,7 @@ describe("disabledProviderOptions", () => {
   it("includes Kappa and excludes already disabled providers", () => {
     const options = disabledProviderOptions(
       {
-        kappa: { id: "kappa", name: "Kappa Gateway", env: [], models: {} },
+        kappa: { id: "kappa", name: "Kilo Gateway", env: [], models: {} },
         openai: { id: "openai", name: "OpenAI", env: [], models: {} },
         anthropic: { id: "anthropic", name: "Anthropic", env: [], models: {} },
       },
@@ -93,7 +93,7 @@ describe("disabledProviderOptions", () => {
 
     expect(options).toEqual([
       { value: "anthropic", label: "Anthropic" },
-      { value: "kappa", label: "Kappa Gateway" },
+      { value: "kappa", label: "Kilo Gateway" },
     ])
   })
 
@@ -119,7 +119,7 @@ describe("providersWithKappaFallback", () => {
       anthropic: { id: "anthropic", name: "Anthropic", env: [], models: {} },
     })
 
-    expect(providers.kappa?.name).toBe("Kappa Gateway")
+    expect(providers.kappa?.name).toBe("Kilo Gateway")
     expect(providers.anthropic?.name).toBe("Anthropic")
   })
 

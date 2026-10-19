@@ -26,7 +26,7 @@ API keys are JWT tokens tied to your Kappa account. See [how to get your API key
 import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
-  baseURL: "https://api.kappa.ai/api/gateway",
+  baseURL: "https://api.kilo.ai/api/gateway",
   apiKey: process.env.KAPPA_API_KEY,
 })
 ```
@@ -39,7 +39,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key=os.getenv("KAPPA_API_KEY"),
-    base_url="https://api.kappa.ai/api/gateway",
+    base_url="https://api.kilo.ai/api/gateway",
 )
 ```
 
@@ -47,7 +47,7 @@ client = OpenAI(
 {% tab label="cURL" %}
 
 ```bash
-curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
+curl -X POST "https://api.kilo.ai/api/gateway/chat/completions" \
   -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"model": "anthropic/claude-sonnet-4.5", "messages": [{"role": "user", "content": "Hello"}]}'
@@ -107,7 +107,7 @@ BYOK lets you use your own provider API keys with the Kappa AI Gateway. When a B
 
 ### How BYOK works
 
-1. Add your provider API key in the [Kappa dashboard](https://app.kappa.ai) or through your Kappa Code extension settings
+1. Add your provider API key in the [Kappa dashboard](https://app.kilo.ai) or through your Kappa Code extension settings
 2. Keys are encrypted at rest using AES-256 encryption
 3. When you make a request for a model from that provider, the gateway automatically uses your key
 4. Usage is tracked but not billed to your Kappa balance (cost is set to $0)
@@ -126,4 +126,4 @@ The gateway accepts the following headers:
 | `X-KappaCode-OrganizationId` | No | Organization context for org-scoped requests |
 | `X-KappaCode-TaskId` | No | Task identifier for prompt cache keying |
 | `X-KappaCode-Version` | No | Client version string |
-| `x-kappacode-mode` | No | Mode hint for `kappa-auto` model routing |
+| `x-kappacode-mode` | No | Mode hint for `kilo-auto` model routing |

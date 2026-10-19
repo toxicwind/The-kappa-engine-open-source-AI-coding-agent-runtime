@@ -1,5 +1,5 @@
 export const dict = {
-  // Kappa Gateway provider translations
+  // Kilo Gateway provider translations
   "provider.connect.kappaGateway.byok.prefix": "Aby uzyskać więcej statystyk użycia, użyj ",
   "provider.connect.kappaGateway.byok.link": "BYOK przez Kappa's Gateway",
   "provider.connect.kappaGateway.byok.suffix": ".",

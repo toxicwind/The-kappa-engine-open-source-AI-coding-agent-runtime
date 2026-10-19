@@ -191,7 +191,7 @@ describe("openConfig", () => {
 
     expect(win.showQuickPick).toHaveBeenCalled()
     expect(await Bun.file(cfg).text()).toBe(`{
-  "$schema": "https://app.kappa.ai/config.json"
+  "$schema": "https://app.kilo.ai/config.json"
 }
 `)
     expect(workspace.openTextDocument).toHaveBeenCalledWith(expect.objectContaining({ fsPath: cfg }))

@@ -18,7 +18,7 @@ import { provideInstance, testInstanceStoreLayer } from "../fixture/fixture.ts"
 
 const input = {
   id: "kappa",
-  name: "Kappa Gateway",
+  name: "Kilo Gateway",
   env: ["KAPPA_API_KEY"],
   models: {
     "free-model": {
@@ -389,9 +389,9 @@ it.effect("denies provider data collection when prompt-training models are hidde
 
 it.effect("keeps data collection denied after configured options are applied", () =>
   Effect.sync(() => {
-    const provider = { options: { dataCollection: "allow", baseURL: "https://api.kappa.ai" } }
+    const provider = { options: { dataCollection: "allow", baseURL: "https://api.kilo.ai" } }
     patchKappaProviderPrivacy(provider, { hide_prompt_training_models: true })
-    expect(provider.options).toEqual({ dataCollection: "deny", baseURL: "https://api.kappa.ai" })
+    expect(provider.options).toEqual({ dataCollection: "deny", baseURL: "https://api.kilo.ai" })
   }),
 )
 

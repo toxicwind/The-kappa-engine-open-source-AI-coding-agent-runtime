@@ -18,7 +18,7 @@ An [OpenAI API key](/docs/ai-providers/openai) is different: it uses separate, p
 
 ## Sign in to Kappa with ChatGPT
 
-1. Open [Kappa](https://app.kappa.ai). Scroll down to the alternative login methods.
+1. Open [Kappa](https://app.kilo.ai). Scroll down to the alternative login methods.
 2. Choose **Continue with ChatGPT**.
 3. Sign in to OpenAI, review the permissions shown, and return to Kappa.
 
@@ -26,10 +26,10 @@ To use your subscription for model requests, complete the BYOK connection below 
 
 ## Connect your subscription to Kappa
 
-Connect your subscription in the BYOK section to use it for supported model requests through the [Kappa Gateway](/docs/gateway), rather than [connecting OpenAI directly on each device](/docs/ai-providers/openai-chatgpt-plus-pro#connect-directly-in-vs-code-or-the-cli).
+Connect your subscription in the BYOK section to use it for supported model requests through the [Kilo Gateway](/docs/gateway), rather than [connecting OpenAI directly on each device](/docs/ai-providers/openai-chatgpt-plus-pro#connect-directly-in-vs-code-or-the-cli).
 
 1. Sign in to Kappa and select the personal account or organization where you want to use the subscription.
-2. Open the [Bring Your Own Key (BYOK) page](https://app.kappa.ai/byok).
+2. Open the [Bring Your Own Key (BYOK) page](https://app.kilo.ai/byok).
 3. Find **OpenAI (ChatGPT subscription)** and choose **Sign in with ChatGPT**. Do not enter an API key in the OpenAI API-key section; that uses pay-as-you-go token pricing instead of your subscription.
 4. Sign in to the OpenAI account you want to use and approve the subscription permissions. This approval is separate from permission to sign in to Kappa.
 5. Return to BYOK and confirm that the card shows **Connected** and the expected account next to **Connected as**.
@@ -46,10 +46,10 @@ Connect separately for each organization where you need access. If you connect t
 
 ### Choose a model
 
-In a Kappa client such as the VS Code extension or CLI, sign in to the same Kappa account and use the **Kappa Gateway** provider. For Cloud Agents, use the account or organization where you connected the subscription.
+In a Kappa client such as the VS Code extension or CLI, sign in to the same Kappa account and use the **Kilo Gateway** provider. For Cloud Agents, use the account or organization where you connected the subscription.
 
 {% callout type="tip" title="Look for the BYOK badge" %}
-After you connect your ChatGPT subscription, supported OpenAI models should be marked **BYOK** in the model picker. Choose one of these models to use your subscription. If the badge is missing, check that your connection shows **Connected** on the BYOK page for the account or organization you are using. You may also need to restart your Kappa client to refresh the model list after connecting your account at [app.kappa.ai](https://app.kappa.ai).
+After you connect your ChatGPT subscription, supported OpenAI models should be marked **BYOK** in the model picker. Choose one of these models to use your subscription. If the badge is missing, check that your connection shows **Connected** on the BYOK page for the account or organization you are using. You may also need to restart your Kappa client to refresh the model list after connecting your account at [app.kilo.ai](https://app.kilo.ai).
 {% /callout %}
 
 The subscription does not cover every OpenAI model or every kind of request. Kappa uses OpenAI's available-model list to determine eligible models, for example GPT-OSS models are not included in this route. For API integrations, the subscription route supports the **Responses API**, not Chat Completions requests.
@@ -91,11 +91,11 @@ Signing out of Kappa does not disconnect your subscription. Manage each personal
 
 The browser-based authorization uses OAuth: you sign in on OpenAI's site rather than giving Kappa your ChatGPT password. The BYOK flow asks for permission to use your allowance and renew access without asking you to sign in for every request.
 
-Kappa stores the connection credentials encrypted. Requests and their code context pass through the Kappa Gateway before reaching OpenAI.
+Kappa stores the connection credentials encrypted. Requests and their code context pass through the Kilo Gateway before reaching OpenAI.
 
 ## Connect directly in VS Code or the CLI
 
-Use this option when you want the local OpenAI provider to use your subscription directly, without the Kappa Gateway. It does not create a BYOK connection for Cloud Agents.
+Use this option when you want the local OpenAI provider to use your subscription directly, without the Kilo Gateway. It does not create a BYOK connection for Cloud Agents.
 
 {% tabs %}
 {% tab label="VS Code" %}

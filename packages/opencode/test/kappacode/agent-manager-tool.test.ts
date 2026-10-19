@@ -33,7 +33,7 @@ const providers = {
   } as unknown as Provider.Info,
   kappa: {
     id: "kappa",
-    name: "Kappa Gateway",
+    name: "Kilo Gateway",
     models: {
       "kappa/shared": { id: "kappa/shared", providerID: "kappa", name: "Shared", variants: { low: {} } },
       "kappa/only": { id: "kappa/only", providerID: "kappa", name: "Gateway Only", variants: { low: {} } },
@@ -1016,7 +1016,7 @@ describe("agent_manager tool", () => {
     expect(result.output).toContain("- Smoke: Shared (test) · high")
   })
 
-  test("falls back to the kappa gateway when the preferred provider lacks the model", async () => {
+  test("falls back to the kilo gateway when the preferred provider lacks the model", async () => {
     const task = await publish(runtime, { prompt: "Fix", model: "Gateway Only" })
     // Default provider `test` does not offer it; kappa is preferred over zeta.
     expect(String(task?.model?.providerID)).toBe("kappa")

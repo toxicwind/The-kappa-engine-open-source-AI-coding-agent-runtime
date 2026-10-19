@@ -3,8 +3,8 @@ import { resolveKappaGatewayBaseUrl, resolveKappaOpenRouterBaseUrl } from "../..
 
 describe("Kappa API URL resolvers", () => {
   test("resolves production route bases", () => {
-    expect(resolveKappaGatewayBaseUrl()).toBe("https://api.kappa.ai/api/gateway/")
-    expect(resolveKappaOpenRouterBaseUrl()).toBe("https://api.kappa.ai/api/openrouter/")
+    expect(resolveKappaGatewayBaseUrl()).toBe("https://api.kilo.ai/api/gateway/")
+    expect(resolveKappaOpenRouterBaseUrl()).toBe("https://api.kilo.ai/api/openrouter/")
   })
 
   test("normalizes root API base overrides", () => {

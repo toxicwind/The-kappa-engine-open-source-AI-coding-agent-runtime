@@ -1,5 +1,5 @@
 export const KAPPA_PROVIDER_ID = "kappa"
-export const KAPPA_AUTO = { providerID: KAPPA_PROVIDER_ID, modelID: "kappa-auto/free" } as const
+export const KAPPA_AUTO = { providerID: KAPPA_PROVIDER_ID, modelID: "kilo-auto/free" } as const
 export const CUSTOM_PROVIDER_PACKAGES = ["@ai-sdk/openai-compatible", "@ai-sdk/openai", "@ai-sdk/anthropic"] as const
 export type CustomProviderPackage = (typeof CUSTOM_PROVIDER_PACKAGES)[number]
 export const CUSTOM_PROVIDER_PACKAGE: CustomProviderPackage = "@ai-sdk/openai-compatible"
@@ -35,7 +35,7 @@ export function providerOrderIndex(providerID: string, order = PROVIDER_PRIORITY
 export function createKappaFallbackProvider() {
   return {
     id: KAPPA_PROVIDER_ID,
-    name: "Kappa Gateway",
+    name: "Kilo Gateway",
     source: "custom" as const,
     env: ["KAPPA_API_KEY"],
     metadata: {

@@ -166,18 +166,18 @@ describe("ProviderTransform.message - prompt cache breakpoint endpoint gating", 
     expect(result[1].providerOptions?.azure?.promptCacheBreakpoint).toBeUndefined()
   })
 
-  test("kappa provider with the official api.kappa.ai base URL still applies promptCacheBreakpoint", () => {
+  test("kappa provider with the official api.kilo.ai base URL still applies promptCacheBreakpoint", () => {
     const model = createModel({
       providerID: "kappa",
       api: {
         id: "gpt-5.6",
-        url: "https://api.kappa.ai",
+        url: "https://api.kilo.ai",
         npm: "@ai-sdk/openai",
       },
     })
 
     const result = ProviderTransform.message(msgs(), model, {
-      providerEndpointOverride: "https://api.kappa.ai",
+      providerEndpointOverride: "https://api.kilo.ai",
     }) as any[]
 
     expect(result[0].providerOptions?.openai?.promptCacheBreakpoint).toEqual({ mode: "explicit" })

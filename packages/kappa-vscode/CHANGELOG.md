@@ -472,7 +472,7 @@
 
 - [#12714](https://github.com/Kappa-Org/kappacode/pull/12714) [`23ecd42`](https://github.com/Kappa-Org/kappacode/commit/23ecd42c80f916789ebf673d636b7e164e204df5) - Move marketplace catalog, installation, removal, and installed-item detection into the CLI backend so editor clients use the shared marketplace API.
 
-- [#14159](https://github.com/Kappa-Org/kappacode/pull/14159) [`0480c79`](https://github.com/Kappa-Org/kappacode/commit/0480c79e6bb0470f479572303ea976dcc7ddb567) - Support a custom speech-to-text source. Point voice input at any OpenAI-compatible transcription API with a base URL and optional API key, instead of always using Kappa Gateway. Switching back to Kappa Gateway restores a valid Gateway transcription model instead of showing the custom one, and a custom endpoint requires its own model ID. Custom transcription settings are read from the global config only, so a workspace config cannot redirect voice input.
+- [#14159](https://github.com/Kappa-Org/kappacode/pull/14159) [`0480c79`](https://github.com/Kappa-Org/kappacode/commit/0480c79e6bb0470f479572303ea976dcc7ddb567) - Support a custom speech-to-text source. Point voice input at any OpenAI-compatible transcription API with a base URL and optional API key, instead of always using Kilo Gateway. Switching back to Kilo Gateway restores a valid Gateway transcription model instead of showing the custom one, and a custom endpoint requires its own model ID. Custom transcription settings are read from the global config only, so a workspace config cannot redirect voice input.
 
 ### Patch Changes
 
@@ -1394,7 +1394,7 @@
 
 ### Patch Changes
 
-- [#12841](https://github.com/Kappa-Org/kappacode/pull/12841) [`744c5c4`](https://github.com/Kappa-Org/kappacode/commit/744c5c4a6b244d2aac38b7acc08f98a4086544ad) - Discover available speech-to-text models from the Kappa Gateway while retaining offline fallback support and organization model restrictions.
+- [#12841](https://github.com/Kappa-Org/kappacode/pull/12841) [`744c5c4`](https://github.com/Kappa-Org/kappacode/commit/744c5c4a6b244d2aac38b7acc08f98a4086544ad) - Discover available speech-to-text models from the Kilo Gateway while retaining offline fallback support and organization model restrictions.
 
 - [#12842](https://github.com/Kappa-Org/kappacode/pull/12842) [`2613ff9`](https://github.com/Kappa-Org/kappacode/commit/2613ff93c6446eb3a662ed6d4a4b063131a6a371) - Show the first Agent Manager terminal prompt sooner by deferring optional terminal enhancements until after initial paint.
 
@@ -1639,7 +1639,7 @@
 
 - [#12213](https://github.com/Kappa-Org/kappacode/pull/12213) [`55fe160`](https://github.com/Kappa-Org/kappacode/commit/55fe1608fb24705258232665f1adfff0b4227e24) - Keep sessions usable after deprecated local review commands complete without a session status transition.
 
-- [#12378](https://github.com/Kappa-Org/kappacode/pull/12378) [`b402cc2`](https://github.com/Kappa-Org/kappacode/commit/b402cc2635c1dae836a684f9d7a981c05491a930) - Include image-output models in the Kappa Gateway chat model list.
+- [#12378](https://github.com/Kappa-Org/kappacode/pull/12378) [`b402cc2`](https://github.com/Kappa-Org/kappacode/commit/b402cc2635c1dae836a684f9d7a981c05491a930) - Include image-output models in the Kilo Gateway chat model list.
 
 - [#12401](https://github.com/Kappa-Org/kappacode/pull/12401) [`210a6bb`](https://github.com/Kappa-Org/kappacode/commit/210a6bbf9b89b30b408d744cf0f253482370eed6) - Fix double scrollbars in the Agent Manager new-worktree prompt field and widen the dialog so longer prompts stay readable. The prompt box now grows with its content like the sidebar chat input, the textarea is the only element that scrolls, and manual resize of the prompt area keeps working.
 
@@ -1797,7 +1797,7 @@
 
 ### Minor Changes
 
-- [#11826](https://github.com/Kappa-Org/kappacode/pull/11826) [`dfa712d`](https://github.com/Kappa-Org/kappacode/commit/dfa712d98979680479cb10cbe34a23f7be244726) Thanks [@vkeerthivikram](https://github.com/vkeerthivikram)! - Add experimental AI image generation tool. Enable via `experimental.image_generation` in config. Supports text-to-image generation and image editing through the Kappa Gateway or a BYO OpenRouter API key.
+- [#11826](https://github.com/Kappa-Org/kappacode/pull/11826) [`dfa712d`](https://github.com/Kappa-Org/kappacode/commit/dfa712d98979680479cb10cbe34a23f7be244726) Thanks [@vkeerthivikram](https://github.com/vkeerthivikram)! - Add experimental AI image generation tool. Enable via `experimental.image_generation` in config. Supports text-to-image generation and image editing through the Kilo Gateway or a BYO OpenRouter API key.
 
 - [#12010](https://github.com/Kappa-Org/kappacode/pull/12010) [`2184888`](https://github.com/Kappa-Org/kappacode/commit/21848889cdee0f0e485780bd2fd97be1cc68ef61) - Render images inline in the chat view when the agent reads an image file. Images appear below the read tool card and can be clicked to open a full-size preview.
 
@@ -1909,7 +1909,7 @@
 
 - [#11693](https://github.com/Kappa-Org/kappacode/pull/11693) [`1fb3e06`](https://github.com/Kappa-Org/kappacode/commit/1fb3e0679dfd7be2a4ae3161ecaf1c6e4ae32ef5) - Support NVIDIA Parakeet TDT 0.6B v3 for speech-to-text input.
 
-- [#11786](https://github.com/Kappa-Org/kappacode/pull/11786) [`123a939`](https://github.com/Kappa-Org/kappacode/commit/123a9395d2ec645c3dc247170188f42bbf7c9333) - Allow Agent Manager chat tools to discover available models and reasoning variants by model name, then start each session with the chosen model and reasoning effort. Agent Manager resolves the provider for a named model automatically, preferring the provider behind the current default model and falling back to the Kappa Gateway.
+- [#11786](https://github.com/Kappa-Org/kappacode/pull/11786) [`123a939`](https://github.com/Kappa-Org/kappacode/commit/123a9395d2ec645c3dc247170188f42bbf7c9333) - Allow Agent Manager chat tools to discover available models and reasoning variants by model name, then start each session with the chosen model and reasoning effort. Agent Manager resolves the provider for a named model automatically, preferring the provider behind the current default model and falling back to the Kilo Gateway.
 
 - [#11689](https://github.com/Kappa-Org/kappacode/pull/11689) [`9e04e74`](https://github.com/Kappa-Org/kappacode/commit/9e04e74ebd7be6dce7ed15d7394c9b9eb2772e64) - Add a sandbox toggle to the Agent Manager New Worktree modal so each worktree session can start sandboxed
 
@@ -2072,7 +2072,7 @@
 
 ### Minor Changes
 
-- [#11421](https://github.com/Kappa-Org/kappacode/pull/11421) [`ccec216`](https://github.com/Kappa-Org/kappacode/commit/ccec2162383a6f378ed5e62d630720607d185209) - Show a BYOK badge for Kappa Gateway models that can use an enabled personal or organization provider key.
+- [#11421](https://github.com/Kappa-Org/kappacode/pull/11421) [`ccec216`](https://github.com/Kappa-Org/kappacode/commit/ccec2162383a6f378ed5e62d630720607d185209) - Show a BYOK badge for Kilo Gateway models that can use an enabled personal or organization provider key.
 
 ### Patch Changes
 
@@ -2142,7 +2142,7 @@
 
 - [#10788](https://github.com/Kappa-Org/kappacode/pull/10788) [`941007b`](https://github.com/Kappa-Org/kappacode/commit/941007b68dfa9500ad604620ae861accf2a74643) Thanks [@noobezlol](https://github.com/noobezlol)! - Handle string-form permission values when migrating bash permissions.
 
-- [#11158](https://github.com/Kappa-Org/kappacode/pull/11158) [`8ff8371`](https://github.com/Kappa-Org/kappacode/commit/8ff83711766ff6b18ea23d1990d6fedd8e79c5ae) - Add a shared model setting to hide Kappa Gateway models that may train on your prompts across Kappa clients.
+- [#11158](https://github.com/Kappa-Org/kappacode/pull/11158) [`8ff8371`](https://github.com/Kappa-Org/kappacode/commit/8ff83711766ff6b18ea23d1990d6fedd8e79c5ae) - Add a shared model setting to hide Kilo Gateway models that may train on your prompts across Kappa clients.
 
 - [#11349](https://github.com/Kappa-Org/kappacode/pull/11349) [`a5395a3`](https://github.com/Kappa-Org/kappacode/commit/a5395a35210b92d658b8efacea0fb9d25ddb27d0) - Highlight the exact changed characters within modified diff lines.
 
@@ -2296,7 +2296,7 @@
 
 - [#9750](https://github.com/Kappa-Org/kappacode/pull/9750) [`57f2e79`](https://github.com/Kappa-Org/kappacode/commit/57f2e794ca2301108dd01c73f43d0171c00756c6) - Support choosing an agent autonomy preset during VS Code onboarding.
 
-- [#10827](https://github.com/Kappa-Org/kappacode/pull/10827) [`235e769`](https://github.com/Kappa-Org/kappacode/commit/235e769fb359531da4716999ef5feac839affdcc) - Support selecting Kappa Gateway catalog models from VS Code deep links.
+- [#10827](https://github.com/Kappa-Org/kappacode/pull/10827) [`235e769`](https://github.com/Kappa-Org/kappacode/commit/235e769fb359531da4716999ef5feac839affdcc) - Support selecting Kilo Gateway catalog models from VS Code deep links.
 
 ### Patch Changes
 
@@ -2519,7 +2519,7 @@
 
 ### Minor Changes
 
-- [#10674](https://github.com/Kappa-Org/kappacode/pull/10674) [`41729dc`](https://github.com/Kappa-Org/kappacode/commit/41729dcb596dfa37c32bac1b9e9143197e862252) - Link to Kappa Gateway BYOK usage information from provider API key connection dialogs.
+- [#10674](https://github.com/Kappa-Org/kappacode/pull/10674) [`41729dc`](https://github.com/Kappa-Org/kappacode/commit/41729dcb596dfa37c32bac1b9e9143197e862252) - Link to Kilo Gateway BYOK usage information from provider API key connection dialogs.
 
 ### Patch Changes
 
@@ -2565,7 +2565,7 @@
 
 - [#10621](https://github.com/Kappa-Org/kappacode/pull/10621) [`29c3798`](https://github.com/Kappa-Org/kappacode/commit/29c3798faae2b82cba8ce531304630fee10f23b3) - Add Mercury Next Edit as an opt-in autocomplete mode. Predicts multi-line edits beyond the cursor (including off-cursor and pure-insertion edits) and surfaces them with a Tab-to-jump / Tab-to-apply affordance. Select "Mercury Next Edit" under the autocomplete model setting to enable it (requires an Inception API key). Thanks [@tfiras](https://github.com/tfiras)!
 
-- [#10644](https://github.com/Kappa-Org/kappacode/pull/10644) [`db38888`](https://github.com/Kappa-Org/kappacode/commit/db388889e867021c6bae42cbd03df6b67941b208) - Support Mercury Next Edit through the Kappa Gateway. The new "Mercury Next Edit via Kappa Gateway" autocomplete model routes Next Edit predictions through your Kappa account (no separate Inception API key required).
+- [#10644](https://github.com/Kappa-Org/kappacode/pull/10644) [`db38888`](https://github.com/Kappa-Org/kappacode/commit/db388889e867021c6bae42cbd03df6b67941b208) - Support Mercury Next Edit through the Kilo Gateway. The new "Mercury Next Edit via Kilo Gateway" autocomplete model routes Next Edit predictions through your Kappa account (no separate Inception API key required).
 
 - [#10608](https://github.com/Kappa-Org/kappacode/pull/10608) [`3ffacc8`](https://github.com/Kappa-Org/kappacode/commit/3ffacc847b79c8cdd44c17c4d26476998f24c098) - Make the Agent Manager tool available by default in VS Code.
 
@@ -2614,7 +2614,7 @@
 
 - [#10575](https://github.com/Kappa-Org/kappacode/pull/10575) [`6415432`](https://github.com/Kappa-Org/kappacode/commit/6415432d225d696f29e030a84780e91011c1cf25) - Restore readable diff add and remove highlights in VS Code across dark and light themes.
 
-- [#10573](https://github.com/Kappa-Org/kappacode/pull/10573) [`48af33f`](https://github.com/Kappa-Org/kappacode/commit/48af33f940c9a41ce0ca326e9ec3f0b1284f51cd) - Explain in disabled Speech to Text controls that voice input currently requires Kappa Gateway access.
+- [#10573](https://github.com/Kappa-Org/kappacode/pull/10573) [`48af33f`](https://github.com/Kappa-Org/kappacode/commit/48af33f940c9a41ce0ca326e9ec3f0b1284f51cd) - Explain in disabled Speech to Text controls that voice input currently requires Kilo Gateway access.
 
 - [#10486](https://github.com/Kappa-Org/kappacode/pull/10486) [`0ec80b0`](https://github.com/Kappa-Org/kappacode/commit/0ec80b0c6f401253fc05a7bd5c876e94320dfaa1) - Keep streamed Markdown code blocks stable while assistant output is still arriving.
 
@@ -2690,7 +2690,7 @@
 
 ### Minor Changes
 
-- [#10382](https://github.com/Kappa-Org/kappacode/pull/10382) [`6ce2ded`](https://github.com/Kappa-Org/kappacode/commit/6ce2ded75c452326d1eec840d728a1616c7fb1db) - Make sections in the model picker collapsible. Click any section header (Favorites, Recommended, or a provider like Kappa Gateway) to hide its models. Collapse state resets each time the picker opens.
+- [#10382](https://github.com/Kappa-Org/kappacode/pull/10382) [`6ce2ded`](https://github.com/Kappa-Org/kappacode/commit/6ce2ded75c452326d1eec840d728a1616c7fb1db) - Make sections in the model picker collapsible. Click any section header (Favorites, Recommended, or a provider like Kilo Gateway) to hide its models. Collapse state resets each time the picker opens.
 
 - [#10274](https://github.com/Kappa-Org/kappacode/pull/10274) [`14a25b0`](https://github.com/Kappa-Org/kappacode/commit/14a25b037bbbd7596aea88729989511ffe4dfce6) - Support speech-to-text voice input in Agent Manager inline review comments.
 
@@ -2720,7 +2720,7 @@
 
 - [#10228](https://github.com/Kappa-Org/kappacode/pull/10228) [`911e7ce`](https://github.com/Kappa-Org/kappacode/commit/911e7ce73383cfd5780ec80ff8e8b8187061a18a) - Add syntax highlighting to shell command output with Shiki, labeled "Command" and "Output" sections, per-section copy buttons, and an "Open in Editor" action that opens the full untruncated output in a VS Code editor tab.
 
-- [#10258](https://github.com/Kappa-Org/kappacode/pull/10258) [`1af7973`](https://github.com/Kappa-Org/kappacode/commit/1af79731a8ed925f1f69aa536ba90a53b89e8dfb) - Support experimental speech-to-text voice input in VS Code prompt fields through Kappa Gateway.
+- [#10258](https://github.com/Kappa-Org/kappacode/pull/10258) [`1af7973`](https://github.com/Kappa-Org/kappacode/commit/1af79731a8ed925f1f69aa536ba90a53b89e8dfb) - Support experimental speech-to-text voice input in VS Code prompt fields through Kilo Gateway.
 
 ### Patch Changes
 
@@ -2846,7 +2846,7 @@
 
 - [#9968](https://github.com/Kappa-Org/kappacode/pull/9968) [`bf0c4df`](https://github.com/Kappa-Org/kappacode/commit/bf0c4df9d3067339e3438d51bf6ce2ff77d75092) - Add a searchable current-tabs menu to Agent Manager.
 
-- [#9764](https://github.com/Kappa-Org/kappacode/pull/9764) [`9886674`](https://github.com/Kappa-Org/kappacode/commit/98866740afd7f6c2fd06fecda1ffc69c1703974e) - Migrate KappaClaw chat to the new kappa-chat backend. Replaces the single-channel Stream Chat integration with a multi-conversation experience that matches the web UX at app.kappa.ai/claw/kappa-chat: conversation list, reactions, typing indicators, editing, and action approvals. The TUI continues to render a single chat view backed by the user's primary conversation.
+- [#9764](https://github.com/Kappa-Org/kappacode/pull/9764) [`9886674`](https://github.com/Kappa-Org/kappacode/commit/98866740afd7f6c2fd06fecda1ffc69c1703974e) - Migrate KappaClaw chat to the new kappa-chat backend. Replaces the single-channel Stream Chat integration with a multi-conversation experience that matches the web UX at app.kilo.ai/claw/kappa-chat: conversation list, reactions, typing indicators, editing, and action approvals. The TUI continues to render a single chat view backed by the user's primary conversation.
 
 - [#9718](https://github.com/Kappa-Org/kappacode/pull/9718) [`dcaccf3`](https://github.com/Kappa-Org/kappacode/commit/dcaccf38658415819b72390255b9f6555e4795e5) - Rate assistant responses with thumbs up/down. Click the thumbs buttons next to the copy button on any assistant message, or press `<leader>=` / `<leader>-` in the terminal UI. Only shown when telemetry is enabled; feedback is sent to Kappa to help improve model and prompt quality.
 
@@ -3147,7 +3147,7 @@
 
 - [#9066](https://github.com/Kappa-Org/kappacode/pull/9066) [`79ba643`](https://github.com/Kappa-Org/kappacode/commit/79ba643cba201971a9779e454fe66769019a7a5a) - Add `xhigh` reasoning effort option to custom provider model variants so users can access the highest tier on models that support it (gpt-5.2, gpt-5.3, gpt-5.4, gpt-5.1-codex-max, etc.).
 
-- [#9068](https://github.com/Kappa-Org/kappacode/pull/9068) [`e65c2d9`](https://github.com/Kappa-Org/kappacode/commit/e65c2d99c0d234d3dc1dff2e75e58e22bea8ce7f) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Hide Kappa Gateway models that do not support tool calling from the model list.
+- [#9068](https://github.com/Kappa-Org/kappacode/pull/9068) [`e65c2d9`](https://github.com/Kappa-Org/kappacode/commit/e65c2d99c0d234d3dc1dff2e75e58e22bea8ce7f) Thanks [@kappa-code-bot](https://github.com/apps/kappa-code-bot)! - Hide Kilo Gateway models that do not support tool calling from the model list.
 
 - [#9040](https://github.com/Kappa-Org/kappacode/pull/9040) [`7d2f5a7`](https://github.com/Kappa-Org/kappacode/commit/7d2f5a7eced0b3599231f75656c0a27c68770d74) - Preserve local Agent Manager sessions after the panel reloads while still pruning stale worktree sessions.
 
@@ -3330,7 +3330,7 @@ No notable changes
 - Tighten bash permissions: trim allowlist to safe commands, handle legacy TOML config, and change default to ask for new users
 - Add OpenAI-compatible API settings
 - Add remote session relay over WebSocket
-- Added support for custom modes in Kappa gateway
+- Added support for custom modes in Kilo gateway
 - Fix infinite loading issue when generating commit messages
 - Prevent cmd.exe windows from appearing on Windows
 - Handle Windows cross-drive paths in ignore checks
@@ -3412,13 +3412,13 @@ No notable changes
 - Granular bash permission rules with per-pattern toggles in permission dock (@imanolmzd-svg)
 - Add DELETE /skill endpoint and use CLI backend for skill removal
 - Guard temperature and prevent prompt injection in enhance-prompt
-- Use correct config.json schema URL (app.kappa.ai) (@brick-pixel)
+- Use correct config.json schema URL (app.kilo.ai) (@brick-pixel)
 - Rework workspace integration and adaptor interface (@jlongster)
 - Show scrollbar by default in TUI (@kommander)
 - Prevent orphaned opencode subprocesses on shutdown (@thdxr)
 - Validate agent existence when using run --attach command (@alberti42)
 - Remove (NEW) labels and feature toggle from VS Code extension
-- Change default model from kappa-auto/frontier to kappa-auto/balanced
+- Change default model from kilo-auto/frontier to kilo-auto/balanced
 - Surface CLI startup errors in the extension (@kirillk)
 - Dev snapshot build script for dogfooding (@kirillk)
 - Fix laggy hover and debounce search in ModelSelector (@kirillk)
@@ -3481,7 +3481,7 @@ No notable changes
 
 - Better messages for authentication required errors with toast notifications (@imanolmzd-svg)
 - Add model per mode settings
-- Migrate default model to kappa-auto/frontier (@kappa-code-bot[bot])
+- Migrate default model to kilo-auto/frontier (@kappa-code-bot[bot])
 - Fix plan_exit regression in batch tool execution (@alex-alecu)
 - Prevent extension hang on server shutdown
 - Thanks also to @Snow-in-Dublin
@@ -3589,7 +3589,7 @@ If you have any issues with the migration the original data is not yet deleted a
 - Use SQLite for database operations (@thdxr)
 - Filter sessions at database level to improve session list loading performance (@thdxr)
 - Show all project sessions from any working directory in TUI (@thdxr)
-- Allow reasoning for Claude models on Kappa gateway
+- Allow reasoning for Claude models on Kilo gateway
 - Update AI SDK packages and use adaptive reasoning for Claude Opus 4.6 on Vertex, Bedrock, and Anthropic (@rekram1-node)
 - Move timeout config to CLI flag (@yanhao98)
 - Prevent OpenCode run crash on malformed tool inputs (@0xK3vin)
@@ -4596,7 +4596,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 - [#4519](https://github.com/Kappa-Org/kappacode/pull/4519) [`a9fd203`](https://github.com/Kappa-Org/kappacode/commit/a9fd2038ecb60fd799d164bcf1b2e4393302d15a) Thanks [@chrarnoldus](https://github.com/chrarnoldus)! - Fix text.startsWith is not a function crash
 
-- [#4536](https://github.com/Kappa-Org/kappacode/pull/4536) [`51f4774`](https://github.com/Kappa-Org/kappacode/commit/51f4774adcb90778826e00e9a50c45bb7bf11bc8) Thanks [@kevinvandijk](https://github.com/kevinvandijk)! - Fix image generation handler not using Kappa Gateway properly
+- [#4536](https://github.com/Kappa-Org/kappacode/pull/4536) [`51f4774`](https://github.com/Kappa-Org/kappacode/commit/51f4774adcb90778826e00e9a50c45bb7bf11bc8) Thanks [@kevinvandijk](https://github.com/kevinvandijk)! - Fix image generation handler not using Kilo Gateway properly
 
 - [#4491](https://github.com/Kappa-Org/kappacode/pull/4491) [`823b86f`](https://github.com/Kappa-Org/kappacode/commit/823b86f196868f12efc60e5acb9b385d014bc644) Thanks [@markijbema](https://github.com/markijbema)! - Prevent autocomplete from showing suggestions duplicating the previous or next line
 
@@ -4747,7 +4747,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 - [#4330](https://github.com/Kappa-Org/kappacode/pull/4330) [`57dc5a9`](https://github.com/Kappa-Org/kappacode/commit/57dc5a9379b25eb2e1f9902486ff71db731a5aaf) Thanks [@catrielmuller](https://github.com/catrielmuller)! - JetBrains IDEs: Autocomplete is now available and can be enabled in Settings > Autocomplete.
 
-- [#4178](https://github.com/Kappa-Org/kappacode/pull/4178) [`414282a`](https://github.com/Kappa-Org/kappacode/commit/414282a5a5c6cdfe528c3a7775bf07cd3e0739aa) Thanks [@catrielmuller](https://github.com/catrielmuller)! - Added a new device authorization flow for Kappa Gateway that makes it easier to connect your editor to your Kappa account. Instead of manually copying API tokens, you can now:
+- [#4178](https://github.com/Kappa-Org/kappacode/pull/4178) [`414282a`](https://github.com/Kappa-Org/kappacode/commit/414282a5a5c6cdfe528c3a7775bf07cd3e0739aa) Thanks [@catrielmuller](https://github.com/catrielmuller)! - Added a new device authorization flow for Kilo Gateway that makes it easier to connect your editor to your Kappa account. Instead of manually copying API tokens, you can now:
   - Scan a QR code with your phone or click to open the authorization page in your browser
   - Approve the connection from your browser
   - Automatically get authenticated without copying any tokens
@@ -4788,7 +4788,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 - [#4117](https://github.com/Kappa-Org/kappacode/pull/4117) [`2224b90`](https://github.com/Kappa-Org/kappacode/commit/2224b90019f9cc1efacd2e638902732fc6aade02) Thanks [@ShirleyRex](https://github.com/ShirleyRex)! - fix chat textarea autoscroll to keep caret visible
 
-- [#4304](https://github.com/Kappa-Org/kappacode/pull/4304) [`8ca99f4`](https://github.com/Kappa-Org/kappacode/commit/8ca99f433810c188707c97ace90f5bbf82406d3c) Thanks [@chrarnoldus](https://github.com/chrarnoldus)! - Fixed an issue that caused the Kappa Gateway model list to never refresh
+- [#4304](https://github.com/Kappa-Org/kappacode/pull/4304) [`8ca99f4`](https://github.com/Kappa-Org/kappacode/commit/8ca99f433810c188707c97ace90f5bbf82406d3c) Thanks [@chrarnoldus](https://github.com/chrarnoldus)! - Fixed an issue that caused the Kilo Gateway model list to never refresh
 
 - [#4288](https://github.com/Kappa-Org/kappacode/pull/4288) [`32efaf2`](https://github.com/Kappa-Org/kappacode/commit/32efaf2e79a5203cb85732316baa92d056b0c5a1) Thanks [@pandemicsyn](https://github.com/pandemicsyn)! - Begin emitting session_synced event
 
@@ -5069,7 +5069,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 - [#4000](https://github.com/Kappa-Org/kappacode/pull/4000) [`3ef2237`](https://github.com/Kappa-Org/kappacode/commit/3ef2237493f48ac212732a5b7d67eceb4af0d594) Thanks [@brianc](https://github.com/brianc)! - There was previously some debug log spam introduced for the Managed Indexing feature. This change removes those logs.
 
-- [#4005](https://github.com/Kappa-Org/kappacode/pull/4005) [`5aa56df`](https://github.com/Kappa-Org/kappacode/commit/5aa56df5123d33ba0ecadeabb3727b57974a842e) Thanks [@chrarnoldus](https://github.com/chrarnoldus)! - Add Claude Opus 4.5 support, including verbosity controls for Kappa Gateway, OpenRouter and Anthropic providers
+- [#4005](https://github.com/Kappa-Org/kappacode/pull/4005) [`5aa56df`](https://github.com/Kappa-Org/kappacode/commit/5aa56df5123d33ba0ecadeabb3727b57974a842e) Thanks [@chrarnoldus](https://github.com/chrarnoldus)! - Add Claude Opus 4.5 support, including verbosity controls for Kilo Gateway, OpenRouter and Anthropic providers
 
 ## 4.122.0
 
@@ -5244,7 +5244,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 - [#3632](https://github.com/Kappa-Org/kappacode/pull/3632) [`d7fad58`](https://github.com/Kappa-Org/kappacode/commit/d7fad58673da95de682bf5d7f38a90a288daae03) Thanks [@iscekic](https://github.com/iscekic)! - Introduces "YOLO" mode, where all approval requests are automatically approved. Initially used for `--auto` mode in the CLI, now available in the extension as well in `Settings > Auto-Approval`.
 
-- [#3605](https://github.com/Kappa-Org/kappacode/pull/3605) [`03fccd3`](https://github.com/Kappa-Org/kappacode/commit/03fccd3a3c75186c320aad3754547bf1619cf424) Thanks [@viktorxhzj](https://github.com/viktorxhzj)! - OpenRouter and Kappa Gateway providers now preserve reasoning blocks between API requests. This should improve performance of reasoning models, especially MiniMax M2.
+- [#3605](https://github.com/Kappa-Org/kappacode/pull/3605) [`03fccd3`](https://github.com/Kappa-Org/kappacode/commit/03fccd3a3c75186c320aad3754547bf1619cf424) Thanks [@viktorxhzj](https://github.com/viktorxhzj)! - OpenRouter and Kilo Gateway providers now preserve reasoning blocks between API requests. This should improve performance of reasoning models, especially MiniMax M2.
 
 - [#3597](https://github.com/Kappa-Org/kappacode/pull/3597) [`ea3c0bd`](https://github.com/Kappa-Org/kappacode/commit/ea3c0bda8055f3ad3370c5794803ae176fefadd4) Thanks [@mcowger](https://github.com/mcowger)! - Add Kimi K2 Thinking to Moonshot.ai provider.
 

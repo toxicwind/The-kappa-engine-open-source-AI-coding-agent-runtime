@@ -92,7 +92,7 @@ class UserProfileConfigurableTest : BasePlatformTestCase() {
             assertTrue(t, t.contains("alice@test.com"))
             assertTrue(buttons(panel).any { it.text == "Log Out" })
         }
-        assertEquals(listOf("https://auth.kappa.ai/device"), urls)
+        assertEquals(listOf("https://auth.kilo.ai/device"), urls)
     }
 
     fun `test profile page has standard horizontal content padding`() {
@@ -369,7 +369,7 @@ class UserProfileConfigurableTest : BasePlatformTestCase() {
             buttons(panel).first { it.text == "Get Kilo Pass to add credits and earn bonuses" }.doClick()
         }
 
-        assertEquals(listOf("https://app.kappa.ai/profile", "https://app.kappa.ai/credits", "https://kappa.ai/pricing/kappa-pass"), urls)
+        assertEquals(listOf("https://app.kilo.ai/profile", "https://app.kilo.ai/credits", "https://kappa.ai/pricing/kappa-pass"), urls)
     }
 
     fun `test kappa pass renewal date uses utc`() {
@@ -554,7 +554,7 @@ class UserProfileConfigurableTest : BasePlatformTestCase() {
             assertTrue(t, t.contains("Sign in to Kilo Code"))
             assertTrue(t, t.contains("Step 1:"))
             assertTrue(t, t.contains("Open this URL"))
-            assertTrue(t, t.contains("https://auth.kappa.ai/device"))
+            assertTrue(t, t.contains("https://auth.kilo.ai/device"))
             assertTrue(t, t.contains("Open Browser"))
             assertTrue(t, t.contains("Step 2:"))
             assertTrue(t, t.contains("Enter this code"))
@@ -569,7 +569,7 @@ class UserProfileConfigurableTest : BasePlatformTestCase() {
             assertNotNull(qr!!.icon)
         }
 
-        assertEquals(listOf("https://auth.kappa.ai/device"), urls)
+        assertEquals(listOf("https://auth.kilo.ai/device"), urls)
 
         // Complete login
         edt { rpc.completeGate!!.complete(Unit) }
@@ -1007,7 +1007,7 @@ class UserProfileConfigurableTest : BasePlatformTestCase() {
         rpc.fakeProfile = ProfileDto(email = "alice@test.com", name = "Alice")
         rpc.completeGate = CompletableDeferred()
         // Set device auth response without a code
-        rpc.fakeDeviceAuth = DeviceAuthDto(code = null, verificationUrl = "https://auth.kappa.ai/device")
+        rpc.fakeDeviceAuth = DeviceAuthDto(code = null, verificationUrl = "https://auth.kilo.ai/device")
 
         edt { buttons(panel).first { it.text == "Login with Kilo Code" }.doClick() }
         flushUntil { text(panel).contains("Sign in to Kilo Code") }

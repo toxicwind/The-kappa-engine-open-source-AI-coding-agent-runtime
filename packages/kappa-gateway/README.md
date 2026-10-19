@@ -1,11 +1,11 @@
 # @kappacode/kappa-gateway
 
-Unified Kappa Gateway package for OpenCode providing authentication, AI provider integration, and API access.
+Unified Kilo Gateway package for OpenCode providing authentication, AI provider integration, and API access.
 
 ## Features
 
-- **Authentication**: Device authorization flow for Kappa Gateway
-- **AI Provider**: OpenRouter-based provider with Kappa Gateway integration
+- **Authentication**: Device authorization flow for Kilo Gateway
+- **AI Provider**: OpenRouter-based provider with Kilo Gateway integration
 - **API Integration**: Profile, balance, and model management
 - **TUI Helpers**: Utilities for terminal UI components
 

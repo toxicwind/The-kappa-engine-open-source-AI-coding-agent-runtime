@@ -64,7 +64,7 @@ export function color(part: Part): TimelineColor {
 // ── Label for tooltip ────────────────────────────────────────────────
 
 function auto(msg?: Message) {
-  return msg?.providerID === "kappa" && msg.modelID?.startsWith("kappa-auto/")
+  return msg?.providerID === "kappa" && msg.modelID?.startsWith("kilo-auto/")
 }
 
 export function label(part: Part, msg?: Message): string {

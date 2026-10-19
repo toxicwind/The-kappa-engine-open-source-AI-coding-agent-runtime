@@ -180,7 +180,7 @@ afterEach(() => {
 })
 
 describe("KappaCompactionPayloadRecovery", () => {
-  test("detects Kappa gateway payload-size errors", () => {
+  test("detects Kilo gateway payload-size errors", () => {
     const error = new MessageV2.ContextOverflowError({
       message: "Request Entity Too Large",
       responseBody: "Request Entity Too Large\n\nFUNCTION_PAYLOAD_TOO_LARGE",
@@ -271,7 +271,7 @@ describe("KappaCompactionPayloadRecovery", () => {
         return Stream.fail(
           new APICallError({
             message: "Request Entity Too Large",
-            url: "https://api.kappa.ai/api/openrouter/responses",
+            url: "https://api.kilo.ai/api/openrouter/responses",
             requestBodyValues: {},
             statusCode: 413,
             responseHeaders: { "content-type": "text/plain" },

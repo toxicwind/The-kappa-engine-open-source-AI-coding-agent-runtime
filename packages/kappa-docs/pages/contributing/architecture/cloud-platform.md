@@ -20,7 +20,7 @@ Use this page to understand hosted service topology: which product boundaries ex
 | Layer | Responsibility | Examples |
 |---|---|---|
 | Web control plane | Identity, organization authorization, billing, product configuration, and API orchestration | Next.js application in `apps/web/` |
-| Shared cloud services | Model routing, asynchronous orchestration, real-time delivery, persistence adapters, and operational services | Kappa Gateway, Workers, queues, Durable Objects, R2, KV, Hyperdrive |
+| Shared cloud services | Model routing, asynchronous orchestration, real-time delivery, persistence adapters, and operational services | Kilo Gateway, Workers, queues, Durable Objects, R2, KV, Hyperdrive |
 | Scoped execution | Runs code or scoped runtime workloads | Cloud Agent, Gas Town container |
 | External providers | Services outside Kappa Cloud trust boundary | Model providers, source-control providers, messaging providers, telemetry providers |
 
@@ -46,7 +46,7 @@ Where these pages say `owner`, they mean personal user or organization that auth
 flowchart LR
   clients["Browser, editor, and mobile clients"]
   web["Web control plane"]
-  gateway["Kappa Gateway"]
+  gateway["Kilo Gateway"]
   automation["Automation Workers"]
   agent["Cloud Agent"]
   chat["Kappa Chat / Event Service / Notifications"]
@@ -86,7 +86,7 @@ Not every hosted flow launches Cloud Agent. Shared services also route model req
 | Evaluation and operations | `o11y`{% linebreak /%}`kappa-ops`{% linebreak /%}`model-eval-ingest` | Metrics, alerts, operations, and model-evaluation ingestion |
 | Attribution | `ai-attribution` | AI-edit attribution events |
 
-## Kappa Gateway
+## Kilo Gateway
 
 Gateway consists of cloud API routes plus `packages/kappa-gateway/` client integration in `Kappa-Org/kappacode`. It handles account-aware and anonymous-free model access. See [Cloud Security](/docs/contributing/architecture/cloud-security#model-request-gateway) for request branches and endpoint families.
 
@@ -98,7 +98,7 @@ Gateway consists of cloud API routes plus `packages/kappa-gateway/` client integ
 | Catalogs | Serves model, provider, embedding-model, and transcription-model surfaces |
 | Usage and billing | Records applicable token usage, credits, entitlements, and billing metadata |
 
-Auto Model clients send stable `kappa-auto/*` tier IDs. Gateway resolves tiers server-side before provider routing so mappings can change without client releases. See [Models and Providers](/docs/gateway/models-and-providers#auto-models) for current tier behavior.
+Auto Model clients send stable `kilo-auto/*` tier IDs. Gateway resolves tiers server-side before provider routing so mappings can change without client releases. See [Models and Providers](/docs/gateway/models-and-providers#auto-models) for current tier behavior.
 
 Eligible gateway requests can include normalized project label for usage attribution and grouping. Label identifies project without sending full repository URL.
 

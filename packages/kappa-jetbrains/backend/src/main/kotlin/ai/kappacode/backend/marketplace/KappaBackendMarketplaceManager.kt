@@ -46,7 +46,7 @@ import java.util.UUID
 /**
  * Talks to the CLI's marketplace routes (`/kappacode/marketplace*`), which fetch the remote
  * catalog and own install/remove filesystem writes. This manager only proxies the local CLI
- * over authenticated HTTP; it never reaches api.kappa.ai directly.
+ * over authenticated HTTP; it never reaches api.kilo.ai directly.
  */
 class KiloBackendMarketplaceManager(private val backend: KiloBackendAppService? = null) {
     private val app: KiloBackendAppService get() = backend ?: service()

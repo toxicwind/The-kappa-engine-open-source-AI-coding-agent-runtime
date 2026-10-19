@@ -7,7 +7,7 @@ import { ProviderV2 } from "../../provider"
 // Upstream turned this plugin into a full identity + remote-config integration: an OAuth device
 // flow against https://console.opencode.ai (client id "opencode-cli"), an "OpenCode Console
 // account" login method, an "API key (service account)" method, and a fetch that lets that console
-// drive Kappa's provider/model catalog. Kappa routes providers through the Kappa gateway and does not
+// drive Kappa's provider/model catalog. Kappa routes providers through the Kilo gateway and does not
 // offer a competitor's account system as a sign-in option, so none of that is registered here.
 //
 // What remains is the behavior Kappa actually relies on and shipped before the v1.17.13 merge:

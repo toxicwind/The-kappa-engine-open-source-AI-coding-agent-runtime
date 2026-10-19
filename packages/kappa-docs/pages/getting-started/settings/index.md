@@ -69,7 +69,7 @@ When the Kappa provider is enabled and you are signed in, choose the transcripti
 
 ### Voice Transcription Source
 
-By default both the model list and the audio go to Kappa Gateway. Set **Models** > **Speech to Text Base URL** to send them to any OpenAI-compatible transcription API instead, with an optional bearer token:
+By default both the model list and the audio go to Kilo Gateway. Set **Models** > **Speech to Text Base URL** to send them to any OpenAI-compatible transcription API instead, with an optional bearer token:
 
 ```json
 {
@@ -81,11 +81,11 @@ By default both the model list and the audio go to Kappa Gateway. Set **Models**
 }
 ```
 
-Models are read from `{base_url}/models` and audio is posted to `{base_url}/audio/transcriptions`. Leave the base URL empty to use Kappa Gateway. See [Voice Transcription](/docs/code-with-ai/features/speech-to-text) for details.
+Models are read from `{base_url}/models` and audio is posted to `{base_url}/audio/transcriptions`. Leave the base URL empty to use Kilo Gateway. See [Voice Transcription](/docs/code-with-ai/features/speech-to-text) for details.
 
 ### Prompt-Training Model Visibility
 
-Enable **Hide Prompt-Training Models** under **Models** to remove Kappa Gateway models whose providers may use your prompts for training from model lists. Models from other providers and models without explicit prompt-training metadata remain visible. The setting is disabled by default.
+Enable **Hide Prompt-Training Models** under **Models** to remove Kilo Gateway models whose providers may use your prompts for training from model lists. Models from other providers and models without explicit prompt-training metadata remain visible. The setting is disabled by default.
 
 You can also enable it in `kappa.jsonc`:
 

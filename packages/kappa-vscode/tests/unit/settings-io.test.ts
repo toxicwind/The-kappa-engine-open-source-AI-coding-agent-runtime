@@ -188,10 +188,10 @@ describe("parseImport", () => {
   })
 
   it("preserves the memory model setting", () => {
-    const json = JSON.stringify({ memory_model: "kappa/kappa-auto/small" })
+    const json = JSON.stringify({ memory_model: "kappa/kilo-auto/small" })
     const result = parseImport(json)
     expect(result.ok).toBe(true)
-    if (result.ok) expect(result.config.memory_model).toBe("kappa/kappa-auto/small")
+    if (result.ok) expect(result.config.memory_model).toBe("kappa/kilo-auto/small")
   })
 
   it("strips _meta before returning config", () => {
@@ -309,10 +309,10 @@ describe("round-trip", () => {
   })
 
   it("export then import preserves the memory model setting", () => {
-    const original: Config = { memory_model: "kappa/kappa-auto/small" }
+    const original: Config = { memory_model: "kappa/kilo-auto/small" }
     const result = parseImport(JSON.stringify(buildExport(original)))
     expect(result.ok).toBe(true)
-    if (result.ok) expect(result.config.memory_model).toBe("kappa/kappa-auto/small")
+    if (result.ok) expect(result.config.memory_model).toBe("kappa/kilo-auto/small")
   })
 })
 
