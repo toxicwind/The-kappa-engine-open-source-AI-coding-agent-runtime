@@ -224,7 +224,7 @@ export default function HomePage() {
         {/* Quick Links Panel - Stripe style */}
         <div className="quick-panel">
           <div className="quick-section">
-            <h3 className="quick-title">KILO CODE</h3>
+            <h3 className="quick-title">kappa code</h3>
             <div className="quick-links">
               <Link href="/getting-started/installing" className="quick-link">
                 Installation Guide

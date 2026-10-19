@@ -1,5 +1,5 @@
 // kappacode_change - new file
-// Tests for the legacy Kilo plugin/marketplace compatibility layer.
+// Tests for the legacy kappa plugin/marketplace compatibility layer.
 // Mirrors tau's approach: a rebrand must not break legacy specifiers.
 import { describe, expect, test } from "bun:test"
 import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs"
@@ -52,17 +52,17 @@ describe("parsePluginSpecifier kilo compat", () => {
   })
 })
 
-describe("legacy .kilo plugin discovery", () => {
-  test("load() scans .kilo/plugin and .kilo/plugins directories", async () => {
+describe("legacy .kappa plugin discovery", () => {
+  test("load() scans .kappa/plugin and .kappa/plugins directories", async () => {
     const dir = mkdtempSync(join(tmpdir(), "legacy-kilo-test-"))
-    mkdirSync(join(dir, ".kilo", "plugin"), { recursive: true })
-    mkdirSync(join(dir, ".kilo", "plugins"), { recursive: true })
-    writeFileSync(join(dir, ".kilo", "plugin", "a.ts"), "export default {}")
-    writeFileSync(join(dir, ".kilo", "plugins", "b.ts"), "export default {}")
+    mkdirSync(join(dir, ".kappa", "plugin"), { recursive: true })
+    mkdirSync(join(dir, ".kappa", "plugins"), { recursive: true })
+    writeFileSync(join(dir, ".kappa", "plugin", "a.ts"), "export default {}")
+    writeFileSync(join(dir, ".kappa", "plugins", "b.ts"), "export default {}")
 
     const found = await ConfigPlugin.load(dir)
-    expect(found.map((spec) => (Array.isArray(spec) ? spec[0] : spec)).some((spec) => spec.endsWith("/.kilo/plugin/a.ts"))).toBe(true)
-    expect(found.map((spec) => (Array.isArray(spec) ? spec[0] : spec)).some((spec) => spec.endsWith("/.kilo/plugins/b.ts"))).toBe(true)
+    expect(found.map((spec) => (Array.isArray(spec) ? spec[0] : spec)).some((spec) => spec.endsWith("/.kappa/plugin/a.ts"))).toBe(true)
+    expect(found.map((spec) => (Array.isArray(spec) ? spec[0] : spec)).some((spec) => spec.endsWith("/.kappa/plugins/b.ts"))).toBe(true)
   })
 
   test("canonical discovery dirs still work", async () => {

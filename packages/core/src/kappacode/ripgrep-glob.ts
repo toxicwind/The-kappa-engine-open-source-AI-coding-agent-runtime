@@ -44,7 +44,7 @@ function prefilter(pattern: string) {
   const name = pattern.split("/").at(-1) ?? ""
   if (!name || name === "**" || name.includes(":") || pattern.includes("\\/")) return []
   if (/\{[^}]*\//.test(pattern) || name.split("{").length !== name.split("}").length) return []
-  return [`--type-add=kiloglob:${name}`, "--type=kiloglob"]
+  return [`--type-add=kappa glob:${name}`, "--type=kappa glob"]
 }
 
 /**

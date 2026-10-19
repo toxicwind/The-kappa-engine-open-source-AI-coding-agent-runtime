@@ -79,7 +79,7 @@ export namespace KappaCli {
     if (!process.env[gateway.ENV_FEATURE])
       process.env[gateway.ENV_FEATURE] = process.argv.includes("serve") ? "unknown" : "cli"
     if (!process.env[gateway.ENV_VERSION]) process.env[gateway.ENV_VERSION] = InstallationVersion
-    process.env.KILO = "1"
+    process.env.kappa = "1"
 
     // Must run before AppRuntime initializes the SQLite database, or the marker
     // exists before legacy JSON can be imported.

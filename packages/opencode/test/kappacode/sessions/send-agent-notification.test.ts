@@ -75,7 +75,7 @@ it.instance("dedicated immediate POST hits ingest path with an agent_notificatio
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
   process.env.KAPPA_API_KEY = "test-token"
-  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kilosessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -130,7 +130,7 @@ it.instance("2xx ingest response returns ok:true", () => {
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
   process.env.KAPPA_API_KEY = "test-token"
-  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kilosessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -187,7 +187,7 @@ it.instance("non-2xx ingest response returns ok:false with no retry", () => {
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
   process.env.KAPPA_API_KEY = "test-token"
-  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kilosessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -229,7 +229,7 @@ it.instance("unauthenticated returns not_connected", () => {
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
   delete process.env.KAPPA_API_KEY
-  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kilosessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -274,7 +274,7 @@ it.instance("bounded timeout: stalled auth step returns not_connected within tim
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
   process.env.KAPPA_API_KEY = "test-token"
-  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kilosessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -340,7 +340,7 @@ it.instance("coalescing: sendAgentNotification awaits in-flight bootstrap for a 
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
   process.env.KAPPA_API_KEY = "test-token"
-  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kilosessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -420,7 +420,7 @@ it.instance("coalescing: bootstrapInflight stores the real promise and concurren
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
   process.env.KAPPA_API_KEY = "test-token"
-  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kilosessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {

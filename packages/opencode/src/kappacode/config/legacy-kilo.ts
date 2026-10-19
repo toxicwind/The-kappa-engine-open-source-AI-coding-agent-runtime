@@ -15,11 +15,11 @@ export const LEGACY_KILO_CONFIG = Object.freeze({
   /** Config filenames accepted alongside kappa.json / kappa.jsonc. */
   configFiles: ["kilo.jsonc", "kilo.json"] as const,
   /** Extra directories scanned for auto-discovered plugin entry files. */
-  discoveryDirs: [".kilo/plugin", ".kilo/plugins", ".kilo/plugins/*"] as const,
+  discoveryDirs: [".kappa/plugin", ".kappa/plugins", ".kappa/plugins/*"] as const,
 })
 
 /**
- * Remap a legacy kilo plugin package name to its kappa equivalent.
+ * Remap a legacy kappa plugin package name to its kappa equivalent.
  * - `@kilocode/<name>` → `@kappacode/<name>` with `kilo-*` segments renamed
  *   (`@kilocode/kilo-indexing` → `@kappacode/kappa-indexing`)
  * - bare `kilo-*` names keep their scope but rename the segment
@@ -43,7 +43,7 @@ function renameSegment(segment: string): string {
 }
 
 /**
- * Normalize a legacy kilo plugin specifier (npm spec or `spec@version` /
+ * Normalize a legacy kappa plugin specifier (npm spec or `spec@version` /
  * `spec:entrypoint` compound form) to its kappa identity. Path and git specs
  * pass through untouched.
  */
@@ -75,5 +75,5 @@ function isPathLike(spec: string): boolean {
 
 /** Glob patterns for legacy plugin auto-discovery, in addition to the canonical ones. */
 export const LEGACY_DISCOVERY_GLOBS = [
-  "{.kilo/plugin,.kilo/plugins}/*.{ts,js}",
+  "{.kappa/plugin,.kappa/plugins}/*.{ts,js}",
 ] as const

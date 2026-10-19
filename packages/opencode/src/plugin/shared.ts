@@ -6,7 +6,7 @@ import { Filesystem } from "@/util/filesystem"
 import { isRecord } from "@/util/record"
 import { Npm } from "@opencode-ai/core/npm"
 import { isGitPluginSpec, resolveGitPluginTarget } from "@/kappacode/plugin/git-source" // kappacode_change
-import { normalizeLegacyKiloSpec } from "@/kappacode/config/legacy-kilo" // kappacode_change - legacy kilo plugin compat
+import { normalizeLegacyKiloSpec } from "@/kappacode/config/legacy-kilo" // kappacode_change - legacy kappa plugin compat
 
 // Old npm package names for plugins that are now built-in
 export const DEPRECATED_PLUGIN_PACKAGES = ["opencode-openai-codex-auth", "opencode-copilot-auth"]

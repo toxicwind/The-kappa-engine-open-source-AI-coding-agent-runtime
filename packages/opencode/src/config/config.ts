@@ -471,7 +471,7 @@ const layer = Layer.effect(
         result,
         yield* loadFile(path.join(Global.Path.config, "kappa.jsonc"), env, true, undefined, configWarnings),
       )
-      // kappacode_change start - legacy kilo global config compat
+      // kappacode_change start - legacy kappa global config compat
       result = mergeConfig(
         result,
         yield* loadFile(path.join(Global.Path.config, "kilo.json"), env, true, undefined, configWarnings),
