@@ -6,7 +6,7 @@
         <module name="kilo.jetbrains.shared"/>
     </dependencies>
 
-    <resource-bundle>messages.KiloBundle</resource-bundle>
+    <resource-bundle>messages.KappaBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
         <errorHandler implementation="com.intellij.diagnostic.JetBrainsMarketplaceErrorReportSubmitter"/>
@@ -18,7 +18,7 @@
 
         <notificationGroup id="Kilo Code"
                            displayType="BALLOON"
-                           bundle="messages.KiloBundle"
+                           bundle="messages.KappaBundle"
                            key="notification.group.kilo"/>
 
         <toolWindow id="Kilo Code"
@@ -39,7 +39,7 @@
                 parentId="tools"
                 id="ai.kilocode.jetbrains.settings"
                 instance="ai.kappacode.client.settings.KiloSettingsConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.kilo.displayName"/>
 
         <applicationConfigurable
@@ -47,7 +47,7 @@
                 id="ai.kilocode.jetbrains.settings.profile"
                 groupWeight="5"
                 instance="ai.kappacode.client.settings.profile.UserProfileConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.profile.displayName"/>
 
         <applicationConfigurable
@@ -55,7 +55,7 @@
                 id="ai.kilocode.jetbrains.settings.models"
                 groupWeight="4"
                 instance="ai.kappacode.client.settings.models.ModelsConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.models.displayName"/>
 
         <applicationConfigurable
@@ -63,7 +63,7 @@
                 id="ai.kilocode.jetbrains.settings.providers"
                 groupWeight="3"
                 instance="ai.kappacode.client.settings.providers.ProvidersConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.providers.displayName"/>
 
         <applicationConfigurable
@@ -71,7 +71,7 @@
                 id="ai.kilocode.jetbrains.settings.marketplace"
                 groupWeight="2"
                 instance="ai.kappacode.client.settings.marketplace.MarketplaceConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.marketplace.displayName"/>
 
         <applicationConfigurable
@@ -79,7 +79,7 @@
                 id="ai.kilocode.jetbrains.settings.agentBehavior"
                 groupWeight="1"
                 instance="ai.kappacode.client.settings.agents.AgentBehaviorConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.agentBehavior.displayName"/>
 
         <applicationConfigurable
@@ -87,7 +87,7 @@
                 id="ai.kilocode.jetbrains.settings.context"
                 groupWeight="-2"
                 instance="ai.kappacode.client.settings.context.ContextConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.context.displayName"/>
 
         <applicationConfigurable
@@ -95,7 +95,7 @@
                 id="ai.kilocode.jetbrains.settings.autoApprove"
                 groupWeight="0"
                 instance="ai.kappacode.client.settings.autoapprove.AutoApproveConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.autoApprove.displayName"/>
 
         <applicationConfigurable
@@ -103,7 +103,7 @@
                 id="ai.kilocode.jetbrains.settings.transcript"
                 groupWeight="-1"
                 instance="ai.kappacode.client.settings.transcript.TranscriptConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.transcript.displayName"/>
 
         <applicationConfigurable
@@ -111,7 +111,7 @@
                 id="ai.kilocode.jetbrains.settings.checkpoints"
                 groupWeight="-3"
                 instance="ai.kappacode.client.settings.checkpoints.CheckpointsConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.checkpoints.displayName"/>
 
         <applicationConfigurable
@@ -119,7 +119,7 @@
                 id="ai.kilocode.jetbrains.settings.integrations"
                 groupWeight="-4"
                 instance="ai.kappacode.client.settings.integrations.IntegrationsConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.integrations.displayName"/>
 
         <applicationConfigurable
@@ -127,42 +127,42 @@
                 id="ai.kilocode.jetbrains.settings.advanced"
                 groupWeight="-5"
                 instance="ai.kappacode.client.settings.AdvancedConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.advanced.displayName"/>
 
         <applicationConfigurable
                 parentId="ai.kilocode.jetbrains.settings.agentBehavior"
                 id="ai.kilocode.jetbrains.settings.agentBehavior.agents"
                 instance="ai.kappacode.client.settings.agents.AgentsConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.agentBehavior.agents.displayName"/>
 
         <applicationConfigurable
                 parentId="ai.kilocode.jetbrains.settings.agentBehavior"
                 id="ai.kilocode.jetbrains.settings.agentBehavior.mcp"
                 instance="ai.kappacode.client.settings.agents.McpConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.agentBehavior.mcp.displayName"/>
 
         <applicationConfigurable
                 parentId="ai.kilocode.jetbrains.settings.agentBehavior"
                 id="ai.kilocode.jetbrains.settings.agentBehavior.skills"
                 instance="ai.kappacode.client.settings.agents.SkillsConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.agentBehavior.skills.displayName"/>
 
         <applicationConfigurable
                 parentId="ai.kilocode.jetbrains.settings.agentBehavior"
                 id="ai.kilocode.jetbrains.settings.agentBehavior.commands"
                 instance="ai.kappacode.client.settings.agents.CommandsConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.agentBehavior.commands.displayName"/>
 
         <applicationConfigurable
                 parentId="ai.kilocode.jetbrains.settings.agentBehavior"
                 id="ai.kilocode.jetbrains.settings.agentBehavior.rules"
                 instance="ai.kappacode.client.settings.rules.RulesConfigurable"
-                bundle="messages.KiloBundle"
+                bundle="messages.KappaBundle"
                 key="settings.agentBehavior.rules.displayName"/>
 
         <registryKey key="kilo.session.condense"

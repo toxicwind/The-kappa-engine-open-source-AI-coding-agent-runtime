@@ -3,7 +3,7 @@ package ai.kappacode.client.plugin
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey
 
-private const val BUNDLE = "messages.KiloBundle"
+private const val BUNDLE = "messages.KappaBundle"
 
 object KiloBundle : DynamicBundle(BUNDLE) {
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any): String {
