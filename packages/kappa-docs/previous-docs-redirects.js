@@ -333,6 +333,12 @@ module.exports = [
   // GET STARTED
   // ============================================
   {
+    source: "/docs/getting-started/using-kilo-for-free",
+    destination: "/docs/getting-started/using-kappa-for-free",
+    basePath: false,
+    permanent: true,
+  },
+  {
     source: "/docs/basic-usage/byok",
     destination: "/docs/getting-started/byok",
     basePath: false,
