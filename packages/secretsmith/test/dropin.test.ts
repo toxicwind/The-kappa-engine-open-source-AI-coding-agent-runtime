@@ -1,8 +1,23 @@
 import { describe, expect, test, beforeEach } from "bun:test";
+import { existsSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { search, get, set, del, list, collections, lock, unlock, resolve, fromEnv } from "../src/index";
-// Bun.spawnSync is the global — not an import.
 
-describe("secretsmith Bun drop-in — library", () => {
+// Keyring integration tests need the estate secretsmith binary; skip them on
+// runners and machines without one instead of failing the whole suite.
+const bin = ((): string | null => {
+  if (process.platform !== "win32") {
+    const r = Bun.spawnSync({ cmd: ["bash", "-lc", "command -v secretsmith"], stdout: "pipe", stderr: "pipe" });
+    const hit = r.stdout.toString().trim();
+    if (hit) return hit;
+  }
+  const paths = ["/home/toxic/estate/ranch/secretsmith/bin/secretsmith", join(homedir(), ".local/bin/secretsmith")];
+  return paths.find((p) => existsSync(p)) ?? null;
+})();
+const skip = bin == null;
+
+describe.skipIf(skip, "secretsmith Bun drop-in — library", () => {
   test("collections lists at least the default keyring", async () => {
     const cols = await collections();
     expect(cols.length).toBeGreaterThan(0);
@@ -37,7 +52,7 @@ describe("secretsmith Bun drop-in — library", () => {
   });
 });
 
-describe("secretsmith Bun drop-in — set/delete round-trip", () => {
+describe.skipIf(skip, "secretsmith Bun drop-in — set/delete round-trip", () => {
   const label = "secretsmith-bun-test";
   test("set then get then delete round-trips a value", async () => {
     const secret = "bun-dropin-secret-" + Date.now();
@@ -55,16 +70,16 @@ describe("secretsmith Bun drop-in — set/delete round-trip", () => {
   });
 });
 
-describe("secretsmith Bun drop-in — CLI mirror", () => {
+describe.skipIf(skip, "secretsmith Bun drop-in — CLI mirror", () => {
   test("secretsmith-bun collections works via spawn", () => {
-    const r = spawnSync({ cmd: ["bun", "bin/secretsmith-bun.ts", "collections", "--json"], cwd: new URL("..", import.meta.url).pathname, stdout: "pipe", stderr: "pipe" });
+    const r = Bun.spawnSync({ cmd: ["bun", "bin/secretsmith-bun.ts", "collections", "--json"], cwd: new URL("..", import.meta.url).pathname, stdout: "pipe", stderr: "pipe" });
     expect(r.exitCode).toBe(0);
     const d = JSON.parse(r.stdout.toString());
     expect(Array.isArray(d)).toBe(true);
   });
 
   test("secretsmith-bun get --show returns secret for vercel", () => {
-    const r = spawnSync({ cmd: ["bun", "bin/secretsmith-bun.ts", "get", "--attr", "service=vercel", "--show", "--json"], cwd: new URL("..", import.meta.url).pathname, stdout: "pipe", stderr: "pipe" });
+    const r = Bun.spawnSync({ cmd: ["bun", "bin/secretsmith-bun.ts", "get", "--attr", "service=vercel", "--show", "--json"], cwd: new URL("..", import.meta.url).pathname, stdout: "pipe", stderr: "pipe" });
     expect(r.exitCode).toBe(0);
     const d = JSON.parse(r.stdout.toString());
     expect(d.label).toContain("vercel");
