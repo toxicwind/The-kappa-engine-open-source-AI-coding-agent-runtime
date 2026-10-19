@@ -55,7 +55,7 @@ if (repoCli.get() && bundled.get()) {
 
 val writeKiloProperties = tasks.register<WriteProperties>("writeKiloProperties") {
     description = "Write pinned Kilo CLI properties"
-    val out = generatedProps.map { it.file("kilo.properties") }
+    val out = generatedProps.map { it.file("kappa.properties") }
     destinationFile.set(out)
     property("cli.version", pinnedCliVersion)
     property("cli.pinned", pinned.map { it.toString() })

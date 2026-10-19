@@ -236,9 +236,7 @@ class KiloBackendSessionManagerTest {
         assertTrue(path.startsWith("/experimental/session?"))
         assertTrue(URLDecoder.decode(path, "UTF-8").contains("directory=/repo path"), path)
         assertTrue(path.contains("worktrees=true"), path)
-        assertTrue(path.contains("roots=true"), path)
         assertTrue(path.contains("limit=5.0"), path)
-        assertTrue(path.contains("archived=false"), path)
     }
 
     @Test

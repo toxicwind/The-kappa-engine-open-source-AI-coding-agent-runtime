@@ -237,7 +237,7 @@ class KiloBundleLocaleTest : BasePlatformTestCase() {
     }
 
     private fun load(locale: String): Properties {
-        val name = if (locale == "en") "/messages/KiloBundle.properties" else "/messages/KiloBundle_$locale.properties"
+        val name = if (locale == "en") "/messages/KappaBundle.properties" else "/messages/KappaBundle_$locale.properties"
         val stream = javaClass.getResourceAsStream(name)
         assertNotNull("$locale: $name not on the classpath", stream)
         return Properties().apply {

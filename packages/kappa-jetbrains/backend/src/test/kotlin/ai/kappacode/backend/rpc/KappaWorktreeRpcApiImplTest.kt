@@ -1339,7 +1339,7 @@ class KiloWorktreeRpcApiImplTest {
     fun `foreignPr ignores slug case and an unknown origin`() {
         // Driving this through importPr would fall past the guard into gh and `git fetch`, making the
         // assertion depend on the machine's network and credentials rather than on the comparison.
-        assertFalse(foreignPr("kappa-org/KiloCode", "Kilo-Org/kappacode"), "GitHub slugs are case-insensitive")
+        assertFalse(foreignPr("kappa-org/KappaCode", "Kappa-Org/kappacode"), "GitHub slugs are case-insensitive")
         assertFalse(foreignPr("other/repo", null), "an unknown origin is not evidence of a mismatch")
         assertTrue(foreignPr("other/repo", "Kilo-Org/kappacode"))
     }
