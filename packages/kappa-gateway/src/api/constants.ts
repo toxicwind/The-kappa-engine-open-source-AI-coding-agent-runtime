@@ -1,6 +1,15 @@
 /**
  * Kilo Gateway Configuration Constants
  * Centralized configuration for all API endpoints, headers, and settings
+ *
+ * INTENTIONAL EXTERNAL REFERENCES - DO NOT RENAME:
+ * Kilo Gateway is the hosted gateway product of kilo.ai. The
+ * api.kilo.ai endpoints and kilo-auto model ids in this package point
+ * at that external service on purpose; they are not stale pre-rename
+ * leftovers, and api.kappa.ai does not exist. The kilo->kappa fork
+ * rename covers only identifiers owned by the fork (packages,
+ * provider id, KAPPA_ env vars). Guard added 2026-10-19, after the
+ * rename overreach was reverted in commit 7e57dd1f21.
  */
 
 /** Environment variable for custom Kappa API URL */
