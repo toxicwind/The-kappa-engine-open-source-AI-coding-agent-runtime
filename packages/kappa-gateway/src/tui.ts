@@ -29,7 +29,7 @@ export { formatProfileInfo, getOrganizationOptions, getDefaultOrganizationSelect
 // - DialogKappaTeamSelect -> @/kappacode/components/dialog-kappa-team-select
 // - DialogKappaOrganization -> @/kappacode/components/dialog-kappa-organization
 // - DialogKappaProfile -> @/kappacode/components/dialog-kappa-profile
-// - KappaAutoMethod -> @/kappacode/components/dialog-kilo-auto-method
+// - KappaAutoMethod -> @/kappacode/components/dialog-kappa-auto-method
 // - KappaNews -> @/kappacode/components/kappa-news
 // - NotificationBanner -> @/kappacode/components/notification-banner
 // - DialogKappaNotifications -> @/kappacode/components/dialog-kappa-notifications

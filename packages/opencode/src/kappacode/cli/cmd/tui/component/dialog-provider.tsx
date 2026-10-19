@@ -8,7 +8,7 @@
 import type { JSX } from "solid-js"
 import type { RGBA } from "@opentui/core"
 import type { ProviderAuthAuthorization } from "@kappacode/sdk/v2"
-import { KappaAutoMethod } from "@/kappacode/components/dialog-kilo-auto-method"
+import { KappaAutoMethod } from "@/kappacode/components/dialog-kappa-auto-method"
 export { selectProvider } from "@/kappacode/anaconda-desktop/tui/setup"
 
 // ---------------------------------------------------------------------------
