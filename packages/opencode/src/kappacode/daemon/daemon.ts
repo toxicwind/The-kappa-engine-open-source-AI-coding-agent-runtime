@@ -87,11 +87,11 @@ export namespace Daemon {
   export type Identity = Pick<State, "pid" | "startedAt">
 
   function root() {
-    return process.env.KILO_TEST_DAEMON_STATE_DIR ?? Global.Path.state
+    return process.env.KAPPA_TEST_DAEMON_STATE_DIR ?? Global.Path.state
   }
 
   function logs() {
-    return process.env.KILO_TEST_DAEMON_LOG_DIR ?? Global.Path.log
+    return process.env.KAPPA_TEST_DAEMON_LOG_DIR ?? Global.Path.log
   }
 
   export function file() {
@@ -323,7 +323,7 @@ export namespace Daemon {
 
   async function port(input: Options) {
     if (input.port !== 0) return input.port
-    if (input.env?.KILO_TEST_DAEMON_EPHEMERAL_PORT) return 0
+    if (input.env?.KAPPA_TEST_DAEMON_EPHEMERAL_PORT) return 0
     const ports = Array.from({ length: PortRange.end - PortRange.start + 1 }, (_, index) => PortRange.start + index)
     const free = await Promise.any(
       ports.map((item) =>
@@ -356,8 +356,8 @@ export namespace Daemon {
         env: {
           ...process.env,
           ...input.env,
-          KILO_SERVER_USERNAME: username,
-          KILO_SERVER_PASSWORD: password,
+          KAPPA_SERVER_USERNAME: username,
+          KAPPA_SERVER_PASSWORD: password,
           KAPPACODE_FEATURE: "daemon",
         },
         stdio: ["ignore", stdout.fd, stderr.fd],

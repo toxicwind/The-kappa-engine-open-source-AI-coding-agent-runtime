@@ -98,8 +98,8 @@ const layer = Layer.mergeAll(Layer.succeed(Agent.Service, agents), Layer.succeed
 
 let client: string | undefined
 beforeEach(() => {
-  client = process.env.KILO_CLIENT
-  process.env.KILO_CLIENT = "cli"
+  client = process.env.KAPPA_CLIENT
+  process.env.KAPPA_CLIENT = "cli"
   writes.length = 0
   writeError = undefined
   refuseWrite = false
@@ -107,8 +107,8 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  if (client == null) delete process.env.KILO_CLIENT
-  if (client != null) process.env.KILO_CLIENT = client
+  if (client == null) delete process.env.KAPPA_CLIENT
+  if (client != null) process.env.KAPPA_CLIENT = client
 })
 
 function run(url: string, dir = worktree) {
@@ -124,7 +124,7 @@ function run(url: string, dir = worktree) {
 
 describe("link_pr tool", () => {
   test("rejects direct execution outside CLI backends", async () => {
-    process.env.KILO_CLIENT = "vscode"
+    process.env.KAPPA_CLIENT = "vscode"
     const result = await run("https://github.com/owner/repo/pull/9")
     expect(result.metadata).toMatchObject({ ok: false, reason: "unsupported_client" })
     expect(recordSessionLink).not.toHaveBeenCalled()

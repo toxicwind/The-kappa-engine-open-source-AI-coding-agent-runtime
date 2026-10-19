@@ -35,31 +35,31 @@ describe("tool.shell prompt tmp", () => {
   })
 
   test("names the shared temp dir outside cloud sessions", () => {
-    withEnv({ KILO_CLOUD_AGENT: undefined, SESSION_ID: undefined }, () => {
+    withEnv({ KAPPA_CLOUD_AGENT: undefined, SESSION_ID: undefined }, () => {
       expect(renderBash()).toContain(`Use \`${sharedTmp}\` for temporary work`)
     })
   })
 
   test("names the session-scoped temp dir in cloud sessions", () => {
-    withEnv({ KILO_CLOUD_AGENT: "1", SESSION_ID: "agent_test-session_1" }, () => {
+    withEnv({ KAPPA_CLOUD_AGENT: "1", SESSION_ID: "agent_test-session_1" }, () => {
       expect(renderBash()).toContain(`Use \`${sessionTmp}\` for temporary work`)
     })
   })
 
-  test("accepts truthy KILO_CLOUD_AGENT case-insensitively", () => {
-    withEnv({ KILO_CLOUD_AGENT: "TRUE", SESSION_ID: "agent_test-session_1" }, () => {
+  test("accepts truthy KAPPA_CLOUD_AGENT case-insensitively", () => {
+    withEnv({ KAPPA_CLOUD_AGENT: "TRUE", SESSION_ID: "agent_test-session_1" }, () => {
       expect(renderBash()).toContain(`Use \`${sessionTmp}\` for temporary work`)
     })
   })
 
   test("derives the session dir from the allowlist root even when TMPDIR is overridden", () => {
-    withEnv({ KILO_CLOUD_AGENT: "1", SESSION_ID: "agent_test-session_1", TMPDIR: "/custom-tmp" }, () => {
+    withEnv({ KAPPA_CLOUD_AGENT: "1", SESSION_ID: "agent_test-session_1", TMPDIR: "/custom-tmp" }, () => {
       expect(renderBash()).toContain(`Use \`${sessionTmp}\` for temporary work`)
     })
   })
 
   test("creates the session-scoped temp dir in cloud sessions", async () => {
-    withEnv({ KILO_CLOUD_AGENT: "1", SESSION_ID: "agent_test-session_1" }, () => {
+    withEnv({ KAPPA_CLOUD_AGENT: "1", SESSION_ID: "agent_test-session_1" }, () => {
       renderBash()
     })
     const stat = await fs.stat(sessionTmp)
@@ -67,13 +67,13 @@ describe("tool.shell prompt tmp", () => {
   })
 
   test("falls back to the shared temp dir when the session id is unsafe", () => {
-    withEnv({ KILO_CLOUD_AGENT: "1", SESSION_ID: "agent/../escape" }, () => {
+    withEnv({ KAPPA_CLOUD_AGENT: "1", SESSION_ID: "agent/../escape" }, () => {
       expect(renderBash()).toContain(`Use \`${sharedTmp}\` for temporary work`)
     })
   })
 
   test("falls back to the shared temp dir when SESSION_ID is missing", () => {
-    withEnv({ KILO_CLOUD_AGENT: "1", SESSION_ID: undefined }, () => {
+    withEnv({ KAPPA_CLOUD_AGENT: "1", SESSION_ID: undefined }, () => {
       expect(renderBash()).toContain(`Use \`${sharedTmp}\` for temporary work`)
     })
   })
@@ -83,7 +83,7 @@ describe("tool.shell prompt tmp", () => {
     const link = path.join("/tmp", "agent_symlink-test")
     await fs.symlink(sharedTmp, link)
     try {
-      withEnv({ KILO_CLOUD_AGENT: "1", SESSION_ID: "agent_symlink-test" }, () => {
+      withEnv({ KAPPA_CLOUD_AGENT: "1", SESSION_ID: "agent_symlink-test" }, () => {
         expect(renderBash()).toContain(`Use \`${sharedTmp}\` for temporary work`)
       })
     } finally {

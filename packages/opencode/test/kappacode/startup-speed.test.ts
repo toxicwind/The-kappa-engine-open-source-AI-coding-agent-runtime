@@ -48,15 +48,15 @@ test("warm npm launcher and real CLI startup stay within budget", async () => {
     await fs.mkdir(env[key], { recursive: true })
   }
   Object.assign(env, {
-    KILO_TELEMETRY_LEVEL: "off",
+    KAPPA_TELEMETRY_LEVEL: "off",
     DO_NOT_TRACK: "1",
     OTEL_SDK_DISABLED: "true",
-    KILO_DISABLE_MODELS_FETCH: "1",
-    KILO_DISABLE_AUTOUPDATE: "1",
-    KILO_DISABLE_PROJECT_CONFIG: "1",
-    KILO_CONFIG_CONTENT: "{}",
-    KILO_AUTH_CONTENT: "{}",
-    KILO_PURE: "1",
+    KAPPA_DISABLE_MODELS_FETCH: "1",
+    KAPPA_DISABLE_AUTOUPDATE: "1",
+    KAPPA_DISABLE_PROJECT_CONFIG: "1",
+    KAPPA_CONFIG_CONTENT: "{}",
+    KAPPA_AUTH_CONTENT: "{}",
+    KAPPA_PURE: "1",
   })
   // Reuse the real test bundle, not a fake child or a downloaded release.
   // This guards launcher + CLI entry imports/exit, not full bootstrap or the release loader.

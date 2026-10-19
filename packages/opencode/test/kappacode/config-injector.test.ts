@@ -293,12 +293,12 @@ describe("KappacodeConfigInjector", () => {
       expect(envVars).toEqual({})
     })
 
-    test("returns KILO_CONFIG_CONTENT for non-empty config", () => {
+    test("returns KAPPA_CONFIG_CONTENT for non-empty config", () => {
       const config = JSON.stringify({ agent: { test: {} } })
       const envVars = KappacodeConfigInjector.getEnvVars(config)
 
       expect(envVars).toEqual({
-        KILO_CONFIG_CONTENT: config,
+        KAPPA_CONFIG_CONTENT: config,
       })
     })
   })

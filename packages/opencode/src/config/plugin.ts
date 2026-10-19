@@ -2,6 +2,7 @@ import { Glob } from "@opencode-ai/core/util/glob"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
 import { pathToFileURL } from "url"
 import { isPathPluginSpec, parsePluginSpecifier, resolvePathPluginTarget } from "@/plugin/shared"
+import { LEGACY_DISCOVERY_GLOBS, normalizeLegacyKiloSpec } from "@/kappacode/config/legacy-kilo" // kappacode_change - legacy kilo plugin compat
 import path from "path"
 
 export type Scope = "global" | "local"
@@ -18,14 +19,18 @@ export type Origin = {
 export async function load(dir: string) {
   const plugins: ConfigPluginV1.Spec[] = []
 
-  for (const item of await Glob.scan("{plugin,plugins}/*.{ts,js}", {
-    cwd: dir,
-    absolute: true,
-    dot: true,
-    symlink: true,
-  })) {
-    plugins.push(pathToFileURL(item).href)
+  // kappacode_change start - also scan legacy .kilo discovery dirs
+  for (const pattern of ["{plugin,plugins}/*.{ts,js}", ...LEGACY_DISCOVERY_GLOBS]) {
+    for (const item of await Glob.scan(pattern, {
+      cwd: dir,
+      absolute: true,
+      dot: true,
+      symlink: true,
+    })) {
+      plugins.push(pathToFileURL(item).href)
+    }
   }
+  // kappacode_change end
   return plugins
 }
 
@@ -43,7 +48,13 @@ export async function resolvePluginSpec(
   plugin: ConfigPluginV1.Spec,
   configFilepath: string,
 ): Promise<ConfigPluginV1.Spec> {
+  // kappacode_change start - legacy kilo npm specs resolve to kappa packages
   const spec = pluginSpecifier(plugin)
+  const normalized = normalizeLegacyKiloSpec(spec)
+  if (!isPathPluginSpec(normalized) && normalized !== spec) {
+    return Array.isArray(plugin) ? [normalized, plugin[1]] : normalized
+  }
+  // kappacode_change end
   if (!isPathPluginSpec(spec)) return plugin
 
   const base = path.dirname(configFilepath)

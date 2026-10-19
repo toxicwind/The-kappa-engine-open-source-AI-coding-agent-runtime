@@ -53,22 +53,22 @@ function environment(home: string, url: string, opts: { plugin?: string; resume?
   }
   return {
     PWD: home,
-    KILO_CONFIG_CONTENT: JSON.stringify(cfg),
-    KILO_CONFIG: "",
-    KILO_CONFIG_DIR: "",
-    KILO_DB: opts.resume ? path.join(home, "resume.db") : ":memory:",
-    KILO_AUTH_CONTENT: "{}",
-    KILO_SERVER_PASSWORD: "",
-    KILO_SERVER_USERNAME: "kappa",
-    KILO_PURE: "false",
-    KILO_DISABLE_DEFAULT_PLUGINS: "true",
-    KILO_EXPERIMENTAL_BACKGROUND_SUBAGENTS: "true",
-    KILO_TELEMETRY_LEVEL: "off",
-    KILO_AUTO_SHARE: "false",
-    KILO_NO_DAEMON: opts.daemon ? "" : "1",
-    KILO_PARENT_PID: "",
-    KILO_TEST_DAEMON_STATE_DIR: path.join(home, "daemon-state"),
-    KILO_TEST_DAEMON_LOG_DIR: path.join(home, "daemon-log"),
+    KAPPA_CONFIG_CONTENT: JSON.stringify(cfg),
+    KAPPA_CONFIG: "",
+    KAPPA_CONFIG_DIR: "",
+    KAPPA_DB: opts.resume ? path.join(home, "resume.db") : ":memory:",
+    KAPPA_AUTH_CONTENT: "{}",
+    KAPPA_SERVER_PASSWORD: "",
+    KAPPA_SERVER_USERNAME: "kappa",
+    KAPPA_PURE: "false",
+    KAPPA_DISABLE_DEFAULT_PLUGINS: "true",
+    KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS: "true",
+    KAPPA_TELEMETRY_LEVEL: "off",
+    KAPPA_AUTO_SHARE: "false",
+    KAPPA_NO_DAEMON: opts.daemon ? "" : "1",
+    KAPPA_PARENT_PID: "",
+    KAPPA_TEST_DAEMON_STATE_DIR: path.join(home, "daemon-state"),
+    KAPPA_TEST_DAEMON_LOG_DIR: path.join(home, "daemon-log"),
   }
 }
 
@@ -258,7 +258,7 @@ function scenario(
         ...(opts.attach && server ? ["--attach", server.url] : []),
         ...(session ? ["--session", session.data.id] : []),
       ],
-      env: opts.daemon ? { ...env, KILO_DB: path.join(home, "unused.db") } : env,
+      env: opts.daemon ? { ...env, KAPPA_DB: path.join(home, "unused.db") } : env,
     })
     yield* Effect.raceFirst(
       requested.wait("child never reached the mock LLM"),
@@ -450,7 +450,7 @@ cliIt.live(
       const directory = path.join(home, "caller")
       yield* Effect.promise(() => mkdir(directory))
       const server = yield* opencode.serve({
-        env: { KILO_SERVER_PASSWORD: "", KILO_SERVER_USERNAME: "kappa" },
+        env: { KAPPA_SERVER_PASSWORD: "", KAPPA_SERVER_USERNAME: "kappa" },
         readyTimeoutMs: 30_000,
       })
       const sdk = createKappaClient({ baseUrl: server.url, directory: home })

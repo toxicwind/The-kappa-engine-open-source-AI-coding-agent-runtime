@@ -4,8 +4,8 @@ import { Auth } from "@/auth"
 
 // Each KappaViewers.layer construction reads these env vars (post-refactor), so
 // setting them here controls presence wiring per test.
-process.env.KILO_EVENT_SERVICE_URL = "wss://test-presence"
-process.env.KILO_PLATFORM = "cli"
+process.env.KAPPA_EVENT_SERVICE_URL = "wss://test-presence"
+process.env.KAPPA_PLATFORM = "cli"
 
 const attachedCalls: string[][] = []
 
@@ -167,8 +167,8 @@ describe("KappaViewers.Service presence contexts", () => {
   test("kill switch blocks the presence socket but attached union still reaches KappaSessions", async () => {
     attachedCalls.length = 0
     current = new FakeClient()
-    const prev = process.env.KILO_DISABLE_PRESENCE
-    process.env.KILO_DISABLE_PRESENCE = "1"
+    const prev = process.env.KAPPA_DISABLE_PRESENCE
+    process.env.KAPPA_DISABLE_PRESENCE = "1"
     try {
       await run((v) =>
         v.update({ viewer: { id: uid, active: true }, attached: ["ses_a"], visible: ["ses_a"] }),
@@ -177,8 +177,8 @@ describe("KappaViewers.Service presence contexts", () => {
       expect(current.calls.some((c) => c.type === "connect")).toBe(false)
       expect(attachedCalls).toEqual([["ses_a"], []])
     } finally {
-      if (prev === undefined) delete process.env.KILO_DISABLE_PRESENCE
-      else process.env.KILO_DISABLE_PRESENCE = prev
+      if (prev === undefined) delete process.env.KAPPA_DISABLE_PRESENCE
+      else process.env.KAPPA_DISABLE_PRESENCE = prev
     }
   })
 })

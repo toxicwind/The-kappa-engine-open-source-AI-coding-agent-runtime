@@ -875,7 +875,7 @@ describe("BrowserNetwork Chromium", () => {
   for (const host of ["google.com", "www.google.com"]) {
     test(
       `Google HTTPS manual probe: ${host}`,
-      { skip: process.env.KILO_BROWSER_GOOGLE_SMOKE !== "1", timeout: 30000 },
+      { skip: process.env.KAPPA_BROWSER_GOOGLE_SMOKE !== "1", timeout: 30000 },
       async () => {
         const external = await launch(false)
         cleanup.push(() => external.close())
@@ -910,7 +910,7 @@ describe("BrowserNetwork Chromium", () => {
 
   test(
     "Google broker navigation probe",
-    { skip: process.env.KILO_BROWSER_GOOGLE_SMOKE !== "1", timeout: 60000 },
+    { skip: process.env.KAPPA_BROWSER_GOOGLE_SMOKE !== "1", timeout: 60000 },
     async () => {
       const logs: unknown[][] = []
       const approvals: string[] = []

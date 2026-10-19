@@ -135,9 +135,9 @@ const clearEffect = (wait = false) =>
     )
 const clear = (wait = false) => Effect.runPromise(clearEffect(wait))
 // Get managed config directory from environment (set in preload.ts)
-const managedConfigDir = process.env.KILO_TEST_MANAGED_CONFIG_DIR!
+const managedConfigDir = process.env.KAPPA_TEST_MANAGED_CONFIG_DIR!
 const originalTestToken = process.env.TEST_TOKEN
-const originalConsoleToken = process.env.KILO_CONSOLE_TOKEN
+const originalConsoleToken = process.env.KAPPA_CONSOLE_TOKEN
 
 beforeEach(async () => {
   await clear(true)
@@ -147,8 +147,8 @@ afterEach(async () => {
   await fs.rm(managedConfigDir, { force: true, recursive: true }).catch(() => {})
   if (originalTestToken === undefined) delete process.env.TEST_TOKEN
   else process.env.TEST_TOKEN = originalTestToken
-  if (originalConsoleToken === undefined) delete process.env.KILO_CONSOLE_TOKEN
-  else process.env.KILO_CONSOLE_TOKEN = originalConsoleToken
+  if (originalConsoleToken === undefined) delete process.env.KAPPA_CONSOLE_TOKEN
+  else process.env.KAPPA_CONSOLE_TOKEN = originalConsoleToken
   await clear(true)
 })
 
@@ -330,12 +330,12 @@ it.effect("creates global jsonc config with schema when no global configs exist"
   ),
 )
 
-it.effect("does not create global config when KILO_CONFIG_DIR is set", () =>
+it.effect("does not create global config when KAPPA_CONFIG_DIR is set", () =>
   Effect.gen(function* () {
     const custom = yield* tmpdirScoped()
     yield* withGlobalConfig({}, ({ dir }) =>
       withProcessEnv(
-        "KILO_CONFIG_DIR",
+        "KAPPA_CONFIG_DIR",
         custom,
         Effect.gen(function* () {
           yield* Config.use.get().pipe(provideInstanceEffect(dir))
@@ -936,7 +936,7 @@ const accountTokenIt = configIt({
     config: () =>
       Effect.succeed(
         Option.some({
-          provider: { opencode: { options: { apiKey: "{env:KILO_CONSOLE_TOKEN}" } } },
+          provider: { opencode: { options: { apiKey: "{env:KAPPA_CONSOLE_TOKEN}" } } },
         }),
       ),
     token: () => Effect.succeed(Option.some(AccessToken.make("st_test_token"))),
@@ -1307,7 +1307,7 @@ it.instance("gets config directories", () =>
   }),
 )
 
-it.effect("does not try to install dependencies in read-only KILO_CONFIG_DIR", () =>
+it.effect("does not try to install dependencies in read-only KAPPA_CONFIG_DIR", () =>
   Effect.gen(function* () {
     if (process.platform === "win32") return
 
@@ -1317,11 +1317,11 @@ it.effect("does not try to install dependencies in read-only KILO_CONFIG_DIR", (
     yield* FSUtil.use.chmod(readonly, 0o555)
     yield* Effect.addFinalizer(() => FSUtil.use.chmod(readonly, 0o755).pipe(Effect.ignore))
 
-    yield* withProcessEnv("KILO_CONFIG_DIR", readonly, Config.use.get().pipe(provideInstanceEffect(dir)))
+    yield* withProcessEnv("KAPPA_CONFIG_DIR", readonly, Config.use.get().pipe(provideInstanceEffect(dir)))
   }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
 )
 
-it.effect("ignores an inaccessible KILO_CONFIG_DIR", () =>
+it.effect("ignores an inaccessible KAPPA_CONFIG_DIR", () =>
   Effect.gen(function* () {
     if (process.platform === "win32") return
 
@@ -1331,29 +1331,29 @@ it.effect("ignores an inaccessible KILO_CONFIG_DIR", () =>
     yield* FSUtil.use.chmod(configDir, 0o000)
     yield* Effect.addFinalizer(() => FSUtil.use.chmod(configDir, 0o755).pipe(Effect.ignore))
 
-    yield* withProcessEnv("KILO_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
+    yield* withProcessEnv("KAPPA_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
   }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
 )
 
-it.effect("creates a missing KILO_CONFIG_DIR", () =>
+it.effect("creates a missing KAPPA_CONFIG_DIR", () =>
   Effect.gen(function* () {
     const dir = yield* tmpdirScoped()
     const configDir = path.join(dir, "configdir")
 
-    yield* withProcessEnv("KILO_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
+    yield* withProcessEnv("KAPPA_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
 
     expect(yield* FSUtil.use.readFileString(path.join(configDir, ".gitignore"))).toContain("node_modules")
   }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
 )
 
-it.effect("installs dependencies in writable KILO_CONFIG_DIR", () =>
+it.effect("installs dependencies in writable KAPPA_CONFIG_DIR", () =>
   Effect.gen(function* () {
     const dir = yield* tmpdirScoped()
     const configDir = path.join(dir, "configdir")
     yield* FSUtil.use.ensureDir(configDir)
 
     yield* withProcessEnv(
-      "KILO_CONFIG_DIR",
+      "KAPPA_CONFIG_DIR",
       configDir,
       Config.Service.use((svc) => svc.get().pipe(Effect.andThen(svc.waitForDependencies()))).pipe(
         provideInstanceEffect(dir),
@@ -1424,7 +1424,7 @@ it.effect("global config remains global when project config is disabled", () =>
       local: { model: "local/model" },
     },
     withProcessEnv(
-      "KILO_DISABLE_PROJECT_CONFIG",
+      "KAPPA_DISABLE_PROJECT_CONFIG",
       "true",
       Effect.gen(function* () {
         const config = yield* Config.use.get()
@@ -1582,7 +1582,7 @@ it.instance("migrates legacy write tool to edit permission", () =>
 )
 
 // Managed settings tests
-// kappacode_change - Note: preload.ts sets KILO_TEST_MANAGED_CONFIG which Global.Path.managedConfig uses
+// kappacode_change - Note: preload.ts sets KAPPA_TEST_MANAGED_CONFIG which Global.Path.managedConfig uses
 
 it.instance(
   "managed settings override user settings",
@@ -2301,11 +2301,11 @@ describe("deduplicatePluginOrigins", () => {
   )
 })
 
-describe("KILO_DISABLE_PROJECT_CONFIG", () => {
+describe("KAPPA_DISABLE_PROJECT_CONFIG", () => {
   // kappacode_change start
   it.instance("skips project config files when flag is set", () =>
     withProcessEnv(
-      "KILO_DISABLE_PROJECT_CONFIG",
+      "KAPPA_DISABLE_PROJECT_CONFIG",
       "true",
       Effect.gen(function* () {
         const test = yield* TestInstance
@@ -2319,7 +2319,7 @@ describe("KILO_DISABLE_PROJECT_CONFIG", () => {
 
   it.instance("skips project .kappa directory when flag is set", () =>
     withProcessEnv(
-      "KILO_DISABLE_PROJECT_CONFIG",
+      "KAPPA_DISABLE_PROJECT_CONFIG",
       "true",
       Effect.gen(function* () {
         const test = yield* TestInstance
@@ -2336,7 +2336,7 @@ describe("KILO_DISABLE_PROJECT_CONFIG", () => {
 
   it.instance("still loads global config when flag is set", () =>
     withProcessEnv(
-      "KILO_DISABLE_PROJECT_CONFIG",
+      "KAPPA_DISABLE_PROJECT_CONFIG",
       "true",
       Effect.gen(function* () {
         const config = yield* Config.use.get()
@@ -2350,7 +2350,7 @@ describe("KILO_DISABLE_PROJECT_CONFIG", () => {
     "skips relative instructions with warning when flag is set but no config dir",
     () =>
       withProcessEnvs(
-        { KILO_CONFIG_DIR: undefined, KILO_DISABLE_PROJECT_CONFIG: "true" },
+        { KAPPA_CONFIG_DIR: undefined, KAPPA_DISABLE_PROJECT_CONFIG: "true" },
         Effect.gen(function* () {
           const test = yield* TestInstance
           yield* FSUtil.use.writeWithDirs(path.join(test.directory, "CUSTOM.md"), "# Custom Instructions")
@@ -2363,7 +2363,7 @@ describe("KILO_DISABLE_PROJECT_CONFIG", () => {
   )
 
   it.instance(
-    "KILO_CONFIG_DIR still works when flag is set",
+    "KAPPA_CONFIG_DIR still works when flag is set",
     () =>
       Effect.gen(function* () {
         const configDir = yield* tmpdirScoped()
@@ -2374,7 +2374,7 @@ describe("KILO_DISABLE_PROJECT_CONFIG", () => {
         })
         // kappacode_change end
         yield* withProcessEnvs(
-          { KILO_DISABLE_PROJECT_CONFIG: "true", KILO_CONFIG_DIR: configDir },
+          { KAPPA_DISABLE_PROJECT_CONFIG: "true", KAPPA_CONFIG_DIR: configDir },
           Effect.gen(function* () {
             const config = yield* Config.use.get()
             expect(config.model).toBe("configdir/model")
@@ -2385,13 +2385,13 @@ describe("KILO_DISABLE_PROJECT_CONFIG", () => {
   )
 })
 
-// Regression for #28206: malformed KILO_PERMISSION JSON used to crash
+// Regression for #28206: malformed KAPPA_PERMISSION JSON used to crash
 // the app on startup with an unhandled SyntaxError. Loading the config with
 // an invalid JSON value in this env var should not throw.
-describe("KILO_PERMISSION env var", () => {
-  it.instance("does not crash when KILO_PERMISSION contains invalid JSON", () =>
+describe("KAPPA_PERMISSION env var", () => {
+  it.instance("does not crash when KAPPA_PERMISSION contains invalid JSON", () =>
     withProcessEnv(
-      "KILO_PERMISSION",
+      "KAPPA_PERMISSION",
       "{invalid",
       Effect.gen(function* () {
         const config = yield* Config.use.get()
@@ -2402,13 +2402,13 @@ describe("KILO_PERMISSION env var", () => {
   )
 })
 
-describe("KILO_CONFIG_CONTENT token substitution", () => {
-  it.instance("substitutes {env:} tokens in KILO_CONFIG_CONTENT", () =>
+describe("KAPPA_CONFIG_CONTENT token substitution", () => {
+  it.instance("substitutes {env:} tokens in KAPPA_CONFIG_CONTENT", () =>
     withProcessEnv(
       "TEST_CONFIG_VAR",
       "test_api_key_12345",
       withProcessEnv(
-        "KILO_CONFIG_CONTENT",
+        "KAPPA_CONFIG_CONTENT",
         JSON.stringify({
           $schema: "https://opencode.ai/config.json",
           username: "{env:TEST_CONFIG_VAR}",
@@ -2421,12 +2421,12 @@ describe("KILO_CONFIG_CONTENT token substitution", () => {
     ),
   )
 
-  it.instance("substitutes {file:} tokens in KILO_CONFIG_CONTENT", () =>
+  it.instance("substitutes {file:} tokens in KAPPA_CONFIG_CONTENT", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
       yield* FSUtil.use.writeWithDirs(path.join(test.directory, "api_key.txt"), "secret_key_from_file")
       yield* withProcessEnv(
-        "KILO_CONFIG_CONTENT",
+        "KAPPA_CONFIG_CONTENT",
         JSON.stringify({
           $schema: "https://opencode.ai/config.json",
           username: "{file:./api_key.txt}",

@@ -62,10 +62,10 @@ Open Settings (`Cmd+,` on Mac, `Ctrl+,` on Windows/Linux), search for **`telemet
 
 {% tab label="CLI" %}
 
-Set `KILO_TELEMETRY_LEVEL=off` in your environment before starting Kappa:
+Set `KAPPA_TELEMETRY_LEVEL=off` in your environment before starting Kappa:
 
 ```bash
-KILO_TELEMETRY_LEVEL=off kappa
+KAPPA_TELEMETRY_LEVEL=off kappa
 ```
 
 With telemetry off, pressing the feedback keybinds shows a message saying feedback is disabled, and nothing is sent.

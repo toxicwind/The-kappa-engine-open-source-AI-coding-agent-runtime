@@ -44,12 +44,12 @@ export const AttachCommand = cmd({
       .option("password", {
         alias: ["p"],
         type: "string",
-        describe: "basic auth password (defaults to KILO_SERVER_PASSWORD)",
+        describe: "basic auth password (defaults to KAPPA_SERVER_PASSWORD)",
       })
       .option("username", {
         alias: ["u"],
         type: "string",
-        describe: "basic auth username (defaults to KILO_SERVER_USERNAME or 'kappa')", // kappacode_change
+        describe: "basic auth username (defaults to KAPPA_SERVER_USERNAME or 'kappa')", // kappacode_change
       })
       .option("mini", {
         type: "boolean",

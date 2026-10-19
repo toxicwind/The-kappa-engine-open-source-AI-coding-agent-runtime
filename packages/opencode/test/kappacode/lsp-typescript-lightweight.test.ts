@@ -77,19 +77,19 @@ function changed(directory: string, file: string, event: "change" | "add" | "unl
 describe("typescript lightweight mode", () => {
   describe("spawn gate", () => {
     test("Typescript.spawn returns undefined when flag is off", async () => {
-      const saved = Flag.KILO_EXPERIMENTAL_LSP_TOOL
-      Flag.KILO_EXPERIMENTAL_LSP_TOOL = false
+      const saved = Flag.KAPPA_EXPERIMENTAL_LSP_TOOL
+      Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = false
       try {
         const result = await LSPServer.Typescript.spawn("/tmp/any", fakeCtx, fakeFlags)
         expect(result).toBeUndefined()
       } finally {
-        Flag.KILO_EXPERIMENTAL_LSP_TOOL = saved
+        Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = saved
       }
     })
 
     test("Typescript.spawn calls native_tsgo when flag is on", async () => {
-      const saved = Flag.KILO_EXPERIMENTAL_LSP_TOOL
-      Flag.KILO_EXPERIMENTAL_LSP_TOOL = true
+      const saved = Flag.KAPPA_EXPERIMENTAL_LSP_TOOL
+      Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = true
       const spy = spyOn(TsCheck, "native_tsgo").mockResolvedValue(undefined)
 
       try {
@@ -97,7 +97,7 @@ describe("typescript lightweight mode", () => {
         expect(spy).toHaveBeenCalled()
         expect(result).toBeUndefined() // undefined because mock returns no binary
       } finally {
-        Flag.KILO_EXPERIMENTAL_LSP_TOOL = saved
+        Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = saved
         spy.mockRestore()
       }
     })
@@ -299,7 +299,7 @@ describe("typescript lightweight mode", () => {
 
     test("lsp/server.ts gates Typescript.spawn behind flag", async () => {
       const src = await Bun.file(path.resolve(import.meta.dir, "../../src/lsp/server.ts")).text()
-      expect(src).toContain("KILO_EXPERIMENTAL_LSP_TOOL")
+      expect(src).toContain("KAPPA_EXPERIMENTAL_LSP_TOOL")
       expect(src).toContain("native_tsgo")
     })
 

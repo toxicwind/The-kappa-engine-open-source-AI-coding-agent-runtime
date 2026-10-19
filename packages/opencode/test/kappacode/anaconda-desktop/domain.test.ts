@@ -143,7 +143,7 @@ describe("Anaconda Desktop platform adapters", () => {
       linux({
         PATH: "/usr/bin",
         DISPLAY: ":0",
-        KILO_SERVER_PASSWORD: "secret",
+        KAPPA_SERVER_PASSWORD: "secret",
         ANTHROPIC_API_KEY: "secret",
       }),
     )
@@ -151,7 +151,7 @@ describe("Anaconda Desktop platform adapters", () => {
       [
         process.execPath,
         "-e",
-        "process.stdout.write(JSON.stringify({ path: process.env.PATH, secret: process.env.KILO_SERVER_PASSWORD }))",
+        "process.stdout.write(JSON.stringify({ path: process.env.PATH, secret: process.env.KAPPA_SERVER_PASSWORD }))",
       ],
       { env },
     )

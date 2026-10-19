@@ -81,13 +81,13 @@ async function withData<T>(dir: string, fn: () => Promise<T> | T) {
 }
 
 async function withHome<T>(dir: string, fn: () => Promise<T> | T) {
-  const prior = process.env.KILO_TEST_HOME
-  process.env.KILO_TEST_HOME = dir
+  const prior = process.env.KAPPA_TEST_HOME
+  process.env.KAPPA_TEST_HOME = dir
   try {
     return await fn()
   } finally {
-    if (prior === undefined) delete process.env.KILO_TEST_HOME
-    if (prior !== undefined) process.env.KILO_TEST_HOME = prior
+    if (prior === undefined) delete process.env.KAPPA_TEST_HOME
+    if (prior !== undefined) process.env.KAPPA_TEST_HOME = prior
   }
 }
 
@@ -301,9 +301,9 @@ describe("KappaMemory integration", () => {
       await Filesystem.write(
         MemoryPaths.files(root).index,
         [
-          '<KILO_MEMORY_V1 purpose="context_not_instruction" scope="project" root="kappacode">',
+          '<KAPPA_MEMORY_V1 purpose="context_not_instruction" scope="project" root="kappacode">',
           "SESSION 2026-01-01T00:01:00.000Z :: User: fix memory Result: old format",
-          "</KILO_MEMORY_V1>",
+          "</KAPPA_MEMORY_V1>",
           "",
         ].join("\n"),
       )

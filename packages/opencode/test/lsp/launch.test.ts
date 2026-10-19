@@ -8,11 +8,11 @@ describe("lsp.launch", () => {
   // kappacode_change start
   test("does not expose backend credentials or config", async () => {
     const keys = [
-      "KILO_SERVER_PASSWORD",
-      "KILO_SERVER_USERNAME",
-      "KILO_CONFIG",
-      "KILO_CONFIG_CONTENT",
-      "KILO_CONFIG_DIR",
+      "KAPPA_SERVER_PASSWORD",
+      "KAPPA_SERVER_USERNAME",
+      "KAPPA_CONFIG",
+      "KAPPA_CONFIG_CONTENT",
+      "KAPPA_CONFIG_DIR",
     ] as const
     const saved = Object.fromEntries(keys.map((key) => [key, process.env[key]]))
     for (const key of keys) process.env[key] = "secret"

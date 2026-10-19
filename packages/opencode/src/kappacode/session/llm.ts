@@ -51,7 +51,7 @@ export namespace KappaLLM {
    * not invalidate prompt caching.
    *
    * The shared default stays in place when the user sets
-   * KILO_EXPERIMENTAL_OUTPUT_TOKEN_MAX, for small requests, for other
+   * KAPPA_EXPERIMENTAL_OUTPUT_TOKEN_MAX, for small requests, for other
    * providers, and when an explicit thinking budget is set (the SDK adds
    * that budget to `max_tokens` itself).
    */

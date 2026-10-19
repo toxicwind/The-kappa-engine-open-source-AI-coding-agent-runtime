@@ -35,7 +35,7 @@ const it = testEffect(LayerNode.compile(LayerNode.group([Provider.node, Env.node
 it.instance(
   "getSmallModel returns undefined without kappa credentials when model IDs lack family metadata",
   Effect.gen(function* () {
-    for (const key of ["KILO_API_KEY", "KILO_AUTH_CONTENT", "KILO_CONFIG_CONTENT"]) {
+    for (const key of ["KAPPA_API_KEY", "KAPPA_AUTH_CONTENT", "KAPPA_CONFIG_CONTENT"]) {
       yield* clearEnv(key)
     }
     const model = yield* Provider.use.getSmallModel(ProviderV2.ID.make("test-provider"))

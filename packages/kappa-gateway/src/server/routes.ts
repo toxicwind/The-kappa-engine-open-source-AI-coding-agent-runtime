@@ -8,7 +8,7 @@
 import { fetchKappacodeNotifications, KappacodeNotificationSchema } from "../api/notifications.js"
 import { fetchKappaImageModels } from "../api/models.js"
 import { fetchOrganizationModes, clearModesCache } from "../api/modes.js"
-import { KILO_API_BASE, HEADER_FEATURE, HEADER_ORGANIZATIONID } from "../api/constants.js"
+import { KAPPA_API_BASE, HEADER_FEATURE, HEADER_ORGANIZATIONID } from "../api/constants.js"
 import { buildKappaHeaders } from "../headers.js"
 import type { ImportDeps, DrizzleDb } from "../cloud-sessions.js"
 import {
@@ -433,7 +433,7 @@ export function createKappaRoutes(deps: KappaRoutesDeps) {
           [HEADER_FEATURE]: "vscode-extension",
         }
 
-        const response = await fetch(`${KILO_API_BASE}/api/gateway/v1/audio/transcriptions`, {
+        const response = await fetch(`${KAPPA_API_BASE}/api/gateway/v1/audio/transcriptions`, {
           method: "POST",
           headers,
           signal: c.req.raw.signal,
@@ -522,7 +522,7 @@ export function createKappaRoutes(deps: KappaRoutesDeps) {
           [HEADER_FEATURE]: "vscode-extension",
         }
 
-        const response = await fetch(`${KILO_API_BASE}/api/openrouter/chat/completions`, {
+        const response = await fetch(`${KAPPA_API_BASE}/api/openrouter/chat/completions`, {
           method: "POST",
           headers,
           signal: c.req.raw.signal,

@@ -323,8 +323,8 @@ export class BrowserBroker {
   async env(): Promise<Record<string, string>> {
     await this.start()
     return {
-      KILO_BROWSER_BROKER_URL: `http://127.0.0.1:${this.port}`,
-      KILO_BROWSER_BROKER_TOKEN: this.token,
+      KAPPA_BROWSER_BROKER_URL: `http://127.0.0.1:${this.port}`,
+      KAPPA_BROWSER_BROKER_TOKEN: this.token,
     }
   }
 

@@ -26,7 +26,7 @@ import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
   baseURL: "https://api.kappa.ai/api/gateway",
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
 })
 
 const result = streamText({

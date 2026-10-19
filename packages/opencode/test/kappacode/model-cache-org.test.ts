@@ -93,7 +93,7 @@ for (const org of [false, true]) {
   ]) {
     it.live(`catalog and default requests share ${item.name} credentials (Org: ${org})`, () =>
       Effect.gen(function* () {
-        yield* environment({ KILO_API_KEY: item.key, KILO_ORG_ID: org ? item.env : undefined })
+        yield* environment({ KAPPA_API_KEY: item.key, KAPPA_ORG_ID: org ? item.env : undefined })
         const captured = yield* Ref.make<Options | undefined>(undefined)
         const info =
           item.auth === "api"
@@ -151,7 +151,7 @@ for (const org of [false, true]) {
 
 it.live("anonymous Personal defaults do not borrow a configured or stored credential", () =>
   Effect.gen(function* () {
-    yield* environment({ KILO_API_KEY: undefined, KILO_ORG_ID: undefined })
+    yield* environment({ KAPPA_API_KEY: undefined, KAPPA_ORG_ID: undefined })
     const requests: Array<string | null> = []
     yield* Effect.acquireRelease(
       Effect.sync(() => {
@@ -175,7 +175,7 @@ it.live("anonymous Personal defaults do not borrow a configured or stored creden
 
 it.live("explicit fetch credentials override environment values, including explicit clearing", () =>
   Effect.gen(function* () {
-    yield* environment({ KILO_API_KEY: "env-token", KILO_ORG_ID: "org-env" })
+    yield* environment({ KAPPA_API_KEY: "env-token", KAPPA_ORG_ID: "org-env" })
     const captured = yield* Ref.make<Options | undefined>(undefined)
     const info = new Auth.Oauth({
       type: "oauth",
@@ -204,7 +204,7 @@ it.live("explicit fetch credentials override environment values, including expli
 
 it.live("rejects a model endpoint whose pinned Org conflicts with the selected environment Org", () =>
   Effect.gen(function* () {
-    yield* environment({ KILO_API_KEY: "env-token", KILO_ORG_ID: "org-env" })
+    yield* environment({ KAPPA_API_KEY: "env-token", KAPPA_ORG_ID: "org-env" })
     const captured = yield* Ref.make<Options | undefined>(undefined)
     yield* ModelCache.Service.use((cache) =>
       Effect.gen(function* () {
@@ -219,7 +219,7 @@ it.live("rejects a model endpoint whose pinned Org conflicts with the selected e
 for (const source of ["configured", "token", "personal", "conflict"] as const) {
   it.live(`does not send ${source} transport credentials to a different defaults service`, () =>
     Effect.gen(function* () {
-      yield* environment({ KILO_API_KEY: undefined, KILO_ORG_ID: source === "conflict" ? "org-env" : undefined })
+      yield* environment({ KAPPA_API_KEY: undefined, KAPPA_ORG_ID: source === "conflict" ? "org-env" : undefined })
       const url =
         source === "personal"
           ? "https://gateway.test/api/openrouter"

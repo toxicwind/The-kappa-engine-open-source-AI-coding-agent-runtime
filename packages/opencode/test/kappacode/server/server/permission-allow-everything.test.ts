@@ -27,28 +27,28 @@ const env = LayerNode.compile(
 )
 const it = testEffect(env)
 const original = {
-  password: Flag.KILO_SERVER_PASSWORD,
-  username: Flag.KILO_SERVER_USERNAME,
-  envPassword: process.env.KILO_SERVER_PASSWORD,
-  envUsername: process.env.KILO_SERVER_USERNAME,
+  password: Flag.KAPPA_SERVER_PASSWORD,
+  username: Flag.KAPPA_SERVER_USERNAME,
+  envPassword: process.env.KAPPA_SERVER_PASSWORD,
+  envUsername: process.env.KAPPA_SERVER_USERNAME,
 }
 
 afterEach(() => {
-  Flag.KILO_SERVER_PASSWORD = original.password
-  Flag.KILO_SERVER_USERNAME = original.username
-  if (original.envPassword === undefined) delete process.env.KILO_SERVER_PASSWORD
-  else process.env.KILO_SERVER_PASSWORD = original.envPassword
-  if (original.envUsername === undefined) delete process.env.KILO_SERVER_USERNAME
-  else process.env.KILO_SERVER_USERNAME = original.envUsername
+  Flag.KAPPA_SERVER_PASSWORD = original.password
+  Flag.KAPPA_SERVER_USERNAME = original.username
+  if (original.envPassword === undefined) delete process.env.KAPPA_SERVER_PASSWORD
+  else process.env.KAPPA_SERVER_PASSWORD = original.envPassword
+  if (original.envUsername === undefined) delete process.env.KAPPA_SERVER_USERNAME
+  else process.env.KAPPA_SERVER_USERNAME = original.envUsername
 })
 
 const auth = () => `Basic ${Buffer.from("kappa:secret").toString("base64")}`
 
 const requireAuth = () => {
-  Flag.KILO_SERVER_PASSWORD = "secret"
-  Flag.KILO_SERVER_USERNAME = undefined
-  process.env.KILO_SERVER_PASSWORD = "secret"
-  delete process.env.KILO_SERVER_USERNAME
+  Flag.KAPPA_SERVER_PASSWORD = "secret"
+  Flag.KAPPA_SERVER_USERNAME = undefined
+  process.env.KAPPA_SERVER_PASSWORD = "secret"
+  delete process.env.KAPPA_SERVER_USERNAME
 }
 
 const ask = (input: Permission.AskInput) =>

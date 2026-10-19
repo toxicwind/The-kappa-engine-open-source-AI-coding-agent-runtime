@@ -16,7 +16,7 @@ export namespace RemoteProtocol {
     gitBranch: z.string().optional(),
     // kappacode_change - K1 W1: per-session platform advertises the platform the
     // session was created on. Mirrors meta()'s resolution order:
-    //   KappaSession.resolvePlatform(id) || process.env["KILO_PLATFORM"] || "cli"
+    //   KappaSession.resolvePlatform(id) || process.env["KAPPA_PLATFORM"] || "cli"
     // Optional so legacy CLIs (no field) remain wire-compatible.
     platform: z.string().max(32).optional(),
     // kappacode_change - PR link: the pull request this session owns on hard

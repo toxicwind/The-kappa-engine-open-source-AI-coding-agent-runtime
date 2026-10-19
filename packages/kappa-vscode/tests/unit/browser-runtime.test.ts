@@ -16,7 +16,7 @@ describe("browser runtime isolation", () => {
       npm_config_proxy: "http://proxy.invalid:8080",
       GLOBAL_AGENT_HTTP_PROXY: "http://proxy.invalid:8080",
       API_KEY: "test-key",
-      KILO_BROWSER_BROKER_TOKEN: "test-token",
+      KAPPA_BROWSER_BROKER_TOKEN: "test-token",
       DATABASE_PASSWORD: "test-password",
     })
     const config = options(true, 9222, env)

@@ -187,7 +187,7 @@ function flag(name: string) {
 
 if (import.meta.main) {
   const dir = flag("dir") ?? path.join(import.meta.dir, "..", "out")
-  const version = process.env.KILO_VERSION
-  if (!version) throw new Error("KILO_VERSION is required to describe VSIX artifacts")
-  await evidence({ dir, release: { version, channel: process.env.KILO_PRE_RELEASE === "true" ? "rc" : "latest" } })
+  const version = process.env.KAPPA_VERSION
+  if (!version) throw new Error("KAPPA_VERSION is required to describe VSIX artifacts")
+  await evidence({ dir, release: { version, channel: process.env.KAPPA_PRE_RELEASE === "true" ? "rc" : "latest" } })
 }

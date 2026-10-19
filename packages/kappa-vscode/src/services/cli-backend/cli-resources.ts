@@ -27,7 +27,7 @@ export function treeSitterDirForExtension(root: string): string {
 }
 
 export function resolveTreeSitterEnv(root: string): Record<string, string> {
-  return { KILO_TREE_SITTER_WASM_DIR: treeSitterDirForExtension(root) }
+  return { KAPPA_TREE_SITTER_WASM_DIR: treeSitterDirForExtension(root) }
 }
 
 export function hasTreeSitterResources(file: string): boolean {
@@ -157,7 +157,7 @@ export function resolveLocalBwrapEnv(
 
   const executable = localBwrapPath(target, root)
   if (!executable || !validLocalBwrap(executable)) return {}
-  return { KILO_BWRAP_PATH: executable }
+  return { KAPPA_BWRAP_PATH: executable }
 }
 
 export async function sanitizeSandboxResources(bin: string, local: boolean): Promise<boolean> {

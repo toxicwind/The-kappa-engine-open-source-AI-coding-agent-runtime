@@ -1,5 +1,5 @@
-export const KILO_PROVIDER_ID = "kappa"
-export const KILO_AUTO = { providerID: KILO_PROVIDER_ID, modelID: "kappa-auto/free" } as const
+export const KAPPA_PROVIDER_ID = "kappa"
+export const KAPPA_AUTO = { providerID: KAPPA_PROVIDER_ID, modelID: "kappa-auto/free" } as const
 export const CUSTOM_PROVIDER_PACKAGES = ["@ai-sdk/openai-compatible", "@ai-sdk/openai", "@ai-sdk/anthropic"] as const
 export type CustomProviderPackage = (typeof CUSTOM_PROVIDER_PACKAGES)[number]
 export const CUSTOM_PROVIDER_PACKAGE: CustomProviderPackage = "@ai-sdk/openai-compatible"
@@ -7,7 +7,7 @@ export const PROVIDER_ID_PATTERN = /^[a-z0-9][a-z0-9-_]*$/
 
 // Legacy/static fallback for provider objects created before backend metadata is available.
 export const PROVIDER_PRIORITY = [
-  KILO_PROVIDER_ID,
+  KAPPA_PROVIDER_ID,
   "anthropic",
   "deepseek",
   "openai",
@@ -34,13 +34,13 @@ export function providerOrderIndex(providerID: string, order = PROVIDER_PRIORITY
 
 export function createKappaFallbackProvider() {
   return {
-    id: KILO_PROVIDER_ID,
+    id: KAPPA_PROVIDER_ID,
     name: "Kappa Gateway",
     source: "custom" as const,
-    env: ["KILO_API_KEY"],
+    env: ["KAPPA_API_KEY"],
     metadata: {
       noteKey: "settings.providers.note.kappa",
-      icon: KILO_PROVIDER_ID,
+      icon: KAPPA_PROVIDER_ID,
       priority: 0,
     },
     models: {},

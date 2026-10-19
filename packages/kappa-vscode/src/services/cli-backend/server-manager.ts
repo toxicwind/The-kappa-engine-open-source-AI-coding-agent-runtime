@@ -26,20 +26,20 @@ export function resolveServerCwd(folders: readonly WorkspaceFolderLike[] | undef
 
 export function resolveIndexingEnv(folders: readonly WorkspaceFolderLike[] | undefined): Record<string, string> {
   if (folders && folders.length > 0) return {}
-  return { KILO_DISABLE_CODEBASE_INDEXING: "vscode-no-workspace" }
+  return { KAPPA_DISABLE_CODEBASE_INDEXING: "vscode-no-workspace" }
 }
 
 export function resolveManagedServerEnv(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
   return {
     ...env,
-    KILO_DISABLE_CHANNEL_DB: "true",
+    KAPPA_DISABLE_CHANNEL_DB: "true",
     // VS Code does not consume the backend's file.watcher.updated events.
-    KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
+    KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
   }
 }
 
 export function resolveClaudeMigrationEnv(env: NodeJS.ProcessEnv, enabled: boolean): string {
-  return env.KILO_EXPERIMENTAL_CLAUDE_MIGRATION ?? String(enabled)
+  return env.KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION ?? String(enabled)
 }
 
 export class ServerManager {
@@ -113,7 +113,7 @@ export class ServerManager {
       const localCli =
         this.context.extensionMode === vscode.ExtensionMode.Development ||
         fs.existsSync(path.join(this.context.extensionPath, "bin", ".cli-version"))
-      const bwrapEnv = process.env.KILO_BWRAP_PATH ? {} : resolveLocalBwrapEnv(this.context.extensionPath, localCli)
+      const bwrapEnv = process.env.KAPPA_BWRAP_PATH ? {} : resolveLocalBwrapEnv(this.context.extensionPath, localCli)
       // TLS / corporate-proxy support:
       //   - Default NODE_USE_SYSTEM_CA=1 so the bundled Bun CLI trusts the OS
       //     trust store (Windows cert store, macOS keychain, Linux /etc/ssl).
@@ -146,28 +146,28 @@ export class ServerManager {
           // once per second per worktree) to reach multi-GB RSS in minutes.
           // See oven-sh/bun#18265 and Jarred's workaround note in #21560.
           MIMALLOC_PURGE_DELAY: "0",
-          KILO_SERVER_PASSWORD: password,
+          KAPPA_SERVER_PASSWORD: password,
           // The CLI watches this PID and exits if the extension host is hard-killed without a
           // chance to run dispose(), so it is never orphaned. See parent-watchdog.ts.
-          KILO_PARENT_PID: String(process.pid),
-          KILO_CLIENT: "vscode",
-          KILO_ENABLE_QUESTION_TOOL: "true",
+          KAPPA_PARENT_PID: String(process.pid),
+          KAPPA_CLIENT: "vscode",
+          KAPPA_ENABLE_QUESTION_TOOL: "true",
           KAPPACODE_FEATURE: "vscode-extension",
           ...indexingEnv,
-          KILO_TELEMETRY_LEVEL: vscode.env.isTelemetryEnabled ? "all" : "off",
-          KILO_APP_NAME: "kappa-code",
-          KILO_EDITOR_NAME: vscode.env.appName,
-          KILO_PLATFORM: "vscode",
-          KILO_MACHINE_ID: vscode.env.machineId,
-          KILO_APP_VERSION: this.context.extension.packageJSON.version,
-          KILO_VSCODE_VERSION: vscode.version,
+          KAPPA_TELEMETRY_LEVEL: vscode.env.isTelemetryEnabled ? "all" : "off",
+          KAPPA_APP_NAME: "kappa-code",
+          KAPPA_EDITOR_NAME: vscode.env.appName,
+          KAPPA_PLATFORM: "vscode",
+          KAPPA_MACHINE_ID: vscode.env.machineId,
+          KAPPA_APP_VERSION: this.context.extension.packageJSON.version,
+          KAPPA_VSCODE_VERSION: vscode.version,
           KAPPACODE_VERSION: this.context.extension.packageJSON.version,
           KAPPACODE_EDITOR_NAME: `${vscode.env.appName} ${vscode.version}`,
-          ...(!claudeCompat && { KILO_DISABLE_CLAUDE_CODE: "true" }),
+          ...(!claudeCompat && { KAPPA_DISABLE_CLAUDE_CODE: "true" }),
           ...resolveTreeSitterEnv(this.context.extensionPath),
           ...bwrapEnv,
           ...extraEnv,
-          KILO_EXPERIMENTAL_CLAUDE_MIGRATION: claudeMigration,
+          KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION: claudeMigration,
         },
         stdio: ["ignore", "pipe", "pipe"],
         detached: true,

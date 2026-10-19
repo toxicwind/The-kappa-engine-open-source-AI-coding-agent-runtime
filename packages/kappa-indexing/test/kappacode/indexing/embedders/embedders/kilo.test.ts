@@ -3,7 +3,7 @@ import { mockEmbeddingsCreate, openAIMockFactory, setOpenAIConstructorHook } fro
 
 mock.module("openai", openAIMockFactory)
 
-import { KappaEmbedder, KILO_INDEXING_FEATURE } from "../../../../src/indexing/embedders/kappa"
+import { KappaEmbedder, KAPPA_INDEXING_FEATURE } from "../../../../src/indexing/embedders/kappa"
 
 describe("KappaEmbedder", () => {
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe("KappaEmbedder", () => {
       baseURL: "https://api.kappa.ai/api/gateway/",
       apiKey: "kappa-token",
       defaultHeaders: {
-        "X-KAPPACODE-FEATURE": KILO_INDEXING_FEATURE,
+        "X-KAPPACODE-FEATURE": KAPPA_INDEXING_FEATURE,
         "X-KAPPACODE-ORGANIZATIONID": "org_123",
       },
     })

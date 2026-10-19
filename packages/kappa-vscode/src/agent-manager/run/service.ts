@@ -1,6 +1,6 @@
 import * as fs from "node:fs"
 import * as path from "node:path"
-import { KILO_DIR } from "../constants"
+import { KAPPA_DIR } from "../constants"
 
 const RUN_SCRIPT_FILENAME = "run-script"
 const RUN_SCRIPT_SHELL_FILENAME = "run-script.sh"
@@ -108,7 +108,7 @@ export class RunScriptService {
   private readonly dir: string
 
   constructor(root: string) {
-    this.dir = path.join(root, KILO_DIR)
+    this.dir = path.join(root, KAPPA_DIR)
   }
 
   resolveScript(platform: NodeJS.Platform = process.platform): RunScriptInfo | undefined {

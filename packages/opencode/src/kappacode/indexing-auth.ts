@@ -3,8 +3,8 @@ import type { IndexingConfig } from "@kappacode/kappa-indexing/config"
 type Auth = unknown
 
 type Env = {
-  KILO_API_KEY?: string
-  KILO_ORG_ID?: string
+  KAPPA_API_KEY?: string
+  KAPPA_ORG_ID?: string
 }
 
 type Provider = {
@@ -87,14 +87,14 @@ export function resolveKappaIndexingAuth(input: {
       token(input.auth) ??
       text(provider.key) ??
       text(providerOptions.kappacodeToken) ??
-      text(env.KILO_API_KEY),
+      text(env.KAPPA_API_KEY),
     baseUrl: text(kappa.baseUrl) ?? text(providerConfig.baseURL) ?? text(providerConfig.baseUrl),
     organizationId:
       text(kappa.organizationId) ??
       text(providerConfig.kappacodeOrganizationId) ??
       org(input.auth) ??
       text(providerOptions.kappacodeOrganizationId) ??
-      text(env.KILO_ORG_ID),
+      text(env.KAPPA_ORG_ID),
   }
 }
 

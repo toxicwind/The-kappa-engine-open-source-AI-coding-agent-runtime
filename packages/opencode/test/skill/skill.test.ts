@@ -46,14 +46,14 @@ This skill is loaded from the global home directory.
 const withHome = <A, E, R>(home: string, self: Effect.Effect<A, E, R>) =>
   Effect.acquireUseRelease(
     Effect.sync(() => {
-      const prev = process.env.KILO_TEST_HOME
-      process.env.KILO_TEST_HOME = home
+      const prev = process.env.KAPPA_TEST_HOME
+      process.env.KAPPA_TEST_HOME = home
       return prev
     }),
     () => self,
     (prev) =>
       Effect.sync(() => {
-        process.env.KILO_TEST_HOME = prev
+        process.env.KAPPA_TEST_HOME = prev
       }),
   )
 

@@ -1,10 +1,10 @@
 import type { Auth } from "@/auth"
-import { fetchDefaultModel, getKappaUrlFromToken, KILO_API_BASE } from "@kappacode/kappa-gateway"
+import { fetchDefaultModel, getKappaUrlFromToken, KAPPA_API_BASE } from "@kappacode/kappa-gateway"
 
 type Options = { kappacodeOrganizationId?: string; baseURL?: string; apiKey?: string; kappacodeToken?: string }
 
 export function token(options: Options | undefined, info: Auth.Info | undefined) {
-  if (process.env.KILO_API_KEY) return process.env.KILO_API_KEY
+  if (process.env.KAPPA_API_KEY) return process.env.KAPPA_API_KEY
   if (info?.type === "oauth") return info.access
   if (info?.type === "api") return info.key
   if (options?.kappacodeToken != null) return options.kappacodeToken
@@ -19,7 +19,7 @@ function scoped(url: string) {
 
 export function organization(options: Options | undefined, info: Auth.Info | undefined) {
   return (
-    process.env.KILO_ORG_ID ||
+    process.env.KAPPA_ORG_ID ||
     (info?.type === "oauth" ? info.accountId : undefined) ||
     options?.kappacodeOrganizationId ||
     scoped(getKappaUrlFromToken(options?.baseURL ?? "", token(options, info) ?? ""))
@@ -43,8 +43,8 @@ export async function recommend(
   const key = token(options, info)
   if (!compatible({ baseURL: options?.baseURL, kappacodeToken: key, kappacodeOrganizationId: org })) return undefined
   const fallback = org ? first : undefined
-  const endpoint = getKappaUrlFromToken(options?.baseURL || KILO_API_BASE, key ?? "")
-  if (URL.parse(endpoint)?.origin !== URL.parse(KILO_API_BASE)?.origin) return fallback
+  const endpoint = getKappaUrlFromToken(options?.baseURL || KAPPA_API_BASE, key ?? "")
+  if (URL.parse(endpoint)?.origin !== URL.parse(KAPPA_API_BASE)?.origin) return fallback
   const model = await fetchDefaultModel(key, org, fallback)
   return Object.hasOwn(models, model) ? model : fallback
 }

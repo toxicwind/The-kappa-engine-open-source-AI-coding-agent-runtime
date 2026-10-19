@@ -15,8 +15,8 @@ export type DecodedCredentials = {
 }
 
 export class Config extends ConfigService.Service<Config>()("@opencode/ServerAuthConfig", {
-  password: EffectConfig.string("KILO_SERVER_PASSWORD").pipe(EffectConfig.option),
-  username: EffectConfig.string("KILO_SERVER_USERNAME").pipe(EffectConfig.withDefault("kappa")), // kappacode_change
+  password: EffectConfig.string("KAPPA_SERVER_PASSWORD").pipe(EffectConfig.option),
+  username: EffectConfig.string("KAPPA_SERVER_USERNAME").pipe(EffectConfig.withDefault("kappa")), // kappacode_change
 }) {}
 
 export type Info = Context.Service.Shape<typeof Config>
@@ -34,10 +34,10 @@ export function authorized(credentials: DecodedCredentials, config: Info) {
 }
 
 export function header(credentials?: Credentials) {
-  const password = credentials?.password ?? Flag.KILO_SERVER_PASSWORD
+  const password = credentials?.password ?? Flag.KAPPA_SERVER_PASSWORD
   if (!password) return undefined
 
-  const username = credentials?.username ?? Flag.KILO_SERVER_USERNAME ?? "kappa" // kappacode_change
+  const username = credentials?.username ?? Flag.KAPPA_SERVER_USERNAME ?? "kappa" // kappacode_change
   return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`
 }
 

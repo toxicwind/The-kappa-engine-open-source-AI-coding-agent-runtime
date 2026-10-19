@@ -1,6 +1,6 @@
 import { buildKappaHeaders } from "../headers.js"
 import type { KappaPassState } from "../types.js"
-import { KILO_API_BASE } from "./constants.js"
+import { KAPPA_API_BASE } from "./constants.js"
 
 function record(value: unknown) {
   return value !== null && typeof value === "object" ? (value as Record<string, unknown>) : undefined
@@ -34,7 +34,7 @@ export function parseKappaPassState(value: unknown): KappaPassState | null {
 export async function fetchKappaPassState(token: string): Promise<KappaPassState | null> {
   try {
     const params = new URLSearchParams({ batch: "1", input: JSON.stringify({ "0": null }) })
-    const response = await fetch(`${KILO_API_BASE}/api/trpc/kappaPass.getState?${params}`, {
+    const response = await fetch(`${KAPPA_API_BASE}/api/trpc/kappaPass.getState?${params}`, {
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...buildKappaHeaders() },
     })
     if (!response.ok) return null

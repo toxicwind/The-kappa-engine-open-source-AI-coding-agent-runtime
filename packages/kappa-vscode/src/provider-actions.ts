@@ -9,7 +9,7 @@ import {
   sanitizeCustomProviderConfig,
   withCustomProviderDeletions,
 } from "./shared/custom-provider"
-import { isCustomProviderPackage, KILO_AUTO, KILO_PROVIDER_ID, parseModelString } from "./shared/provider-model"
+import { isCustomProviderPackage, KAPPA_AUTO, KAPPA_PROVIDER_ID, parseModelString } from "./shared/provider-model"
 import { configFeatures, serverFeatures } from "./features"
 
 /**
@@ -88,23 +88,23 @@ export async function fetchProviderData(client: KappaClient, dir: string) {
     delete next.key
     return next as (typeof response.all)[number]
   })
-  delete authStates[KILO_PROVIDER_ID]
-  if (kappaAuth?.authenticated && kappaAuth.type) authStates[KILO_PROVIDER_ID] = kappaAuth.type
+  delete authStates[KAPPA_PROVIDER_ID]
+  if (kappaAuth?.authenticated && kappaAuth.type) authStates[KAPPA_PROVIDER_ID] = kappaAuth.type
   const organizationId = kappaAuth ? (kappaAuth.organizationId ?? null) : undefined
   const defaults = { ...response.default }
   if (organizationId) {
-    const models = all.find((item) => item.id === KILO_PROVIDER_ID)?.models ?? {}
-    const recommended = response.default[KILO_PROVIDER_ID]
+    const models = all.find((item) => item.id === KAPPA_PROVIDER_ID)?.models ?? {}
+    const recommended = response.default[KAPPA_PROVIDER_ID]
     const model = recommended && Object.hasOwn(models, recommended) ? recommended : Object.keys(models).at(0)
-    if (model) defaults[KILO_PROVIDER_ID] = model
-    if (!model) delete defaults[KILO_PROVIDER_ID]
+    if (model) defaults[KAPPA_PROVIDER_ID] = model
+    if (!model) delete defaults[KAPPA_PROVIDER_ID]
   }
-  if (!kappaAuth) delete defaults[KILO_PROVIDER_ID]
+  if (!kappaAuth) delete defaults[KAPPA_PROVIDER_ID]
   return {
     response: {
       ...response,
-      all: kappaAuth ? all : all.filter((item) => item.id !== KILO_PROVIDER_ID),
-      connected: kappaAuth ? response.connected : response.connected.filter((id) => id !== KILO_PROVIDER_ID),
+      all: kappaAuth ? all : all.filter((item) => item.id !== KAPPA_PROVIDER_ID),
+      connected: kappaAuth ? response.connected : response.connected.filter((id) => id !== KAPPA_PROVIDER_ID),
       default: defaults,
     },
     authMethods,
@@ -122,8 +122,8 @@ function catalogUnavailable(
   all: ReadonlyArray<{ id: string; models: Record<string, unknown> }>,
   organizationId: string | null | undefined,
 ) {
-  if (!organizationId || !failed?.includes(KILO_PROVIDER_ID)) return false
-  return Object.keys(all.find((item) => item.id === KILO_PROVIDER_ID)?.models ?? {}).length === 0
+  if (!organizationId || !failed?.includes(KAPPA_PROVIDER_ID)) return false
+  return Object.keys(all.find((item) => item.id === KAPPA_PROVIDER_ID)?.models ?? {}).length === 0
 }
 
 /**
@@ -212,7 +212,7 @@ export function computeDefaultSelection(
   const configured = parseModelString(cachedConfig?.config?.model)
   if (configured) return configured
   if (vscodePID && vscodeMID) return { providerID: vscodePID, modelID: vscodeMID }
-  return { ...KILO_AUTO }
+  return { ...KAPPA_AUTO }
 }
 
 type PostMessage = (message: unknown) => void

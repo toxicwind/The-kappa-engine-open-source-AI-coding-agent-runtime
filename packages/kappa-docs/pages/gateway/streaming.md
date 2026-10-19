@@ -33,7 +33,7 @@ import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
   baseURL: "https://api.kappa.ai/api/gateway",
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
 })
 
 const result = streamText({
@@ -59,7 +59,7 @@ console.log("Tokens used:", usage)
 import OpenAI from "openai"
 
 const client = new OpenAI({
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
   baseURL: "https://api.kappa.ai/api/gateway",
 })
 
@@ -84,7 +84,7 @@ for await (const chunk of stream) {
 from openai import OpenAI
 
 client = OpenAI(
-    api_key=os.getenv("KILO_API_KEY"),
+    api_key=os.getenv("KAPPA_API_KEY"),
     base_url="https://api.kappa.ai/api/gateway",
 )
 
@@ -144,7 +144,7 @@ const controller = new AbortController()
 const response = await fetch("https://api.kappa.ai/api/gateway/chat/completions", {
   method: "POST",
   headers: {
-    Authorization: `Bearer ${process.env.KILO_API_KEY}`,
+    Authorization: `Bearer ${process.env.KAPPA_API_KEY}`,
     "Content-Type": "application/json",
   },
   body: JSON.stringify({

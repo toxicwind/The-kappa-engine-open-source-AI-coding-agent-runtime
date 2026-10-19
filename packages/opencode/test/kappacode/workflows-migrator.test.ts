@@ -155,7 +155,7 @@ Actual description here.`
     })
 
     test("skips environment substitutions in project workflows", async () => {
-      const name = "KILO_WORKFLOW_PROJECT_SECRET"
+      const name = "KAPPA_WORKFLOW_PROJECT_SECRET"
       const prior = process.env[name]
       process.env[name] = "environment secret"
       try {
@@ -179,7 +179,7 @@ Actual description here.`
     })
 
     test("preserves file and environment substitutions in trusted global workflows", async () => {
-      const name = "KILO_WORKFLOW_GLOBAL_SECRET"
+      const name = "KAPPA_WORKFLOW_GLOBAL_SECRET"
       const prior = process.env[name]
       process.env[name] = "environment secret"
       try {

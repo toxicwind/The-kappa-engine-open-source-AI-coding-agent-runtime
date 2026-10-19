@@ -75,14 +75,14 @@ describe("opencode mcp add (non-interactive subprocess)", () => {
 
   // kappacode_change start
   cliIt.concurrent(
-    "writes to KILO_CONFIG_DIR without touching the default profile",
+    "writes to KAPPA_CONFIG_DIR without touching the default profile",
     ({ home, opencode }) =>
       Effect.gen(function* () {
         const profile = path.join(home, "profile")
         yield* Effect.promise(() => mkdir(profile, { recursive: true }))
         const result = yield* opencode.spawn(
           ["mcp", "add", "profile", "--url", "https://example.com/profile"],
-          { env: { KILO_CONFIG_DIR: profile } },
+          { env: { KAPPA_CONFIG_DIR: profile } },
         )
         opencode.expectExit(result, 0)
 

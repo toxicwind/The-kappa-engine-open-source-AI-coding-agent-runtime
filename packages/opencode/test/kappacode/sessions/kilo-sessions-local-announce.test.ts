@@ -8,12 +8,12 @@
 // layer state installed by init) through GlobalBus session events plus the real
 // enableRemote/AttachedState path, with only the relay socket faked.
 
-// kappa-sessions reads KILO_DISABLE_SESSION_INGEST and KILO_REMOTE at module
+// kappa-sessions reads KAPPA_DISABLE_SESSION_INGEST and KAPPA_REMOTE at module
 // load. Set them before the first import: keep ingest enabled so the layer
 // state installs its watchers, and keep bootstrap auto-enable off so every
 // test enables remote explicitly.
-process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
-delete process.env["KILO_REMOTE"]
+process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
+delete process.env["KAPPA_REMOTE"]
 
 import { afterEach, beforeEach, describe, expect, mock, spyOn } from "bun:test"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
@@ -69,7 +69,7 @@ describe("KappaSessions locally started session announce", () => {
   // enableRemote in flight (the bootstrap auto-enable race).
   let userGate: Promise<void> | undefined
 
-  const ENV_KEYS = ["KILO_API_KEY", "KILO_SESSION_INGEST_URL", "KILO_DISABLE_SESSION_INGEST"] as const
+  const ENV_KEYS = ["KAPPA_API_KEY", "KAPPA_SESSION_INGEST_URL", "KAPPA_DISABLE_SESSION_INGEST"] as const
   const envSnap = new Map<string, string | undefined>()
 
   function snapEnv() {
@@ -91,13 +91,13 @@ describe("KappaSessions locally started session announce", () => {
     heartbeatImpl = async () => {}
     userGate = undefined
     snapEnv()
-    process.env["KILO_API_KEY"] = token
+    process.env["KAPPA_API_KEY"] = token
     // Point every accidental ingest flush at a closed local port. The
     // synthetic session ids below are never bootstrapped (no session_share
     // row), so ingest drops their items anyway; this keeps even a leaked
     // flush retry off the real relay.
-    process.env["KILO_SESSION_INGEST_URL"] = "http://127.0.0.1:9"
-    process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
+    process.env["KAPPA_SESSION_INGEST_URL"] = "http://127.0.0.1:9"
+    process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
     reset(token)
     KappaSessions.resetInstanceAdvertisementForTests()
 

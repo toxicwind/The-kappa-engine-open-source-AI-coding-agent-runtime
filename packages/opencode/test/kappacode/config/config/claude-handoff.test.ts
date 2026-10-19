@@ -50,10 +50,10 @@ const withPaths = <A, E, R>(home: string, config: string, state: string, self: E
     Effect.sync(() => {
       const prev = {
         config: Global.Path.config,
-        home: process.env.KILO_TEST_HOME,
+        home: process.env.KAPPA_TEST_HOME,
         state: Global.Path.state,
       }
-      process.env.KILO_TEST_HOME = home
+      process.env.KAPPA_TEST_HOME = home
       ;(Global.Path as { config: string; state: string }).config = config
       ;(Global.Path as { config: string; state: string }).state = state
       return prev
@@ -61,8 +61,8 @@ const withPaths = <A, E, R>(home: string, config: string, state: string, self: E
     () => self,
     (prev) =>
       Effect.sync(() => {
-        if (prev.home === undefined) delete process.env.KILO_TEST_HOME
-        else process.env.KILO_TEST_HOME = prev.home
+        if (prev.home === undefined) delete process.env.KAPPA_TEST_HOME
+        else process.env.KAPPA_TEST_HOME = prev.home
         ;(Global.Path as { config: string; state: string }).config = prev.config
         ;(Global.Path as { config: string; state: string }).state = prev.state
       }),

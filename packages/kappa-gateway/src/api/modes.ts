@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { KILO_API_BASE, MODELS_FETCH_TIMEOUT_MS } from "./constants.js"
+import { KAPPA_API_BASE, MODELS_FETCH_TIMEOUT_MS } from "./constants.js"
 import { getDefaultHeaders } from "../headers.js"
 
 /**
@@ -67,7 +67,7 @@ export async function fetchOrganizationModes(token: string, organizationId: stri
   }
 
   try {
-    const url = `${KILO_API_BASE}/api/organizations/${encodeURIComponent(organizationId)}/modes`
+    const url = `${KAPPA_API_BASE}/api/organizations/${encodeURIComponent(organizationId)}/modes`
     const response = await fetch(url, {
       headers: {
         ...getDefaultHeaders(),

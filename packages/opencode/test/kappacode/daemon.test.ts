@@ -5,34 +5,34 @@ import { DaemonClient } from "../../src/kappacode/daemon/client.ts"
 import { tmpdir } from "../fixture/fixture.ts"
 
 const original = {
-  state: process.env.KILO_TEST_DAEMON_STATE_DIR,
-  log: process.env.KILO_TEST_DAEMON_LOG_DIR,
-  disabled: process.env.KILO_NO_DAEMON,
+  state: process.env.KAPPA_TEST_DAEMON_STATE_DIR,
+  log: process.env.KAPPA_TEST_DAEMON_LOG_DIR,
+  disabled: process.env.KAPPA_NO_DAEMON,
 }
 
 afterEach(async () => {
-  if (process.env.KILO_TEST_DAEMON_STATE_DIR !== original.state) await Daemon.stop().catch(() => undefined)
+  if (process.env.KAPPA_TEST_DAEMON_STATE_DIR !== original.state) await Daemon.stop().catch(() => undefined)
   restore()
 })
 
 function restore() {
-  if (original.state === undefined) delete process.env.KILO_TEST_DAEMON_STATE_DIR
-  else process.env.KILO_TEST_DAEMON_STATE_DIR = original.state
-  if (original.log === undefined) delete process.env.KILO_TEST_DAEMON_LOG_DIR
-  else process.env.KILO_TEST_DAEMON_LOG_DIR = original.log
-  if (original.disabled === undefined) delete process.env.KILO_NO_DAEMON
-  else process.env.KILO_NO_DAEMON = original.disabled
+  if (original.state === undefined) delete process.env.KAPPA_TEST_DAEMON_STATE_DIR
+  else process.env.KAPPA_TEST_DAEMON_STATE_DIR = original.state
+  if (original.log === undefined) delete process.env.KAPPA_TEST_DAEMON_LOG_DIR
+  else process.env.KAPPA_TEST_DAEMON_LOG_DIR = original.log
+  if (original.disabled === undefined) delete process.env.KAPPA_NO_DAEMON
+  else process.env.KAPPA_NO_DAEMON = original.disabled
 }
 
 function dirs(root: string) {
-  process.env.KILO_TEST_DAEMON_STATE_DIR = path.join(root, "state")
-  process.env.KILO_TEST_DAEMON_LOG_DIR = path.join(root, "log")
+  process.env.KAPPA_TEST_DAEMON_STATE_DIR = path.join(root, "state")
+  process.env.KAPPA_TEST_DAEMON_LOG_DIR = path.join(root, "log")
   return {
     XDG_DATA_HOME: path.join(root, "xdg-data"),
     XDG_CONFIG_HOME: path.join(root, "xdg-config"),
     XDG_STATE_HOME: path.join(root, "xdg-state"),
     XDG_CACHE_HOME: path.join(root, "xdg-cache"),
-    KILO_TEST_DAEMON_EPHEMERAL_PORT: "1",
+    KAPPA_TEST_DAEMON_EPHEMERAL_PORT: "1",
   }
 }
 
@@ -55,12 +55,12 @@ function cli(args: string[], env: NodeJS.ProcessEnv = {}) {
     env: {
       ...process.env,
       ...env,
-      KILO_CONFIG_CONTENT: '{"experimental":{"openTelemetry":false}}',
-      KILO_DISABLE_PROJECT_CONFIG: "1",
-      KILO_DISABLE_AUTOUPDATE: "1",
-      KILO_DISABLE_MODELS_FETCH: "1",
-      KILO_AUTH_CONTENT: "{}",
-      KILO_PURE: "1",
+      KAPPA_CONFIG_CONTENT: '{"experimental":{"openTelemetry":false}}',
+      KAPPA_DISABLE_PROJECT_CONFIG: "1",
+      KAPPA_DISABLE_AUTOUPDATE: "1",
+      KAPPA_DISABLE_MODELS_FETCH: "1",
+      KAPPA_AUTH_CONTENT: "{}",
+      KAPPA_PURE: "1",
     },
     stdin: "ignore",
     stdout: "pipe",
@@ -362,7 +362,7 @@ describe("daemon manager", () => {
   test("daemon client honors the escape hatch", async () => {
     await using tmp = await tmpdir()
     const started = await Daemon.start(opts(tmp.path))
-    process.env.KILO_NO_DAEMON = "1"
+    process.env.KAPPA_NO_DAEMON = "1"
 
     const daemon = await DaemonClient.connect()
 

@@ -134,11 +134,11 @@ export type {
 // Constants
 // ============================================================================
 export {
-  ENV_KILO_API_URL,
-  DEFAULT_KILO_API_URL,
-  KILO_API_BASE,
-  KILO_EVENT_SERVICE_URL,
-  KILO_OPENROUTER_BASE,
+  ENV_KAPPA_API_URL,
+  DEFAULT_KAPPA_API_URL,
+  KAPPA_API_BASE,
+  KAPPA_EVENT_SERVICE_URL,
+  KAPPA_OPENROUTER_BASE,
   POLL_INTERVAL_MS,
   DEFAULT_MODEL,
   DEFAULT_FREE_MODEL,

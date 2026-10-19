@@ -250,8 +250,8 @@ describe("marketplace HTTP API", () => {
         })
       },
     })
-    const previous = process.env.KILO_MARKETPLACE_BASE_URL
-    process.env.KILO_MARKETPLACE_BASE_URL = server.url.toString().replace(/\/$/, "")
+    const previous = process.env.KAPPA_MARKETPLACE_BASE_URL
+    process.env.KAPPA_MARKETPLACE_BASE_URL = server.url.toString().replace(/\/$/, "")
     try {
       const catalog = await json("GET", KappacodePaths.marketplaceList)
       const item = (catalog.items as Json[]).find((item) => item.id === "remote-bundle")
@@ -289,8 +289,8 @@ describe("marketplace HTTP API", () => {
       ).toBe(true)
     } finally {
       await server.stop(true)
-      if (previous == null) delete process.env.KILO_MARKETPLACE_BASE_URL
-      if (previous != null) process.env.KILO_MARKETPLACE_BASE_URL = previous
+      if (previous == null) delete process.env.KAPPA_MARKETPLACE_BASE_URL
+      if (previous != null) process.env.KAPPA_MARKETPLACE_BASE_URL = previous
     }
   })
 

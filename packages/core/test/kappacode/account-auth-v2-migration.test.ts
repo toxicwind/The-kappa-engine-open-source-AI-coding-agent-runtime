@@ -30,14 +30,14 @@ function layer(dir: string) {
 
 const auth = Effect.acquireRelease(
   Effect.sync(() => {
-    const value = process.env.KILO_AUTH_CONTENT
-    delete process.env.KILO_AUTH_CONTENT
+    const value = process.env.KAPPA_AUTH_CONTENT
+    delete process.env.KAPPA_AUTH_CONTENT
     return value
   }),
   (value) =>
     Effect.sync(() => {
-      if (value === undefined) delete process.env.KILO_AUTH_CONTENT
-      else process.env.KILO_AUTH_CONTENT = value
+      if (value === undefined) delete process.env.KAPPA_AUTH_CONTENT
+      else process.env.KAPPA_AUTH_CONTENT = value
     }),
 )
 

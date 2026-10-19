@@ -17,8 +17,8 @@ import { MessageID, SessionID } from "@/session/schema"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { testEffect } from "../lib/effect.ts"
 
-const max = process.env.KILO_COMMAND_TIMEOUT_MAX_MS
-const msg = process.env.KILO_COMMAND_TIMEOUT_MAX_MS_MESSAGE
+const max = process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS
+const msg = process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS_MESSAGE
 const encoder = new TextEncoder()
 const it = testEffect(Layer.empty)
 const shell = testEffect(
@@ -55,23 +55,23 @@ function handle(input: {
 }
 
 afterEach(() => {
-  if (max === undefined) delete process.env.KILO_COMMAND_TIMEOUT_MAX_MS
-  else process.env.KILO_COMMAND_TIMEOUT_MAX_MS = max
-  if (msg === undefined) delete process.env.KILO_COMMAND_TIMEOUT_MAX_MS_MESSAGE
-  else process.env.KILO_COMMAND_TIMEOUT_MAX_MS_MESSAGE = msg
+  if (max === undefined) delete process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS
+  else process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS = max
+  if (msg === undefined) delete process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS_MESSAGE
+  else process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS_MESSAGE = msg
 })
 
 describe("CommandTimeout", () => {
   // Pure policy coverage: no process or timer waits.
   test("resolves hosted timeout policy", () => {
     for (const value of [undefined, "0", "-1", "abc"]) {
-      if (value === undefined) delete process.env.KILO_COMMAND_TIMEOUT_MAX_MS
-      else process.env.KILO_COMMAND_TIMEOUT_MAX_MS = value
+      if (value === undefined) delete process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS
+      else process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS = value
       expect(CommandTimeout.env()).toBeUndefined()
     }
 
-    process.env.KILO_COMMAND_TIMEOUT_MAX_MS = "250"
-    process.env.KILO_COMMAND_TIMEOUT_MAX_MS_MESSAGE = " You're running in a sandbox. "
+    process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS = "250"
+    process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS_MESSAGE = " You're running in a sandbox. "
 
     expect(CommandTimeout.clamp(500)).toEqual({ timeout: 250, capped: true })
     expect(CommandTimeout.clamp(250)).toEqual({ timeout: 250, capped: true })
@@ -87,7 +87,7 @@ describe("CommandTimeout", () => {
   // TestClock advances instantly; this does not wait 25 ms in real time.
   it.effect("caps output draining at the exact environment deadline", () =>
     Effect.gen(function* () {
-      process.env.KILO_COMMAND_TIMEOUT_MAX_MS = "25"
+      process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS = "25"
       const state = { killed: false }
       const child = handle({
         exit: Effect.succeed(ChildProcessSpawner.ExitCode(0)),
@@ -110,7 +110,7 @@ describe("CommandTimeout", () => {
   // A fake spawner and Deferred prove concurrency without launching processes.
   it.effect("captures command substitutions concurrently without stderr", () =>
     Effect.gen(function* () {
-      process.env.KILO_COMMAND_TIMEOUT_MAX_MS = "500"
+      process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS = "500"
       const gate = yield* Deferred.make<void>()
       const state = { started: 0 }
       const spawner = ChildProcessSpawner.make(() =>
@@ -143,8 +143,8 @@ shell.instance(
   "caps shell tool timeouts with hosted guidance",
   () =>
     Effect.gen(function* () {
-      process.env.KILO_COMMAND_TIMEOUT_MAX_MS = "500"
-      process.env.KILO_COMMAND_TIMEOUT_MAX_MS_MESSAGE = "You're running in a sandbox."
+      process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS = "500"
+      process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS_MESSAGE = "You're running in a sandbox."
       const name = Shell.name(Shell.acceptable())
       const exe = JSON.stringify(process.execPath)
       const script = "process.stdout.write(String.fromCharCode(115,116,97,114,116,101,100));setTimeout(()=>{},30000)"

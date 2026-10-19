@@ -1,6 +1,6 @@
 import { WorkerPoolManager } from "@pierre/diffs/worker"
 import ShikiWorkerUrl from "@pierre/diffs/worker/worker.js?worker&url"
-import { ensureKappaDiffTheme, KILO_DIFF_THEME } from "./kappa-diff-theme" // kappacode_change
+import { ensureKappaDiffTheme, KAPPA_DIFF_THEME } from "./kappa-diff-theme" // kappacode_change
 
 // kappacode_change start: register the "Kappa" theme as a precondition of creating
 // any diff worker pool. resolveThemes([theme]) runs on the main thread during
@@ -28,7 +28,7 @@ function createPool(lineDiffType: "none" | "word-alt") {
       poolSize: 2,
     },
     {
-      theme: KILO_DIFF_THEME, // kappacode_change
+      theme: KAPPA_DIFF_THEME, // kappacode_change
       lineDiffType,
       preferredHighlighter: "shiki-wasm",
     },

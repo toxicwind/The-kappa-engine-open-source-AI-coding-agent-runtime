@@ -4,7 +4,7 @@ import { join } from "path"
 import { tmpdir } from "os"
 import { resolveCoreRuntimeWasmPath, resolveLanguageWasmPath } from "../../../src/tree-sitter/languageParser"
 
-const env = "KILO_TREE_SITTER_WASM_DIR"
+const env = "KAPPA_TREE_SITTER_WASM_DIR"
 const prev = process.env[env]
 
 describe("tree-sitter WASM resolution", () => {

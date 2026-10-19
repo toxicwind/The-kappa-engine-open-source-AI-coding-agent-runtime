@@ -11,8 +11,8 @@ function truthy(key: string) {
 }
 
 export function kitty() {
-  if (truthy("KILO_DISABLE_KITTY_KEYBOARD")) return false
-  if (truthy("KILO_ENABLE_KITTY_KEYBOARD")) return true
+  if (truthy("KAPPA_DISABLE_KITTY_KEYBOARD")) return false
+  if (truthy("KAPPA_ENABLE_KITTY_KEYBOARD")) return true
 
   const term = process.env.TERM_PROGRAM?.toLowerCase()
   const system = process.env.MSYSTEM?.toLowerCase()

@@ -1,5 +1,5 @@
 import { afterEach, expect, mock, spyOn, test } from "bun:test"
-import { KILO_API_BASE } from "../../src/api/constants.js"
+import { KAPPA_API_BASE } from "../../src/api/constants.js"
 import { initiateDeviceAuth, pollDeviceAuth } from "../../src/auth/device.js"
 
 afterEach(() => mock.restore())
@@ -10,7 +10,7 @@ test("device initiation preserves the POST, JSON, and rate-limit error", async (
 
   await expect(initiateDeviceAuth()).resolves.toEqual(data)
   expect(request.mock.calls).toStrictEqual([
-    [`${KILO_API_BASE}/api/device-auth/codes`, { method: "POST", headers: { "Content-Type": "application/json" } }],
+    [`${KAPPA_API_BASE}/api/device-auth/codes`, { method: "POST", headers: { "Content-Type": "application/json" } }],
   ])
   request.mockResolvedValue(new Response(null, { status: 429 }))
   await expect(initiateDeviceAuth()).rejects.toThrow("Too many pending authorization requests. Please try again later.")
@@ -21,7 +21,7 @@ test("device polling preserves the bare GET and JSON", async () => {
   const request = spyOn(globalThis, "fetch").mockResolvedValue(Response.json(data))
 
   await expect(pollDeviceAuth("code/with space")).resolves.toEqual(data)
-  expect(request.mock.calls).toStrictEqual([[`${KILO_API_BASE}/api/device-auth/codes/code/with space`]])
+  expect(request.mock.calls).toStrictEqual([[`${KAPPA_API_BASE}/api/device-auth/codes/code/with space`]])
 })
 
 test.each([

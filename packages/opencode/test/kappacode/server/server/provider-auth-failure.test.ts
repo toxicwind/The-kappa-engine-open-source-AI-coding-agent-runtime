@@ -136,12 +136,12 @@ function configure(failure: boolean, connected: boolean) {
     Effect.sync(() => {
       const previous = {
         state: { ...state },
-        env: { KILO_ORG_ID: process.env.KILO_ORG_ID, KILO_API_KEY: process.env.KILO_API_KEY },
+        env: { KAPPA_ORG_ID: process.env.KAPPA_ORG_ID, KAPPA_API_KEY: process.env.KAPPA_API_KEY },
         fetch: globalThis.fetch,
       }
       Object.assign(state, { failure, connected, requests: [], reads: 0 })
-      delete process.env.KILO_ORG_ID
-      delete process.env.KILO_API_KEY
+      delete process.env.KAPPA_ORG_ID
+      delete process.env.KAPPA_API_KEY
       globalThis.fetch = Object.assign(
         async (input: RequestInfo | URL, init?: RequestInit) => {
           const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url)

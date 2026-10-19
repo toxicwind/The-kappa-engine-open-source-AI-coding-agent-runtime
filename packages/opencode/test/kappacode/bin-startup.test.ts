@@ -62,7 +62,7 @@ async function fixture() {
 const fs = require("node:fs")
 const child = require("node:child_process")
 const events = require("node:events")
-const input = JSON.parse(process.env.KILO_STARTUP_TEST)
+const input = JSON.parse(process.env.KAPPA_STARTUP_TEST)
 const trace = { probes: [], spawns: [], signals: [] }
 const signals = ["SIGINT", "SIGTERM", "SIGHUP"]
 const listeners = () => signals.map((signal) => process.listenerCount(signal))
@@ -75,13 +75,13 @@ os.release = () => "10.0.26100"
 os.cpus = () => [{ model: "test CPU" }]
 os.uptime = () => input.uptime ?? 100
 Date.now = () => input.now ?? 1_000_000
-process.on("exit", () => fs.writeFileSync(process.env.KILO_STARTUP_LOG, JSON.stringify({ ...trace, listeners: listeners() })))
+process.on("exit", () => fs.writeFileSync(process.env.KAPPA_STARTUP_LOG, JSON.stringify({ ...trace, listeners: listeners() })))
 child.spawnSync = (exe) => {
   trace.probes.push(exe)
   return input.avx2 === null ? { status: 1, stdout: "" } : { status: 0, stdout: String(input.avx2 ?? true) }
 }
 child.spawn = (target, args) => {
-  trace.spawns.push({ target, args, wasm: process.env.KILO_TREE_SITTER_WASM_DIR, probes: trace.probes.length, listeners: listeners() })
+  trace.spawns.push({ target, args, wasm: process.env.KAPPA_TREE_SITTER_WASM_DIR, probes: trace.probes.length, listeners: listeners() })
   const failure = target.endsWith(".kappa") && input.failure
   if (failure === "sync") throw new Error("cached binary failed")
   const proc = new events.EventEmitter()
@@ -120,10 +120,10 @@ child.spawn = (target, args) => {
           TMP: root,
           TEMP: root,
           XDG_CACHE_HOME: input.cache ?? cache,
-          KILO_BIN_PATH: input.bin,
-          KILO_TREE_SITTER_WASM_DIR: input.wasm,
-          KILO_STARTUP_TEST: JSON.stringify(input),
-          KILO_STARTUP_LOG: log,
+          KAPPA_BIN_PATH: input.bin,
+          KAPPA_TREE_SITTER_WASM_DIR: input.wasm,
+          KAPPA_STARTUP_TEST: JSON.stringify(input),
+          KAPPA_STARTUP_LOG: log,
         },
       })
       expect(proc.exitCode, proc.stderr.toString()).toBe(input.code ?? 0)
@@ -258,8 +258,8 @@ describe("npm launcher startup", () => {
     const proc = Bun.spawnSync([node, "--require", preload, wrapper], {
       cwd: item.root,
       env: {
-        KILO_STARTUP_TEST: JSON.stringify({ arch: "arm64" }),
-        KILO_STARTUP_LOG: item.root + "/trace.json",
+        KAPPA_STARTUP_TEST: JSON.stringify({ arch: "arm64" }),
+        KAPPA_STARTUP_LOG: item.root + "/trace.json",
       },
     })
     const stderr = proc.stderr.toString()

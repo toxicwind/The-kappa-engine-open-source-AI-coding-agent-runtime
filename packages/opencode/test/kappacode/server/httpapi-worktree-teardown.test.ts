@@ -10,19 +10,19 @@ import { resetDatabase } from "../../fixture/db.ts"
 import { disposeAllInstances, tmpdir } from "../../fixture/fixture.ts"
 
 const original = {
-  password: Flag.KILO_SERVER_PASSWORD,
-  username: Flag.KILO_SERVER_USERNAME,
-  envPassword: process.env.KILO_SERVER_PASSWORD,
-  envUsername: process.env.KILO_SERVER_USERNAME,
+  password: Flag.KAPPA_SERVER_PASSWORD,
+  username: Flag.KAPPA_SERVER_USERNAME,
+  envPassword: process.env.KAPPA_SERVER_PASSWORD,
+  envUsername: process.env.KAPPA_SERVER_USERNAME,
 }
 
 afterEach(async () => {
-  Flag.KILO_SERVER_PASSWORD = original.password
-  Flag.KILO_SERVER_USERNAME = original.username
-  if (original.envPassword === undefined) delete process.env.KILO_SERVER_PASSWORD
-  else process.env.KILO_SERVER_PASSWORD = original.envPassword
-  if (original.envUsername === undefined) delete process.env.KILO_SERVER_USERNAME
-  else process.env.KILO_SERVER_USERNAME = original.envUsername
+  Flag.KAPPA_SERVER_PASSWORD = original.password
+  Flag.KAPPA_SERVER_USERNAME = original.username
+  if (original.envPassword === undefined) delete process.env.KAPPA_SERVER_PASSWORD
+  else process.env.KAPPA_SERVER_PASSWORD = original.envPassword
+  if (original.envUsername === undefined) delete process.env.KAPPA_SERVER_USERNAME
+  else process.env.KAPPA_SERVER_USERNAME = original.envUsername
   await disposeAllInstances()
   await resetDatabase()
 })
@@ -33,9 +33,9 @@ function app(input: { password?: string; username?: string }) {
       Layer.provide(
         ConfigProvider.layer(
           ConfigProvider.fromUnknown({
-            KILO_SERVER_PASSWORD: input.password,
-            KILO_SERVER_USERNAME: input.username,
-            KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+            KAPPA_SERVER_PASSWORD: input.password,
+            KAPPA_SERVER_USERNAME: input.username,
+            KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
           }),
         ),
       ),
@@ -54,10 +54,10 @@ function app(input: { password?: string; username?: string }) {
 }
 
 function setAuth(password: string) {
-  Flag.KILO_SERVER_PASSWORD = password
-  Flag.KILO_SERVER_USERNAME = undefined
-  process.env.KILO_SERVER_PASSWORD = password
-  delete process.env.KILO_SERVER_USERNAME
+  Flag.KAPPA_SERVER_PASSWORD = password
+  Flag.KAPPA_SERVER_USERNAME = undefined
+  process.env.KAPPA_SERVER_PASSWORD = password
+  delete process.env.KAPPA_SERVER_USERNAME
 }
 
 describe("POST /kappacode/worktree/teardown", () => {

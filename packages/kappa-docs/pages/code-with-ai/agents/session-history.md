@@ -151,7 +151,7 @@ Stable installations normally use these paths:
 | Linux | `~/.local/share/kappa/kappa.db` |
 | VS Code Remote SSH | `~/.local/share/kappa/kappa.db` on the remote machine |
 
-The actual path can differ when `KILO_DB`, `XDG_DATA_HOME`, a development channel, or an isolated development environment is active. Prefer `kappa db path` over assuming a path.
+The actual path can differ when `KAPPA_DB`, `XDG_DATA_HOME`, a development channel, or an isolated development environment is active. Prefer `kappa db path` over assuming a path.
 
 ## Query SQLite directly
 
@@ -228,14 +228,14 @@ Run the SQL examples above without the surrounding `kappa db` command. Exit with
 Run a local server with authentication before exposing its API:
 
 ```bash
-export KILO_SERVER_PASSWORD='replace-with-a-strong-password'
+export KAPPA_SERVER_PASSWORD='replace-with-a-strong-password'
 kappa serve --port 4096
 ```
 
 Search session titles in the current directory:
 
 ```bash
-curl -u "kappa:$KILO_SERVER_PASSWORD" \
+curl -u "kappa:$KAPPA_SERVER_PASSWORD" \
   --get "http://127.0.0.1:4096/session" \
   --data-urlencode "directory=$PWD" \
   --data-urlencode "roots=true" \
@@ -246,7 +246,7 @@ curl -u "kappa:$KILO_SERVER_PASSWORD" \
 Read the complete chat history for one result:
 
 ```bash
-curl -u "kappa:$KILO_SERVER_PASSWORD" \
+curl -u "kappa:$KAPPA_SERVER_PASSWORD" \
   --get "http://127.0.0.1:4096/session/ses_123/message" \
   --data-urlencode "directory=$PWD"
 ```
@@ -258,7 +258,7 @@ The JavaScript SDK exposes the same endpoints:
 ```ts
 import { createKappaClient } from "@kappacode/sdk/v2/client"
 
-const auth = Buffer.from(`kappa:${process.env.KILO_SERVER_PASSWORD}`).toString("base64")
+const auth = Buffer.from(`kappa:${process.env.KAPPA_SERVER_PASSWORD}`).toString("base64")
 const client = createKappaClient({
   baseUrl: "http://127.0.0.1:4096",
   directory: process.cwd(),

@@ -69,9 +69,9 @@ describe("util.process", () => {
   })
 
   test("merges environment overrides", async () => {
-    const out = await Process.run(node('process.stdout.write(process.env.KILO_TEST ?? "")'), {
+    const out = await Process.run(node('process.stdout.write(process.env.KAPPA_TEST ?? "")'), {
       env: {
-        KILO_TEST: "set",
+        KAPPA_TEST: "set",
       },
     })
     expect(out.stdout.toString()).toBe("set")
@@ -79,7 +79,7 @@ describe("util.process", () => {
 
   // kappacode_change start
   test("can use a complete environment without inherited values", async () => {
-    const key = "KILO_TEST_INHERITED_ENV"
+    const key = "KAPPA_TEST_INHERITED_ENV"
     const saved = process.env[key]
     process.env[key] = "secret"
 
@@ -99,15 +99,15 @@ describe("util.process", () => {
   test("uses shell in run on Windows", async () => {
     if (process.platform !== "win32") return
 
-    const out = await Process.run(["set", "KILO_TEST_SHELL"], {
+    const out = await Process.run(["set", "KAPPA_TEST_SHELL"], {
       shell: true,
       env: {
-        KILO_TEST_SHELL: "ok",
+        KAPPA_TEST_SHELL: "ok",
       },
     })
 
     expect(out.code).toBe(0)
-    expect(out.stdout.toString()).toContain("KILO_TEST_SHELL=ok")
+    expect(out.stdout.toString()).toContain("KAPPA_TEST_SHELL=ok")
   })
 
   test("runs cmd scripts with spaces on Windows without shell", async () => {

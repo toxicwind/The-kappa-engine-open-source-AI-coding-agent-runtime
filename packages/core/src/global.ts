@@ -29,7 +29,7 @@ const tmp = path.join(os.tmpdir(), app)
 
 const paths = {
   get home() {
-    return (process.env.KILO_TEST_HOME ?? os.homedir()).trim() // kappacode_change — defensive trim, see above
+    return (process.env.KAPPA_TEST_HOME ?? os.homedir()).trim() // kappacode_change — defensive trim, see above
   },
   data,
   bin: path.join(cache, "bin"),
@@ -77,7 +77,7 @@ export function make(input: Partial<Interface> = {}): Interface {
     home: Path.home,
     data: Path.data,
     cache: Path.cache,
-    config: Flag.KILO_CONFIG_DIR ?? Path.config,
+    config: Flag.KAPPA_CONFIG_DIR ?? Path.config,
     state: Path.state,
     tmp: Path.tmp,
     bin: Path.bin,

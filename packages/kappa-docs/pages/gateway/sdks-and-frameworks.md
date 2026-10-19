@@ -25,7 +25,7 @@ import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
   baseURL: "https://api.kappa.ai/api/gateway",
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
 })
 
 const result = streamText({
@@ -47,7 +47,7 @@ import { z } from "zod"
 
 const kappa = createOpenAI({
   baseURL: "https://api.kappa.ai/api/gateway",
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
 })
 
 const result = streamText({
@@ -79,7 +79,7 @@ import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
   baseURL: "https://api.kappa.ai/api/gateway",
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
 })
 
 export async function POST(request: Request) {
@@ -108,7 +108,7 @@ npm install openai
 import OpenAI from "openai"
 
 const client = new OpenAI({
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
   baseURL: "https://api.kappa.ai/api/gateway",
 })
 
@@ -147,7 +147,7 @@ import os
 from openai import OpenAI
 
 client = OpenAI(
-    api_key=os.getenv("KILO_API_KEY"),
+    api_key=os.getenv("KAPPA_API_KEY"),
     base_url="https://api.kappa.ai/api/gateway",
 )
 
@@ -183,7 +183,7 @@ for chunk in stream:
 
 ```bash
 curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
-  -H "Authorization: Bearer $KILO_API_KEY" \
+  -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "anthropic/claude-sonnet-4.5",
@@ -197,7 +197,7 @@ curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
 
 ```bash
 curl -N -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
-  -H "Authorization: Bearer $KILO_API_KEY" \
+  -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "anthropic/claude-sonnet-4.5",
@@ -242,7 +242,7 @@ func main() {
         "https://api.kappa.ai/api/gateway/chat/completions",
         bytes.NewBuffer(jsonBody))
 
-    req.Header.Set("Authorization", "Bearer "+os.Getenv("KILO_API_KEY"))
+    req.Header.Set("Authorization", "Bearer "+os.Getenv("KAPPA_API_KEY"))
     req.Header.Set("Content-Type", "application/json")
 
     resp, err := http.DefaultClient.Do(req)
@@ -267,7 +267,7 @@ http = Net::HTTP.new(uri.host, uri.port)
 http.use_ssl = true
 
 request = Net::HTTP::Post.new(uri)
-request['Authorization'] = "Bearer #{ENV['KILO_API_KEY']}"
+request['Authorization'] = "Bearer #{ENV['KAPPA_API_KEY']}"
 request['Content-Type'] = 'application/json'
 request.body = {
   model: 'anthropic/claude-sonnet-4.5',
@@ -311,7 +311,7 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
     model="anthropic/claude-sonnet-4.5",
-    api_key=os.getenv("KILO_API_KEY"),
+    api_key=os.getenv("KAPPA_API_KEY"),
     base_url="https://api.kappa.ai/api/gateway",
 )
 
@@ -326,7 +326,7 @@ import { ChatOpenAI } from "@langchain/openai"
 
 const model = new ChatOpenAI({
   modelName: "anthropic/claude-sonnet-4.5",
-  openAIApiKey: process.env.KILO_API_KEY,
+  openAIApiKey: process.env.KAPPA_API_KEY,
   configuration: {
     baseURL: "https://api.kappa.ai/api/gateway",
   },

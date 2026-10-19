@@ -68,7 +68,7 @@ export interface ExecBufferResult {
  * `GIT_SSH_COMMAND` originated from Kappa (safe) or was inherited from the
  * parent process (untrusted).
  */
-export const KILO_NON_INTERACTIVE_SSH_COMMAND = "ssh -o BatchMode=yes"
+export const KAPPA_NON_INTERACTIVE_SSH_COMMAND = "ssh -o BatchMode=yes"
 
 /**
  * Build environment variables that prevent git and SSH from opening interactive
@@ -85,7 +85,7 @@ export function nonInteractiveEnv(): NodeJS.ProcessEnv {
     GIT_TERMINAL_PROMPT: "0",
   }
   if (!process.env.GIT_SSH_COMMAND) {
-    env.GIT_SSH_COMMAND = KILO_NON_INTERACTIVE_SSH_COMMAND
+    env.GIT_SSH_COMMAND = KAPPA_NON_INTERACTIVE_SSH_COMMAND
   }
   delete env.GIT_CONFIG_COUNT
   delete env.SSH_ASKPASS
@@ -119,7 +119,7 @@ export function nonInteractiveEnv(): NodeJS.ProcessEnv {
  * safe to pass `allowUnsafeSshCommand: true` to simple-git.
  */
 export function isKappaOwnedSshCommand(env: NodeJS.ProcessEnv): boolean {
-  return env.GIT_SSH_COMMAND === KILO_NON_INTERACTIVE_SSH_COMMAND
+  return env.GIT_SSH_COMMAND === KAPPA_NON_INTERACTIVE_SSH_COMMAND
 }
 
 export class GitOps {

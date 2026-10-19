@@ -96,9 +96,9 @@ function app(modules: Runtime, options: CallOptions) {
         // kappacode_change start - keep the filewatcher-disable flag visible (see httpapi-instance-route-auth.test.ts)
         ConfigProvider.layer(
           ConfigProvider.fromUnknown({
-            KILO_SERVER_PASSWORD: password,
-            KILO_SERVER_USERNAME: username,
-            KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+            KAPPA_SERVER_PASSWORD: password,
+            KAPPA_SERVER_USERNAME: username,
+            KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
           }),
         ),
         // kappacode_change end

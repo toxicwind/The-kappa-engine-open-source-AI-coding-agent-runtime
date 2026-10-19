@@ -444,12 +444,12 @@ const AppContent: Component = () => {
   // true only when unset entirely (e.g. Storybook, which doesn't render the
   // real page HTML).
   const host = window as {
-    KILO_TOP_BAR?: boolean
-    KILO_TOP_BAR_SURFACE?: string
-    KILO_AGENT_MANAGER_SETTINGS?: boolean
+    KAPPA_TOP_BAR?: boolean
+    KAPPA_TOP_BAR_SURFACE?: string
+    KAPPA_AGENT_MANAGER_SETTINGS?: boolean
   }
-  const showTopBar = host.KILO_TOP_BAR !== false
-  const topBarSurface = host.KILO_TOP_BAR_SURFACE ?? "sidebar_title"
+  const showTopBar = host.KAPPA_TOP_BAR !== false
+  const topBarSurface = host.KAPPA_TOP_BAR_SURFACE ?? "sidebar_title"
 
   return (
     <div class="container">
@@ -504,7 +504,7 @@ const AppContent: Component = () => {
                 subtab={settingsSubtab()}
                 focus={settingsFocus()}
                 agentManagerProjectId={agentManagerProjectId()}
-                agentManagerSettings={host.KILO_AGENT_MANAGER_SETTINGS === true}
+                agentManagerSettings={host.KAPPA_AGENT_MANAGER_SETTINGS === true}
                 onTabChange={setSettingsTab}
                 onAgentBehaviourNavigationConsumed={() => {
                   setSettingsSubtab(undefined)

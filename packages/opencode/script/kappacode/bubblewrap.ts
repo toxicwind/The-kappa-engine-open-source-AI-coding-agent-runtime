@@ -7,7 +7,7 @@ const version = "0.11.2"
 const commit = "1b80120ef26a28e065e67f89bfef873f13bdd317"
 const sourceUrl = `https://codeload.github.com/containers/bubblewrap/tar.gz/${commit}`
 const sourceSha256 = "55a1f42de8f62f6cd8cc414229ce166ec6128ca4386b8c25dfca4229e44b56aa"
-const cache = process.env.KILO_BWRAP_CACHE ?? path.join(os.tmpdir(), "kappa-bubblewrap", commit)
+const cache = process.env.KAPPA_BWRAP_CACHE ?? path.join(os.tmpdir(), "kappa-bubblewrap", commit)
 
 const capability = `#pragma once
 #include <errno.h>

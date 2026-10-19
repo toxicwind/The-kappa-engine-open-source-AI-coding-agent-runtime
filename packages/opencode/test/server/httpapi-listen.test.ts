@@ -10,38 +10,38 @@ import { resetDatabase } from "../fixture/db.ts"
 import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 
 const original = {
-  KILO_SERVER_PASSWORD: Flag.KILO_SERVER_PASSWORD,
-  KILO_SERVER_USERNAME: Flag.KILO_SERVER_USERNAME,
-  envPassword: process.env.KILO_SERVER_PASSWORD,
-  envUsername: process.env.KILO_SERVER_USERNAME,
+  KAPPA_SERVER_PASSWORD: Flag.KAPPA_SERVER_PASSWORD,
+  KAPPA_SERVER_USERNAME: Flag.KAPPA_SERVER_USERNAME,
+  envPassword: process.env.KAPPA_SERVER_PASSWORD,
+  envUsername: process.env.KAPPA_SERVER_USERNAME,
 }
 const auth = { username: "opencode", password: "listen-secret" }
 const testPty = process.platform === "win32" ? test.skip : test
 
 afterEach(async () => {
-  Flag.KILO_SERVER_PASSWORD = original.KILO_SERVER_PASSWORD
-  Flag.KILO_SERVER_USERNAME = original.KILO_SERVER_USERNAME
-  if (original.envPassword === undefined) delete process.env.KILO_SERVER_PASSWORD
-  else process.env.KILO_SERVER_PASSWORD = original.envPassword
-  if (original.envUsername === undefined) delete process.env.KILO_SERVER_USERNAME
-  else process.env.KILO_SERVER_USERNAME = original.envUsername
+  Flag.KAPPA_SERVER_PASSWORD = original.KAPPA_SERVER_PASSWORD
+  Flag.KAPPA_SERVER_USERNAME = original.KAPPA_SERVER_USERNAME
+  if (original.envPassword === undefined) delete process.env.KAPPA_SERVER_PASSWORD
+  else process.env.KAPPA_SERVER_PASSWORD = original.envPassword
+  if (original.envUsername === undefined) delete process.env.KAPPA_SERVER_USERNAME
+  else process.env.KAPPA_SERVER_USERNAME = original.envUsername
   await disposeAllInstances()
   await resetDatabase()
 })
 
 async function startListener() {
-  Flag.KILO_SERVER_PASSWORD = auth.password
-  Flag.KILO_SERVER_USERNAME = auth.username
-  process.env.KILO_SERVER_PASSWORD = auth.password
-  process.env.KILO_SERVER_USERNAME = auth.username
+  Flag.KAPPA_SERVER_PASSWORD = auth.password
+  Flag.KAPPA_SERVER_USERNAME = auth.username
+  process.env.KAPPA_SERVER_PASSWORD = auth.password
+  process.env.KAPPA_SERVER_USERNAME = auth.username
   return Server.listen({ hostname: "127.0.0.1", port: 0 })
 }
 
 async function startNoAuthListener() {
-  Flag.KILO_SERVER_PASSWORD = undefined
-  Flag.KILO_SERVER_USERNAME = auth.username
-  delete process.env.KILO_SERVER_PASSWORD
-  process.env.KILO_SERVER_USERNAME = auth.username
+  Flag.KAPPA_SERVER_PASSWORD = undefined
+  Flag.KAPPA_SERVER_USERNAME = auth.username
+  delete process.env.KAPPA_SERVER_PASSWORD
+  process.env.KAPPA_SERVER_USERNAME = auth.username
   return Server.listen({ hostname: "127.0.0.1", port: 0 })
 }
 
@@ -297,10 +297,10 @@ describe("HttpApi Server.listen", () => {
     }) as typeof process.stderr.write
     try {
       // kappacode_change start - use an authenticated local route instead of proxy-dependent status
-      Flag.KILO_SERVER_PASSWORD = auth.password
-      Flag.KILO_SERVER_USERNAME = auth.username
-      process.env.KILO_SERVER_PASSWORD = auth.password
-      process.env.KILO_SERVER_USERNAME = auth.username
+      Flag.KAPPA_SERVER_PASSWORD = auth.password
+      Flag.KAPPA_SERVER_USERNAME = auth.username
+      process.env.KAPPA_SERVER_PASSWORD = auth.password
+      process.env.KAPPA_SERVER_USERNAME = auth.username
       const response = await Server.Default().app.request("/doc", {
         headers: { authorization: authorization() },
       })
@@ -340,8 +340,8 @@ describe("HttpApi Server.listen", () => {
         return { initialized, completed }
       },
     })
-    const previous = process.env.KILO_DISABLE_DEFAULT_PLUGINS
-    process.env.KILO_DISABLE_DEFAULT_PLUGINS = "1"
+    const previous = process.env.KAPPA_DISABLE_DEFAULT_PLUGINS
+    process.env.KAPPA_DISABLE_DEFAULT_PLUGINS = "1"
     let listener: Awaited<ReturnType<typeof startListener>> | undefined
     try {
       listener = await startListener()
@@ -359,8 +359,8 @@ describe("HttpApi Server.listen", () => {
       expect(await Bun.file(tmp.extra.initialized).text()).toBe("initialized\n")
     } finally {
       if (listener) await stop(listener, "timed out cleaning up plugin client listener").catch(() => undefined)
-      if (previous === undefined) delete process.env.KILO_DISABLE_DEFAULT_PLUGINS
-      else process.env.KILO_DISABLE_DEFAULT_PLUGINS = previous
+      if (previous === undefined) delete process.env.KAPPA_DISABLE_DEFAULT_PLUGINS
+      else process.env.KAPPA_DISABLE_DEFAULT_PLUGINS = previous
     }
   })
 

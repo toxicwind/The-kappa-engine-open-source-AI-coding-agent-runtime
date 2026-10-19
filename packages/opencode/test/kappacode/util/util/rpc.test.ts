@@ -30,14 +30,14 @@ function channel() {
   }
 }
 
-/** Scope a KILO_RPC_HANDSHAKE_TIMEOUT override to one test. */
+/** Scope a KAPPA_RPC_HANDSHAKE_TIMEOUT override to one test. */
 function bound(value: string) {
-  const previous = process.env["KILO_RPC_HANDSHAKE_TIMEOUT"]
-  process.env["KILO_RPC_HANDSHAKE_TIMEOUT"] = value
+  const previous = process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"]
+  process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"] = value
   return {
     [Symbol.dispose]() {
-      if (previous === undefined) delete process.env["KILO_RPC_HANDSHAKE_TIMEOUT"]
-      if (previous !== undefined) process.env["KILO_RPC_HANDSHAKE_TIMEOUT"] = previous
+      if (previous === undefined) delete process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"]
+      if (previous !== undefined) process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"] = previous
     },
   }
 }

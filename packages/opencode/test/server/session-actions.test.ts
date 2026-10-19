@@ -20,8 +20,8 @@ const disabled = testEffect(
     Layer.provide(
       ConfigProvider.layer(
         ConfigProvider.fromUnknown({
-          KILO_EXPERIMENTAL_BACKGROUND_SUBAGENTS: "false",
-          KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
+          KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS: "false",
+          KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
         }),
       ),
     ),

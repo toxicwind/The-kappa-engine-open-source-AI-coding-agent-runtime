@@ -29,12 +29,12 @@ if (argv.includes("--help") || argv.includes("-h")) {
       "",
       "Options:",
       "  --ci                 Enable JUnit XML output to .artifacts/unit/junit.xml",
-      "  --concurrency <N>    Max parallel processes (default: min(4, CPU count), env: KILO_TEST_CONCURRENCY)",
+      "  --concurrency <N>    Max parallel processes (default: min(4, CPU count), env: KAPPA_TEST_CONCURRENCY)",
       "  --timeout <ms>       Per-test timeout passed to bun test (default: 60000)",
-      "  --file-timeout <ms>  Per-file process timeout (default: 300000, env: KILO_TEST_FILE_TIMEOUT)",
+      "  --file-timeout <ms>  Per-file process timeout (default: 300000, env: KAPPA_TEST_FILE_TIMEOUT)",
       "  --retries <N>        Extra attempts for failing files (default: 1)",
-      "  --profile <name>     Run a curated test profile (env: KILO_TEST_PROFILE)",
-      "  --shard <N/M>        Run one balanced file shard (env: KILO_TEST_SHARD)",
+      "  --profile <name>     Run a curated test profile (env: KAPPA_TEST_PROFILE)",
+      "  --shard <N/M>        Run one balanced file shard (env: KAPPA_TEST_SHARD)",
       "  --update-durations   After a full run, refresh script/kappacode/test-durations.json",
       "  --bail               Stop on first failure",
       "  --dots               Show compact dot progress",
@@ -78,14 +78,14 @@ const dots = !verbose && (ci || argv.includes("--dots"))
 // kappacode_change start - allow CI to lower concurrency via env. On the 4-vCPU
 // Windows runner, the default (min(4, cpus)=4) oversubscribes: 4 heavy real-server
 // test files share 4 vCPUs (~1 each) and blow their per-test timeouts.
-// `KILO_TEST_CONCURRENCY` lets the workflow throttle Windows without affecting the
+// `KAPPA_TEST_CONCURRENCY` lets the workflow throttle Windows without affecting the
 // local default. An explicit `--concurrency` flag wins.
 const concurrencyEnv = (() => {
-  const raw = process.env.KILO_TEST_CONCURRENCY?.trim()
+  const raw = process.env.KAPPA_TEST_CONCURRENCY?.trim()
   if (!raw) return undefined
   const value = Number(raw)
   if (!Number.isSafeInteger(value) || value < 1) {
-    console.error(`Invalid KILO_TEST_CONCURRENCY "${raw}"; expected a positive integer`)
+    console.error(`Invalid KAPPA_TEST_CONCURRENCY "${raw}"; expected a positive integer`)
     process.exit(2)
   }
   return value
@@ -97,11 +97,11 @@ const timeout = opt("timeout", 60000)
 // heavy real-server files (e.g. config-overlay) legitimately run ~270s serially, only ~30s
 // under the 300s default; raising it there prevents a slow-but-healthy run from being killed.
 const fileTimeoutEnv = (() => {
-  const raw = process.env.KILO_TEST_FILE_TIMEOUT?.trim()
+  const raw = process.env.KAPPA_TEST_FILE_TIMEOUT?.trim()
   if (!raw) return undefined
   const value = Number(raw)
   if (!Number.isSafeInteger(value) || value < 1) {
-    console.error(`Invalid KILO_TEST_FILE_TIMEOUT "${raw}"; expected a positive integer (ms)`)
+    console.error(`Invalid KAPPA_TEST_FILE_TIMEOUT "${raw}"; expected a positive integer (ms)`)
     process.exit(2)
   }
   return value
@@ -110,16 +110,16 @@ const deadline = opt("file-timeout", fileTimeoutEnv ?? 300000)
 // kappacode_change end
 const retries = opt("retries", 1)
 const flag = text("profile")
-const env = process.env.KILO_TEST_PROFILE?.trim() || undefined
+const env = process.env.KAPPA_TEST_PROFILE?.trim() || undefined
 if (flag && env && flag !== env) {
-  console.error(`Conflicting test profiles: --profile=${flag}, KILO_TEST_PROFILE=${env}`)
+  console.error(`Conflicting test profiles: --profile=${flag}, KAPPA_TEST_PROFILE=${env}`)
   process.exit(2)
 }
 const profile = flag ?? env
 const shardFlag = text("shard")
-const shardEnv = process.env.KILO_TEST_SHARD?.trim() || undefined
+const shardEnv = process.env.KAPPA_TEST_SHARD?.trim() || undefined
 if (shardFlag && shardEnv && shardFlag !== shardEnv) {
-  console.error(`Conflicting test shards: --shard=${shardFlag}, KILO_TEST_SHARD=${shardEnv}`)
+  console.error(`Conflicting test shards: --shard=${shardFlag}, KAPPA_TEST_SHARD=${shardEnv}`)
   process.exit(2)
 }
 const parsed = TestShard.parse(shardFlag ?? shardEnv)

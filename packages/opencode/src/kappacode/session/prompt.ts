@@ -108,7 +108,7 @@ export namespace KappaSessionPrompt {
   }
 
   function supportsPlanFollowup() {
-    return ["cli", "vscode", "jetbrains"].includes(Flag.KILO_CLIENT)
+    return ["cli", "vscode", "jetbrains"].includes(Flag.KAPPA_CLIENT)
   }
 
   /**
@@ -554,7 +554,7 @@ export namespace KappaSessionPrompt {
       "Use the chosen plan path as the main plan file. Do not write or edit other files unless the user explicitly asks and your permissions allow it.",
       "Project/user instructions about plan location (for example plans/ or .plans/) are authorized when permissions allow them; they do not conflict with this reminder. When finalizing, call plan_exit with the path of the plan file you wrote.",
       "In the visible final response, cite the saved plan path as an inline code span so the client can open it as a document. Cite other user-facing files you create the same way instead of pasting the full file into chat.",
-      ...(Flag.KILO_CLIENT === "vscode"
+      ...(Flag.KAPPA_CLIENT === "vscode"
         ? ["When the plan is ready for user review, call open_plan with the saved path before calling plan_exit."]
         : []),
       supportsPlanFollowup()

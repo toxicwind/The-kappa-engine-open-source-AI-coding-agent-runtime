@@ -223,7 +223,7 @@ export const layer: Layer.Layer<Service, never, Requirements> =
 
           const enabled = Effect.fnUntraced(function* () {
             if (state.vcs !== "git") return false
-            if (Flag.KILO_CLIENT === "acp") return false // kappacode_change - ACP clients do not support snapshots
+            if (Flag.KAPPA_CLIENT === "acp") return false // kappacode_change - ACP clients do not support snapshots
             return (yield* config.get()).snapshot !== false
           })
 

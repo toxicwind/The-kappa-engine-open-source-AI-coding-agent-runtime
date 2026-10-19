@@ -30,10 +30,10 @@ const it = testEffectShared(
     ]),
   ),
 )
-const password = Flag.KILO_SERVER_PASSWORD
+const password = Flag.KAPPA_SERVER_PASSWORD
 
 afterEach(async () => {
-  Flag.KILO_SERVER_PASSWORD = password
+  Flag.KAPPA_SERVER_PASSWORD = password
   await disposeAllInstances()
   await resetDatabase()
 })
@@ -42,7 +42,7 @@ it.live(
   "HTTP resume preserves the user turn and refuses blocked, completed, and stale requests",
   () =>
     Effect.gen(function* () {
-      Flag.KILO_SERVER_PASSWORD = undefined
+      Flag.KAPPA_SERVER_PASSWORD = undefined
       const calls: unknown[] = []
       const gate = Promise.withResolvers<void>()
       const provider = Bun.serve({

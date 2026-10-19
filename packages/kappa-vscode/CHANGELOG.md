@@ -391,7 +391,7 @@
 
 ### Patch Changes
 
-- [#14230](https://github.com/Kappa-Org/kappacode/pull/14230) [`6b5e8a0`](https://github.com/Kappa-Org/kappacode/commit/6b5e8a04e4d73a03c2a9a47c11f3639114588a32) - Add an experimental Programmatic Tool Calling setting under Settings > Experimental. When enabled, the agent calls MCP tools from a confined JavaScript program and discovers tools on demand, so fewer MCP tool definitions are sent to the model. The `KILO_EXPERIMENTAL_CODE_MODE` environment variable still enables it.
+- [#14230](https://github.com/Kappa-Org/kappacode/pull/14230) [`6b5e8a0`](https://github.com/Kappa-Org/kappacode/commit/6b5e8a04e4d73a03c2a9a47c11f3639114588a32) - Add an experimental Programmatic Tool Calling setting under Settings > Experimental. When enabled, the agent calls MCP tools from a confined JavaScript program and discovers tools on demand, so fewer MCP tool definitions are sent to the model. The `KAPPA_EXPERIMENTAL_CODE_MODE` environment variable still enables it.
 
 - [#14231](https://github.com/Kappa-Org/kappacode/pull/14231) [`7e0ce5e`](https://github.com/Kappa-Org/kappacode/commit/7e0ce5ec6db0d9472dbcc94f8e4a50f1adaa50a0) - Generate chat session titles after a turn provides enough context instead of from the first message alone. A short first message now keeps the placeholder title until the session has a longer request, a second message, or real tool work, so titles describe the actual task rather than a bare URL or a truncated first line.
 
@@ -2031,7 +2031,7 @@
   - Core Improvements: You can now set only `modalities.input` or `modalities.output` in config. (@robposch)
   - Core Improvements: Remote-backed projects now resolve a stable project identity.
   - Core Improvements: ACP integrations can now send prompts, slash commands, and usage updates through `acp-next`
-  - Core Improvements: Added WebSocket transport for OpenAI responses on supported channels (set KILO_EXPERIMENTAL_WEBSOCKETS=true)
+  - Core Improvements: Added WebSocket transport for OpenAI responses on supported channels (set KAPPA_EXPERIMENTAL_WEBSOCKETS=true)
   - Core Improvements: Sessions can now store custom metadata through the API and SDK. (@shantur)
   - Core Improvements: Config now loads from the opened location upward, so directory-specific settings and provider policies apply more predictably.
   - Core Bugfixes: Dynamically added MCP servers now disconnect cleanly when removed.
@@ -2199,7 +2199,7 @@
   - Core Bugfixes: Sort the v2 session list by most recently updated
   - Core Bugfixes: Zed editor context now only activates inside Zed terminals.
   - Core Bugfixes: Agent and command names now resolve correctly from relative config paths.
-  - Core Bugfixes: Invalid `KILO_PERMISSION` JSON no longer crashes startup.
+  - Core Bugfixes: Invalid `KAPPA_PERMISSION` JSON no longer crashes startup.
   - Core Bugfixes: Plugin tools with missing `args` no longer break tool loading.
   - Core Bugfixes: Restored legacy `PgUp` and `PgDn` TUI keybind aliases.
   - Core Bugfixes: Native runtime now prefers the console provider token for OpenCode models.
@@ -6341,7 +6341,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 ### Patch Changes
 
-- [#1658](https://github.com/Kappa-Org/kappacode/pull/1658) [`962c90a`](https://github.com/Kappa-Org/kappacode/commit/962c90a2d057a72081cb271949cbf780c80a3555) Thanks [@hassoncs](https://github.com/hassoncs)! - Control Kappa Code programmatically from the command line using IPC with the `KILO_CODE_IPC_SOCKET_PATH` var
+- [#1658](https://github.com/Kappa-Org/kappacode/pull/1658) [`962c90a`](https://github.com/Kappa-Org/kappacode/commit/962c90a2d057a72081cb271949cbf780c80a3555) Thanks [@hassoncs](https://github.com/hassoncs)! - Control Kappa Code programmatically from the command line using IPC with the `KAPPA_CODE_IPC_SOCKET_PATH` var
 
 - [#1647](https://github.com/Kappa-Org/kappacode/pull/1647) [`12a7a5a`](https://github.com/Kappa-Org/kappacode/commit/12a7a5a21ed34ce68694452d7d6bb67a59ca8904) Thanks [@catrielmuller](https://github.com/catrielmuller)! - Simplify the Welcome/Login screen
 

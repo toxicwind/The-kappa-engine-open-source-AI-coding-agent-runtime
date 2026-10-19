@@ -14,7 +14,7 @@ import { useProvider } from "../../context/provider"
 import { useServer } from "../../context/server"
 import { useVSCode } from "../../context/vscode"
 import type { IndexingConfig, IndexingProvider as ProviderId } from "../../types/messages"
-import { KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
+import { KAPPA_PROVIDER_ID } from "../../../../src/shared/provider-model"
 import SettingsRow from "./SettingsRow"
 import {
   indexingConfig,
@@ -220,7 +220,7 @@ const IndexingTab: Component = () => {
   const knownKappaModel = (model: string | null | undefined) =>
     getKappaEmbeddingModel(model ?? undefined, embeds.catalog())?.id
   const kappaValue = () => knownKappaModel(cfg().model) ?? kappaDefault()
-  const kappaAvailable = () => !!server.profileData() || provider.authStates()[KILO_PROVIDER_ID] !== undefined
+  const kappaAvailable = () => !!server.profileData() || provider.authStates()[KAPPA_PROVIDER_ID] !== undefined
   const selectedProvider = () => cfg().provider ?? (kappaAvailable() ? "kappa" : undefined)
   const staleKappaModel = () => selectedProvider() === "kappa" && !!cfg().model && !knownKappaModel(cfg().model)
   const providers = createMemo(() =>

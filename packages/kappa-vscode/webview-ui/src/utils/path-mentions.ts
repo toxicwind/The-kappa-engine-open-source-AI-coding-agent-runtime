@@ -67,7 +67,7 @@ function isFilePath(line: string): boolean {
  * (e.g. from diff panel file headers). Unlike VS Code's URI list, these
  * are workspace-relative paths that can be used directly as @mentions.
  */
-export const KILO_FILE_PATH_MIME = "application/x-kappa-file-path"
+export const KAPPA_FILE_PATH_MIME = "application/x-kappa-file-path"
 
 /**
  * Extract file paths from a drop's DataTransfer.
@@ -80,7 +80,7 @@ export const KILO_FILE_PATH_MIME = "application/x-kappa-file-path"
  */
 export function extractDropPaths(dt: DataTransfer): string[] | null {
   // Internal relative-path drag from diff file headers etc.
-  const kappa = dt.getData(KILO_FILE_PATH_MIME)
+  const kappa = dt.getData(KAPPA_FILE_PATH_MIME)
   if (kappa) {
     const paths = kappa.split(/\r?\n/).filter((line) => line.trim() !== "")
     if (paths.length > 0) return paths

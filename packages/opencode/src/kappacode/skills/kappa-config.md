@@ -1,6 +1,6 @@
 # Kappa CLI Configuration Reference
 
-All config lives in `kappa.json` (or `kappa.jsonc`). Precedence low-to-high: remote well-known, global (`~/.config/kappa/kappa.json`), env `KILO_CONFIG`, project `./kappa.json`, `.kappa/kappa.json`, `KILO_CONFIG_CONTENT`, managed (see Config File Locations). Deep-merged; later wins.
+All config lives in `kappa.json` (or `kappa.jsonc`). Precedence low-to-high: remote well-known, global (`~/.config/kappa/kappa.json`), env `KAPPA_CONFIG`, project `./kappa.json`, `.kappa/kappa.json`, `KAPPA_CONFIG_CONTENT`, managed (see Config File Locations). Deep-merged; later wins.
 
 This also covers where Kappa looks for config files, commands, agents, and skills across project, global, and legacy paths such as `.kappa/`, `.kappacode/`, and `~/.config/kappa/`, plus Agent Manager setup/run scripts in the VS Code extension.
 
@@ -29,7 +29,7 @@ When asked where `/name` lives, do not search only the repo root. Search these r
 1. `~/.config/kappa/`
 2. `~/.kappa/`
 3. `~/.kappacode/`
-4. The `KILO_CONFIG_DIR` directory (if the env var is set)
+4. The `KAPPA_CONFIG_DIR` directory (if the env var is set)
 5. project `.kappa/` and `.kappacode/` directories from the current working directory up to the worktree root
 
 Use exact patterns first:
@@ -373,7 +373,7 @@ Example: `~/.config/kappa/command/*.md` (global), `~/.kappacode/command/*.md` (l
 
 | Variable | Description |
 |---|---|
-| `KILO_CONFIG` | Path to an additional config file (loaded after global) |
-| `KILO_CONFIG_DIR` | Path to an additional config directory (appended to search list) |
-| `KILO_CONFIG_CONTENT` | Inline JSON config string (high precedence, after project dirs) |
-| `KILO_DISABLE_PROJECT_CONFIG` | Skip all project-level config (files and directories) |
+| `KAPPA_CONFIG` | Path to an additional config file (loaded after global) |
+| `KAPPA_CONFIG_DIR` | Path to an additional config directory (appended to search list) |
+| `KAPPA_CONFIG_CONTENT` | Inline JSON config string (high precedence, after project dirs) |
+| `KAPPA_DISABLE_PROJECT_CONFIG` | Skip all project-level config (files and directories) |

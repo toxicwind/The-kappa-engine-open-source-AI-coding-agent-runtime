@@ -340,7 +340,7 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
 
         const kappaGatewayEnv =
           provider === "kappa"
-            ? `\n          KILO_API_KEY: \${{ secrets.KILO_API_KEY }}\n          KILO_ORG_ID: \${{ secrets.KILO_ORG_ID }}`
+            ? `\n          KAPPA_API_KEY: \${{ secrets.KAPPA_API_KEY }}\n          KAPPA_ORG_ID: \${{ secrets.KAPPA_ORG_ID }}`
             : ""
 
         const envStr = providerEnvStr || kappaGatewayEnv ? `\n        env:${providerEnvStr}${kappaGatewayEnv}` : ""

@@ -91,7 +91,7 @@ async function lifecycle(reuse: boolean) {
   }
   const targets: number[] = []
   const code = process.exitCode ?? 0
-  const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+  const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
   const spawned = spyOn(child, "spawn")
   const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
   const read = spyOn(Process, "text").mockImplementation(async () => {
@@ -145,8 +145,8 @@ async function lifecycle(reuse: boolean) {
     spawned.mockRestore()
     job.mockRestore()
     process.exitCode = code
-    if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-    if (token !== undefined) process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+    if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+    if (token !== undefined) process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
   }
 }
 
@@ -191,7 +191,7 @@ test.skipIf(process.platform !== "win32")(
     }
     const calls: string[][] = []
     const code = process.exitCode ?? 0
-    const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+    const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
     const spawned = spyOn(child, "spawn")
     const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
     const read = spyOn(Process, "text").mockImplementation(async () => {
@@ -255,8 +255,8 @@ test.skipIf(process.platform !== "win32")(
       spawned.mockRestore()
       job.mockRestore()
       process.exitCode = code
-      if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-      if (token !== undefined) process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+      if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+      if (token !== undefined) process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     }
   },
   20_000,
@@ -278,7 +278,7 @@ for (const failure of ["failed", "malformed", "slow"] as const)
       const state = { pid: 0, reads: 0, birth: 0, restored: false }
       const calls: Array<{ pid: number; restored: boolean }> = []
       const code = process.exitCode ?? 0
-      const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+      const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
       const spawned = spyOn(child, "spawn")
       const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
       const read = spyOn(Process, "text").mockImplementation(async (_args, opts) => {
@@ -341,8 +341,8 @@ for (const failure of ["failed", "malformed", "slow"] as const)
         spawned.mockRestore()
         job.mockRestore()
         process.exitCode = code
-        if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-        if (token !== undefined) process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+        if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+        if (token !== undefined) process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
       }
     },
     20_000,
@@ -366,7 +366,7 @@ test.skipIf(process.platform !== "win32")(
     let reads = 0
     const targets: number[] = []
     const previous = process.exitCode ?? 0
-    const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+    const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
     const spawned = spyOn(child, "spawn")
     const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
     const read = spyOn(Process, "text").mockImplementation(async () => {
@@ -437,8 +437,8 @@ test.skipIf(process.platform !== "win32")(
       spawned.mockRestore()
       job.mockRestore()
       process.exitCode = previous
-      if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-      else process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+      if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+      else process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     }
   },
   20_000,
@@ -457,7 +457,7 @@ test.skipIf(process.platform !== "win32")(
       control: path.join(tmp.path, "normal.stop"),
     }
     const previous = process.exitCode ?? 0
-    const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+    const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
     const read = spyOn(Process, "text").mockResolvedValue({
       code: 1,
       stdout: Buffer.alloc(0),
@@ -488,8 +488,8 @@ test.skipIf(process.platform !== "win32")(
       write.mockRestore()
       job.mockRestore()
       process.exitCode = previous
-      if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-      else process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+      if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+      else process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     }
   },
   45_000,
@@ -509,7 +509,7 @@ for (const failure of ["failed", "slow"] as const)
         control: path.join(tmp.path, "after.stop"),
       }
       const previous = process.exitCode ?? 0
-      const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+      const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
       const spawned = spyOn(child, "spawn")
       let pid = 0
       const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
@@ -565,8 +565,8 @@ for (const failure of ["failed", "slow"] as const)
         spawned.mockRestore()
         job.mockRestore()
         process.exitCode = previous
-        if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-        else process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+        if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+        else process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
       }
     },
     20_000,
@@ -585,7 +585,7 @@ test.skipIf(process.platform !== "win32")(
       control: path.join(tmp.path, "stop.stop"),
     }
     const previous = process.exitCode ?? 0
-    const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+    const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
     const spawned = spyOn(child, "spawn")
     const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
     let pid = 0
@@ -638,8 +638,8 @@ test.skipIf(process.platform !== "win32")(
       spawned.mockRestore()
       job.mockRestore()
       process.exitCode = previous
-      if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-      else process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+      if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+      else process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     }
   },
   40_000,
@@ -658,7 +658,7 @@ test.skipIf(process.platform !== "win32")(
       control: path.join(tmp.path, "survivor.stop"),
     }
     const previous = process.exitCode ?? 0
-    const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+    const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
     const spawned = spyOn(child, "spawn")
     const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
     let birth = 0
@@ -699,8 +699,8 @@ test.skipIf(process.platform !== "win32")(
       spawned.mockRestore()
       job.mockRestore()
       process.exitCode = previous
-      if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-      else process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+      if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+      else process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     }
   },
   45_000,
@@ -719,7 +719,7 @@ test.skipIf(process.platform !== "win32")(
       control: path.join(tmp.path, "bound.stop"),
     }
     const previous = process.exitCode ?? 0
-    const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+    const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
     const spawned = spyOn(child, "spawn")
     let pid = 0
     const job = spyOn(BackgroundProcessWindows, "job").mockResolvedValue({ reason: "test startup fallback" })
@@ -771,8 +771,8 @@ test.skipIf(process.platform !== "win32")(
       spawned.mockRestore()
       job.mockRestore()
       process.exitCode = previous
-      if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-      else process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+      if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+      else process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     }
   },
   45_000,
@@ -791,7 +791,7 @@ test.skipIf(process.platform !== "win32")(
       control: path.join(tmp.path, "leader.stop"),
     }
     const previous = process.exitCode ?? 0
-    const token = process.env.KILO_BACKGROUND_PROCESS_TOKEN
+    const token = process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
     const spawned = spyOn(child, "spawn")
     let pid = 0
     const birth = Date.now()
@@ -833,8 +833,8 @@ test.skipIf(process.platform !== "win32")(
       spawned.mockRestore()
       job.mockRestore()
       process.exitCode = previous
-      if (token === undefined) delete process.env.KILO_BACKGROUND_PROCESS_TOKEN
-      else process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+      if (token === undefined) delete process.env.KAPPA_BACKGROUND_PROCESS_TOKEN
+      else process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     }
   },
   45_000,

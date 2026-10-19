@@ -11,7 +11,7 @@ function script(command: { args: string[] } | undefined) {
 }
 
 function xml(command: { env?: Record<string, string> } | undefined) {
-  return Buffer.from(command?.env?.KILO_TOAST_XML ?? "", "base64").toString("utf8")
+  return Buffer.from(command?.env?.KAPPA_TOAST_XML ?? "", "base64").toString("utf8")
 }
 
 describe("OS attention notifications", () => {
@@ -26,7 +26,7 @@ describe("OS attention notifications", () => {
 
     expect(command?.cmd).toBe("powershell.exe")
     expect(command?.args.slice(0, 3)).toEqual(["-NoProfile", "-NonInteractive", "-EncodedCommand"])
-    expect(command?.env?.KILO_TOAST_APPID).toBe(APPID)
+    expect(command?.env?.KAPPA_TOAST_APPID).toBe(APPID)
     expect(xml(command)).toContain("Workspace: kappa-vscode")
     expect(xml(command)).toContain("Session: Add notifications")
   })
@@ -39,8 +39,8 @@ describe("OS attention notifications", () => {
     expect(text).not.toContain("kappa-vscode")
     expect(text).not.toContain("Add notifications")
     expect(text).not.toContain(APPID)
-    expect(text).toContain("$env:KILO_TOAST_XML")
-    expect(text).toContain("$env:KILO_TOAST_APPID")
+    expect(text).toContain("$env:KAPPA_TOAST_XML")
+    expect(text).toContain("$env:KAPPA_TOAST_APPID")
   })
 
   it("cannot be escaped by Unicode smart quotes in a session title", () => {

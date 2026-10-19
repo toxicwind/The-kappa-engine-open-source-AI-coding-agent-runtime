@@ -19,7 +19,7 @@ function app() {
       Layer.provide(
         ConfigProvider.layer(
           ConfigProvider.fromUnknown({
-            KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+            KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
           }),
         ),
       ),

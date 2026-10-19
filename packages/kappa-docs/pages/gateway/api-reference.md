@@ -131,7 +131,7 @@ type ChatCompletionChunk = {
 
 ```bash
 curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
-  -H "Authorization: Bearer $KILO_API_KEY" \
+  -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "anthropic/claude-sonnet-4.5",
@@ -264,7 +264,7 @@ type FIMRequest = {
 
 ```bash
 curl -X POST "https://api.kappa.ai/api/fim/completions" \
-  -H "Authorization: Bearer $KILO_API_KEY" \
+  -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "mistralai/codestral-2508",
@@ -293,7 +293,7 @@ The gateway forwards each request to OpenRouter using the platform credential, s
 import { TypeSafeClient } from "@typesafe-ai/sdk"
 
 const client = new TypeSafeClient({
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
   baseURL: "https://api.kappa.ai/api/gateway/typesafe",
   defaultModel: "typesafe/jev-1.13",
 })

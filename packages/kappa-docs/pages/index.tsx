@@ -20,10 +20,10 @@ const terminalContent = {
     <>
       <span className="terminal-comment"># Call Kappa Gateway with a quick curl script</span>
       {"\n"}
-      <span className="terminal-prompt">$</span> export KILO_API_KEY="YOUR_API_KEY"
+      <span className="terminal-prompt">$</span> export KAPPA_API_KEY="YOUR_API_KEY"
       {"\n"}
       <span className="terminal-prompt">$</span> curl https://api.kappa.ai/api/gateway/chat/completions \{"\n"}
-      -H "Authorization: Bearer $KILO_API_KEY" \{"\n"}
+      -H "Authorization: Bearer $KAPPA_API_KEY" \{"\n"}
       -H "Content-Type: application/json" \{"\n"}
       {`  -d '{"model":"anthropic/claude-sonnet-4.5","messages":[{"role":"user","content":"Say hi from Kappa Gateway"}]}'`}
     </>

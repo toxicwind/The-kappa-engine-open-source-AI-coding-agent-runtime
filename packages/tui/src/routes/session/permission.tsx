@@ -21,7 +21,7 @@ import { normalizeUrls } from "@/kappacode/util/url"
 import { MemoryPermissionRegistry } from "@/kappacode/cli/cmd/tui/routes/session/memory-permission"
 import { skillShellPrompt } from "@/kappacode/skills/display"
 // kappacode_change end
-import { KILO_BASE_MODE, useBindings, useCommandShortcut } from "../../keymap"
+import { KAPPA_BASE_MODE, useBindings, useCommandShortcut } from "../../keymap"
 import { usePathFormatter } from "../../context/path-format"
 
 type PermissionStage = "permission" | "always" | "reject"
@@ -563,7 +563,7 @@ function RejectPrompt(props: { onConfirm: (message: string) => void; onCancel: (
   const dimensions = useTerminalDimensions()
   const narrow = createMemo(() => dimensions().width < 80)
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     commands: [
       {
         name: "app.exit",
@@ -660,7 +660,7 @@ function Prompt<const T extends Record<string, string>>(props: {
   const fullscreenHint = useCommandShortcut("permission.prompt.fullscreen")
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     commands: [
       {
         name: "app.exit",

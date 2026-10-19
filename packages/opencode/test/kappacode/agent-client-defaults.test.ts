@@ -5,13 +5,13 @@ import { Permission } from "@/permission"
 const flags = { experimentalSharedAgentBoard: false }
 
 function withClient<T>(client: string, fn: () => T): T {
-  const prev = process.env.KILO_CLIENT
-  process.env.KILO_CLIENT = client
+  const prev = process.env.KAPPA_CLIENT
+  process.env.KAPPA_CLIENT = client
   try {
     return fn()
   } finally {
-    if (prev === undefined) delete process.env.KILO_CLIENT
-    else process.env.KILO_CLIENT = prev
+    if (prev === undefined) delete process.env.KAPPA_CLIENT
+    else process.env.KAPPA_CLIENT = prev
   }
 }
 

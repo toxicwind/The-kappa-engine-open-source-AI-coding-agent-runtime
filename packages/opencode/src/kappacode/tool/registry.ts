@@ -52,7 +52,7 @@ export namespace KappaToolRegistry {
   ): boolean | undefined {
     // VS Code enables indexing from project consent, not from config. Build the tool here and let
     // applyVisibility check consent on each turn, because consent can change after the registry is built.
-    if (process.env["KILO_PLATFORM"] === "vscode") return true
+    if (process.env["KAPPA_PLATFORM"] === "vscode") return true
     return config.indexing?.enabled ?? global?.indexing?.enabled
   }
 
@@ -72,7 +72,7 @@ export namespace KappaToolRegistry {
   }
 
   export function usePatch(input: { modelID: string; family?: string }) {
-    if (process.env["KILO_E2E_LLM_URL"]) return true
+    if (process.env["KAPPA_E2E_LLM_URL"]) return true
 
     const id = input.modelID.toLowerCase()
     const family = input.family?.toLowerCase()
@@ -102,7 +102,7 @@ export namespace KappaToolRegistry {
       const save = yield* MemorySaveTool
       const manager = yield* AgentManagerTool.pipe(Effect.provideService(AgentManager.Service, host ?? unavailable))
       const process = yield* BackgroundProcessTool
-      const browser = Flag.KILO_CLIENT === "vscode" ? yield* BrowserOpenTool : undefined
+      const browser = Flag.KAPPA_CLIENT === "vscode" ? yield* BrowserOpenTool : undefined
       const chart = yield* ChartTool
       const image = yield* GenerateImageTool
       // The notify_user tool depends on KappaSessions.Service, which the tool-registry layer provides
@@ -351,24 +351,24 @@ export namespace KappaToolRegistry {
     const enabled = BoardEnabled.on(cfg, flags)
     return [
       ...(tools.goalReport ? [tools.goalReport] : []),
-      ...((Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "vscode") && tools.goal ? [tools.goal] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.goal ? [tools.goal] : []),
       ...(cfg.experimental?.image_generation === true ? [tools.image] : []),
       ...(enabled && tools.boardRead && tools.boardPost ? [tools.boardRead, tools.boardPost] : []),
       ...(tools.semantic ? [tools.semantic] : []),
       tools.memory,
       tools.save,
       tools.recall,
-      ...(Flag.KILO_CLIENT === "vscode" ? [tools.chart] : []),
-      ...(Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "vscode" ? [tools.process] : []),
-      ...((Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "vscode") && tools.schedule ? [tools.schedule] : []),
-      ...((Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "vscode") && tools.cancel ? [tools.cancel] : []),
-      ...((Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "vscode") && tools.cronCreate ? [tools.cronCreate] : []),
-      ...((Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "vscode") && tools.cronList ? [tools.cronList] : []),
-      ...((Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "vscode") && tools.cronDelete ? [tools.cronDelete] : []),
+      ...(Flag.KAPPA_CLIENT === "vscode" ? [tools.chart] : []),
+      ...(Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode" ? [tools.process] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.schedule ? [tools.schedule] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cancel ? [tools.cancel] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronCreate ? [tools.cronCreate] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronList ? [tools.cronList] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronDelete ? [tools.cronDelete] : []),
       tools.managerModels,
-      ...(Flag.KILO_CLIENT === "vscode" ? [tools.manager] : []),
-      ...(Flag.KILO_CLIENT === "vscode" && tools.browser ? [tools.browser] : []),
-      ...(Flag.KILO_CLIENT === "vscode" &&
+      ...(Flag.KAPPA_CLIENT === "vscode" ? [tools.manager] : []),
+      ...(Flag.KAPPA_CLIENT === "vscode" && tools.browser ? [tools.browser] : []),
+      ...(Flag.KAPPA_CLIENT === "vscode" &&
       cfg.experimental?.native_notebook_tools === true &&
       tools.notebookRead &&
       tools.notebookEdit &&
@@ -376,7 +376,7 @@ export namespace KappaToolRegistry {
         ? [tools.notebookRead, tools.notebookEdit, tools.notebookExecute]
         : []),
       tools.notify,
-      ...(Flag.KILO_CLIENT === "vscode" && tools.openPlan ? [tools.openPlan] : []),
+      ...(Flag.KAPPA_CLIENT === "vscode" && tools.openPlan ? [tools.openPlan] : []),
       tools.send,
       ...(prEnabled() ? [tools.linkPr] : []),
     ]
@@ -426,14 +426,14 @@ export namespace KappaToolRegistry {
     const memoryEnabled = yield* memoryToolsEnabled({ ctx })
     const browser = tools.some((tool) => tool.id === "browser_open")
       ? yield* Effect.gen(function* () {
-          const base = process.env.KILO_BROWSER_BROKER_URL
-          const token = process.env.KILO_BROWSER_BROKER_TOKEN
+          const base = process.env.KAPPA_BROWSER_BROKER_URL
+          const token = process.env.KAPPA_BROWSER_BROKER_TOKEN
           if (!base || !token || !URL.canParse(base)) return false
           return yield* Network.available(new URL(base), token)
         })
       : false
     const semantic =
-      process.env["KILO_PLATFORM"] === "vscode" && tools.some((tool) => tool.id === "semantic_search")
+      process.env["KAPPA_PLATFORM"] === "vscode" && tools.some((tool) => tool.id === "semantic_search")
         ? yield* consented(ctx.directory)
         : true
     return tools.flatMap((tool) => {

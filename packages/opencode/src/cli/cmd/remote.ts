@@ -21,7 +21,7 @@ export const RemoteCommand = cmd({
     await bootstrap(process.cwd(), async () => {
       // kappacode_change - K1 W1: advertise this instance on the relay
       // heartbeat so the cloud side can show it as a spawn-capable instance.
-      // The process-wide `KILO_REMOTE_ATTACH_SESSION` guard was removed in K1
+      // The process-wide `KAPPA_REMOTE_ATTACH_SESSION` guard was removed in K1
       // (in-process sessions only; no spawned children), so this is always
       // advertised for the explicit `kappa remote` command path.
       // enableRemote() also ensures a default advertisement; this explicit call

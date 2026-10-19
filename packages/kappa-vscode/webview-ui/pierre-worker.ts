@@ -14,7 +14,7 @@
 // which is why review surfaces pass hunk-bounded patches instead of full files.
 import { LINE_DIFF_TYPE } from "@kappacode/kappa-ui/pierre"
 import { WorkerPoolManager } from "@pierre/diffs/worker"
-import { ensureKappaDiffTheme, KILO_DIFF_THEME } from "@opencode-ai/ui/pierre/kappa-diff-theme"
+import { ensureKappaDiffTheme, KAPPA_DIFF_THEME } from "@opencode-ai/ui/pierre/kappa-diff-theme"
 
 // Register the "Kappa" theme before any pool initializes. resolveThemes([theme])
 // runs on the main thread during initialize() and throws "resolveTheme: No valid
@@ -33,19 +33,19 @@ const ENGINE = "shiki-wasm"
 
 function uri(): string | undefined {
   if (typeof window === "undefined") return undefined
-  return (window as { KILO_SHIKI_WORKER_URI?: string }).KILO_SHIKI_WORKER_URI
+  return (window as { KAPPA_SHIKI_WORKER_URI?: string }).KAPPA_SHIKI_WORKER_URI
 }
 
 export function workerFactory(): Worker {
   const url = uri()
-  if (!url) throw new Error("KILO_SHIKI_WORKER_URI is not set")
+  if (!url) throw new Error("KAPPA_SHIKI_WORKER_URI is not set")
   return new Worker(url)
 }
 
 function createPool() {
   const pool = new WorkerPoolManager(
     { workerFactory, poolSize: 2 },
-    { theme: KILO_DIFF_THEME, lineDiffType: LINE_DIFF_TYPE, preferredHighlighter: ENGINE },
+    { theme: KAPPA_DIFF_THEME, lineDiffType: LINE_DIFF_TYPE, preferredHighlighter: ENGINE },
   )
   void pool.initialize().catch((err) => console.warn("[Kappa New] Failed to initialize Pierre worker pool", err))
   return pool

@@ -379,14 +379,14 @@ export function prepare(cfg: Config.Info, flags: Pick<RuntimeFlags.Info, "experi
     bash,
     ...board(enabled),
     recall: "ask",
-    ...(Flag.KILO_CLIENT === "vscode" && cfg.experimental?.native_notebook_tools === true
+    ...(Flag.KAPPA_CLIENT === "vscode" && cfg.experimental?.native_notebook_tools === true
       ? { notebook_read: "ask" as const, notebook_edit: "ask" as const, notebook_execute: "ask" as const }
       : {}),
-    ...(Flag.KILO_CLIENT === "vscode" ? { browser_open: "ask" as const } : {}),
+    ...(Flag.KAPPA_CLIENT === "vscode" ? { browser_open: "ask" as const } : {}),
     // JetBrains surfaces a dedicated edit-approval card, so edits ask by default there.
     // This lives in the defaults layer (below user config) so global, project, per-agent,
     // and the plugin's Auto-Approve page all override it.
-    ...(Flag.KILO_CLIENT === "jetbrains" ? { edit: "ask" as const } : {}),
+    ...(Flag.KAPPA_CLIENT === "jetbrains" ? { edit: "ask" as const } : {}),
     kappa_memory_recall: "ask",
     kappa_memory_save: "ask",
   })
@@ -644,7 +644,7 @@ export function patchAgents(
   agents.ask = {
     name: "ask",
     description: "Get answers and explanations without making changes to the codebase.",
-    prompt: mermaidClients.has(Flag.KILO_CLIENT)
+    prompt: mermaidClients.has(Flag.KAPPA_CLIENT)
       ? PROMPT_ASK
       : PROMPT_ASK.replace(
           "- Use Mermaid diagrams when they help clarify your response",

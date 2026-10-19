@@ -61,8 +61,8 @@ const layer: Layer.Layer<
     const flags = yield* RuntimeFlags.Service
     const http = HttpClient.filterStatusOk(withTransientReadRetry(yield* HttpClient.HttpClient))
     const globalFiles = () => [ // kappacode_change - reevaluate the global handoff after config initialization
-      // kappacode_change start - prefer KILO_CONFIG_DIR profile when set
-      ...(Flag.KILO_CONFIG_DIR ? [path.join(Flag.KILO_CONFIG_DIR, "AGENTS.md")] : []),
+      // kappacode_change start - prefer KAPPA_CONFIG_DIR profile when set
+      ...(Flag.KAPPA_CONFIG_DIR ? [path.join(Flag.KAPPA_CONFIG_DIR, "AGENTS.md")] : []),
       // kappacode_change end
       path.join(global.config, "AGENTS.md"),
       // kappacode_change start - stop automatic global Claude instructions after migration
@@ -88,13 +88,13 @@ const layer: Layer.Layer<
 
     const relative = Effect.fnUntraced(function* (instruction: string) {
       const ctx = yield* InstanceState.context
-      if (!Flag.KILO_DISABLE_PROJECT_CONFIG) {
+      if (!Flag.KAPPA_DISABLE_PROJECT_CONFIG) {
         return yield* fs
           .globUp(instruction, ctx.directory, ctx.worktree)
           .pipe(Effect.catch(() => Effect.succeed([] as string[])))
       }
-      // kappacode_change - prefer KILO_CONFIG_DIR profile when set, else fall back to global.config
-      const root = Flag.KILO_CONFIG_DIR ?? global.config
+      // kappacode_change - prefer KAPPA_CONFIG_DIR profile when set, else fall back to global.config
+      const root = Flag.KAPPA_CONFIG_DIR ?? global.config
       return yield* fs.globUp(instruction, root, root).pipe(Effect.catch(() => Effect.succeed([] as string[]))) // kappacode_change
     })
 
@@ -150,7 +150,7 @@ const layer: Layer.Layer<
       }
 
       // The first project-level match wins so we don't stack AGENTS.md/CLAUDE.md from every ancestor.
-      if (!Flag.KILO_DISABLE_PROJECT_CONFIG) {
+      if (!Flag.KAPPA_DISABLE_PROJECT_CONFIG) {
         for (const file of instructionFiles) {
           const matches = yield* fs
             .findUp(file, ctx.directory, ctx.worktree)
@@ -176,7 +176,7 @@ const layer: Layer.Layer<
               : relative(instruction)
           ).pipe(Effect.catch(() => Effect.succeed([] as string[])))
           const declared = config.instruction_origins?.[raw] ?? { trusted: false, source: raw, root }
-          const trusted = declared.trusted && (path.isAbsolute(instruction) || Flag.KILO_DISABLE_PROJECT_CONFIG)
+          const trusted = declared.trusted && (path.isAbsolute(instruction) || Flag.KAPPA_DISABLE_PROJECT_CONFIG)
           const origin = { ...declared, trusted, root: trusted ? undefined : (declared.root ?? root) }
           matches.forEach((item) => add(item, origin))
         }

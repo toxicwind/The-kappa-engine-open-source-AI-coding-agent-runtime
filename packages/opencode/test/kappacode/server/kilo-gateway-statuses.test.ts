@@ -199,7 +199,7 @@ describe("Kappa gateway HttpApi statuses", () => {
     it.live(`reports ${context.name} organization context locally without secrets`, () =>
       Effect.gen(function* () {
         const previous = { ...state }
-        const env = process.env.KILO_ORG_ID
+        const env = process.env.KAPPA_ORG_ID
         yield* Effect.acquireRelease(
           Effect.sync(() => {
             state.config = context.config
@@ -216,14 +216,14 @@ describe("Kappa gateway HttpApi statuses", () => {
                   expires: Date.now() + 3600000,
                   ...(context.oauth ? { accountId: "org-oauth" } : {}),
                 })
-            if (context.env) process.env.KILO_ORG_ID = "org-env"
-            else delete process.env.KILO_ORG_ID
+            if (context.env) process.env.KAPPA_ORG_ID = "org-env"
+            else delete process.env.KAPPA_ORG_ID
           }),
           () =>
             Effect.sync(() => {
               Object.assign(state, previous)
-              if (env === undefined) delete process.env.KILO_ORG_ID
-              else process.env.KILO_ORG_ID = env
+              if (env === undefined) delete process.env.KAPPA_ORG_ID
+              else process.env.KAPPA_ORG_ID = env
             }),
         )
         yield* stub(() => Promise.reject(new Error("unexpected Gateway request")))

@@ -60,8 +60,8 @@ export namespace KappacodeConfigSources {
   const global = ["config.json", "kappa.json", "kappa.jsonc", "opencode.json", "opencode.jsonc"] as const
 
   export async function list(input: Input): Promise<Result> {
-    const project = Flag.KILO_DISABLE_PROJECT_CONFIG ? [] : await projectSources(input)
-    const dirs = Flag.KILO_DISABLE_PROJECT_CONFIG ? [] : await configDirSources(input)
+    const project = Flag.KAPPA_DISABLE_PROJECT_CONFIG ? [] : await projectSources(input)
+    const dirs = Flag.KAPPA_DISABLE_PROJECT_CONFIG ? [] : await configDirSources(input)
     const sources = [
       ...wellknownSources(input.auth ?? {}),
       ...(await globalSources()),
@@ -106,14 +106,14 @@ export namespace KappacodeConfigSources {
   }
 
   async function envFileSources(): Promise<Pending[]> {
-    if (!Flag.KILO_CONFIG) return []
+    if (!Flag.KAPPA_CONFIG) return []
     return [
       await fileSource({
         kind: "env-file",
         scope: "env",
-        label: "KILO_CONFIG",
-        file: Flag.KILO_CONFIG,
-        reason: "Explicit config file from KILO_CONFIG.",
+        label: "KAPPA_CONFIG",
+        file: Flag.KAPPA_CONFIG,
+        reason: "Explicit config file from KAPPA_CONFIG.",
       }),
     ]
   }
@@ -135,9 +135,9 @@ export namespace KappacodeConfigSources {
   async function configDirSources(input: Input): Promise<Pending[]> {
     const project = await Filesystem.findUp([...roots], input.directory, input.worktree)
     const home = await Filesystem.findUp([...roots], Global.Path.home, Global.Path.home)
-    const env = Flag.KILO_CONFIG_DIR ? [Flag.KILO_CONFIG_DIR] : []
+    const env = Flag.KAPPA_CONFIG_DIR ? [Flag.KAPPA_CONFIG_DIR] : []
     const dirs = unique([Global.Path.config, ...project, ...home, ...env]).filter((dir) =>
-      KappacodeConfig.isConfigDir(dir, Flag.KILO_CONFIG_DIR),
+      KappacodeConfig.isConfigDir(dir, Flag.KAPPA_CONFIG_DIR),
     )
 
     const result: Pending[] = []
@@ -162,7 +162,7 @@ export namespace KappacodeConfigSources {
   }
 
   function dirScope(dir: string, input: { project: string[]; home: string[] }): Scope {
-    if (dir === Flag.KILO_CONFIG_DIR) return "env"
+    if (dir === Flag.KAPPA_CONFIG_DIR) return "env"
     if (input.project.includes(dir)) return "project"
     if (input.home.includes(dir)) return "global"
     return "global"
@@ -170,35 +170,35 @@ export namespace KappacodeConfigSources {
 
   function envContentSources(): Pending[] {
     const sources: Pending[] = []
-    if (process.env.KILO_CONFIG_CONTENT) {
+    if (process.env.KAPPA_CONFIG_CONTENT) {
       sources.push({
         kind: "env-content",
         scope: "env",
-        label: "KILO_CONFIG_CONTENT",
-        source: "KILO_CONFIG_CONTENT",
+        label: "KAPPA_CONFIG_CONTENT",
+        source: "KAPPA_CONFIG_CONTENT",
         exists: true,
         editable: false,
         reason: "Inline config content from the process environment; value is not exposed.",
       })
     }
-    if (Flag.KILO_CONFIG_DIR) {
+    if (Flag.KAPPA_CONFIG_DIR) {
       sources.push({
         kind: "runtime-env",
         scope: "env",
-        label: "KILO_CONFIG_DIR",
-        source: "KILO_CONFIG_DIR",
-        path: Flag.KILO_CONFIG_DIR,
+        label: "KAPPA_CONFIG_DIR",
+        source: "KAPPA_CONFIG_DIR",
+        path: Flag.KAPPA_CONFIG_DIR,
         exists: true,
         editable: false,
         reason: "Adds an extra config directory to the load chain.",
       })
     }
-    if (Flag.KILO_DISABLE_PROJECT_CONFIG) {
+    if (Flag.KAPPA_DISABLE_PROJECT_CONFIG) {
       sources.push({
         kind: "runtime-env",
         scope: "env",
-        label: "KILO_DISABLE_PROJECT_CONFIG",
-        source: "KILO_DISABLE_PROJECT_CONFIG",
+        label: "KAPPA_DISABLE_PROJECT_CONFIG",
+        source: "KAPPA_DISABLE_PROJECT_CONFIG",
         exists: true,
         editable: false,
         reason: "Project-level config files and directories are disabled for this process.",
@@ -274,9 +274,9 @@ export namespace KappacodeConfigSources {
 
   function runtimeSources(): Pending[] {
     return [
-      runtimeSource("KILO_PERMISSION", Flag.KILO_PERMISSION, "Runtime permission overlay."),
-      runtimeSource("KILO_DISABLE_AUTOCOMPACT", process.env.KILO_DISABLE_AUTOCOMPACT, "Disables automatic compaction."),
-      runtimeSource("KILO_DISABLE_PRUNE", process.env.KILO_DISABLE_PRUNE, "Disables tool-output pruning."),
+      runtimeSource("KAPPA_PERMISSION", Flag.KAPPA_PERMISSION, "Runtime permission overlay."),
+      runtimeSource("KAPPA_DISABLE_AUTOCOMPACT", process.env.KAPPA_DISABLE_AUTOCOMPACT, "Disables automatic compaction."),
+      runtimeSource("KAPPA_DISABLE_PRUNE", process.env.KAPPA_DISABLE_PRUNE, "Disables tool-output pruning."),
     ].filter((item): item is Pending => item !== undefined)
   }
 

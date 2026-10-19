@@ -3,7 +3,7 @@
 //   bun dev:local <project-dir> [--cloud <dir>] [--no-ingest] [--no-events] [--print] [-- <kappa args>]
 //
 // Reads ports from <cloud>/dev/logs/manifest.json (+ .dev-port), probes the web
-// server, and points the CLI at it (KILO_API_URL / KILO_SESSION_INGEST_URL /
+// server, and points the CLI at it (KAPPA_API_URL / KAPPA_SESSION_INGEST_URL /
 // EVENT_SERVICE_URL).
 // Auth/config/state/cache are isolated under ~/.kappa-dev so it can't clash with
 // your main kappa install; real HOME is kept so git/ssh still work.
@@ -72,16 +72,16 @@ async function main() {
   for (const [k, d] of [["XDG_DATA_HOME", "data"], ["XDG_CONFIG_HOME", "config"], ["XDG_STATE_HOME", "state"], ["XDG_CACHE_HOME", "cache"]] as const) {
     const p = path.join(home, d); fs.mkdirSync(p, { recursive: true }); env[k] = p
   }
-  env.KILO_API_URL = `http://localhost:${webPort}`
-  env.KILO_DEV_CWD = project
-  env.KILO_DISABLE_AUTOUPDATE = "1"
-  if (ingestPort) env.KILO_SESSION_INGEST_URL = `http://localhost:${ingestPort}`
-  else env.KILO_DISABLE_SESSION_INGEST = "1"
+  env.KAPPA_API_URL = `http://localhost:${webPort}`
+  env.KAPPA_DEV_CWD = project
+  env.KAPPA_DISABLE_AUTOUPDATE = "1"
+  if (ingestPort) env.KAPPA_SESSION_INGEST_URL = `http://localhost:${ingestPort}`
+  else env.KAPPA_DISABLE_SESSION_INGEST = "1"
   if (eventsPort) {
     env.EVENT_SERVICE_URL = `ws://localhost:${eventsPort}`
-    delete env.KILO_DISABLE_PRESENCE
-    delete env.KILO_EVENT_SERVICE_URL
-  } else env.KILO_DISABLE_PRESENCE = "1"
+    delete env.KAPPA_DISABLE_PRESENCE
+    delete env.KAPPA_EVENT_SERVICE_URL
+  } else env.KAPPA_DISABLE_PRESENCE = "1"
 
   const webUp = await alive(webPort)
   console.log(`${dim}project${rst}  ${project}`)

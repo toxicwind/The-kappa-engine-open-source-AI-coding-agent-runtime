@@ -27,7 +27,7 @@ test("preserves dollar-prefixed placeholders in project markdown", async () => {
 })
 
 test("confines project markdown substitutions while preserving trusted substitutions", async () => {
-  const name = "KILO_MARKDOWN_SUBSTITUTE_TEST_SECRET"
+  const name = "KAPPA_MARKDOWN_SUBSTITUTE_TEST_SECRET"
   const prior = process.env[name]
   process.env[name] = "environment secret"
 
@@ -82,7 +82,7 @@ test("confines project markdown substitutions while preserving trusted substitut
 })
 
 test("keeps resolving dollar-prefixed placeholders in trusted markdown", async () => {
-  const name = "KILO_MARKDOWN_TRUSTED_DOLLAR_TEST"
+  const name = "KAPPA_MARKDOWN_TRUSTED_DOLLAR_TEST"
   const prior = process.env[name]
   process.env[name] = "environment secret"
 

@@ -16,10 +16,10 @@ import { SessionID, MessageID } from "@/session/schema"
 import { testEffect } from "../../../lib/effect"
 
 // Global (~/.claude) skills are trusted, but Global.Service snapshots the home
-// path when its layer is built, so KILO_TEST_HOME must be set before the runtime
+// path when its layer is built, so KAPPA_TEST_HOME must be set before the runtime
 // layer below is constructed — not inside a test body.
 const HOME = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "skill-inject-home-")))
-process.env.KILO_TEST_HOME = HOME
+process.env.KAPPA_TEST_HOME = HOME
 
 const baseCtx: Omit<Tool.Context, "ask"> = {
   sessionID: SessionID.make("ses_test"),
@@ -48,7 +48,7 @@ afterEach(async () => {
 })
 
 // Global ~/.agents skills are trusted (and, unlike ~/.claude, not gated by the
-// KILO_DISABLE_CLAUDE_CODE flag the test env sets); project .kappa skills are untrusted.
+// KAPPA_DISABLE_CLAUDE_CODE flag the test env sets); project .kappa skills are untrusted.
 function writeGlobalSkill(name: string, body: string) {
   return Effect.promise(() =>
     Bun.write(

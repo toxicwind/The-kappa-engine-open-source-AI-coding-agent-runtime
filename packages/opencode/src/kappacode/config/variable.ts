@@ -19,10 +19,10 @@ export namespace ConfigVariableGuard {
   }
 
   const secret = new Set([
-    "KILO_SERVER_PASSWORD",
-    "KILO_SERVER_USERNAME",
-    "KILO_BROWSER_BROKER_URL",
-    "KILO_BROWSER_BROKER_TOKEN",
+    "KAPPA_SERVER_PASSWORD",
+    "KAPPA_SERVER_USERNAME",
+    "KAPPA_BROWSER_BROKER_URL",
+    "KAPPA_BROWSER_BROKER_TOKEN",
   ])
 
   export function env(name: string) {

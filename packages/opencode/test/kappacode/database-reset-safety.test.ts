@@ -16,8 +16,8 @@ function dangerous(source: string) {
 //
 // 1. test/server/httpapi-sdk.test.ts was run from a directory where Bun did not
 //    load the package bunfig.toml. test/preload.ts was therefore not applied,
-//    so KILO_DB was not set to :memory:.
-// 2. The test process inherited KILO_DISABLE_CHANNEL_DB=true from the VS Code
+//    so KAPPA_DB was not set to :memory:.
+// 2. The test process inherited KAPPA_DISABLE_CHANNEL_DB=true from the VS Code
 //    extension. Database.getPath() therefore returned the real shared database
 //    at ~/.local/share/kappa/kappa.db.
 // 3. The upstream resetDatabase() helper deleted kappa.db, kappa.db-wal, and
@@ -36,19 +36,19 @@ describe("test database safety", () => {
 
   test("preserves the resolved database when the in-memory preload is missing", async () => {
     // Use a disposable sentinel inside the test's temporary directory, never a
-    // user database. This simulates a disk-backed KILO_DB and verifies that the
+    // user database. This simulates a disk-backed KAPPA_DB and verifies that the
     // reset helper rejects it before cleanup can run.
     await using tmp = await tmpdir()
     const file = path.join(tmp.path, "sessions.db")
-    const previous = Flag.KILO_DB
+    const previous = Flag.KAPPA_DB
     await Bun.write(file, "preserve me")
-    Flag.KILO_DB = file
+    Flag.KAPPA_DB = file
 
     try {
       await expect(resetDatabase()).rejects.toThrow(`Refusing to reset non-test database: ${file}`)
       expect(await Bun.file(file).text()).toBe("preserve me")
     } finally {
-      Flag.KILO_DB = previous
+      Flag.KAPPA_DB = previous
     }
   })
 

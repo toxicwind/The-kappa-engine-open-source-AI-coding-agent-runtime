@@ -164,16 +164,16 @@ export const PrCheckoutCommand = effectCmd({
 // kappacode_change start - link/unlink/status act on one explicit session
 //
 // A PR belongs to a session, never to a worktree or a branch name, so these
-// commands require a session id: `--session <id>`, else the KILO_SESSION_ID /
-// KILO_SESSION the surrounding process exported. There is deliberately no
+// commands require a session id: `--session <id>`, else the KAPPA_SESSION_ID /
+// KAPPA_SESSION the surrounding process exported. There is deliberately no
 // worktree or branch fallback: guessing the session recreates the fan-out that
 // linked random pull requests to sessions.
 import { enabled as prEnabled } from "@/kappa-sessions/pr-link"
 
-const NO_SESSION = "No session specified. Pass --session <id> or set KILO_SESSION_ID."
+const NO_SESSION = "No session specified. Pass --session <id> or set KAPPA_SESSION_ID."
 
 function resolveSessionId(explicit?: string): string | undefined {
-  return explicit?.trim() || process.env.KILO_SESSION_ID?.trim() || process.env.KILO_SESSION?.trim() || undefined
+  return explicit?.trim() || process.env.KAPPA_SESSION_ID?.trim() || process.env.KAPPA_SESSION?.trim() || undefined
 }
 
 export const prLinkHandler = Effect.fn("Cli.pr.link")(function* (args: { url: string; session?: string }) {

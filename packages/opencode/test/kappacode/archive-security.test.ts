@@ -12,13 +12,13 @@ test("extracts ZIP paths with PowerShell metacharacters literally", async () => 
   const source = path.join(tmp.path, "content.txt")
   const archive = path.join(tmp.path, "archive'; exit 42; #.zip")
   const dest = path.join(tmp.path, "dest'; exit 42; #")
-  const cmd = "Compress-Archive -LiteralPath $env:KILO_TEST_SOURCE -DestinationPath $env:KILO_TEST_ARCHIVE -Force"
+  const cmd = "Compress-Archive -LiteralPath $env:KAPPA_TEST_SOURCE -DestinationPath $env:KAPPA_TEST_ARCHIVE -Force"
 
   await fs.writeFile(source, "safe")
   await Process.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", cmd], {
     env: {
-      KILO_TEST_SOURCE: source,
-      KILO_TEST_ARCHIVE: archive,
+      KAPPA_TEST_SOURCE: source,
+      KAPPA_TEST_ARCHIVE: archive,
     },
   })
   await Archive.extractZip(archive, dest)

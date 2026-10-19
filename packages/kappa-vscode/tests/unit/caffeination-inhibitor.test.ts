@@ -4,7 +4,7 @@ import type { ChildProcess, SpawnOptions } from "node:child_process"
 import { createCaffeinationDriver, type CaffeinationDriver } from "../../src/services/caffeination/inhibitor"
 import { spawn } from "../../src/util/process"
 
-const READY = "KILO_CAFFEINATION_READY"
+const READY = "KAPPA_CAFFEINATION_READY"
 const HOLD = "process.stdin.resume()"
 const drivers = new Set<CaffeinationDriver>()
 
@@ -63,7 +63,7 @@ it.each(
   if (platform === "linux") expect(call.args.filter((arg) => arg.startsWith("--what="))).toEqual(["--what=sleep"])
   if (platform === "win32")
     expect(call.args.at(-1)).toMatch(
-      /'Stop'[\s\S]*\[uint32\]2147483649\) -eq 0[\s\S]*throw[\s\S]*KILO_CAFFEINATION_READY[\s\S]*catch.*exit 1/,
+      /'Stop'[\s\S]*\[uint32\]2147483649\) -eq 0[\s\S]*throw[\s\S]*KAPPA_CAFFEINATION_READY[\s\S]*catch.*exit 1/,
     )
 })
 

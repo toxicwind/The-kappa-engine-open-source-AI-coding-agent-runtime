@@ -348,9 +348,9 @@ describe("plan_exit detection", () => {
 
   test("JetBrains client enables plan follow-up with custom answer", () =>
     withInstance(async () => {
-      const prev = process.env.KILO_CLIENT
+      const prev = process.env.KAPPA_CLIENT
       try {
-        process.env.KILO_CLIENT = "jetbrains"
+        process.env.KAPPA_CLIENT = "jetbrains"
         const seeded = await seed({
           text: "Here is the plan",
           tools: [
@@ -393,8 +393,8 @@ describe("plan_exit detection", () => {
         await questions.reject(question.id)
         await expect(pending).resolves.toBe("break")
       } finally {
-        if (prev === undefined) delete process.env.KILO_CLIENT
-        else process.env.KILO_CLIENT = prev
+        if (prev === undefined) delete process.env.KAPPA_CLIENT
+        else process.env.KAPPA_CLIENT = prev
       }
     }))
 
@@ -735,11 +735,11 @@ describe("plan_exit detection", () => {
 
   test("native plan reminder keeps in-chat approval for clients without follow-up support", () =>
     withInstance(async () => {
-      const prev = process.env.KILO_CLIENT
+      const prev = process.env.KAPPA_CLIENT
       try {
         const session = await sessions.create({})
 
-        process.env.KILO_CLIENT = "vscode"
+        process.env.KAPPA_CLIENT = "vscode"
         const supported = userMessage({ sessionID: session.id, agent: "plan", text: "Create a plan." })
         await KappaSessionPrompt.insertPlanReminders({
           agent: { name: "plan", options: {} },
@@ -751,7 +751,7 @@ describe("plan_exit detection", () => {
         expect(supportedText).toContain("client follow-up after plan_exit asks whether to implement")
         expect(supportedText).not.toContain("Finalize and save the plan")
 
-        process.env.KILO_CLIENT = "acp"
+        process.env.KAPPA_CLIENT = "acp"
         const acp = userMessage({ sessionID: session.id, agent: "plan", text: "Create a plan." })
         await KappaSessionPrompt.insertPlanReminders({
           agent: { name: "plan", options: {} },
@@ -764,8 +764,8 @@ describe("plan_exit detection", () => {
         expect(text).toContain("Continue refining")
         expect(text).not.toContain("client follow-up after plan_exit asks")
       } finally {
-        if (prev === undefined) delete process.env.KILO_CLIENT
-        else process.env.KILO_CLIENT = prev
+        if (prev === undefined) delete process.env.KAPPA_CLIENT
+        else process.env.KAPPA_CLIENT = prev
       }
     }))
 

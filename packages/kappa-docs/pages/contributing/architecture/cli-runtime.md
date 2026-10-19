@@ -115,7 +115,7 @@ Three credential boundaries coexist. Keep them separate when tracing request pat
 
 ### Local `kappa serve` access
 
-Server Basic Auth is optional. It becomes required when `KILO_SERVER_PASSWORD` is non-empty. Default username is `kappa`; `KILO_SERVER_USERNAME` can override it.
+Server Basic Auth is optional. It becomes required when `KAPPA_SERVER_PASSWORD` is non-empty. Default username is `kappa`; `KAPPA_SERVER_USERNAME` can override it.
 
 | Path or mode | Authentication behavior |
 |---|---|
@@ -124,13 +124,13 @@ Server Basic Auth is optional. It becomes required when `KILO_SERVER_PASSWORD` i
 | Public UI assets | Selected manifest and icon GET paths bypass Basic Auth so browser metadata can load |
 | PTY ticket issue | Authenticated `POST /pty/{ptyID}/connect-token` requires expected ticket header and allowed origin |
 | PTY ticket connect | `GET /pty/{ptyID}/connect?ticket=...` bypasses Basic middleware, then consumes single-use, scope-bound ticket in PTY handler |
-| PTY shell child | Removes `KILO_SERVER_PASSWORD` and `KILO_SERVER_USERNAME` from spawned user-shell environment |
+| PTY shell child | Removes `KAPPA_SERVER_PASSWORD` and `KAPPA_SERVER_USERNAME` from spawned user-shell environment |
 
 PTY connect supports two browser-oriented modes: loopback query credential mode (`auth_token`) used by current Console and VS Code Agent Manager paths, and short-lived ticket mode exposed by server API.
 
 ### Outbound provider authentication
 
-Provider auth records use `api`, `oauth`, or `wellknown` variants in `${Global.Path.data}/auth.json`, written with mode `0600`. `KILO_AUTH_CONTENT` can supply process-local auth JSON. Separate v2 multi-account auth store also exists for account-oriented flows.
+Provider auth records use `api`, `oauth`, or `wellknown` variants in `${Global.Path.data}/auth.json`, written with mode `0600`. `KAPPA_AUTH_CONTENT` can supply process-local auth JSON. Separate v2 multi-account auth store also exists for account-oriented flows.
 
 | Path | Behavior |
 |---|---|
@@ -140,7 +140,7 @@ Provider auth records use `api`, `oauth`, or `wellknown` variants in `${Global.P
 | Organization catalog | Kappa model fetch includes organization ID when resolved from config, auth, or environment |
 | Model cache | Caches provider model results for five minutes; failed loads invalidate cache for retry |
 | Custom endpoints | Provider config can override endpoint and credential options |
-| Indexing auth | Resolves indexing-specific Kappa config first, then provider config, auth record, provider options, and `KILO_API_KEY` / `KILO_ORG_ID` environment values |
+| Indexing auth | Resolves indexing-specific Kappa config first, then provider config, auth record, provider options, and `KAPPA_API_KEY` / `KAPPA_ORG_ID` environment values |
 
 ### Remote MCP OAuth
 
@@ -154,7 +154,7 @@ Instance routes select directory context in this order:
 2. `x-kappa-directory` request header.
 3. Server process cwd.
 
-Local routing workspace selection is separate. Session workspace, `workspace` query parameter, and `KILO_WORKSPACE_ID` can select workspace context. Configured `KILO_WORKSPACE_ID` keeps requests local to current workspace runtime. Other selected workspaces resolve through workspace-routing adapter to local directory or remote target.
+Local routing workspace selection is separate. Session workspace, `workspace` query parameter, and `KAPPA_WORKSPACE_ID` can select workspace context. Configured `KAPPA_WORKSPACE_ID` keeps requests local to current workspace runtime. Other selected workspaces resolve through workspace-routing adapter to local directory or remote target.
 
 | Request plan | Behavior |
 |---|---|
@@ -193,7 +193,7 @@ Remote HTTP proxy responses can include sync fence metadata. Router waits for ma
 | Health | Probes authenticated `/global/health` with 2 second timeout |
 | Reuse | Reuses daemon only when process is alive, health succeeds, and installed version matches |
 | Cleanup | Terminates stale process when present, clears stale state, then starts replacement |
-| Opt-out | `KILO_NO_DAEMON` disables automatic attach by clients; explicit daemon commands still manage daemon |
+| Opt-out | `KAPPA_NO_DAEMON` disables automatic attach by clients; explicit daemon commands still manage daemon |
 
 Daemon credentials differ from editor-spawned server credentials. Current daemon source stores username `kappa`, password `kappa`, and base64 Basic token in `daemon.json`. File permissions protect this local credential record. Editor clients generate random passwords per spawned server.
 
@@ -204,7 +204,7 @@ SQLite is default structured store.
 | Area | Behavior |
 |---|---|
 | Default database | `${Global.Path.data}/kappa.db` |
-| Override | `KILO_DB`; relative paths resolve under data directory; `:memory:` is accepted |
+| Override | `KAPPA_DB`; relative paths resolve under data directory; `:memory:` is accepted |
 | Runtime pragmas | WAL journal, normal sync, 5 second busy timeout, foreign keys, passive checkpoint, bounded cache |
 | Schema changes | Drizzle migrations load from bundled journal in compiled binary or migration directories in development |
 | Main tables | Projects, sessions, messages, parts, todos, permissions, session messages, workspaces, sync events, accounts, and account state |
@@ -257,10 +257,10 @@ Later sources override earlier values during instance config load:
 | 2 | Organization modes |
 | 3 | Auth-record `.well-known/opencode` remote config |
 | 4 | Global config files |
-| 5 | Explicit `KILO_CONFIG` file |
+| 5 | Explicit `KAPPA_CONFIG` file |
 | 6 | Project `kappa.json[c]` and `opencode.json[c]` files plus discovered config directories |
-| 7 | `KILO_CONFIG_DIR` directory |
-| 8 | `KILO_CONFIG_CONTENT` |
+| 7 | `KAPPA_CONFIG_DIR` directory |
+| 8 | `KAPPA_CONFIG_CONTENT` |
 | 9 | Active Kappa Cloud organization config |
 | 10 | Managed config directory |
 | 11 | macOS managed preferences |
@@ -309,7 +309,7 @@ Source development can serve built Console assets from package output or build t
 | Status | `GET /indexing/status` and `indexing.status` bus event expose progress |
 | Tool | `semantic_search` is registered only after indexing reports readiness |
 | Worktrees | Agent Manager `.kappa/worktrees/` and legacy `.kappacode/worktrees/` paths return disabled status |
-| Empty VS Code window | Extension sets `KILO_DISABLE_CODEBASE_INDEXING=vscode-no-workspace`; bridge reports disabled status |
+| Empty VS Code window | Extension sets `KAPPA_DISABLE_CODEBASE_INDEXING=vscode-no-workspace`; bridge reports disabled status |
 | Embeddings | Supports Kappa, OpenAI, Ollama, OpenAI-compatible, Gemini, Mistral, Vercel AI Gateway, Bedrock, OpenRouter, and Voyage configuration |
 | Vector stores | Supports Qdrant and LanceDB |
 

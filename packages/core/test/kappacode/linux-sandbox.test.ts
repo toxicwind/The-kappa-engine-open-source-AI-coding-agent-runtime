@@ -705,11 +705,11 @@ linux("applies the profile environment without inheriting denied values", async 
   const base = profile([root.project])
   const policy: Profile = {
     ...base,
-    environment: { deny: ["KILO_SANDBOX_DENIED"], set: { KILO_SANDBOX_SET: "expected" } },
+    environment: { deny: ["KAPPA_SANDBOX_DENIED"], set: { KAPPA_SANDBOX_SET: "expected" } },
   }
   const script = [
-    'if (process.env.KILO_SANDBOX_SET !== "expected") process.exit(2)',
-    "if (process.env.KILO_SANDBOX_DENIED !== undefined) process.exit(3)",
+    'if (process.env.KAPPA_SANDBOX_SET !== "expected") process.exit(2)',
+    "if (process.env.KAPPA_SANDBOX_DENIED !== undefined) process.exit(3)",
   ].join("\n")
 
   try {
@@ -721,7 +721,7 @@ linux("applies the profile environment without inheriting denied values", async 
             .spawn(
               ChildProcess.make(process.execPath, ["-e", script], {
                 cwd: root.project,
-                env: { KILO_SANDBOX_DENIED: "ambient" },
+                env: { KAPPA_SANDBOX_DENIED: "ambient" },
                 extendEnv: true,
               }),
             )
@@ -823,7 +823,7 @@ linux("terminates daemonized descendants when the command scope closes", async (
 
 linux("rejects a Bubblewrap helper inside a writable root", async () => {
   const root = await fixture()
-  const source = process.env.KILO_BWRAP_PATH ?? "/usr/bin/bwrap"
+  const source = process.env.KAPPA_BWRAP_PATH ?? "/usr/bin/bwrap"
   const helper = path.join(root.project, "bwrap")
   const link = path.join(root.outside, "bwrap")
   await fs.copyFile(source, helper)
@@ -843,7 +843,7 @@ linux("rejects a Bubblewrap helper inside a writable root", async () => {
   try {
     const result = spawnSync(process.execPath, ["-e", script], {
       cwd: import.meta.dir,
-      env: { ...process.env, KILO_BWRAP_PATH: link },
+      env: { ...process.env, KAPPA_BWRAP_PATH: link },
       encoding: "utf8",
     })
     expect(result.status, result.stderr).toBe(0)
@@ -854,7 +854,7 @@ linux("rejects a Bubblewrap helper inside a writable root", async () => {
 
 linux("reports network namespace support separately and fails deny mode closed", async () => {
   const root = await fixture()
-  const source = process.env.KILO_BWRAP_PATH ?? "/usr/bin/bwrap"
+  const source = process.env.KAPPA_BWRAP_PATH ?? "/usr/bin/bwrap"
   const helper = path.join(root.outside, "bwrap-no-network")
   await fs.writeFile(
     helper,
@@ -885,7 +885,7 @@ linux("reports network namespace support separately and fails deny mode closed",
   try {
     const result = spawnSync(process.execPath, ["-e", script], {
       cwd: import.meta.dir,
-      env: { ...process.env, KILO_BWRAP_PATH: helper },
+      env: { ...process.env, KAPPA_BWRAP_PATH: helper },
       encoding: "utf8",
     })
     expect(result.status, result.stderr).toBe(0)
@@ -907,7 +907,7 @@ linux("fails closed when Bubblewrap is unavailable", () => {
   ].join("\n")
   const result = spawnSync(process.execPath, ["-e", script], {
     cwd: import.meta.dir,
-    env: { ...process.env, KILO_BWRAP_PATH: "/missing/kappa-bwrap" },
+    env: { ...process.env, KAPPA_BWRAP_PATH: "/missing/kappa-bwrap" },
     encoding: "utf8",
   })
   expect(result.status, result.stderr).toBe(0)

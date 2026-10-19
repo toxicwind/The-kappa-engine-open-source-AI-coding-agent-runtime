@@ -129,9 +129,9 @@ function fileCommands(file: string): Array<{ cmd: string; args: string[]; env?: 
           "-NoProfile",
           "-NonInteractive",
           "-Command",
-          "$sound = [System.Media.SoundPlayer]::new($env:KILO_SOUND_PATH); $sound.PlaySync(); $sound.Dispose()",
+          "$sound = [System.Media.SoundPlayer]::new($env:KAPPA_SOUND_PATH); $sound.PlaySync(); $sound.Dispose()",
         ],
-        env: { ...process.env, KILO_SOUND_PATH: file },
+        env: { ...process.env, KAPPA_SOUND_PATH: file },
       },
     ]
   }

@@ -24,8 +24,8 @@ const cli = yargs(hideBin(process.argv))
     type: "boolean",
   })
   .middleware((opts) => {
-    if (opts.printLogs) process.env.KILO_PRINT_LOGS = "1"
-    if (opts.logLevel) process.env.KILO_LOG_LEVEL = opts.logLevel
+    if (opts.printLogs) process.env.KAPPA_PRINT_LOGS = "1"
+    if (opts.logLevel) process.env.KAPPA_LOG_LEVEL = opts.logLevel
   })
   .command(TuiThreadCommand)
   .parse()

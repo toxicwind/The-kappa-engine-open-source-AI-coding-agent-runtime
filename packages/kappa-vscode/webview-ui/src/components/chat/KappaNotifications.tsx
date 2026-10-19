@@ -4,7 +4,7 @@ import { useVSCode } from "../../context/vscode"
 import { useSession } from "../../context/session"
 import { useProvider } from "../../context/provider"
 import { useLanguage } from "../../context/language"
-import { KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
+import { KAPPA_PROVIDER_ID } from "../../../../src/shared/provider-model"
 import { TelemetryEventName } from "../../../../src/services/telemetry/types"
 import { stripSubProviderPrefix } from "../shared/model-selector-utils"
 
@@ -50,7 +50,7 @@ export const KappaNotifications: Component<{ sessionID?: Accessor<string | undef
   const suggestedModel = createMemo(() => {
     const id = current()?.suggestModelId
     if (!id) return undefined
-    const sel = { providerID: KILO_PROVIDER_ID, modelID: id }
+    const sel = { providerID: KAPPA_PROVIDER_ID, modelID: id }
     if (!provider.isModelValid(sel)) return undefined
     return sel
   })

@@ -52,7 +52,7 @@ export const TelemetryApi = HttpApi.make("telemetry")
             identifier: "telemetry.setEnabled",
             summary: "Set PostHog telemetry enabled state",
             description:
-              "Update the PostHog client's opt-in/out state at runtime. The CLI reads KILO_TELEMETRY_LEVEL once at spawn — this route lets clients (e.g. the VS Code extension) propagate runtime telemetry consent changes.",
+              "Update the PostHog client's opt-in/out state at runtime. The CLI reads KAPPA_TELEMETRY_LEVEL once at spawn — this route lets clients (e.g. the VS Code extension) propagate runtime telemetry consent changes.",
           }),
         ),
       )

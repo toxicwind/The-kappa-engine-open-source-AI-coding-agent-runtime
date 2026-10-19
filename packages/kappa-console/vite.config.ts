@@ -5,7 +5,7 @@ import solidPlugin from "vite-plugin-solid"
 const emptyKatex = fileURLToPath(new URL("./src/styles/empty.css", import.meta.url))
 
 export default defineConfig({
-  base: process.env.KILO_CONSOLE_BASE ?? "/",
+  base: process.env.KAPPA_CONSOLE_BASE ?? "/",
   plugins: [solidPlugin()],
   server: {
     host: "127.0.0.1",

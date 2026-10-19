@@ -36,10 +36,10 @@ afterAll(async () => {
 })
 
 const [runtime, gateway, server, fixture] = await (async () => {
-  const disabled = process.env.KILO_DISABLE_SESSION_INGEST
-  const base = process.env.KILO_SESSION_INGEST_URL
-  process.env.KILO_DISABLE_SESSION_INGEST = "1"
-  process.env.KILO_SESSION_INGEST_URL = ingest.url.origin
+  const disabled = process.env.KAPPA_DISABLE_SESSION_INGEST
+  const base = process.env.KAPPA_SESSION_INGEST_URL
+  process.env.KAPPA_DISABLE_SESSION_INGEST = "1"
+  process.env.KAPPA_SESSION_INGEST_URL = ingest.url.origin
   try {
     return await Promise.all([
       import("../../../src/effect/app-runtime"),
@@ -48,10 +48,10 @@ const [runtime, gateway, server, fixture] = await (async () => {
       import("../../fixture/fixture"),
     ])
   } finally {
-    if (disabled === undefined) delete process.env.KILO_DISABLE_SESSION_INGEST
-    else process.env.KILO_DISABLE_SESSION_INGEST = disabled
-    if (base === undefined) delete process.env.KILO_SESSION_INGEST_URL
-    else process.env.KILO_SESSION_INGEST_URL = base
+    if (disabled === undefined) delete process.env.KAPPA_DISABLE_SESSION_INGEST
+    else process.env.KAPPA_DISABLE_SESSION_INGEST = disabled
+    if (base === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+    else process.env.KAPPA_SESSION_INGEST_URL = base
   }
 })()
 const { AppRuntime } = runtime
@@ -105,11 +105,11 @@ function data(diff = false) {
 }
 
 async function request(directory: string, body: unknown) {
-  const auth = process.env.KILO_AUTH_CONTENT
+  const auth = process.env.KAPPA_AUTH_CONTENT
   const fetcher = globalThis.fetch
   const token = `test-${crypto.randomUUID()}`
   bodies.set(token, body)
-  process.env.KILO_AUTH_CONTENT = JSON.stringify({ kappa: { type: "api", key: token } })
+  process.env.KAPPA_AUTH_CONTENT = JSON.stringify({ kappa: { type: "api", key: token } })
   globalThis.fetch = Object.assign(
     (input: URL | RequestInfo, init?: BunFetchRequestInit | RequestInit) => {
       const req = new Request(input, init)
@@ -131,18 +131,18 @@ async function request(directory: string, body: unknown) {
   } finally {
     bodies.delete(token)
     globalThis.fetch = fetcher
-    if (auth === undefined) delete process.env.KILO_AUTH_CONTENT
-    else process.env.KILO_AUTH_CONTENT = auth
+    if (auth === undefined) delete process.env.KAPPA_AUTH_CONTENT
+    else process.env.KAPPA_AUTH_CONTENT = auth
   }
 }
 
 async function routed<T>(id: string, run: () => Promise<T>) {
-  const workspace = Flag.KILO_WORKSPACE_ID
-  Flag.KILO_WORKSPACE_ID = id
+  const workspace = Flag.KAPPA_WORKSPACE_ID
+  Flag.KAPPA_WORKSPACE_ID = id
   try {
     return await run()
   } finally {
-    Flag.KILO_WORKSPACE_ID = workspace
+    Flag.KAPPA_WORKSPACE_ID = workspace
   }
 }
 

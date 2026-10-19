@@ -267,7 +267,7 @@ export namespace KappaIndexing {
 
   const boot = async (hit: Cache): Promise<Entry> => {
     const dir = Instance.directory
-    if (process.env["KILO_DISABLE_CODEBASE_INDEXING"] === "vscode-no-workspace") {
+    if (process.env["KAPPA_DISABLE_CODEBASE_INDEXING"] === "vscode-no-workspace") {
       return track(hit, await inert(() => noWorkspace()))
     }
     try {
@@ -287,7 +287,7 @@ export namespace KappaIndexing {
     const cfg = startup.cfg
     const project = (await AppRuntime.runPromise(primaryWorktree(dir))) ?? dir
     projects.set(dir, project)
-    if (process.env["KILO_PLATFORM"] === "vscode" && !consent.get(project)) {
+    if (process.env["KAPPA_PLATFORM"] === "vscode" && !consent.get(project)) {
       return track(hit, await inert(() => noConsent()))
     }
     if (!hasIndexingPlugin(cfg.plugin)) {
@@ -304,7 +304,7 @@ export namespace KappaIndexing {
     try {
       cfgInput = await model(
         enrichKappa(
-          input({ ...merged, enabled: process.env["KILO_PLATFORM"] === "vscode" ? true : merged.enabled }, global),
+          input({ ...merged, enabled: process.env["KAPPA_PLATFORM"] === "vscode" ? true : merged.enabled }, global),
           auth,
         ),
         auth,
@@ -520,7 +520,7 @@ export namespace KappaIndexing {
 
   /** VS Code supplies machine-local project consent before indexing can start. */
   export async function setConsent(enabled: boolean) {
-    if (process.env["KILO_PLATFORM"] !== "vscode") return
+    if (process.env["KAPPA_PLATFORM"] !== "vscode") return
     const dir = Instance.directory
     const project = (await AppRuntime.runPromise(primaryWorktree(dir))) ?? dir
     if (consent.get(project) === enabled) return

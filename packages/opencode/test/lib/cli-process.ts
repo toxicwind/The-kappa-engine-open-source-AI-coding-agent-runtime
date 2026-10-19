@@ -6,11 +6,11 @@
 // the original /event race or #27371's invalid-model hang).
 //
 // Configuration flows through opencode's built-in test affordances:
-//   - KILO_CONFIG_CONTENT      : provider config inline, no files to find
-//   - KILO_TEST_HOME           : pins os.homedir() → tmpdir
-//   - KILO_DISABLE_PROJECT_CONFIG : skip walking up for opencode.json
-//   - KILO_PURE                : skip external plugin discovery + install
-//   - KILO_DISABLE_AUTOUPDATE / AUTOCOMPACT / MODELS_FETCH : no background work
+//   - KAPPA_CONFIG_CONTENT      : provider config inline, no files to find
+//   - KAPPA_TEST_HOME           : pins os.homedir() → tmpdir
+//   - KAPPA_DISABLE_PROJECT_CONFIG : skip walking up for opencode.json
+//   - KAPPA_PURE                : skip external plugin discovery + install
+//   - KAPPA_DISABLE_AUTOUPDATE / AUTOCOMPACT / MODELS_FETCH : no background work
 // Plus HOME / XDG_* pointing at the tmpdir for belt-and-suspenders isolation.
 //
 // Today only `opencode.run` is fully wired. The shape supports adding more
@@ -67,19 +67,19 @@ function forkStderrDrain(stream: ReadableStream<Uint8Array>, into: string[]) {
 
 function isolatedEnv(home: string, configJson: string): Record<string, string> {
   return {
-    KILO_TEST_HOME: home,
+    KAPPA_TEST_HOME: home,
     HOME: home,
     XDG_CONFIG_HOME: path.join(home, ".config"),
     XDG_DATA_HOME: path.join(home, ".local/share"),
     XDG_STATE_HOME: path.join(home, ".local/state"),
     XDG_CACHE_HOME: path.join(home, ".cache"),
-    KILO_CONFIG_CONTENT: configJson,
-    KILO_DISABLE_PROJECT_CONFIG: "1",
-    KILO_PURE: "1",
-    KILO_DISABLE_AUTOUPDATE: "1",
-    KILO_DISABLE_AUTOCOMPACT: "1",
-    KILO_DISABLE_MODELS_FETCH: "1",
-    KILO_AUTH_CONTENT: "{}",
+    KAPPA_CONFIG_CONTENT: configJson,
+    KAPPA_DISABLE_PROJECT_CONFIG: "1",
+    KAPPA_PURE: "1",
+    KAPPA_DISABLE_AUTOUPDATE: "1",
+    KAPPA_DISABLE_AUTOCOMPACT: "1",
+    KAPPA_DISABLE_MODELS_FETCH: "1",
+    KAPPA_AUTH_CONTENT: "{}",
   }
 }
 
@@ -289,7 +289,7 @@ export function withCliFixture<A, E>(
         ...opts,
         env: {
           ...opts.env,
-          KILO_CONFIG_CONTENT: JSON.stringify({
+          KAPPA_CONFIG_CONTENT: JSON.stringify({
             ...testProviderConfig(llm.url),
             permission: opts.permission,
           }),

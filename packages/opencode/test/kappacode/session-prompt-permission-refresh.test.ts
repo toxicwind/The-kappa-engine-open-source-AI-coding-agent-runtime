@@ -245,7 +245,7 @@ it.live(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const sentinel = "KILO_12133_MENTION_SENTINEL"
+        const sentinel = "KAPPA_12133_MENTION_SENTINEL"
         yield* Effect.promise(() =>
           Promise.all([
             Bun.write(path.join(dir, "my_file.txt"), sentinel),
@@ -280,8 +280,8 @@ it.live(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const sentinel = "KILO_12133_ASK_SENTINEL"
-        const denied = "KILO_12133_REPLACEMENT_SENTINEL"
+        const sentinel = "KAPPA_12133_ASK_SENTINEL"
+        const denied = "KAPPA_12133_REPLACEMENT_SENTINEL"
         const file = path.join(dir, "ask.txt")
         const replacement = path.join(dir, "replacement.txt")
         yield* Effect.promise(() => Promise.all([Bun.write(file, sentinel), Bun.write(replacement, denied)]))
@@ -340,7 +340,7 @@ it.live(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const sentinel = "KILO_12133_APPROVED_SENTINEL"
+        const sentinel = "KAPPA_12133_APPROVED_SENTINEL"
         const file = path.join(dir, "approved.txt")
         yield* Effect.promise(() => Bun.write(file, sentinel))
 
@@ -391,7 +391,7 @@ it.live(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir, llm }) {
-        const sentinel = "KILO_12133_ABORT_SENTINEL"
+        const sentinel = "KAPPA_12133_ABORT_SENTINEL"
         const file = path.join(dir, "abort.txt")
         yield* Effect.promise(() => Bun.write(file, sentinel))
 
@@ -444,7 +444,7 @@ it.live(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const sentinel = "KILO_12133_COMMAND_ABORT_SENTINEL"
+        const sentinel = "KAPPA_12133_COMMAND_ABORT_SENTINEL"
         const file = path.join(dir, "command.txt")
         yield* Effect.promise(() => Bun.write(file, sentinel))
 
@@ -498,8 +498,8 @@ it.live(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const allowed = "KILO_12133_ALLOWED_BINARY_SENTINEL"
-        const denied = "KILO_12133_REPLACEMENT_BINARY_SENTINEL"
+        const allowed = "KAPPA_12133_ALLOWED_BINARY_SENTINEL"
+        const denied = "KAPPA_12133_REPLACEMENT_BINARY_SENTINEL"
         const file = path.join(dir, "binary.bin")
         const replacement = path.join(dir, "replacement.bin")
         yield* Effect.promise(() => Promise.all([Bun.write(file, allowed), Bun.write(replacement, denied)]))
@@ -563,8 +563,8 @@ it.live(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const allowed = "KILO_12133_ALLOWED_FILE_SENTINEL"
-        const denied = "KILO_12133_DENIED_INSTRUCTION_SENTINEL"
+        const allowed = "KAPPA_12133_ALLOWED_FILE_SENTINEL"
+        const denied = "KAPPA_12133_DENIED_INSTRUCTION_SENTINEL"
         const fs = yield* FSUtil.Service
         yield* fs.ensureDir(path.join(dir, "nested"))
         yield* Effect.promise(() =>
@@ -604,8 +604,8 @@ it.live(
       Effect.fnUntraced(function* ({ dir }) {
         const folder = path.join(dir, "folder")
         const binary = path.join(dir, "secret.bin")
-        const nested = "KILO_12133_DIRECTORY_SENTINEL"
-        const direct = "KILO_12133_BINARY_SENTINEL"
+        const nested = "KAPPA_12133_DIRECTORY_SENTINEL"
+        const direct = "KAPPA_12133_BINARY_SENTINEL"
         const fs = yield* FSUtil.Service
         yield* fs.ensureDir(folder)
         yield* Effect.promise(() =>
@@ -664,8 +664,8 @@ symlinkIt(
   () =>
     provideTmpdirServer(
       Effect.fnUntraced(function* ({ dir }) {
-        const text = "KILO_12133_SYMLINK_TEXT_SENTINEL"
-        const binary = "KILO_12133_SYMLINK_BINARY_SENTINEL"
+        const text = "KAPPA_12133_SYMLINK_TEXT_SENTINEL"
+        const binary = "KAPPA_12133_SYMLINK_BINARY_SENTINEL"
         const privateText = path.join(dir, "private.txt")
         const publicText = path.join(dir, "public.txt")
         const privateBinary = path.join(dir, "private.bin")
@@ -730,7 +730,7 @@ symlinkIt(
       Effect.fnUntraced(function* ({ dir }) {
         const docs = path.join(dir, "docs")
         const outside = path.join(os.tmpdir(), `kappa-12133-${crypto.randomUUID()}.txt`)
-        const sentinel = "KILO_12133_REFERENCE_SYMLINK_SENTINEL"
+        const sentinel = "KAPPA_12133_REFERENCE_SYMLINK_SENTINEL"
         const fs = yield* FSUtil.Service
         yield* fs.ensureDir(docs)
         yield* Effect.promise(() => Bun.write(outside, sentinel))

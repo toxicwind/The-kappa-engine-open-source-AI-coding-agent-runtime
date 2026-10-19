@@ -10,7 +10,7 @@ import { useVSCode } from "./vscode"
 import type { Provider, ProviderModel, ModelSelection, ExtensionMessage, ProviderAuthState } from "../types/messages"
 import type { ProviderAuthMethod } from "@kappacode/sdk/v2/client"
 import { flattenModels, findModel as _findModel, isModelValid as isValid } from "./provider-utils"
-import { KILO_AUTO } from "../../../src/shared/provider-model"
+import { KAPPA_AUTO } from "../../../src/shared/provider-model"
 
 export type EnrichedModel = ProviderModel & { providerID: string; providerName: string }
 
@@ -40,7 +40,7 @@ export const ProviderProvider: ParentComponent = (props) => {
   const [defaults, setDefaults] = createSignal<Record<string, string>>({})
   const [organizationId, setOrganizationId] = createSignal<string | null>()
   const [ready, setReady] = createSignal(false)
-  const [defaultSelection, setDefaultSelection] = createSignal<ModelSelection>(KILO_AUTO)
+  const [defaultSelection, setDefaultSelection] = createSignal<ModelSelection>(KAPPA_AUTO)
   const [authMethods, setAuthMethods] = createSignal<Record<string, ProviderAuthMethod[]>>({})
   const [authStates, setAuthStates] = createSignal<Record<string, ProviderAuthState>>({})
   const [kappaUnavailable, setKappaUnavailable] = createSignal(false)

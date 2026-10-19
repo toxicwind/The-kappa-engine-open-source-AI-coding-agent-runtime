@@ -426,16 +426,16 @@ the `plan` agent's permission ruleset (`edit: deny *`).
 
 When a user's config is broken and opencode won't start, these env vars help:
 
-- `KILO_DISABLE_PROJECT_CONFIG=1`: skip the project's local `opencode.json`
+- `KAPPA_DISABLE_PROJECT_CONFIG=1`: skip the project's local `opencode.json`
   and start from globals only. Run from the project directory, opencode loads,
   the user edits the broken file, then they restart without the flag.
-- `KILO_CONFIG=/path/to/file.json`: load an additional explicit config.
-- `KILO_CONFIG_CONTENT='{"$schema":"https://opencode.ai/config.json"}'`:
+- `KAPPA_CONFIG=/path/to/file.json`: load an additional explicit config.
+- `KAPPA_CONFIG_CONTENT='{"$schema":"https://opencode.ai/config.json"}'`:
   inject inline JSON as a final local-scope merge.
-- `KILO_DISABLE_DEFAULT_PLUGINS=1`: skip default plugins.
-- `KILO_PURE=1`: skip external plugins entirely.
-- `KILO_DISABLE_EXTERNAL_SKILLS=1`,
-  `KILO_DISABLE_CLAUDE_CODE_SKILLS=1`: skip the external skill scans under
+- `KAPPA_DISABLE_DEFAULT_PLUGINS=1`: skip default plugins.
+- `KAPPA_PURE=1`: skip external plugins entirely.
+- `KAPPA_DISABLE_EXTERNAL_SKILLS=1`,
+  `KAPPA_DISABLE_CLAUDE_CODE_SKILLS=1`: skip the external skill scans under
   `~/.claude/` and `~/.agents/`.
 
 ## When proposing edits

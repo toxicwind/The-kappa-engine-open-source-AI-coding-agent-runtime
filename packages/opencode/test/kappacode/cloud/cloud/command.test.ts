@@ -81,7 +81,7 @@ it.instance(
               prompt: "Inspect the current repository",
             },
             {
-              env: { KILO_API_URL: server.url.origin },
+              env: { KAPPA_API_URL: server.url.origin },
               make: (options) => {
                 keys.push(options.apiKey)
                 return {
@@ -169,7 +169,7 @@ it.instance(
               stream: true,
             },
             {
-              env: { KILO_API_URL: server.url.origin },
+              env: { KAPPA_API_URL: server.url.origin },
               make: () => ({
                 async start() {
                   return response
@@ -258,7 +258,7 @@ it.instance(
               stream: true,
             },
             {
-              env: { KILO_API_URL: server.url.origin },
+              env: { KAPPA_API_URL: server.url.origin },
               make: () => ({
                 async start() {
                   return response
@@ -338,7 +338,7 @@ it.instance(
               stream: true,
             },
             {
-              env: { KILO_API_URL: server.url.origin },
+              env: { KAPPA_API_URL: server.url.origin },
               make: () => ({
                 async start() {
                   return response
@@ -419,7 +419,7 @@ it.instance(
               stream: true,
             },
             {
-              env: { KILO_API_URL: server.url.origin },
+              env: { KAPPA_API_URL: server.url.origin },
               make: () => ({
                 async start() {
                   return response
@@ -486,7 +486,7 @@ it.instance("sends follow-ups, prints status without assistant content, and appl
       },
     ]
     const deps = {
-      env: { KILO_ORG_ID: "not-relevant-to-existing-sessions" },
+      env: { KAPPA_ORG_ID: "not-relevant-to-existing-sessions" },
       make: () => ({
         async start() {
           throw new Error("unused start")

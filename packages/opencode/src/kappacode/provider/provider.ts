@@ -30,7 +30,7 @@ export const REQUEST_TIMEOUT_MS = 300_000 // 5 minutes
 
 type BundledSDK = { languageModel(modelId: string): LanguageModelV3 }
 
-export const KILO_BUNDLED_PROVIDERS: Record<string, () => Promise<(options: any) => BundledSDK>> = {
+export const KAPPA_BUNDLED_PROVIDERS: Record<string, () => Promise<(options: any) => BundledSDK>> = {
   "@kappacode/kappa-gateway": async () => createKappa as unknown as (options: any) => BundledSDK,
 }
 
@@ -38,7 +38,7 @@ export const KILO_BUNDLED_PROVIDERS: Record<string, () => Promise<(options: any)
 // Model schema extensions  (spread into Provider.Model Schema.Struct)
 // ---------------------------------------------------------------------------
 
-export const KILO_MODEL_SCHEMA_EXTENSIONS = {
+export const KAPPA_MODEL_SCHEMA_EXTENSIONS = {
   recommendedIndex: optionalOmitUndefined(Schema.Finite),
   prompt: Schema.optional(Schema.Literals(PROMPTS)),
   isFree: Schema.optional(Schema.Boolean),
@@ -211,8 +211,8 @@ export function kappaCustomLoaders(dep: CustomDep): Record<string, CustomLoader>
       })
 
       const options: Record<string, string> = {}
-      if (env.KILO_ORG_ID) {
-        options.kappacodeOrganizationId = env.KILO_ORG_ID
+      if (env.KAPPA_ORG_ID) {
+        options.kappacodeOrganizationId = env.KAPPA_ORG_ID
       }
       if (config.hide_prompt_training_models === true) {
         options.dataCollection = "deny"
@@ -300,7 +300,7 @@ export function kappaSmallModelPriority(providerID: string): string[] | undefine
 }
 
 /**
- * True when the user has kappa credentials: a KILO_API_KEY env var, a stored
+ * True when the user has kappa credentials: a KAPPA_API_KEY env var, a stored
  * auth entry, or an apiKey in the kappa provider config. Mirrors the hasKey
  * check in the kappa custom loader. The kappa provider is autoloaded with an
  * anonymous key even without credentials, so this gates the cloud
@@ -311,7 +311,7 @@ export function hasKappaCredentials(
   auth: unknown,
   env: Record<string, string | undefined>,
 ) {
-  if (env.KILO_API_KEY) return true
+  if (env.KAPPA_API_KEY) return true
   if (auth) return true
   if (cfg.provider?.["kappa"]?.options?.apiKey) return true
   return false

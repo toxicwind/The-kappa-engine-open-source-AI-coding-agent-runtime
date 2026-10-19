@@ -14,7 +14,7 @@ process.env.XDG_DATA_HOME = path.join(dir, "share")
 process.env.XDG_CACHE_HOME = path.join(dir, "cache")
 process.env.XDG_CONFIG_HOME = path.join(dir, "config")
 process.env.XDG_STATE_HOME = path.join(dir, "state")
-process.env.KILO_TEST_HOME = path.join(dir, "home")
+process.env.KAPPA_TEST_HOME = path.join(dir, "home")
 
 const Log = await import("@opencode-ai/core/util/log")
 

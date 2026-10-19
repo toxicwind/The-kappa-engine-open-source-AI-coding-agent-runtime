@@ -21,7 +21,7 @@ import { registerCustomTheme, type ThemeRegistrationResolved } from "@pierre/dif
 // context/marked.tsx. Do not restore that inline block on upstream merges — route
 // the registration through ensureKappaDiffTheme() instead.
 
-export const KILO_DIFF_THEME = "Kappa"
+export const KAPPA_DIFF_THEME = "Kappa"
 
 const registrations = (() => {
   const key = Symbol.for("kappacode.ui.pierre.kappa-diff-theme")
@@ -41,9 +41,9 @@ const registrations = (() => {
 export function ensureKappaDiffTheme(): void {
   if (registrations.has(registerCustomTheme)) return
 
-  registerCustomTheme(KILO_DIFF_THEME, () => {
+  registerCustomTheme(KAPPA_DIFF_THEME, () => {
     return Promise.resolve({
-      name: KILO_DIFF_THEME,
+      name: KAPPA_DIFF_THEME,
       colors: {
         "editor.background": "var(--color-background-stronger)",
         "editor.foreground": "var(--text-base)",

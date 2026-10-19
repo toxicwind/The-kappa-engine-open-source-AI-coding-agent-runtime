@@ -22,18 +22,18 @@ import { testEffect } from "../lib/effect.ts"
 const testStateLayer = Layer.effectDiscard(
   Effect.gen(function* () {
     const original = {
-      KILO_SERVER_PASSWORD: Flag.KILO_SERVER_PASSWORD,
-      KILO_SERVER_USERNAME: Flag.KILO_SERVER_USERNAME,
-      envPassword: process.env.KILO_SERVER_PASSWORD,
-      envUsername: process.env.KILO_SERVER_USERNAME,
+      KAPPA_SERVER_PASSWORD: Flag.KAPPA_SERVER_PASSWORD,
+      KAPPA_SERVER_USERNAME: Flag.KAPPA_SERVER_USERNAME,
+      envPassword: process.env.KAPPA_SERVER_PASSWORD,
+      envUsername: process.env.KAPPA_SERVER_USERNAME,
     }
 
     yield* Effect.addFinalizer(() =>
       Effect.sync(() => {
-        Flag.KILO_SERVER_PASSWORD = original.KILO_SERVER_PASSWORD
-        Flag.KILO_SERVER_USERNAME = original.KILO_SERVER_USERNAME
-        restoreEnv("KILO_SERVER_PASSWORD", original.envPassword)
-        restoreEnv("KILO_SERVER_USERNAME", original.envUsername)
+        Flag.KAPPA_SERVER_PASSWORD = original.KAPPA_SERVER_PASSWORD
+        Flag.KAPPA_SERVER_USERNAME = original.KAPPA_SERVER_USERNAME
+        restoreEnv("KAPPA_SERVER_PASSWORD", original.envPassword)
+        restoreEnv("KAPPA_SERVER_USERNAME", original.envUsername)
       }),
     )
   }),
@@ -64,9 +64,9 @@ function app(input?: { password?: string; username?: string }) {
         // kappacode_change start - keep the filewatcher-disable flag visible (see httpapi-instance-route-auth.test.ts)
         ConfigProvider.layer(
           ConfigProvider.fromUnknown({
-            KILO_SERVER_PASSWORD: input?.password,
-            KILO_SERVER_USERNAME: input?.username,
-            KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+            KAPPA_SERVER_PASSWORD: input?.password,
+            KAPPA_SERVER_USERNAME: input?.username,
+            KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
           }),
         ),
         // kappacode_change end
@@ -115,7 +115,7 @@ function uiApp(input?: {
         // kappacode_change start - keep the filewatcher-disable flag visible (see httpapi-instance-route-auth.test.ts)
         ConfigProvider.layer(
           ConfigProvider.fromUnknown({
-            KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+            KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
           }),
         ),
         // kappacode_change end

@@ -373,7 +373,7 @@ Because the agent decides when to load a skill, embedded commands never run sile
 
 - **Trusted skills only** — commands execute only in skills from trusted locations: global skills (such as `~/.kappa/skills/`, `~/.agents/skills/`, and `~/.claude/skills/`), skills built into Kappa Code, and absolute skill paths declared in global config. Project skills (`.kappa/skills/` in a repository) and skills fetched from remote URLs never execute commands; their placeholders are replaced with a marker noting the skill is untrusted.
 - **Approval required** — when the agent loads a trusted skill containing commands, every command in the file is listed in a single permission prompt before anything runs. Approving runs all of them; rejecting aborts the skill load. This prompt appears even when bash commands are otherwise auto-approved, and a deny rule on any command still blocks it.
-- **Kill switch** — set the `KILO_DISABLE_SKILL_SHELL` environment variable to disable embedded command execution entirely.
+- **Kill switch** — set the `KAPPA_DISABLE_SKILL_SHELL` environment variable to disable embedded command execution entirely.
 
 Commands run in the project directory with a per-command timeout, and output is truncated before inlining. Placeholders inside fenced code blocks are treated as documentation examples and never execute, and command output is never re-scanned for further placeholders.
 

@@ -8,15 +8,15 @@ import { confine } from "./backend"
 import { isResponse, type BatchOperation, type Failure, type Operation, type Request } from "./mutation-protocol"
 import type { Profile } from "./profile"
 
-declare const KILO_SANDBOX_MUTATION_WORKER_PATH: string
+declare const KAPPA_SANDBOX_MUTATION_WORKER_PATH: string
 
 function worker() {
-  if (typeof KILO_SANDBOX_MUTATION_WORKER_PATH === "undefined") {
+  if (typeof KAPPA_SANDBOX_MUTATION_WORKER_PATH === "undefined") {
     return { path: fileURLToPath(new URL("./kappa-sandbox-mutation-worker.ts", import.meta.url)), environment: {} }
   }
-  const path = KILO_SANDBOX_MUTATION_WORKER_PATH.startsWith(".")
-    ? fileURLToPath(new URL(KILO_SANDBOX_MUTATION_WORKER_PATH, import.meta.url))
-    : resolve(dirname(process.execPath), KILO_SANDBOX_MUTATION_WORKER_PATH)
+  const path = KAPPA_SANDBOX_MUTATION_WORKER_PATH.startsWith(".")
+    ? fileURLToPath(new URL(KAPPA_SANDBOX_MUTATION_WORKER_PATH, import.meta.url))
+    : resolve(dirname(process.execPath), KAPPA_SANDBOX_MUTATION_WORKER_PATH)
   return { path, environment: { BUN_BE_BUN: "1" } }
 }
 

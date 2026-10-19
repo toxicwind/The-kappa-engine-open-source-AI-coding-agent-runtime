@@ -35,7 +35,7 @@ export namespace ConsoleAssets {
   }
 
   async function dir() {
-    const override = process.env.KILO_CONSOLE_ASSET_DIR
+    const override = process.env.KAPPA_CONSOLE_ASSET_DIR
     if (override && (await ready(override, false))) return override
 
     const copied = path.join(path.dirname(process.execPath), "console")
@@ -69,7 +69,7 @@ export namespace ConsoleAssets {
     log.info("building Kappa Console assets", { app })
     const proc = Bun.spawn([process.execPath, "run", "build"], {
       cwd: app,
-      env: { ...process.env, KILO_CONSOLE_BASE: base },
+      env: { ...process.env, KAPPA_CONSOLE_BASE: base },
       stdout: "pipe",
       stderr: "pipe",
       windowsHide: true,

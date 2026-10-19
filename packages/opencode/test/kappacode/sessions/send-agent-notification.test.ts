@@ -17,15 +17,15 @@ const KappaSessions = (await import("../../../src/kappa-sessions/kappa-sessions"
 let originalNotificationTimeout: string | undefined
 
 beforeEach(() => {
-  originalNotificationTimeout = process.env.KILO_AGENT_NOTIFICATION_TIMEOUT_MS
-  process.env.KILO_AGENT_NOTIFICATION_TIMEOUT_MS = "50"
+  originalNotificationTimeout = process.env.KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS
+  process.env.KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS = "50"
 })
 
 afterEach(() => {
   if (originalNotificationTimeout === undefined) {
-    delete process.env.KILO_AGENT_NOTIFICATION_TIMEOUT_MS
+    delete process.env.KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS
   } else {
-    process.env.KILO_AGENT_NOTIFICATION_TIMEOUT_MS = originalNotificationTimeout
+    process.env.KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS = originalNotificationTimeout
   }
 })
 
@@ -50,8 +50,8 @@ function reset(...tokens: string[]) {
 }
 
 it.instance("dedicated immediate POST hits ingest path with an agent_notification item", () => {
-  const originalKey = process.env.KILO_API_KEY
-  const originalIngest = process.env.KILO_SESSION_INGEST_URL
+  const originalKey = process.env.KAPPA_API_KEY
+  const originalIngest = process.env.KAPPA_SESSION_INGEST_URL
   const requests: { method: string; path: string; body?: unknown; headers: Record<string, string> }[] = []
   const fetch: typeof globalThis.fetch = Object.assign(
     async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -74,8 +74,8 @@ it.instance("dedicated immediate POST hits ingest path with an agent_notificatio
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "test-token"
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_API_KEY = "test-token"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -100,10 +100,10 @@ it.instance("dedicated immediate POST hits ingest path with an agent_notificatio
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (originalKey === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = originalKey
-        if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
-        else process.env.KILO_SESSION_INGEST_URL = originalIngest
+        if (originalKey === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = originalKey
+        if (originalIngest === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+        else process.env.KAPPA_SESSION_INGEST_URL = originalIngest
         reset("test-token")
         request.mockRestore()
       }),
@@ -113,8 +113,8 @@ it.instance("dedicated immediate POST hits ingest path with an agent_notificatio
 })
 
 it.instance("2xx ingest response returns ok:true", () => {
-  const originalKey = process.env.KILO_API_KEY
-  const originalIngest = process.env.KILO_SESSION_INGEST_URL
+  const originalKey = process.env.KAPPA_API_KEY
+  const originalIngest = process.env.KAPPA_SESSION_INGEST_URL
   const fetch: typeof globalThis.fetch = Object.assign(
     async (input: RequestInfo | URL) => {
       const url = String(input)
@@ -129,8 +129,8 @@ it.instance("2xx ingest response returns ok:true", () => {
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "test-token"
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_API_KEY = "test-token"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -147,10 +147,10 @@ it.instance("2xx ingest response returns ok:true", () => {
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (originalKey === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = originalKey
-        if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
-        else process.env.KILO_SESSION_INGEST_URL = originalIngest
+        if (originalKey === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = originalKey
+        if (originalIngest === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+        else process.env.KAPPA_SESSION_INGEST_URL = originalIngest
         reset("test-token")
         request.mockRestore()
       }),
@@ -160,8 +160,8 @@ it.instance("2xx ingest response returns ok:true", () => {
 })
 
 it.instance("non-2xx ingest response returns ok:false with no retry", () => {
-  const originalKey = process.env.KILO_API_KEY
-  const originalIngest = process.env.KILO_SESSION_INGEST_URL
+  const originalKey = process.env.KAPPA_API_KEY
+  const originalIngest = process.env.KAPPA_SESSION_INGEST_URL
   const requests: { method: string; path: string; body?: unknown; headers: Record<string, string> }[] = []
   const fetch: typeof globalThis.fetch = Object.assign(
     async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -186,8 +186,8 @@ it.instance("non-2xx ingest response returns ok:false with no retry", () => {
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "test-token"
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_API_KEY = "test-token"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -207,10 +207,10 @@ it.instance("non-2xx ingest response returns ok:false with no retry", () => {
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (originalKey === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = originalKey
-        if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
-        else process.env.KILO_SESSION_INGEST_URL = originalIngest
+        if (originalKey === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = originalKey
+        if (originalIngest === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+        else process.env.KAPPA_SESSION_INGEST_URL = originalIngest
         reset("test-token")
         request.mockRestore()
       }),
@@ -220,16 +220,16 @@ it.instance("non-2xx ingest response returns ok:false with no retry", () => {
 })
 
 it.instance("unauthenticated returns not_connected", () => {
-  const originalKey = process.env.KILO_API_KEY
-  const originalIngest = process.env.KILO_SESSION_INGEST_URL
+  const originalKey = process.env.KAPPA_API_KEY
+  const originalIngest = process.env.KAPPA_SESSION_INGEST_URL
   const fetch: typeof globalThis.fetch = Object.assign(
     async () => new Response("Unauthorized", { status: 401 }),
     { preconnect: globalThis.fetch.preconnect },
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  delete process.env.KILO_API_KEY
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  delete process.env.KAPPA_API_KEY
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -245,10 +245,10 @@ it.instance("unauthenticated returns not_connected", () => {
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (originalKey === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = originalKey
-        if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
-        else process.env.KILO_SESSION_INGEST_URL = originalIngest
+        if (originalKey === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = originalKey
+        if (originalIngest === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+        else process.env.KAPPA_SESSION_INGEST_URL = originalIngest
         reset("test-token")
         request.mockRestore()
       }),
@@ -258,8 +258,8 @@ it.instance("unauthenticated returns not_connected", () => {
 })
 
 it.instance("bounded timeout: stalled auth step returns not_connected within timeout", () => {
-  const originalKey = process.env.KILO_API_KEY
-  const originalIngest = process.env.KILO_SESSION_INGEST_URL
+  const originalKey = process.env.KAPPA_API_KEY
+  const originalIngest = process.env.KAPPA_SESSION_INGEST_URL
   const fetch: typeof globalThis.fetch = Object.assign(
     async (input: RequestInfo | URL) => {
       const url = String(input)
@@ -273,8 +273,8 @@ it.instance("bounded timeout: stalled auth step returns not_connected within tim
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "test-token"
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_API_KEY = "test-token"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -293,10 +293,10 @@ it.instance("bounded timeout: stalled auth step returns not_connected within tim
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (originalKey === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = originalKey
-        if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
-        else process.env.KILO_SESSION_INGEST_URL = originalIngest
+        if (originalKey === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = originalKey
+        if (originalIngest === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+        else process.env.KAPPA_SESSION_INGEST_URL = originalIngest
         reset("test-token")
         request.mockRestore()
       }),
@@ -306,8 +306,8 @@ it.instance("bounded timeout: stalled auth step returns not_connected within tim
 })
 
 it.instance("coalescing: sendAgentNotification awaits in-flight bootstrap for a single /api/session POST", () => {
-  const originalKey = process.env.KILO_API_KEY
-  const originalIngest = process.env.KILO_SESSION_INGEST_URL
+  const originalKey = process.env.KAPPA_API_KEY
+  const originalIngest = process.env.KAPPA_SESSION_INGEST_URL
   let resolveSession: ((value: Response) => void) | undefined
   const sessionDeferred = new Promise<Response>((resolve) => {
     resolveSession = resolve
@@ -339,8 +339,8 @@ it.instance("coalescing: sendAgentNotification awaits in-flight bootstrap for a 
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "test-token"
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_API_KEY = "test-token"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -378,10 +378,10 @@ it.instance("coalescing: sendAgentNotification awaits in-flight bootstrap for a 
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (originalKey === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = originalKey
-        if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
-        else process.env.KILO_SESSION_INGEST_URL = originalIngest
+        if (originalKey === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = originalKey
+        if (originalIngest === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+        else process.env.KAPPA_SESSION_INGEST_URL = originalIngest
         reset("test-token")
         request.mockRestore()
       }),
@@ -391,8 +391,8 @@ it.instance("coalescing: sendAgentNotification awaits in-flight bootstrap for a 
 })
 
 it.instance("coalescing: bootstrapInflight stores the real promise and concurrent create() calls share one POST", () => {
-  const originalKey = process.env.KILO_API_KEY
-  const originalIngest = process.env.KILO_SESSION_INGEST_URL
+  const originalKey = process.env.KAPPA_API_KEY
+  const originalIngest = process.env.KAPPA_SESSION_INGEST_URL
   let resolveSession: ((value: Response) => void) | undefined
   const sessionDeferred = new Promise<Response>((resolve) => {
     resolveSession = resolve
@@ -419,8 +419,8 @@ it.instance("coalescing: bootstrapInflight stores the real promise and concurren
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "test-token"
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
+  process.env.KAPPA_API_KEY = "test-token"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.kappasessions.ai"
   reset("test-token")
 
   return Effect.gen(function* () {
@@ -471,10 +471,10 @@ it.instance("coalescing: bootstrapInflight stores the real promise and concurren
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (originalKey === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = originalKey
-        if (originalIngest === undefined) delete process.env.KILO_SESSION_INGEST_URL
-        else process.env.KILO_SESSION_INGEST_URL = originalIngest
+        if (originalKey === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = originalKey
+        if (originalIngest === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+        else process.env.KAPPA_SESSION_INGEST_URL = originalIngest
         reset("test-token")
         request.mockRestore()
       }),

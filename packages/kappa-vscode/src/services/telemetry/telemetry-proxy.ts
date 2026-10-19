@@ -64,7 +64,7 @@ export class TelemetryProxy {
 
   /**
    * Propagate runtime telemetry consent changes to the CLI. The CLI subprocess
-   * reads `KILO_TELEMETRY_LEVEL` once at spawn — without this call, toggling
+   * reads `KAPPA_TELEMETRY_LEVEL` once at spawn — without this call, toggling
    * VS Code telemetry consent leaves the CLI's PostHog client stuck on its
    * spawn-time state until the process restarts.
    */

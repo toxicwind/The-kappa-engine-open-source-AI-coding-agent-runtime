@@ -30,7 +30,7 @@ import { resetDatabase } from "../fixture/db.ts"
 import { disposeAllInstances, tmpdir } from "../fixture/fixture.ts"
 import { it } from "../lib/effect.ts"
 
-const originalWorkspaces = Flag.KILO_EXPERIMENTAL_WORKSPACES
+const originalWorkspaces = Flag.KAPPA_EXPERIMENTAL_WORKSPACES
 
 type Method = "get" | "post" | "put" | "delete" | "patch"
 type QuerySchema = { readonly fields: Record<string, unknown> }
@@ -146,7 +146,7 @@ function assertAdvertisedQueryParamsAreRuntimeFields(input: {
 }
 
 afterEach(async () => {
-  Flag.KILO_EXPERIMENTAL_WORKSPACES = originalWorkspaces
+  Flag.KAPPA_EXPERIMENTAL_WORKSPACES = originalWorkspaces
   await disposeAllInstances()
   await resetDatabase()
 })

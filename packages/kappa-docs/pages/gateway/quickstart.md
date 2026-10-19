@@ -32,7 +32,7 @@ npm install ai @ai-sdk/openai dotenv
 Create a `.env` file and add your Kappa API key:
 
 ```bash
-KILO_API_KEY=your_api_key_here
+KAPPA_API_KEY=your_api_key_here
 ```
 
 For step-by-step instructions on getting an API key, please see the [Kappa Gateway API Key instructions](/docs/getting-started/setup-authentication#kappa-gateway-api-key).
@@ -48,7 +48,7 @@ import "dotenv/config"
 
 const kappa = createOpenAI({
   baseURL: "https://api.kappa.ai/api/gateway",
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
 })
 
 async function main() {
@@ -88,7 +88,7 @@ The Kappa AI Gateway is fully OpenAI-compatible, so you can use the OpenAI SDK b
 import OpenAI from "openai"
 
 const client = new OpenAI({
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
   baseURL: "https://api.kappa.ai/api/gateway",
 })
 
@@ -108,7 +108,7 @@ import os
 from openai import OpenAI
 
 client = OpenAI(
-    api_key=os.getenv("KILO_API_KEY"),
+    api_key=os.getenv("KAPPA_API_KEY"),
     base_url="https://api.kappa.ai/api/gateway",
 )
 
@@ -129,7 +129,7 @@ print(response.choices[0].message.content)
 
 ```bash
 curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
-  -H "Authorization: Bearer $KILO_API_KEY" \
+  -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "anthropic/claude-sonnet-4.5",

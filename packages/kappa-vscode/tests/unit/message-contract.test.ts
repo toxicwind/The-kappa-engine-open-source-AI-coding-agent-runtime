@@ -17,8 +17,8 @@ const ROOT = path.resolve(import.meta.dir, "../..")
 const MESSAGES_DIR = path.join(ROOT, "webview-ui/src/types/messages")
 const EXTENSION_MESSAGES_FILE = path.join(MESSAGES_DIR, "extension-messages.ts")
 const WEBVIEW_MESSAGES_FILE = path.join(MESSAGES_DIR, "webview-messages.ts")
-const KILO_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
-const KILO_PROVIDER_UTILS_FILE = path.join(ROOT, "src/kappa-provider-utils.ts")
+const KAPPA_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
+const KAPPA_PROVIDER_UTILS_FILE = path.join(ROOT, "src/kappa-provider-utils.ts")
 // Some wire types (partUpdated, partsUpdated) live in a file shared by the
 // extension and webview; the contract checks must include it.
 const SHARED_STREAM_MESSAGES_FILE = path.join(ROOT, "src/shared/stream-messages.ts")
@@ -95,7 +95,7 @@ describe("ExtensionMessage type members", () => {
 
 describe("KappaProvider message handler coverage", () => {
   it("all WebviewMessage switch cases in KappaProvider exist in WebviewMessage union", () => {
-    const providerContent = readFile(KILO_PROVIDER_FILE)
+    const providerContent = readFile(KAPPA_PROVIDER_FILE)
     const messagesContent = readMessageTypeSources()
 
     // Extract case labels from handleWebviewMessage switch
@@ -116,7 +116,7 @@ describe("KappaProvider message handler coverage", () => {
 
 describe("mapSSEEventToWebviewMessage output types", () => {
   it("all output types from mapSSEEventToWebviewMessage exist in ExtensionMessage", () => {
-    const utilsContent = readFile(KILO_PROVIDER_UTILS_FILE)
+    const utilsContent = readFile(KAPPA_PROVIDER_UTILS_FILE)
     const messagesContent = readMessageTypeSources()
 
     // Extract type literals used in the return values of mapSSEEventToWebviewMessage

@@ -12,8 +12,8 @@ describe("Uploader", () => {
   let token: string | undefined
 
   beforeEach(() => {
-    token = process.env.KILO_SESSION_EXPORT_AUTH_TOKEN
-    delete process.env.KILO_SESSION_EXPORT_AUTH_TOKEN
+    token = process.env.KAPPA_SESSION_EXPORT_AUTH_TOKEN
+    delete process.env.KAPPA_SESSION_EXPORT_AUTH_TOKEN
     dir = mkdtempSync(join(tmpdir(), "session-export-"))
     storage = new Storage(join(dir, "session-export.db"))
     storage.migrate()
@@ -34,14 +34,14 @@ describe("Uploader", () => {
   afterEach(() => {
     storage.close()
     rmSync(dir, { recursive: true, force: true })
-    if (token === undefined) delete process.env.KILO_SESSION_EXPORT_AUTH_TOKEN
-    else process.env.KILO_SESSION_EXPORT_AUTH_TOKEN = token
+    if (token === undefined) delete process.env.KAPPA_SESSION_EXPORT_AUTH_TOKEN
+    else process.env.KAPPA_SESSION_EXPORT_AUTH_TOKEN = token
   })
 
   test("2xx response marks rows uploaded and deletes them", async () => {
     const telemetry: unknown[] = []
     const calls: Array<{ input: string; init: RequestInit }> = []
-    process.env.KILO_SESSION_EXPORT_AUTH_TOKEN = "local-token"
+    process.env.KAPPA_SESSION_EXPORT_AUTH_TOKEN = "local-token"
     const uploader = new Uploader({
       storage,
       endpoint: "https://example.test/ingest",

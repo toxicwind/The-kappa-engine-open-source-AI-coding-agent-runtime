@@ -11,7 +11,7 @@ export namespace WorkflowsMigrator {
   const home = () => process.env.HOME || process.env.USERPROFILE || os.homedir()
 
   // .kappacode first (lower precedence), .kappa second (higher precedence / wins)
-  const KILO_WORKFLOWS_DIRS = [".kappacode/workflows", ".kappa/workflows"]
+  const KAPPA_WORKFLOWS_DIRS = [".kappacode/workflows", ".kappa/workflows"]
   const globalWorkflowsDirs = () => [
     path.join(home(), ".kappacode", "workflows"),
     path.join(home(), ".kappa", "workflows"),
@@ -108,7 +108,7 @@ export namespace WorkflowsMigrator {
     }
 
     // 3. Project workflows (.kappa/workflows/ and .kappacode/workflows/)
-    for (const dir of KILO_WORKFLOWS_DIRS) {
+    for (const dir of KAPPA_WORKFLOWS_DIRS) {
       workflows.push(...(await loadWorkflowsFromDir(path.join(projectDir, dir), "project", projectDir, warnings)))
     }
 

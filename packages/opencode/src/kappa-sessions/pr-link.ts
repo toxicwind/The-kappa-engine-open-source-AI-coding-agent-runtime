@@ -33,7 +33,7 @@ const sessionPrefix = "session_pr_link_session"
 
 // IDE backends use their own worktree PR integrations, not session PR links.
 export function enabled() {
-  return Flag.KILO_CLIENT === "cli"
+  return Flag.KAPPA_CLIENT === "cli"
 }
 
 export function sessionLinkKey(sessionId: string) {

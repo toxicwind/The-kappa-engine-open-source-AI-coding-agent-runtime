@@ -42,7 +42,7 @@ flowchart LR
 | Startup | Lazy on client demand; autocomplete prewarm can start server during activation |
 | Binary | Uses extension `bin/kappa`, or `bin/kappa.exe` on Windows |
 | Port | Starts `kappa serve --port 0`; CLI server prefers `4096`, then asks OS for free port |
-| Authentication | Generates random 32-byte hex password per spawn and passes it as `KILO_SERVER_PASSWORD`; username defaults to `kappa` |
+| Authentication | Generates random 32-byte hex password per spawn and passes it as `KAPPA_SERVER_PASSWORD`; username defaults to `kappa` |
 | Reuse | Sidebar, editor tabs, panels, Agent Manager, and host services share active server |
 | Exit | `ServerManager` clears dead child; connection service clears SDK/SSE state and enters error state |
 | Replacement | Later retry or connection attempt starts replacement server |
@@ -128,10 +128,10 @@ Extension-specific behavior belongs in VS Code settings. Agent runtime behavior 
 | Resource | Behavior |
 |---|---|
 | CLI executable | Platform binary under extension `bin/`; Windows uses `kappa.exe` |
-| CLI Tree-sitter WASM | Copied under `bin/tree-sitter`; backend spawn sets `KILO_TREE_SITTER_WASM_DIR` |
+| CLI Tree-sitter WASM | Copied under `bin/tree-sitter`; backend spawn sets `KAPPA_TREE_SITTER_WASM_DIR` |
 | FFmpeg helper | Bundled for supported targets for speech capture; capture code also checks system fallback paths |
 | Empty-window cwd | Uses extension global storage directory when no VS Code workspace folder exists |
-| Empty-window indexing | Sets `KILO_DISABLE_CODEBASE_INDEXING=vscode-no-workspace` so CLI reports indexing disabled |
+| Empty-window indexing | Sets `KAPPA_DISABLE_CODEBASE_INDEXING=vscode-no-workspace` so CLI reports indexing disabled |
 
 Speech-to-text captures audio locally, then sends completed recording through shared editor-owned `kappa serve` server to authenticated Kappa Gateway transcription path. It is batch transcription, not direct provider streaming.
 

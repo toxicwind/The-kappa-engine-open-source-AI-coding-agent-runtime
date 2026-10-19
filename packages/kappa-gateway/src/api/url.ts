@@ -1,4 +1,4 @@
-import { KILO_API_BASE } from "./constants.js"
+import { KAPPA_API_BASE } from "./constants.js"
 import { getKappaUrlFromToken } from "../auth/token.js"
 
 type UrlOptions = {
@@ -18,7 +18,7 @@ function route(raw: string, name: "gateway" | "openrouter"): string {
 }
 
 function base(options: UrlOptions): string {
-  return getKappaUrlFromToken(options.baseURL ?? KILO_API_BASE, options.token ?? "")
+  return getKappaUrlFromToken(options.baseURL ?? KAPPA_API_BASE, options.token ?? "")
 }
 
 export function resolveKappaGatewayBaseUrl(options: UrlOptions = {}): string {

@@ -32,7 +32,7 @@ export const Parameters = Schema.Struct({
 const WebSearchProviderSchema = Schema.Literals(["exa", "parallel", "kappa-exa"]) // kappacode_change - kappa-exa env override
 export type WebSearchProvider = Schema.Schema.Type<typeof WebSearchProviderSchema>
 
-// kappacode_change start - signature reflowed by the added override parameter (KILO_WEBSEARCH_PROVIDER resolved via Env.Service by the caller)
+// kappacode_change start - signature reflowed by the added override parameter (KAPPA_WEBSEARCH_PROVIDER resolved via Env.Service by the caller)
 export function selectWebSearchProvider(
   sessionID: string,
   flags = { exa: false, parallel: false },
@@ -126,7 +126,7 @@ export const WebSearchTool = Tool.define(
         Effect.gen(function* () {
           // kappacode_change start - config via Env.Service instead of process.env reads
           const [override, exaKey, parallelKey] = yield* Effect.all([
-            env.get("KILO_WEBSEARCH_PROVIDER"),
+            env.get("KAPPA_WEBSEARCH_PROVIDER"),
             env.get("EXA_API_KEY"),
             env.get("PARALLEL_API_KEY"),
           ])
@@ -197,7 +197,7 @@ export const WebSearchTool = Tool.define(
                   },
                   kappaToken,
                 )
-              : Effect.die(new Error("KILO_WEBSEARCH_PROVIDER=kappa-exa requires Kappa auth; run `kappa auth login`"))
+              : Effect.die(new Error("KAPPA_WEBSEARCH_PROVIDER=kappa-exa requires Kappa auth; run `kappa auth login`"))
             : callProvider(http, provider, params, ctx, { exa: exaKey, parallel: parallelKey }) // kappacode_change
           // kappacode_change end
 

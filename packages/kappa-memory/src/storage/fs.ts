@@ -10,7 +10,7 @@ export namespace MemoryFs {
   const local = new AsyncLocalStorage<Set<string>>()
 
   export function warn(message: string, data?: unknown) {
-    if (process.env.KILO_MEMORY_DEBUG !== "1") return
+    if (process.env.KAPPA_MEMORY_DEBUG !== "1") return
     console.warn(`[memory.files] ${message}`, data)
   }
 

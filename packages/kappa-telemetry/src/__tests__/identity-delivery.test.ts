@@ -23,10 +23,10 @@ async function run(env: Record<string, string> = {}) {
   const child = Bun.spawn([process.execPath, path.join(import.meta.dir, "fixtures/identity-process.ts")], {
     env: {
       ...process.env,
-      KILO_TELEMETRY_LEVEL: "all",
-      KILO_APP_NAME: "kappa-cli",
-      KILO_APP_VERSION: "",
-      KILO_MACHINE_ID: "",
+      KAPPA_TELEMETRY_LEVEL: "all",
+      KAPPA_APP_NAME: "kappa-cli",
+      KAPPA_APP_VERSION: "",
+      KAPPA_MACHINE_ID: "",
       TEST_DATA: dir,
       ...env,
     },
@@ -65,7 +65,7 @@ test("failed uploads do not suppress identity events on the next process", async
 }, 20000)
 
 test("disabled telemetry writes no alias marker and a later enabled run sends the alias", async () => {
-  expect(await run({ KILO_TELEMETRY_LEVEL: "off" })).toEqual([])
+  expect(await run({ KAPPA_TELEMETRY_LEVEL: "off" })).toEqual([])
   expect((await readdir(dir)).filter((file) => file.startsWith("telemetry-alias-"))).toEqual([])
   const events = await run()
   expect(events.filter((event) => event.event === "$create_alias")).toHaveLength(1)
@@ -85,7 +85,7 @@ test.each(["corrupt", "unreadable"])("an alias marker that is %s does not suppre
 
 test("a new machine gets its own alias even when the user properties are unchanged", async () => {
   await run()
-  const events = await run({ KILO_MACHINE_ID: "second-machine" })
+  const events = await run({ KAPPA_MACHINE_ID: "second-machine" })
   expect(events.filter((event) => event.event === "$create_alias")).toHaveLength(1)
   expect(events.find((event) => event.event === "$create_alias")?.properties.alias).toBe("second-machine")
   expect(events.every((event) => event.distinct_id === "test@example.com")).toBe(true)

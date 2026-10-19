@@ -16,7 +16,7 @@ import { testEffect } from "../lib/effect.ts"
 
 // kappacode_change start - PTY route tests do not need an indexing worker per temp project;
 // detached indexing startup races PTY setup and can exhaust the Darwin test deadline.
-process.env.KILO_DISABLE_CODEBASE_INDEXING = "vscode-no-workspace"
+process.env.KAPPA_DISABLE_CODEBASE_INDEXING = "vscode-no-workspace"
 // kappacode_change end
 
 const context = Context.empty() as Context.Context<unknown>
@@ -238,20 +238,20 @@ describe("v2 pty HttpApi", () => {
         const dir = yield* tmpdirScoped({ git: true, config: { formatter: false, lsp: false } })
         // kappacode_change start - verify child env precedence and credential stripping through the canonical PTY route
         const previous = {
-          password: process.env.KILO_SERVER_PASSWORD,
-          username: process.env.KILO_SERVER_USERNAME,
+          password: process.env.KAPPA_SERVER_PASSWORD,
+          username: process.env.KAPPA_SERVER_USERNAME,
         }
         yield* Effect.acquireRelease(
           Effect.sync(() => {
-            process.env.KILO_SERVER_PASSWORD = "host-password"
-            process.env.KILO_SERVER_USERNAME = "host-username"
+            process.env.KAPPA_SERVER_PASSWORD = "host-password"
+            process.env.KAPPA_SERVER_USERNAME = "host-username"
           }),
           () =>
             Effect.sync(() => {
-              if (previous.password === undefined) delete process.env.KILO_SERVER_PASSWORD
-              else process.env.KILO_SERVER_PASSWORD = previous.password
-              if (previous.username === undefined) delete process.env.KILO_SERVER_USERNAME
-              else process.env.KILO_SERVER_USERNAME = previous.username
+              if (previous.password === undefined) delete process.env.KAPPA_SERVER_PASSWORD
+              else process.env.KAPPA_SERVER_PASSWORD = previous.password
+              if (previous.username === undefined) delete process.env.KAPPA_SERVER_USERNAME
+              else process.env.KAPPA_SERVER_USERNAME = previous.username
             }),
         )
         const plugin = path.join(dir, "plugin.ts")
@@ -266,10 +266,10 @@ describe("v2 pty HttpApi", () => {
               '    output.env.SHARED = "plugin"',
               '    output.env.PLUGIN = "plugin"',
               '    output.env.TERM = "plugin"',
-              '    output.env.KILO_TERMINAL = "plugin"',
-              '    output.env.KILO_PTY_ID = "plugin"',
-              '    output.env.KILO_SERVER_PASSWORD = "plugin-password"',
-              '    output.env.KILO_SERVER_USERNAME = "plugin-username"',
+              '    output.env.KAPPA_TERMINAL = "plugin"',
+              '    output.env.KAPPA_PTY_ID = "plugin"',
+              '    output.env.KAPPA_SERVER_PASSWORD = "plugin-password"',
+              '    output.env.KAPPA_SERVER_USERNAME = "plugin-username"',
               "    output.env.HOOK_CWD = input.cwd",
               "  },",
               "})",
@@ -290,17 +290,17 @@ describe("v2 pty HttpApi", () => {
             command: "/bin/sh",
             args: [
               "-c",
-              'printf "%s|%s|%s|%s|%s|%s|%s|%s|%s\\n" "$CALLER" "$SHARED" "$PLUGIN" "$TERM" "$KILO_TERMINAL" "$KILO_PTY_ID" "${KILO_SERVER_PASSWORD-unset}" "${KILO_SERVER_USERNAME-unset}" "$HOOK_CWD"; sleep 5',
+              'printf "%s|%s|%s|%s|%s|%s|%s|%s|%s\\n" "$CALLER" "$SHARED" "$PLUGIN" "$TERM" "$KAPPA_TERMINAL" "$KAPPA_PTY_ID" "${KAPPA_SERVER_PASSWORD-unset}" "${KAPPA_SERVER_USERNAME-unset}" "$HOOK_CWD"; sleep 5',
             ],
             cwd,
             env: {
               CALLER: "caller",
               SHARED: "caller",
               TERM: "caller",
-              KILO_TERMINAL: "caller",
-              KILO_PTY_ID: "caller",
-              KILO_SERVER_PASSWORD: "caller-password",
-              KILO_SERVER_USERNAME: "caller-username",
+              KAPPA_TERMINAL: "caller",
+              KAPPA_PTY_ID: "caller",
+              KAPPA_SERVER_PASSWORD: "caller-password",
+              KAPPA_SERVER_USERNAME: "caller-username",
             },
           }),
           Effect.flatMap(HttpClient.execute),

@@ -9,7 +9,7 @@ import {
 } from "@kappacode/kappa-gateway"
 import {
   HEADER_FEATURE,
-  KILO_API_BASE,
+  KAPPA_API_BASE,
   clearModesCache,
   fetchBalance,
   fetchKappacodeNotifications,
@@ -296,7 +296,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       const request = yield* HttpServerRequest.HttpServerRequest
       const response = yield* Effect.tryPromise({
         try: () =>
-          fetch(`${KILO_API_BASE}/api/gateway/v1/audio/transcriptions`, {
+          fetch(`${KAPPA_API_BASE}/api/gateway/v1/audio/transcriptions`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -321,7 +321,7 @@ export const kappaGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kappa
       const notice = KappacodeConfig.opencodeConfigNotification({
         directory: Instance.directory,
         worktree: Instance.worktree,
-        scanProject: !Flag.KILO_DISABLE_PROJECT_CONFIG,
+        scanProject: !Flag.KAPPA_DISABLE_PROJECT_CONFIG,
       })
       const claude = yield* Effect.promise(() => ClaudeMigration.notification())
       const append = <T>(list: T[]) => [...list, ...(notice ? [notice] : []), ...(claude ? [claude] : [])]

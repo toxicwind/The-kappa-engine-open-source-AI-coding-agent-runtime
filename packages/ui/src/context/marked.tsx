@@ -17,7 +17,7 @@ import {
 import { createSimpleContext } from "./helper"
 import { markedCodeSpanBoundary } from "./marked-code-span"
 import { getSharedHighlighter, type ThemeRegistrationResolved } from "@pierre/diffs" // kappacode_change
-import { ensureKappaDiffTheme, KILO_DIFF_THEME } from "../pierre/kappa-diff-theme" // kappacode_change
+import { ensureKappaDiffTheme, KAPPA_DIFF_THEME } from "../pierre/kappa-diff-theme" // kappacode_change
 
 // kappacode_change start: the "Kappa" diff/highlight theme registration moved to
 // ../pierre/kappa-diff-theme so the diff worker pool can register it without
@@ -33,7 +33,7 @@ ensureKappaDiffTheme()
 // with Pierre is handled by ensureKappaDiffTheme() above; this export only
 // provides the raw theme data to the worker.
 export const KappaTheme = {
-  name: KILO_DIFF_THEME,
+  name: KAPPA_DIFF_THEME,
   bg: "var(--color-background-stronger)",
   fg: "var(--text-base)",
   colors: {

@@ -16,8 +16,8 @@ import { win32InstallCtrlCGuard } from "@opencode-ai/tui/terminal-win32"
 import { validate as validateSession } from "@/kappacode/cli/cmd/tui" // kappacode_change
 // kappacode_change start - correlate the TUI worker with its parent process
 import {
-  KILO_PROCESS_ROLE,
-  KILO_RUN_ID,
+  KAPPA_PROCESS_ROLE,
+  KAPPA_RUN_ID,
   ensureRunID,
   sanitizedProcessEnv,
 } from "@opencode-ai/core/util/opencode-process"
@@ -27,7 +27,7 @@ import type { Exit } from "@opencode-ai/tui/context/exit" // kappacode_change
 import { KappaRpc } from "@/kappacode/util/rpc" // kappacode_change - gates requests on worker readiness
 
 declare global {
-  const KILO_WORKER_PATH: string
+  const KAPPA_WORKER_PATH: string
 }
 
 type RpcClient = ReturnType<typeof KappaRpc.client<typeof rpc>> // kappacode_change
@@ -109,7 +109,7 @@ function createEventSource(client: RpcClient): EventSource {
 }
 
 async function target() {
-  if (typeof KILO_WORKER_PATH !== "undefined") return KILO_WORKER_PATH
+  if (typeof KAPPA_WORKER_PATH !== "undefined") return KAPPA_WORKER_PATH
   const dist = new URL("./cli/tui/worker.js", import.meta.url)
   if (await Filesystem.exists(fileURLToPath(dist))) return dist
   return new URL("../tui/worker.ts", import.meta.url)
@@ -124,7 +124,7 @@ async function input(value?: string) {
 
 export function resolveThreadDirectory(project?: string, envPWD = process.env.PWD, cwd = process.cwd()) {
   // kappacode_change start - ignore stale PWD from wrappers such as `bun --cwd`, except kappa-dev's caller cwd
-  const dev = process.env.KILO_DEV_CWD
+  const dev = process.env.KAPPA_DEV_CWD
   const real = Filesystem.resolve(cwd)
   const root = dev
     ? Filesystem.resolve(dev)
@@ -303,7 +303,7 @@ export const TuiThreadCommand = cmd({
       // kappacode_change end
       const file = await target()
       // kappacode_change start
-      const preloads = preload(typeof KILO_WORKER_PATH !== "undefined", () =>
+      const preloads = preload(typeof KAPPA_WORKER_PATH !== "undefined", () =>
         import.meta.resolve("@opentui/solid/preload"),
       )
       // kappacode_change end
@@ -320,10 +320,10 @@ export const TuiThreadCommand = cmd({
       const auth = KappaTuiThreadDaemon.workerAuth() // kappacode_change - protect TUI-owned HTTP routes from unauthenticated local callers
       // kappacode_change start - propagate stable run metadata and an explicit worker role
       const env = sanitizedProcessEnv({
-        [KILO_PROCESS_ROLE]: "worker",
-        [KILO_RUN_ID]: ensureRunID(),
+        [KAPPA_PROCESS_ROLE]: "worker",
+        [KAPPA_RUN_ID]: ensureRunID(),
         ...auth.env,
-        KILO_BACKGROUND_PROCESS_PORTS: "true",
+        KAPPA_BACKGROUND_PROCESS_PORTS: "true",
       })
       // kappacode_change end
       const worker = new Worker(file, {

@@ -3,7 +3,7 @@ import { describe, expect, test } from "bun:test"
 import { Effect, Exit, Layer } from "effect"
 import { HttpBody, HttpClient, HttpClientResponse } from "effect/unstable/http"
 import {
-  KILO_EXA_URL,
+  KAPPA_EXA_URL,
   MAX_KILO_EXA_RESULTS,
   type KappaExaParams,
   callKappaExa,
@@ -64,7 +64,7 @@ const runCall = async (
   )
 
 describe("callKappaExa request shape", () => {
-  test("posts to KILO_EXA_URL with bearer token and highlights-only contents", async () => {
+  test("posts to KAPPA_EXA_URL with bearer token and highlights-only contents", async () => {
     const recorded: Recorded = {}
     const exit = await runCall({ query: "drone" }, () => okJson({ results: [] }), recorded)
     expect(Exit.isSuccess(exit)).toBe(true)
@@ -96,8 +96,8 @@ describe("callKappaExa request shape", () => {
     expect(JSON.parse(recorded.body!).type).toBe("deep")
   })
 
-  test("KILO_EXA_URL is built from KILO_API_BASE", () => {
-    expect(KILO_EXA_URL).toMatch(/\/api\/exa\/search$/)
+  test("KAPPA_EXA_URL is built from KAPPA_API_BASE", () => {
+    expect(KAPPA_EXA_URL).toMatch(/\/api\/exa\/search$/)
   })
 })
 

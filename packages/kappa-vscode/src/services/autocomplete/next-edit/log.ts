@@ -12,7 +12,7 @@ function getChannel(): vscode.OutputChannel {
 function debugEnabled(): boolean {
   // Toggled via env only — deliberately not a VSCode setting, to avoid adding
   // new autocomplete config (config is migrating to the backend).
-  return process.env.KILO_NES_DEBUG === "1"
+  return process.env.KAPPA_NES_DEBUG === "1"
 }
 
 /**

@@ -116,7 +116,7 @@ With the mode header:
 
 ```bash
 curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
-  -H "Authorization: Bearer $KILO_API_KEY" \
+  -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "x-kappacode-mode: plan" \
   -H "Content-Type: application/json" \
   -d '{"model": "kappa-auto/efficient", "messages": [{"role": "user", "content": "Design a database schema"}]}'

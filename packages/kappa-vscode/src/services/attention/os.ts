@@ -101,14 +101,14 @@ export function notificationCommand(
       "[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null",
       "[Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom, ContentType = WindowsRuntime] > $null",
       "$xml = New-Object Windows.Data.Xml.Dom.XmlDocument",
-      "$xml.LoadXml([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($env:KILO_TOAST_XML)))",
+      "$xml.LoadXml([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($env:KAPPA_TOAST_XML)))",
       "$toast = [Windows.UI.Notifications.ToastNotification]::new($xml)",
-      "[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($env:KILO_TOAST_APPID).Show($toast)",
+      "[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($env:KAPPA_TOAST_APPID).Show($toast)",
     ].join("; ")
     return {
       cmd: "powershell.exe",
       args: ["-NoProfile", "-NonInteractive", "-EncodedCommand", Buffer.from(script, "utf16le").toString("base64")],
-      env: { KILO_TOAST_XML: Buffer.from(xml, "utf8").toString("base64"), KILO_TOAST_APPID: appid },
+      env: { KAPPA_TOAST_XML: Buffer.from(xml, "utf8").toString("base64"), KAPPA_TOAST_APPID: appid },
     }
   }
   if (platform === "darwin") {

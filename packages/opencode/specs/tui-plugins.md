@@ -213,7 +213,7 @@ npm plugins can declare a version compatibility range in `package.json` using th
 - There is no uninstall, list, or update CLI command for external plugins.
 - Local file plugins are configured directly in `tui.json`.
 
-When `plugin` entries exist in a writable `.kappa` or legacy `.kappacode` directory, or `KILO_CONFIG_DIR`, Kappa installs `@kappacode/plugin` into that directory and writes:
+When `plugin` entries exist in a writable `.kappa` or legacy `.kappacode` directory, or `KAPPA_CONFIG_DIR`, Kappa installs `@kappacode/plugin` into that directory and writes:
 
 - `package.json`
 - `bun.lock`
@@ -483,7 +483,7 @@ Metadata is persisted by plugin id.
 
 - Internal TUI plugins load first.
 - External TUI plugins load from `tuiConfig.plugin`.
-- `--pure` / `KILO_PURE` skips external TUI plugins only.
+- `--pure` / `KAPPA_PURE` skips external TUI plugins only.
 - External plugin resolution and import are parallel.
 - Packages with no `./tui` entrypoint and valid `oc-themes` are loaded as synthetic no-op TUI plugin modules.
 - Theme-only packages loaded this way appear in `api.plugins.list()` and plugin manager rows like other external plugins.

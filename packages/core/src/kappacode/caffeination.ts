@@ -12,7 +12,7 @@ export interface CaffeinationDriver {
 const START_TIMEOUT = 10_000
 const STOP_TIMEOUT = 1_000
 const LIMIT = 4_096
-const READY = "KILO_CAFFEINATION_READY"
+const READY = "KAPPA_CAFFEINATION_READY"
 
 type Inhibitor = {
   child: ChildProcess

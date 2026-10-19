@@ -5,7 +5,7 @@ import fsSync from "fs"
 import crypto from "crypto"
 
 export namespace TestCli {
-  export const ENV = "KILO_TEST_CLI_PATH"
+  export const ENV = "KAPPA_TEST_CLI_PATH"
 
   async function fingerprint(root: string): Promise<string> {
     const hash = crypto.createHash("sha256")

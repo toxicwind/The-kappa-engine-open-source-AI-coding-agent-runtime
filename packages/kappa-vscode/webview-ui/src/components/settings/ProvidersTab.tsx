@@ -24,7 +24,7 @@ import {
   providersWithKappaFallback,
   visibleConnectedIds,
 } from "./provider-visibility"
-import { isCustomProviderPackage, KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
+import { isCustomProviderPackage, KAPPA_PROVIDER_ID } from "../../../../src/shared/provider-model"
 import { createProviderAction } from "../../utils/provider-action"
 
 type ProviderSource = "env" | "api" | "config" | "custom"
@@ -42,13 +42,13 @@ const ProvidersTab: Component = () => {
 
   onCleanup(action.dispose)
 
-  const kappaLoggedIn = createMemo(() => !!provider.authStates()[KILO_PROVIDER_ID])
+  const kappaLoggedIn = createMemo(() => !!provider.authStates()[KAPPA_PROVIDER_ID])
 
   const connectedProviders = createMemo(() => {
     const ids = visibleConnectedIds(provider.connected(), provider.authStates())
     const all = provider.providers()
     return ids
-      .filter((id) => id !== KILO_PROVIDER_ID)
+      .filter((id) => id !== KAPPA_PROVIDER_ID)
       .map((id) => all[id])
       .filter((item): item is Provider => !!item)
   })
@@ -60,7 +60,7 @@ const ProvidersTab: Component = () => {
     return sortProviders(
       all.filter(
         (item) =>
-          item.id !== KILO_PROVIDER_ID && isPopularProvider(item) && !connected.has(item.id) && !disabled.has(item.id),
+          item.id !== KAPPA_PROVIDER_ID && isPopularProvider(item) && !connected.has(item.id) && !disabled.has(item.id),
       ),
     )
   })
@@ -144,7 +144,7 @@ const ProvidersTab: Component = () => {
   }
 
   function connectProvider(item: Provider) {
-    if (item.id === KILO_PROVIDER_ID) {
+    if (item.id === KAPPA_PROVIDER_ID) {
       // Route Kappa Gateway sign-in through the Profile view so the user sees
       // the full device-auth UI (URL, QR, code, timer, cancel). Triggering
       // `startLogin()` from here alone would run the flow silently with no
@@ -167,7 +167,7 @@ const ProvidersTab: Component = () => {
 
   return (
     <div>
-      <Show when={!disabledIds().has(KILO_PROVIDER_ID)}>
+      <Show when={!disabledIds().has(KAPPA_PROVIDER_ID)}>
         {/* Kappa Gateway — always at the top, not editable */}
         <Card>
           <div
@@ -179,7 +179,7 @@ const ProvidersTab: Component = () => {
               padding: "12px 0",
             }}
           >
-            <ProviderIcon id={providerIcon(KILO_PROVIDER_ID)} width={20} height={20} />
+            <ProviderIcon id={providerIcon(KAPPA_PROVIDER_ID)} width={20} height={20} />
             <span
               style={{
                 "font-size": "var(--kappa-font-size-14)",

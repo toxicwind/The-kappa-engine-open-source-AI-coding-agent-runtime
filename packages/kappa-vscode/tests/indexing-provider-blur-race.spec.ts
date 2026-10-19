@@ -10,8 +10,8 @@ if (IS_DARWIN) {
 
 const GLOBALS = "colorScheme:dark;theme:kappa-vscode;vscodeTheme:dark-modern"
 const STORY_ID = "settings--indexing-provider-blur-race"
-const KILO_STORY_ID = "settings--indexing-kappa-model-preset"
-const KILO_LOADING_STORY_ID = "settings--indexing-kappa-catalog-loading"
+const KAPPA_STORY_ID = "settings--indexing-kappa-model-preset"
+const KAPPA_LOADING_STORY_ID = "settings--indexing-kappa-catalog-loading"
 const SCOPE_STORY_ID = "settings--indexing-scope-switch"
 
 type Saved = {
@@ -124,7 +124,7 @@ test("scope switching preserves raw overrides and commits blur to the original s
 
 test("Kappa exposes only supported embedding model presets", async ({ page }) => {
   await page.setViewportSize({ width: 420, height: 720 })
-  await page.goto(storyUrl(KILO_STORY_ID), { waitUntil: "load" })
+  await page.goto(storyUrl(KAPPA_STORY_ID), { waitUntil: "load" })
   await disableAnimations(page)
   await page.waitForSelector("#storybook-root *", { state: "attached" })
 
@@ -153,7 +153,7 @@ test("enabling Kappa before its catalog loads does not store an empty model", as
   }
 
   await page.setViewportSize({ width: 420, height: 720 })
-  await page.goto(storyUrl(KILO_LOADING_STORY_ID), { waitUntil: "load" })
+  await page.goto(storyUrl(KAPPA_LOADING_STORY_ID), { waitUntil: "load" })
   await disableAnimations(page)
   await page.waitForSelector("#storybook-root *", { state: "attached" })
   await page.getByRole("button", { name: "Local", exact: true }).click()
@@ -163,7 +163,7 @@ test("enabling Kappa before its catalog loads does not store an empty model", as
     .click()
   await verify()
 
-  await page.goto(storyUrl(KILO_LOADING_STORY_ID), { waitUntil: "load" })
+  await page.goto(storyUrl(KAPPA_LOADING_STORY_ID), { waitUntil: "load" })
   await page.waitForSelector("#storybook-root *", { state: "attached" })
   await page
     .locator('[data-slot="settings-row"]', { hasText: "Enable globally" })

@@ -67,11 +67,11 @@ describe("Credential", () => {
   )
 
   // kappacode_change start - process-provided credentials remain isolated from durable storage
-  it.live("keeps valid KILO_AUTH_CONTENT credentials and isolated mutations process-local", () =>
+  it.live("keeps valid KAPPA_AUTH_CONTENT credentials and isolated mutations process-local", () =>
     Effect.acquireUseRelease(
       Effect.sync(() => {
-        const previous = process.env.KILO_AUTH_CONTENT
-        process.env.KILO_AUTH_CONTENT = JSON.stringify({
+        const previous = process.env.KAPPA_AUTH_CONTENT
+        process.env.KAPPA_AUTH_CONTENT = JSON.stringify({
           kappacode: {
             type: "oauth",
             refresh: "refresh",
@@ -121,7 +121,7 @@ describe("Credential", () => {
               yield* service.remove(created.id)
               expect(yield* service.list(kappacode)).toEqual([])
 
-              delete process.env.KILO_AUTH_CONTENT
+              delete process.env.KAPPA_AUTH_CONTENT
               const stored = yield* Effect.gen(function* () {
                 return yield* (yield* Credential.Service).all()
               }).pipe(Effect.provide(localLayer(tmp.path)), Effect.scoped)
@@ -131,8 +131,8 @@ describe("Credential", () => {
         ),
       (previous) =>
         Effect.sync(() => {
-          if (previous === undefined) delete process.env.KILO_AUTH_CONTENT
-          else process.env.KILO_AUTH_CONTENT = previous
+          if (previous === undefined) delete process.env.KAPPA_AUTH_CONTENT
+          else process.env.KAPPA_AUTH_CONTENT = previous
         }),
     ),
   )

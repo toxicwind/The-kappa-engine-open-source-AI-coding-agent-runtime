@@ -16,8 +16,8 @@ const it = testEffect(
 it.effect("loads Snowflake Cortex from OAuth credentials", () =>
   Effect.acquireRelease(
     Effect.sync(() => {
-      const value = process.env.KILO_AUTH_CONTENT
-      process.env.KILO_AUTH_CONTENT = JSON.stringify({
+      const value = process.env.KAPPA_AUTH_CONTENT
+      process.env.KAPPA_AUTH_CONTENT = JSON.stringify({
         "snowflake-cortex": {
           type: "oauth",
           refresh: "refresh-token",
@@ -30,8 +30,8 @@ it.effect("loads Snowflake Cortex from OAuth credentials", () =>
     }),
     (value) =>
       Effect.sync(() => {
-        if (value === undefined) delete process.env.KILO_AUTH_CONTENT
-        else process.env.KILO_AUTH_CONTENT = value
+        if (value === undefined) delete process.env.KAPPA_AUTH_CONTENT
+        else process.env.KAPPA_AUTH_CONTENT = value
       }),
   ).pipe(
     Effect.flatMap(() =>

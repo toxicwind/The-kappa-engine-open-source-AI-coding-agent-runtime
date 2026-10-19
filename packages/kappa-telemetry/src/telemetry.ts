@@ -76,20 +76,20 @@ export namespace Telemetry {
     Identity.setDataPath(options.dataPath)
     props.appVersion = options.version
 
-    const app = process.env.KILO_APP_NAME
+    const app = process.env.KAPPA_APP_NAME
     if (app) props.appName = app
-    const editor = process.env.KILO_EDITOR_NAME
+    const editor = process.env.KAPPA_EDITOR_NAME
     if (editor) props.editorName = editor
-    const platform = process.env.KILO_PLATFORM
+    const platform = process.env.KAPPA_PLATFORM
     if (platform) props.platform = platform
-    const version = process.env.KILO_APP_VERSION
+    const version = process.env.KAPPA_APP_VERSION
     if (version) props.appVersion = version
-    const vscodeVersion = process.env.KILO_VSCODE_VERSION
+    const vscodeVersion = process.env.KAPPA_VSCODE_VERSION
     if (vscodeVersion) props.vscodeVersion = vscodeVersion
 
     Client.init(options.dataPath)
 
-    const level = process.env.KILO_TELEMETRY_LEVEL
+    const level = process.env.KAPPA_TELEMETRY_LEVEL
     const enabled = level ? level === "all" : options.enabled
     Client.setEnabled(enabled)
 

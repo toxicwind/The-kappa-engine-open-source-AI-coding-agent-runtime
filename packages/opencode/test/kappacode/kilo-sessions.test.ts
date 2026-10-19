@@ -73,8 +73,8 @@ it.instance("initializes once per instance through Config.Service", () => {
   )
 })
 
-it.instance("bootstraps session ingest from KILO_API_KEY without stored auth", () => {
-  const original = process.env.KILO_API_KEY
+it.instance("bootstraps session ingest from KAPPA_API_KEY without stored auth", () => {
+  const original = process.env.KAPPA_API_KEY
   const calls: string[] = []
   const fetch: typeof globalThis.fetch = Object.assign(
     async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -93,15 +93,15 @@ it.instance("bootstraps session ingest from KILO_API_KEY without stored auth", (
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "env-token"
+  process.env.KAPPA_API_KEY = "env-token"
   reset("env-token")
 
   return Effect.promise(() => KappaSessions.bootstrap("session-env")).pipe(
     Effect.andThen(() => Effect.sync(() => expect(calls).toEqual(["Bearer env-token", "Bearer env-token"]))),
     Effect.ensuring(
       Effect.sync(() => {
-        if (original === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = original
+        if (original === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = original
         reset("env-token")
         request.mockRestore()
       }),
@@ -110,8 +110,8 @@ it.instance("bootstraps session ingest from KILO_API_KEY without stored auth", (
   )
 })
 
-it.instance("prefers stored auth over KILO_API_KEY for session ingest", () => {
-  const original = process.env.KILO_API_KEY
+it.instance("prefers stored auth over KAPPA_API_KEY for session ingest", () => {
+  const original = process.env.KAPPA_API_KEY
   const calls: string[] = []
   const fetch: typeof globalThis.fetch = Object.assign(
     async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -130,7 +130,7 @@ it.instance("prefers stored auth over KILO_API_KEY for session ingest", () => {
   )
   const request = spyOn(globalThis, "fetch").mockImplementation(fetch)
 
-  process.env.KILO_API_KEY = "env-token"
+  process.env.KAPPA_API_KEY = "env-token"
   reset("env-token", "stored-token")
 
   return Effect.gen(function* () {
@@ -143,8 +143,8 @@ it.instance("prefers stored auth over KILO_API_KEY for session ingest", () => {
       Effect.gen(function* () {
         const auth = yield* Auth.Service
         yield* auth.remove("kappa").pipe(Effect.orDie)
-        if (original === undefined) delete process.env.KILO_API_KEY
-        else process.env.KILO_API_KEY = original
+        if (original === undefined) delete process.env.KAPPA_API_KEY
+        else process.env.KAPPA_API_KEY = original
         reset("env-token", "stored-token")
         request.mockRestore()
       }),
@@ -288,7 +288,7 @@ multi.live("isolates the process-wide listener by instance directory", () => {
 // kappacode_change start - K1 W1 / DEF-1: instance advertisement + per-session platform.
 //
 // `enableRemote` is idempotent/coalescing and is called from `/remote`, the
-// explicit `kappa remote` command, and bootstrap auto-enable (`KILO_REMOTE=1` /
+// explicit `kappa remote` command, and bootstrap auto-enable (`KAPPA_REMOTE=1` /
 // `remote_control`). Every successful entry must ensure a default instance
 // advertisement (including the already-connected early return — the common
 // `/remote`-after-auto-enable path). Explicit `setInstanceAdvertisement`
@@ -304,9 +304,9 @@ describe("KappaSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     heartbeatCalls = 0
     outOfBand = undefined
     snapshot = undefined
-    process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    process.env["KILO_API_KEY"] = "tok"
+    process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    process.env["KAPPA_API_KEY"] = "tok"
     reset("tok")
     KappaSessions.resetInstanceAdvertisementForTests()
 
@@ -341,7 +341,7 @@ describe("KappaSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     clearInFlightCache("kappa-sessions:token-valid:tok")
 
     // kappacode_change - only mock the specific endpoint authValid() calls
-    // (${KILO_API_BASE}/api/user). A blanket mock that returned 200 for
+    // (${KAPPA_API_BASE}/api/user). A blanket mock that returned 200 for
     // every URL previously fed a bogus response to whatever OTHER fetch
     // call provide()'s InstanceStore.Service.load(...) chain now makes (an
     // unrelated fetch introduced upstream, unrelated to this feature),
@@ -375,10 +375,10 @@ describe("KappaSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
     })
     pub.mockRestore()
     mock.restore()
-    delete process.env["KILO_DISABLE_SESSION_INGEST"]
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    delete process.env["KILO_PLATFORM"]
-    delete process.env["KILO_API_KEY"]
+    delete process.env["KAPPA_DISABLE_SESSION_INGEST"]
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    delete process.env["KAPPA_PLATFORM"]
+    delete process.env["KAPPA_API_KEY"]
     reset("tok")
   })
 
@@ -764,9 +764,9 @@ describe("KappaSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
 
   test("per-session platform resolution matches meta() order — env var fallback", async () => {
     // The getSessions closure's platform field is computed as:
-    //   KappaSession.resolvePlatform(id) || process.env["KILO_PLATFORM"] || "cli"
+    //   KappaSession.resolvePlatform(id) || process.env["KAPPA_PLATFORM"] || "cli"
     // For an id with no override, the env var (when set) wins over the default.
-    process.env["KILO_PLATFORM"] = "vscode"
+    process.env["KAPPA_PLATFORM"] = "vscode"
     await using tmp = await tmpdir({ git: true })
     await provide({
       directory: tmp.path,
@@ -780,7 +780,7 @@ describe("KappaSessions.setInstanceAdvertisement (K1 W1 / DEF-1)", () => {
         expect(payload.type).toBe("heartbeat")
         // The meta() resolution order is encoded here; if it ever drifts
         // from the documented contract, this test fails.
-        const expectedPlatform = process.env["KILO_PLATFORM"] || "cli"
+        const expectedPlatform = process.env["KAPPA_PLATFORM"] || "cli"
         expect(expectedPlatform).toBe("vscode")
       },
     })
@@ -801,9 +801,9 @@ describe("KappaSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
   beforeEach(() => {
     heartbeatCalls = 0
     outOfBand = undefined
-    process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    process.env["KILO_API_KEY"] = "tok"
+    process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    process.env["KAPPA_API_KEY"] = "tok"
     reset("tok")
     KappaSessions.resetInstanceAdvertisementForTests()
 
@@ -875,10 +875,10 @@ describe("KappaSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
     })
     pub.mockRestore()
     mock.restore()
-    delete process.env["KILO_DISABLE_SESSION_INGEST"]
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    delete process.env["KILO_PLATFORM"]
-    delete process.env["KILO_API_KEY"]
+    delete process.env["KAPPA_DISABLE_SESSION_INGEST"]
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    delete process.env["KAPPA_PLATFORM"]
+    delete process.env["KAPPA_API_KEY"]
     reset("tok")
   })
 
@@ -949,9 +949,9 @@ describe("KappaSessions.detachRemoteSession heartbeat fence (K1 W1)", () => {
 // Question list() called once per heartbeat — not once per session.
 describe("KappaSessions heartbeat attention status (DEF-3)", () => {
   beforeEach(() => {
-    process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    process.env["KILO_API_KEY"] = "tok"
+    process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    process.env["KAPPA_API_KEY"] = "tok"
     reset("tok")
     KappaSessions.resetInstanceAdvertisementForTests()
 
@@ -1003,10 +1003,10 @@ describe("KappaSessions heartbeat attention status (DEF-3)", () => {
     })
     pub.mockRestore()
     mock.restore()
-    delete process.env["KILO_DISABLE_SESSION_INGEST"]
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    delete process.env["KILO_PLATFORM"]
-    delete process.env["KILO_API_KEY"]
+    delete process.env["KAPPA_DISABLE_SESSION_INGEST"]
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    delete process.env["KAPPA_PLATFORM"]
+    delete process.env["KAPPA_API_KEY"]
     reset("tok")
   })
 
@@ -1263,8 +1263,8 @@ describe("KappaSessions PR link (per-session hard evidence)", () => {
   const paths: string[] = []
 
   beforeEach(async () => {
-    client = process.env.KILO_CLIENT
-    process.env.KILO_CLIENT = "cli"
+    client = process.env.KAPPA_CLIENT
+    process.env.KAPPA_CLIENT = "cli"
     ingestBodies = []
     // Forget the upgrade migration and any legacy record so each test replays a
     // clean install, then drop the per-session links a previous test left.
@@ -1272,9 +1272,9 @@ describe("KappaSessions PR link (per-session hard evidence)", () => {
     await fs.rm(join(Global.Path.data, "storage", "session_pr_link_recorded"), { recursive: true, force: true })
     await fs.rm(join(Global.Path.data, "storage", "session_pr_link"), { recursive: true, force: true })
     for (const id of (await PrLink.loadSessionLinks()).keys()) await PrLink.clearSessionLink(id)
-    process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    process.env["KILO_API_KEY"] = "tok"
+    process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    process.env["KAPPA_API_KEY"] = "tok"
     reset("tok")
     KappaSessions.resetInstanceAdvertisementForTests()
 
@@ -1337,12 +1337,12 @@ describe("KappaSessions PR link (per-session hard evidence)", () => {
     pub.mockRestore()
     await Promise.all(paths.splice(0).map((path) => fs.rm(path, { force: true })))
     mock.restore()
-    delete process.env["KILO_DISABLE_SESSION_INGEST"]
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    delete process.env["KILO_PLATFORM"]
-    delete process.env["KILO_API_KEY"]
-    if (client == null) delete process.env.KILO_CLIENT
-    if (client != null) process.env.KILO_CLIENT = client
+    delete process.env["KAPPA_DISABLE_SESSION_INGEST"]
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    delete process.env["KAPPA_PLATFORM"]
+    delete process.env["KAPPA_API_KEY"]
+    if (client == null) delete process.env.KAPPA_CLIENT
+    if (client != null) process.env.KAPPA_CLIENT = client
     reset("tok")
   })
 
@@ -1836,7 +1836,7 @@ describe("KappaSessions PR link (per-session hard evidence)", () => {
   test.each(["vscode", "jetbrains", "desktop", "acp", "custom"])(
     "%s keeps normal ingestion and heartbeats without activating PR links",
     async (client) => {
-      process.env.KILO_CLIENT = client
+      process.env.KAPPA_CLIENT = client
       const poller = await import("@/kappa-sessions/pr-link-poller")
       const poll = spyOn(poller, "startPrLinkPoll")
       const create = spyOn(PrLink, "recordPrCreate")
@@ -1927,9 +1927,9 @@ describe("KappaSessions create_session share gate", () => {
   let sessionNetworkDown = false
 
   beforeEach(() => {
-    process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    process.env["KILO_API_KEY"] = "tok"
+    process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    process.env["KAPPA_API_KEY"] = "tok"
     reset("tok")
     KappaSessions.resetInstanceAdvertisementForTests()
     sessionStatus = 200
@@ -1995,10 +1995,10 @@ describe("KappaSessions create_session share gate", () => {
     })
     pub.mockRestore()
     mock.restore()
-    delete process.env["KILO_DISABLE_SESSION_INGEST"]
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    delete process.env["KILO_PLATFORM"]
-    delete process.env["KILO_API_KEY"]
+    delete process.env["KAPPA_DISABLE_SESSION_INGEST"]
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    delete process.env["KAPPA_PLATFORM"]
+    delete process.env["KAPPA_API_KEY"]
     reset("tok")
   })
 
@@ -2174,11 +2174,11 @@ describe("KappaSessions remote session log lifecycle", () => {
 describe("KappaSessions PR poll wiring", () => {
   let client: string | undefined
   beforeEach(() => {
-    client = process.env.KILO_CLIENT
-    process.env.KILO_CLIENT = "cli"
-    process.env["KILO_DISABLE_SESSION_INGEST"] = "0"
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    process.env["KILO_API_KEY"] = "tok"
+    client = process.env.KAPPA_CLIENT
+    process.env.KAPPA_CLIENT = "cli"
+    process.env["KAPPA_DISABLE_SESSION_INGEST"] = "0"
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    process.env["KAPPA_API_KEY"] = "tok"
     reset("tok")
     KappaSessions.resetInstanceAdvertisementForTests()
 
@@ -2228,12 +2228,12 @@ describe("KappaSessions PR poll wiring", () => {
     })
     pub.mockRestore()
     mock.restore()
-    delete process.env["KILO_DISABLE_SESSION_INGEST"]
-    delete process.env["KILO_SESSION_INGEST_URL"]
-    delete process.env["KILO_PLATFORM"]
-    delete process.env["KILO_API_KEY"]
-    if (client == null) delete process.env.KILO_CLIENT
-    if (client != null) process.env.KILO_CLIENT = client
+    delete process.env["KAPPA_DISABLE_SESSION_INGEST"]
+    delete process.env["KAPPA_SESSION_INGEST_URL"]
+    delete process.env["KAPPA_PLATFORM"]
+    delete process.env["KAPPA_API_KEY"]
+    if (client == null) delete process.env.KAPPA_CLIENT
+    if (client != null) process.env.KAPPA_CLIENT = client
     reset("tok")
   })
 

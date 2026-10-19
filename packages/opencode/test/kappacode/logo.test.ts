@@ -22,12 +22,12 @@ describe("kappacode logo", () => {
   })
 
   test("allows an override", () => {
-    expect(supports({ KILO_UNICODE_LOGO: "1", SSH_TTY: "/dev/pts/0" }, "linux")).toBe(true)
-    expect(supports({ KILO_UNICODE_LOGO: "0" }, "linux")).toBe(false)
+    expect(supports({ KAPPA_UNICODE_LOGO: "1", SSH_TTY: "/dev/pts/0" }, "linux")).toBe(true)
+    expect(supports({ KAPPA_UNICODE_LOGO: "0" }, "linux")).toBe(false)
   })
 
   test("uses modern and fallback logo variants", () => {
-    expect(tui({ KILO_UNICODE_LOGO: "1" }, "linux").join("\n")).toContain("🬺🬏")
+    expect(tui({ KAPPA_UNICODE_LOGO: "1" }, "linux").join("\n")).toContain("🬺🬏")
     expect(tui({}, "win32").join("\n")).not.toContain("🬺🬏")
     expect(plain({}, "win32").join("\n")).not.toContain("🬁🬬")
   })

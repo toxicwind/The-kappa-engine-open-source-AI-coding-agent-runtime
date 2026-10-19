@@ -27,7 +27,7 @@ import { createOpenAI } from "@ai-sdk/openai"
 
 const kappa = createOpenAI({
   baseURL: "https://api.kappa.ai/api/gateway",
-  apiKey: process.env.KILO_API_KEY,
+  apiKey: process.env.KAPPA_API_KEY,
 })
 ```
 
@@ -38,7 +38,7 @@ const kappa = createOpenAI({
 from openai import OpenAI
 
 client = OpenAI(
-    api_key=os.getenv("KILO_API_KEY"),
+    api_key=os.getenv("KAPPA_API_KEY"),
     base_url="https://api.kappa.ai/api/gateway",
 )
 ```
@@ -48,7 +48,7 @@ client = OpenAI(
 
 ```bash
 curl -X POST "https://api.kappa.ai/api/gateway/chat/completions" \
-  -H "Authorization: Bearer $KILO_API_KEY" \
+  -H "Authorization: Bearer $KAPPA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"model": "anthropic/claude-sonnet-4.5", "messages": [{"role": "user", "content": "Hello"}]}'
 ```

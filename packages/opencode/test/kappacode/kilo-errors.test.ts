@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test"
 import { MessageV2 } from "../../src/session/message-v2.ts"
-import { KILO_ERROR_CODES, isKappaError, parseKappaErrorCode } from "../../src/kappacode/kappa-errors.ts"
+import { KAPPA_ERROR_CODES, isKappaError, parseKappaErrorCode } from "../../src/kappacode/kappa-errors.ts"
 import { SessionRetry } from "../../src/session/retry.ts"
 import { NamedError } from "@opencode-ai/core/util/error"
 

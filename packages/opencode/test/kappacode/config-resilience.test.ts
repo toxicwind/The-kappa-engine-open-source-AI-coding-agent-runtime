@@ -49,7 +49,7 @@ describe("config resilience", () => {
   })
 
   test("skips project markdown that references environment or out-of-project files", async () => {
-    const name = "KILO_CONFIG_MARKDOWN_PROJECT_SECRET"
+    const name = "KAPPA_CONFIG_MARKDOWN_PROJECT_SECRET"
     const prior = process.env[name]
     process.env[name] = "environment secret"
     try {
@@ -110,9 +110,9 @@ describe("config resilience", () => {
   test.serial(
     "loads external directory symlinks explicitly allowed by global config without trusting tokens",
     async () => {
-      const name = "KILO_EXTERNAL_MARKDOWN_SECRET"
+      const name = "KAPPA_EXTERNAL_MARKDOWN_SECRET"
       const env = process.env[name]
-      const config = Flag.KILO_CONFIG
+      const config = Flag.KAPPA_CONFIG
       process.env[name] = "environment secret"
       await using tmp = await tmpdir({
         init: async (dir) => {
@@ -148,7 +148,7 @@ describe("config resilience", () => {
           return { project, global }
         },
       })
-      Flag.KILO_CONFIG = tmp.extra.global
+      Flag.KAPPA_CONFIG = tmp.extra.global
 
       try {
         await provideTestInstance({
@@ -173,7 +173,7 @@ describe("config resilience", () => {
           },
         })
       } finally {
-        Flag.KILO_CONFIG = config
+        Flag.KAPPA_CONFIG = config
         if (env === undefined) delete process.env[name]
         else process.env[name] = env
       }
@@ -392,9 +392,9 @@ Broken command`,
     })
   })
 
-  test.serial("collects warnings for unknown fields in KILO_CONFIG_CONTENT", async () => {
-    const prior = process.env.KILO_CONFIG_CONTENT
-    process.env.KILO_CONFIG_CONTENT = JSON.stringify({ model: "test/model", unknownField: true })
+  test.serial("collects warnings for unknown fields in KAPPA_CONFIG_CONTENT", async () => {
+    const prior = process.env.KAPPA_CONFIG_CONTENT
+    process.env.KAPPA_CONFIG_CONTENT = JSON.stringify({ model: "test/model", unknownField: true })
     await using tmp = await tmpdir({ git: true })
 
     try {
@@ -406,13 +406,13 @@ Broken command`,
 
           expect(cfg.model).toBe("test/model")
           expect(
-            warns.some((warning) => warning.path === "KILO_CONFIG_CONTENT" && warning.message.includes("unknownField")),
+            warns.some((warning) => warning.path === "KAPPA_CONFIG_CONTENT" && warning.message.includes("unknownField")),
           ).toBe(true)
         },
       })
     } finally {
-      if (prior === undefined) delete process.env.KILO_CONFIG_CONTENT
-      else process.env.KILO_CONFIG_CONTENT = prior
+      if (prior === undefined) delete process.env.KAPPA_CONFIG_CONTENT
+      else process.env.KAPPA_CONFIG_CONTENT = prior
     }
   })
 

@@ -124,7 +124,7 @@ export namespace ClaudeMigration {
   }
 
   export function unsupportedContext() {
-    return ["CLAUDE_CONFIG_DIR", "KILO_CONFIG_DIR", "KILO_CONFIG", "KILO_CONFIG_CONTENT"].some(
+    return ["CLAUDE_CONFIG_DIR", "KAPPA_CONFIG_DIR", "KAPPA_CONFIG", "KAPPA_CONFIG_CONTENT"].some(
       (key) => (process.env[key] ?? "").trim() !== "",
     )
   }
@@ -206,7 +206,7 @@ export namespace ClaudeMigration {
   }
 
   export async function run(input: { enabled?: boolean; roots?: Partial<Roots> } = {}): Promise<Result> {
-    if (!(input.enabled ?? Flag.KILO_EXPERIMENTAL_CLAUDE_MIGRATION)) return { status: "disabled" }
+    if (!(input.enabled ?? Flag.KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION)) return { status: "disabled" }
     if (unsupportedContext()) return { status: "unsupported-context" }
 
     const base = roots(input.roots)

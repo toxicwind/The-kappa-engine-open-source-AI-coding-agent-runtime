@@ -15,7 +15,7 @@ const ROOT = path.resolve(import.meta.dir, "../..")
 const PKG_JSON_FILE = path.join(ROOT, "package.json")
 const SRC_DIR = path.join(ROOT, "src")
 const EXTENSION_FILE = path.join(ROOT, "src/extension.ts")
-const KILO_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
+const KAPPA_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
 const SETTINGS_PROVIDER_FILE = path.join(ROOT, "src/SettingsEditorProvider.ts")
 const VSCODE_HOST_FILE = path.join(ROOT, "src/agent-manager/vscode-host.ts")
 
@@ -376,7 +376,7 @@ describe("Extension — Agent Manager remote wiring", () => {
 })
 
 describe("KappaProvider — remote focus lifecycle", () => {
-  const provider = fs.readFileSync(KILO_PROVIDER_FILE, "utf-8")
+  const provider = fs.readFileSync(KAPPA_PROVIDER_FILE, "utf-8")
 
   it("registers newly created sessions and uses the synchronous session ID", () => {
     const create = sliceBlock(provider, provider.indexOf("private async handleCreateSession"))

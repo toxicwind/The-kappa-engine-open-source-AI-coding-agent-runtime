@@ -17,15 +17,15 @@ const inference = testEffect(testInstanceStoreLayer)
 const auth = <A, E, R>(value: Record<string, unknown>, effect: Effect.Effect<A, E, R>) =>
   Effect.acquireUseRelease(
     Effect.sync(() => {
-      const previous = process.env.KILO_AUTH_CONTENT
-      process.env.KILO_AUTH_CONTENT = JSON.stringify(value)
+      const previous = process.env.KAPPA_AUTH_CONTENT
+      process.env.KAPPA_AUTH_CONTENT = JSON.stringify(value)
       return previous
     }),
     () => effect,
     (previous) =>
       Effect.sync(() => {
-        if (previous === undefined) delete process.env.KILO_AUTH_CONTENT
-        else process.env.KILO_AUTH_CONTENT = previous
+        if (previous === undefined) delete process.env.KAPPA_AUTH_CONTENT
+        else process.env.KAPPA_AUTH_CONTENT = previous
       }),
   )
 
@@ -267,9 +267,9 @@ for (const scenario of scenarios) {
   inference.instance(`Kappa inference uses ${scenario.name}`, () =>
     Effect.gen(function* () {
       yield* environment({
-        KILO_API_KEY: scenario.env,
-        KILO_ORG_ID: scenario.organization,
-        KILO_AUTH_CONTENT: JSON.stringify(scenario.info ? { kappa: scenario.info } : {}),
+        KAPPA_API_KEY: scenario.env,
+        KAPPA_ORG_ID: scenario.organization,
+        KAPPA_AUTH_CONTENT: JSON.stringify(scenario.info ? { kappa: scenario.info } : {}),
       })
       const calls: Headers[] = []
       const fetch = async (_input: RequestInfo | URL, init?: RequestInit) => {
@@ -280,7 +280,7 @@ for (const scenario of scenarios) {
         provider: {
           kappa: {
             npm: "@kappacode/kappa-gateway",
-            env: ["KILO_API_KEY"],
+            env: ["KAPPA_API_KEY"],
             options: { ...scenario.options, headers: { "x-custom": "preserved" }, fetch },
             models: { "test-model": { name: "Test Model", limit: { context: 128000, output: 4096 } } },
           },
@@ -324,10 +324,10 @@ for (const scenario of scenarios) {
 inference.instance("non-Kappa inference keeps OAuth over environment and configured API keys", () =>
   Effect.gen(function* () {
     yield* environment({
-      KILO_API_KEY: "kappa-env-token",
-      KILO_ORG_ID: "kappa-env-org",
+      KAPPA_API_KEY: "kappa-env-token",
+      KAPPA_ORG_ID: "kappa-env-org",
       OPENAI_API_KEY: "openai-env-token",
-      KILO_AUTH_CONTENT: JSON.stringify({ openai: oauth }),
+      KAPPA_AUTH_CONTENT: JSON.stringify({ openai: oauth }),
     })
     const calls: Headers[] = []
     yield* Effect.acquireRelease(

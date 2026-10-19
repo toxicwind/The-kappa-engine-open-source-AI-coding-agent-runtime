@@ -24,12 +24,12 @@ import { testEffect } from "../lib/effect.ts"
 // repeat it.
 const testStateLayer = Layer.effectDiscard(
   Effect.gen(function* () {
-    const originalWorkspaces = Flag.KILO_EXPERIMENTAL_WORKSPACES
-    Flag.KILO_EXPERIMENTAL_WORKSPACES = true
+    const originalWorkspaces = Flag.KAPPA_EXPERIMENTAL_WORKSPACES
+    Flag.KAPPA_EXPERIMENTAL_WORKSPACES = true
     yield* Effect.promise(() => resetDatabase())
     yield* Effect.addFinalizer(() =>
       Effect.promise(async () => {
-        Flag.KILO_EXPERIMENTAL_WORKSPACES = originalWorkspaces
+        Flag.KAPPA_EXPERIMENTAL_WORKSPACES = originalWorkspaces
         await resetDatabase()
       }),
     )
@@ -77,11 +77,11 @@ describe("instance HttpApi", () => {
 
   it.live("emits a sync fence header for fixed-workspace mutations", () =>
     Effect.gen(function* () {
-      const originalWorkspaceID = Flag.KILO_WORKSPACE_ID
-      Flag.KILO_WORKSPACE_ID = WorkspaceV2.ID.ascending()
+      const originalWorkspaceID = Flag.KAPPA_WORKSPACE_ID
+      Flag.KAPPA_WORKSPACE_ID = WorkspaceV2.ID.ascending()
       yield* Effect.addFinalizer(() =>
         Effect.sync(() => {
-          Flag.KILO_WORKSPACE_ID = originalWorkspaceID
+          Flag.KAPPA_WORKSPACE_ID = originalWorkspaceID
         }),
       )
 
@@ -99,11 +99,11 @@ describe("instance HttpApi", () => {
 
   it.live("does not emit sync fence headers for fixed-workspace reads or no-op mutations", () =>
     Effect.gen(function* () {
-      const originalWorkspaceID = Flag.KILO_WORKSPACE_ID
-      Flag.KILO_WORKSPACE_ID = WorkspaceV2.ID.ascending()
+      const originalWorkspaceID = Flag.KAPPA_WORKSPACE_ID
+      Flag.KAPPA_WORKSPACE_ID = WorkspaceV2.ID.ascending()
       yield* Effect.addFinalizer(() =>
         Effect.sync(() => {
-          Flag.KILO_WORKSPACE_ID = originalWorkspaceID
+          Flag.KAPPA_WORKSPACE_ID = originalWorkspaceID
         }),
       )
 

@@ -242,7 +242,7 @@ export const layer = Layer.effect(
     }
 
     // kappacode_change start - process-local workspace credentials override host storage without being persisted
-    const content = process.env.KILO_AUTH_CONTENT
+    const content = process.env.KAPPA_AUTH_CONTENT
     const injected = yield* content === undefined
       ? Effect.succeed(new Map<Integration.ID, Info>())
       : Effect.try({
@@ -276,7 +276,7 @@ export const layer = Layer.effect(
             )
           }),
           Effect.catch((cause) =>
-            Effect.logWarning("invalid KILO_AUTH_CONTENT; using no process-local credentials", { cause }).pipe(
+            Effect.logWarning("invalid KAPPA_AUTH_CONTENT; using no process-local credentials", { cause }).pipe(
               Effect.as(new Map<Integration.ID, Info>()),
             ),
           ),

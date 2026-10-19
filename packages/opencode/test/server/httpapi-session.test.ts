@@ -38,7 +38,7 @@ import { TestLLMServer } from "../lib/llm-server.ts"
 import { testProviderConfig } from "../lib/test-provider.ts"
 import { pollWithTimeout, testEffect } from "../lib/effect.ts" // kappacode_change
 
-const originalWorkspaces = Flag.KILO_EXPERIMENTAL_WORKSPACES
+const originalWorkspaces = Flag.KAPPA_EXPERIMENTAL_WORKSPACES
 const noopBootstrapLayer = Layer.succeed(
   InstanceBootstrapService.Service,
   InstanceBootstrapService.Service.of({ run: Effect.void }),
@@ -268,7 +268,7 @@ function requestJson<T>(path: string, init?: RequestInit) {
 }
 
 afterEach(async () => {
-  Flag.KILO_EXPERIMENTAL_WORKSPACES = originalWorkspaces
+  Flag.KAPPA_EXPERIMENTAL_WORKSPACES = originalWorkspaces
   await disposeAllInstances()
   await resetDatabase()
 })
@@ -866,7 +866,7 @@ describe("session HttpApi", () => {
     () =>
       Effect.gen(function* () {
         const test = yield* TestInstance
-        Flag.KILO_EXPERIMENTAL_WORKSPACES = true
+        Flag.KAPPA_EXPERIMENTAL_WORKSPACES = true
         const project = yield* Project.use.fromDirectory(test.directory)
         const workspace = yield* createLocalWorkspace({
           projectID: project.project.id,

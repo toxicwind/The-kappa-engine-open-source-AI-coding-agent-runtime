@@ -31,9 +31,9 @@ export type FetchOptions = {
 const cache = new Map<string, CacheEntry>()
 
 // Read the base URL per call (not at module load) so a test/enterprise override via
-// KILO_MARKETPLACE_BASE_URL is honored regardless of import order.
+// KAPPA_MARKETPLACE_BASE_URL is honored regardless of import order.
 function baseUrl(opts: FetchOptions) {
-  return opts.baseUrl ?? process.env["KILO_MARKETPLACE_BASE_URL"] ?? DEFAULT_BASE_URL
+  return opts.baseUrl ?? process.env["KAPPA_MARKETPLACE_BASE_URL"] ?? DEFAULT_BASE_URL
 }
 
 export function kebabToTitleCase(str: string): string {

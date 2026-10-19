@@ -29,7 +29,7 @@ export function ide() {
 }
 
 export function alreadyInstalled() {
-  return process.env["KILO_CALLER"] === "vscode" || process.env["KILO_CALLER"] === "vscode-insiders"
+  return process.env["KAPPA_CALLER"] === "vscode" || process.env["KAPPA_CALLER"] === "vscode-insiders"
 }
 
 // kappacode_change start - Kappa's VS Code extension bundles the CLI; auto-install from CLI is not applicable

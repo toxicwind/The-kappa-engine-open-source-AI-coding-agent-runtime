@@ -39,11 +39,11 @@ describe("instruction markdown substitutions", () => {
     Effect.acquireUseRelease(
       Effect.sync(() => {
         const prior = {
-          flag: process.env.KILO_DISABLE_PROJECT_CONFIG,
-          secret: process.env.KILO_INSTRUCTION_GLOBAL_PATTERN_SECRET,
+          flag: process.env.KAPPA_DISABLE_PROJECT_CONFIG,
+          secret: process.env.KAPPA_INSTRUCTION_GLOBAL_PATTERN_SECRET,
         }
-        process.env.KILO_DISABLE_PROJECT_CONFIG = "1"
-        process.env.KILO_INSTRUCTION_GLOBAL_PATTERN_SECRET = "environment secret"
+        process.env.KAPPA_DISABLE_PROJECT_CONFIG = "1"
+        process.env.KAPPA_INSTRUCTION_GLOBAL_PATTERN_SECRET = "environment secret"
         return prior
       }),
       () =>
@@ -54,7 +54,7 @@ describe("instruction markdown substitutions", () => {
           yield* write(path.join(project, "README.md"), "project")
           yield* write(
             path.join(home, "rules", "trusted.md"),
-            "{env:KILO_INSTRUCTION_GLOBAL_PATTERN_SECRET}",
+            "{env:KAPPA_INSTRUCTION_GLOBAL_PATTERN_SECRET}",
           )
           const config = TestConfig.layer({
             get: () =>
@@ -74,10 +74,10 @@ describe("instruction markdown substitutions", () => {
         }),
       (prior) =>
         Effect.sync(() => {
-          if (prior.flag === undefined) delete process.env.KILO_DISABLE_PROJECT_CONFIG
-          else process.env.KILO_DISABLE_PROJECT_CONFIG = prior.flag
-          if (prior.secret === undefined) delete process.env.KILO_INSTRUCTION_GLOBAL_PATTERN_SECRET
-          else process.env.KILO_INSTRUCTION_GLOBAL_PATTERN_SECRET = prior.secret
+          if (prior.flag === undefined) delete process.env.KAPPA_DISABLE_PROJECT_CONFIG
+          else process.env.KAPPA_DISABLE_PROJECT_CONFIG = prior.flag
+          if (prior.secret === undefined) delete process.env.KAPPA_INSTRUCTION_GLOBAL_PATTERN_SECRET
+          else process.env.KAPPA_INSTRUCTION_GLOBAL_PATTERN_SECRET = prior.secret
         }),
     ),
   )
@@ -92,7 +92,7 @@ describe("instruction markdown substitutions", () => {
           }),
       })
       return Effect.gen(function* () {
-        const name = "KILO_INSTRUCTION_RELATIVE_SECRET"
+        const name = "KAPPA_INSTRUCTION_RELATIVE_SECRET"
         process.env[name] = "environment secret"
         yield* write(path.join(dir, "AGENTS.md"), `{env:${name}}`)
 
@@ -111,7 +111,7 @@ describe("instruction markdown substitutions", () => {
       const home = path.join(dir, "global")
       const item = path.join(home, "private.md")
       const secret = path.join(dir, "secret.txt")
-      const name = "KILO_INSTRUCTION_SELECTED_SECRET"
+      const name = "KAPPA_INSTRUCTION_SELECTED_SECRET"
       process.env[name] = "environment secret"
       yield* write(path.join(project, "README.md"), "project")
       yield* write(secret, "file secret")
@@ -145,7 +145,7 @@ describe("instruction markdown substitutions", () => {
       const home = path.join(dir, "global")
       const item = path.join(home, "private.md")
       const secret = path.join(dir, "secret.txt")
-      const name = "KILO_INSTRUCTION_TRUSTED_SECRET"
+      const name = "KAPPA_INSTRUCTION_TRUSTED_SECRET"
       process.env[name] = "environment secret"
       yield* write(path.join(project, "README.md"), "project")
       yield* write(secret, "file secret")
@@ -190,7 +190,7 @@ describe("instruction markdown substitutions", () => {
   it.live("omits nearby project instructions with environment substitutions", () =>
     provideTmpdirInstance((dir) =>
       Effect.gen(function* () {
-        const name = "KILO_INSTRUCTION_PROJECT_SECRET"
+        const name = "KAPPA_INSTRUCTION_PROJECT_SECRET"
         process.env[name] = "environment secret"
         yield* write(path.join(dir, "subdir", "AGENTS.md"), `{env:${name}}`)
         yield* write(path.join(dir, "subdir", "nested", "file.ts"), "const value = 1")
@@ -207,7 +207,7 @@ describe("instruction markdown substitutions", () => {
   it.live("preserves substitutions in trusted global instructions", () =>
     provideTmpdirInstance((dir) =>
       Effect.gen(function* () {
-        const name = "KILO_INSTRUCTION_GLOBAL_SECRET"
+        const name = "KAPPA_INSTRUCTION_GLOBAL_SECRET"
         process.env[name] = "environment secret"
         const home = path.join(dir, "global")
         yield* write(path.join(home, "guide.md"), "file secret")

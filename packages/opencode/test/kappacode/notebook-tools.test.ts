@@ -159,9 +159,9 @@ describe("native notebook tools", () => {
 })
 
 test("uses dedicated VS Code notebook permission defaults only when enabled", () => {
-  const prev = process.env.KILO_CLIENT
+  const prev = process.env.KAPPA_CLIENT
   try {
-    process.env.KILO_CLIENT = "vscode"
+    process.env.KAPPA_CLIENT = "vscode"
     const disabled = KappaAgent.prepare({}, { experimentalSharedAgentBoard: false }).defaultsPatch
     expect(disabled.some((rule) => rule.permission.startsWith("notebook_"))).toBe(false)
 
@@ -173,7 +173,7 @@ test("uses dedicated VS Code notebook permission defaults only when enabled", ()
     expect(rules.findLast((rule) => rule.permission === "notebook_edit")?.action).toBe("ask")
     expect(rules.findLast((rule) => rule.permission === "notebook_execute")?.action).toBe("ask")
   } finally {
-    if (prev === undefined) delete process.env.KILO_CLIENT
-    if (prev !== undefined) process.env.KILO_CLIENT = prev
+    if (prev === undefined) delete process.env.KAPPA_CLIENT
+    if (prev !== undefined) process.env.KAPPA_CLIENT = prev
   }
 })

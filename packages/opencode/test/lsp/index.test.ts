@@ -169,10 +169,10 @@ describe("lsp.spawn", () => {
   )
   // kappacode_change end
 
-  // kappacode_change start - Typescript spawn is gated behind KILO_EXPERIMENTAL_LSP_TOOL.
-  test("spawns tsgo LSP when KILO_EXPERIMENTAL_LSP_TOOL is enabled", async () => {
-    const saved = Flag.KILO_EXPERIMENTAL_LSP_TOOL
-    Flag.KILO_EXPERIMENTAL_LSP_TOOL = true
+  // kappacode_change start - Typescript spawn is gated behind KAPPA_EXPERIMENTAL_LSP_TOOL.
+  test("spawns tsgo LSP when KAPPA_EXPERIMENTAL_LSP_TOOL is enabled", async () => {
+    const saved = Flag.KAPPA_EXPERIMENTAL_LSP_TOOL
+    Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = true
     await using tmp = await tmpdir()
 
     const spawnSpy = spyOn(launch, "spawn").mockImplementation(
@@ -194,20 +194,20 @@ describe("lsp.spawn", () => {
         },
       })
     } finally {
-      Flag.KILO_EXPERIMENTAL_LSP_TOOL = saved
+      Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = saved
       spawnSpy.mockRestore()
       tsgoSpy.mockRestore()
     }
   })
 
-  test("Typescript.spawn returns undefined when KILO_EXPERIMENTAL_LSP_TOOL is off", async () => {
-    const saved = Flag.KILO_EXPERIMENTAL_LSP_TOOL
-    Flag.KILO_EXPERIMENTAL_LSP_TOOL = false
+  test("Typescript.spawn returns undefined when KAPPA_EXPERIMENTAL_LSP_TOOL is off", async () => {
+    const saved = Flag.KAPPA_EXPERIMENTAL_LSP_TOOL
+    Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = false
     try {
       const result = await LSPServer.Typescript.spawn("/tmp/any", fakeCtx, fakeFlags)
       expect(result).toBeUndefined()
     } finally {
-      Flag.KILO_EXPERIMENTAL_LSP_TOOL = saved
+      Flag.KAPPA_EXPERIMENTAL_LSP_TOOL = saved
     }
   })
   // kappacode_change end

@@ -21,8 +21,8 @@ import { InstanceBootstrap } from "../../src/project/bootstrap-service.ts"
 import { InstanceBootstrap as InstanceBootstrapNode } from "../../src/project/bootstrap.ts"
 
 // kappacode_change start - pin the client so client-keyed permission defaults stay deterministic
-// Without this, an ambient KILO_CLIENT (e.g. "jetbrains") changes the expected `edit` default.
-process.env["KILO_CLIENT"] = "cli"
+// Without this, an ambient KAPPA_CLIENT (e.g. "jetbrains") changes the expected `edit` default.
+process.env["KAPPA_CLIENT"] = "cli"
 // kappacode_change end
 
 const agentLayer = (flags: Partial<RuntimeFlags.Info> = {}) =>

@@ -28,7 +28,7 @@ describe("Kappa indexing auth resolution", () => {
         organizationId: "org_oauth",
       },
     )
-    expect(resolveKappaIndexingAuth({ env: { KILO_API_KEY: "env-token", KILO_ORG_ID: "org_env" } })).toEqual({
+    expect(resolveKappaIndexingAuth({ env: { KAPPA_API_KEY: "env-token", KAPPA_ORG_ID: "org_env" } })).toEqual({
       apiKey: "env-token",
       organizationId: "org_env",
     })

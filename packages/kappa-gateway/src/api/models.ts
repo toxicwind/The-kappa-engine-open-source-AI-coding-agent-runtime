@@ -2,7 +2,7 @@ import { z } from "zod"
 import { getKappaUrlFromToken } from "../auth/token.js"
 import { getDefaultHeaders, buildKappaHeaders } from "../headers.js"
 import { resolveKappaGatewayBaseUrl } from "./url.js"
-import { KILO_API_BASE, KILO_OPENROUTER_BASE, MODELS_FETCH_TIMEOUT_MS, PROMPTS, AI_SDK_PROVIDERS } from "./constants.js"
+import { KAPPA_API_BASE, KAPPA_OPENROUTER_BASE, MODELS_FETCH_TIMEOUT_MS, PROMPTS, AI_SDK_PROVIDERS } from "./constants.js"
 
 export type KappaModelsResult = {
   models: Record<string, any>
@@ -213,7 +213,7 @@ async function fetchRawKappaModels(options?: {
   const organizationId = options?.kappacodeOrganizationId
 
   // Construct base URL
-  const defaultBaseURL = organizationId ? `${KILO_API_BASE}/api/organizations/${organizationId}` : KILO_OPENROUTER_BASE
+  const defaultBaseURL = organizationId ? `${KAPPA_API_BASE}/api/organizations/${organizationId}` : KAPPA_OPENROUTER_BASE
 
   const baseURL = options?.baseURL ?? defaultBaseURL
 

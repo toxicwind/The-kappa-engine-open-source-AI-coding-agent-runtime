@@ -1,19 +1,19 @@
-// kappacode_change start - Tests for KILO_CONFIG_CONTENT merging
+// kappacode_change start - Tests for KAPPA_CONFIG_CONTENT merging
 import { describe, test, expect, beforeEach, afterEach } from "bun:test"
 import { buildConfigEnv } from "../src/server"
 
 describe("buildConfigEnv", () => {
-  const originalEnv = process.env.KILO_CONFIG_CONTENT
+  const originalEnv = process.env.KAPPA_CONFIG_CONTENT
 
   beforeEach(() => {
-    delete process.env.KILO_CONFIG_CONTENT
+    delete process.env.KAPPA_CONFIG_CONTENT
   })
 
   afterEach(() => {
     if (originalEnv === undefined) {
-      delete process.env.KILO_CONFIG_CONTENT
+      delete process.env.KAPPA_CONFIG_CONTENT
     } else {
-      process.env.KILO_CONFIG_CONTENT = originalEnv
+      process.env.KAPPA_CONFIG_CONTENT = originalEnv
     }
   })
 
@@ -40,9 +40,9 @@ describe("buildConfigEnv", () => {
     expect(parsed.agent).toEqual({ custom: { mode: "primary", prompt: "test" } })
   })
 
-  test("preserves existing KILO_CONFIG_CONTENT when spawning with new config", () => {
-    // Simulate Kappacode having injected modes via KILO_CONFIG_CONTENT
-    process.env.KILO_CONFIG_CONTENT = JSON.stringify({
+  test("preserves existing KAPPA_CONFIG_CONTENT when spawning with new config", () => {
+    // Simulate Kappacode having injected modes via KAPPA_CONFIG_CONTENT
+    process.env.KAPPA_CONFIG_CONTENT = JSON.stringify({
       agent: {
         translate: { mode: "primary", prompt: "You are a translator" },
       },
@@ -66,7 +66,7 @@ describe("buildConfigEnv", () => {
   })
 
   test("incoming config overrides existing config for same keys", () => {
-    process.env.KILO_CONFIG_CONTENT = JSON.stringify({
+    process.env.KAPPA_CONFIG_CONTENT = JSON.stringify({
       agent: { code: { mode: "primary", prompt: "Original prompt" } },
       model: "original-model",
     })
@@ -83,8 +83,8 @@ describe("buildConfigEnv", () => {
     expect(parsed.model).toBe("new-model")
   })
 
-  test("handles invalid JSON in existing KILO_CONFIG_CONTENT gracefully", () => {
-    process.env.KILO_CONFIG_CONTENT = "invalid json {"
+  test("handles invalid JSON in existing KAPPA_CONFIG_CONTENT gracefully", () => {
+    process.env.KAPPA_CONFIG_CONTENT = "invalid json {"
 
     const result = buildConfigEnv({
       agent: { test: { mode: "primary", prompt: "test" } },
@@ -96,7 +96,7 @@ describe("buildConfigEnv", () => {
   })
 
   test("merges plugins from both sources", () => {
-    process.env.KILO_CONFIG_CONTENT = JSON.stringify({
+    process.env.KAPPA_CONFIG_CONTENT = JSON.stringify({
       plugin: ["plugin-a", "plugin-b"],
     })
 

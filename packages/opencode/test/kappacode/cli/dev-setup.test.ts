@@ -53,22 +53,22 @@ describe("findRepoFrom", () => {
 })
 
 describe("detectRepo", () => {
-  test("honours KILO_DEV_REPO without touching the filesystem", async () => {
+  test("honours KAPPA_DEV_REPO without touching the filesystem", async () => {
     // Pointing at a path that does not exist — the hint must be returned as-is
-    // (this proves no walk happens when KILO_DEV_REPO is set).
+    // (this proves no walk happens when KAPPA_DEV_REPO is set).
     const hint = "/definitely/does/not/exist/kappa-repo"
-    const got = await withEnv("KILO_DEV_REPO", hint, () => detectRepo())
+    const got = await withEnv("KAPPA_DEV_REPO", hint, () => detectRepo())
     expect(got).toBe(hint)
   })
 
-  test("KILO_DEV_REPO wins over the filesystem walk", async () => {
-    // Build a synthetic repo, point KILO_DEV_REPO at it, and run from an
+  test("KAPPA_DEV_REPO wins over the filesystem walk", async () => {
+    // Build a synthetic repo, point KAPPA_DEV_REPO at it, and run from an
     // unrelated cwd. Even though the walk from cwd (inside the real kappa
     // checkout) would succeed, the hint must take priority.
     await using tmp = await tmpdir()
     await makeSynthRepo(tmp.path)
 
-    const got = await withEnv("KILO_DEV_REPO", tmp.path, () => detectRepo())
+    const got = await withEnv("KAPPA_DEV_REPO", tmp.path, () => detectRepo())
     expect(got).toBe(tmp.path)
   })
 })

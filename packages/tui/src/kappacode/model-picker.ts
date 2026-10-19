@@ -15,7 +15,7 @@
 import * as fuzzysort from "fuzzysort"
 import { entries, filter, flatMap, groupBy, map, pipe, sortBy } from "remeda"
 
-export const KILO_PROVIDER_ID = "kappa"
+export const KAPPA_PROVIDER_ID = "kappa"
 export const RECOMMENDED_CATEGORY = "Recommended"
 
 export interface ModelPickerRef {
@@ -157,7 +157,7 @@ export function buildModelPickerOptions<M extends ModelPickerModel>(
               ? "(Favorite)"
               : undefined,
             category: connected
-              ? provider.id === KILO_PROVIDER_ID && model.recommendedIndex !== undefined
+              ? provider.id === KAPPA_PROVIDER_ID && model.recommendedIndex !== undefined
                 ? RECOMMENDED_CATEGORY
                 : provider.name
               : undefined,

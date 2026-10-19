@@ -54,7 +54,7 @@ const DEFAULT_TIMEOUT = 30_000
  * and either would fire the bound on the next tick and fail every call at startup.
  */
 function timeout() {
-  const value = Number(process.env["KILO_RPC_HANDSHAKE_TIMEOUT"])
+  const value = Number(process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"])
   return Number.isFinite(value) && value > 0 ? value : DEFAULT_TIMEOUT
 }
 

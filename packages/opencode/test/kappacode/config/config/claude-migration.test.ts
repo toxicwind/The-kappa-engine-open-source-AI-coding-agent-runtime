@@ -248,7 +248,7 @@ describe("Claude global configuration migration", () => {
   })
 
   test("does not claim an attempt when disabled or custom-routed", async () => {
-    const keys = ["CLAUDE_CONFIG_DIR", "KILO_CONFIG_DIR", "KILO_CONFIG", "KILO_CONFIG_CONTENT"]
+    const keys = ["CLAUDE_CONFIG_DIR", "KAPPA_CONFIG_DIR", "KAPPA_CONFIG", "KAPPA_CONFIG_CONTENT"]
     await using tmp = await tmpdir()
     const roots = {
       home: path.join(tmp.path, "home"),

@@ -107,7 +107,7 @@ const write = [
   "git -C /repo reset --hard HEAD",
   "git unknown-subcommand",
   "GIT_INDEX_FILE=/tmp/index git commit -m message",
-  "KILO_TEST=1 GIT_INDEX_FILE=/tmp/index git add src/index.ts",
+  "KAPPA_TEST=1 GIT_INDEX_FILE=/tmp/index git add src/index.ts",
 ]
 
 describe("sandbox Git mutation classification", () => {

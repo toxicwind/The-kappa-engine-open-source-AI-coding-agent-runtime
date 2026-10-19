@@ -4,7 +4,7 @@ import {
   buildTriggerLabel,
   stripSubProviderPrefix,
   sanitizeName,
-  KILO_GATEWAY_ID,
+  KAPPA_GATEWAY_ID,
   PROVIDER_ORDER,
   freeDataLabel,
   isDataCollectedModel,
@@ -22,7 +22,7 @@ const labels = { select: "Select model", noProviders: "No providers", notSet: "N
 
 describe("providerSortKey", () => {
   it("returns 0 for kappa gateway", () => {
-    expect(providerSortKey(KILO_GATEWAY_ID)).toBe(0)
+    expect(providerSortKey(KAPPA_GATEWAY_ID)).toBe(0)
   })
 
   it("returns correct index for known providers", () => {
@@ -120,10 +120,10 @@ describe("isFree", () => {
 
 describe("isAuto", () => {
   it("matches only Kappa Auto model ids", () => {
-    expect(isAuto({ providerID: KILO_GATEWAY_ID, id: "kappa-auto/efficient" })).toBe(true)
-    expect(isAuto({ providerID: KILO_GATEWAY_ID, id: "auto-small" })).toBe(true)
+    expect(isAuto({ providerID: KAPPA_GATEWAY_ID, id: "kappa-auto/efficient" })).toBe(true)
+    expect(isAuto({ providerID: KAPPA_GATEWAY_ID, id: "auto-small" })).toBe(true)
     expect(isAuto({ providerID: "anthropic", id: "kappa-auto/efficient" })).toBe(false)
-    expect(isAuto({ providerID: KILO_GATEWAY_ID, id: "anthropic/claude-sonnet" })).toBe(false)
+    expect(isAuto({ providerID: KAPPA_GATEWAY_ID, id: "anthropic/claude-sonnet" })).toBe(false)
   })
 })
 
@@ -132,7 +132,7 @@ describe("autoChoices", () => {
     expect(
       autoChoices(
         {
-          providerID: KILO_GATEWAY_ID,
+          providerID: KAPPA_GATEWAY_ID,
           id: "kappa-auto/efficient",
           autoRouting: { models: ["provider/model", "missing/model"] },
         },
@@ -148,7 +148,7 @@ describe("autoChoices", () => {
     expect(
       autoChoices(
         {
-          providerID: KILO_GATEWAY_ID,
+          providerID: KAPPA_GATEWAY_ID,
           id: "kappa-auto/frontier",
           autoRouting: { models: ["provider/model"] },
         },
@@ -157,7 +157,7 @@ describe("autoChoices", () => {
     ).toEqual([{ id: "provider/model", name: "Model" }])
     expect(
       autoChoices({
-        providerID: KILO_GATEWAY_ID,
+        providerID: KAPPA_GATEWAY_ID,
         id: "kappa-auto/free",
         autoRouting: { models: ["provider/model"] },
       }),
@@ -165,10 +165,10 @@ describe("autoChoices", () => {
   })
 
   it("ignores missing routes and non-Auto models", () => {
-    expect(autoChoices({ providerID: KILO_GATEWAY_ID, id: "kappa-auto/efficient" })).toEqual([])
+    expect(autoChoices({ providerID: KAPPA_GATEWAY_ID, id: "kappa-auto/efficient" })).toEqual([])
     expect(
       autoChoices({
-        providerID: KILO_GATEWAY_ID,
+        providerID: KAPPA_GATEWAY_ID,
         id: "anthropic/claude-sonnet",
         autoRouting: { models: ["provider/model"] },
       }),
@@ -264,7 +264,7 @@ describe("buildTriggerLabel", () => {
   })
 
   it("strips sub-provider prefix from resolved name for kappa gateway models", () => {
-    expect(buildTriggerLabel("Anthropic: Claude Sonnet", KILO_GATEWAY_ID, null, false, "", true, labels)).toBe(
+    expect(buildTriggerLabel("Anthropic: Claude Sonnet", KAPPA_GATEWAY_ID, null, false, "", true, labels)).toBe(
       "Claude Sonnet",
     )
   })

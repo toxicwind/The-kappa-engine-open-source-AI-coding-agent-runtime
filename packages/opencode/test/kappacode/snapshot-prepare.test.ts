@@ -332,7 +332,7 @@ it.live(
             await $`git commit -m baseline`.cwd(dir).quiet()
           }),
       })
-      const previous = process.env["KILO_SNAPSHOT_MATERIALIZE_IDLE_MS"]
+      const previous = process.env["KAPPA_SNAPSHOT_MATERIALIZE_IDLE_MS"]
       // The quiet period has to outlast the gap between the two snapshots with room to
       // spare. The second snapshot must land while the first wait is still pending (a
       // materialization that has already started is not restarted), and the "restarted"
@@ -340,7 +340,7 @@ it.live(
       // 1.5s period left a 500ms margin there, so a loaded CI host that spent longer than
       // that tracking the second snapshot failed this test.
       const idle = 4500
-      process.env["KILO_SNAPSHOT_MATERIALIZE_IDLE_MS"] = String(idle)
+      process.env["KAPPA_SNAPSHOT_MATERIALIZE_IDLE_MS"] = String(idle)
       yield* Effect.gen(function* () {
         const snapshot = yield* Snapshot.Service
         const ctx = yield* InstanceState.context
@@ -371,8 +371,8 @@ it.live(
         provideInstance(dir),
         Effect.ensuring(
           Effect.sync(() => {
-            if (previous === undefined) delete process.env["KILO_SNAPSHOT_MATERIALIZE_IDLE_MS"]
-            if (previous !== undefined) process.env["KILO_SNAPSHOT_MATERIALIZE_IDLE_MS"] = previous
+            if (previous === undefined) delete process.env["KAPPA_SNAPSHOT_MATERIALIZE_IDLE_MS"]
+            if (previous !== undefined) process.env["KAPPA_SNAPSHOT_MATERIALIZE_IDLE_MS"] = previous
           }),
         ),
       )

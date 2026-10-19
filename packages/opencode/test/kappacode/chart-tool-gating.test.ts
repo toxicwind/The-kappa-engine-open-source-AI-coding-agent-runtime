@@ -22,13 +22,13 @@ const tools = {
 }
 
 function ids(client: string) {
-  const prev = process.env.KILO_CLIENT
+  const prev = process.env.KAPPA_CLIENT
   try {
-    process.env.KILO_CLIENT = client
+    process.env.KAPPA_CLIENT = client
     return KappaToolRegistry.extra(tools, {}, { experimentalSharedAgentBoard: false }).map((t) => t.id)
   } finally {
-    if (prev === undefined) delete process.env.KILO_CLIENT
-    else process.env.KILO_CLIENT = prev
+    if (prev === undefined) delete process.env.KAPPA_CLIENT
+    else process.env.KAPPA_CLIENT = prev
   }
 }
 

@@ -286,7 +286,7 @@ function isBunfsPath(p: string): boolean {
 
 // Exported for test coverage.
 export async function detectRepo(): Promise<string> {
-  const hint = process.env.KILO_DEV_REPO
+  const hint = process.env.KAPPA_DEV_REPO
   if (hint) return hint
 
   const candidates: string[] = []
@@ -312,6 +312,6 @@ export async function detectRepo(): Promise<string> {
   }
 
   throw new Error(
-    "cannot locate kappacode source checkout; set KILO_DEV_REPO=/path/to/kappacode or run ./bin/kappadev dev-setup from the repo",
+    "cannot locate kappacode source checkout; set KAPPA_DEV_REPO=/path/to/kappacode or run ./bin/kappadev dev-setup from the repo",
   )
 }

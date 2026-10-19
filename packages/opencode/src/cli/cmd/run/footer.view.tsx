@@ -28,7 +28,7 @@ import { RunPermissionBody } from "./footer.permission.tsx"
 import { RunQuestionBody } from "./footer.question.tsx"
 import { footerWidthPolicy } from "./footer.width.ts"
 import {
-  KILO_BASE_MODE,
+  KAPPA_BASE_MODE,
   formatKeyBindings,
   formatKeySequence,
   useBindings,
@@ -498,7 +498,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   })
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && !composer.visible(),
     commands: [
       {
@@ -521,7 +521,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && foregroundSubagents(),
     priority: 1,
     commands: [
@@ -536,7 +536,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && tabs().length > 0,
     commands: [
       {
@@ -550,7 +550,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && queuedPrompts().length > 0,
     commands: [
       {

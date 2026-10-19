@@ -5,10 +5,10 @@ import os from "os"
 export namespace RulesMigrator {
   // Only support .kappacoderules (no migration for .roorules or .clinerules)
   const LEGACY_RULE_FILE = ".kappacoderules"
-  const home = () => process.env.KILO_TEST_HOME || process.env.HOME || process.env.USERPROFILE || os.homedir()
+  const home = () => process.env.KAPPA_TEST_HOME || process.env.HOME || process.env.USERPROFILE || os.homedir()
 
   // Directory-based rules (read from both .kappa and .kappacode)
-  const KILO_RULES_DIRS = [".kappa/rules", ".kappacode/rules"]
+  const KAPPA_RULES_DIRS = [".kappa/rules", ".kappacode/rules"]
   const globalRulesDirs = () => [path.join(home(), ".kappa", "rules"), path.join(home(), ".kappacode", "rules")]
 
   // Known modes for mode-specific rule discovery
@@ -65,7 +65,7 @@ export namespace RulesMigrator {
 
     // 2. Project .kappa/rules/ and .kappacode/rules/ directories
     const seen = new Set<string>()
-    for (const rulesRel of KILO_RULES_DIRS) {
+    for (const rulesRel of KAPPA_RULES_DIRS) {
       const projectRulesDir = path.join(projectDir, rulesRel)
       if (await isDirectory(projectRulesDir)) {
         const files = await findMarkdownFiles(projectRulesDir)

@@ -7,7 +7,7 @@ import * as Global from "../global"
 import { Schema } from "effect"
 import { Glob } from "./glob"
 import { createStream } from "rotating-file-stream" // kappacode_change
-import { KILO_RUN_ID } from "./opencode-process" // kappacode_change
+import { KAPPA_RUN_ID } from "./opencode-process" // kappacode_change
 
 export const Level = Schema.Literals(["DEBUG", "INFO", "WARN", "ERROR"]).annotate({
   identifier: "LogLevel",
@@ -22,7 +22,7 @@ const levelPriority: Record<Level, number> = {
   ERROR: 3,
 }
 const keep = 10
-const initializedRunID = "KILO_LOG_INITIALIZED_RUN_ID"
+const initializedRunID = "KAPPA_LOG_INITIALIZED_RUN_ID"
 
 let level: Level = "INFO"
 
@@ -84,7 +84,7 @@ export async function init(options: Options) {
     Global.Path.log,
     options.dev ? "dev.log" : new Date().toISOString().split(".")[0].replace(/:/g, "") + ".log",
   )
-  const run = process.env[KILO_RUN_ID]
+  const run = process.env[KAPPA_RUN_ID]
   if (!options.dev || !run || process.env[initializedRunID] !== run) {
     await fs.truncate(logpath).catch(() => {})
     if (options.dev && run) process.env[initializedRunID] = run

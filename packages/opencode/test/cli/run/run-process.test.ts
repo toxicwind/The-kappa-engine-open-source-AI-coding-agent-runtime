@@ -2,7 +2,7 @@
 // These exercise the real CLI binary against a TestLLMServer running in the
 // same process. See `test/lib/cli-process.ts` for the harness — each test uses
 // `opencode.run(message, opts?)` to spawn `bun src/index.ts run ...` with
-// `KILO_CONFIG_CONTENT` providing the test provider config inline.
+// `KAPPA_CONFIG_CONTENT` providing the test provider config inline.
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
 import { createKappaClient } from "@kappacode/sdk/v2" // kappacode_change

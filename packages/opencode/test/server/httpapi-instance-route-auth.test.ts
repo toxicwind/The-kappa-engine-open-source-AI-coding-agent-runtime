@@ -18,9 +18,9 @@ function app(input: { password?: string; username?: string }) {
           // @parcel/watcher Windows backend does not subscribe on temp dirs that
           // the tmpdir fixture deletes mid-test (throws "Invalid handle").
           ConfigProvider.fromUnknown({
-            KILO_SERVER_PASSWORD: input.password,
-            KILO_SERVER_USERNAME: input.username,
-            KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+            KAPPA_SERVER_PASSWORD: input.password,
+            KAPPA_SERVER_USERNAME: input.username,
+            KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
           }),
           // kappacode_change end
         ),

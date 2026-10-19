@@ -177,13 +177,13 @@ const layer = Layer.effect(
         ...process.env,
         ...input.env,
         TERM: "xterm-256color",
-        KILO_TERMINAL: "1",
-        KILO_PTY_ID: id, // kappacode_change - let nested Kappa processes identify their parent terminal
+        KAPPA_TERMINAL: "1",
+        KAPPA_PTY_ID: id, // kappacode_change - let nested Kappa processes identify their parent terminal
       } as Record<string, string>
       // kappacode_change start - do not expose local server credentials to user terminals.
       // node-pty inherits parent values for omitted keys, so empty tombstones are required.
-      env.KILO_SERVER_PASSWORD = ""
-      env.KILO_SERVER_USERNAME = ""
+      env.KAPPA_SERVER_PASSWORD = ""
+      env.KAPPA_SERVER_USERNAME = ""
       // kappacode_change end
       if (process.platform === "win32") {
         env.LC_ALL = "C.UTF-8"

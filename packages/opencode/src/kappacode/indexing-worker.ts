@@ -44,7 +44,7 @@ async function dispose(key: string) {
 
 async function init(request: Extract<Request, { method: "init" }>) {
   await dispose(request.key)
-  if (request.input.lancedbPath) process.env.KILO_LANCEDB_PATH = request.input.lancedbPath
+  if (request.input.lancedbPath) process.env.KAPPA_LANCEDB_PATH = request.input.lancedbPath
   const [engine, status] = await Promise.all([
     import("@kappacode/kappa-indexing/engine"),
     import("@kappacode/kappa-indexing/status"),

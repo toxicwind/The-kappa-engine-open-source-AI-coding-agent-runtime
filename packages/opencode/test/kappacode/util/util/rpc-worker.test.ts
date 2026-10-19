@@ -73,8 +73,8 @@ describe("worker rpc against a real worker", () => {
 
   test("reports readiness as false when the worker stays blocked", async () => {
     using fixture = await gated()
-    const previous = process.env["KILO_RPC_HANDSHAKE_TIMEOUT"]
-    process.env["KILO_RPC_HANDSHAKE_TIMEOUT"] = "200"
+    const previous = process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"]
+    process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"] = "200"
     try {
       // Gate is never released, so the worker never installs its handler.
       const client = KappaRpc.client<{ ping: (input: string) => string }>(fixture.worker)
@@ -91,8 +91,8 @@ describe("worker rpc against a real worker", () => {
 
       expect(outcome).toMatch(/never became ready/)
     } finally {
-      if (previous === undefined) delete process.env["KILO_RPC_HANDSHAKE_TIMEOUT"]
-      if (previous !== undefined) process.env["KILO_RPC_HANDSHAKE_TIMEOUT"] = previous
+      if (previous === undefined) delete process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"]
+      if (previous !== undefined) process.env["KAPPA_RPC_HANDSHAKE_TIMEOUT"] = previous
     }
   }, 20_000)
 })

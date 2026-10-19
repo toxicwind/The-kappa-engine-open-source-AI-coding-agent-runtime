@@ -8,16 +8,16 @@ const log = Log.create({ service: "parent-watchdog" })
  * Editor clients (VS Code extension, JetBrains plugin) run `kappa serve` as a child
  * process. A graceful client shutdown signals the server, but a hard kill (SIGKILL,
  * crash, OOM) never gets the chance, orphaning the server. The client passes its own
- * PID via `KILO_PARENT_PID`; we poll that PID and re-parenting so the server shuts
+ * PID via `KAPPA_PARENT_PID`; we poll that PID and re-parenting so the server shuts
  * itself down when the client is gone.
  *
- * No-op unless `KILO_PARENT_PID` is set to a valid PID, so a manually launched
+ * No-op unless `KAPPA_PARENT_PID` is set to a valid PID, so a manually launched
  * `kappa serve` (whose parent shell exiting may be intentional) is never affected.
  *
  * Returns a function that stops the watchdog.
  */
 export function startParentWatchdog(onOrphan: () => void, intervalMs = 1000): () => void {
-  const configured = Number(process.env["KILO_PARENT_PID"])
+  const configured = Number(process.env["KAPPA_PARENT_PID"])
   if (!Number.isInteger(configured) || configured <= 0) return () => {}
   const initial = process.ppid
   log.info("watching parent process", { parent: configured, ppid: initial, intervalMs })

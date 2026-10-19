@@ -8,10 +8,10 @@ import { remove } from "./cleanup.ts"
 const root = path.resolve(import.meta.dir, "../..")
 
 function env(marker: string) {
-  const vars: NodeJS.ProcessEnv = { ...process.env, KILO_TEST_RUNNER_PID_FILE: marker }
-  delete vars.KILO_TEST_PROFILE
-  delete vars.KILO_TEST_SHARD
-  delete vars.KILO_TEST_CLI_PATH
+  const vars: NodeJS.ProcessEnv = { ...process.env, KAPPA_TEST_RUNNER_PID_FILE: marker }
+  delete vars.KAPPA_TEST_PROFILE
+  delete vars.KAPPA_TEST_SHARD
+  delete vars.KAPPA_TEST_CLI_PATH
   return vars
 }
 
@@ -45,8 +45,8 @@ describe("test runner cleanup", () => {
       const marker = path.join(tmp.path, "pid")
       const state = { pid: 0 }
       const src = [
-        "const marker = process.env.KILO_TEST_RUNNER_PID_FILE",
-        'if (!marker) throw new Error("KILO_TEST_RUNNER_PID_FILE is required")',
+        "const marker = process.env.KAPPA_TEST_RUNNER_PID_FILE",
+        'if (!marker) throw new Error("KAPPA_TEST_RUNNER_PID_FILE is required")',
         "await Bun.write(marker, String(process.pid))",
         "process.exit(1)",
         "",
@@ -87,8 +87,8 @@ describe("test runner cleanup", () => {
       const marker = path.join(tmp.path, "pid")
       const state = { pid: 0 }
       const src = [
-        "const marker = process.env.KILO_TEST_RUNNER_PID_FILE",
-        'if (!marker) throw new Error("KILO_TEST_RUNNER_PID_FILE is required")',
+        "const marker = process.env.KAPPA_TEST_RUNNER_PID_FILE",
+        'if (!marker) throw new Error("KAPPA_TEST_RUNNER_PID_FILE is required")',
         "await Bun.write(marker, String(process.pid))",
         "const parent = process.ppid",
         "setInterval(() => process.ppid === parent || process.exit(1), 50)",
@@ -130,8 +130,8 @@ describe("test runner cleanup", () => {
     const file = path.join(import.meta.dir, name)
     const marker = path.join(tmp.path, "pid")
     const src = [
-      "const marker = process.env.KILO_TEST_RUNNER_PID_FILE",
-      'if (!marker) throw new Error("KILO_TEST_RUNNER_PID_FILE is required")',
+      "const marker = process.env.KAPPA_TEST_RUNNER_PID_FILE",
+      'if (!marker) throw new Error("KAPPA_TEST_RUNNER_PID_FILE is required")',
       'const child = Bun.spawn([process.execPath, "-e", "await Bun.sleep(60000)"], { stdout: "inherit", stderr: "inherit" })',
       "await Bun.write(marker, String(child.pid))",
       "await Bun.sleep(60_000)",
@@ -178,8 +178,8 @@ describe("test runner cleanup", () => {
       const file = path.join(import.meta.dir, name)
       const marker = path.join(tmp.path, "pid")
       const src = [
-        "const marker = process.env.KILO_TEST_RUNNER_PID_FILE",
-        'if (!marker) throw new Error("KILO_TEST_RUNNER_PID_FILE is required")',
+        "const marker = process.env.KAPPA_TEST_RUNNER_PID_FILE",
+        'if (!marker) throw new Error("KAPPA_TEST_RUNNER_PID_FILE is required")',
         'const child = Bun.spawn([process.execPath, "-e", "await Bun.sleep(60000)"], { stdout: "inherit", stderr: "inherit" })',
         "await Bun.write(marker, String(child.pid))",
         "",

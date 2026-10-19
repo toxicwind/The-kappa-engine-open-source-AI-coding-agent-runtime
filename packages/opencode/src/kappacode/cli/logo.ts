@@ -1,7 +1,7 @@
 // kappacode_change - new file
 // Kappa CLI logo variants.
 // Selection: modern (box-drawing) > plain (hard-block) > fallback (CP437 drop shadows).
-// KILO_UNICODE_LOGO env override preserved.
+// KAPPA_UNICODE_LOGO env override preserved.
 
 /**
  * Option 1: modern — 7-row ANSI Shadow KAPPA with zero trailing text.
@@ -61,7 +61,7 @@ function windows(env: NodeJS.ProcessEnv) {
 }
 
 export function supports(env = process.env, platform = process.platform) {
-  const override = flag(env.KILO_UNICODE_LOGO)
+  const override = flag(env.KAPPA_UNICODE_LOGO)
   if (override !== undefined) return override
   if (env.TERM === "dumb") return false
   // Old Windows Console Host cannot render box-drawing/sextant glyphs reliably.

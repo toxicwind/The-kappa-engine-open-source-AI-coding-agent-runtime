@@ -115,9 +115,9 @@ The selection applies to automatic and manual compaction without changing your c
 
 | Variable | Effect |
 |---|---|
-| `KILO_DISABLE_AUTOCOMPACT=1` | Forces `compaction.auto = false` |
-| `KILO_DISABLE_PRUNE=1` | Forces `compaction.prune = false` |
-| `KILO_EXPERIMENTAL_OUTPUT_TOKEN_MAX` | Overrides the 32,000 default output-token ceiling |
+| `KAPPA_DISABLE_AUTOCOMPACT=1` | Forces `compaction.auto = false` |
+| `KAPPA_DISABLE_PRUNE=1` | Forces `compaction.prune = false` |
+| `KAPPA_EXPERIMENTAL_OUTPUT_TOKEN_MAX` | Overrides the 32,000 default output-token ceiling |
 
 {% /tab %}
 {% tab label="CLI" %}
@@ -214,9 +214,9 @@ If no compaction agent is set, the current session's model is used.
 
 | Variable | Effect |
 |---|---|
-| `KILO_DISABLE_AUTOCOMPACT=1` | Forces `compaction.auto = false` |
-| `KILO_DISABLE_PRUNE=1` | Forces `compaction.prune = false` |
-| `KILO_EXPERIMENTAL_OUTPUT_TOKEN_MAX` | Overrides the 32,000 default output-token ceiling |
+| `KAPPA_DISABLE_AUTOCOMPACT=1` | Forces `compaction.auto = false` |
+| `KAPPA_DISABLE_PRUNE=1` | Forces `compaction.prune = false` |
+| `KAPPA_EXPERIMENTAL_OUTPUT_TOKEN_MAX` | Overrides the 32,000 default output-token ceiling |
 
 {% /tab %}
 {% /tabs %}

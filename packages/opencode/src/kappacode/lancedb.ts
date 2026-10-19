@@ -1,7 +1,7 @@
 import { Npm } from "@opencode-ai/core/npm"
 
 export namespace LanceDBRuntime {
-  export const env = "KILO_LANCEDB_PATH"
+  export const env = "KAPPA_LANCEDB_PATH"
   export const pkg = "@lancedb/lancedb"
   export const version = "0.26.2"
   export const external = [

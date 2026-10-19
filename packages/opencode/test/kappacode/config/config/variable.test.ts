@@ -86,14 +86,14 @@ test("rejects server credential environment substitutions", async () => {
   await expect(
     ConfigVariable.substitute({
       ...trusted,
-      text: "password={env:KILO_SERVER_PASSWORD}",
-      env: { KILO_SERVER_PASSWORD: "secret" },
+      text: "password={env:KAPPA_SERVER_PASSWORD}",
+      env: { KAPPA_SERVER_PASSWORD: "secret" },
     }),
   ).rejects.toBeInstanceOf(InvalidError)
 })
 
 test("rejects browser broker environment substitutions", async () => {
-  for (const key of ["KILO_BROWSER_BROKER_URL", "KILO_BROWSER_BROKER_TOKEN"]) {
+  for (const key of ["KAPPA_BROWSER_BROKER_URL", "KAPPA_BROWSER_BROKER_TOKEN"]) {
     await expect(
       ConfigVariable.substitute({
         ...trusted,

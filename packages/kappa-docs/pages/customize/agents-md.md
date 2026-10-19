@@ -179,7 +179,7 @@ In the new platform, AGENTS.md is loaded alongside other instruction sources. Th
 AGENTS.md is loaded automatically. To disable external skill directories (`.claude/skills/`, `.agents/skills/`), set the environment variable:
 
 ```bash
-export KILO_DISABLE_EXTERNAL_SKILLS=true
+export KAPPA_DISABLE_EXTERNAL_SKILLS=true
 ```
 
 AGENTS.md itself cannot be individually disabled — it is always loaded if present. To override its instructions, use higher-priority sources like the `instructions` config key or agent-specific prompts.
@@ -190,7 +190,7 @@ AGENTS.md itself cannot be individually disabled — it is always loaded if pres
 AGENTS.md is loaded automatically. To disable external skill directories (`.claude/skills/`, `.agents/skills/`), set the environment variable:
 
 ```bash
-export KILO_DISABLE_EXTERNAL_SKILLS=true
+export KAPPA_DISABLE_EXTERNAL_SKILLS=true
 ```
 
 AGENTS.md itself cannot be individually disabled — it is always loaded if present. To override its instructions, use higher-priority sources like the `instructions` config key or agent-specific prompts.

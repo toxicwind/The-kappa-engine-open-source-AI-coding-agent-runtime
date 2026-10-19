@@ -18,15 +18,15 @@ import fs from "node:fs"
 import path from "node:path"
 
 const MONOREPO_ROOT = path.resolve(import.meta.dir, "../../../..")
-const KILO_UI_DIR = path.join(MONOREPO_ROOT, "packages/kappa-ui")
+const KAPPA_UI_DIR = path.join(MONOREPO_ROOT, "packages/kappa-ui")
 const WORKER_URL = path.join(MONOREPO_ROOT, "packages/kappa-vscode/tests/setup/worker-url.ts")
 const BASIC_TOOL_FILE = path.join(MONOREPO_ROOT, "packages/ui/src/components/basic-tool.tsx")
 const DATA_CONTEXT_FILE = path.join(MONOREPO_ROOT, "packages/ui/src/context/data.tsx")
 const MESSAGE_PART_FILE = path.join(MONOREPO_ROOT, "packages/ui/src/components/message-part.tsx")
-const KILO_MESSAGE_PART_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/message-part.tsx")
-const KILO_MESSAGE_HIGHLIGHT_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/message-highlight.ts")
-const KILO_BASIC_TOOL_CSS_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/basic-tool.css")
-const KILO_MESSAGE_PART_CSS_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/message-part.css")
+const KAPPA_MESSAGE_PART_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/message-part.tsx")
+const KAPPA_MESSAGE_HIGHLIGHT_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/message-highlight.ts")
+const KAPPA_BASIC_TOOL_CSS_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/basic-tool.css")
+const KAPPA_MESSAGE_PART_CSS_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/message-part.css")
 const SHELL_ROLLING_FILE = path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/shell-rolling-results.tsx")
 const ASSISTANT_MESSAGE_FILE = path.join(
   MONOREPO_ROOT,
@@ -46,7 +46,7 @@ const CHAT_LAYOUT_FILE = path.join(MONOREPO_ROOT, "packages/kappa-vscode/webview
 
 function check(code: string): { ok: boolean; output: string } {
   const result = Bun.spawnSync(["bun", "--preload", WORKER_URL, "--conditions=browser", "-e", code], {
-    cwd: KILO_UI_DIR,
+    cwd: KAPPA_UI_DIR,
     stdout: "pipe",
     stderr: "pipe",
   })
@@ -159,7 +159,7 @@ describe("DataProvider contract (runtime)", () => {
 })
 
 describe("Assistant Markdown streaming contract (source)", () => {
-  const src = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+  const src = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
   const block =
     src.match(
       /PART_MAPPING\["text"\]\s*=\s*function TextPartDisplay[\s\S]*?(?=\/\/ Expanded mode|PART_MAPPING\["reasoning"\])/,
@@ -172,7 +172,7 @@ describe("Assistant Markdown streaming contract (source)", () => {
 })
 
 describe("Edit tool diff-first click contract (source)", () => {
-  const src = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+  const src = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
 
   const editBlockMatch = src.match(/ToolRegistry\.register\(\{\s*name:\s*"edit"[\s\S]*?(?=ToolRegistry\.register\(|$)/)
   const editBlock = editBlockMatch?.[0] ?? ""
@@ -190,7 +190,7 @@ describe("Edit tool diff-first click contract (source)", () => {
 })
 
 describe("Write and apply_patch patch rendering contracts (source)", () => {
-  const src = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+  const src = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
   const writeBlock =
     src.match(/ToolRegistry\.register\(\{\s*name:\s*"write"[\s\S]*?(?=ToolRegistry\.register\(|$)/)?.[0] ?? ""
   const patchBlock =
@@ -238,7 +238,7 @@ describe("Write and apply_patch patch rendering contracts (source)", () => {
 })
 
 describe("Bash tool static terminal preview (source)", () => {
-  const src = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+  const src = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
   const block =
     src.match(/ToolRegistry\.register\(\{\s*name:\s*"bash"[\s\S]*?(?=ToolRegistry\.register\(|$)/)?.[0] ?? ""
 
@@ -304,7 +304,7 @@ describe("Bash tool static terminal preview (source)", () => {
 describe("Expanded tool motion and typography (source)", () => {
   const reasoning =
     fs
-      .readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+      .readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
       .match(/PART_MAPPING\["reasoning"\][\s\S]*?(?=\nfunction WebfetchMeta)/)?.[0] ?? ""
 
   it("animates completed rolling shell details", () => {
@@ -315,7 +315,7 @@ describe("Expanded tool motion and typography (source)", () => {
   })
 
   it("uses the assistant markdown line-height ratio for reasoning output", () => {
-    const css = fs.readFileSync(KILO_MESSAGE_PART_CSS_FILE, "utf-8")
+    const css = fs.readFileSync(KAPPA_MESSAGE_PART_CSS_FILE, "utf-8")
     const block = css.match(
       /html\[data-theme="kappa-vscode"\] \[data-component="reasoning-part"\][\s\S]*?(?=@keyframes reasoning-pulse)/,
     )?.[0]
@@ -331,7 +331,7 @@ describe("Expanded tool motion and typography (source)", () => {
   })
 
   it("keeps the reasoning viewport capped until a manual open", () => {
-    const css = fs.readFileSync(KILO_MESSAGE_PART_CSS_FILE, "utf-8")
+    const css = fs.readFileSync(KAPPA_MESSAGE_PART_CSS_FILE, "utf-8")
     const cap = css.match(
       /\[data-component="reasoning-part"\]\[data-auto-collapse\]:not\(\[data-manual\]\)\s+\[data-slot="reasoning-content"\]\s*\{[^}]*\}/,
     )?.[0]
@@ -357,7 +357,7 @@ describe("Expanded tool motion and typography (source)", () => {
   })
 
   it("does not smooth streaming reasoning scroll updates", () => {
-    const css = fs.readFileSync(KILO_MESSAGE_PART_CSS_FILE, "utf-8")
+    const css = fs.readFileSync(KAPPA_MESSAGE_PART_CSS_FILE, "utf-8")
     expect(css).not.toContain("scroll-behavior: smooth")
   })
 
@@ -384,8 +384,8 @@ describe("Expanded tool motion and typography (source)", () => {
 })
 
 describe("HighlightedText @mention regex fallback and click handler (source)", () => {
-  const src = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
-  const helper = fs.readFileSync(KILO_MESSAGE_HIGHLIGHT_FILE, "utf-8")
+  const src = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
+  const helper = fs.readFileSync(KAPPA_MESSAGE_HIGHLIGHT_FILE, "utf-8")
 
   it("detects @path patterns via regex when source offsets are missing", () => {
     // detect is the regex fallback for when the backend doesn't populate FilePart.source.text.{start,end}
@@ -450,15 +450,15 @@ describe("AssistantMessage visible row contract (source)", () => {
   })
 
   it("uses the native recall tool without a separate memory badge", () => {
-    const tools = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+    const tools = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
     expect(src).not.toContain("assistant-memory-badge")
     expect(tools).toContain("ToolRegistry.render(part.tool) ?? McpTool")
   })
 })
 
 describe("Native tool summary contract (source)", () => {
-  const tools = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
-  const css = fs.readFileSync(KILO_BASIC_TOOL_CSS_FILE, "utf-8")
+  const tools = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
+  const css = fs.readFileSync(KAPPA_BASIC_TOOL_CSS_FILE, "utf-8")
 
   it("shows one secondary argument while preserving complete expanded input", () => {
     const start = tools.indexOf("const inputArgs")
@@ -533,7 +533,7 @@ describe("BasicTool export contract (runtime)", () => {
 })
 
 describe("Read tool file link contract (source)", () => {
-  const message = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+  const message = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
 
   it("opens the input file from the custom trigger detail", () => {
     expect(message).toMatch(/name:\s*"read"[\s\S]*?<ToolTriggerRow[\s\S]*?onClick=/)
@@ -543,7 +543,7 @@ describe("Read tool file link contract (source)", () => {
 
 describe("Collapsed deferred tool details contract (source)", () => {
   const basic = fs.readFileSync(BASIC_TOOL_FILE, "utf-8")
-  const message = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
+  const message = fs.readFileSync(KAPPA_MESSAGE_PART_FILE, "utf-8")
 
   it("uses an explicit details hint before touching deferred children", () => {
     expect(basic).toContain("hasDetails?: boolean")
@@ -575,11 +575,8 @@ describe("Collapsed deferred tool details contract (source)", () => {
 describe("Deferred tool card remount contract (source)", () => {
   const basic = fs.readFileSync(BASIC_TOOL_FILE, "utf-8")
   const wrapper = fs.readFileSync(path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/basic-tool.tsx"), "utf-8")
-  const css = fs.readFileSync(KILO_BASIC_TOOL_CSS_FILE, "utf-8")
-  const scroll = fs.readFileSync(
-    path.join(MONOREPO_ROOT, "packages/kappa-ui/src/hooks/create-auto-scroll.tsx"),
-    "utf-8",
-  )
+  const css = fs.readFileSync(KAPPA_BASIC_TOOL_CSS_FILE, "utf-8")
+  const scroll = fs.readFileSync(path.join(MONOREPO_ROOT, "packages/kappa-ui/src/hooks/create-auto-scroll.tsx"), "utf-8")
 
   it("reserves remembered-open card height while remounting its body later", () => {
     // Restoring the measured height prevents the collapsed frame and

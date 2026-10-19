@@ -28,7 +28,7 @@ export function createIntro(opts: {
 }) {
   const vscode = useVSCode()
   const [dismissed, setDismissed] = createSignal(
-    (window as { KILO_AGENT_MANAGER_INTRO_DISMISSED?: boolean }).KILO_AGENT_MANAGER_INTRO_DISMISSED === true,
+    (window as { KAPPA_AGENT_MANAGER_INTRO_DISMISSED?: boolean }).KAPPA_AGENT_MANAGER_INTRO_DISMISSED === true,
   )
   const save = (value: boolean) => {
     setDismissed(value)

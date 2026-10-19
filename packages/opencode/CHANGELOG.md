@@ -216,7 +216,7 @@
 
 - [#14312](https://github.com/Kappa-Org/kappacode/pull/14312) [`dfeeb48`](https://github.com/Kappa-Org/kappacode/commit/dfeeb48bd8f4e15fabb7c7c2deade0b199687be6) - Add a `monitor` action to the `background_process` tool that streams a long command's output back as it arrives, bounded by a line cap (default 200) and a wall-time cap (default 120000 ms) so a waiting agent reads progress instead of polling `logs`. Existing `background_process` actions are unchanged. Add session cron scheduling through `cron_create`, `cron_list`, and `cron_delete`: a recurring 5-field expression or a one-shot time/delay fires the session between turns after it goes idle, missed windows are not replayed, fire times carry deterministic jitter, each task expires seven days after creation, and tasks survive `--resume`.
 
-- [#14268](https://github.com/Kappa-Org/kappacode/pull/14268) [`f330846`](https://github.com/Kappa-Org/kappacode/commit/f3308468990769a6f8303b6b49c833f1b44fae82) - Add experimental `get_context_info` and `compact` tools that let an agent inspect and compact its own context. Reach them with `KILO_EXPERIMENTAL=1`, or `KILO_EXPERIMENTAL_CONTEXT_TOOLS=true`.
+- [#14268](https://github.com/Kappa-Org/kappacode/pull/14268) [`f330846`](https://github.com/Kappa-Org/kappacode/commit/f3308468990769a6f8303b6b49c833f1b44fae82) - Add experimental `get_context_info` and `compact` tools that let an agent inspect and compact its own context. Reach them with `KAPPA_EXPERIMENTAL=1`, or `KAPPA_EXPERIMENTAL_CONTEXT_TOOLS=true`.
 
 - [#14485](https://github.com/Kappa-Org/kappacode/pull/14485) [`9088b7d`](https://github.com/Kappa-Org/kappacode/commit/9088b7d0b261f725505cdb6a3da906ab885d0680) - Install Marketplace plugins from a git repository. Plugin catalog entries can now use a git source such as `git:github.com/owner/repo@v1.2.3#subdir`, so a plugin can be distributed from a public repository without publishing to npm. The client clones the repository at the pinned ref into the plugin cache and loads the plugin from there.
 
@@ -273,7 +273,7 @@
 
 - [#14345](https://github.com/Kappa-Org/kappacode/pull/14345) [`02353b0`](https://github.com/Kappa-Org/kappacode/commit/02353b0c959c5596db0576c3227f47cb7d1a8209) - Project skills, agents, commands, and instruction files that contain `${env:...}` or `${file:...}` placeholders now load instead of failing with an environment reference error. The placeholders stay literal there, while project JSON config still rejects them.
 
-- [#14283](https://github.com/Kappa-Org/kappacode/pull/14283) [`18c0384`](https://github.com/Kappa-Org/kappacode/commit/18c03848a5f7d6231626b76b1ed86525faa82d51) - Always include the saved plan file hint when switching from Plan to Code, and remove the vestigial `KILO_EXPERIMENTAL_PLAN_MODE` flag.
+- [#14283](https://github.com/Kappa-Org/kappacode/pull/14283) [`18c0384`](https://github.com/Kappa-Org/kappacode/commit/18c03848a5f7d6231626b76b1ed86525faa82d51) - Always include the saved plan file hint when switching from Plan to Code, and remove the vestigial `KAPPA_EXPERIMENTAL_PLAN_MODE` flag.
 
 - [#14335](https://github.com/Kappa-Org/kappacode/pull/14335) [`be871f3`](https://github.com/Kappa-Org/kappacode/commit/be871f3867da8a4f85ce3b473312ede389edafa3) Thanks [@sylwester-liljegren](https://github.com/sylwester-liljegren)! - Report what `semantic_search` actually covered. It names the indexed root it searched, and an empty result now says whether the index was complete, still building, disabled, or failed, so a miss is no longer mistaken for code that does not exist.
 
@@ -304,7 +304,7 @@
 
 - [#14236](https://github.com/Kappa-Org/kappacode/pull/14236) [`74869c8`](https://github.com/Kappa-Org/kappacode/commit/74869c8833f39e8f2e46cba5f06dd6acd2a8e8fa) Thanks [@hdcodedev](https://github.com/hdcodedev)! - Recover shared board reads when their cursor is no longer valid.
 
-- [#14230](https://github.com/Kappa-Org/kappacode/pull/14230) [`6b5e8a0`](https://github.com/Kappa-Org/kappacode/commit/6b5e8a04e4d73a03c2a9a47c11f3639114588a32) - Add an experimental Programmatic Tool Calling setting under Settings > Experimental. When enabled, the agent calls MCP tools from a confined JavaScript program and discovers tools on demand, so fewer MCP tool definitions are sent to the model. The `KILO_EXPERIMENTAL_CODE_MODE` environment variable still enables it.
+- [#14230](https://github.com/Kappa-Org/kappacode/pull/14230) [`6b5e8a0`](https://github.com/Kappa-Org/kappacode/commit/6b5e8a04e4d73a03c2a9a47c11f3639114588a32) - Add an experimental Programmatic Tool Calling setting under Settings > Experimental. When enabled, the agent calls MCP tools from a confined JavaScript program and discovers tools on demand, so fewer MCP tool definitions are sent to the model. The `KAPPA_EXPERIMENTAL_CODE_MODE` environment variable still enables it.
 
 - [#14231](https://github.com/Kappa-Org/kappacode/pull/14231) [`7e0ce5e`](https://github.com/Kappa-Org/kappacode/commit/7e0ce5ec6db0d9472dbcc94f8e4a50f1adaa50a0) - Generate chat session titles after a turn provides enough context instead of from the first message alone. A short first message now keeps the placeholder title until the session has a longer request, a second message, or real tool work, so titles describe the actual task rather than a bare URL or a truncated first line.
 
@@ -413,7 +413,7 @@
 
 ### Patch Changes
 
-- [#14013](https://github.com/Kappa-Org/kappacode/pull/14013) [`d2381d7`](https://github.com/Kappa-Org/kappacode/commit/d2381d7ac0949226df5c05680de0c5c5e0a3b690) - Enable the experimental shared agent board (Kappa Swarm) with the `KILO_EXPERIMENTAL_SHARED_AGENT_BOARD` environment variable, or the umbrella `KILO_EXPERIMENTAL`, in addition to the `experimental.shared_agent_board` config key.
+- [#14013](https://github.com/Kappa-Org/kappacode/pull/14013) [`d2381d7`](https://github.com/Kappa-Org/kappacode/commit/d2381d7ac0949226df5c05680de0c5c5e0a3b690) - Enable the experimental shared agent board (Kappa Swarm) with the `KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD` environment variable, or the umbrella `KAPPA_EXPERIMENTAL`, in addition to the `experimental.shared_agent_board` config key.
 
 ## 7.6.1
 
@@ -958,7 +958,7 @@
 
 - [#12704](https://github.com/Kappa-Org/kappacode/pull/12704) [`ace509d`](https://github.com/Kappa-Org/kappacode/commit/ace509dc60ac4e25aa81fbd6e6f569d0f47367a6) - Remote CLI session lifecycle: create_session accepts optional agent, model, and orgId (org claim rides session metadata); CLI adopts backend renames via system session.renamed and POSTs local title changes (generation-aware) to the ingest title route so auto-titles and explicit renames stay in sync.
 
-- [#12604](https://github.com/Kappa-Org/kappacode/pull/12604) [`2d784a0`](https://github.com/Kappa-Org/kappacode/commit/2d784a0e3162818afdb89b2c2352e45fdaaa8c6d) Thanks [@bagatao-anaconda](https://github.com/bagatao-anaconda)! - Support executing shell commands embedded in skill files. Commands written as `` !`command` `` in a SKILL.md run and their output is inlined into the skill. Only trusted skills can run commands and `KILO_DISABLE_SKILL_SHELL` disables the behavior; when the model loads a skill, the commands are shown in a single up-front approval before running.
+- [#12604](https://github.com/Kappa-Org/kappacode/pull/12604) [`2d784a0`](https://github.com/Kappa-Org/kappacode/commit/2d784a0e3162818afdb89b2c2352e45fdaaa8c6d) Thanks [@bagatao-anaconda](https://github.com/bagatao-anaconda)! - Support executing shell commands embedded in skill files. Commands written as `` !`command` `` in a SKILL.md run and their output is inlined into the skill. Only trusted skills can run commands and `KAPPA_DISABLE_SKILL_SHELL` disables the behavior; when the model loads a skill, the commands are shown in a single up-front approval before running.
 
 ### Patch Changes
 
@@ -1014,7 +1014,7 @@
 
 - [#12545](https://github.com/Kappa-Org/kappacode/pull/12545) [`b2735bf`](https://github.com/Kappa-Org/kappacode/commit/b2735bfbc9df170274a12ec4786106dacb61090f) - Fix session transcripts losing their final messages when the CLI exits — pending uploads are now flushed on shutdown and as soon as a session closes.
 
-- [#12470](https://github.com/Kappa-Org/kappacode/pull/12470) [`c0ebf98`](https://github.com/Kappa-Org/kappacode/commit/c0ebf987789ab6fa070106219ebc8c46cd0105af) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Route the websearch tool's Exa requests through the Kappa proxy when signed into Kappa. The MCP-Exa transport is preserved as a fallback for users who set `EXA_API_KEY` or are not authenticated. A new `KILO_WEBSEARCH_PROVIDER=kappa-exa` env override forces the Kappa proxy path. Results are capped at 10.
+- [#12470](https://github.com/Kappa-Org/kappacode/pull/12470) [`c0ebf98`](https://github.com/Kappa-Org/kappacode/commit/c0ebf987789ab6fa070106219ebc8c46cd0105af) Thanks [@IamCoder18](https://github.com/IamCoder18)! - Route the websearch tool's Exa requests through the Kappa proxy when signed into Kappa. The MCP-Exa transport is preserved as a fallback for users who set `EXA_API_KEY` or are not authenticated. A new `KAPPA_WEBSEARCH_PROVIDER=kappa-exa` env override forces the Kappa proxy path. Results are capped at 10.
 
 - [#12460](https://github.com/Kappa-Org/kappacode/pull/12460) [`51d8031`](https://github.com/Kappa-Org/kappacode/commit/51d8031c9997bd5478bcde715562169f732d04d4) - Changes from opencode v1.17.5 to v1.17.9 upstream:
   - Core Bugfixes: Improved MCP server compatibility by declaring Kappa's supported client capabilities.
@@ -1063,7 +1063,7 @@
 
 - [#12370](https://github.com/Kappa-Org/kappacode/pull/12370) [`b367105`](https://github.com/Kappa-Org/kappacode/commit/b367105c8d648c8e05b62c2d27a28a95a4772f61) Thanks [@hdcodedev](https://github.com/hdcodedev)! - Support deleting queued chat messages from the VS Code chat before they run.
 
-- [#12327](https://github.com/Kappa-Org/kappacode/pull/12327) [`aa22680`](https://github.com/Kappa-Org/kappacode/commit/aa22680feef2d8b9e1a60ddae4280cedb2cf78f0) - `kappa remote` instances now advertise themselves on the relay heartbeat. Each heartbeat carries the host's hostname, the project directory name, and the CLI build version, and each session entry advertises the platform it was created on. The cloud relay learns about a freshly-connected instance immediately (no 10s wait for the first timer tick), and the advertisement is race-safe across the explicit `kappa remote` command and bootstrap auto-enable (`KILO_REMOTE=1` / `remote_control` config). Legacy CLIs that send neither field remain wire-compatible.
+- [#12327](https://github.com/Kappa-Org/kappacode/pull/12327) [`aa22680`](https://github.com/Kappa-Org/kappacode/commit/aa22680feef2d8b9e1a60ddae4280cedb2cf78f0) - `kappa remote` instances now advertise themselves on the relay heartbeat. Each heartbeat carries the host's hostname, the project directory name, and the CLI build version, and each session entry advertises the platform it was created on. The cloud relay learns about a freshly-connected instance immediately (no 10s wait for the first timer tick), and the advertisement is race-safe across the explicit `kappa remote` command and bootstrap auto-enable (`KAPPA_REMOTE=1` / `remote_control` config). Legacy CLIs that send neither field remain wire-compatible.
 
 - [#12394](https://github.com/Kappa-Org/kappacode/pull/12394) [`e72238a`](https://github.com/Kappa-Org/kappacode/commit/e72238a6655bb495e24c588fa047b5b162da8f1e) - Support file attachments in remote CLI sessions.
 
@@ -1328,7 +1328,7 @@
 
 - [#12033](https://github.com/Kappa-Org/kappacode/pull/12033) [`9fc1a1d`](https://github.com/Kappa-Org/kappacode/commit/9fc1a1d94c29236ce0d949e9a6b2fefc70afaab8) - Show a clear "No changes found to generate a commit message for" error instead of a generic "Unexpected server error" when there is nothing to commit. The endpoint now returns a typed 422, and the extension surfaces the real message directly.
 
-- [#11886](https://github.com/Kappa-Org/kappacode/pull/11886) [`b793bf7`](https://github.com/Kappa-Org/kappacode/commit/b793bf788f20e5d96898c0565916af7bc71a5683) - Harden config credential substitution against untrusted project config. Environment references (`{env:VAR}`) now resolve only in trusted config (global config, `KILO_CONFIG`, `KILO_CONFIG_CONTENT`, and org/MDM-managed config); a project-committed `kappa.json` / `opencode.json` can no longer use them. File references (`{file:...}`) still work in project config but are confined to the project root, so absolute paths, `../` traversal, and symlink escapes are rejected. This closes a path where a malicious repository could exfiltrate local secrets to an attacker-controlled `baseURL`.
+- [#11886](https://github.com/Kappa-Org/kappacode/pull/11886) [`b793bf7`](https://github.com/Kappa-Org/kappacode/commit/b793bf788f20e5d96898c0565916af7bc71a5683) - Harden config credential substitution against untrusted project config. Environment references (`{env:VAR}`) now resolve only in trusted config (global config, `KAPPA_CONFIG`, `KAPPA_CONFIG_CONTENT`, and org/MDM-managed config); a project-committed `kappa.json` / `opencode.json` can no longer use them. File references (`{file:...}`) still work in project config but are confined to the project root, so absolute paths, `../` traversal, and symlink escapes are rejected. This closes a path where a malicious repository could exfiltrate local secrets to an attacker-controlled `baseURL`.
 
 - [#12002](https://github.com/Kappa-Org/kappacode/pull/12002) [`885a994`](https://github.com/Kappa-Org/kappacode/commit/885a994106741ea7caf59c051812cd7521f4cf2c) - Defer Agent Manager automatic branch naming until the conversation shows a durable task. The first user message no longer renames the branch; naming waits for a second message (up to four) or for the worktree to contain changes, and renames only run while the session is idle. Read-only verification questions (for example "is X fixed?") no longer claim the branch name.
 
@@ -1497,7 +1497,7 @@
   - Core Improvements: You can now set only `modalities.input` or `modalities.output` in config. (@robposch)
   - Core Improvements: Remote-backed projects now resolve a stable project identity.
   - Core Improvements: ACP integrations can now send prompts, slash commands, and usage updates through `acp-next`
-  - Core Improvements: Added WebSocket transport for OpenAI responses on supported channels (set KILO_EXPERIMENTAL_WEBSOCKETS=true)
+  - Core Improvements: Added WebSocket transport for OpenAI responses on supported channels (set KAPPA_EXPERIMENTAL_WEBSOCKETS=true)
   - Core Improvements: Sessions can now store custom metadata through the API and SDK. (@shantur)
   - Core Improvements: Config now loads from the opened location upward, so directory-specific settings and provider policies apply more predictably.
   - Core Bugfixes: Dynamically added MCP servers now disconnect cleanly when removed.
@@ -1662,7 +1662,7 @@
   - Core Bugfixes: Sort the v2 session list by most recently updated
   - Core Bugfixes: Zed editor context now only activates inside Zed terminals.
   - Core Bugfixes: Agent and command names now resolve correctly from relative config paths.
-  - Core Bugfixes: Invalid `KILO_PERMISSION` JSON no longer crashes startup.
+  - Core Bugfixes: Invalid `KAPPA_PERMISSION` JSON no longer crashes startup.
   - Core Bugfixes: Plugin tools with missing `args` no longer break tool loading.
   - Core Bugfixes: Restored legacy `PgUp` and `PgDn` TUI keybind aliases.
   - Core Bugfixes: Native runtime now prefers the console provider token for OpenCode models.
@@ -1822,7 +1822,7 @@
 
 - [#11011](https://github.com/Kappa-Org/kappacode/pull/11011) [`9f072b0`](https://github.com/Kappa-Org/kappacode/commit/9f072b05d49554648adbaca251a1ec5800b7b0fc) - Re-enable free-model session and Git workspace data export.
 
-- [#10751](https://github.com/Kappa-Org/kappacode/pull/10751) [`6e8d6f7`](https://github.com/Kappa-Org/kappacode/commit/6e8d6f7d5354d5380c165482c6af87baceca07bd) - Sync CLI sessions to Kappa session history when authenticated with `KILO_API_KEY` when no stored Kappa auth is present.
+- [#10751](https://github.com/Kappa-Org/kappacode/pull/10751) [`6e8d6f7`](https://github.com/Kappa-Org/kappacode/commit/6e8d6f7d5354d5380c165482c6af87baceca07bd) - Sync CLI sessions to Kappa session history when authenticated with `KAPPA_API_KEY` when no stored Kappa auth is present.
 
 ## 7.3.41
 
@@ -2215,7 +2215,7 @@
 
 - [#9838](https://github.com/Kappa-Org/kappacode/pull/9838) [`f499257`](https://github.com/Kappa-Org/kappacode/commit/f499257c3287274473db801edba1852dbcdbd92a) - Honor approved external directory read access in Ask and Plan modes.
 
-- [#9778](https://github.com/Kappa-Org/kappacode/pull/9778) [`33476e5`](https://github.com/Kappa-Org/kappacode/commit/33476e50508f39c232731613fd9d74a7aa19e748) - Show an "Initializing snapshot…" line in the chat while the initial snapshot is running on very large repositories, and add an interactive prompt when it stalls. After 10 seconds (configurable via `KILO_SNAPSHOT_TRACK_TIMEOUT_MS`) the prompt asks whether to keep waiting or disable snapshots for the project; choosing to disable writes `"snapshot": false` to `.kappa/kappa.json` so future sessions skip snapshots entirely.
+- [#9778](https://github.com/Kappa-Org/kappacode/pull/9778) [`33476e5`](https://github.com/Kappa-Org/kappacode/commit/33476e50508f39c232731613fd9d74a7aa19e748) - Show an "Initializing snapshot…" line in the chat while the initial snapshot is running on very large repositories, and add an interactive prompt when it stalls. After 10 seconds (configurable via `KAPPA_SNAPSHOT_TRACK_TIMEOUT_MS`) the prompt asks whether to keep waiting or disable snapshots for the project; choosing to disable writes `"snapshot": false` to `.kappa/kappa.json` so future sessions skip snapshots entirely.
 
 - [#9833](https://github.com/Kappa-Org/kappacode/pull/9833) [`614bca7`](https://github.com/Kappa-Org/kappacode/commit/614bca7cff862ec96e4707a97f43b540210ab699) - Prevent macOS Spotlight from indexing Kappa-generated data directories.
 

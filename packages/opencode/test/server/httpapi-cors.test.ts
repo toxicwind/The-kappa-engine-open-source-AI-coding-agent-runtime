@@ -13,13 +13,13 @@ import { testEffect } from "../lib/effect.ts"
 const testStateLayer = Layer.effectDiscard(
   Effect.gen(function* () {
     const original = {
-      KILO_SERVER_PASSWORD: Flag.KILO_SERVER_PASSWORD,
+      KAPPA_SERVER_PASSWORD: Flag.KAPPA_SERVER_PASSWORD,
     }
-    Flag.KILO_SERVER_PASSWORD = "secret"
+    Flag.KAPPA_SERVER_PASSWORD = "secret"
     yield* Effect.promise(() => resetDatabase())
     yield* Effect.addFinalizer(() =>
       Effect.promise(async () => {
-        Flag.KILO_SERVER_PASSWORD = original.KILO_SERVER_PASSWORD
+        Flag.KAPPA_SERVER_PASSWORD = original.KAPPA_SERVER_PASSWORD
         await resetDatabase()
       }),
     )
@@ -68,8 +68,8 @@ describe("HttpApi CORS", () => {
           Layer.provide(
             ConfigProvider.layer(
               ConfigProvider.fromUnknown({
-                KILO_SERVER_PASSWORD: "secret",
-                KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+                KAPPA_SERVER_PASSWORD: "secret",
+                KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
               }),
             ),
           ),

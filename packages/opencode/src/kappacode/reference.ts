@@ -151,7 +151,7 @@ function same(left: Reference.Source | undefined, right: Reference.Source) {
 }
 
 // Keep Core V2 tools on the same effective Kappa config used by stable tools. Core's standalone
-// scanner cannot see account/managed config or KILO_CONFIG_CONTENT, so replace its provisional
+// scanner cannot see account/managed config or KAPPA_CONFIG_CONTENT, so replace its provisional
 // references after both config systems finish booting.
 export const sync = Effect.fn("KappaReference.sync")(function* (input: {
   references: ConfigReference.Info

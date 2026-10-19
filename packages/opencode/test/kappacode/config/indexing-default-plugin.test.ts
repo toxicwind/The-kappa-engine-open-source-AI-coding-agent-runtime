@@ -78,8 +78,8 @@ describe("kappacode default indexing plugin", () => {
   })
 
   test("does not hard-enable indexing plugin when default plugins are disabled", async () => {
-    const original = Flag.KILO_DISABLE_DEFAULT_PLUGINS
-    Flag.KILO_DISABLE_DEFAULT_PLUGINS = true
+    const original = Flag.KAPPA_DISABLE_DEFAULT_PLUGINS
+    Flag.KAPPA_DISABLE_DEFAULT_PLUGINS = true
 
     try {
       await using tmp = await tmpdir({
@@ -102,7 +102,7 @@ describe("kappacode default indexing plugin", () => {
         },
       })
     } finally {
-      Flag.KILO_DISABLE_DEFAULT_PLUGINS = original
+      Flag.KAPPA_DISABLE_DEFAULT_PLUGINS = original
     }
   })
 })

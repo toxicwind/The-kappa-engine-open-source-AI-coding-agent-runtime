@@ -12,8 +12,8 @@ import { evidence as sbom } from "./sbom"
 
 const packageJsonPath = join(import.meta.dir, "..", "package.json")
 const packageJson = await Bun.file(packageJsonPath).json()
-const version = process.env.KILO_VERSION ? process.env.KILO_VERSION : packageJson.version
-const prerelease = process.env.KILO_PRE_RELEASE === "true"
+const version = process.env.KAPPA_VERSION ? process.env.KAPPA_VERSION : packageJson.version
+const prerelease = process.env.KAPPA_PRE_RELEASE === "true"
 
 console.log(`Building VSCode extension version: ${version}${prerelease ? " (pre-release)" : ""}`)
 

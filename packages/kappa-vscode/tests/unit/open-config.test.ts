@@ -12,10 +12,10 @@ const dirs: string[] = []
 
 const env = {
   HOME: process.env.HOME,
-  KILO_CONFIG: process.env.KILO_CONFIG,
-  KILO_CONFIG_CONTENT: process.env.KILO_CONFIG_CONTENT,
-  KILO_CONFIG_DIR: process.env.KILO_CONFIG_DIR,
-  KILO_DISABLE_PROJECT_CONFIG: process.env.KILO_DISABLE_PROJECT_CONFIG,
+  KAPPA_CONFIG: process.env.KAPPA_CONFIG,
+  KAPPA_CONFIG_CONTENT: process.env.KAPPA_CONFIG_CONTENT,
+  KAPPA_CONFIG_DIR: process.env.KAPPA_CONFIG_DIR,
+  KAPPA_DISABLE_PROJECT_CONFIG: process.env.KAPPA_DISABLE_PROJECT_CONFIG,
   XDG_CONFIG_HOME: process.env.XDG_CONFIG_HOME,
 }
 
@@ -112,9 +112,9 @@ describe("config file discovery", () => {
     const spy = spyOn(os, "homedir").mockReturnValue(home)
     process.env.HOME = home
     process.env.XDG_CONFIG_HOME = xdg
-    process.env.KILO_CONFIG = envfile
-    process.env.KILO_CONFIG_DIR = extra
-    process.env.KILO_CONFIG_CONTENT = "{}"
+    process.env.KAPPA_CONFIG = envfile
+    process.env.KAPPA_CONFIG_DIR = extra
+    process.env.KAPPA_CONFIG_CONTENT = "{}"
     await file(path.join(xdg, "kappa", "kappa.json"))
     await file(path.join(home, ".kappacode", "opencode.json"))
     await file(path.join(home, ".opencode", "kappa.jsonc"))
@@ -137,7 +137,7 @@ describe("config file discovery", () => {
   it("marks project files unloaded when project config is disabled", async () => {
     reset()
     const root = await temp()
-    process.env.KILO_DISABLE_PROJECT_CONFIG = "1"
+    process.env.KAPPA_DISABLE_PROJECT_CONFIG = "1"
     await file(path.join(root, "kappa.json"))
     await file(path.join(root, ".opencode", "opencode.json"))
 

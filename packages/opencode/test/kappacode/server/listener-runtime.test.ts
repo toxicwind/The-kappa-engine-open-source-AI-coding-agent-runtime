@@ -16,21 +16,21 @@ import { disposeAllInstances, reloadTestInstance, tmpdir } from "../../fixture/f
 void Log.init({ print: false })
 
 const previous = {
-  flag: Flag.KILO_SERVER_PASSWORD,
-  env: process.env.KILO_SERVER_PASSWORD,
+  flag: Flag.KAPPA_SERVER_PASSWORD,
+  env: process.env.KAPPA_SERVER_PASSWORD,
 }
 
 afterEach(async () => {
-  Flag.KILO_SERVER_PASSWORD = previous.flag
-  if (previous.env === undefined) delete process.env.KILO_SERVER_PASSWORD
-  else process.env.KILO_SERVER_PASSWORD = previous.env
+  Flag.KAPPA_SERVER_PASSWORD = previous.flag
+  if (previous.env === undefined) delete process.env.KAPPA_SERVER_PASSWORD
+  else process.env.KAPPA_SERVER_PASSWORD = previous.env
   await disposeAllInstances()
   await resetDatabase()
 })
 
 test("listener aborts shared parent and subagent runners", async () => {
-  Flag.KILO_SERVER_PASSWORD = undefined
-  delete process.env.KILO_SERVER_PASSWORD
+  Flag.KAPPA_SERVER_PASSWORD = undefined
+  delete process.env.KAPPA_SERVER_PASSWORD
   await using tmp = await tmpdir({ git: true, config: { formatter: false, lsp: false } })
   const ctx = await reloadTestInstance({ directory: tmp.path })
   const tree = await AppRuntime.runPromise(

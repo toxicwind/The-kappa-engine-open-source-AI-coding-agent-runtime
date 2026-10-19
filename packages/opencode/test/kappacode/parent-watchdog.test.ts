@@ -3,11 +3,11 @@ import { startParentWatchdog } from "../../src/kappacode/parent-watchdog.ts"
 
 describe("startParentWatchdog", () => {
   afterEach(() => {
-    delete process.env["KILO_PARENT_PID"]
+    delete process.env["KAPPA_PARENT_PID"]
   })
 
-  test("is a no-op when KILO_PARENT_PID is unset", () => {
-    delete process.env["KILO_PARENT_PID"]
+  test("is a no-op when KAPPA_PARENT_PID is unset", () => {
+    delete process.env["KAPPA_PARENT_PID"]
     let called = false
     const stop = startParentWatchdog(() => {
       called = true
@@ -16,8 +16,8 @@ describe("startParentWatchdog", () => {
     expect(called).toBe(false)
   })
 
-  test("is a no-op for an invalid KILO_PARENT_PID", () => {
-    process.env["KILO_PARENT_PID"] = "0"
+  test("is a no-op for an invalid KAPPA_PARENT_PID", () => {
+    process.env["KAPPA_PARENT_PID"] = "0"
     let called = false
     const stop = startParentWatchdog(() => {
       called = true
@@ -32,7 +32,7 @@ describe("startParentWatchdog", () => {
     const pid = child.pid
     child.kill("SIGKILL")
     await child.exited
-    process.env["KILO_PARENT_PID"] = String(pid)
+    process.env["KAPPA_PARENT_PID"] = String(pid)
 
     let stop = () => {}
     const orphaned = new Promise<void>((resolve) => {

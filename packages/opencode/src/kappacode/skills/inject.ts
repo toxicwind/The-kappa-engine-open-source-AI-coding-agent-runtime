@@ -7,7 +7,7 @@ import type * as Tool from "@/tool/tool"
 // A `!`cmd`` placeholder in SKILL.md is replaced by the command's stdout before the
 // content reaches the model. Runs only for model-initiated skill loads (not the
 // user-initiated `/skill` path), gated by trust (only global/builtin skills), a
-// kill-switch (KILO_DISABLE_SKILL_SHELL), and one batch bash ask naming every command
+// kill-switch (KAPPA_DISABLE_SKILL_SHELL), and one batch bash ask naming every command
 // up front (`skillShell` forces the ask past allow/auto-approve rules; a preceding
 // external_directory ask covers out-of-project paths). Substitution runs once; output
 // is never re-scanned, so a command can't emit a placeholder a later pass would run.

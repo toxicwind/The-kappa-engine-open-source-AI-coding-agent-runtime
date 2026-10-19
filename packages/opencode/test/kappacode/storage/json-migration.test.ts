@@ -100,15 +100,15 @@ async function createTestDb() {
 test("bootstrap leaves fresh installs for the normal database initializer", async () => {
   const marker = path.join(Global.Path.data, "json-migration-fresh.db")
   const storage = path.join(Global.Path.data, "storage")
-  const previous = Flag.KILO_DB
-  Flag.KILO_DB = marker
+  const previous = Flag.KAPPA_DB
+  Flag.KAPPA_DB = marker
   await fs.rm(storage, { recursive: true, force: true })
   try {
     await JsonMigration.bootstrap()
     expect(await Bun.file(marker).exists()).toBe(false)
     expect(await Bun.file(marker + ".json-migration").exists()).toBe(false)
   } finally {
-    Flag.KILO_DB = previous
+    Flag.KAPPA_DB = previous
     await Promise.all([marker, `${marker}-wal`, `${marker}-shm`].map(cleanup))
   }
 })
@@ -519,8 +519,8 @@ describe("JSON to SQLite migration", () => {
 
     const marker = path.join(Global.Path.data, "json-migration-bootstrap.db")
     const pending = marker + ".json-migration"
-    const previous = Flag.KILO_DB
-    Flag.KILO_DB = marker
+    const previous = Flag.KAPPA_DB
+    Flag.KAPPA_DB = marker
     try {
       await JsonMigration.bootstrap()
       expect(await Bun.file(marker).exists()).toBe(true)
@@ -543,7 +543,7 @@ describe("JSON to SQLite migration", () => {
       expect(drizzle({ client: reopened }).select().from(ProjectTable).all()).toHaveLength(1)
       reopened.close()
     } finally {
-      Flag.KILO_DB = previous
+      Flag.KAPPA_DB = previous
       await Promise.all([marker, marker + "-shm", marker + "-wal", pending].map(cleanup))
     }
   })
@@ -560,8 +560,8 @@ describe("JSON to SQLite migration", () => {
 
     const marker = path.join(Global.Path.data, "json-migration-retry.db")
     const pending = marker + ".json-migration"
-    const previous = Flag.KILO_DB
-    Flag.KILO_DB = marker
+    const previous = Flag.KAPPA_DB
+    Flag.KAPPA_DB = marker
     try {
       await JsonMigration.bootstrap()
       expect(await Bun.file(pending).exists()).toBe(true)
@@ -577,7 +577,7 @@ describe("JSON to SQLite migration", () => {
       expect(drizzle({ client: sqlite }).select().from(ProjectTable).all()).toHaveLength(2)
       sqlite.close()
     } finally {
-      Flag.KILO_DB = previous
+      Flag.KAPPA_DB = previous
       await Promise.all([marker, marker + "-shm", marker + "-wal", pending].map(cleanup))
     }
   })

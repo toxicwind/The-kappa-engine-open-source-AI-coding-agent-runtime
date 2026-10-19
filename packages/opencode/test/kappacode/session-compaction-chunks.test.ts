@@ -46,21 +46,21 @@ const ref = { providerID, modelID }
 const agents = Layer.mock(Agent.Service)({
   get: () => Effect.succeed({ name: "compaction", mode: "primary", permission: [], options: {} } satisfies Agent.Info),
 })
-const previous = Flag.KILO_DB
+const previous = Flag.KAPPA_DB
 const dbfile = path.join(os.tmpdir(), `kappa-compaction-chunks-${process.pid}-${crypto.randomUUID()}.db`)
 const layer = LayerNode.compile(LayerNode.group([SessionNs.node, SessionProjector.node]))
 const runtime = makeRuntime(SessionNs.Service, layer)
 
 beforeAll(async () => {
   await fs.rm(dbfile, { force: true })
-  Flag.KILO_DB = dbfile
+  Flag.KAPPA_DB = dbfile
 })
 
 afterAll(async () => {
   await runtime.dispose()
   await AppRuntime.dispose()
   await disposeTestRuntime()
-  Flag.KILO_DB = previous
+  Flag.KAPPA_DB = previous
   await Promise.all([dbfile, `${dbfile}-wal`, `${dbfile}-shm`].map(cleanup))
 })
 

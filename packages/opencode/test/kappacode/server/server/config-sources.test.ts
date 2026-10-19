@@ -26,12 +26,12 @@ type Body = {
 }
 
 const env = {
-  KILO_CONFIG: process.env.KILO_CONFIG,
-  KILO_CONFIG_CONTENT: process.env.KILO_CONFIG_CONTENT,
-  KILO_CONFIG_DIR: process.env.KILO_CONFIG_DIR,
-  KILO_DISABLE_PROJECT_CONFIG: process.env.KILO_DISABLE_PROJECT_CONFIG,
-  KILO_TEST_MANAGED_CONFIG_DIR: process.env.KILO_TEST_MANAGED_CONFIG_DIR,
-  flagConfig: Flag.KILO_CONFIG,
+  KAPPA_CONFIG: process.env.KAPPA_CONFIG,
+  KAPPA_CONFIG_CONTENT: process.env.KAPPA_CONFIG_CONTENT,
+  KAPPA_CONFIG_DIR: process.env.KAPPA_CONFIG_DIR,
+  KAPPA_DISABLE_PROJECT_CONFIG: process.env.KAPPA_DISABLE_PROJECT_CONFIG,
+  KAPPA_TEST_MANAGED_CONFIG_DIR: process.env.KAPPA_TEST_MANAGED_CONFIG_DIR,
+  flagConfig: Flag.KAPPA_CONFIG,
 }
 
 afterEach(async () => {
@@ -41,12 +41,12 @@ afterEach(async () => {
 })
 
 function restore() {
-  set("KILO_CONFIG", env.KILO_CONFIG)
-  set("KILO_CONFIG_CONTENT", env.KILO_CONFIG_CONTENT)
-  set("KILO_CONFIG_DIR", env.KILO_CONFIG_DIR)
-  set("KILO_DISABLE_PROJECT_CONFIG", env.KILO_DISABLE_PROJECT_CONFIG)
-  set("KILO_TEST_MANAGED_CONFIG_DIR", env.KILO_TEST_MANAGED_CONFIG_DIR)
-  Flag.KILO_CONFIG = env.flagConfig
+  set("KAPPA_CONFIG", env.KAPPA_CONFIG)
+  set("KAPPA_CONFIG_CONTENT", env.KAPPA_CONFIG_CONTENT)
+  set("KAPPA_CONFIG_DIR", env.KAPPA_CONFIG_DIR)
+  set("KAPPA_DISABLE_PROJECT_CONFIG", env.KAPPA_DISABLE_PROJECT_CONFIG)
+  set("KAPPA_TEST_MANAGED_CONFIG_DIR", env.KAPPA_TEST_MANAGED_CONFIG_DIR)
+  Flag.KAPPA_CONFIG = env.flagConfig
 }
 
 function set(key: keyof typeof process.env, value: string | undefined) {
@@ -102,14 +102,14 @@ describe("config source routes", () => {
     const extraFile = path.join(tmp.path, "extra", "opencode.json")
     const managedFile = path.join(tmp.path, "managed", "kappa.json")
 
-    process.env.KILO_CONFIG = envFile
-    Flag.KILO_CONFIG = envFile
-    process.env.KILO_CONFIG_CONTENT = '{"username":"secret-inline-value"}'
-    process.env.KILO_CONFIG_DIR = path.join(tmp.path, "extra")
-    process.env.KILO_TEST_MANAGED_CONFIG_DIR = path.join(tmp.path, "managed")
+    process.env.KAPPA_CONFIG = envFile
+    Flag.KAPPA_CONFIG = envFile
+    process.env.KAPPA_CONFIG_CONTENT = '{"username":"secret-inline-value"}'
+    process.env.KAPPA_CONFIG_DIR = path.join(tmp.path, "extra")
+    process.env.KAPPA_TEST_MANAGED_CONFIG_DIR = path.join(tmp.path, "managed")
 
     const body = await sources(tmp.path)
-    const inline = body.sources.find((source) => source.source === "KILO_CONFIG_CONTENT")
+    const inline = body.sources.find((source) => source.source === "KAPPA_CONFIG_CONTENT")
 
     expect(order(body, envFile)).toBeLessThan(order(body, projectFile))
     expect(order(body, projectFile)).toBeLessThan(order(body, kappacodeFile))
@@ -143,13 +143,13 @@ describe("config source routes", () => {
       },
     })
 
-    process.env.KILO_DISABLE_PROJECT_CONFIG = "1"
+    process.env.KAPPA_DISABLE_PROJECT_CONFIG = "1"
 
     const body = await sources(tmp.path)
 
     expect(body.sources.some((source) => source.path === path.join(tmp.path, "kappa.json"))).toBe(false)
     expect(body.sources.some((source) => source.path === path.join(tmp.path, ".kappa", "kappa.json"))).toBe(false)
-    expect(body.sources.find((source) => source.source === "KILO_DISABLE_PROJECT_CONFIG")).toMatchObject({
+    expect(body.sources.find((source) => source.source === "KAPPA_DISABLE_PROJECT_CONFIG")).toMatchObject({
       kind: "runtime-env",
       scope: "env",
       exists: true,

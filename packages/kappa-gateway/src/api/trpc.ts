@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { buildKappaHeaders } from "../headers.js"
-import { KILO_API_BASE } from "./constants.js"
+import { KAPPA_API_BASE } from "./constants.js"
 
 const timeout = 5_000
 const limit = 512 * 1024
@@ -124,7 +124,7 @@ async function query<T>(procedure: string, token: string, schema: z.ZodType<T>, 
   const params = new URLSearchParams()
   if (input !== undefined) params.set("input", JSON.stringify(input))
   const suffix = params.size ? `?${params.toString()}` : ""
-  const response = await fetch(`${KILO_API_BASE}/api/trpc/${procedure}${suffix}`, {
+  const response = await fetch(`${KAPPA_API_BASE}/api/trpc/${procedure}${suffix}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

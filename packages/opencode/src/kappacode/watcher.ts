@@ -21,7 +21,7 @@ export namespace KappacodeWatcher {
   // and git integration and do not consume the CLI's vcs.branch.updated event,
   // so they must not eagerly warm the location stack. The standalone CLI/TUI
   // keeps this subscription for live branch-label updates.
-  export function eager(client = Flag.KILO_CLIENT) {
+  export function eager(client = Flag.KAPPA_CLIENT) {
     return client !== "vscode" && client !== "jetbrains"
   }
 
@@ -80,7 +80,7 @@ export namespace KappacodeWatcher {
   // Gate the whole layer so LocationServiceMap is only warmed for clients that consume branch-update events.
   export const defaultLayer = Layer.unwrap(
     Effect.gen(function* () {
-      if (!eager() || (yield* Flag.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER.pipe(Effect.orElseSucceed(() => false))))
+      if (!eager() || (yield* Flag.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER.pipe(Effect.orElseSucceed(() => false))))
         return Layer.succeed(Service, Service.of({ init: () => Effect.void }))
       return layer.pipe(Layer.provide(locationServiceMapLayer))
     }),

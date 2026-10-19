@@ -41,7 +41,7 @@ export namespace KappacodeConfig {
   export const ALL_CONFIG_FILES = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json"] as const
 
   /** Config directory suffixes in update-target preference order. */
-  export const KILO_DIR_SUFFIXES = [".kappa", ".kappacode"] as const
+  export const KAPPA_DIR_SUFFIXES = [".kappa", ".kappacode"] as const
 
   /**
    * List every project config file the read chain can merge: config files in
@@ -54,7 +54,7 @@ export namespace KappacodeConfig {
     worktree?: string
   }) {
     const dirs = yield* input.fs
-      .up({ targets: [...KILO_DIR_SUFFIXES], start: input.directory, stop: input.worktree })
+      .up({ targets: [...KAPPA_DIR_SUFFIXES], start: input.directory, stop: input.worktree })
       .pipe(Effect.orDie)
     const roots = yield* input.fs
       .up({ targets: [...ALL_CONFIG_FILES], start: input.directory, stop: input.worktree })
@@ -403,7 +403,7 @@ export namespace KappacodeConfig {
     }
 
     // Load Kappacode MCP servers (skip global VSCode extension paths unless running in an editor or Console daemon)
-    const skipGlobal = process.env["KILO_PLATFORM"] !== "vscode" && process.env["KAPPACODE_FEATURE"] !== "daemon"
+    const skipGlobal = process.env["KAPPA_PLATFORM"] !== "vscode" && process.env["KAPPACODE_FEATURE"] !== "daemon"
     const mcp = await McpMigrator.loadMcpConfig(input.projectDir, skipGlobal)
     if (Object.keys(mcp).length > 0) {
       result = input.merge(result, { mcp })

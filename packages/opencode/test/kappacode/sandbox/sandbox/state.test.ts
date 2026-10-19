@@ -58,7 +58,7 @@ test("refreshes the session snapshot after a backend restart", async () => {
   ].join("\n")
   const env = {
     ...process.env,
-    KILO_TEST_HOME: path.join(root, "home"),
+    KAPPA_TEST_HOME: path.join(root, "home"),
     XDG_CACHE_HOME: path.join(root, "cache"),
     XDG_CONFIG_HOME: path.join(root, "config"),
     XDG_DATA_HOME: path.join(root, "data"),
@@ -174,7 +174,7 @@ linux("reports configured network namespace availability", async () => {
   try {
     const result = Bun.spawnSync([process.execPath, "-e", script], {
       cwd: import.meta.dir,
-      env: { ...process.env, KILO_BWRAP_PATH: helper, KILO_SERVER_PASSWORD: "sandbox-test" },
+      env: { ...process.env, KAPPA_BWRAP_PATH: helper, KAPPA_SERVER_PASSWORD: "sandbox-test" },
       stdout: "pipe",
       stderr: "pipe",
       windowsHide: true,
@@ -188,8 +188,8 @@ linux("reports configured network namespace availability", async () => {
 it.instance("does not let project config weaken an initialized policy", () =>
   Effect.acquireUseRelease(
     Effect.sync(() => {
-      const password = Flag.KILO_SERVER_PASSWORD
-      Flag.KILO_SERVER_PASSWORD = "sandbox-test"
+      const password = Flag.KAPPA_SERVER_PASSWORD
+      Flag.KAPPA_SERVER_PASSWORD = "sandbox-test"
       return password
     }),
     () =>
@@ -221,15 +221,15 @@ it.instance("does not let project config weaken an initialized policy", () =>
         expect((yield* SandboxPolicy.status(next)).enabled).toBe(false)
         expect(yield* execute(next, sandboxed)).toBe(false)
       }),
-    (password) => Effect.sync(() => (Flag.KILO_SERVER_PASSWORD = password)),
+    (password) => Effect.sync(() => (Flag.KAPPA_SERVER_PASSWORD = password)),
   ),
 )
 
 it.instance("does not enable authless sessions without sandbox enabled", () =>
   Effect.acquireUseRelease(
     Effect.sync(() => {
-      const password = Flag.KILO_SERVER_PASSWORD
-      Flag.KILO_SERVER_PASSWORD = undefined
+      const password = Flag.KAPPA_SERVER_PASSWORD
+      Flag.KAPPA_SERVER_PASSWORD = undefined
       return password
     }),
     () =>
@@ -245,7 +245,7 @@ it.instance("does not enable authless sessions without sandbox enabled", () =>
         expect(status.enabled).toBe(false)
         expect(yield* execute(id, sandboxed)).toBe(false)
       }),
-    (password) => Effect.sync(() => (Flag.KILO_SERVER_PASSWORD = password)),
+    (password) => Effect.sync(() => (Flag.KAPPA_SERVER_PASSWORD = password)),
   ),
 )
 

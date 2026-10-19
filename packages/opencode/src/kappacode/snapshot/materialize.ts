@@ -28,10 +28,10 @@ export namespace KappaSnapshotMaterialize {
 
   /**
    * Quiet period after a snapshot before borrowed objects are repacked into the snapshot
-   * repository. Tests set `KILO_SNAPSHOT_MATERIALIZE_IDLE_MS=0` to materialize at once.
+   * repository. Tests set `KAPPA_SNAPSHOT_MATERIALIZE_IDLE_MS=0` to materialize at once.
    */
   export const idle = () => {
-    const raw = Number(process.env["KILO_SNAPSHOT_MATERIALIZE_IDLE_MS"])
+    const raw = Number(process.env["KAPPA_SNAPSHOT_MATERIALIZE_IDLE_MS"])
     return Number.isFinite(raw) && raw >= 0 ? raw : 10_000
   }
   const snapshotRef = (hash: string, time = Date.now()) => `refs/kappa/snapshots/${time}/${hash}`

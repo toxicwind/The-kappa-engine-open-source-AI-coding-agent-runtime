@@ -4,7 +4,7 @@ import { Auth } from "@/auth"
 import { ModelCache } from "./model-cache.ts"
 import * as Core from "@opencode-ai/core/models-dev"
 import { Context, Effect, Layer } from "effect"
-import { AI_SDK_PROVIDERS, KILO_OPENROUTER_BASE, PROMPTS } from "@kappacode/kappa-gateway"
+import { AI_SDK_PROVIDERS, KAPPA_OPENROUTER_BASE, PROMPTS } from "@kappacode/kappa-gateway"
 import { overlay } from "@/kappacode/anaconda-desktop/provider"
 import { compatible, organization, token } from "@/kappacode/provider/catalog"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
@@ -92,8 +92,8 @@ export const layer: Layer.Layer<Service, never, Core.Service | Config.Service | 
         providers.kappa = {
           id: "kappa",
           name: "Kappa Gateway",
-          env: ["KILO_API_KEY"],
-          api: KILO_OPENROUTER_BASE.endsWith("/") ? KILO_OPENROUTER_BASE : `${KILO_OPENROUTER_BASE}/`,
+          env: ["KAPPA_API_KEY"],
+          api: KAPPA_OPENROUTER_BASE.endsWith("/") ? KAPPA_OPENROUTER_BASE : `${KAPPA_OPENROUTER_BASE}/`,
           npm: "@kappacode/kappa-gateway",
           models,
         }

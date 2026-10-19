@@ -10,14 +10,14 @@ import {
   validLocalBwrap,
 } from "../../src/services/cli-backend/cli-resources"
 
-const configured = process.env.KILO_BWRAP_PATH
+const configured = process.env.KAPPA_BWRAP_PATH
 
 afterEach(() => {
   if (configured === undefined) {
-    delete process.env.KILO_BWRAP_PATH
+    delete process.env.KAPPA_BWRAP_PATH
     return
   }
-  process.env.KILO_BWRAP_PATH = configured
+  process.env.KAPPA_BWRAP_PATH = configured
 })
 
 describe("local Bubblewrap helper", () => {
@@ -29,14 +29,14 @@ describe("local Bubblewrap helper", () => {
       const cache = path.join(root, "cache")
       await fs.mkdir(path.dirname(source), { recursive: true })
       await fs.writeFile(source, "bubblewrap")
-      process.env.KILO_BWRAP_PATH = source
+      process.env.KAPPA_BWRAP_PATH = source
 
       const dest = await ensureBwrapForTarget("linux-x64", cache)
 
       expect(dest?.startsWith(extension)).toBe(false)
       expect(await fs.readFile(dest!, "utf8")).toBe("bubblewrap")
       expect((await fs.stat(dest!)).mode & 0o111).not.toBe(0)
-      expect(resolveLocalBwrapEnv(extension, true, "linux-x64", cache)).toEqual({ KILO_BWRAP_PATH: dest })
+      expect(resolveLocalBwrapEnv(extension, true, "linux-x64", cache)).toEqual({ KAPPA_BWRAP_PATH: dest })
       expect(resolveLocalBwrapEnv(extension, false, "linux-x64", cache)).toEqual({})
     } finally {
       await fs.rm(root, { recursive: true, force: true })
@@ -98,7 +98,7 @@ describe("local Bubblewrap helper", () => {
       await fs.rm(cache, { recursive: true, force: true })
       await fs.mkdir(cache, { recursive: true, mode: 0o777 })
       await fs.chmod(cache, 0o777)
-      process.env.KILO_BWRAP_PATH = source
+      process.env.KAPPA_BWRAP_PATH = source
       await expect(ensureBwrapForTarget("linux-x64", cache)).rejects.toThrow("cache directory is not private")
     } finally {
       await fs.rm(root, { recursive: true, force: true })
@@ -108,7 +108,7 @@ describe("local Bubblewrap helper", () => {
   it("does not stage Bubblewrap for unsupported operating systems", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "kappa-vscode-bwrap-"))
     try {
-      process.env.KILO_BWRAP_PATH = path.join(root, "missing")
+      process.env.KAPPA_BWRAP_PATH = path.join(root, "missing")
 
       const dest = await ensureBwrapForTarget("darwin-arm64", path.join(root, "cache"))
 

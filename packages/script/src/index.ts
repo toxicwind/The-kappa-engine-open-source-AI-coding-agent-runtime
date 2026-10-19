@@ -18,20 +18,20 @@ if (!semver.satisfies(process.versions.bun, expectedBunVersionRange)) {
 }
 // kappacode_change start
 const env = {
-  KILO_CHANNEL: process.env["KILO_CHANNEL"],
-  KILO_BUMP: process.env["KILO_BUMP"],
-  KILO_VERSION: process.env["KILO_VERSION"],
-  KILO_RELEASE: process.env["KILO_RELEASE"],
-  KILO_PRE_RELEASE: process.env["KILO_PRE_RELEASE"],
+  KAPPA_CHANNEL: process.env["KAPPA_CHANNEL"],
+  KAPPA_BUMP: process.env["KAPPA_BUMP"],
+  KAPPA_VERSION: process.env["KAPPA_VERSION"],
+  KAPPA_RELEASE: process.env["KAPPA_RELEASE"],
+  KAPPA_PRE_RELEASE: process.env["KAPPA_PRE_RELEASE"],
 }
 // kappacode_change end
 const CHANNEL = await (async () => {
-  if (env.KILO_CHANNEL) return env.KILO_CHANNEL // kappacode_change
+  if (env.KAPPA_CHANNEL) return env.KAPPA_CHANNEL // kappacode_change
   // kappacode_change start - publish to "rc" channel for pre-releases
-  if (env.KILO_PRE_RELEASE === "true") return "rc"
+  if (env.KAPPA_PRE_RELEASE === "true") return "rc"
   // kappacode_change end
-  if (env.KILO_BUMP) return "latest" // kappacode_change
-  if (env.KILO_VERSION && !env.KILO_VERSION.startsWith("0.0.0-")) return "latest" // kappacode_change
+  if (env.KAPPA_BUMP) return "latest" // kappacode_change
+  if (env.KAPPA_VERSION && !env.KAPPA_VERSION.startsWith("0.0.0-")) return "latest" // kappacode_change
   return await $`git branch --show-current`.text().then((x) => x.trim().replace(/[^0-9A-Za-z-]/g, "-")) // kappacode_change
 })()
 const IS_PREVIEW = CHANNEL !== "latest"
@@ -90,18 +90,18 @@ function bumpVersion(current: string, type: string) {
 // kappacode_change end
 
 const VERSION = await (async () => {
-  if (env.KILO_VERSION) return env.KILO_VERSION
+  if (env.KAPPA_VERSION) return env.KAPPA_VERSION
   if (IS_PREVIEW) {
     // kappacode_change start - rc releases use plain semver required by VS Code Marketplace
-    if (env.KILO_BUMP && env.KILO_PRE_RELEASE === "true") {
+    if (env.KAPPA_BUMP && env.KAPPA_PRE_RELEASE === "true") {
       const current = await fetchHighest()
-      return bumpVersion(current, env.KILO_BUMP.toLowerCase())
+      return bumpVersion(current, env.KAPPA_BUMP.toLowerCase())
     }
     // kappacode_change end
     return `0.0.0-${CHANNEL}-${new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "")}`
   }
   const version = await fetchHighest() // kappacode_change
-  return bumpVersion(version, env.KILO_BUMP?.toLowerCase() ?? "patch") // kappacode_change
+  return bumpVersion(version, env.KAPPA_BUMP?.toLowerCase() ?? "patch") // kappacode_change
 })()
 
 // kappacode_change start
@@ -156,7 +156,7 @@ export const Script = {
     return IS_PREVIEW
   },
   get release(): boolean {
-    return !!env.KILO_RELEASE
+    return !!env.KAPPA_RELEASE
   },
   get team() {
     return team

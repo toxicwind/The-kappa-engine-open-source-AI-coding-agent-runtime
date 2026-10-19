@@ -63,7 +63,7 @@ import { GoalPrompt } from "@/kappacode/cli/cmd/tui/component/goal"
 import { KappaSteer } from "../../kappacode/steer"
 import { SteerLabel, useSubagent } from "../../kappacode/steer-label"
 // kappacode_change end
-import { KILO_BASE_MODE, useBindings, useCommandShortcut, useLeaderActive, useOpencodeKeymap } from "../../keymap"
+import { KAPPA_BASE_MODE, useBindings, useCommandShortcut, useLeaderActive, useOpencodeKeymap } from "../../keymap"
 import { useTuiConfig } from "../../config"
 // kappacode_change start - vim modal editing for the prompt
 import { useVim, VimModeIndicator, vimToggleCommand } from "@/kappacode/cli/cmd/tui/component/prompt"
@@ -605,7 +605,7 @@ export function Prompt(props: PromptProps) {
         desc: "Change the workspace for the session",
         name: "workspace.set",
         category: "Session",
-        enabled: Flag.KILO_EXPERIMENTAL_WORKSPACES,
+        enabled: Flag.KAPPA_EXPERIMENTAL_WORKSPACES,
         slashName: "warp",
         run: () => {
           workspace.open()
@@ -632,7 +632,7 @@ export function Prompt(props: PromptProps) {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     bindings: tuiConfig.keybinds.gather("prompt.palette", [
       "prompt.submit",
       "prompt.editor",

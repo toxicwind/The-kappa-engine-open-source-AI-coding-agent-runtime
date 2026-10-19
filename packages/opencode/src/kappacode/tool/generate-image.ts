@@ -10,12 +10,12 @@ import { InstanceState } from "@/effect/instance-state"
 import * as Log from "@opencode-ai/core/util/log"
 import { assertExternalDirectoryEffect } from "../../tool/external-directory.ts"
 import { Config } from "@/config/config"
-import { KILO_OPENROUTER_BASE } from "@kappacode/kappa-gateway"
+import { KAPPA_OPENROUTER_BASE } from "@kappacode/kappa-gateway"
 import DESCRIPTION from "./generate-image.txt"
 
 const log = Log.create({ service: "tool.generate_image" })
 
-const KILO_OPENROUTER_URL = `${KILO_OPENROUTER_BASE}/chat/completions`
+const KAPPA_OPENROUTER_URL = `${KAPPA_OPENROUTER_BASE}/chat/completions`
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 /** Fallback catalog used when the gateway is unreachable or the user is offline. */
@@ -75,7 +75,7 @@ export function resolveProvider(
   const token = auth?.type === "oauth" ? auth.access : auth?.type === "api" ? auth.key : undefined
   if (token) {
     return {
-      url: KILO_OPENROUTER_URL,
+      url: KAPPA_OPENROUTER_URL,
       token,
       provider: "kappa",
       ...(auth?.type === "oauth" && auth.accountId ? { organizationId: auth.accountId } : {}),

@@ -193,7 +193,7 @@ Agent configurations merge from lowest to highest priority:
 2. Global config (`~/.config/kappa/kappa.jsonc`)
 3. Project config (`kappa.jsonc` at project root)
 4. `.kappa/` / legacy `.kappacode/` directory configs and agent `.md` files
-5. Environment variable overrides (`KILO_CONFIG_CONTENT`)
+5. Environment variable overrides (`KAPPA_CONFIG_CONTENT`)
 
 When the same agent name appears at multiple levels, properties are merged (not replaced wholesale), so you can override just a model or temperature without redefining the entire agent.
 
@@ -430,7 +430,7 @@ Agent configurations merge from lowest to highest priority:
 2. Global config (`~/.config/kappa/kappa.jsonc`)
 3. Project config (`kappa.jsonc` at project root)
 4. `.kappa/` / legacy `.kappacode/` directory configs and agent `.md` files
-5. Environment variable overrides (`KILO_CONFIG_CONTENT`)
+5. Environment variable overrides (`KAPPA_CONFIG_CONTENT`)
 
 When the same agent name appears at multiple levels, properties are merged (not replaced wholesale), so you can override just a model or temperature without redefining the entire agent.
 

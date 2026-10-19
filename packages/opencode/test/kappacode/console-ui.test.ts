@@ -4,11 +4,11 @@ import { mkdir } from "fs/promises"
 import { tmpdir } from "../fixture/fixture.ts"
 import { ConsoleAssets } from "../../src/kappacode/console/assets.ts"
 
-const original = process.env.KILO_CONSOLE_ASSET_DIR
+const original = process.env.KAPPA_CONSOLE_ASSET_DIR
 
 afterEach(() => {
-  if (original === undefined) delete process.env.KILO_CONSOLE_ASSET_DIR
-  else process.env.KILO_CONSOLE_ASSET_DIR = original
+  if (original === undefined) delete process.env.KAPPA_CONSOLE_ASSET_DIR
+  else process.env.KAPPA_CONSOLE_ASSET_DIR = original
 })
 
 async function assets(dir: string) {
@@ -20,7 +20,7 @@ async function assets(dir: string) {
 describe("Kappa Console UI routes", () => {
   test("serves the console index for /console and SPA routes", async () => {
     await using tmp = await tmpdir()
-    process.env.KILO_CONSOLE_ASSET_DIR = tmp.path
+    process.env.KAPPA_CONSOLE_ASSET_DIR = tmp.path
     await assets(tmp.path)
 
     const root = await ConsoleAssets.resolve("/console")
@@ -36,7 +36,7 @@ describe("Kappa Console UI routes", () => {
 
   test("serves console assets without falling back on missing files", async () => {
     await using tmp = await tmpdir()
-    process.env.KILO_CONSOLE_ASSET_DIR = tmp.path
+    process.env.KAPPA_CONSOLE_ASSET_DIR = tmp.path
     await assets(tmp.path)
 
     const asset = await ConsoleAssets.resolve("/console/assets/app.js")

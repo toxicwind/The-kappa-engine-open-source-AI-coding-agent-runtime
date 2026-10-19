@@ -35,12 +35,12 @@ describe("Kappa logger compatibility", () => {
 
   test("does not truncate the dev log twice during one run", async () => {
     const previous = Global.Path.log
-    const run = process.env.KILO_RUN_ID
-    const initialized = process.env.KILO_LOG_INITIALIZED_RUN_ID
+    const run = process.env.KAPPA_RUN_ID
+    const initialized = process.env.KAPPA_LOG_INITIALIZED_RUN_ID
     await using tmp = await tmpdir()
     Global.Path.log = tmp.path
-    process.env.KILO_RUN_ID = "run-1"
-    delete process.env.KILO_LOG_INITIALIZED_RUN_ID
+    process.env.KAPPA_RUN_ID = "run-1"
+    delete process.env.KAPPA_LOG_INITIALIZED_RUN_ID
 
     try {
       await Log.init({ print: false, dev: true })
@@ -51,10 +51,10 @@ describe("Kappa logger compatibility", () => {
     } finally {
       await Log.init({ print: true })
       Global.Path.log = previous
-      if (run === undefined) delete process.env.KILO_RUN_ID
-      else process.env.KILO_RUN_ID = run
-      if (initialized === undefined) delete process.env.KILO_LOG_INITIALIZED_RUN_ID
-      else process.env.KILO_LOG_INITIALIZED_RUN_ID = initialized
+      if (run === undefined) delete process.env.KAPPA_RUN_ID
+      else process.env.KAPPA_RUN_ID = run
+      if (initialized === undefined) delete process.env.KAPPA_LOG_INITIALIZED_RUN_ID
+      else process.env.KAPPA_LOG_INITIALIZED_RUN_ID = initialized
     }
   })
 })

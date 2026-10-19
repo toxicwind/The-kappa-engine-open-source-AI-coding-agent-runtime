@@ -1,8 +1,8 @@
 import type { DeviceAuthInitiateResponse, DeviceAuthPollResponse } from "../types.js"
-import { KILO_API_BASE } from "../api/constants.js"
+import { KAPPA_API_BASE } from "../api/constants.js"
 
 export async function initiateDeviceAuth(): Promise<DeviceAuthInitiateResponse> {
-  const response = await fetch(`${KILO_API_BASE}/api/device-auth/codes`, {
+  const response = await fetch(`${KAPPA_API_BASE}/api/device-auth/codes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export async function initiateDeviceAuth(): Promise<DeviceAuthInitiateResponse> 
 }
 
 export async function pollDeviceAuth(code: string): Promise<DeviceAuthPollResponse> {
-  const response = await fetch(`${KILO_API_BASE}/api/device-auth/codes/${code}`)
+  const response = await fetch(`${KAPPA_API_BASE}/api/device-auth/codes/${code}`)
 
   if (response.status === 202) {
     return { status: "pending" }

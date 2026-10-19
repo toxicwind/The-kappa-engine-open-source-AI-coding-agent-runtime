@@ -7,7 +7,7 @@ import { Manifest, Policy } from "../../../script/kappacode/sbom/index"
 import { upload } from "../../../script/kappacode/release"
 import { CHECKSUMS } from "./sbom"
 
-const prerelease = process.env.KILO_PRE_RELEASE === "true"
+const prerelease = process.env.KAPPA_PRE_RELEASE === "true"
 
 console.log(`Publishing VSCode extension for ${prerelease ? "pre-release" : "release"}: v${Script.version}`)
 

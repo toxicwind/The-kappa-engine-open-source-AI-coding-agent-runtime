@@ -189,8 +189,8 @@ describe("kappacode tool registry indexing", () => {
   it.live("follows VS Code project consent for semantic_search without config enablement", () =>
     Effect.acquireUseRelease(
       Effect.sync(() => {
-        const prev = process.env["KILO_PLATFORM"]
-        process.env["KILO_PLATFORM"] = "vscode"
+        const prev = process.env["KAPPA_PLATFORM"]
+        process.env["KAPPA_PLATFORM"] = "vscode"
         return prev
       }),
       () =>
@@ -218,8 +218,8 @@ describe("kappacode tool registry indexing", () => {
         ),
       (prev) =>
         Effect.sync(() => {
-          if (prev === undefined) delete process.env["KILO_PLATFORM"]
-          if (prev !== undefined) process.env["KILO_PLATFORM"] = prev
+          if (prev === undefined) delete process.env["KAPPA_PLATFORM"]
+          if (prev !== undefined) process.env["KAPPA_PLATFORM"] = prev
         }),
     ),
   )
@@ -228,8 +228,8 @@ describe("kappacode tool registry indexing", () => {
     it.live(`omits interactive_terminal from ${client} tool definitions`, () =>
       Effect.acquireUseRelease(
         Effect.sync(() => {
-          const prev = process.env["KILO_CLIENT"]
-          process.env["KILO_CLIENT"] = client
+          const prev = process.env["KAPPA_CLIENT"]
+          process.env["KAPPA_CLIENT"] = client
           return prev
         }),
         () =>
@@ -252,8 +252,8 @@ describe("kappacode tool registry indexing", () => {
           ),
         (prev) =>
           Effect.sync(() => {
-            if (prev === undefined) delete process.env["KILO_CLIENT"]
-            if (prev !== undefined) process.env["KILO_CLIENT"] = prev
+            if (prev === undefined) delete process.env["KAPPA_CLIENT"]
+            if (prev !== undefined) process.env["KAPPA_CLIENT"] = prev
           }),
       ),
     )
@@ -365,7 +365,7 @@ describe("kappacode tool registry indexing", () => {
   )
 
   test("conditionally includes Kappa registry extras", () => {
-    const prev = process.env["KILO_CLIENT"]
+    const prev = process.env["KAPPA_CLIENT"]
     const def = (id: string): Tool.Def => ({
       id,
       description: id,
@@ -395,7 +395,7 @@ describe("kappacode tool registry indexing", () => {
     const flags = { experimentalSharedAgentBoard: false }
 
     try {
-      process.env["KILO_CLIENT"] = "cli"
+      process.env["KAPPA_CLIENT"] = "cli"
       expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
         "kilo_memory_recall",
@@ -422,7 +422,7 @@ describe("kappacode tool registry indexing", () => {
         "link_pr",
       ])
 
-      process.env["KILO_CLIENT"] = "vscode"
+      process.env["KAPPA_CLIENT"] = "vscode"
       expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
         "kilo_memory_recall",
@@ -473,7 +473,7 @@ describe("kappacode tool registry indexing", () => {
         "send_file",
       ])
 
-      process.env["KILO_CLIENT"] = "desktop"
+      process.env["KAPPA_CLIENT"] = "desktop"
       expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
         "kilo_memory_recall",
@@ -484,7 +484,7 @@ describe("kappacode tool registry indexing", () => {
         "send_file",
       ])
 
-      process.env["KILO_CLIENT"] = "run"
+      process.env["KAPPA_CLIENT"] = "run"
       expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
         "kilo_memory_recall",
@@ -495,7 +495,7 @@ describe("kappacode tool registry indexing", () => {
         "send_file",
       ])
 
-      process.env["KILO_CLIENT"] = "acp"
+      process.env["KAPPA_CLIENT"] = "acp"
       expect(KappaToolRegistry.extra(tools, {}, flags).map((tool) => tool.id)).toEqual([
         "semantic_search",
         "kilo_memory_recall",
@@ -506,7 +506,7 @@ describe("kappacode tool registry indexing", () => {
         "send_file",
       ])
       for (const client of ["cli", "vscode", "jetbrains", "desktop", "run", "acp"]) {
-        process.env["KILO_CLIENT"] = client
+        process.env["KAPPA_CLIENT"] = client
         for (const enabled of [false, true]) {
           const ids = KappaToolRegistry.extra(
             tools,
@@ -523,14 +523,14 @@ describe("kappacode tool registry indexing", () => {
         .filter((id) => id.startsWith("board_"))
       expect(flagged).toEqual(["board_read", "board_post"])
     } finally {
-      if (prev === undefined) delete process.env["KILO_CLIENT"]
-      if (prev !== undefined) process.env["KILO_CLIENT"] = prev
+      if (prev === undefined) delete process.env["KAPPA_CLIENT"]
+      if (prev !== undefined) process.env["KAPPA_CLIENT"] = prev
     }
   })
 
   test("logs indexing bootstrap failures without blocking session bootstrap", async () => {
-    const platform = process.env["KILO_PLATFORM"]
-    process.env["KILO_PLATFORM"] = "cli"
+    const platform = process.env["KAPPA_PLATFORM"]
+    process.env["KAPPA_PLATFORM"] = "cli"
     const logger = Log.create({ service: "kappacode-bootstrap" })
     const err = new Error("indexing init failed")
     const calls: string[] = []
@@ -593,8 +593,8 @@ describe("kappacode tool registry indexing", () => {
       expect(indexing).toHaveBeenCalledTimes(1)
       expect(warn).toHaveBeenCalledWith("indexing bootstrap failed", { err })
     } finally {
-      if (platform === undefined) delete process.env["KILO_PLATFORM"]
-      else process.env["KILO_PLATFORM"] = platform
+      if (platform === undefined) delete process.env["KAPPA_PLATFORM"]
+      else process.env["KAPPA_PLATFORM"] = platform
       indexing.mockRestore()
       warn.mockRestore()
     }

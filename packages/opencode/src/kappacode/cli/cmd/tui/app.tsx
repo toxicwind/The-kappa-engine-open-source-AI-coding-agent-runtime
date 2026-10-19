@@ -80,7 +80,7 @@ export function useSessionEffects(deps: {
   sync: ReturnType<typeof useSync>
 }) {
   useLinkInteractions()
-  const pty = process.env.KILO_PTY_ID
+  const pty = process.env.KAPPA_PTY_ID
   const viewerId = crypto.randomUUID()
   const renderer = useRenderer()
   const session = createMemo(() => (deps.route.data.type === "session" ? deps.route.data.sessionID : undefined))
@@ -88,7 +88,7 @@ export function useSessionEffects(deps: {
   const meta = { prev: "" }
 
   KappaTerminalActivity.use({
-    enabled: process.env.KILO_TERMINAL_ACTIVITY,
+    enabled: process.env.KAPPA_TERMINAL_ACTIVITY,
     session,
     data: deps.sync.data,
     subscribe: (handler) =>

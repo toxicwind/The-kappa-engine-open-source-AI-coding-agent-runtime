@@ -12,8 +12,8 @@ export const ServeCommand = effectCmd({
   instance: false, // kappacode_change
   handler: Effect.fn("Cli.serve")(function* (args) {
     const { Server } = yield* Effect.promise(() => import("../../server/server"))
-    if (!Flag.KILO_SERVER_PASSWORD) {
-      console.log("Warning: KILO_SERVER_PASSWORD is not set; server is unsecured.")
+    if (!Flag.KAPPA_SERVER_PASSWORD) {
+      console.log("Warning: KAPPA_SERVER_PASSWORD is not set; server is unsecured.")
     }
     const opts = yield* resolveNetworkOptions(args)
     const server = yield* Effect.promise(() => Server.listen(opts))

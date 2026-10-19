@@ -175,7 +175,7 @@ const layer = Layer.effect(
     const locationIsGlobal = path.resolve(location.directory) === path.resolve(global.config)
     // Read configuration once when this location opens. Later calls reuse these
     // values until the location is reopened.
-    const discovered = locationIsGlobal || Flag.KILO_DISABLE_PROJECT_CONFIG // kappacode_change
+    const discovered = locationIsGlobal || Flag.KAPPA_DISABLE_PROJECT_CONFIG // kappacode_change
       ? []
       : yield* fs
           .up({

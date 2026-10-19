@@ -47,7 +47,7 @@ const subscribePtyEvents = Effect.fn("PtySessionTest.subscribePtyEvents")(functi
 const createPty = Effect.fn("PtySessionTest.createPty")(function* (command: string, args: string[] = []) {
   const pty = yield* Pty.Service
   return yield* Effect.acquireRelease(
-    pty.create({ command, args, cwd: "/tmp", env: { TERM: "xterm-256color", KILO_TERMINAL: "1" } }),
+    pty.create({ command, args, cwd: "/tmp", env: { TERM: "xterm-256color", KAPPA_TERMINAL: "1" } }),
     (info) => pty.remove(info.id).pipe(Effect.ignore),
   )
 })

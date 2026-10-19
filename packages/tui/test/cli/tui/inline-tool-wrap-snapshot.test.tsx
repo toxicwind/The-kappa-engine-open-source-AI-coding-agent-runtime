@@ -48,7 +48,7 @@ const tools: readonly ToolFixture[] = [
   {
     icon: "✱",
     label:
-      'Grep "export const KILO_DB|KILO_DB|KILO_DEV|Global\\.Path\\.data|data =" in packages/opencode/src (115 matches)',
+      'Grep "export const KAPPA_DB|KAPPA_DB|KAPPA_DEV|Global\\.Path\\.data|data =" in packages/opencode/src (115 matches)',
   },
 ] as const
 

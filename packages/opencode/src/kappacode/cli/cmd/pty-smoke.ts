@@ -42,22 +42,22 @@ export async function render(file: string, args: string[] = ["--pure"], timeout 
   }
   Object.assign(env, {
     TERM: "xterm-256color",
-    KILO_TERMINAL: "1",
-    KILO_TEST_HOME: dir,
-    KILO_NO_DAEMON: "1",
-    KILO_DISABLE_AUTOUPDATE: "1",
-    KILO_DISABLE_MODELS_FETCH: "1",
-    KILO_DISABLE_PROJECT_CONFIG: "1",
-    KILO_DISABLE_DEFAULT_PLUGINS: "1",
-    KILO_PURE: "1",
+    KAPPA_TERMINAL: "1",
+    KAPPA_TEST_HOME: dir,
+    KAPPA_NO_DAEMON: "1",
+    KAPPA_DISABLE_AUTOUPDATE: "1",
+    KAPPA_DISABLE_MODELS_FETCH: "1",
+    KAPPA_DISABLE_PROJECT_CONFIG: "1",
+    KAPPA_DISABLE_DEFAULT_PLUGINS: "1",
+    KAPPA_PURE: "1",
     // A release binary logs at INFO, which is too coarse to locate a startup stall.
     // KappaLog.init reads this, so the log tail attached on failure shows every step.
-    KILO_LOG_LEVEL: process.env.KILO_PTY_SMOKE_LOG_LEVEL ?? "DEBUG",
+    KAPPA_LOG_LEVEL: process.env.KAPPA_PTY_SMOKE_LOG_LEVEL ?? "DEBUG",
     // Must stay below IDLE_LIMIT so an unanswered worker call is reported in the log tail
     // instead of being cut off by the silence watchdog.
-    KILO_RPC_HANDSHAKE_TIMEOUT: "8000",
-    KILO_CONFIG_CONTENT: JSON.stringify({ enabled_providers: ["anthropic"], experimental: { openTelemetry: false } }),
-    KILO_AUTH_CONTENT: "{}",
+    KAPPA_RPC_HANDSHAKE_TIMEOUT: "8000",
+    KAPPA_CONFIG_CONTENT: JSON.stringify({ enabled_providers: ["anthropic"], experimental: { openTelemetry: false } }),
+    KAPPA_AUTH_CONTENT: "{}",
     ANTHROPIC_API_KEY: "dummy",
     HOME: dir,
     USERPROFILE: dir,
@@ -72,7 +72,7 @@ export async function render(file: string, args: string[] = ["--pure"], timeout 
     TEMP: dir,
   })
 
-  const keep = process.env.KILO_PTY_SMOKE_KEEP === "1"
+  const keep = process.env.KAPPA_PTY_SMOKE_KEEP === "1"
   try {
     const cwd = path.join(dir, "project")
     await mkdir(cwd)
@@ -192,7 +192,7 @@ export const PtySmokeCommand = cmd({
   command: "__pty-smoke",
   describe: false,
   async handler() {
-    if (process.env.KILO_PTY_SMOKE !== "1") throw new Error("PTY smoke command is release-only")
+    if (process.env.KAPPA_PTY_SMOKE !== "1") throw new Error("PTY smoke command is release-only")
     const { PtySmoke } = await import("@opencode-ai/core/kappacode/pty/smoke")
     await PtySmoke.smoke()
     await render(process.execPath)

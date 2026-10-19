@@ -2,7 +2,7 @@ import { realpathSync } from "fs"
 import path from "path"
 
 // A skill discovered under a trusted directory (~/.agents, ~/.claude, config dirs,
-// KILO_CONFIG_DIR) mints trust: shell execution after one approval, and unconfined
+// KAPPA_CONFIG_DIR) mints trust: shell execution after one approval, and unconfined
 // {env:}/{file:} substitution. Symlinks are followed during the scan, so a link from a
 // trusted dir into the current project (a commonly suggested convenience) would otherwise
 // grant project-controlled markdown that trust. Resolve the real path and drop trust when

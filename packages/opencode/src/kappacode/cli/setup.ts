@@ -51,7 +51,7 @@ export namespace KappaCli {
       .command(DaemonCommand)
       .command(ConfigCLICommand)
       .command(WorktreeCommand)
-    if (process.env.KILO_PTY_SMOKE === "1") cli.command(PtySmokeCommand)
+    if (process.env.KAPPA_PTY_SMOKE === "1") cli.command(PtySmokeCommand)
     if (InstallationBuildKind !== "release") cli.command(DevSetupCommand).command(DevAliasCommand)
     // Safe self-reference: `cli` is a typed parameter and yargs `.command()` returns the same
     // instance, so the help command can resolve the fully-built root at handler time. This also

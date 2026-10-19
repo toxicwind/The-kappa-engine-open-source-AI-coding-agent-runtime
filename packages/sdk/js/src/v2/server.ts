@@ -2,7 +2,7 @@ import launch from "cross-spawn"
 import { type Config } from "./gen/types.gen.js"
 import { stop, bindAbort } from "../process.js"
 
-// kappacode_change start - Merge existing KILO_CONFIG_CONTENT with new config
+// kappacode_change start - Merge existing KAPPA_CONFIG_CONTENT with new config
 // This preserves Kappacode-injected modes when spawning nested CLI instances
 function mergeConfig(existing: Config | undefined, incoming: Config | undefined): Config {
   const base = existing ?? {}
@@ -20,7 +20,7 @@ function mergeConfig(existing: Config | undefined, incoming: Config | undefined)
 }
 
 function parseExistingConfig(): Config | undefined {
-  const content = process.env.KILO_CONFIG_CONTENT
+  const content = process.env.KAPPA_CONFIG_CONTENT
   if (!content) return undefined
   try {
     return JSON.parse(content)
@@ -70,7 +70,7 @@ export async function createKappaServer(options?: ServerOptions) {
     // kappacode_change end
     env: {
       ...process.env,
-      KILO_CONFIG_CONTENT: buildConfigEnv(options.config), // kappacode_change
+      KAPPA_CONFIG_CONTENT: buildConfigEnv(options.config), // kappacode_change
     },
   })
   let clear = () => {}
@@ -159,7 +159,7 @@ export function createKappaTui(options?: TuiOptions) {
     windowsHide: true,
     env: {
       ...process.env,
-      KILO_CONFIG_CONTENT: buildConfigEnv(options?.config), // kappacode_change
+      KAPPA_CONFIG_CONTENT: buildConfigEnv(options?.config), // kappacode_change
     },
   })
 

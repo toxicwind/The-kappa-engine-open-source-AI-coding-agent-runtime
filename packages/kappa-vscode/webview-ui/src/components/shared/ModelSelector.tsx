@@ -34,7 +34,7 @@ import { useVSCode } from "../../context/vscode"
 import type { ModelSelection } from "../../types/messages"
 import { isEnterKeyCommitNotIme } from "../../utils/ime-enter"
 import {
-  KILO_GATEWAY_ID,
+  KAPPA_GATEWAY_ID,
   isSmall,
   providerSortKey,
   isFree,
@@ -235,7 +235,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
   // Only show models from Kappa Gateway or connected providers.
   // kappa-auto/small is excluded unless includeAutoSmall is explicitly true.
   const available = (m: EnrichedModel, c: string[]) =>
-    (props.includeAutoSmall || !isSmall(m)) && (m.providerID === KILO_GATEWAY_ID || c.includes(m.providerID))
+    (props.includeAutoSmall || !isSmall(m)) && (m.providerID === KAPPA_GATEWAY_ID || c.includes(m.providerID))
 
   const visibleModels = createMemo(() => {
     if (!open()) return []

@@ -87,20 +87,20 @@ const cfg: Partial<Config.Info> = {
 }
 
 afterEach(async () => {
-  delete process.env.KILO_MD_TEST
+  delete process.env.KAPPA_MD_TEST
   await clear()
   await disposeAllInstances()
 })
 
 describe("markdown substitutions", () => {
   test("applies file and env substitutions to parsed markdown body", async () => {
-    process.env.KILO_MD_TEST = "env content"
+    process.env.KAPPA_MD_TEST = "env content"
     await using tmp = await tmpdir({
       init: async (dir) => {
         await Filesystem.write(path.join(dir, "body.md"), "file content")
         await Filesystem.write(
           path.join(dir, "SKILL.md"),
-          ["---", "name: test", "description: Test", "---", "{file:body.md}", "{env:KILO_MD_TEST}"].join("\n"),
+          ["---", "name: test", "description: Test", "---", "{file:body.md}", "{env:KAPPA_MD_TEST}"].join("\n"),
         )
       },
     })
@@ -468,9 +468,9 @@ describe("project MCP trust boundaries", () => {
     await using globalTmp = await tmpdir()
     await using tmp = await tmpdir({ git: true })
     const prev = Global.Path.config
-    const secret = process.env.KILO_PROJECT_MCP_SECRET
+    const secret = process.env.KAPPA_PROJECT_MCP_SECRET
     ;(Global.Path as { config: string }).config = globalTmp.path
-    process.env.KILO_PROJECT_MCP_SECRET = "process-secret"
+    process.env.KAPPA_PROJECT_MCP_SECRET = "process-secret"
     await clear()
     await disposeAllInstances()
 
@@ -480,7 +480,7 @@ describe("project MCP trust boundaries", () => {
           unsafe: {
             type: "remote",
             url: "https://project.example.com/unsafe",
-            headers: { Authorization: "Bearer {env:KILO_PROJECT_MCP_SECRET}" },
+            headers: { Authorization: "Bearer {env:KAPPA_PROJECT_MCP_SECRET}" },
           },
           sibling: {
             type: "remote",
@@ -508,8 +508,8 @@ describe("project MCP trust boundaries", () => {
         },
       })
     } finally {
-      if (secret === undefined) delete process.env.KILO_PROJECT_MCP_SECRET
-      else process.env.KILO_PROJECT_MCP_SECRET = secret
+      if (secret === undefined) delete process.env.KAPPA_PROJECT_MCP_SECRET
+      else process.env.KAPPA_PROJECT_MCP_SECRET = secret
       ;(Global.Path as { config: string }).config = prev
       await clear()
       await disposeAllInstances()
@@ -1504,22 +1504,22 @@ describe("linked worktree config", () => {
     }
   })
 
-  test("keeps KILO_CONFIG_DIR above the primary fallback", async () => {
+  test("keeps KAPPA_CONFIG_DIR above the primary fallback", async () => {
     await using primary = await tmpdir({ git: true })
     await using explicit = await tmpdir()
     const worktree = path.join(path.dirname(primary.path), `${path.basename(primary.path)}-config-explicit`)
     await $`git worktree add -b config-explicit-worktree ${worktree}`.cwd(primary.path).quiet()
     await Bun.write(path.join(primary.path, ".kappa", "kappa.jsonc"), JSON.stringify({ username: "primary-dir" }))
     await Bun.write(path.join(explicit.path, "kappa.jsonc"), JSON.stringify({ username: "explicit-dir" }))
-    const previous = process.env["KILO_CONFIG_DIR"]
-    process.env["KILO_CONFIG_DIR"] = explicit.path
+    const previous = process.env["KAPPA_CONFIG_DIR"]
+    process.env["KAPPA_CONFIG_DIR"] = explicit.path
 
     try {
       const config = await provideTestInstance({ directory: worktree, fn: load })
       expect(config.username).toBe("explicit-dir")
     } finally {
-      if (previous === undefined) delete process.env["KILO_CONFIG_DIR"]
-      else process.env["KILO_CONFIG_DIR"] = previous
+      if (previous === undefined) delete process.env["KAPPA_CONFIG_DIR"]
+      else process.env["KAPPA_CONFIG_DIR"] = previous
       await $`git worktree remove --force ${worktree}`.cwd(primary.path).quiet().nothrow()
     }
   })

@@ -19,7 +19,7 @@ function makeProvider(id: string, models: string[]): Provider {
   return result
 }
 
-const KILO_AUTO: ModelSelection = { providerID: "kappa", modelID: "kappa-auto/free" }
+const KAPPA_AUTO: ModelSelection = { providerID: "kappa", modelID: "kappa-auto/free" }
 
 const providers: Record<string, Provider> = {
   kappa: makeProvider("kappa", ["kappa-auto/free", "z-first", "z-personal", "z-recommended"]),
@@ -39,7 +39,7 @@ function env(overrides?: Partial<ResolveEnv>): ResolveEnv {
     connected: ["kappa", "anthropic", "openai"],
     ready: true,
     organizationId: null,
-    fallback: KILO_AUTO,
+    fallback: KAPPA_AUTO,
     getModeModel: () => null,
     getGlobalModel: () => null,
     ...overrides,
@@ -62,7 +62,7 @@ describe("per-scope per-agent model selection", () => {
     const updated: ModelStore = { ...store, ...applyModel(store, "code", claude, "session-a") }
 
     expect(getSessionModel(updated, e, "session-a", "code")).toEqual(claude)
-    expect(getSessionModel(updated, e, "session-b", "code")).toEqual(KILO_AUTO)
+    expect(getSessionModel(updated, e, "session-b", "code")).toEqual(KAPPA_AUTO)
   })
 
   it("each session preserves its own model independently", () => {
@@ -152,7 +152,7 @@ describe("per-scope per-agent model selection", () => {
     const store: ModelStore = { ...emptyStore(), recentModels: [claude] }
     const e = env({ organizationId: "org-a" })
 
-    expect(getSelected(store, e, "new-session", "code")).toEqual(KILO_AUTO)
+    expect(getSelected(store, e, "new-session", "code")).toEqual(KAPPA_AUTO)
   })
 
   it("org users keep in-scope picks", () => {
@@ -169,7 +169,7 @@ describe("per-scope per-agent model selection", () => {
     expect(getAgentModel(store, env({ getModeModel: () => first }), "code")).toEqual(first)
     expect(getAgentModel(store, env({ getGlobalModel: () => gpt }), "code")).toEqual(gpt)
     expect(getAgentModel(store, env(), "code")).toEqual(claude)
-    expect(getAgentModel(emptyStore(), env(), "code")).toEqual(KILO_AUTO)
+    expect(getAgentModel(emptyStore(), env(), "code")).toEqual(KAPPA_AUTO)
   })
 
   it("getSessionModel resolves for the session's selected agent", () => {

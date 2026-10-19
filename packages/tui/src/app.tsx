@@ -75,7 +75,7 @@ import { createPluginRuntime, PluginRuntimeProvider, usePluginRuntime, type TuiP
 import { CommandPaletteDialog } from "./component/command-palette"
 import {
   COMMAND_PALETTE_COMMAND,
-  KILO_BASE_MODE,
+  KAPPA_BASE_MODE,
   OpencodeKeymapProvider,
   registerOpencodeKeymap,
   useBindings,
@@ -207,7 +207,7 @@ export const run = Effect.fn("Tui.run")(function* (input: TuiInput) {
               ...(keyboard ? { useKittyKeyboard: {} } : {}), // kappacode_change
               autoFocus: false,
               openConsoleOnError: false,
-              useMouse: !Flag.KILO_DISABLE_MOUSE && input.config.mouse,
+              useMouse: !Flag.KAPPA_DISABLE_MOUSE && input.config.mouse,
               consoleOptions: {
                 keyBindings: [{ name: "y", ctrl: true, action: "copy-selection" }],
               },
@@ -286,8 +286,8 @@ export const run = Effect.fn("Tui.run")(function* (input: TuiInput) {
                     >
                       <TuiStartupProvider
                         value={{
-                          initialRoute: process.env.KILO_ROUTE ? JSON.parse(process.env.KILO_ROUTE) : undefined,
-                          skipInitialLoading: Boolean(process.env.KILO_FAST_BOOT),
+                          initialRoute: process.env.KAPPA_ROUTE ? JSON.parse(process.env.KAPPA_ROUTE) : undefined,
+                          skipInitialLoading: Boolean(process.env.KAPPA_FAST_BOOT),
                         }}
                       >
                         <ClipboardProvider>
@@ -441,7 +441,7 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
   const offSelectionKeys = keymap.intercept(
     "key",
     ({ event }) => {
-      if (!Flag.KILO_EXPERIMENTAL_DISABLE_COPY_ON_SELECT) return
+      if (!Flag.KAPPA_EXPERIMENTAL_DISABLE_COPY_ON_SELECT) return
       Selection.handleSelectionKey(renderer, toast, event, clipboard)
     },
     { priority: 1 },
@@ -475,7 +475,7 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
 
   // Update terminal window title based on current route and session
   createEffect(() => {
-    if (!terminalTitleEnabled() || Flag.KILO_DISABLE_TERMINAL_TITLE) return
+    if (!terminalTitleEnabled() || Flag.KAPPA_DISABLE_TERMINAL_TITLE) return
 
     // kappacode_change start
     const title = KappaApp.getTerminalTitle({
@@ -630,7 +630,7 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
         name: "workspace.list",
         title: "Manage workspaces",
         category: "Workspace",
-        hidden: !Flag.KILO_EXPERIMENTAL_WORKSPACES,
+        hidden: !Flag.KAPPA_EXPERIMENTAL_WORKSPACES,
         slashName: "workspaces",
         slashAliases: ["worktree", "worktrees"], // kappacode_change - `kappa --worktree` worktrees are workspaces too
         run: () => {
@@ -998,7 +998,7 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     bindings: tuiConfig.keybinds.gather("app", appBindingCommands),
   }))
 
@@ -1007,7 +1007,7 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: () => {
       const current = promptRef.current
       if (!current?.focused) return true
@@ -1128,7 +1128,7 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
       flexDirection="column"
       backgroundColor={theme.background}
       onMouseDown={(evt) => {
-        if (!Flag.KILO_EXPERIMENTAL_DISABLE_COPY_ON_SELECT) return
+        if (!Flag.KAPPA_EXPERIMENTAL_DISABLE_COPY_ON_SELECT) return
         if (evt.button !== MouseButton.RIGHT) return
 
         if (!Selection.copy(renderer, toast, clipboard)) return
@@ -1136,10 +1136,10 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
         evt.stopPropagation()
       }}
       onMouseUp={
-        !Flag.KILO_EXPERIMENTAL_DISABLE_COPY_ON_SELECT ? () => Selection.copy(renderer, toast, clipboard) : undefined
+        !Flag.KAPPA_EXPERIMENTAL_DISABLE_COPY_ON_SELECT ? () => Selection.copy(renderer, toast, clipboard) : undefined
       }
     >
-      <Show when={Flag.KILO_SHOW_TTFD}>
+      <Show when={Flag.KAPPA_SHOW_TTFD}>
         <TimeToFirstDraw />
       </Show>
       <Show when={ready()}>

@@ -96,7 +96,7 @@ async function buildKappaConsole() {
   console.log("building Kappa Console")
   const proc = Bun.spawn([process.execPath, "run", "build"], {
     cwd: app,
-    env: { ...process.env, KILO_CONSOLE_BASE: "/console/" },
+    env: { ...process.env, KAPPA_CONSOLE_BASE: "/console/" },
     stdout: "inherit",
     stderr: "inherit",
     windowsHide: true,
@@ -116,19 +116,19 @@ async function copyKappaConsole(input: string, outputDir: string) {
 
 function smokeEnv(root: string) {
   const env = { ...process.env }
-  delete env.KILO_MODELS_PATH
-  delete env.KILO_MODELS_URL
-  delete env.KILO_CONFIG
-  delete env.KILO_CONFIG_DIR
+  delete env.KAPPA_MODELS_PATH
+  delete env.KAPPA_MODELS_URL
+  delete env.KAPPA_CONFIG
+  delete env.KAPPA_CONFIG_DIR
   return {
     ...env,
     XDG_DATA_HOME: path.join(root, "data"),
     XDG_CACHE_HOME: path.join(root, "cache"),
     XDG_CONFIG_HOME: path.join(root, "config"),
     XDG_STATE_HOME: path.join(root, "state"),
-    KILO_DISABLE_MODELS_FETCH: "1",
-    KILO_DISABLE_PROJECT_CONFIG: "1",
-    KILO_CONFIG_CONTENT: JSON.stringify({ enabled_providers: ["anthropic"] }),
+    KAPPA_DISABLE_MODELS_FETCH: "1",
+    KAPPA_DISABLE_PROJECT_CONFIG: "1",
+    KAPPA_CONFIG_CONTENT: JSON.stringify({ enabled_providers: ["anthropic"] }),
     ANTHROPIC_API_KEY: "dummy",
   }
 }
@@ -290,7 +290,7 @@ for (const item of targets) {
   await $`mkdir -p dist/${name}/bin`
   // kappacode_change start
   const bwrap =
-    item.os === "linux" && process.env.KILO_SKIP_BUNDLED_BWRAP !== "1"
+    item.os === "linux" && process.env.KAPPA_SKIP_BUNDLED_BWRAP !== "1"
       ? await stageBubblewrap(item.arch, path.resolve(dir, `dist/${name}/bin`))
       : undefined
   // kappacode_change end
@@ -341,22 +341,22 @@ for (const item of targets) {
     // kappacode_change end
     define: {
       FFF_LIBC: JSON.stringify(item.abi === "musl" ? "musl" : "gnu"),
-      KILO_VERSION: `'${Script.version}'`,
-      KILO_MODELS_DEV: generated.modelsData,
+      KAPPA_VERSION: `'${Script.version}'`,
+      KAPPA_MODELS_DEV: generated.modelsData,
       OTUI_TREE_SITTER_WORKER_PATH: bunfsRoot + treeSitterWorkerPath,
-      KILO_WORKER_PATH: workerPath,
+      KAPPA_WORKER_PATH: workerPath,
       // kappacode_change start
-      KILO_SESSION_EXPORT_WORKER_PATH: sessionExportWorkerPath,
-      KILO_INDEXING_WORKER_PATH: indexingWorkerPath,
-      KILO_SANDBOX_MUTATION_WORKER_PATH: JSON.stringify(KappaSandboxWorker.filename),
-      KILO_SANDBOX_NETWORK_RELAY_PATH: item.os === "linux" ? JSON.stringify(KappaSandboxNetwork.relay) : "undefined",
-      KILO_SANDBOX_SECCOMP_PATH: item.os === "linux" ? JSON.stringify(KappaSandboxNetwork.seccomp) : "undefined",
+      KAPPA_SESSION_EXPORT_WORKER_PATH: sessionExportWorkerPath,
+      KAPPA_INDEXING_WORKER_PATH: indexingWorkerPath,
+      KAPPA_SANDBOX_MUTATION_WORKER_PATH: JSON.stringify(KappaSandboxWorker.filename),
+      KAPPA_SANDBOX_NETWORK_RELAY_PATH: item.os === "linux" ? JSON.stringify(KappaSandboxNetwork.relay) : "undefined",
+      KAPPA_SANDBOX_SECCOMP_PATH: item.os === "linux" ? JSON.stringify(KappaSandboxNetwork.seccomp) : "undefined",
       // kappacode_change end
-      KILO_CHANNEL: `'${Script.channel}'`,
-      KILO_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
+      KAPPA_CHANNEL: `'${Script.channel}'`,
+      KAPPA_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
       // kappacode_change start
-      KILO_BWRAP_SHA256: bwrap ? `'${bwrap}'` : "undefined",
-      KILO_BUILD_KIND: Script.release ? `'release'` : `'source'`,
+      KAPPA_BWRAP_SHA256: bwrap ? `'${bwrap}'` : "undefined",
+      KAPPA_BUILD_KIND: Script.release ? `'release'` : `'source'`,
       // kappacode_change end
       ...(item.os === "linux" ? { "process.env.OPENTUI_LIBC": JSON.stringify(item.abi ?? "glibc") } : {}),
     },

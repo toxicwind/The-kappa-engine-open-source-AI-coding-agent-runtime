@@ -228,7 +228,7 @@ async function headers(args: HeaderArgs): Promise<Headers> {
     "x-kappa-export-client-sent-at": new Date().toISOString(),
     "x-kappa-export-content-encoding": "identity",
   })
-  const token = process.env.KILO_SESSION_EXPORT_AUTH_TOKEN
+  const token = process.env.KAPPA_SESSION_EXPORT_AUTH_TOKEN
   if (token) out.set("authorization", `Bearer ${token}`)
   const anon = args.anonId ?? (await anonId(args.anonIdPath))
   if (!token && anon) out.set("x-kappa-anon-id", anon)

@@ -117,7 +117,7 @@ export const Deno: Info = {
 }
 
 // kappacode_change start - tsgo native LSP or lightweight diagnostic client
-// When KILO_EXPERIMENTAL_LSP_TOOL is enabled, spawn tsgo --lsp --stdio as a
+// When KAPPA_EXPERIMENTAL_LSP_TOOL is enabled, spawn tsgo --lsp --stdio as a
 // persistent LSP server (full diagnostics, hover, go-to-definition, etc.).
 // Otherwise spawn() returns undefined and getClients() in index.ts falls
 // through to the lightweight TsClient that shells out to tsgo --noEmit on demand.
@@ -129,7 +129,7 @@ export const Typescript: Info = {
   ),
   extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".mts", ".cts"],
   async spawn(root) {
-    if (!Flag.KILO_EXPERIMENTAL_LSP_TOOL) return undefined
+    if (!Flag.KAPPA_EXPERIMENTAL_LSP_TOOL) return undefined
     const bin = await TsCheck.native_tsgo(root)
     if (!bin) {
       log.info("tsgo native binary not found, falling back to lightweight client")

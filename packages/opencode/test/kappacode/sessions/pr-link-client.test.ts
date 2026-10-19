@@ -36,12 +36,12 @@ const layer = LayerNode.compile(LayerNode.group([Storage.node, FSUtil.node, Cros
 let client: string | undefined
 
 beforeEach(() => {
-  client = process.env.KILO_CLIENT
+  client = process.env.KAPPA_CLIENT
 })
 
 afterEach(async () => {
-  if (client === undefined) delete process.env.KILO_CLIENT
-  else process.env.KILO_CLIENT = client
+  if (client === undefined) delete process.env.KAPPA_CLIENT
+  else process.env.KAPPA_CLIENT = client
   await Effect.runPromise(
     Storage.Service.use((svc) => Effect.all(keys.splice(0).map((key) => svc.remove(key)))).pipe(Effect.provide(layer)),
   )
@@ -59,20 +59,20 @@ function read(key: string[]) {
 
 describe("PR-link client boundary", () => {
   test("enabled reads the current client and defaults to CLI", () => {
-    delete process.env.KILO_CLIENT
+    delete process.env.KAPPA_CLIENT
     expect(enabled()).toBe(true)
-    process.env.KILO_CLIENT = "custom"
+    process.env.KAPPA_CLIENT = "custom"
     expect(enabled()).toBe(false)
-    process.env.KILO_CLIENT = "cli"
+    process.env.KAPPA_CLIENT = "cli"
     expect(enabled()).toBe(true)
-    process.env.KILO_CLIENT = "vscode"
+    process.env.KAPPA_CLIENT = "vscode"
     expect(enabled()).toBe(false)
-    delete process.env.KILO_CLIENT
+    delete process.env.KAPPA_CLIENT
     expect(enabled()).toBe(true)
   })
 
   test.each(clients)("%s cannot read, overwrite, clear, refresh, or prune stored links", async (client) => {
-    process.env.KILO_CLIENT = client
+    process.env.KAPPA_CLIENT = client
     expect(enabled()).toBe(false)
     const id = `ses_pr_client_${client}`
     const key = sessionLinkKey(id)
@@ -119,7 +119,7 @@ describe("PR-link client boundary", () => {
   })
 
   test.each(clients)("%s ignores evidence for existing and unavailable repositories", async (client) => {
-    process.env.KILO_CLIENT = client
+    process.env.KAPPA_CLIENT = client
     await using dir = await tmpdir({ git: true })
     const git = simpleGit(dir.path)
     await git.checkoutLocalBranch(branch)
@@ -151,7 +151,7 @@ describe("PR-link client boundary", () => {
   })
 
   test.each(clients)("%s starts no PR poll callback or interval", (client) => {
-    process.env.KILO_CLIENT = client
+    process.env.KAPPA_CLIENT = client
     let calls = 0
     const interval = spyOn(globalThis, "setInterval")
     const stop = startPrLinkPoll(async () => {

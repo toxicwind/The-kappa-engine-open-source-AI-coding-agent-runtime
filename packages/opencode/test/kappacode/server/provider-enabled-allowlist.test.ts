@@ -46,15 +46,15 @@ function stagedAuth() {
   return Effect.acquireRelease(
     Effect.sync(() => {
       const previous = {
-        KILO_AUTH_CONTENT: process.env.KILO_AUTH_CONTENT,
-        KILO_API_KEY: process.env.KILO_API_KEY,
-        KILO_ORG_ID: process.env.KILO_ORG_ID,
+        KAPPA_AUTH_CONTENT: process.env.KAPPA_AUTH_CONTENT,
+        KAPPA_API_KEY: process.env.KAPPA_API_KEY,
+        KAPPA_ORG_ID: process.env.KAPPA_ORG_ID,
       }
-      process.env.KILO_AUTH_CONTENT = JSON.stringify({
+      process.env.KAPPA_AUTH_CONTENT = JSON.stringify({
         kappa: { type: "oauth", access: "staged-token", refresh: "staged-refresh", expires: 0, accountId: "staged-org" },
       })
-      delete process.env.KILO_API_KEY
-      delete process.env.KILO_ORG_ID
+      delete process.env.KAPPA_API_KEY
+      delete process.env.KAPPA_ORG_ID
       return previous
     }),
     (previous) =>
@@ -70,8 +70,8 @@ function stagedAuth() {
 function offline() {
   return Effect.acquireRelease(
     Effect.sync(() => {
-      const previous = { flag: Flag.KILO_DISABLE_MODELS_FETCH, fetch: globalThis.fetch }
-      Flag.KILO_DISABLE_MODELS_FETCH = true
+      const previous = { flag: Flag.KAPPA_DISABLE_MODELS_FETCH, fetch: globalThis.fetch }
+      Flag.KAPPA_DISABLE_MODELS_FETCH = true
       globalThis.fetch = Object.assign(
         async (input: RequestInfo | URL, init?: RequestInit) => {
           const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url)
@@ -85,7 +85,7 @@ function offline() {
     }),
     (previous) =>
       Effect.sync(() => {
-        Flag.KILO_DISABLE_MODELS_FETCH = previous.flag
+        Flag.KAPPA_DISABLE_MODELS_FETCH = previous.flag
         globalThis.fetch = previous.fetch
       }),
   )

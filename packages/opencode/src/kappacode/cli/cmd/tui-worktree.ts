@@ -14,15 +14,15 @@ const log = Log.create({ service: "kappacode.tui-worktree" })
 
 // Matches packages/kappa-vscode/src/agent-manager/WorktreeManager.ts's placement
 // and its ensureGitExclude(), keeping `.kappa/worktrees/` out of `git status`.
-const KILO_WORKTREE_DIR = ".kappa/worktrees"
+const KAPPA_WORKTREE_DIR = ".kappa/worktrees"
 
 // Exported for tests.
 export async function ensureGitExclude(root: string) {
   const excludePath = path.join(root, ".git", "info", "exclude")
   const current = (await Filesystem.readText(excludePath).catch(() => "")).replace(/\s+$/, "")
-  if (current.includes(`${KILO_WORKTREE_DIR}/`)) return
+  if (current.includes(`${KAPPA_WORKTREE_DIR}/`)) return
   const prefix = current ? `${current}\n\n` : ""
-  await Filesystem.write(excludePath, `${prefix}# Kappa Code agent worktrees\n${KILO_WORKTREE_DIR}/\n`).catch((err) =>
+  await Filesystem.write(excludePath, `${prefix}# Kappa Code agent worktrees\n${KAPPA_WORKTREE_DIR}/\n`).catch((err) =>
     log.error("failed to update .git/info/exclude", { excludePath, err }),
   )
 }
@@ -116,7 +116,7 @@ export async function resolveWorktree(name: string, root: string, timeoutMs = 10
         `Cannot create worktree "${slug}" from inside another worktree (${ctx.worktree}). Run this from the primary checkout at ${primary} instead.`,
       )
 
-    const directory = path.join(ctx.worktree, KILO_WORKTREE_DIR, slug)
+    const directory = path.join(ctx.worktree, KAPPA_WORKTREE_DIR, slug)
     // Trust neither signal alone: a directory can exist without a live git
     // registration (orphaned), and a registration can outlive its directory
     // (deleted out-of-band, or pruned).

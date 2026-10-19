@@ -17,7 +17,7 @@ import type { KappaClient } from "@kappacode/sdk/v2/client"
 import path from "node:path"
 import { block } from "./pty-cleanup"
 
-const env = { KILO_UNICODE_LOGO: "0", KILO_TERMINAL_ACTIVITY: "1" }
+const env = { KAPPA_UNICODE_LOGO: "0", KAPPA_TERMINAL_ACTIVITY: "1" }
 
 function key(directory: string) {
   const value = path.resolve(directory)

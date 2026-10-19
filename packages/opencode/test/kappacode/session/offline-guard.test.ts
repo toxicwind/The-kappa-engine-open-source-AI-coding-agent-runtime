@@ -190,14 +190,14 @@ describe("kappacode.session.probeProvider", () => {
 
 describe("kappacode.session.expandEnv", () => {
   test("${VAR} resolves from the environment and unknown names stay intact", () => {
-    process.env.KILO_TEST_EXPAND = "8123"
+    process.env.KAPPA_TEST_EXPAND = "8123"
     try {
-      expect(KappaSessionProcessor.expandEnv("http://127.0.0.1:${KILO_TEST_EXPAND}/v1")).toBe("http://127.0.0.1:8123/v1")
-      expect(KappaSessionProcessor.expandEnv("http://127.0.0.1:${KILO_TEST_MISSING}/v1")).toBe(
-        "http://127.0.0.1:${KILO_TEST_MISSING}/v1",
+      expect(KappaSessionProcessor.expandEnv("http://127.0.0.1:${KAPPA_TEST_EXPAND}/v1")).toBe("http://127.0.0.1:8123/v1")
+      expect(KappaSessionProcessor.expandEnv("http://127.0.0.1:${KAPPA_TEST_MISSING}/v1")).toBe(
+        "http://127.0.0.1:${KAPPA_TEST_MISSING}/v1",
       )
     } finally {
-      delete process.env.KILO_TEST_EXPAND
+      delete process.env.KAPPA_TEST_EXPAND
     }
   })
 })

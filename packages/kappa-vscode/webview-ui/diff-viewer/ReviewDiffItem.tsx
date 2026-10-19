@@ -12,7 +12,7 @@ import { StickyAccordionHeader } from "@kappacode/kappa-ui/sticky-accordion-head
 import { Tooltip } from "@kappacode/kappa-ui/tooltip"
 import type { DiffLineAnnotation, SelectedLineRange } from "@pierre/diffs"
 import type { WorktreeFileDiff } from "../src/types/messages"
-import { KILO_FILE_PATH_MIME } from "../src/utils/path-mentions"
+import { KAPPA_FILE_PATH_MIME } from "../src/utils/path-mentions"
 import { useLanguage } from "../src/context/language"
 import { diffSizeKey } from "./diff-state"
 import type { DiffViewport } from "./diff-requests"
@@ -74,7 +74,7 @@ export const ReviewDiffItem: Component<Props> = (props) => {
               data-slot="session-review-file-info"
               draggable={true}
               onDragStart={(event: DragEvent) => {
-                event.dataTransfer?.setData(KILO_FILE_PATH_MIME, props.diff.file)
+                event.dataTransfer?.setData(KAPPA_FILE_PATH_MIME, props.diff.file)
                 event.dataTransfer?.setData("text/plain", props.diff.file)
                 event.stopPropagation()
               }}

@@ -270,7 +270,7 @@ export namespace BackgroundProcessRunner {
     let confirmation: number | undefined
     let warned = 0
     let walks = 0
-    const id = process.env.KILO_BACKGROUND_PROCESS_ID ?? input.token
+    const id = process.env.KAPPA_BACKGROUND_PROCESS_ID ?? input.token
     let seen = new Map<number, string>()
     void done.then(
       (value) => {
@@ -392,7 +392,7 @@ export namespace BackgroundProcessRunner {
     if (!token || !value) throw new Error("Missing background process runner input")
     const input = decode(value)
     if (input.token !== token) throw new Error("Background process runner token mismatch")
-    process.env.KILO_BACKGROUND_PROCESS_TOKEN = token
+    process.env.KAPPA_BACKGROUND_PROCESS_TOKEN = token
     process.exitCode = await run(input)
     return true
   }

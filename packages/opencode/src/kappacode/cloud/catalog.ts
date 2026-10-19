@@ -1,6 +1,6 @@
 import {
   buildKappaHeaders,
-  DEFAULT_KILO_API_URL,
+  DEFAULT_KAPPA_API_URL,
   getDefaultHeaders,
   getKappaUrlFromToken,
   resolveKappaOpenRouterBaseUrl,
@@ -124,8 +124,8 @@ export namespace CloudCatalog {
     })
 
     const base = Effect.fn("CloudCatalog.base")(function* (input: Input) {
-      const raw = env.KILO_API_URL?.trim()
-      const fallback = raw || DEFAULT_KILO_API_URL
+      const raw = env.KAPPA_API_URL?.trim()
+      const fallback = raw || DEFAULT_KAPPA_API_URL
       const value = getKappaUrlFromToken(fallback, Redacted.value(input.token))
       return yield* Effect.try({
         try: () => {

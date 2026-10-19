@@ -33,9 +33,9 @@ import { ModelStatus } from "./model-status.ts"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 // kappacode_change start
 import {
-  KILO_BUNDLED_PROVIDERS,
+  KAPPA_BUNDLED_PROVIDERS,
   kappaCustomLoaders,
-  KILO_MODEL_SCHEMA_EXTENSIONS,
+  KAPPA_MODEL_SCHEMA_EXTENSIONS,
   patchModelsDevModel as patchKappaModel,
   patchConfigModel as patchKappaConfigModel,
   customProviderVariants,
@@ -159,7 +159,7 @@ const BUNDLED_PROVIDERS: Record<string, () => Promise<(opts: any) => BundledSDK>
   "@ai-sdk/github-copilot": () =>
     import("@opencode-ai/core/github-copilot/copilot-provider").then((m) => m.createOpenaiCompatible),
   "venice-ai-sdk-provider": () => import("venice-ai-sdk-provider").then((m) => m.createVenice),
-  ...KILO_BUNDLED_PROVIDERS, // kappacode_change
+  ...KAPPA_BUNDLED_PROVIDERS, // kappacode_change
 }
 
 type CustomModelLoader = (sdk: any, modelID: string, options?: Record<string, any>, model?: Model) => Promise<any>
@@ -1138,7 +1138,7 @@ export const Model = Schema.Struct({
   headers: Schema.Record(Schema.String, Schema.String),
   release_date: Schema.String,
   variants: optional(Schema.Record(Schema.String, Schema.Record(Schema.String, Schema.Any))),
-  ...KILO_MODEL_SCHEMA_EXTENSIONS, // kappacode_change
+  ...KAPPA_MODEL_SCHEMA_EXTENSIONS, // kappacode_change
 }).annotate({ identifier: "Model" })
 export type Model = Types.DeepMutable<Schema.Schema.Type<typeof Model>>
 

@@ -125,7 +125,7 @@ async function backupAndStripLegacy(file: string, source: string) {
 
 async function opencodeFiles(input: { directories: string[]; cwd: string }) {
   // kappacode_change start: use kappa directory everywhere
-  const project = Flag.KILO_DISABLE_PROJECT_CONFIG
+  const project = Flag.KAPPA_DISABLE_PROJECT_CONFIG
     ? []
     : await Filesystem.findUp(["kappa.json", "kappa.jsonc"], input.cwd, undefined, { rootFirst: true })
   const files = [...project, ...ConfigPaths.fileInDirectory(Global.Path.config, "kappa")]
@@ -133,7 +133,7 @@ async function opencodeFiles(input: { directories: string[]; cwd: string }) {
   for (const dir of unique(input.directories)) {
     files.push(...ConfigPaths.fileInDirectory(dir, "kappa"))
   }
-  if (Flag.KILO_CONFIG) files.push(Flag.KILO_CONFIG)
+  if (Flag.KAPPA_CONFIG) files.push(Flag.KAPPA_CONFIG)
 
   const existing = await Promise.all(
     unique(files).map(async (file) => {

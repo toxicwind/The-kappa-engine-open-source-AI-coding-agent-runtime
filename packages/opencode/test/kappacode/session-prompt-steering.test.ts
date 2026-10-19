@@ -21,7 +21,7 @@ import {
 } from "../fixture/fixture.ts"
 import { remove as cleanup } from "./cleanup.ts"
 
-const previous = Flag.KILO_DB
+const previous = Flag.KAPPA_DB
 const dbfile = path.join(os.tmpdir(), `kappa-prompt-steering-${process.pid}-${crypto.randomUUID()}.db`)
 const layer = LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node]))
 const prompt = LayerNode.compile(LayerNode.group([SessionPrompt.node, SessionProjector.node]))
@@ -29,14 +29,14 @@ const runtime = makeRuntime(Session.Service, layer)
 
 beforeAll(async () => {
   await fs.rm(dbfile, { force: true })
-  Flag.KILO_DB = dbfile
+  Flag.KAPPA_DB = dbfile
 })
 
 afterAll(async () => {
   await runtime.dispose()
   await AppRuntime.dispose()
   await disposeTestRuntime()
-  Flag.KILO_DB = previous
+  Flag.KAPPA_DB = previous
   await Promise.all([dbfile, `${dbfile}-wal`, `${dbfile}-shm`].map(cleanup))
 })
 

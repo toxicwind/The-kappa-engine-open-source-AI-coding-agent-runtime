@@ -21,7 +21,7 @@ const layer = Layer.mergeAll(
   AppNodeBuilder.build(Git.node),
   AppNodeBuilder.build(CrossSpawnSpawner.node),
 )
-const config = ConfigProvider.layerAdd(ConfigProvider.fromUnknown({ KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "false" }), {
+const config = ConfigProvider.layerAdd(ConfigProvider.fromUnknown({ KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: "false" }), {
   asPrimary: true,
 })
 const it = testEffect(layer.pipe(Layer.provideMerge(config)))

@@ -3,12 +3,12 @@ import { clearInFlightCache } from "../../../../src/kappa-sessions/inflight-cach
 import { KappaShutdown } from "../../../../src/kappacode/cli/shutdown"
 
 test("KappaSessions drains queued ingest before instance disposal", async () => {
-  const token = process.env.KILO_API_KEY
-  const base = process.env.KILO_SESSION_INGEST_URL
+  const token = process.env.KAPPA_API_KEY
+  const base = process.env.KAPPA_SESSION_INGEST_URL
   const calls: string[] = []
   let body: unknown
-  process.env.KILO_API_KEY = "shutdown-token"
-  process.env.KILO_SESSION_INGEST_URL = "https://ingest.test"
+  process.env.KAPPA_API_KEY = "shutdown-token"
+  process.env.KAPPA_SESSION_INGEST_URL = "https://ingest.test"
   clearInFlightCache("kappa-sessions:token")
   clearInFlightCache("kappa-sessions:client")
   clearInFlightCache("kappa-sessions:token-valid:shutdown-token")
@@ -47,10 +47,10 @@ test("KappaSessions drains queued ingest before instance disposal", async () => 
     expect(body).toEqual({ data: [{ type: "session_status", data: { status: "idle" } }] })
   } finally {
     request.mockRestore()
-    if (token === undefined) delete process.env.KILO_API_KEY
-    else process.env.KILO_API_KEY = token
-    if (base === undefined) delete process.env.KILO_SESSION_INGEST_URL
-    else process.env.KILO_SESSION_INGEST_URL = base
+    if (token === undefined) delete process.env.KAPPA_API_KEY
+    else process.env.KAPPA_API_KEY = token
+    if (base === undefined) delete process.env.KAPPA_SESSION_INGEST_URL
+    else process.env.KAPPA_SESSION_INGEST_URL = base
     clearInFlightCache("kappa-sessions:token")
     clearInFlightCache("kappa-sessions:client")
     clearInFlightCache("kappa-sessions:token-valid:shutdown-token")

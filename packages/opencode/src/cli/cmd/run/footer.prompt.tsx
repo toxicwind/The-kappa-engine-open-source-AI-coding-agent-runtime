@@ -24,7 +24,7 @@ import {
   movePromptHistory,
   pushPromptHistory,
 } from "./prompt.shared.ts"
-import { KILO_BASE_MODE, useBindings } from "@opencode-ai/tui/keymap"
+import { KAPPA_BASE_MODE, useBindings } from "@opencode-ai/tui/keymap"
 import { realignEditorPromptParts, resolveEditorSlashValue } from "./prompt.editor.ts"
 import { FOOTER_MENU_ROWS, createFooterMenuState, type RunFooterMenuItem } from "./footer.menu.tsx"
 import type { RunFooterTheme } from "./theme.ts"
@@ -978,7 +978,7 @@ export function createPromptState(input: PromptInput): PromptState {
   }
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: baseBindingsEnabled(),
     commands: [
       {
@@ -995,7 +995,7 @@ export function createPromptState(input: PromptInput): PromptState {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: input.prompt(),
     commands: [
       {
@@ -1012,7 +1012,7 @@ export function createPromptState(input: PromptInput): PromptState {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: input.prompt() && !visible(),
     commands: [
       {
@@ -1028,7 +1028,7 @@ export function createPromptState(input: PromptInput): PromptState {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: input.prompt() && !visible(),
     commands: [
       {
@@ -1055,7 +1055,7 @@ export function createPromptState(input: PromptInput): PromptState {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: input.prompt() && !visible(),
     bindings: [
       {
@@ -1073,7 +1073,7 @@ export function createPromptState(input: PromptInput): PromptState {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: input.prompt() && shell() && !visible(),
     bindings: [
       {
@@ -1096,7 +1096,7 @@ export function createPromptState(input: PromptInput): PromptState {
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: input.prompt() && visible(),
     commands: [
       {

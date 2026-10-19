@@ -1,7 +1,7 @@
 import { DiffLineAnnotation, FileContents, FileDiffOptions, type SelectedLineRange } from "@pierre/diffs"
 import { ComponentProps } from "solid-js"
 import { lineCommentStyles } from "../components/line-comment-styles"
-import { KILO_DIFF_THEME } from "./kappa-diff-theme" // kappacode_change
+import { KAPPA_DIFF_THEME } from "./kappa-diff-theme" // kappacode_change
 
 export type DiffProps<T = {}> = FileDiffOptions<T> & {
   before: FileContents
@@ -153,7 +153,7 @@ ${lineCommentStyles}
 
 export function createDefaultOptions<T>(style: FileDiffOptions<T>["diffStyle"]) {
   return {
-    theme: KILO_DIFF_THEME, // kappacode_change
+    theme: KAPPA_DIFF_THEME, // kappacode_change
     themeType: "system",
     disableLineNumbers: false,
     overflow: "wrap",

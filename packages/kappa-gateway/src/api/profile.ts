@@ -1,12 +1,12 @@
 import { select } from "@clack/prompts"
 import type { KappacodeProfile, Organization, KappacodeBalance } from "../types.js"
-import { KILO_API_BASE, DEFAULT_MODEL, DEFAULT_FREE_MODEL } from "./constants.js"
+import { KAPPA_API_BASE, DEFAULT_MODEL, DEFAULT_FREE_MODEL } from "./constants.js"
 
 /**
  * Fetch user profile from Kappa API
  */
 export async function fetchProfile(token: string): Promise<KappacodeProfile> {
-  const response = await fetch(`${KILO_API_BASE}/api/profile`, {
+  const response = await fetch(`${KAPPA_API_BASE}/api/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export async function fetchBalance(
       headers["x-kappacode-organizationid"] = organizationId
     }
 
-    const response = await fetch(`${KILO_API_BASE}/api/profile/balance`, { headers })
+    const response = await fetch(`${KAPPA_API_BASE}/api/profile/balance`, { headers })
 
     if (!response.ok) {
       log.warn("Failed to fetch balance", { status: response.status })
@@ -109,7 +109,7 @@ export async function fetchDefaultModel(
   fallback = token ? DEFAULT_MODEL : DEFAULT_FREE_MODEL,
 ): Promise<string> {
   const path = organizationId ? `/api/organizations/${organizationId}/defaults` : `/api/defaults`
-  const url = `${KILO_API_BASE}${path}`
+  const url = `${KAPPA_API_BASE}${path}`
 
   try {
     const headers: Record<string, string> = {

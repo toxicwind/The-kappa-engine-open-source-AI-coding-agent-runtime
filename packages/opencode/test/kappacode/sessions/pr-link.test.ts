@@ -107,15 +107,15 @@ afterAll(async () => {
 
 let client: string | undefined
 beforeEach(() => {
-  client = process.env.KILO_CLIENT
-  process.env.KILO_CLIENT = "cli"
+  client = process.env.KAPPA_CLIENT
+  process.env.KAPPA_CLIENT = "cli"
 })
 afterEach(async () => {
   try {
     await clearAllSessionLinks()
   } finally {
-    if (client == null) delete process.env.KILO_CLIENT
-    if (client != null) process.env.KILO_CLIENT = client
+    if (client == null) delete process.env.KAPPA_CLIENT
+    if (client != null) process.env.KAPPA_CLIENT = client
   }
 })
 

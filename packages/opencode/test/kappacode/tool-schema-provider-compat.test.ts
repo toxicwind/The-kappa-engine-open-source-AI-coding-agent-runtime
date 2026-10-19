@@ -30,9 +30,9 @@ describe("advertised tool schemas stay provider-compatible", () => {
     provideTmpdirInstance(
       () =>
         Effect.gen(function* () {
-          const prev = process.env["KILO_CLIENT"]
+          const prev = process.env["KAPPA_CLIENT"]
           // vscode advertises the widest tool set, including the Agent Manager tools.
-          process.env["KILO_CLIENT"] = "vscode"
+          process.env["KAPPA_CLIENT"] = "vscode"
 
           try {
             const registry = yield* ToolRegistry.Service
@@ -52,8 +52,8 @@ describe("advertised tool schemas stay provider-compatible", () => {
 
             expect(bad).toEqual([])
           } finally {
-            if (prev === undefined) delete process.env["KILO_CLIENT"]
-            else process.env["KILO_CLIENT"] = prev
+            if (prev === undefined) delete process.env["KAPPA_CLIENT"]
+            else process.env["KAPPA_CLIENT"] = prev
           }
         }),
       { git: true },

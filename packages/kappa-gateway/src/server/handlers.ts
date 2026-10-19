@@ -2,7 +2,7 @@ import { fetchBalance, fetchProfile } from "../api/profile.js"
 import { fetchKappaPassState } from "../api/kappa-pass.js"
 import { fetchKappacodeNotifications } from "../api/notifications.js"
 import { clearModesCache } from "../api/modes.js"
-import { KILO_API_BASE } from "../api/constants.js"
+import { KAPPA_API_BASE } from "../api/constants.js"
 import type { KappacodeBalance, KappacodeProfile, KappaPassState } from "../types.js"
 import { buildKappaHeaders } from "../headers.js"
 
@@ -110,7 +110,7 @@ export async function getCloudSessions(token: string, input: CloudSessionsInput)
     input: JSON.stringify({ "0": query }),
   })
 
-  const response = await fetch(`${KILO_API_BASE}/api/trpc/cliSessionsV2.list?${params.toString()}`, {
+  const response = await fetch(`${KAPPA_API_BASE}/api/trpc/cliSessionsV2.list?${params.toString()}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

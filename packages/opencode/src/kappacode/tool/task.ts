@@ -231,7 +231,7 @@ export namespace KappaTask {
   })
 
   const saved = Effect.fn("KappaTask.savedModel")(function* (name: string) {
-    if (Flag.KILO_CLIENT !== "cli") return undefined
+    if (Flag.KAPPA_CLIENT !== "cli") return undefined
     const file = path.join(Global.Path.state, "model.json")
     const state = yield* Effect.tryPromise({
       try: () =>

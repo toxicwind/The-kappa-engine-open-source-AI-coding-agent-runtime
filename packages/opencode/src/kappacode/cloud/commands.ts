@@ -134,7 +134,7 @@ export namespace CloudCommands {
 
   const auth = Effect.fn("CloudCommands.auth")(function* (deps: Deps) {
     const env = deps.env ?? process.env
-    return yield* CloudAuth.token({ KILO_API_KEY: env.KILO_API_KEY })
+    return yield* CloudAuth.token({ KAPPA_API_KEY: env.KAPPA_API_KEY })
   })
 
   function client(token: CloudAuth.Resolved["token"], deps: Deps) {

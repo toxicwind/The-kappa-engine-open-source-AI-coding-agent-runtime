@@ -143,7 +143,7 @@ describe("createProjectStateHandlers", () => {
           import { SidePanel } from "./agent-manager/side-panel-layout.ts"
           import { createProjectStateHandlers } from "./agent-manager/project/state-handlers.ts"
 
-          globalThis.KILO_BROWSER_AUTOMATION = false
+          globalThis.KAPPA_BROWSER_AUTOMATION = false
           createRoot((dispose) => {
             const current = () => "session-a"
             const shared = ${JSON.stringify(mode === "shared signal")}

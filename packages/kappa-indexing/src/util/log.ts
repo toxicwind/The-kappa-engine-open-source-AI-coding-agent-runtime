@@ -14,7 +14,7 @@ type Entry = {
   }
 }
 
-const enabled = process.env.KILO_INDEXING_LOG === "1" || process.env.KILO_INDEXING_LOG === "true"
+const enabled = process.env.KAPPA_INDEXING_LOG === "1" || process.env.KAPPA_INDEXING_LOG === "true"
 
 export namespace Log {
   export type Logger = Entry

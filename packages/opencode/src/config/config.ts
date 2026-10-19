@@ -205,7 +205,8 @@ export const use = serviceUse(Service)
 
 function globalConfigFile() {
   // kappacode_change start
-  const candidates = ["kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
+  // legacy kilo.json/kilo.jsonc accepted for backwards compatibility
+  const candidates = ["kappa.jsonc", "kappa.json", "kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
     // kappacode_change end
     path.join(Global.Path.config, file),
   )
@@ -429,7 +430,7 @@ const layer = Layer.effect(
     ) {
       // kappacode_change start
       yield* Effect.promise(() => KappacodeConfig.migrateBashPermission())
-      if (Flag.KILO_EXPERIMENTAL_CLAUDE_MIGRATION && !ClaudeMigration.unsupportedContext()) {
+      if (Flag.KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION && !ClaudeMigration.unsupportedContext()) {
         yield* flock
           .withLock(
             Effect.promise(() => ClaudeMigration.run({ enabled: true })),
@@ -448,7 +449,7 @@ const layer = Layer.effect(
       let result: Info = {}
       // Seed the default global config with the schema for editor completion, but avoid writing when the user
       // explicitly routes config through env-provided paths or content.
-      if (!Flag.KILO_CONFIG && !Flag.KILO_CONFIG_DIR && !Flag.KILO_CONFIG_CONTENT) {
+      if (!Flag.KAPPA_CONFIG && !Flag.KAPPA_CONFIG_DIR && !Flag.KAPPA_CONFIG_CONTENT) {
         const file = globalConfigFile()
         if (!existsSync(file)) {
           yield* fs
@@ -469,6 +470,15 @@ const layer = Layer.effect(
       result = mergeConfig(
         result,
         yield* loadFile(path.join(Global.Path.config, "kappa.jsonc"), env, true, undefined, configWarnings),
+      )
+      // kappacode_change start - legacy kilo global config compat
+      result = mergeConfig(
+        result,
+        yield* loadFile(path.join(Global.Path.config, "kilo.json"), env, true, undefined, configWarnings),
+      )
+      result = mergeConfig(
+        result,
+        yield* loadFile(path.join(Global.Path.config, "kilo.jsonc"), env, true, undefined, configWarnings),
       )
       // kappacode_change end
       result = mergeConfig(
@@ -607,7 +617,7 @@ const layer = Layer.effect(
 
         const pluginScopeForSource = Effect.fnUntraced(function* (source: string) {
           if (source.startsWith("http://") || source.startsWith("https://")) return "global"
-          if (source === "KILO_CONFIG_CONTENT") return "local"
+          if (source === "KAPPA_CONFIG_CONTENT") return "local"
           if (containsPath(source, ctx)) return "local"
           return "global"
         })
@@ -763,14 +773,14 @@ const layer = Layer.effect(
 
         yield* merge(Global.Path.config, global, "global")
 
-        if (Flag.KILO_CONFIG) {
-          // kappacode_change start - capture KILO_CONFIG failures as warnings
+        if (Flag.KAPPA_CONFIG) {
+          // kappacode_change start - capture KAPPA_CONFIG failures as warnings
           yield* merge(
-            Flag.KILO_CONFIG,
-            // kappacode_change - KILO_CONFIG is an explicit user-provided path, trusted for {file:}/{env:}
-            yield* loadFile(Flag.KILO_CONFIG, authEnv, true, undefined, warnings).pipe(
+            Flag.KAPPA_CONFIG,
+            // kappacode_change - KAPPA_CONFIG is an explicit user-provided path, trusted for {file:}/{env:}
+            yield* loadFile(Flag.KAPPA_CONFIG, authEnv, true, undefined, warnings).pipe(
               Effect.catchDefect((err: unknown) => {
-                caughtWarning(warnings, Flag.KILO_CONFIG!, err)
+                caughtWarning(warnings, Flag.KAPPA_CONFIG!, err)
                 return Effect.succeed({} as Info)
               }),
             ),
@@ -778,12 +788,12 @@ const layer = Layer.effect(
             true,
           )
           // kappacode_change end
-          yield* Effect.logDebug("loaded custom config", { path: Flag.KILO_CONFIG })
+          yield* Effect.logDebug("loaded custom config", { path: Flag.KAPPA_CONFIG })
         }
 
-        if (!Flag.KILO_DISABLE_PROJECT_CONFIG) {
-          // kappacode_change start - also discover kappa.json project files
-          for (const name of ["kappa", "opencode"] as const) {
+        if (!Flag.KAPPA_DISABLE_PROJECT_CONFIG) {
+          // kappacode_change start - also discover kappa.json project files; kilo.json for legacy compat
+          for (const name of ["kappa", "kilo", "opencode"] as const) {
             for (const file of yield* ConfigPaths.files(name, ctx.directory, ctx.worktree).pipe(Effect.orDie)) {
               yield* merge(
                 file,
@@ -807,7 +817,7 @@ const layer = Layer.effect(
 
         // kappacode_change start - include config directories from the primary checkout
         const directories = yield* ConfigPaths.directories(ctx.directory, ctx.worktree)
-        const primary = Flag.KILO_DISABLE_PROJECT_CONFIG
+        const primary = Flag.KAPPA_DISABLE_PROJECT_CONFIG
           ? []
           : yield* primaryPaths(ctx.directory, ctx.worktree, [".kappacode", ".kappa"])
         // Load primary fallbacks before active-worktree config, then track them as local.
@@ -815,8 +825,8 @@ const layer = Layer.effect(
         const primarySet = new Set(primary)
         // kappacode_change end
 
-        if (Flag.KILO_CONFIG_DIR) {
-          yield* Effect.logDebug("loading config from KILO_CONFIG_DIR", { path: Flag.KILO_CONFIG_DIR })
+        if (Flag.KAPPA_CONFIG_DIR) {
+          yield* Effect.logDebug("loading config from KAPPA_CONFIG_DIR", { path: Flag.KAPPA_CONFIG_DIR })
         }
 
         const deps: Fiber.Fiber<void>[] = []
@@ -827,13 +837,13 @@ const layer = Layer.effect(
           const scope = primarySet.has(dir) ? "local" : undefined
           // kappacode_change - trust {file:}/{env:} only for global-scoped config dirs, never project ones
           const dirScope = scope ?? (yield* pluginScopeForSource(dir))
-          const dirTrusted = dir === Flag.KILO_CONFIG_DIR || dirScope === "global"
+          const dirTrusted = dir === Flag.KAPPA_CONFIG_DIR || dirScope === "global"
           // kappacode_change - untrusted config dirs confine {file:} reads to projectRoot
           const dirFileScope = dirTrusted ? undefined : { root: projectRoot, source: dir }
           const dirSourceScope = dirTrusted
             ? undefined
             : { root: primarySet.has(dir) ? path.dirname(dir) : projectRoot, source: dir }
-          if (KappacodeConfig.isConfigDir(dir, Flag.KILO_CONFIG_DIR)) {
+          if (KappacodeConfig.isConfigDir(dir, Flag.KAPPA_CONFIG_DIR)) {
             for (const file of KappacodeConfig.ALL_CONFIG_FILES) {
               const source = path.join(dir, file)
               yield* Effect.logDebug(`loading config from ${source}`)
@@ -898,23 +908,23 @@ const layer = Layer.effect(
           // kappacode_change end
         }
 
-        if (process.env.KILO_CONFIG_CONTENT) {
-          // kappacode_change start - capture KILO_CONFIG_CONTENT parse failures as warnings
-          const source = "KILO_CONFIG_CONTENT"
+        if (process.env.KAPPA_CONFIG_CONTENT) {
+          // kappacode_change start - capture KAPPA_CONFIG_CONTENT parse failures as warnings
+          const source = "KAPPA_CONFIG_CONTENT"
           yield* merge(
             source,
             yield* loadConfig(
-              process.env.KILO_CONFIG_CONTENT,
+              process.env.KAPPA_CONFIG_CONTENT,
               {
                 dir: ctx.directory,
                 source,
               },
               undefined,
-              true, // kappacode_change - KILO_CONFIG_CONTENT is user-provided, trusted for {file:}/{env:}
+              true, // kappacode_change - KAPPA_CONFIG_CONTENT is user-provided, trusted for {file:}/{env:}
               undefined,
               warnings, // kappacode_change - retain excess-key diagnostics from inline config
             ).pipe(
-              Effect.tap(() => Effect.logDebug("loaded custom config from KILO_CONFIG_CONTENT")),
+              Effect.tap(() => Effect.logDebug("loaded custom config from KAPPA_CONFIG_CONTENT")),
               Effect.catchDefect((err: unknown) => {
                 caughtWarning(warnings, source, err)
                 return Effect.succeed({} as Info)
@@ -939,8 +949,8 @@ const layer = Layer.effect(
               { concurrency: 2 },
             )
             if (Option.isSome(tokenOpt)) {
-              process.env["KILO_CONSOLE_TOKEN"] = tokenOpt.value
-              yield* env.set("KILO_CONSOLE_TOKEN", tokenOpt.value)
+              process.env["KAPPA_CONSOLE_TOKEN"] = tokenOpt.value
+              yield* env.set("KAPPA_CONSOLE_TOKEN", tokenOpt.value)
             }
 
             if (Option.isSome(configOpt)) {
@@ -1013,11 +1023,11 @@ const layer = Layer.effect(
           })
         }
 
-        if (Flag.KILO_PERMISSION) {
+        if (Flag.KAPPA_PERMISSION) {
           try {
-            result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.KILO_PERMISSION))
+            result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.KAPPA_PERMISSION))
           } catch (err) {
-            yield* Effect.logWarning("KILO_PERMISSION contains invalid JSON, skipping", { err })
+            yield* Effect.logWarning("KAPPA_PERMISSION contains invalid JSON, skipping", { err })
           }
         }
 
@@ -1047,14 +1057,14 @@ const layer = Layer.effect(
           result.share = "auto"
         }
 
-        if (Flag.KILO_DISABLE_AUTOCOMPACT) {
+        if (Flag.KAPPA_DISABLE_AUTOCOMPACT) {
           result.compaction = { ...result.compaction, auto: false }
         }
-        if (Flag.KILO_DISABLE_PRUNE) {
+        if (Flag.KAPPA_DISABLE_PRUNE) {
           result.compaction = { ...result.compaction, prune: false }
         }
         // kappacode_change start — inject Kappa default plugins into both plugin list and origins
-        KappacodeDefaultPlugins.apply(result, { disabled: Flag.KILO_DISABLE_DEFAULT_PLUGINS, log })
+        KappacodeDefaultPlugins.apply(result, { disabled: Flag.KAPPA_DISABLE_DEFAULT_PLUGINS, log })
         // kappacode_change end
 
         return {

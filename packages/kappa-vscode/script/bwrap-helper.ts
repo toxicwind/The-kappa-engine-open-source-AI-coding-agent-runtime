@@ -26,7 +26,7 @@ function arch(target: string): "x64" | "arm64" {
 }
 
 function source() {
-  const configured = process.env.KILO_BWRAP_PATH
+  const configured = process.env.KAPPA_BWRAP_PATH
   if (configured) return realpathSync(configured)
 
   const found = Bun.which("bwrap")
@@ -40,7 +40,7 @@ function source() {
     (uid !== undefined && entry.uid === uid && (entry.mode & 0o200) !== 0) ||
     (groups.includes(entry.gid) && (entry.mode & 0o020) !== 0)
   if (writable) {
-    throw new Error(`Refusing writable Bubblewrap executable at ${target}; set KILO_BWRAP_PATH to trust it explicitly`)
+    throw new Error(`Refusing writable Bubblewrap executable at ${target}; set KAPPA_BWRAP_PATH to trust it explicitly`)
   }
   return target
 }

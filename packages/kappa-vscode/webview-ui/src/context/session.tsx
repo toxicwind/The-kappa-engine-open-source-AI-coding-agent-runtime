@@ -94,7 +94,7 @@ import { handleWakeupMessage, wakeups } from "./session-wakeup"
 import { state as todoState } from "./todo-revert"
 import { preserveVariant, sessionVariantKeys, transferVariants, variantKey } from "./session-variant-store"
 import { createSessionVariants } from "./session-variants"
-import { KILO_AUTO, KILO_PROVIDER_ID, parseModelString } from "../../../src/shared/provider-model"
+import { KAPPA_AUTO, KAPPA_PROVIDER_ID, parseModelString } from "../../../src/shared/provider-model"
 import { type ReviewMessageData } from "../../../src/shared/review-comments"
 import { REVERT_ERROR_CODE } from "../../../src/shared/revert-error"
 import type { BrowserFeedbackData } from "../../../src/shared/browser-feedback"
@@ -446,7 +446,7 @@ export const SessionProvider: ParentComponent = (props) => {
       defaults: provider.defaults(),
       getModeModel,
       getGlobalModel,
-      fallback: KILO_AUTO,
+      fallback: KAPPA_AUTO,
     }
   }
 
@@ -600,7 +600,7 @@ export const SessionProvider: ParentComponent = (props) => {
     const pending = pendingKappaModel()
     if (!pending || agents().length === 0 || (pending.modelID && catalog() <= pending.after)) return
     setPendingKappaModel(null)
-    if (pending.modelID && !provider.providers()[KILO_PROVIDER_ID]?.models[pending.modelID]) {
+    if (pending.modelID && !provider.providers()[KAPPA_PROVIDER_ID]?.models[pending.modelID]) {
       console.warn("[Kappa New] Ignoring unavailable Kappa catalog model:", pending.modelID)
       return
     }
@@ -609,7 +609,7 @@ export const SessionProvider: ParentComponent = (props) => {
       return
     }
     if (pending.agent) selectAgent(pending.agent)
-    if (pending.modelID) selectModel(KILO_PROVIDER_ID, pending.modelID)
+    if (pending.modelID) selectModel(KAPPA_PROVIDER_ID, pending.modelID)
   })
 
   function submission(sessionID?: string, model = selected(sessionID)) {

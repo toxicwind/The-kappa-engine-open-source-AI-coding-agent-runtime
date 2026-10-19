@@ -96,8 +96,8 @@ export namespace KappaSnapshotTrack {
       return fallback
     })
 
-  export const TIMEOUT_MS = duration("KILO_SNAPSHOT_TRACK_TIMEOUT_MS", 10_000)
-  export const TURN_TIMEOUT_MS = duration("KILO_SNAPSHOT_TURN_TIMEOUT_MS", 120_000)
+  export const TIMEOUT_MS = duration("KAPPA_SNAPSHOT_TRACK_TIMEOUT_MS", 10_000)
+  export const TURN_TIMEOUT_MS = duration("KAPPA_SNAPSHOT_TURN_TIMEOUT_MS", 120_000)
 
   // Wire values — also function as i18n keys via `labelKey`/`headerKey`.
   // The backend matches replies on `label`, so the canonical English strings

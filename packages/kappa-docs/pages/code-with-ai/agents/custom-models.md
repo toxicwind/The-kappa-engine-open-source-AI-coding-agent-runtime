@@ -145,7 +145,7 @@ Kappa resolves token limits in this order:
 If you use a custom or local model and don't specify limits — and the model isn't in the built-in catalog — both `context` and `output` resolve to `0`. This has meaningful side effects:
 
 - **Compaction is disabled.** Kappa uses `context` to detect when the conversation exceeds the model's window and needs to be summarized. With `context: 0`, overflow detection is skipped and conversations will grow unbounded until the provider rejects the request.
-- **Output falls back to 32,000 tokens.** When `output` is `0`, Kappa uses its internal default of 32,000 tokens (configurable via the `KILO_EXPERIMENTAL_OUTPUT_TOKEN_MAX` environment variable).
+- **Output falls back to 32,000 tokens.** When `output` is `0`, Kappa uses its internal default of 32,000 tokens (configurable via the `KAPPA_EXPERIMENTAL_OUTPUT_TOKEN_MAX` environment variable).
 - **No context usage tracking.** Usage metrics that depend on knowing the context size are skipped.
 
 {% callout type="warning" %}
@@ -391,7 +391,7 @@ You can also set options that apply to all models from a provider:
 | `chunkTimeout` | `number` | Timeout in milliseconds between streamed response chunks. If no chunk arrives within this window, the request is aborted and retried. This catches silent provider dropouts where the TCP connection stays open but SSE streaming stops. Recommended: `15000`–`30000` (15–30 seconds) for providers with unreliable streaming. |
 
 {% callout type="warning" title="{env:} / {file:} only resolve in trusted config" %}
-`{env:VAR}` and `{file:...}` references in `apiKey` (or any option) are resolved **only** when the config lives in a trusted location: your global config (`~/.config/kappa`), a config passed via `KILO_CONFIG` / `KILO_CONFIG_CONTENT`, or organization/MDM-managed config. A project-level `kappa.json` / `opencode.json` committed to a repository **cannot** resolve `{env:VAR}` — the reference is ignored and a warning is logged, so a provider configured this way in a repo will not authenticate. This prevents a malicious repository from exfiltrating your secrets to an attacker-controlled `baseURL` just by being opened. `{file:...}` still works in project config, but only for files that resolve inside the project root — references that leave it (absolute paths outside the root, `../` traversal, and symlink escapes) are rejected. Keep provider credentials in your global config.
+`{env:VAR}` and `{file:...}` references in `apiKey` (or any option) are resolved **only** when the config lives in a trusted location: your global config (`~/.config/kappa`), a config passed via `KAPPA_CONFIG` / `KAPPA_CONFIG_CONTENT`, or organization/MDM-managed config. A project-level `kappa.json` / `opencode.json` committed to a repository **cannot** resolve `{env:VAR}` — the reference is ignored and a warning is logged, so a provider configured this way in a repo will not authenticate. This prevents a malicious repository from exfiltrating your secrets to an attacker-controlled `baseURL` just by being opened. `{file:...}` still works in project config, but only for files that resolve inside the project root — references that leave it (absolute paths outside the root, `../` traversal, and symlink escapes) are rejected. Keep provider credentials in your global config.
 {% /callout %}
 
 ## Filtering Available Models

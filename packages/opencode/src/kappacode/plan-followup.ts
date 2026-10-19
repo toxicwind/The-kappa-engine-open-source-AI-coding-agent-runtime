@@ -214,7 +214,7 @@ export namespace PlanFollowup {
   }
 
   async function resolveCodeModel(input: Pick<MessageV2.User, "model">) {
-    const state = Flag.KILO_CLIENT === "cli" ? await KappacodeModelState.get().catch(() => undefined) : undefined
+    const state = Flag.KAPPA_CLIENT === "cli" ? await KappacodeModelState.get().catch(() => undefined) : undefined
     const saved = state?.model.code
     const entry = await PlanFollowupRuntime.agent("code")
     const next =
@@ -318,7 +318,7 @@ export namespace PlanFollowup {
           // main prompt input below the dock already routes typed text as a question
           // reply, so "Type your own answer" would be redundant (originally hidden in
           // 65566af7f8, flipped back during the v1.4.4 upstream merge).
-          custom: Flag.KILO_CLIENT === "cli" || Flag.KILO_CLIENT === "jetbrains",
+          custom: Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "jetbrains",
           options: [
             {
               label: ANSWER_NEW_SESSION,

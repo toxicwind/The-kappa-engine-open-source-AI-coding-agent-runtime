@@ -39,8 +39,8 @@ const appLayer = AppNodeBuilder.build(
 const it = testEffect(Layer.mergeAll(appLayer, httpApiLayer))
 
 const original = {
-  KILO_SERVER_PASSWORD: Flag.KILO_SERVER_PASSWORD,
-  KILO_SERVER_USERNAME: Flag.KILO_SERVER_USERNAME,
+  KAPPA_SERVER_PASSWORD: Flag.KAPPA_SERVER_PASSWORD,
+  KAPPA_SERVER_USERNAME: Flag.KAPPA_SERVER_USERNAME,
 }
 
 type ServerPath = "default" | "raw"
@@ -88,8 +88,8 @@ function serverFetch(
   return HttpServer.HttpServer.use((server) =>
     Effect.sync(() => {
       void serverPath
-      Flag.KILO_SERVER_PASSWORD = input?.password
-      Flag.KILO_SERVER_USERNAME = input?.username
+      Flag.KAPPA_SERVER_PASSWORD = input?.password
+      Flag.KAPPA_SERVER_USERNAME = input?.username
       const baseUrl = HttpServer.formatAddress(server.address)
       return Object.assign(
         async (request: RequestInfo | URL, init?: RequestInit) => {
@@ -337,8 +337,8 @@ function seedMessage(directory: string, sessionID: string) {
 }
 
 afterEach(async () => {
-  Flag.KILO_SERVER_PASSWORD = original.KILO_SERVER_PASSWORD
-  Flag.KILO_SERVER_USERNAME = original.KILO_SERVER_USERNAME
+  Flag.KAPPA_SERVER_PASSWORD = original.KAPPA_SERVER_PASSWORD
+  Flag.KAPPA_SERVER_USERNAME = original.KAPPA_SERVER_USERNAME
   await disposeAllInstances()
   await resetDatabase()
 })

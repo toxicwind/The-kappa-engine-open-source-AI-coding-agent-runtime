@@ -85,7 +85,7 @@ import { InstanceRef } from "@/effect/instance-ref" // kappacode_change
 
 export function webSearchEnabled(
   providerID: ProviderV2.ID,
-  flags = { exa: Flag.KILO_ENABLE_EXA, parallel: Flag.KILO_ENABLE_PARALLEL },
+  flags = { exa: Flag.KAPPA_ENABLE_EXA, parallel: Flag.KAPPA_ENABLE_PARALLEL },
 ) {
   return (
     providerID === ProviderV2.ID.kappa || // kappacode_change

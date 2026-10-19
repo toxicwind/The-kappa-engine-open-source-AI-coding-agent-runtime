@@ -1,4 +1,4 @@
-import { KILO_API_BASE } from "./api/constants.js"
+import { KAPPA_API_BASE } from "./api/constants.js"
 import { getAutocompleteModel, type DirectAutocompleteProviderID } from "./autocomplete.js"
 
 /**
@@ -21,7 +21,7 @@ export interface EditUpstreamResponse {
 }
 
 const INCEPTION_EDIT_URL = "https://api.inceptionlabs.ai/v1/edit/completions"
-const KILO_NEXTEDIT_URL = KILO_API_BASE + "/api/edit/completions"
+const KAPPA_NEXTEDIT_URL = KAPPA_API_BASE + "/api/edit/completions"
 
 /**
  * Pick the upstream edit endpoint for a (provider, model) pair. Today this is
@@ -37,7 +37,7 @@ export function resolveEditTarget(provider?: string, model?: string): EditTarget
       // (it strips it before forwarding to Inception). The kappa entry's
       // `requestModel` already carries the prefix.
       const m = info.requestModel.includes("/") ? info.requestModel : `inception/${info.requestModel}`
-      return { provider: "kappa", model: m, url: KILO_NEXTEDIT_URL }
+      return { provider: "kappa", model: m, url: KAPPA_NEXTEDIT_URL }
     }
     if (info.directProvider === "inception") {
       return { provider: "inception", model: info.requestModel, url: INCEPTION_EDIT_URL }

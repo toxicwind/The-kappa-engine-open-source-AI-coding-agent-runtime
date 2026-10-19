@@ -62,20 +62,20 @@ describe("ide", () => {
     expect(Ide.ide()).toBe("unknown")
   })
 
-  test("should recognize vscode-insiders KILO_CALLER", () => {
-    process.env["KILO_CALLER"] = "vscode-insiders"
+  test("should recognize vscode-insiders KAPPA_CALLER", () => {
+    process.env["KAPPA_CALLER"] = "vscode-insiders"
 
     expect(Ide.alreadyInstalled()).toBe(true)
   })
 
-  test("should recognize vscode KILO_CALLER", () => {
-    process.env["KILO_CALLER"] = "vscode"
+  test("should recognize vscode KAPPA_CALLER", () => {
+    process.env["KAPPA_CALLER"] = "vscode"
 
     expect(Ide.alreadyInstalled()).toBe(true)
   })
 
-  test("should return false for unknown KILO_CALLER", () => {
-    process.env["KILO_CALLER"] = "unknown"
+  test("should return false for unknown KAPPA_CALLER", () => {
+    process.env["KAPPA_CALLER"] = "unknown"
 
     expect(Ide.alreadyInstalled()).toBe(false)
   })

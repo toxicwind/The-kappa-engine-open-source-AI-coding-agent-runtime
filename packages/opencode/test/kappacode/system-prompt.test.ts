@@ -145,10 +145,10 @@ describe("Ask diagram guidance", () => {
     ["vscode", true],
     ["jetbrains", true],
   ] as const)("matches rendering support for %s", (client, mermaid) => {
-    const previous = process.env.KILO_CLIENT
+    const previous = process.env.KAPPA_CLIENT
     try {
-      if (client === undefined) delete process.env.KILO_CLIENT
-      if (client !== undefined) process.env.KILO_CLIENT = client
+      if (client === undefined) delete process.env.KAPPA_CLIENT
+      if (client !== undefined) process.env.KAPPA_CLIENT = client
       const agents: Parameters<typeof patchAgents>[0] = {}
       patchAgents(agents, [], [], { mcpRules: {}, defaultsPatch: [], board: false }, "/repo", [])
       const prompt = agents.ask.prompt
@@ -162,8 +162,8 @@ describe("Ask diagram guidance", () => {
       expect(prompt).toContain("Use plain-text or ASCII diagrams")
       expect(prompt).toContain("cannot render Mermaid")
     } finally {
-      if (previous === undefined) delete process.env.KILO_CLIENT
-      if (previous !== undefined) process.env.KILO_CLIENT = previous
+      if (previous === undefined) delete process.env.KAPPA_CLIENT
+      if (previous !== undefined) process.env.KAPPA_CLIENT = previous
     }
   })
 })

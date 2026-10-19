@@ -7,7 +7,7 @@ import { OpenAICompatibleEmbedder } from "./openai-compatible"
 
 const log = Log.create({ service: "embedder-kappa" })
 
-export const KILO_INDEXING_FEATURE = "managed-indexing"
+export const KAPPA_INDEXING_FEATURE = "managed-indexing"
 
 export class KappaEmbedder implements IEmbedder {
   private readonly embedder: OpenAICompatibleEmbedder
@@ -25,7 +25,7 @@ export class KappaEmbedder implements IEmbedder {
     if (!input.modelId) throw new Error("Kappa embedding model is required.")
     this.model = input.modelId
     const headers: Record<string, string> = {
-      [HEADER_FEATURE]: KILO_INDEXING_FEATURE,
+      [HEADER_FEATURE]: KAPPA_INDEXING_FEATURE,
       ...(input.organizationId ? { [HEADER_ORGANIZATIONID]: input.organizationId } : {}),
     }
 

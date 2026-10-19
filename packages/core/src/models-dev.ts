@@ -22,7 +22,7 @@ const InterleavedField = Schema.Union([
   Schema.String,
 ])
 
-const USER_AGENT = `opencode/${InstallationChannel}/${InstallationVersion}/${Flag.KILO_CLIENT}`
+const USER_AGENT = `opencode/${InstallationChannel}/${InstallationVersion}/${Flag.KAPPA_CLIENT}`
 
 const CostTier = Schema.Struct({
   input: Schema.Finite,
@@ -143,7 +143,7 @@ export type Provider = Schema.Schema.Type<typeof Provider>
 
 export const Event = ModelsDev.Event
 
-declare const KILO_MODELS_DEV: Record<string, Provider> | undefined
+declare const KAPPA_MODELS_DEV: Record<string, Provider> | undefined
 
 export interface Interface {
   readonly get: () => Effect.Effect<Record<string, Provider>>
@@ -168,7 +168,7 @@ const layer = Layer.effect(
       ),
     )
 
-    const source = Flag.KILO_MODELS_URL || "https://models.dev" // kappacode_change
+    const source = Flag.KAPPA_MODELS_URL || "https://models.dev" // kappacode_change
     const filepath = path.join(
       Global.Path.cache,
       source === "https://models.dev" ? "models.json" : `models-${Hash.fast(source)}.json`, // kappacode_change
@@ -192,9 +192,9 @@ const layer = Layer.effect(
       )
     })
 
-    const loadFromDisk = fs.readJson(Flag.KILO_MODELS_PATH ?? filepath).pipe(
+    const loadFromDisk = fs.readJson(Flag.KAPPA_MODELS_PATH ?? filepath).pipe(
       Effect.catch((error) => {
-        if (Flag.KILO_MODELS_PATH === undefined && error._tag === "FileSystemError" && error.method === "readJson") {
+        if (Flag.KAPPA_MODELS_PATH === undefined && error._tag === "FileSystemError" && error.method === "readJson") {
           return fs.remove(filepath, { force: true }).pipe(Effect.ignore, Effect.as(undefined))
         }
         return Effect.succeed(undefined)
@@ -202,7 +202,7 @@ const layer = Layer.effect(
       Effect.map((v) => v as Record<string, Provider> | undefined),
     )
 
-    const loadSnapshot = Effect.sync(() => (typeof KILO_MODELS_DEV === "undefined" ? undefined : KILO_MODELS_DEV))
+    const loadSnapshot = Effect.sync(() => (typeof KAPPA_MODELS_DEV === "undefined" ? undefined : KAPPA_MODELS_DEV))
 
     const fetchAndWrite = Effect.fn("ModelsDev.fetchAndWrite")(function* () {
       const text = yield* fetchApi()
@@ -224,7 +224,7 @@ const layer = Layer.effect(
       if (fromDisk) return fromDisk
       const snapshot = yield* loadSnapshot
       if (snapshot) return snapshot
-      if (Flag.KILO_DISABLE_MODELS_FETCH) return {}
+      if (Flag.KAPPA_DISABLE_MODELS_FETCH) return {}
       // Flock is cross-process: concurrent opencode CLIs can race on this cache file.
       return yield* Effect.scoped(
         Effect.gen(function* () {
@@ -265,7 +265,7 @@ const layer = Layer.effect(
       )
     })
 
-    if (!Flag.KILO_DISABLE_MODELS_FETCH && !process.argv.includes("--get-yargs-completions")) {
+    if (!Flag.KAPPA_DISABLE_MODELS_FETCH && !process.argv.includes("--get-yargs-completions")) {
       // Schedule.spaced runs the effect once, then waits between completions.
       yield* Effect.forkScoped(refresh().pipe(Effect.repeat(Schedule.spaced("60 minutes")), Effect.ignore))
     }

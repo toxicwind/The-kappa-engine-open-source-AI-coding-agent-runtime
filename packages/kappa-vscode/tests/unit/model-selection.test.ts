@@ -10,7 +10,7 @@ function makeProvider(id: string, models: string[]): Provider {
   return result
 }
 
-const KILO_AUTO: ModelSelection = { providerID: "kappa", modelID: "kappa-auto/free" }
+const KAPPA_AUTO: ModelSelection = { providerID: "kappa", modelID: "kappa-auto/free" }
 
 const providers: Record<string, Provider> = {
   kappa: makeProvider("kappa", ["kappa-auto/free", "z-first", "z-recommended"]),
@@ -29,7 +29,7 @@ function base() {
     connected: ["kappa", "anthropic", "openai"],
     ready: true,
     organizationId: null,
-    fallback: KILO_AUTO,
+    fallback: KAPPA_AUTO,
   }
 }
 
@@ -76,7 +76,7 @@ describe("resolveModelSelection", () => {
 
   it("returns the first kappa model for org users when no recommendation exists", () => {
     const result = resolveModelSelection({ ...base(), organizationId: "org-a", recent: [claude] })
-    expect(result).toEqual(KILO_AUTO)
+    expect(result).toEqual(KAPPA_AUTO)
   })
 
   it("returns the first valid recent model for non-org users", () => {
@@ -89,7 +89,7 @@ describe("resolveModelSelection", () => {
 
   it("returns the fallback when nothing else matches", () => {
     const result = resolveModelSelection({ ...base() })
-    expect(result).toEqual(KILO_AUTO)
+    expect(result).toEqual(KAPPA_AUTO)
   })
 
   it("pending kappa models are hidden until the catalog is ready", () => {
@@ -105,6 +105,6 @@ describe("resolveModelSelection", () => {
 
   it("falls through invalid candidates to the fallback", () => {
     const resolved = resolveModelSelection({ ...base(), session: { providerID: "unknown", modelID: "m" } })
-    expect(resolved).toEqual(KILO_AUTO)
+    expect(resolved).toEqual(KAPPA_AUTO)
   })
 })

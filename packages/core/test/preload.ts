@@ -1,10 +1,10 @@
 import path from "path"
 
-process.env.KILO_DB = ":memory:"
-process.env.KILO_MODELS_PATH = path.join(import.meta.dir, "plugin", "fixtures", "models-dev.json")
-process.env.KILO_DISABLE_MODELS_FETCH = "true"
+process.env.KAPPA_DB = ":memory:"
+process.env.KAPPA_MODELS_PATH = path.join(import.meta.dir, "plugin", "fixtures", "models-dev.json")
+process.env.KAPPA_DISABLE_MODELS_FETCH = "true"
 
-// kappacode_change start - fail closed: core unit tests do not redirect XDG dirs, so KILO_DB
+// kappacode_change start - fail closed: core unit tests do not redirect XDG dirs, so KAPPA_DB
 // is the only thing keeping them off the real ~/.local/share/kappa database. Verify the
 // resolved path (env is read at flag import time, so this must stay after the env writes).
 const { Database } = await import("../src/database/database")

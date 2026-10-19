@@ -473,7 +473,7 @@ export const McpAddCommand = effectCmd({
     const maybeCtx = yield* InstanceRef
     if (!maybeCtx) return yield* Effect.die("InstanceRef not provided")
     const ctx = maybeCtx
-    const global = Flag.KILO_CONFIG_DIR ?? Global.Path.config // kappacode_change - honor the active Kappa config profile
+    const global = Flag.KAPPA_CONFIG_DIR ?? Global.Path.config // kappacode_change - honor the active Kappa config profile
     yield* Effect.promise(async () => {
       const command = args["--"] ?? []
       if (!args.name && (args.url || args.env?.length || args.header?.length || command.length)) {

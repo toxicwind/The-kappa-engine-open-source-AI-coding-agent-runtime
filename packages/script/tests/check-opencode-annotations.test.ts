@@ -609,7 +609,7 @@ describe("coveredLines", () => {
   })
 
   test("inline JS marker with code on same line", () => {
-    const text = "const url = Flag.KILO_MODELS_URL || 'https://models.dev' // kappacode_change\n"
+    const text = "const url = Flag.KAPPA_MODELS_URL || 'https://models.dev' // kappacode_change\n"
     const covered = coveredLines(text)
     expect(covered).toEqual(new Set([1]))
   })

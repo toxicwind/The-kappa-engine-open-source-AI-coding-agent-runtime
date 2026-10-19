@@ -124,7 +124,7 @@ describe("KappaPlugin", () => {
 
   // kappacode_change start
   it.effect("routes the Kappa catalog through the Kappa Gateway SDK", () =>
-    withEnv({ KILO_API_KEY: undefined, KILO_ORG_ID: undefined }, () =>
+    withEnv({ KAPPA_API_KEY: undefined, KAPPA_ORG_ID: undefined }, () =>
       Effect.gen(function* () {
         const aisdk = yield* AISDK.Service
         const catalog = yield* Catalog.Service
@@ -168,7 +168,7 @@ describe("KappaPlugin", () => {
   )
 
   it.effect("keeps authenticated credentials ahead of inherited environment keys", () =>
-    withEnv({ KILO_API_KEY: "environment-token", KILO_ORG_ID: "environment-org" }, () =>
+    withEnv({ KAPPA_API_KEY: "environment-token", KAPPA_ORG_ID: "environment-org" }, () =>
       Effect.gen(function* () {
         const catalog = yield* Catalog.Service
         yield* catalog.transform((catalog) => {
@@ -190,7 +190,7 @@ describe("KappaPlugin", () => {
   )
 
   it.effect("keeps anonymous Kappa models available without credentials", () =>
-    withEnv({ KILO_API_KEY: undefined, KILO_ORG_ID: undefined }, () =>
+    withEnv({ KAPPA_API_KEY: undefined, KAPPA_ORG_ID: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Catalog.Service
         yield* catalog.transform((catalog) => catalog.provider.update(ProviderV2.ID.kappa, () => {}))

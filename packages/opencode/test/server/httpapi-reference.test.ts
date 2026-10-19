@@ -98,9 +98,9 @@ describe("reference HttpApi", () => {
   // kappacode_change end
 
   // kappacode_change start - direct clients must observe effective Kappa config before Agent initialization.
-  test("lists KILO_CONFIG_CONTENT references with metadata on the first request", async () => {
-    const previous = process.env.KILO_CONFIG_CONTENT
-    process.env.KILO_CONFIG_CONTENT = JSON.stringify({
+  test("lists KAPPA_CONFIG_CONTENT references with metadata on the first request", async () => {
+    const previous = process.env.KAPPA_CONFIG_CONTENT
+    process.env.KAPPA_CONFIG_CONTENT = JSON.stringify({
       references: {
         private: {
           path: "./private-docs",
@@ -133,8 +133,8 @@ describe("reference HttpApi", () => {
         },
       ])
     } finally {
-      if (previous === undefined) delete process.env.KILO_CONFIG_CONTENT
-      else process.env.KILO_CONFIG_CONTENT = previous
+      if (previous === undefined) delete process.env.KAPPA_CONFIG_CONTENT
+      else process.env.KAPPA_CONFIG_CONTENT = previous
     }
   })
   // kappacode_change end

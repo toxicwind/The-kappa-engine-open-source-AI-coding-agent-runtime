@@ -15,7 +15,7 @@ import { Global } from "@opencode-ai/core/global"
 const ALLOWLIST_ROOT = "/tmp"
 
 export function sessionTmp() {
-  const cloud = process.env["KILO_CLOUD_AGENT"]?.toLowerCase()
+  const cloud = process.env["KAPPA_CLOUD_AGENT"]?.toLowerCase()
   if (cloud !== "true" && cloud !== "1") return Global.Path.tmp
   const session = process.env.SESSION_ID
   if (!session || !/^[A-Za-z0-9_-]+$/.test(session)) return Global.Path.tmp

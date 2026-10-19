@@ -77,16 +77,16 @@ describe("kappa tui thread", () => {
             XDG_DATA_HOME: path.join(root.path, ".local/share"),
             XDG_STATE_HOME: path.join(root.path, ".local/state"),
             XDG_CACHE_HOME: path.join(root.path, ".cache"),
-            KILO_TEST_HOME: root.path,
-            KILO_CONFIG_CONTENT: "{}",
-            KILO_AUTH_CONTENT: "{}",
-            KILO_DISABLE_PROJECT_CONFIG: "1",
-            KILO_DISABLE_AUTOUPDATE: "1",
-            KILO_DISABLE_MODELS_FETCH: "1",
-            KILO_DISABLE_TERMINAL_TITLE: "0",
-            KILO_DEV_CWD: "",
-            KILO_PURE: "1",
-            KILO_NO_DAEMON: "1",
+            KAPPA_TEST_HOME: root.path,
+            KAPPA_CONFIG_CONTENT: "{}",
+            KAPPA_AUTH_CONTENT: "{}",
+            KAPPA_DISABLE_PROJECT_CONFIG: "1",
+            KAPPA_DISABLE_AUTOUPDATE: "1",
+            KAPPA_DISABLE_MODELS_FETCH: "1",
+            KAPPA_DISABLE_TERMINAL_TITLE: "0",
+            KAPPA_DEV_CWD: "",
+            KAPPA_PURE: "1",
+            KAPPA_NO_DAEMON: "1",
             TERM: "xterm-256color",
           }),
         },
@@ -140,14 +140,14 @@ describe("kappa tui thread", () => {
     const pkg = path.join(root.path, "packages", "opencode")
     await fs.mkdir(pkg, { recursive: true })
 
-    const prev = process.env.KILO_DEV_CWD
-    process.env.KILO_DEV_CWD = root.path
+    const prev = process.env.KAPPA_DEV_CWD
+    process.env.KAPPA_DEV_CWD = root.path
     try {
       expect(resolveThreadDirectory(".", root.path, pkg)).toBe(root.path)
       expect(resolveThreadDirectory(undefined, root.path, pkg)).toBe(root.path)
     } finally {
-      if (prev === undefined) delete process.env.KILO_DEV_CWD
-      else process.env.KILO_DEV_CWD = prev
+      if (prev === undefined) delete process.env.KAPPA_DEV_CWD
+      else process.env.KAPPA_DEV_CWD = prev
     }
   })
 

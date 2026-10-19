@@ -6,6 +6,7 @@ import { Filesystem } from "@/util/filesystem"
 import { isRecord } from "@/util/record"
 import { Npm } from "@opencode-ai/core/npm"
 import { isGitPluginSpec, resolveGitPluginTarget } from "@/kappacode/plugin/git-source" // kappacode_change
+import { normalizeLegacyKiloSpec } from "@/kappacode/config/legacy-kilo" // kappacode_change - legacy kilo plugin compat
 
 // Old npm package names for plugins that are now built-in
 export const DEPRECATED_PLUGIN_PACKAGES = ["opencode-openai-codex-auth", "opencode-copilot-auth"]
@@ -20,7 +21,8 @@ function parse(spec: string) {
   } catch {}
 }
 
-export function parsePluginSpecifier(spec: string) {
+export function parsePluginSpecifier(rawSpec: string) {
+  const spec = normalizeLegacyKiloSpec(rawSpec) // kappacode_change - legacy kilo compat
   const hit = parse(spec)
   if (hit?.type === "alias" && !hit.name) {
     const sub = (hit as npa.AliasResult).subSpec
@@ -218,7 +220,11 @@ export async function resolvePluginTarget(spec: string) {
   }
   // kappacode_change end
   const hit = parse(spec)
-  const pkg = hit?.name && hit.raw === hit.name ? `${hit.name}@latest` : spec
+  // kappacode_change start - legacy kilo npm compat
+  const normalized = normalizeLegacyKiloSpec(spec)
+  const base = normalized === spec ? spec : normalized
+  const pkg = hit?.name && hit.raw === hit.name ? `${parsePluginSpecifier(base).pkg}@latest` : base
+  // kappacode_change end
   const result = await Npm.add(pkg)
   return result.directory
 }

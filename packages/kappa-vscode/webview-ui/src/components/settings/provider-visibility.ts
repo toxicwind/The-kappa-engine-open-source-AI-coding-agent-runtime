@@ -2,7 +2,7 @@ import type { ProviderAuthState } from "../../types/messages"
 import type { Provider, ProviderConfig } from "../../types/messages"
 import type { ProviderAuthMethod } from "@kappacode/sdk/v2/client"
 import {
-  KILO_PROVIDER_ID,
+  KAPPA_PROVIDER_ID,
   createKappaFallbackProvider,
   isCustomProviderPackage,
 } from "../../../../src/shared/provider-model"
@@ -19,7 +19,7 @@ export function canChangeProviderKey(
   if (isCustomProviderPackage(cfg?.npm) || isLocalProviderOptionalApiKey(item.id)) return false
   if (
     [
-      KILO_PROVIDER_ID,
+      KAPPA_PROVIDER_ID,
       "anaconda-desktop",
       "ollama",
       "amazon-bedrock",
@@ -35,7 +35,7 @@ export function canChangeProviderKey(
 }
 
 export function visibleConnectedIds(connected: string[], authStates: Record<string, ProviderAuthState>) {
-  return connected.filter((id) => id !== KILO_PROVIDER_ID || authStates[KILO_PROVIDER_ID] !== undefined)
+  return connected.filter((id) => id !== KAPPA_PROVIDER_ID || authStates[KAPPA_PROVIDER_ID] !== undefined)
 }
 
 export function disabledProviderOptions(providers: Record<string, Provider>, disabled: string[]) {
@@ -47,6 +47,6 @@ export function disabledProviderOptions(providers: Record<string, Provider>, dis
 }
 
 export function providersWithKappaFallback(providers: Record<string, Provider>): Record<string, Provider> {
-  if (providers[KILO_PROVIDER_ID]) return providers
-  return { [KILO_PROVIDER_ID]: createKappaFallbackProvider(), ...providers }
+  if (providers[KAPPA_PROVIDER_ID]) return providers
+  return { [KAPPA_PROVIDER_ID]: createKappaFallbackProvider(), ...providers }
 }

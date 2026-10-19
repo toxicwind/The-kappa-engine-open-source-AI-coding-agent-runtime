@@ -18,7 +18,7 @@ import {
   providerIcon,
 } from "./provider-catalog"
 import CustomProviderDialog from "./CustomProviderDialog"
-import { KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
+import { KAPPA_PROVIDER_ID } from "../../../../src/shared/provider-model"
 
 type ProviderItem = {
   id: string
@@ -39,7 +39,7 @@ const ProviderSelectDialog = () => {
     const disabled = new Set(config().disabled_providers ?? [])
     const connected = new Set(provider.connected())
     const all = Object.values(provider.providers())
-    const withKappa = all.some((item) => item.id === KILO_PROVIDER_ID) ? all : [kappaFallbackProvider(), ...all]
+    const withKappa = all.some((item) => item.id === KAPPA_PROVIDER_ID) ? all : [kappaFallbackProvider(), ...all]
     const available = withKappa.filter((item) => !disabled.has(item.id) && !connected.has(item.id))
 
     return [
@@ -61,7 +61,7 @@ const ProviderSelectDialog = () => {
       return
     }
 
-    if (item.id === KILO_PROVIDER_ID) {
+    if (item.id === KAPPA_PROVIDER_ID) {
       dialog.close()
       // Navigate to the Profile view so the full device-auth UI is visible.
       server.goToLogin()
@@ -131,7 +131,7 @@ const ProviderSelectDialog = () => {
               >
                 {item.name}
               </span>
-              <Show when={item.id === KILO_PROVIDER_ID}>
+              <Show when={item.id === KAPPA_PROVIDER_ID}>
                 <Tag>{language.t("dialog.provider.tag.recommended")}</Tag>
               </Show>
               <Show when={item.id === CUSTOM_PROVIDER_ID}>

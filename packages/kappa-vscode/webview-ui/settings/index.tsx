@@ -16,13 +16,13 @@ const Content = () => {
   const vscode = useVSCode()
   const server = useServer()
   const host = window as typeof window & {
-    KILO_SETTINGS?: { tab?: string; projectId?: string }
-    KILO_AGENT_MANAGER_SETTINGS?: boolean
+    KAPPA_SETTINGS?: { tab?: string; projectId?: string }
+    KAPPA_AGENT_MANAGER_SETTINGS?: boolean
   }
-  const [tab, setTab] = createSignal(host.KILO_SETTINGS?.tab)
+  const [tab, setTab] = createSignal(host.KAPPA_SETTINGS?.tab)
   const [subtab, setSubtab] = createSignal<string>()
   const [focus, setFocus] = createSignal<{ token: number; value: string }>()
-  const [project, setProject] = createSignal(host.KILO_SETTINGS?.projectId)
+  const [project, setProject] = createSignal(host.KAPPA_SETTINGS?.projectId)
   const [migration, setMigration] = createSignal(false)
   const [profile, setProfile] = createSignal(false)
   const unsubscribe = vscode.onMessage((message) => {
@@ -69,7 +69,7 @@ const Content = () => {
                 subtab={subtab()}
                 focus={focus()}
                 agentManagerProjectId={project()}
-                agentManagerSettings={host.KILO_AGENT_MANAGER_SETTINGS === true}
+                agentManagerSettings={host.KAPPA_AGENT_MANAGER_SETTINGS === true}
                 onTabChange={setTab}
                 onAgentBehaviourNavigationConsumed={() => {
                   setSubtab(undefined)

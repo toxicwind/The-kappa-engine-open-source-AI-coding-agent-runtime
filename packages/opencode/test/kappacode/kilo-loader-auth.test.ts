@@ -19,7 +19,7 @@ import { provideInstance, testInstanceStoreLayer } from "../fixture/fixture.ts"
 const input = {
   id: "kappa",
   name: "Kappa Gateway",
-  env: ["KILO_API_KEY"],
+  env: ["KAPPA_API_KEY"],
   models: {
     "free-model": {
       id: "free-model",
@@ -189,7 +189,7 @@ for (const context of ["config", "oauth", "env", "url"] as const) {
   for (const outcome of ["empty", "unauthorized", "network", "throw"] as const) {
     it.live(`keeps ${context} Org ${outcome} catalogs unavailable without public fallback or detached refresh`, () =>
       Effect.gen(function* () {
-        yield* environment({ KILO_API_KEY: undefined, KILO_ORG_ID: context === "env" ? "org-env" : undefined })
+        yield* environment({ KAPPA_API_KEY: undefined, KAPPA_ORG_ID: context === "env" ? "org-env" : undefined })
         const calls: Parameters<ModelCache.KappaModels["fetch"]>[0][] = []
         const config: Config.Info =
           context === "config"
@@ -266,7 +266,7 @@ for (const scenario of [
 ]) {
   it.live(`wrapper and cache use the same ${scenario.name} organization and credentials`, () =>
     Effect.gen(function* () {
-      yield* environment({ KILO_ORG_ID: scenario.env, KILO_API_KEY: "env-token" })
+      yield* environment({ KAPPA_ORG_ID: scenario.env, KAPPA_API_KEY: "env-token" })
       const calls: Parameters<ModelCache.KappaModels["fetch"]>[0][] = []
       const config: Config.Info = {
         provider: {
@@ -314,7 +314,7 @@ for (const scenario of [
 
 it.live("does not serve a warm or public catalog after an Org-scoped URL conflicts with the selected Org", () =>
   Effect.gen(function* () {
-    yield* environment({ KILO_ORG_ID: "org-env", KILO_API_KEY: "env-token" })
+    yield* environment({ KAPPA_ORG_ID: "org-env", KAPPA_API_KEY: "env-token" })
     const options = { baseURL: "https://gateway.test/api/organizations/org-env" }
     const calls: Parameters<ModelCache.KappaModels["fetch"]>[0][] = []
     yield* ModelsDev.Service.use((models) =>
@@ -346,14 +346,14 @@ it.live("does not serve a warm or public catalog after an Org-scoped URL conflic
 
 it.live("preserves Personal public snapshot fallback", () =>
   Effect.gen(function* () {
-    const env = process.env.KILO_ORG_ID
+    const env = process.env.KAPPA_ORG_ID
     yield* Effect.acquireRelease(
       Effect.sync(() => {
-        delete process.env.KILO_ORG_ID
+        delete process.env.KAPPA_ORG_ID
       }),
       () =>
         Effect.sync(() => {
-          if (env !== undefined) process.env.KILO_ORG_ID = env
+          if (env !== undefined) process.env.KAPPA_ORG_ID = env
         }),
     )
     const providers = yield* ModelsDev.Service.use((models) => models.get()).pipe(

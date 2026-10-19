@@ -1,17 +1,17 @@
 import { describe, test, expect, beforeEach, afterEach } from "bun:test"
 import { getActiveOrg, resetOrgSource, setOrgSource } from "@/kappacode/session-export/eligibility"
 
-const env = process.env.KILO_ORG_ID
+const env = process.env.KAPPA_ORG_ID
 
 describe("getActiveOrg", () => {
   beforeEach(() => {
-    delete process.env.KILO_ORG_ID
+    delete process.env.KAPPA_ORG_ID
     resetOrgSource()
   })
 
   afterEach(() => {
-    if (env === undefined) delete process.env.KILO_ORG_ID
-    else process.env.KILO_ORG_ID = env
+    if (env === undefined) delete process.env.KAPPA_ORG_ID
+    else process.env.KAPPA_ORG_ID = env
     resetOrgSource()
   })
 
@@ -20,9 +20,9 @@ describe("getActiveOrg", () => {
     expect(await getActiveOrg()).toEqual({ type: "personal" })
   })
 
-  test("returns env value when KILO_ORG_ID is set", async () => {
+  test("returns env value when KAPPA_ORG_ID is set", async () => {
     setOrgSource(async () => ({ type: "org", id: "org_auth" }))
-    process.env.KILO_ORG_ID = "org_envvar"
+    process.env.KAPPA_ORG_ID = "org_envvar"
     expect(await getActiveOrg()).toEqual({ type: "org", id: "org_envvar" })
   })
 

@@ -26,7 +26,7 @@ export namespace CloudAuth {
     const service = yield* Auth.Service
     const info = yield* service.get("kappa")
     const stored = info?.type === "api" ? info.key.trim() : info?.type === "oauth" ? info.access.trim() : undefined
-    const fallback = env.KILO_API_KEY?.trim()
+    const fallback = env.KAPPA_API_KEY?.trim()
     const value = stored || fallback
     if (!value) {
       return yield* Effect.fail(
@@ -47,7 +47,7 @@ export namespace CloudAuth {
     const env = input.env ?? process.env
     const auth = yield* credentials(env)
     const explicit = input.orgID
-    const setting = env.KILO_ORG_ID?.trim()
+    const setting = env.KAPPA_ORG_ID?.trim()
     const organizationID = explicit !== undefined ? explicit : setting || auth.accountID
     if (organizationID !== undefined && !Uuid.safeParse(organizationID).success) {
       return yield* Effect.fail(

@@ -3,7 +3,7 @@ import { Capture } from "@/kappacode/session-export/capture"
 
 describe("session export performance budget", () => {
   const worker = { postMessage: () => {}, terminate: () => {} } as unknown as Worker
-  const enabled = process.env.KILO_SESSION_EXPORT_PERF === "1" && process.env.CI !== "true"
+  const enabled = process.env.KAPPA_SESSION_EXPORT_PERF === "1" && process.env.CI !== "true"
 
   test.skipIf(!enabled)("ineligible beforeRequest p99 stays under 0.1 ms", () => {
     const cap = new Capture({ worker, agentVersion: "v0", nowMs: () => 0, syncSeq: () => 0 })

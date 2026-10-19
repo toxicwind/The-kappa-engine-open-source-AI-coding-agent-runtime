@@ -42,7 +42,7 @@ import { isBinary } from "../shared/is-binary"
 
 const log = Log.create({ service: "file-watcher" })
 
-declare const KILO_LIBC: string | undefined
+declare const KAPPA_LIBC: string | undefined
 
 export interface FileWatchEvent {
   path: string
@@ -73,7 +73,7 @@ function loadParcelWatcher(): typeof import("@parcel/watcher") | undefined {
   try {
     // The platform binding stays a dynamic require so bun-compiled multi-platform
     // binaries resolve the right prebuild at runtime (mirrors @kappacode/core).
-    const libc = typeof KILO_LIBC === "undefined" ? undefined : KILO_LIBC
+    const libc = typeof KAPPA_LIBC === "undefined" ? undefined : KAPPA_LIBC
     const suffix = process.platform === "linux" ? `-${libc || "glibc"}` : ""
     const binding = require(`@parcel/watcher-${process.platform}-${process.arch}${suffix}`)
     parcelModule = createWrapper(binding) as typeof import("@parcel/watcher")

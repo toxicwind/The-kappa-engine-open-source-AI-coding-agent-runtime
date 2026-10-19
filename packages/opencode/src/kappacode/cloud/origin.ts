@@ -44,7 +44,7 @@ export function resolveCloudAgentOrigin(env: CloudEnvironment = process.env) {
 }
 
 export function resolveWebAppOrigin(env: CloudEnvironment = process.env) {
-  const value = env.KILO_WEB_APP_URL
+  const value = env.KAPPA_WEB_APP_URL
   return parseServiceOrigin(value ?? DEFAULT_WEB_APP_ORIGIN, {
     allowHttpLoopback: value !== undefined,
   })

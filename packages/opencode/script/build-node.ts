@@ -26,12 +26,12 @@ await Bun.build({
   sourcemap: "linked",
   external: ["jsonc-parser", "@lydell/node-pty"],
   define: {
-    KILO_MODELS_DEV: generated.modelsData,
-    KILO_VERSION: `'${Script.version}'`, // kappacode_change
-    KILO_SANDBOX_MUTATION_WORKER_PATH: `'./kappa-sandbox-mutation-worker.js'`, // kappacode_change
-    KILO_SANDBOX_NETWORK_RELAY_PATH: `'./kappa-sandbox-network-relay.js'`, // kappacode_change
-    KILO_SANDBOX_SECCOMP_PATH: "undefined", // kappacode_change
-    KILO_CHANNEL: `'${Script.channel}'`,
+    KAPPA_MODELS_DEV: generated.modelsData,
+    KAPPA_VERSION: `'${Script.version}'`, // kappacode_change
+    KAPPA_SANDBOX_MUTATION_WORKER_PATH: `'./kappa-sandbox-mutation-worker.js'`, // kappacode_change
+    KAPPA_SANDBOX_NETWORK_RELAY_PATH: `'./kappa-sandbox-network-relay.js'`, // kappacode_change
+    KAPPA_SANDBOX_SECCOMP_PATH: "undefined", // kappacode_change
+    KAPPA_CHANNEL: `'${Script.channel}'`,
   },
   files: {
     "opencode-web-ui.gen.ts": "",

@@ -30,7 +30,7 @@ export namespace Client {
           // Remember the link only after a successful upload.
           writeFileSync(file, "1", { mode: 0o600 })
         } catch (err) {
-          if (process.env.KILO_PRINT_LOGS) console.warn("telemetry cache write failed", err)
+          if (process.env.KAPPA_PRINT_LOGS) console.warn("telemetry cache write failed", err)
         }
       }
     })
@@ -82,7 +82,7 @@ export namespace Client {
     try {
       if (directory && readFileSync(file, "utf8") === "1") return
     } catch (err) {
-      if (process.env.KILO_PRINT_LOGS) console.warn("telemetry alias marker read failed; retrying link", err)
+      if (process.env.KAPPA_PRINT_LOGS) console.warn("telemetry alias marker read failed; retrying link", err)
     }
     pending.add(file)
 
@@ -122,7 +122,7 @@ export namespace Client {
     const timer = setTimeout(() => {
       if (!client) return
       client.flush().catch((err) => {
-        if (process.env.KILO_PRINT_LOGS) console.warn("telemetry background flush failed", err)
+        if (process.env.KAPPA_PRINT_LOGS) console.warn("telemetry background flush failed", err)
       })
     }, delayMs)
     timer.unref?.()

@@ -108,7 +108,7 @@ export interface StateLoadResult extends MigrationResult {
   status: StateLoadStatus
 }
 
-import { KILO_DIR, migrateAgentManagerData, type MigrationResult } from "./constants"
+import { KAPPA_DIR, migrateAgentManagerData, type MigrationResult } from "./constants"
 
 const STATE_FILE = "agent-manager.json"
 const CLOSED_LIMIT = 1_000
@@ -144,7 +144,7 @@ export class WorktreeStateManager {
 
   constructor(root: string, log: (msg: string) => void) {
     this.root = root
-    this.file = path.join(root, KILO_DIR, STATE_FILE)
+    this.file = path.join(root, KAPPA_DIR, STATE_FILE)
     this.log = log
   }
 

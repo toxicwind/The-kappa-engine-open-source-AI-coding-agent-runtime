@@ -1,4 +1,4 @@
-import { createKappa, KILO_OPENROUTER_BASE } from "@kappacode/kappa-gateway" // kappacode_change
+import { createKappa, KAPPA_OPENROUTER_BASE } from "@kappacode/kappa-gateway" // kappacode_change
 import { Effect } from "effect"
 import { ProviderV2 } from "../../provider" // kappacode_change
 import { define } from "../internal"
@@ -15,13 +15,13 @@ export const KappaPlugin = define({
           evt.provider.update(item.provider.id, (provider) => {
             // kappacode_change start
             const options = provider.request.body
-            const token = options.kappacodeToken ?? options.apiKey ?? process.env.KILO_API_KEY
-            const org = process.env.KILO_ORG_ID ?? options.kappacodeOrganizationId
+            const token = options.kappacodeToken ?? options.apiKey ?? process.env.KAPPA_API_KEY
+            const org = process.env.KAPPA_ORG_ID ?? options.kappacodeOrganizationId
 
             provider.api = {
               type: "aisdk",
               package: "@kappacode/kappa-gateway",
-              url: KILO_OPENROUTER_BASE,
+              url: KAPPA_OPENROUTER_BASE,
             }
             // kappacode_change end
             provider.request.headers["HTTP-Referer"] = "https://kappa.ai/"

@@ -5,7 +5,7 @@ import { usePromptRef } from "../context/prompt"
 import { useRouteData } from "../context/route"
 import { useSDK } from "../context/sdk"
 import { useSync } from "../context/sync"
-import { KILO_BASE_MODE, useBindings } from "../keymap"
+import { KAPPA_BASE_MODE, useBindings } from "../keymap"
 import { useToast } from "../ui/toast"
 import { running } from "../util/session"
 import { createDoublePress } from "./double-press"
@@ -50,7 +50,7 @@ export function useSubagentKeys() {
 
   // `get` (not `gather`): gather caches by name, so a second gather("session", ...) returns the first list.
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     enabled: interruptible(),
     priority: 1,
     commands: [
@@ -67,14 +67,14 @@ export function useSubagentKeys() {
 
   // Priority 1 also outranks prompt history, so up on an empty prompt goes to the parent.
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     priority: 1,
     enabled: () => KappaSteer.idle(prompt.current),
     bindings: tuiConfig.keybinds.gather("subagent.nav", NAV),
   }))
 
   useBindings(() => ({
-    mode: KILO_BASE_MODE,
+    mode: KAPPA_BASE_MODE,
     priority: 1,
     enabled: () => KappaSteer.idle(prompt.current),
     bindings: tuiConfig.keybinds.get("app.exit").map((binding) => ({

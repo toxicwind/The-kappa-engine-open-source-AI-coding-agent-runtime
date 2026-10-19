@@ -147,7 +147,7 @@ function completed(part: z.infer<typeof partSchema>) {
   return result.data
 }
 
-const INGEST_BASE = process.env.KILO_SESSION_INGEST_URL ?? "https://ingest.kilosessions.ai"
+const INGEST_BASE = process.env.KAPPA_SESSION_INGEST_URL ?? "https://ingest.kilosessions.ai"
 const TIMEOUT = 30_000
 
 function exportUrl(sessionId: string, cut?: string) {

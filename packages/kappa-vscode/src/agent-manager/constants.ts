@@ -17,7 +17,7 @@ export const PLATFORM = "agent-manager" as const
 export const SNAPSHOT_INITIALIZATION = "wait" as const
 
 /** Kappa config directory name (project-level and inside worktrees). */
-export const KILO_DIR = ".kappa"
+export const KAPPA_DIR = ".kappa"
 
 /** Legacy config directory name for backward compatibility reads. */
 export const LEGACY_DIR = ".kappacode"
@@ -54,7 +54,7 @@ export interface MigrationResult {
  */
 export async function migrateAgentManagerData(root: string, log: (msg: string) => void): Promise<MigrationResult> {
   const legacy = path.join(root, LEGACY_DIR)
-  const target = path.join(root, KILO_DIR)
+  const target = path.join(root, KAPPA_DIR)
 
   if (await isDirectory(legacy)) {
     // Ensure .kappa/ exists
@@ -71,13 +71,13 @@ export async function migrateAgentManagerData(root: string, log: (msg: string) =
       if (!(await exists(src))) continue
 
       if (await exists(dst)) {
-        log(`Skipping ${item}: already exists in ${KILO_DIR}`)
+        log(`Skipping ${item}: already exists in ${KAPPA_DIR}`)
         continue
       }
 
       try {
         await fs.promises.rename(src, dst)
-        log(`Migrated ${item} from ${LEGACY_DIR} to ${KILO_DIR}`)
+        log(`Migrated ${item} from ${LEGACY_DIR} to ${KAPPA_DIR}`)
       } catch (err) {
         // On Windows, rename can fail with EPERM/EBUSY if files are held open.
         // Will succeed on next startup.
@@ -157,7 +157,7 @@ async function fixGitWorktreeRefs(root: string, log: (msg: string) => void): Pro
   }
 
   const oldSegment = path.join(root, LEGACY_DIR) + path.sep
-  const newSegment = path.join(root, KILO_DIR) + path.sep
+  const newSegment = path.join(root, KAPPA_DIR) + path.sep
   let fixed = 0
 
   try {

@@ -205,7 +205,7 @@ if (!Script.preview) {
     '  install -dm755 "${pkgdir}/usr/bin" "${pkgdir}/usr/lib/kappa/tree-sitter" "${pkgdir}/usr/share/licenses/kappa"', // kappacode_change
     '  cp -r ./tree-sitter/. "${pkgdir}/usr/lib/kappa/tree-sitter/"', // kappacode_change
     '  cp -r ./licenses/. "${pkgdir}/usr/share/licenses/kappa/"', // kappacode_change
-    "  printf '%s\\n' '#!/bin/sh' 'export KILO_TREE_SITTER_WASM_DIR=/usr/lib/kappa/tree-sitter' 'exec /usr/lib/kappa/kappa \"$@\"' > \"${pkgdir}/usr/bin/kappa\"", // kappacode_change
+    "  printf '%s\\n' '#!/bin/sh' 'export KAPPA_TREE_SITTER_WASM_DIR=/usr/lib/kappa/tree-sitter' 'exec /usr/lib/kappa/kappa \"$@\"' > \"${pkgdir}/usr/bin/kappa\"", // kappacode_change
     '  chmod 755 "${pkgdir}/usr/bin/kappa"', // kappacode_change
     "}",
     "",
@@ -250,7 +250,7 @@ if (!Script.preview) {
     "",
     "      def install",
     '        libexec.install "kappa", "kappa-sandbox-mutation-worker.js", "tree-sitter"', // kappacode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KAPPA_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "    if Hardware::CPU.arm?",
@@ -259,7 +259,7 @@ if (!Script.preview) {
     "",
     "      def install",
     '        libexec.install "kappa", "kappa-sandbox-mutation-worker.js", "tree-sitter"', // kappacode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KAPPA_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "  end",
@@ -270,7 +270,7 @@ if (!Script.preview) {
     `      sha256 "${x64Sha}"`,
     "      def install",
     '        libexec.install "kappa", "bwrap", "kappa-sandbox-mutation-worker.js", "tree-sitter", "licenses"', // kappacode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KAPPA_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "    if Hardware::CPU.arm? and Hardware::CPU.is_64_bit?",
@@ -278,7 +278,7 @@ if (!Script.preview) {
     `      sha256 "${arm64Sha}"`,
     "      def install",
     '        libexec.install "kappa", "bwrap", "kappa-sandbox-mutation-worker.js", "tree-sitter", "licenses"', // kappacode_change
-    '        (bin/"kappa").write_env_script libexec/"kappa", KILO_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
+    '        (bin/"kappa").write_env_script libexec/"kappa", KAPPA_TREE_SITTER_WASM_DIR: libexec/"tree-sitter"', // kappacode_change
     "      end",
     "    end",
     "  end",

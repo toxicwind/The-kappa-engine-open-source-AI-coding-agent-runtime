@@ -25,13 +25,13 @@ export {
 export const kappaTheme = kappaJson as DesktopTheme
 export const kappaVscodeTheme = kappaVscodeJson as DesktopTheme
 
-export const KILO_THEMES: Record<string, DesktopTheme> = {
+export const KAPPA_THEMES: Record<string, DesktopTheme> = {
   kappa: kappaTheme,
   "kappa-vscode": kappaVscodeTheme,
 }
 
 // Override DEFAULT_THEMES: Kappa themes first, then upstream
 export const DEFAULT_THEMES: Record<string, DesktopTheme> = {
-  ...KILO_THEMES,
+  ...KAPPA_THEMES,
   ...UPSTREAM_THEMES,
 }

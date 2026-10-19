@@ -117,14 +117,14 @@ async function cliSourceHash() {
     const env = Object.fromEntries(
       [
         "GH_REPO",
-        "KILO_BUMP",
-        "KILO_BWRAP_CACHE",
-        "KILO_CHANNEL",
-        "KILO_MODELS_URL",
-        "KILO_PRE_RELEASE",
-        "KILO_RELEASE",
-        "KILO_SKIP_BUNDLED_BWRAP",
-        "KILO_VERSION",
+        "KAPPA_BUMP",
+        "KAPPA_BWRAP_CACHE",
+        "KAPPA_CHANNEL",
+        "KAPPA_MODELS_URL",
+        "KAPPA_PRE_RELEASE",
+        "KAPPA_RELEASE",
+        "KAPPA_SKIP_BUNDLED_BWRAP",
+        "KAPPA_VERSION",
         "MODELS_DEV_API_JSON",
         "ZIG",
       ].map((key) => [key, process.env[key] ?? ""]),
@@ -284,7 +284,7 @@ async function bundleKappaSandboxWorker() {
 
 async function ensureLocalHelpers() {
   await ensureFfmpegForTarget(currentFfmpegTarget(), targetBinDir)
-  if (process.env.KILO_SKIP_BUNDLED_BWRAP === "1") return
+  if (process.env.KAPPA_SKIP_BUNDLED_BWRAP === "1") return
   if (await sanitizeSandboxResources(targetBinDir, true)) return
   await ensureBwrapForTarget(currentBwrapTarget())
 }

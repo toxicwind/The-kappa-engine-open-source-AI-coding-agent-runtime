@@ -17,7 +17,7 @@ import type { GitOps } from "../../src/agent-manager/GitOps"
 import type { Host } from "../../src/agent-manager/host"
 
 const ROOT = path.resolve(import.meta.dir, "../..")
-const KILO_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
+const KAPPA_PROVIDER_FILE = path.join(ROOT, "src/KappaProvider.ts")
 const EDIT_PREVIEW_PANEL_FILE = path.join(ROOT, "webview-ui/agent-manager/EditPreviewPanel.tsx")
 const CSS_FILES = [
   path.join(ROOT, "webview-ui/agent-manager/agent-manager.css"),
@@ -1041,7 +1041,7 @@ describe("Agent Manager Webview — non-git sessionsLoaded fix", () => {
 // ---------------------------------------------------------------------------
 
 describe("KappaProvider — pending session refresh on reconnect", () => {
-  const provider = fs.readFileSync(KILO_PROVIDER_FILE, "utf-8")
+  const provider = fs.readFileSync(KAPPA_PROVIDER_FILE, "utf-8")
   const utils = fs.readFileSync(path.join(ROOT, "src/kappa-provider-utils.ts"), "utf-8")
 
   /**

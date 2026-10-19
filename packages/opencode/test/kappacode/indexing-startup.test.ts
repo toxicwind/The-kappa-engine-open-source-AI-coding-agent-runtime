@@ -80,9 +80,9 @@ const staleKappa: Partial<Config.Info> = {
     vectorStore: "qdrant",
   },
 }
-const configDir = process.env["KILO_CONFIG_DIR"]
-const disabled = process.env["KILO_DISABLE_CODEBASE_INDEXING"]
-const platform = process.env["KILO_PLATFORM"]
+const configDir = process.env["KAPPA_CONFIG_DIR"]
+const disabled = process.env["KAPPA_DISABLE_CODEBASE_INDEXING"]
+const platform = process.env["KAPPA_PLATFORM"]
 const error = new Error("test indexing initialization failed")
 
 function inline(directory: string, root: string, hooks: IndexingWorker.Hooks): IndexingWorker.Driver {
@@ -122,18 +122,18 @@ async function called(init: ReturnType<typeof spyOn<CodeIndexManager, "initializ
 }
 
 beforeEach(() => {
-  process.env["KILO_PLATFORM"] = "cli"
+  process.env["KAPPA_PLATFORM"] = "cli"
   IndexingWorker.override(inline)
 })
 
 afterEach(async () => {
   IndexingWorker.override()
-  if (configDir === undefined) delete process.env["KILO_CONFIG_DIR"]
-  else process.env["KILO_CONFIG_DIR"] = configDir
-  if (disabled === undefined) delete process.env["KILO_DISABLE_CODEBASE_INDEXING"]
-  else process.env["KILO_DISABLE_CODEBASE_INDEXING"] = disabled
-  if (platform === undefined) delete process.env["KILO_PLATFORM"]
-  else process.env["KILO_PLATFORM"] = platform
+  if (configDir === undefined) delete process.env["KAPPA_CONFIG_DIR"]
+  else process.env["KAPPA_CONFIG_DIR"] = configDir
+  if (disabled === undefined) delete process.env["KAPPA_DISABLE_CODEBASE_INDEXING"]
+  else process.env["KAPPA_DISABLE_CODEBASE_INDEXING"] = disabled
+  if (platform === undefined) delete process.env["KAPPA_PLATFORM"]
+  else process.env["KAPPA_PLATFORM"] = platform
   global.fetch = fetch
   await disposeAllInstances()
 })
@@ -155,7 +155,7 @@ describe("indexing model catalog", () => {
         return { global, project }
       },
     })
-    process.env["KILO_CONFIG_DIR"] = tmp.extra.global
+    process.env["KAPPA_CONFIG_DIR"] = tmp.extra.global
     const calls: string[] = []
     globalThis.fetch = (async (input) => {
       calls.push(String(input))
@@ -184,7 +184,7 @@ describe("indexing startup degradation", () => {
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockRejectedValue(error)
 
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
 
     try {
       const app = Server.Default().app
@@ -248,7 +248,7 @@ describe("indexing startup degradation", () => {
     })
 
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
     const on = (data: {
       directory?: string
       workspace?: string
@@ -352,7 +352,7 @@ describe("indexing startup degradation", () => {
     }))
 
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
     const events: KappaIndexing.Status[] = []
     const on = (data: {
       directory?: string
@@ -382,7 +382,7 @@ describe("indexing startup degradation", () => {
 
   test("reports routes as in progress while initialization is in flight", async () => {
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
     const gate = Promise.withResolvers<{ requiresRestart: boolean }>()
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockImplementation(() => gate.promise)
 
@@ -420,7 +420,7 @@ describe("indexing startup degradation", () => {
 
   test("does not publish initialized status after in-flight startup is disposed", async () => {
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
     const gate = Promise.withResolvers<{ requiresRestart: boolean }>()
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockImplementation(() => gate.promise)
     const events: KappaIndexing.Status[] = []
@@ -461,7 +461,7 @@ describe("indexing startup degradation", () => {
     const dispose = spyOn(CodeIndexManager.prototype, "dispose")
 
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
 
     try {
       await provideTestInstance({
@@ -486,7 +486,7 @@ describe("indexing startup degradation", () => {
 
   test("reports not ready while initialization is in flight", async () => {
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
     const gate = Promise.withResolvers<{ requiresRestart: boolean }>()
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockImplementation(() => gate.promise)
 
@@ -515,7 +515,7 @@ describe("indexing startup degradation", () => {
 
   test("stays disabled when indexing enablement is unset", async () => {
     await using tmp = await tmpdir({ git: true, config: unset })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
     const init = spyOn(CodeIndexManager.prototype, "initialize")
 
     await provideTestInstance({
@@ -570,9 +570,9 @@ describe("indexing startup degradation", () => {
 
   test.each([false, true])("handles removed directories with no-workspace flag %s", async (disabled) => {
     await using tmp = await tmpdir({ config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    delete process.env["KILO_DISABLE_CODEBASE_INDEXING"]
-    if (disabled) process.env["KILO_DISABLE_CODEBASE_INDEXING"] = "vscode-no-workspace"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    delete process.env["KAPPA_DISABLE_CODEBASE_INDEXING"]
+    if (disabled) process.env["KAPPA_DISABLE_CODEBASE_INDEXING"] = "vscode-no-workspace"
     const directory = path.join(tmp.path, "project")
     await fs.mkdir(directory)
     const created: string[] = []
@@ -620,15 +620,15 @@ describe("indexing startup degradation", () => {
       )) as unknown as typeof global.fetch
     const logger = Log.create({ service: "kappacode-indexing" })
     const warn = spyOn(logger, "warn")
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
 
     const config: Partial<Config.Info> = {
       ...staleKappa,
       indexing: { ...staleKappa.indexing, enabled: false, model: "removed/model" },
     }
     await using tmp = await tmpdir({ git: true, config })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -642,15 +642,15 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
       warn.mockRestore()
     }
   })
 
   test("disabled indexing does not resolve the Kappa model catalog", async () => {
     const fetchSpy = spyOn(globalThis, "fetch")
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
 
     const config: Partial<Config.Info> = {
       ...staleKappa,
@@ -662,8 +662,8 @@ describe("indexing startup degradation", () => {
       },
     }
     await using tmp = await tmpdir({ git: true, config })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -676,8 +676,8 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
       fetchSpy.mockRestore()
     }
   })
@@ -690,7 +690,7 @@ describe("indexing startup degradation", () => {
     })
 
     await using tmp = await tmpdir({ git: true, config: inactive })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
 
     await provideTestInstance({
       directory: tmp.path,
@@ -723,8 +723,8 @@ describe("indexing startup degradation", () => {
     })
 
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env["KILO_PLATFORM"] = "vscode"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_PLATFORM"] = "vscode"
 
     try {
       await provideTestInstance({
@@ -738,7 +738,7 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      process.env["KILO_PLATFORM"] = "cli"
+      process.env["KAPPA_PLATFORM"] = "cli"
     }
   })
 
@@ -769,8 +769,8 @@ describe("indexing startup degradation", () => {
     await using tmp = await tmpdir({ git: true, config: cfg })
     const worktree = path.join(path.dirname(tmp.path), `indexing-worktree-${Date.now()}`)
     await $`git worktree add --quiet -b indexing-consent-${Date.now()} ${worktree} HEAD`.cwd(tmp.path)
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env["KILO_PLATFORM"] = "vscode"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_PLATFORM"] = "vscode"
 
     try {
       await withTestInstance({
@@ -797,7 +797,7 @@ describe("indexing startup degradation", () => {
         fn: async () => expect((await KappaIndexing.current()).state).toBe("Disabled"),
       })
     } finally {
-      process.env["KILO_PLATFORM"] = "cli"
+      process.env["KAPPA_PLATFORM"] = "cli"
       await $`git worktree remove --force ${worktree}`.cwd(tmp.path).quiet()
     }
   }, 15_000)
@@ -816,13 +816,13 @@ describe("indexing startup degradation", () => {
         ),
       )) as unknown as typeof global.fetch
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
-    const key = process.env.KILO_API_KEY
-    const org = process.env.KILO_ORG_ID
+    const key = process.env.KAPPA_API_KEY
+    const org = process.env.KAPPA_ORG_ID
 
     await using tmp = await tmpdir({ git: true, config: kappa })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
-    process.env.KILO_ORG_ID = "org_123"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
+    process.env.KAPPA_ORG_ID = "org_123"
 
     try {
       await provideTestInstance({
@@ -841,10 +841,10 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
-      if (org === undefined) delete process.env.KILO_ORG_ID
-      else process.env.KILO_ORG_ID = org
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
+      if (org === undefined) delete process.env.KAPPA_ORG_ID
+      else process.env.KAPPA_ORG_ID = org
       init.mockRestore()
     }
   })
@@ -864,11 +864,11 @@ describe("indexing startup degradation", () => {
       )) as unknown as typeof global.fetch
     const logger = Log.create({ service: "kappacode-indexing" })
     const warn = spyOn(logger, "warn")
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
 
     await using tmp = await tmpdir({ git: true, config: staleKappa })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -889,8 +889,8 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
       warn.mockRestore()
     }
   })
@@ -911,15 +911,15 @@ describe("indexing startup degradation", () => {
     const logger = Log.create({ service: "kappacode-indexing" })
     const warn = spyOn(logger, "warn")
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
 
     const config: Partial<Config.Info> = {
       ...staleKappa,
       indexing: { ...staleKappa.indexing, model: "mistralai/mistral-embed-2312" },
     }
     await using tmp = await tmpdir({ git: true, config })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -939,8 +939,8 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
       init.mockRestore()
       warn.mockRestore()
     }
@@ -966,7 +966,7 @@ describe("indexing startup degradation", () => {
         ),
       )) as unknown as typeof global.fetch
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
     const config: Partial<Config.Info> = {
       ...staleKappa,
       indexing: {
@@ -977,8 +977,8 @@ describe("indexing startup degradation", () => {
     }
 
     await using tmp = await tmpdir({ git: true, config })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -994,8 +994,8 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
       init.mockRestore()
     }
   })
@@ -1003,11 +1003,11 @@ describe("indexing startup degradation", () => {
   test("leaves Kappa model metadata unset when the hosted catalog is unavailable", async () => {
     global.fetch = (() => Promise.resolve(new Response(undefined, { status: 500 }))) as unknown as typeof global.fetch
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
 
     await using tmp = await tmpdir({ git: true, config: staleKappa })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -1024,19 +1024,19 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
       init.mockRestore()
     }
   })
 
   test("does not default to Kappa when an existing provider config is present", async () => {
     const init = spyOn(CodeIndexManager.prototype, "initialize").mockResolvedValue({ requiresRestart: false })
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
 
     await using tmp = await tmpdir({ git: true, config: implicitOpenAi })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env.KILO_API_KEY = "kappa-token"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env.KAPPA_API_KEY = "kappa-token"
 
     try {
       await provideTestInstance({
@@ -1051,16 +1051,16 @@ describe("indexing startup degradation", () => {
         },
       })
     } finally {
-      if (key === undefined) delete process.env.KILO_API_KEY
-      else process.env.KILO_API_KEY = key
+      if (key === undefined) delete process.env.KAPPA_API_KEY
+      else process.env.KAPPA_API_KEY = key
       init.mockRestore()
     }
   })
 
   test("stays disabled when VS Code starts without a workspace folder", async () => {
     await using tmp = await tmpdir({ git: true, config: cfg })
-    process.env["KILO_CONFIG_DIR"] = tmp.path
-    process.env["KILO_DISABLE_CODEBASE_INDEXING"] = "vscode-no-workspace"
+    process.env["KAPPA_CONFIG_DIR"] = tmp.path
+    process.env["KAPPA_DISABLE_CODEBASE_INDEXING"] = "vscode-no-workspace"
     const init = spyOn(CodeIndexManager.prototype, "initialize")
 
     try {

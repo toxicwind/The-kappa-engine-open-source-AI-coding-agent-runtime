@@ -7,68 +7,68 @@ const positiveInteger = (name: string) =>
     Config.map((value) => (Number.isInteger(value) && value > 0 ? value : undefined)),
     Config.orElse(() => Config.succeed(undefined)),
   )
-const experimental = bool("KILO_EXPERIMENTAL")
+const experimental = bool("KAPPA_EXPERIMENTAL")
 const enabledByExperimental = (name: string) =>
   Config.all({ experimental, enabled: Config.boolean(name).pipe(Config.option) }).pipe(
     Config.map((flags) => Option.getOrElse(flags.enabled, () => flags.experimental)),
   )
 
 export class Service extends ConfigService.Service<Service>()("@opencode/RuntimeFlags", {
-  autoShare: bool("KILO_AUTO_SHARE"),
-  pure: bool("KILO_PURE"),
-  disableDefaultPlugins: bool("KILO_DISABLE_DEFAULT_PLUGINS"),
-  disableChannelDb: bool("KILO_DISABLE_CHANNEL_DB"), // kappacode_change
-  disableEmbeddedWebUi: bool("KILO_DISABLE_EMBEDDED_WEB_UI"),
-  disableExternalSkills: bool("KILO_DISABLE_EXTERNAL_SKILLS"),
-  disableSkillShell: bool("KILO_DISABLE_SKILL_SHELL"), // kappacode_change - disable shell injection in skill bodies
-  disableLspDownload: bool("KILO_DISABLE_LSP_DOWNLOAD"),
-  skipMigrations: bool("KILO_SKIP_MIGRATIONS"), // kappacode_change
+  autoShare: bool("KAPPA_AUTO_SHARE"),
+  pure: bool("KAPPA_PURE"),
+  disableDefaultPlugins: bool("KAPPA_DISABLE_DEFAULT_PLUGINS"),
+  disableChannelDb: bool("KAPPA_DISABLE_CHANNEL_DB"), // kappacode_change
+  disableEmbeddedWebUi: bool("KAPPA_DISABLE_EMBEDDED_WEB_UI"),
+  disableExternalSkills: bool("KAPPA_DISABLE_EXTERNAL_SKILLS"),
+  disableSkillShell: bool("KAPPA_DISABLE_SKILL_SHELL"), // kappacode_change - disable shell injection in skill bodies
+  disableLspDownload: bool("KAPPA_DISABLE_LSP_DOWNLOAD"),
+  skipMigrations: bool("KAPPA_SKIP_MIGRATIONS"), // kappacode_change
   disableClaudeCodePrompt: Config.all({
-    broad: bool("KILO_DISABLE_CLAUDE_CODE"),
-    direct: bool("KILO_DISABLE_CLAUDE_CODE_PROMPT"),
+    broad: bool("KAPPA_DISABLE_CLAUDE_CODE"),
+    direct: bool("KAPPA_DISABLE_CLAUDE_CODE_PROMPT"),
   }).pipe(Config.map((flags) => flags.broad || flags.direct)),
   disableClaudeCodeSkills: Config.all({
-    broad: bool("KILO_DISABLE_CLAUDE_CODE"),
-    direct: bool("KILO_DISABLE_CLAUDE_CODE_SKILLS"),
+    broad: bool("KAPPA_DISABLE_CLAUDE_CODE"),
+    direct: bool("KAPPA_DISABLE_CLAUDE_CODE_SKILLS"),
   }).pipe(Config.map((flags) => flags.broad || flags.direct)),
   enableExa: Config.all({
     experimental,
-    enabled: bool("KILO_ENABLE_EXA"),
-    legacy: bool("KILO_EXPERIMENTAL_EXA"),
+    enabled: bool("KAPPA_ENABLE_EXA"),
+    legacy: bool("KAPPA_EXPERIMENTAL_EXA"),
   }).pipe(Config.map((flags) => flags.experimental || flags.enabled || flags.legacy)),
   enableParallel: Config.all({
-    enabled: bool("KILO_ENABLE_PARALLEL"),
-    legacy: bool("KILO_EXPERIMENTAL_PARALLEL"),
+    enabled: bool("KAPPA_ENABLE_PARALLEL"),
+    legacy: bool("KAPPA_EXPERIMENTAL_PARALLEL"),
   }).pipe(Config.map((flags) => flags.enabled || flags.legacy)),
-  enableExperimentalModels: bool("KILO_ENABLE_EXPERIMENTAL_MODELS"),
-  enableQuestionTool: bool("KILO_ENABLE_QUESTION_TOOL"),
-  experimentalScout: enabledByExperimental("KILO_EXPERIMENTAL_SCOUT"), // kappacode_change
-  experimentalReferences: enabledByExperimental("KILO_EXPERIMENTAL_REFERENCES"),
+  enableExperimentalModels: bool("KAPPA_ENABLE_EXPERIMENTAL_MODELS"),
+  enableQuestionTool: bool("KAPPA_ENABLE_QUESTION_TOOL"),
+  experimentalScout: enabledByExperimental("KAPPA_EXPERIMENTAL_SCOUT"), // kappacode_change
+  experimentalReferences: enabledByExperimental("KAPPA_EXPERIMENTAL_REFERENCES"),
   // kappacode_change start - enabled by default, with an opt-out kill switch
-  experimentalBackgroundSubagents: Config.boolean("KILO_EXPERIMENTAL_BACKGROUND_SUBAGENTS").pipe(
+  experimentalBackgroundSubagents: Config.boolean("KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS").pipe(
     Config.withDefault(true),
   ),
   // kappacode_change end
-  experimentalLspTy: bool("KILO_EXPERIMENTAL_LSP_TY"),
-  experimentalLspTool: enabledByExperimental("KILO_EXPERIMENTAL_LSP_TOOL"),
+  experimentalLspTy: bool("KAPPA_EXPERIMENTAL_LSP_TY"),
+  experimentalLspTool: enabledByExperimental("KAPPA_EXPERIMENTAL_LSP_TOOL"),
   // kappacode_change start - self-context tools
-  experimentalContextTools: enabledByExperimental("KILO_EXPERIMENTAL_CONTEXT_TOOLS"),
+  experimentalContextTools: enabledByExperimental("KAPPA_EXPERIMENTAL_CONTEXT_TOOLS"),
   // kappacode_change end
-  experimentalOxfmt: enabledByExperimental("KILO_EXPERIMENTAL_OXFMT"),
-  experimentalCodeMode: enabledByExperimental("KILO_EXPERIMENTAL_CODE_MODE"),
-  experimentalEventSystem: enabledByExperimental("KILO_EXPERIMENTAL_EVENT_SYSTEM"),
-  experimentalSessionSwitcher: enabledByExperimental("KILO_EXPERIMENTAL_SESSION_SWITCHER"), // kappacode_change
+  experimentalOxfmt: enabledByExperimental("KAPPA_EXPERIMENTAL_OXFMT"),
+  experimentalCodeMode: enabledByExperimental("KAPPA_EXPERIMENTAL_CODE_MODE"),
+  experimentalEventSystem: enabledByExperimental("KAPPA_EXPERIMENTAL_EVENT_SYSTEM"),
+  experimentalSessionSwitcher: enabledByExperimental("KAPPA_EXPERIMENTAL_SESSION_SWITCHER"), // kappacode_change
   // kappacode_change start - enabled by default, with an opt-out kill switch
-  experimentalSharedAgentBoard: Config.boolean("KILO_EXPERIMENTAL_SHARED_AGENT_BOARD").pipe(Config.withDefault(true)),
+  experimentalSharedAgentBoard: Config.boolean("KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD").pipe(Config.withDefault(true)),
   // kappacode_change end
-  experimentalWorkspaces: enabledByExperimental("KILO_EXPERIMENTAL_WORKSPACES"),
-  experimentalIconDiscovery: enabledByExperimental("KILO_EXPERIMENTAL_ICON_DISCOVERY"),
-  experimentalMcpApps: enabledByExperimental("KILO_EXPERIMENTAL_MCP_APPS"), // kappacode_change
-  outputTokenMax: positiveInteger("KILO_EXPERIMENTAL_OUTPUT_TOKEN_MAX"),
-  bashDefaultTimeoutMs: positiveInteger("KILO_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS"),
-  experimentalNativeLlm: bool("KILO_EXPERIMENTAL_NATIVE_LLM"),
-  experimentalWebSockets: bool("KILO_EXPERIMENTAL_WEBSOCKETS"),
-  client: Config.string("KILO_CLIENT").pipe(Config.withDefault("cli")),
+  experimentalWorkspaces: enabledByExperimental("KAPPA_EXPERIMENTAL_WORKSPACES"),
+  experimentalIconDiscovery: enabledByExperimental("KAPPA_EXPERIMENTAL_ICON_DISCOVERY"),
+  experimentalMcpApps: enabledByExperimental("KAPPA_EXPERIMENTAL_MCP_APPS"), // kappacode_change
+  outputTokenMax: positiveInteger("KAPPA_EXPERIMENTAL_OUTPUT_TOKEN_MAX"),
+  bashDefaultTimeoutMs: positiveInteger("KAPPA_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS"),
+  experimentalNativeLlm: bool("KAPPA_EXPERIMENTAL_NATIVE_LLM"),
+  experimentalWebSockets: bool("KAPPA_EXPERIMENTAL_WEBSOCKETS"),
+  client: Config.string("KAPPA_CLIENT").pipe(Config.withDefault("cli")),
 }) {}
 
 export type Info = Context.Service.Shape<typeof Service>

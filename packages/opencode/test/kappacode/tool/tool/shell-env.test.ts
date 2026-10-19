@@ -53,21 +53,21 @@ it.effect("does not expose backend credentials or config to model shell commands
   Effect.acquireUseRelease(
     Effect.sync(() => {
       const values = {
-        password: process.env.KILO_SERVER_PASSWORD,
-        username: process.env.KILO_SERVER_USERNAME,
-        config: process.env.KILO_CONFIG,
-        content: process.env.KILO_CONFIG_CONTENT,
-        directory: process.env.KILO_CONFIG_DIR,
-        broker: process.env.KILO_BROWSER_BROKER_URL,
-        token: process.env.KILO_BROWSER_BROKER_TOKEN,
+        password: process.env.KAPPA_SERVER_PASSWORD,
+        username: process.env.KAPPA_SERVER_USERNAME,
+        config: process.env.KAPPA_CONFIG,
+        content: process.env.KAPPA_CONFIG_CONTENT,
+        directory: process.env.KAPPA_CONFIG_DIR,
+        broker: process.env.KAPPA_BROWSER_BROKER_URL,
+        token: process.env.KAPPA_BROWSER_BROKER_TOKEN,
       }
-      process.env.KILO_SERVER_PASSWORD = "secret"
-      process.env.KILO_SERVER_USERNAME = "kappa"
-      process.env.KILO_CONFIG = "/secret/config.json"
-      process.env.KILO_CONFIG_CONTENT = '{"provider":{"apiKey":"secret"}}'
-      process.env.KILO_CONFIG_DIR = "/secret/config"
-      process.env.KILO_BROWSER_BROKER_URL = "http://127.0.0.1:4321"
-      process.env.KILO_BROWSER_BROKER_TOKEN = "browser-secret"
+      process.env.KAPPA_SERVER_PASSWORD = "secret"
+      process.env.KAPPA_SERVER_USERNAME = "kappa"
+      process.env.KAPPA_CONFIG = "/secret/config.json"
+      process.env.KAPPA_CONFIG_CONTENT = '{"provider":{"apiKey":"secret"}}'
+      process.env.KAPPA_CONFIG_DIR = "/secret/config"
+      process.env.KAPPA_BROWSER_BROKER_URL = "http://127.0.0.1:4321"
+      process.env.KAPPA_BROWSER_BROKER_TOKEN = "browser-secret"
       return values
     }),
     () =>
@@ -77,8 +77,8 @@ it.effect("does not expose backend credentials or config to model shell commands
             run({
               command:
                 process.platform === "win32"
-                  ? "if ($env:KILO_SERVER_PASSWORD -or $env:KILO_SERVER_USERNAME -or $env:KILO_CONFIG -or $env:KILO_CONFIG_CONTENT -or $env:KILO_CONFIG_DIR -or $env:KILO_BROWSER_BROKER_URL -or $env:KILO_BROWSER_BROKER_TOKEN) { 'set' } else { 'unset' }"
-                  : 'test -z "$KILO_SERVER_PASSWORD" && test -z "$KILO_SERVER_USERNAME" && test -z "$KILO_CONFIG" && test -z "$KILO_CONFIG_CONTENT" && test -z "$KILO_CONFIG_DIR" && test -z "$KILO_BROWSER_BROKER_URL" && test -z "$KILO_BROWSER_BROKER_TOKEN" && printf unset',
+                  ? "if ($env:KAPPA_SERVER_PASSWORD -or $env:KAPPA_SERVER_USERNAME -or $env:KAPPA_CONFIG -or $env:KAPPA_CONFIG_CONTENT -or $env:KAPPA_CONFIG_DIR -or $env:KAPPA_BROWSER_BROKER_URL -or $env:KAPPA_BROWSER_BROKER_TOKEN) { 'set' } else { 'unset' }"
+                  : 'test -z "$KAPPA_SERVER_PASSWORD" && test -z "$KAPPA_SERVER_USERNAME" && test -z "$KAPPA_CONFIG" && test -z "$KAPPA_CONFIG_CONTENT" && test -z "$KAPPA_CONFIG_DIR" && test -z "$KAPPA_BROWSER_BROKER_URL" && test -z "$KAPPA_BROWSER_BROKER_TOKEN" && printf unset',
               description: "Check backend credential isolation",
             }),
           ),
@@ -87,20 +87,20 @@ it.effect("does not expose backend credentials or config to model shell commands
       ) as Effect.Effect<void, never, Services>,
     (values) =>
       Effect.sync(() => {
-        if (values.password === undefined) delete process.env.KILO_SERVER_PASSWORD
-        else process.env.KILO_SERVER_PASSWORD = values.password
-        if (values.username === undefined) delete process.env.KILO_SERVER_USERNAME
-        else process.env.KILO_SERVER_USERNAME = values.username
-        if (values.config === undefined) delete process.env.KILO_CONFIG
-        else process.env.KILO_CONFIG = values.config
-        if (values.content === undefined) delete process.env.KILO_CONFIG_CONTENT
-        else process.env.KILO_CONFIG_CONTENT = values.content
-        if (values.directory === undefined) delete process.env.KILO_CONFIG_DIR
-        else process.env.KILO_CONFIG_DIR = values.directory
-        if (values.broker === undefined) delete process.env.KILO_BROWSER_BROKER_URL
-        else process.env.KILO_BROWSER_BROKER_URL = values.broker
-        if (values.token === undefined) delete process.env.KILO_BROWSER_BROKER_TOKEN
-        else process.env.KILO_BROWSER_BROKER_TOKEN = values.token
+        if (values.password === undefined) delete process.env.KAPPA_SERVER_PASSWORD
+        else process.env.KAPPA_SERVER_PASSWORD = values.password
+        if (values.username === undefined) delete process.env.KAPPA_SERVER_USERNAME
+        else process.env.KAPPA_SERVER_USERNAME = values.username
+        if (values.config === undefined) delete process.env.KAPPA_CONFIG
+        else process.env.KAPPA_CONFIG = values.config
+        if (values.content === undefined) delete process.env.KAPPA_CONFIG_CONTENT
+        else process.env.KAPPA_CONFIG_CONTENT = values.content
+        if (values.directory === undefined) delete process.env.KAPPA_CONFIG_DIR
+        else process.env.KAPPA_CONFIG_DIR = values.directory
+        if (values.broker === undefined) delete process.env.KAPPA_BROWSER_BROKER_URL
+        else process.env.KAPPA_BROWSER_BROKER_URL = values.broker
+        if (values.token === undefined) delete process.env.KAPPA_BROWSER_BROKER_TOKEN
+        else process.env.KAPPA_BROWSER_BROKER_TOKEN = values.token
       }),
   ),
 )

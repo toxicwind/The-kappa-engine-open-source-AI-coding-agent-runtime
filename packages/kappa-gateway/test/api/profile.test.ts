@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test"
 import { defaultOrganizationId, fetchDefaultModel } from "../../src/api/profile.js"
-import { DEFAULT_FREE_MODEL, DEFAULT_MODEL, KILO_API_BASE } from "../../src/api/constants.js"
+import { DEFAULT_FREE_MODEL, DEFAULT_MODEL, KAPPA_API_BASE } from "../../src/api/constants.js"
 import type { KappacodeProfile } from "../../src/types.js"
 
 describe("fetchDefaultModel", () => {
@@ -34,7 +34,7 @@ describe("fetchDefaultModel", () => {
     )
     try {
       expect(await fetchDefaultModel("token", "org", "allowed/first")).toBe("allowed/default")
-      expect(fetch.mock.calls.at(0)?.at(0)).toBe(`${KILO_API_BASE}/api/organizations/org/defaults`)
+      expect(fetch.mock.calls.at(0)?.at(0)).toBe(`${KAPPA_API_BASE}/api/organizations/org/defaults`)
     } finally {
       fetch.mockRestore()
     }

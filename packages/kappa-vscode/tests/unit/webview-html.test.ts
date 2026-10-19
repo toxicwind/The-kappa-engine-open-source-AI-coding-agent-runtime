@@ -24,11 +24,11 @@ describe("Settings webview entry", () => {
     expect(first).toContain("/dist/settings.js")
     expect(first).toContain("/dist/settings.css")
     expect(first).toContain('type="module"')
-    expect(first).toContain('window.KILO_SETTINGS = {"tab":"indexing"')
+    expect(first).toContain('window.KAPPA_SETTINGS = {"tab":"indexing"')
     expect(first).toContain('"projectId":"\\u003c/script>')
     expect(first).not.toContain("<script>bad()")
     tab = "display"
-    expect(render()).toContain('window.KILO_SETTINGS = {"tab":"display"')
+    expect(render()).toContain('window.KAPPA_SETTINGS = {"tab":"display"')
   })
 
   it("keeps the ordinary chat entry and script policy unchanged", () => {

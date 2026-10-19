@@ -23,8 +23,8 @@ describe("FFF scanning boundaries", () => {
 
   test("blocks broad scans and warns for home/root aliases without blocking scoped file tools", async () => {
     await using tmp = await tmpdir()
-    const home = process.env.KILO_TEST_HOME
-    const disabled = Flag.KILO_DISABLE_FFF
+    const home = process.env.KAPPA_TEST_HOME
+    const disabled = Flag.KAPPA_DISABLE_FFF
     const create = FileFinder.create
     const calls = { native: 0, walk: 0 }
     const root = path.parse(tmp.path).root
@@ -36,7 +36,7 @@ describe("FFF scanning boundaries", () => {
     await fs.writeFile(path.join(project, "file.ts"), "needle\n")
     await fs.symlink(tmp.path, alias, kind)
     await fs.symlink(root, link, kind)
-    process.env.KILO_TEST_HOME = tmp.path
+    process.env.KAPPA_TEST_HOME = tmp.path
     FileFinder.create = () => {
       calls.native++
       return { ok: false, error: "unexpected native index" }
@@ -58,7 +58,7 @@ describe("FFF scanning boundaries", () => {
             Layer.provide(FSUtil.defaultLayer),
           )
           for (const value of [false, true]) {
-            Flag.KILO_DISABLE_FFF = value
+            Flag.KAPPA_DISABLE_FFF = value
             for (const directory of [root, tmp.path, alias, link]) {
               expect(allowed(directory)).toBe(false)
               expect(notices(directory)).toEqual([{ path: directory, message }])
@@ -110,9 +110,9 @@ describe("FFF scanning boundaries", () => {
       )
     } finally {
       FileFinder.create = create
-      Flag.KILO_DISABLE_FFF = disabled
-      if (home === undefined) delete process.env.KILO_TEST_HOME
-      if (home !== undefined) process.env.KILO_TEST_HOME = home
+      Flag.KAPPA_DISABLE_FFF = disabled
+      if (home === undefined) delete process.env.KAPPA_TEST_HOME
+      if (home !== undefined) process.env.KAPPA_TEST_HOME = home
     }
   })
 })

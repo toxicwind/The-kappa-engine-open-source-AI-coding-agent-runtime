@@ -305,7 +305,7 @@ const inputs = Effect.fn("ProviderUsage.inputs")(function* (
   )
   const kappa = yield* resolve(integrations, Integration.ID.make("kappa"))
   const kappaProvider = byID.get(ProviderV2.ID.kappa)
-  const configuredOrg = nonempty(process.env.KILO_ORG_ID) ?? nonempty(kappaProvider?.request.body.kappacodeOrganizationId)
+  const configuredOrg = nonempty(process.env.KAPPA_ORG_ID) ?? nonempty(kappaProvider?.request.body.kappacodeOrganizationId)
   const organization =
     configuredOrg !== undefined ||
     (kappa.ok && kappa.value?.type === "oauth" && nonempty(kappa.value.metadata?.accountID) !== undefined)

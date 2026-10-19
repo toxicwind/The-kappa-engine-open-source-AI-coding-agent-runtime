@@ -370,7 +370,7 @@ export namespace BackgroundProcess {
   }
 
   function infer() {
-    return Flag.KILO_CLIENT === "cli" && process.env.KILO_BACKGROUND_PROCESS_PORTS === "true"
+    return Flag.KAPPA_CLIENT === "cli" && process.env.KAPPA_BACKGROUND_PROCESS_PORTS === "true"
   }
 
   function update(active: Active, ports?: number[]) {
@@ -593,10 +593,10 @@ export namespace BackgroundProcess {
   function env(id?: ID, token?: string) {
     const result: NodeJS.ProcessEnv = modelEnv({
       TERM: "dumb",
-      ...(id ? { KILO_BACKGROUND_PROCESS_ID: id } : {}),
-      ...(token ? { KILO_BACKGROUND_PROCESS_TOKEN: token } : {}),
+      ...(id ? { KAPPA_BACKGROUND_PROCESS_ID: id } : {}),
+      ...(token ? { KAPPA_BACKGROUND_PROCESS_TOKEN: token } : {}),
     })
-    delete result.KILO_BACKGROUND_PROCESS_PORTS
+    delete result.KAPPA_BACKGROUND_PROCESS_PORTS
     return result
   }
 
@@ -640,7 +640,7 @@ export namespace BackgroundProcess {
     const leader = await readFile(`/proc/${pid}/stat`, "utf8").catch(() => undefined)
     if (leader && pgrp(leader) === pid) {
       const data = await readFile(`/proc/${pid}/environ`).catch(() => undefined)
-      if (data?.toString("utf8").split("\0").includes(`KILO_BACKGROUND_PROCESS_TOKEN=${token}`)) return "owned"
+      if (data?.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) return "owned"
     }
     const names = await readdir("/proc").catch(() => undefined)
     if (!names) return "unknown"
@@ -656,7 +656,7 @@ export namespace BackgroundProcess {
       const data = await readFile(`/proc/${member}/environ`).catch(() => undefined)
       if (!data) continue
       read = true
-      if (data.toString("utf8").split("\0").includes(`KILO_BACKGROUND_PROCESS_TOKEN=${token}`)) return "owned"
+      if (data.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) return "owned"
     }
     return read ? "foreign" : "unknown"
   }

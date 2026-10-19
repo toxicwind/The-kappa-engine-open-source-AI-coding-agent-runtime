@@ -1,6 +1,6 @@
 import { createSignal } from "solid-js"
 import { ACCEPTED_IMAGE_TYPES, isAcceptedImageType, isDragLeavingComponent } from "./image-attachments-utils"
-import { extractDropPaths, KILO_FILE_PATH_MIME } from "../utils/path-mentions"
+import { extractDropPaths, KAPPA_FILE_PATH_MIME } from "../utils/path-mentions"
 
 export interface ImageAttachment {
   id: string
@@ -65,7 +65,7 @@ export function useImageAttachments() {
     // Accept file drops, VS Code URI-list drops, and internal file-path drags.
     // Do NOT accept bare text/plain here — that would intercept normal text drags.
     const acceptable =
-      types.includes("Files") || types.includes("application/vnd.code.uri-list") || types.includes(KILO_FILE_PATH_MIME)
+      types.includes("Files") || types.includes("application/vnd.code.uri-list") || types.includes(KAPPA_FILE_PATH_MIME)
     if (!acceptable) return
     event.preventDefault()
     setDragging(true)

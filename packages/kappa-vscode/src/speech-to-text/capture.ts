@@ -199,7 +199,7 @@ export function ffmpegPipeArgs(file: string): string[] {
 }
 
 export function useMacCapture(platform: NodeJS.Platform, env: NodeJS.ProcessEnv): boolean {
-  return platform === "darwin" && !env.KILO_FFMPEG_PATH && !env.FFMPEG_PATH
+  return platform === "darwin" && !env.KAPPA_FFMPEG_PATH && !env.FFMPEG_PATH
 }
 
 async function startWithArgs(bin: string, file: string, input: Input, args: Args[]): Promise<Recording> {
@@ -307,7 +307,7 @@ async function resolveFFmpeg(): Promise<string> {
 
 async function findFFmpeg(): Promise<string> {
   const paths = [
-    process.env.KILO_FFMPEG_PATH,
+    process.env.KAPPA_FFMPEG_PATH,
     process.env.FFMPEG_PATH,
     bundledPath(),
     ...platformPaths(),
@@ -356,7 +356,7 @@ function platformPaths(): string[] {
 async function inputArgSets(bin: string): Promise<Args[]> {
   if (process.platform === "darwin") return [{ input: ["-f", "avfoundation", "-i", ":default"] }]
   if (process.platform === "linux") {
-    const device = process.env.KILO_FFMPEG_AUDIO_DEVICE
+    const device = process.env.KAPPA_FFMPEG_AUDIO_DEVICE
     if (device)
       return [
         { pipe: ["--target", device, "--format", "s16", "--rate", "16000", "--channels", "1", "-"], input: [] },
@@ -374,7 +374,7 @@ async function inputArgSets(bin: string): Promise<Args[]> {
 }
 
 async function windowsInputArgSets(bin: string): Promise<Args[]> {
-  const configured = process.env.KILO_FFMPEG_AUDIO_DEVICE
+  const configured = process.env.KAPPA_FFMPEG_AUDIO_DEVICE
   if (configured) return [{ input: ["-f", "dshow", "-i", `audio=${configured}`] }]
 
   const devices = await listDshowAudioDevices(bin)

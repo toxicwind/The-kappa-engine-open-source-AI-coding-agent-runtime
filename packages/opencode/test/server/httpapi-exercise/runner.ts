@@ -274,8 +274,8 @@ function fakeLlmConfig(url: string): Partial<ConfigV1.Info> {
 
 const resetState = Effect.promise(async () => {
   const modules = await runtime()
-  Flag.KILO_SERVER_PASSWORD = original.KILO_SERVER_PASSWORD
-  Flag.KILO_SERVER_USERNAME = original.KILO_SERVER_USERNAME
+  Flag.KAPPA_SERVER_PASSWORD = original.KAPPA_SERVER_PASSWORD
+  Flag.KAPPA_SERVER_USERNAME = original.KAPPA_SERVER_USERNAME
   await disposeApps()
   await modules.disposeAllInstances()
   // kappacode_change - each exerciser process already owns an isolated DB; unlinking it between scenarios races async Kappa callbacks

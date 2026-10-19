@@ -4,25 +4,25 @@
  */
 
 /** Environment variable for custom Kappa API URL */
-export const ENV_KILO_API_URL = "KILO_API_URL"
+export const ENV_KAPPA_API_URL = "KAPPA_API_URL"
 
 /** Default Kappa API URL */
-export const DEFAULT_KILO_API_URL = "https://api.kappa.ai"
+export const DEFAULT_KAPPA_API_URL = "https://api.kappa.ai"
 
-/** Base URL for Kappa API - can be overridden by KILO_API_URL env var */
-export const KILO_API_BASE = process.env[ENV_KILO_API_URL] || DEFAULT_KILO_API_URL
+/** Base URL for Kappa API - can be overridden by KAPPA_API_URL env var */
+export const KAPPA_API_BASE = process.env[ENV_KAPPA_API_URL] || DEFAULT_KAPPA_API_URL
 
 /** Environment variable for custom Event Service URL */
-export const KILO_EVENT_SERVICE_URL_ENV = "EVENT_SERVICE_URL"
+export const KAPPA_EVENT_SERVICE_URL_ENV = "EVENT_SERVICE_URL"
 
 /** Default Event Service URL (WebSocket endpoint for kappa-chat events) */
-export const KILO_DEFAULT_EVENT_SERVICE_URL = "wss://events.kiloapps.io"
+export const KAPPA_DEFAULT_EVENT_SERVICE_URL = "wss://events.kiloapps.io"
 
 /** Base URL for Event Service - can be overridden by EVENT_SERVICE_URL env var */
-export const KILO_EVENT_SERVICE_URL = process.env[KILO_EVENT_SERVICE_URL_ENV] || KILO_DEFAULT_EVENT_SERVICE_URL
+export const KAPPA_EVENT_SERVICE_URL = process.env[KAPPA_EVENT_SERVICE_URL_ENV] || KAPPA_DEFAULT_EVENT_SERVICE_URL
 
 /** Default base URL for OpenRouter-compatible endpoint */
-export const KILO_OPENROUTER_BASE = `${KILO_API_BASE}/api/openrouter`
+export const KAPPA_OPENROUTER_BASE = `${KAPPA_API_BASE}/api/openrouter`
 
 /** Device auth polling interval in milliseconds */
 export const POLL_INTERVAL_MS = 3000

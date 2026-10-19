@@ -10,13 +10,13 @@ import { disposeAllInstances, TestInstance } from "../fixture/fixture.ts"
 import { testEffect } from "../lib/effect.ts"
 import { httpApiLayer, requestInDirectory } from "./httpapi-layer.ts"
 
-const originalWorkspaces = Flag.KILO_EXPERIMENTAL_WORKSPACES
+const originalWorkspaces = Flag.KAPPA_EXPERIMENTAL_WORKSPACES
 const context = Context.empty() as Context.Context<unknown>
 const it = testEffect(Layer.mergeAll(LayerNode.compile(Session.node), httpApiLayer))
 
 afterEach(async () => {
   mock.restore()
-  Flag.KILO_EXPERIMENTAL_WORKSPACES = originalWorkspaces
+  Flag.KAPPA_EXPERIMENTAL_WORKSPACES = originalWorkspaces
   await disposeAllInstances()
   await resetDatabase()
 })
@@ -26,7 +26,7 @@ describe("sync HttpApi", () => {
     "serves sync routes",
     () =>
       Effect.gen(function* () {
-        Flag.KILO_EXPERIMENTAL_WORKSPACES = true
+        Flag.KAPPA_EXPERIMENTAL_WORKSPACES = true
         const tmp = yield* TestInstance
         const headers = { "x-kappa-directory": tmp.directory, "content-type": "application/json" }
         const session = yield* Session.use.create({ title: "sync" })

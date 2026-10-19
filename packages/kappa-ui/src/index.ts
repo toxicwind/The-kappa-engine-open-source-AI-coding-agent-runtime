@@ -12,6 +12,6 @@
 // are re-exported from @opencode-ai/ui by default, and can be individually overridden
 // by replacing the re-export with a custom implementation.
 
-export { KILO_THEMES, kappaTheme, kappaVscodeTheme } from "./theme/default-themes"
+export { KAPPA_THEMES, kappaTheme, kappaVscodeTheme } from "./theme/default-themes"
 
 export type { DesktopTheme } from "@opencode-ai/ui/theme/types"

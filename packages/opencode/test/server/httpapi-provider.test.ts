@@ -356,7 +356,7 @@ describe("provider HttpApi", () => {
     Effect.gen(function* () {
       const directory = (yield* TestInstance).directory
       yield* setEnvScoped(
-        "KILO_AUTH_CONTENT",
+        "KAPPA_AUTH_CONTENT",
         JSON.stringify({
           google: { type: "oauth", refresh: "dummy", access: "dummy", expires: 9999999999999 },
         }),

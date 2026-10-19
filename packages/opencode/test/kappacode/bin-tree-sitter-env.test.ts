@@ -40,7 +40,7 @@ const realpathSync = kappaFs.realpathSync
 kappaFs.realpathSync = (file) => file === __filename ? wrapper || process.cwd() : realpathSync(file)
 kappaChild.spawn = (target) => {
   if (failCached && target.endsWith(".kappa")) throw new Error("cached binary failed")
-  kappaFs.writeFileSync(log, process.env.KILO_TREE_SITTER_WASM_DIR || "")
+  kappaFs.writeFileSync(log, process.env.KAPPA_TREE_SITTER_WASM_DIR || "")
   const child = new EventEmitter()
   child.kill = () => {}
   process.nextTick(() => child.emit("exit", 0))
@@ -55,7 +55,7 @@ kappaChild.spawn = (target) => {
         env: {
           PATH: process.env.PATH ?? "",
           XDG_CACHE_HOME: join(root, "cache"),
-          ...(bin ? { KILO_BIN_PATH: bin } : {}),
+          ...(bin ? { KAPPA_BIN_PATH: bin } : {}),
         },
       },
     )

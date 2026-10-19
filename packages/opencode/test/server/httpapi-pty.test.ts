@@ -15,7 +15,7 @@ import { testEffect } from "../lib/effect.ts"
 const testPty = process.platform === "win32" ? test.skip : test
 
 // kappacode_change start - route PTY tests must not compete with per-project indexing workers.
-process.env.KILO_DISABLE_CODEBASE_INDEXING = "vscode-no-workspace"
+process.env.KAPPA_DISABLE_CODEBASE_INDEXING = "vscode-no-workspace"
 // kappacode_change end
 
 const testStateLayer = Layer.effectDiscard(

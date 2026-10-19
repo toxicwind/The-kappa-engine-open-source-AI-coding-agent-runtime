@@ -17,7 +17,7 @@ import { init } from "#db"
 import { Effect, Schema } from "effect"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 
-declare const KILO_MIGRATIONS: { sql: string; timestamp: number; name: string }[] | undefined
+declare const KAPPA_MIGRATIONS: { sql: string; timestamp: number; name: string }[] | undefined
 
 export const NotFoundError = NamedError.create("NotFoundError", {
   message: Schema.String,
@@ -41,9 +41,9 @@ export function getChannelPath(flags: Pick<DatabaseFlags, "disableChannelDb"> = 
 }
 
 export const getPath = (flags?: Pick<DatabaseFlags, "disableChannelDb">) => {
-  if (Flag.KILO_DB) {
-    if (Flag.KILO_DB === ":memory:" || path.isAbsolute(Flag.KILO_DB)) return Flag.KILO_DB
-    return path.join(Global.Path.data, Flag.KILO_DB)
+  if (Flag.KAPPA_DB) {
+    if (Flag.KAPPA_DB === ":memory:" || path.isAbsolute(Flag.KAPPA_DB)) return Flag.KAPPA_DB
+    return path.join(Global.Path.data, Flag.KAPPA_DB)
   }
   return getChannelPath(flags)
 }
@@ -116,13 +116,13 @@ export const Client = Object.assign(
 
     // Apply schema migrations
     const entries =
-      typeof KILO_MIGRATIONS !== "undefined"
-        ? KILO_MIGRATIONS
+      typeof KAPPA_MIGRATIONS !== "undefined"
+        ? KAPPA_MIGRATIONS
         : migrations(path.join(import.meta.dirname, "../../migration"))
     if (entries.length > 0) {
       log.info("applying migrations", {
         count: entries.length,
-        mode: typeof KILO_MIGRATIONS !== "undefined" ? "bundled" : "dev",
+        mode: typeof KAPPA_MIGRATIONS !== "undefined" ? "bundled" : "dev",
       })
       if (flags.skipMigrations) {
         for (const item of entries) {

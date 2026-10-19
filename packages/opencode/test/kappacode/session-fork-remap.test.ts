@@ -30,21 +30,21 @@ import { remove as cleanup } from "./cleanup.ts"
 
 Log.init({ print: false })
 
-const previous = Flag.KILO_DB
+const previous = Flag.KAPPA_DB
 const dbfile = path.join(os.tmpdir(), `kappa-fork-${process.pid}-${crypto.randomUUID()}.db`)
 const layer = LayerNode.compile(LayerNode.group([Session.node, SessionProjector.node]))
 const runtime = makeRuntime(Session.Service, layer)
 
 beforeAll(async () => {
   await fs.rm(dbfile, { force: true })
-  Flag.KILO_DB = dbfile
+  Flag.KAPPA_DB = dbfile
 })
 
 afterAll(async () => {
   await runtime.dispose()
   await AppRuntime.dispose()
   await disposeTestRuntime()
-  Flag.KILO_DB = previous
+  Flag.KAPPA_DB = previous
   await Promise.all([dbfile, `${dbfile}-wal`, `${dbfile}-shm`].map(cleanup))
 })
 
@@ -428,8 +428,8 @@ describe("Session.fork task children", () => {
   test(
     "preserves workspace sync event sequencing in the atomic copy",
     async () => {
-      const flag = Flag.KILO_EXPERIMENTAL_WORKSPACES
-      Flag.KILO_EXPERIMENTAL_WORKSPACES = true
+      const flag = Flag.KAPPA_EXPERIMENTAL_WORKSPACES
+      Flag.KAPPA_EXPERIMENTAL_WORKSPACES = true
       try {
         await using tmp = await tmpdir({ git: true })
         await instance({
@@ -476,7 +476,7 @@ describe("Session.fork task children", () => {
           },
         })
       } finally {
-        Flag.KILO_EXPERIMENTAL_WORKSPACES = flag
+        Flag.KAPPA_EXPERIMENTAL_WORKSPACES = flag
       }
     },
     { timeout: 30000 },

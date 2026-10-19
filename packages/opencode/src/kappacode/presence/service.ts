@@ -1,6 +1,6 @@
 import { Auth } from "@/auth"
 import { EventServiceClient } from "@/kappacode/event-service/client"
-import { KILO_EVENT_SERVICE_URL } from "@kappacode/kappa-gateway"
+import { KAPPA_EVENT_SERVICE_URL } from "@kappacode/kappa-gateway"
 import * as Log from "@opencode-ai/core/util/log"
 import { Context, Effect, Layer } from "effect"
 import type { Platform } from "./context.ts"
@@ -20,7 +20,7 @@ import {
 const log = Log.create({ service: "kappa-viewers" })
 
 function inferPlatform(): Platform | undefined {
-  const p = process.env.KILO_PLATFORM
+  const p = process.env.KAPPA_PLATFORM
   if (p === "vscode") return "vscode"
   if (p === "cli") return "cli"
   if (p === undefined || p === "") return "cli"
@@ -28,7 +28,7 @@ function inferPlatform(): Platform | undefined {
 }
 
 function extract(auth: Auth.Info | undefined): { token: string | undefined; identity: string | undefined } {
-  const envKey = process.env.KILO_API_KEY?.trim()
+  const envKey = process.env.KAPPA_API_KEY?.trim()
   if (auth?.type === "api" && auth.key.length > 0) return { token: auth.key, identity: "api" }
   if (auth?.type === "oauth" && auth.access.length > 0)
     return { token: auth.access, identity: `oauth:${auth.accountId ?? "no-acct"}` }
@@ -59,10 +59,10 @@ export namespace KappaViewers {
       const KappaSessions = (yield* Effect.promise(() => import("@/kappa-sessions/kappa-sessions"))).KappaSessions
 
       const platform = inferPlatform()
-      const killSwitch = process.env.KILO_DISABLE_PRESENCE === "1"
-      // KILO_EVENT_SERVICE_URL is a presence-specific override on top of the
+      const killSwitch = process.env.KAPPA_DISABLE_PRESENCE === "1"
+      // KAPPA_EVENT_SERVICE_URL is a presence-specific override on top of the
       // gateway's EVENT_SERVICE_URL.
-      const url = process.env.KILO_EVENT_SERVICE_URL || KILO_EVENT_SERVICE_URL
+      const url = process.env.KAPPA_EVENT_SERVICE_URL || KAPPA_EVENT_SERVICE_URL
 
       const s = {
         viewers: new Map<string, ViewerState>(),

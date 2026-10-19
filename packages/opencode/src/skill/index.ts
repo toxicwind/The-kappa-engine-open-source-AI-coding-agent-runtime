@@ -30,7 +30,7 @@ const AGENTS_EXTERNAL_DIR = ".agents"
 export const BUILTIN_LOCATION = "builtin"
 // kappacode_change end
 const EXTERNAL_SKILL_PATTERN = "skills/**/SKILL.md"
-const KILO_SKILL_PATTERN = "{skill,skills}/**/SKILL.md"
+const KAPPA_SKILL_PATTERN = "{skill,skills}/**/SKILL.md"
 const SKILL_PATTERN = "**/SKILL.md"
 
 export const Info = Schema.Struct({
@@ -213,7 +213,7 @@ const discoverSkills = Effect.fnUntraced(function* (
   const projectRoot = worktree === "/" ? directory : worktree // kappacode_change - project substitution boundary
 
   // kappacode_change start - settle the one-time global Claude handoff before scanning external skills
-  if (Flag.KILO_EXPERIMENTAL_CLAUDE_MIGRATION || ClaudeMigration.hasAttempt()) yield* config.getGlobal()
+  if (Flag.KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION || ClaudeMigration.hasAttempt()) yield* config.getGlobal()
   // kappacode_change end
 
   // kappacode_change start - one primary checkout lookup serves both the external and the config dir scans
@@ -256,13 +256,13 @@ const discoverSkills = Effect.fnUntraced(function* (
   const configDirs = yield* config.directories()
   const primary = new Set(mirrored.filter((file) => !projectDirs.includes(path.basename(file)))) // kappacode_change
   for (const dir of configDirs) {
-    // kappacode_change start - global and explicit KILO_CONFIG_DIR skills are trusted; project and primary-checkout
+    // kappacode_change start - global and explicit KAPPA_CONFIG_DIR skills are trusted; project and primary-checkout
     // skills remain confined to the active project boundary.
     const rel = path.relative(projectRoot, dir)
     const local = primary.has(dir) || rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel))
-    const trusted = dir === Flag.KILO_CONFIG_DIR || !local
+    const trusted = dir === Flag.KAPPA_CONFIG_DIR || !local
     const sourceRoot = primary.has(dir) ? path.dirname(dir) : projectRoot
-    yield* scan(state, dir, KILO_SKILL_PATTERN, {
+    yield* scan(state, dir, KAPPA_SKILL_PATTERN, {
       trusted,
       root: trusted ? undefined : projectRoot,
       sourceRoot: trusted ? undefined : sourceRoot,

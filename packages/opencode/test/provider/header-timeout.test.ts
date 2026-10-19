@@ -217,15 +217,15 @@ async function delayedBodyServer(delay: number, prelude = ""): Promise<{ server:
 function withAuthContent<A, E, R>(self: Effect.Effect<A, E, R>, value: Record<string, unknown> = defaultAuthContent()) {
   return Effect.acquireUseRelease(
     Effect.sync(() => {
-      const previous = process.env.KILO_AUTH_CONTENT
-      process.env.KILO_AUTH_CONTENT = JSON.stringify(value)
+      const previous = process.env.KAPPA_AUTH_CONTENT
+      process.env.KAPPA_AUTH_CONTENT = JSON.stringify(value)
       return previous
     }),
     () => self,
     (previous) =>
       Effect.sync(() => {
-        if (previous === undefined) delete process.env.KILO_AUTH_CONTENT
-        else process.env.KILO_AUTH_CONTENT = previous
+        if (previous === undefined) delete process.env.KAPPA_AUTH_CONTENT
+        else process.env.KAPPA_AUTH_CONTENT = previous
       }),
   )
 }

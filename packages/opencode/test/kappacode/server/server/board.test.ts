@@ -20,8 +20,8 @@ const it = testEffect(
     Layer.provide(
       ConfigProvider.layer(
         ConfigProvider.fromUnknown({
-          KILO_SERVER_PASSWORD: "",
-          KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
+          KAPPA_SERVER_PASSWORD: "",
+          KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
         }),
       ),
     ),

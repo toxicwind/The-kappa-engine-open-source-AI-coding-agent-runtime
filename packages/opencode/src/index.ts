@@ -75,17 +75,17 @@ let cli = yargs(args) // kappacode_change
     type: "boolean",
   })
   .middleware(async (opts) => {
-    if (opts.printLogs) process.env.KILO_PRINT_LOGS = "1"
-    if (opts.logLevel) process.env.KILO_LOG_LEVEL = opts.logLevel
+    if (opts.printLogs) process.env.KAPPA_PRINT_LOGS = "1"
+    if (opts.logLevel) process.env.KAPPA_LOG_LEVEL = opts.logLevel
     if (opts.pure) {
-      process.env.KILO_PURE = "1"
+      process.env.KAPPA_PURE = "1"
     }
 
     Heap.start()
 
     process.env.AGENT = "1"
     process.env.OPENCODE = "1"
-    process.env.KILO_PID = String(process.pid)
+    process.env.KAPPA_PID = String(process.pid)
     await KappaCli.bootstrap(opts) // kappacode_change - env tagging, telemetry init, legacy JSON-to-SQLite migration, and auth migration
     // kappacode_change start - retain Kappa process/run correlation metadata in startup logs
     Log.Default.info("opencode", {

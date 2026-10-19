@@ -36,7 +36,7 @@ export function resetEligibility(): void {
 }
 
 export async function getActiveOrg(): Promise<OrgState> {
-  const env = process.env.KILO_ORG_ID?.trim()
+  const env = process.env.KAPPA_ORG_ID?.trim()
   if (env) return { type: "org", id: env }
   try {
     return await source()

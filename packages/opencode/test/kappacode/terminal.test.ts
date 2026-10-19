@@ -1,7 +1,7 @@
 import { afterEach, expect, test } from "bun:test"
 import { kitty, sequences } from "../../src/kappacode/cli/cmd/tui/util/terminal.ts"
 
-const keys = ["TERM_PROGRAM", "MSYSTEM", "KILO_DISABLE_KITTY_KEYBOARD", "KILO_ENABLE_KITTY_KEYBOARD"] as const
+const keys = ["TERM_PROGRAM", "MSYSTEM", "KAPPA_DISABLE_KITTY_KEYBOARD", "KAPPA_ENABLE_KITTY_KEYBOARD"] as const
 type Key = (typeof keys)[number]
 const saved = Object.fromEntries(keys.map((key) => [key, process.env[key]])) as Record<Key, string | undefined>
 
@@ -53,21 +53,21 @@ test("disables Kitty keyboard in MSYS shells", () => {
 })
 
 test("allows explicitly enabling Kitty keyboard", () => {
-  env({ KILO_ENABLE_KITTY_KEYBOARD: "1", MSYSTEM: "MINGW64" })
+  env({ KAPPA_ENABLE_KITTY_KEYBOARD: "1", MSYSTEM: "MINGW64" })
 
   expect(kitty()).toBe(true)
   expect(sequences()).toContain("\x1b[<u")
 })
 
 test("allows explicitly disabling Kitty keyboard", () => {
-  env({ KILO_DISABLE_KITTY_KEYBOARD: "1", KILO_ENABLE_KITTY_KEYBOARD: "1" })
+  env({ KAPPA_DISABLE_KITTY_KEYBOARD: "1", KAPPA_ENABLE_KITTY_KEYBOARD: "1" })
 
   expect(kitty()).toBe(false)
   expect(sequences()).not.toContain("\x1b[<u")
 })
 
 test("resets common terminal input modes", () => {
-  env({ KILO_DISABLE_KITTY_KEYBOARD: "1" })
+  env({ KAPPA_DISABLE_KITTY_KEYBOARD: "1" })
 
   expect(sequences()).toEqual(
     expect.arrayContaining([

@@ -178,8 +178,8 @@ git push origin jetbrains/v7.3.13
 
 | Secret | Purpose |
 |---|---|
-| `KILO_MAINTAINER_APP_ID` | GitHub App ID used to create/update release PRs and immediate release tags. |
-| `KILO_MAINTAINER_APP_SECRET` | GitHub App private key used to create/update release PRs and immediate release tags. |
+| `KAPPA_MAINTAINER_APP_ID` | GitHub App ID used to create/update release PRs and immediate release tags. |
+| `KAPPA_MAINTAINER_APP_SECRET` | GitHub App private key used to create/update release PRs and immediate release tags. |
 | `JETBRAINS_MARKETPLACE_TOKEN` | Marketplace API token for publishing. |
 | `JETBRAINS_CERTIFICATE_CHAIN` | PEM certificate chain for plugin signing. |
 | `JETBRAINS_PRIVATE_KEY` | PEM private key for plugin signing. |

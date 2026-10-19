@@ -54,15 +54,15 @@ export function assertWritable(filename: string, trusted: string = Global.Path.d
       }
     }
     throw new Error(
-      `Database file is not writable: ${file}. Fix its permissions (chmod u+w "${file}") or point KILO_DB at a writable location.`,
+      `Database file is not writable: ${file}. Fix its permissions (chmod u+w "${file}") or point KAPPA_DB at a writable location.`,
       cause === undefined ? undefined : { cause },
     )
   }
   if (missing && !writable(dir)) {
     if (!exists(dir))
-      throw new Error(`Database directory does not exist: ${dir}. Create it or point KILO_DB at an existing location.`)
+      throw new Error(`Database directory does not exist: ${dir}. Create it or point KAPPA_DB at an existing location.`)
     throw new Error(
-      `Database directory is not writable: ${dir}. SQLite must create WAL files next to the database. Fix its permissions or point KILO_DB at a writable location.`,
+      `Database directory is not writable: ${dir}. SQLite must create WAL files next to the database. Fix its permissions or point KAPPA_DB at a writable location.`,
     )
   }
 }

@@ -1,4 +1,4 @@
-import { KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
+import { KAPPA_PROVIDER_ID } from "../../../../src/shared/provider-model"
 import {
   DEFAULT_SPEECH_TO_TEXT_MODEL,
   SPEECH_TO_TEXT_MODELS,
@@ -26,9 +26,9 @@ export function hasExplicitSpeechToTextModel(cfg: Cfg): boolean {
 
 export function hasSpeechToTextAccess(cfg: Cfg, auth: Readonly<Record<string, AuthState>>): boolean {
   if (hasCustomSpeechToTextSource(cfg)) return true
-  const enabled = !cfg.enabled_providers || cfg.enabled_providers.includes(KILO_PROVIDER_ID)
-  const type = auth[KILO_PROVIDER_ID]
-  return enabled && !cfg.disabled_providers?.includes(KILO_PROVIDER_ID) && (type === "api" || type === "oauth")
+  const enabled = !cfg.enabled_providers || cfg.enabled_providers.includes(KAPPA_PROVIDER_ID)
+  const type = auth[KAPPA_PROVIDER_ID]
+  return enabled && !cfg.disabled_providers?.includes(KAPPA_PROVIDER_ID) && (type === "api" || type === "oauth")
 }
 
 export function canUseSpeechToText(cfg: Cfg, auth: Readonly<Record<string, AuthState>>, capture = true): boolean {

@@ -1,9 +1,9 @@
 // kappacode_change - new file
 import { Duration, Effect, Schema } from "effect"
 import { HttpClient, HttpClientRequest } from "effect/unstable/http"
-import { KILO_API_BASE } from "@kappacode/kappa-gateway"
+import { KAPPA_API_BASE } from "@kappacode/kappa-gateway"
 
-export const KILO_EXA_URL = `${KILO_API_BASE}/api/exa/search`
+export const KAPPA_EXA_URL = `${KAPPA_API_BASE}/api/exa/search`
 export const MAX_KILO_EXA_RESULTS = 10
 
 const ExaResult = Schema.Struct({
@@ -43,7 +43,7 @@ export const callKappaExa = Effect.fn("WebSearchKappaExa.call")(function* (
   kappaToken: string,
 ) {
   const numResults = Math.min(params.numResults ?? MAX_KILO_EXA_RESULTS, MAX_KILO_EXA_RESULTS)
-  const request = yield* HttpClientRequest.post(KILO_EXA_URL).pipe(
+  const request = yield* HttpClientRequest.post(KAPPA_EXA_URL).pipe(
     HttpClientRequest.bearerToken(kappaToken),
     HttpClientRequest.acceptJson,
     HttpClientRequest.bodyJson({

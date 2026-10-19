@@ -11,25 +11,25 @@ import { it } from "./lib/effect"
 import { readFile, rm, writeFile, utimes, mkdir } from "fs/promises"
 import path from "path"
 
-// test/preload.ts pins KILO_MODELS_PATH to a fixture so other tests can
+// test/preload.ts pins KAPPA_MODELS_PATH to a fixture so other tests can
 // resolve providers without network. These tests need to drive the on-disk
 // cache themselves and silence the eager refresh fork. Save/restore around
 // the suite — never leak the mutation to subsequent test files in the same
 // bun process.
-const ORIGINAL_MODELS_PATH = Flag.KILO_MODELS_PATH
-const ORIGINAL_DISABLE_FETCH = Flag.KILO_DISABLE_MODELS_FETCH
+const ORIGINAL_MODELS_PATH = Flag.KAPPA_MODELS_PATH
+const ORIGINAL_DISABLE_FETCH = Flag.KAPPA_DISABLE_MODELS_FETCH
 // kappacode_change start - isolate the mutable cache fixture from parallel package test processes
 const original = Global.Path.cache
 const root = path.join(Global.Path.tmp, `models-test-${process.pid}-${Math.random().toString(36).slice(2)}`)
 // kappacode_change end
 beforeAll(() => {
-  Flag.KILO_MODELS_PATH = undefined
-  Flag.KILO_DISABLE_MODELS_FETCH = true
+  Flag.KAPPA_MODELS_PATH = undefined
+  Flag.KAPPA_DISABLE_MODELS_FETCH = true
   Global.Path.cache = root // kappacode_change
 })
 afterAll(() => {
-  Flag.KILO_MODELS_PATH = ORIGINAL_MODELS_PATH
-  Flag.KILO_DISABLE_MODELS_FETCH = ORIGINAL_DISABLE_FETCH
+  Flag.KAPPA_MODELS_PATH = ORIGINAL_MODELS_PATH
+  Flag.KAPPA_DISABLE_MODELS_FETCH = ORIGINAL_DISABLE_FETCH
   Global.Path.cache = original // kappacode_change
 })
 
@@ -167,12 +167,12 @@ describe("ModelsDev Service", () => {
       const context = yield* Layer.build(buildLayer(state))
       const result = yield* Effect.acquireUseRelease(
         Effect.sync(() => {
-          Flag.KILO_DISABLE_MODELS_FETCH = false
+          Flag.KAPPA_DISABLE_MODELS_FETCH = false
         }),
         () => ModelsDev.Service.use((s) => s.get()).pipe(Effect.provide(context)),
         () =>
           Effect.sync(() => {
-            Flag.KILO_DISABLE_MODELS_FETCH = true
+            Flag.KAPPA_DISABLE_MODELS_FETCH = true
           }),
       )
       expect(result).toEqual(fixture2)
@@ -239,7 +239,7 @@ describe("ModelsDev Service", () => {
       expect(final.calls.length).toBe(1)
       expect(final.calls[0].url).toContain("/api.json")
       expect(final.calls[0].userAgent).toStartWith("opencode/")
-      expect(final.calls[0].userAgent).toEndWith(`/${Flag.KILO_CLIENT}`)
+      expect(final.calls[0].userAgent).toEndWith(`/${Flag.KAPPA_CLIENT}`)
     }),
   )
 

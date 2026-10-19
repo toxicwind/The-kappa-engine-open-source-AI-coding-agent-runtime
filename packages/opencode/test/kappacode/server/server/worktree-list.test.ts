@@ -12,11 +12,11 @@ import { testEffect } from "../../../lib/effect"
 
 const state = Layer.effectDiscard(
   Effect.gen(function* () {
-    const original = Flag.KILO_EXPERIMENTAL_WORKSPACES
-    Flag.KILO_EXPERIMENTAL_WORKSPACES = true
+    const original = Flag.KAPPA_EXPERIMENTAL_WORKSPACES
+    Flag.KAPPA_EXPERIMENTAL_WORKSPACES = true
     yield* Effect.addFinalizer(() =>
       Effect.promise(async () => {
-        Flag.KILO_EXPERIMENTAL_WORKSPACES = original
+        Flag.KAPPA_EXPERIMENTAL_WORKSPACES = original
         await resetDatabase()
       }),
     )

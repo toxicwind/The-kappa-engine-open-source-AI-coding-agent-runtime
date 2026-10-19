@@ -42,7 +42,7 @@ function check(code: string) {
     import { dirname, join } from "node:path"
     const solid = join(dirname(require.resolve("solid-js")), "solid.js")
     const { createRoot, createSignal, createMemo, createEffect, createUniqueId, createSelector, onCleanup, untrack } = await import(solid)
-    const { KILO_GATEWAY_ID, isSmall, providerSortKey, isFree, isDataCollectedModel, hasByok, isAuto,
+    const { KAPPA_GATEWAY_ID, isSmall, providerSortKey, isFree, isDataCollectedModel, hasByok, isAuto,
       freeDataLabel, autoSummary, buildTriggerLabel, sanitizeName, mostUsedModels, rankModelSearch } = await import("./webview-ui/src/components/shared/model-selector-utils.ts")
     const { isEnterKeyCommitNotIme } = await import("./webview-ui/src/utils/ime-enter.ts")
     const window = new EventTarget()

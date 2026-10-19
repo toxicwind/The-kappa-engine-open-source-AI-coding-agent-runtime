@@ -338,7 +338,7 @@ export const fffLayer = Layer.effect(
 // kappacode_change start - FFF owns an initial scan and watcher, so roots must use the non-indexing fallback.
 const layer = Layer.unwrap(
   Effect.gen(function* () {
-    if (Flag.KILO_DISABLE_FFF || !Fff.available()) return ripgrepLayer
+    if (Flag.KAPPA_DISABLE_FFF || !Fff.available()) return ripgrepLayer
     const location = yield* Location.Service
     const fs = yield* FSUtil.Service
     const real = yield* fs.realPath(location.directory).pipe(Effect.catch(() => Effect.succeed(undefined)))

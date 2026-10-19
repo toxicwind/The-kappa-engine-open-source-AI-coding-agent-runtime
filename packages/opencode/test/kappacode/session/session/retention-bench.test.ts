@@ -9,7 +9,7 @@ import { KappaSessionRetention } from "../../../../src/kappacode/session/retenti
 import { testEffect } from "../../../lib/effect"
 
 const it = testEffect(LayerNode.compile(Database.node))
-const bench = process.env.KILO_RETENTION_BENCH === "1" ? it.live : it.live.skip
+const bench = process.env.KAPPA_RETENTION_BENCH === "1" ? it.live : it.live.skip
 const enabled = Layer.merge(
   Layer.mock(Config.Service, { get: () => Effect.succeed({ retention: { enabled: true, maxAgeDays: 30 } }) }),
   Layer.mock(Session.Service, { remove: () => Effect.die("benchmark must not delete sessions") }),

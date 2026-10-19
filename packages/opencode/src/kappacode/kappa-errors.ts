@@ -1,14 +1,14 @@
 import type { NamedError } from "@opencode-ai/core/util/error"
 import { isRecord } from "@/util/record"
 
-export const KILO_ERROR_CODES = {
+export const KAPPA_ERROR_CODES = {
   PAID_MODEL_AUTH_REQUIRED: "PAID_MODEL_AUTH_REQUIRED",
   PROMOTION_MODEL_LIMIT_REACHED: "PROMOTION_MODEL_LIMIT_REACHED",
 } as const
 
-export type KappaErrorCode = (typeof KILO_ERROR_CODES)[keyof typeof KILO_ERROR_CODES]
+export type KappaErrorCode = (typeof KAPPA_ERROR_CODES)[keyof typeof KAPPA_ERROR_CODES]
 
-const KILO_ERROR_CODE_VALUES = Object.values(KILO_ERROR_CODES) as string[]
+const KAPPA_ERROR_CODE_VALUES = Object.values(KAPPA_ERROR_CODES) as string[]
 
 /**
  * Check if an error is a Kappa-specific error (has a known Kappa error code in responseBody).
@@ -23,9 +23,9 @@ export function isKappaError(error: ReturnType<NamedError["toObject"]>): boolean
  */
 export function kappaErrorTitle(code: KappaErrorCode): string {
   switch (code) {
-    case KILO_ERROR_CODES.PAID_MODEL_AUTH_REQUIRED:
+    case KAPPA_ERROR_CODES.PAID_MODEL_AUTH_REQUIRED:
       return "You need to sign in to use this model"
-    case KILO_ERROR_CODES.PROMOTION_MODEL_LIMIT_REACHED:
+    case KAPPA_ERROR_CODES.PROMOTION_MODEL_LIMIT_REACHED:
       return "You need to sign up to keep going"
   }
 }
@@ -35,9 +35,9 @@ export function kappaErrorTitle(code: KappaErrorCode): string {
  */
 export function kappaErrorDescription(code: KappaErrorCode): string {
   switch (code) {
-    case KILO_ERROR_CODES.PAID_MODEL_AUTH_REQUIRED:
+    case KAPPA_ERROR_CODES.PAID_MODEL_AUTH_REQUIRED:
       return "Sign in or create an account to access over 500 models, use credits at cost, or bring your own key."
-    case KILO_ERROR_CODES.PROMOTION_MODEL_LIMIT_REACHED:
+    case KAPPA_ERROR_CODES.PROMOTION_MODEL_LIMIT_REACHED:
       return "Sign up for free to continue and explore 500 other models. Takes 2 minutes, no credit card required. Or come back later."
   }
 }
@@ -77,7 +77,7 @@ export function parseKappaErrorCode(error: ReturnType<NamedError["toObject"]>): 
     // Backend sends: { error: { code: "PAID_MODEL_AUTH_REQUIRED" } }
     // or: { code: "PROMOTION_MODEL_LIMIT_REACHED" }
     const code = body?.error?.code ?? body?.code
-    if (typeof code === "string" && KILO_ERROR_CODE_VALUES.includes(code)) {
+    if (typeof code === "string" && KAPPA_ERROR_CODE_VALUES.includes(code)) {
       return code as KappaErrorCode
     }
   } catch {}

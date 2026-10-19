@@ -340,7 +340,7 @@ const markdownWorkerUrlPlugin = {
       namespace: "kappa-worker-url",
     }))
     build.onLoad({ filter: /.*/, namespace: "kappa-worker-url" }, () => ({
-      contents: "export default window.KILO_MARKDOWN_SHIKI_WORKER_URI",
+      contents: "export default window.KAPPA_MARKDOWN_SHIKI_WORKER_URI",
       loader: "js",
     }))
   },

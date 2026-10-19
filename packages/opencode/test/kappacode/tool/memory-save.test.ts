@@ -14,7 +14,7 @@ import { resetDatabase } from "../../fixture/db.ts"
 import { provideTestInstance, tmpdir } from "../../fixture/fixture.ts"
 import { runMemoryTool } from "./memory-runtime.ts"
 
-const watch = process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER
+const watch = process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER
 
 const ctx: Tool.Context = {
   sessionID: SessionID.make("ses_test"),
@@ -38,14 +38,14 @@ type SaveParams = {
 type Request = Omit<Permission.Request, "id" | "sessionID" | "tool">
 
 beforeEach(() => {
-  process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER = "true"
+  process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER = "true"
   spyOn(RemoteSender, "create").mockReturnValue({ handle() {}, dispose() {} })
 })
 
 afterEach(async () => {
   mock.restore()
-  if (watch === undefined) delete process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER
-  if (watch !== undefined) process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER = watch
+  if (watch === undefined) delete process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER
+  if (watch !== undefined) process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER = watch
   await resetDatabase()
 })
 

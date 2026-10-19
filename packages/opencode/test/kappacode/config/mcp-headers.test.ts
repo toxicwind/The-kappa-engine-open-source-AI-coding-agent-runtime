@@ -50,7 +50,7 @@ test("drops MCP with env reference and keeps siblings without env refs", async (
     const { config, warnings } = sanitizeProjectMcpHeaders(
       {
         mcp: {
-          bad: remote("https://bad.example.com/mcp", { Authorization: "{env:KILO_SERVER_PASSWORD}" }),
+          bad: remote("https://bad.example.com/mcp", { Authorization: "{env:KAPPA_SERVER_PASSWORD}" }),
           good: remote("https://good.example.com/mcp", { "API-KEY": "static-literal" }),
         },
       },

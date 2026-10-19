@@ -67,8 +67,8 @@ export function globalFiles() {
     if (!existsSync(base)) return []
     return FILES.map((file) => row(path.join(base, file), SOURCES[dir])).filter((item) => item.exists)
   })
-  const env = process.env.KILO_CONFIG ? [row(process.env.KILO_CONFIG, "sourceEnvFile")] : []
-  const extra = process.env.KILO_CONFIG_DIR
+  const env = process.env.KAPPA_CONFIG ? [row(process.env.KAPPA_CONFIG, "sourceEnvFile")] : []
+  const extra = process.env.KAPPA_CONFIG_DIR
   const dir = extra
     ? ensure(
         FILES.map((file) => row(path.join(extra, file), "sourceEnvDir")).filter((item) => item.exists),
@@ -76,10 +76,10 @@ export function globalFiles() {
         "sourceEnvDir",
       )
     : []
-  const virtual: Entry[] = process.env.KILO_CONFIG_CONTENT
+  const virtual: Entry[] = process.env.KAPPA_CONFIG_CONTENT
     ? [
         {
-          name: "KILO_CONFIG_CONTENT",
+          name: "KAPPA_CONFIG_CONTENT",
           source: "sourceEnvContent",
           exists: true,
           loaded: true,
@@ -92,7 +92,7 @@ export function globalFiles() {
 }
 
 export function localFiles(root: string) {
-  const enabled = !process.env.KILO_DISABLE_PROJECT_CONFIG
+  const enabled = !process.env.KAPPA_DISABLE_PROJECT_CONFIG
   const dirs = [path.join(root, ".kappa"), root, path.join(root, ".kappacode"), path.join(root, ".opencode")]
   const list = dirs.flatMap((dir) => FILES.map((file) => row(path.join(dir, file), localSource(root, dir), enabled)))
   return ensure(

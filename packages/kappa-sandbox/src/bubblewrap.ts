@@ -8,9 +8,9 @@ import type { Backend, Launch, Support } from "./backend"
 import type { PathRule, Profile } from "./profile"
 import type { ProxyRuntime } from "./proxy"
 
-declare const KILO_BWRAP_SHA256: string | undefined
-declare const KILO_SANDBOX_NETWORK_RELAY_PATH: string | undefined
-declare const KILO_SANDBOX_SECCOMP_PATH: string | undefined
+declare const KAPPA_BWRAP_SHA256: string | undefined
+declare const KAPPA_SANDBOX_NETWORK_RELAY_PATH: string | undefined
+declare const KAPPA_SANDBOX_SECCOMP_PATH: string | undefined
 
 const system = "/usr/bin/bwrap"
 
@@ -25,18 +25,18 @@ function command(launch: Launch) {
 }
 
 function relay() {
-  if (typeof KILO_SANDBOX_NETWORK_RELAY_PATH === "undefined") {
+  if (typeof KAPPA_SANDBOX_NETWORK_RELAY_PATH === "undefined") {
     return { path: fileURLToPath(new URL("./kappa-sandbox-network-relay.ts", import.meta.url)), environment: {} }
   }
-  const target = KILO_SANDBOX_NETWORK_RELAY_PATH.startsWith(".")
-    ? fileURLToPath(new URL(KILO_SANDBOX_NETWORK_RELAY_PATH, import.meta.url))
-    : path.resolve(path.dirname(process.execPath), KILO_SANDBOX_NETWORK_RELAY_PATH)
+  const target = KAPPA_SANDBOX_NETWORK_RELAY_PATH.startsWith(".")
+    ? fileURLToPath(new URL(KAPPA_SANDBOX_NETWORK_RELAY_PATH, import.meta.url))
+    : path.resolve(path.dirname(process.execPath), KAPPA_SANDBOX_NETWORK_RELAY_PATH)
   return { path: target, environment: { BUN_BE_BUN: "1" } }
 }
 
 function seccomp() {
-  if (typeof KILO_SANDBOX_SECCOMP_PATH !== "undefined") {
-    return path.resolve(path.dirname(process.execPath), KILO_SANDBOX_SECCOMP_PATH)
+  if (typeof KAPPA_SANDBOX_SECCOMP_PATH !== "undefined") {
+    return path.resolve(path.dirname(process.execPath), KAPPA_SANDBOX_SECCOMP_PATH)
   }
   const entry = fileURLToPath(import.meta.resolve("@anthropic-ai/sandbox-runtime"))
   const arch = process.arch === "arm64" ? "arm64" : process.arch === "x64" ? "x64" : undefined
@@ -218,7 +218,7 @@ function bundled() {
 }
 
 function digest() {
-  return typeof KILO_BWRAP_SHA256 === "undefined" ? undefined : KILO_BWRAP_SHA256
+  return typeof KAPPA_BWRAP_SHA256 === "undefined" ? undefined : KAPPA_BWRAP_SHA256
 }
 
 function resolve(executable: string, expected?: string) {
@@ -271,7 +271,7 @@ interface Selection {
 }
 
 function select(): Selection {
-  const override = process.env.KILO_BWRAP_PATH
+  const override = process.env.KAPPA_BWRAP_PATH
   const candidates = override
     ? [{ executable: override }]
     : [{ executable: system }, { executable: bundled(), expected: digest() }]

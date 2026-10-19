@@ -29,7 +29,7 @@ import fs from "fs/promises"
 import { provideTestInstance, tmpdir, withTestInstance } from "../fixture/fixture.ts"
 
 Log.init({ print: false })
-process.env.KILO_CLIENT = "cli"
+process.env.KAPPA_CLIENT = "cli"
 
 function subscribe<D extends EventV2.Definition>(
   definition: D,
@@ -372,9 +372,9 @@ describe("plan follow-up", () => {
 
   test("ask - hides custom answer row on VS Code where the main prompt input handles typed replies", () =>
     withInstance(async () => {
-      const prev = process.env.KILO_CLIENT
+      const prev = process.env.KAPPA_CLIENT
       try {
-        process.env.KILO_CLIENT = "vscode"
+        process.env.KAPPA_CLIENT = "vscode"
         const seeded = await seed({ text: "1. Build" })
         const pending = PlanFollowup.ask({
           question,
@@ -397,7 +397,7 @@ describe("plan follow-up", () => {
         await question.reject(item.id)
         await expect(pending).resolves.toBe("break")
       } finally {
-        process.env.KILO_CLIENT = prev
+        process.env.KAPPA_CLIENT = prev
       }
     }))
 

@@ -16,7 +16,7 @@ import { tmpdir } from "../fixture/tmpdir"
 import { testEffect } from "../lib/effect"
 
 const describeWatcher =
-  Watcher.hasNativeBinding() && (!process.env.CI || process.env.KILO_TEST_PROFILE === "darwin") // kappacode_change
+  Watcher.hasNativeBinding() && (!process.env.CI || process.env.KAPPA_TEST_PROFILE === "darwin") // kappacode_change
     ? describe
     : describe.skip
 
@@ -33,8 +33,8 @@ const configLayer = Layer.succeed(
 
 const flagsLayer = ConfigProvider.layer(
   ConfigProvider.fromUnknown({
-    KILO_EXPERIMENTAL_FILEWATCHER: "true",
-    KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "false",
+    KAPPA_EXPERIMENTAL_FILEWATCHER: "true",
+    KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: "false",
   }),
 )
 

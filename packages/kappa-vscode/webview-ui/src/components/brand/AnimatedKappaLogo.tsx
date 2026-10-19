@@ -6,7 +6,7 @@ import { DotLottie } from "@lottiefiles/dotlottie-web"
  * to the webview bundles (see `wasm()` in esbuild.js) so the logo never reaches the network.
  * The shiki worker URI is the only `dist/` URI the host injects, so derive the WASM URI from it.
  */
-const wasm = (window as { KILO_SHIKI_WORKER_URI?: string }).KILO_SHIKI_WORKER_URI?.replace(
+const wasm = (window as { KAPPA_SHIKI_WORKER_URI?: string }).KAPPA_SHIKI_WORKER_URI?.replace(
   /shiki-worker\.js$/,
   "dotlottie-player.wasm",
 )

@@ -78,13 +78,13 @@ These tools help Kappa Code access web content:
 }
 ```
 
-In the VS Code extension, the same option lives under **Settings → Web Tools → Web Search → Enable for All Providers**. The `KILO_ENABLE_EXA` and `KILO_ENABLE_PARALLEL` environment flags also enable it.
+In the VS Code extension, the same option lives under **Settings → Web Tools → Web Search → Enable for All Providers**. The `KAPPA_ENABLE_EXA` and `KAPPA_ENABLE_PARALLEL` environment flags also enable it.
 
 #### Web Search Providers
 
 `websearch` routes through the Exa or Parallel search providers. When the Exa provider is used and you are signed into Kappa, requests go through the Kappa proxy automatically — no separate Exa API key is required. Setting `EXA_API_KEY` uses your own Exa key instead. Exa searches return at most 10 results.
 
-Set the `KILO_WEBSEARCH_PROVIDER` environment variable to force a provider:
+Set the `KAPPA_WEBSEARCH_PROVIDER` environment variable to force a provider:
 
 | Value | Behavior |
 |---|---|

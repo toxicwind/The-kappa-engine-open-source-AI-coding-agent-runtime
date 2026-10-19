@@ -23,8 +23,8 @@ const globalConfigFiles = ["kappa.json", "kappa.jsonc", "tui.json", "tui.jsonc"]
 
 const cleanState = Effect.gen(function* () {
   const fs = yield* FSUtil.Service
-  delete process.env.KILO_CONFIG
-  delete process.env.KILO_TUI_CONFIG
+  delete process.env.KAPPA_CONFIG
+  delete process.env.KAPPA_TUI_CONFIG
   yield* Effect.forEach(globalConfigFiles, (file) => fs.remove(file, { force: true }).pipe(Effect.ignore), {
     discard: true,
   })
@@ -33,15 +33,15 @@ const cleanState = Effect.gen(function* () {
 const withCleanState = <A, E, R>(self: Effect.Effect<A, E, R>) =>
   Effect.acquireUseRelease(
     Effect.gen(function* () {
-      const disabled = Flag.KILO_DISABLE_DEFAULT_PLUGINS
-      Flag.KILO_DISABLE_DEFAULT_PLUGINS = true
+      const disabled = Flag.KAPPA_DISABLE_DEFAULT_PLUGINS
+      Flag.KAPPA_DISABLE_DEFAULT_PLUGINS = true
       yield* cleanState
       return disabled
     }),
     () => self,
     (disabled) =>
       Effect.gen(function* () {
-        Flag.KILO_DISABLE_DEFAULT_PLUGINS = disabled
+        Flag.KAPPA_DISABLE_DEFAULT_PLUGINS = disabled
         yield* cleanState
       }),
   )
@@ -423,7 +423,7 @@ it.instance("top-level keys in tui.json take precedence over nested tui key", ()
   ),
 )
 
-it.instance("project config takes precedence over KILO_TUI_CONFIG (matches KILO_CONFIG)", () =>
+it.instance("project config takes precedence over KAPPA_TUI_CONFIG (matches KAPPA_CONFIG)", () =>
   withCleanState(
     Effect.gen(function* () {
       const fs = yield* FSUtil.Service
@@ -433,7 +433,7 @@ it.instance("project config takes precedence over KILO_TUI_CONFIG (matches KILO_
       yield* fs.writeJson(custom, { theme: "custom", diff_style: "stacked" })
 
       yield* withEnv(
-        "KILO_TUI_CONFIG",
+        "KAPPA_TUI_CONFIG",
         custom,
         Effect.gen(function* () {
           const config = yield* getTuiConfig(test.directory)
@@ -648,7 +648,7 @@ it.instance("keeps explicit configured keybind input undo on Windows", () =>
   ),
 )
 
-it.instance("KILO_TUI_CONFIG provides settings when no project config exists", () =>
+it.instance("KAPPA_TUI_CONFIG provides settings when no project config exists", () =>
   withCleanState(
     Effect.gen(function* () {
       const fs = yield* FSUtil.Service
@@ -657,7 +657,7 @@ it.instance("KILO_TUI_CONFIG provides settings when no project config exists", (
       yield* fs.writeJson(custom, { theme: "from-env", diff_style: "stacked" })
 
       yield* withEnv(
-        "KILO_TUI_CONFIG",
+        "KAPPA_TUI_CONFIG",
         custom,
         Effect.gen(function* () {
           const config = yield* getTuiConfig(test.directory)
@@ -669,7 +669,7 @@ it.instance("KILO_TUI_CONFIG provides settings when no project config exists", (
   ),
 )
 
-it.instance("does not derive tui path from KILO_CONFIG", () =>
+it.instance("does not derive tui path from KAPPA_CONFIG", () =>
   withCleanState(
     Effect.gen(function* () {
       const fs = yield* FSUtil.Service
@@ -680,7 +680,7 @@ it.instance("does not derive tui path from KILO_CONFIG", () =>
       yield* fs.writeJson(path.join(customDir, "tui.json"), { theme: "should-not-load" })
 
       yield* withEnv(
-        "KILO_CONFIG",
+        "KAPPA_CONFIG",
         path.join(customDir, "kappa.json"),
         Effect.gen(function* () {
           const config = yield* getTuiConfig(test.directory)

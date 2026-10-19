@@ -35,8 +35,8 @@ mock.module("@kappacode/kappa-telemetry", () => ({
 }))
 
 mock.module("@kappacode/kappa-gateway", () => ({
-  ENV_FEATURE: "KILO_FEATURE",
-  ENV_VERSION: "KILO_VERSION",
+  ENV_FEATURE: "KAPPA_FEATURE",
+  ENV_VERSION: "KAPPA_VERSION",
   async migrateLegacyKappaAuth() {
     calls.push("auth:migrate")
   },

@@ -3,7 +3,7 @@ import { InstallationBuildKind } from "@opencode-ai/core/installation/version"
 
 export namespace KappaLog {
   export function init() {
-    const value = process.env.KILO_LOG_LEVEL?.toUpperCase()
+    const value = process.env.KAPPA_LOG_LEVEL?.toUpperCase()
     const level: Log.Level =
       value === "DEBUG" || value === "INFO" || value === "WARN" || value === "ERROR"
         ? value
@@ -11,7 +11,7 @@ export namespace KappaLog {
           ? "INFO"
           : "DEBUG"
     return Log.init({
-      print: process.env.KILO_PRINT_LOGS === "1",
+      print: process.env.KAPPA_PRINT_LOGS === "1",
       dev: InstallationBuildKind !== "release",
       level,
     })

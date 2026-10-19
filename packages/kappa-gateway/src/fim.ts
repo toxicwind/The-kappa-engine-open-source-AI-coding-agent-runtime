@@ -1,4 +1,4 @@
-import { KILO_API_BASE } from "./api/constants.js"
+import { KAPPA_API_BASE } from "./api/constants.js"
 import { getAutocompleteModel, type DirectAutocompleteProviderID } from "./autocomplete.js"
 
 export { requestMistralFim } from "./mistral-fim-endpoint.js"
@@ -13,11 +13,11 @@ export type FimTarget =
   | { provider: "inception"; model: string; url: string }
   | { provider: "mistral"; model: string }
 
-const KILO_FIM_URL = KILO_API_BASE + "/api/fim/completions"
+const KAPPA_FIM_URL = KAPPA_API_BASE + "/api/fim/completions"
 const INCEPTION_FIM_URL = "https://api.inceptionlabs.ai/v1/fim/completions"
 
 function kappaTarget(model?: string): FimTarget {
-  return { provider: "kappa", model: model ?? "mistralai/codestral-2501", url: KILO_FIM_URL }
+  return { provider: "kappa", model: model ?? "mistralai/codestral-2501", url: KAPPA_FIM_URL }
 }
 
 export function resolveFimTarget(provider?: string, model?: string): FimTarget {

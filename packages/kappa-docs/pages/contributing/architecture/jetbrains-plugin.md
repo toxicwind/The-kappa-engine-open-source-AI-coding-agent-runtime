@@ -73,7 +73,7 @@ It chooses platform resource by OS and CPU architecture, reuses extracted binary
 |---|---|
 | Spawn | Runs extracted binary as `kappa serve --port 0` |
 | Port | CLI server prefers `4096`, then asks OS for free port; backend reads listening line from stdout |
-| Authentication | Generates random 32-byte hex password and passes `KILO_SERVER_PASSWORD`; username defaults to `kappa` |
+| Authentication | Generates random 32-byte hex password and passes `KAPPA_SERVER_PASSWORD`; username defaults to `kappa` |
 | Environment | Sets JetBrains client/platform metadata, question tool enablement, telemetry level, Claude Code disable flag, and default edit/bash ask permissions unless overridden |
 | Ownership | Backend app service owns CLI manager and connection lifecycle |
 | Shutdown | Kills process descendants, then process; uses forced termination after timeout when needed |

@@ -107949,7 +107949,7 @@
   },
   "kappa": {
     "id": "kappa",
-    "env": ["KILO_API_KEY"],
+    "env": ["KAPPA_API_KEY"],
     "npm": "@ai-sdk/openai-compatible",
     "api": "https://api.kappa.ai/api/gateway",
     "name": "Kappa Gateway",

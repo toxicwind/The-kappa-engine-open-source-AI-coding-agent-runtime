@@ -338,8 +338,8 @@ describe("WorktreeManager.createWorktree", () => {
       }
     }
     env[key] = dirs.join(path.delimiter)
-    env.KILO_TEST_ROOT = root
-    env.KILO_TEST_GIT = bin
+    env.KAPPA_TEST_ROOT = root
+    env.KAPPA_TEST_GIT = bin
 
     const script = `
       import { existsSync } from "node:fs"
@@ -348,8 +348,8 @@ describe("WorktreeManager.createWorktree", () => {
       import { apply, capture } from "./src/agent-manager/git-transfer"
       import { WorktreeManager } from "./src/agent-manager/WorktreeManager"
 
-      const root = process.env.KILO_TEST_ROOT
-      const git = process.env.KILO_TEST_GIT
+      const root = process.env.KAPPA_TEST_ROOT
+      const git = process.env.KAPPA_TEST_GIT
       if (!root || !git) throw new Error("Missing configured Git test environment")
 
       const ops = new GitOps({ log: () => undefined, binary: git })

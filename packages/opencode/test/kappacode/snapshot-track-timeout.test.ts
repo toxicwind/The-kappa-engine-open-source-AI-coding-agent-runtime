@@ -1070,7 +1070,7 @@ describe("KappaSnapshotTrack constants", () => {
   test("TIMEOUT_MS defaults to 10s and respects env override", () => {
     // The constant is evaluated once at module load, so we can only assert
     // on the default in this run. The env override is exercised by running
-    // with KILO_SNAPSHOT_TRACK_TIMEOUT_MS, which this test suite does not set.
+    // with KAPPA_SNAPSHOT_TRACK_TIMEOUT_MS, which this test suite does not set.
     expect(KappaSnapshotTrack.TIMEOUT_MS).toBe(10_000)
   })
 

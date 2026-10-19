@@ -188,8 +188,8 @@ it.instance(
             model: "kappa/anthropic/explicit",
             orgID: explicitID,
             env: {
-              KILO_API_KEY: "ignored-env-token",
-              KILO_ORG_ID: envID,
+              KAPPA_API_KEY: "ignored-env-token",
+              KAPPA_ORG_ID: envID,
             },
           })
           const service = yield* Auth.Service
@@ -204,7 +204,7 @@ it.instance(
                   model: { debug: { providerID: "kappa", modelID: "anthropic/saved" } },
                 }),
               ),
-              CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
+              CloudCatalog.layer({ env: { KAPPA_API_URL: url.origin } }),
             ),
           ),
         )
@@ -258,7 +258,7 @@ it.instance(
                   recent: [{ providerID: "kappa", modelID: "anthropic/recent" }],
                 }),
               ),
-              CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
+              CloudCatalog.layer({ env: { KAPPA_API_URL: url.origin } }),
             ),
           ),
         ),
@@ -290,7 +290,7 @@ it.instance(
                 model: { code: { providerID: "kappa", modelID: "anthropic/saved" } },
               }),
             ),
-            CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
+            CloudCatalog.layer({ env: { KAPPA_API_URL: url.origin } }),
           ),
         ),
       ),
@@ -315,7 +315,7 @@ it.instance(
           Layer.mergeAll(
             authLayer(new Auth.Api({ type: "api", key: "stored-api-token" })),
             stateLayer(state()),
-            CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
+            CloudCatalog.layer({ env: { KAPPA_API_URL: url.origin } }),
           ),
         ),
       ),
@@ -345,7 +345,7 @@ it.instance(
           Layer.mergeAll(
             authLayer(new Auth.Api({ type: "api", key: "stored-api-token" })),
             stateLayer(state()),
-            CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
+            CloudCatalog.layer({ env: { KAPPA_API_URL: url.origin } }),
           ),
         ),
       ),
@@ -373,13 +373,13 @@ it.instance("rejects invalid persisted organization state and insecure catalog o
       kind: "organization",
     })
 
-    const catalog = yield* CloudDefaults.resolve({ env: { KILO_API_URL: "http://example.com" } }).pipe(
+    const catalog = yield* CloudDefaults.resolve({ env: { KAPPA_API_URL: "http://example.com" } }).pipe(
       Effect.provide(
         Layer.mergeAll(
           authLayer(new Auth.Api({ type: "api", key: "stored-api-token" })),
           stateLayer(state()),
           CloudCatalog.layer({
-            env: { KILO_API_URL: "http://example.com" },
+            env: { KAPPA_API_URL: "http://example.com" },
             fetch: () => Promise.reject(new Error("insecure catalog request must not run")),
           }),
         ),
@@ -403,7 +403,7 @@ it.instance(
         Effect.gen(function* () {
           const organizationID = "11111111-1111-4111-8111-111111111111"
           const resolved = yield* CloudDefaults.resolve({
-            env: { KILO_API_KEY: "ignored-env-token" },
+            env: { KAPPA_API_KEY: "ignored-env-token" },
           }).pipe(
             Effect.provide(
               Layer.mergeAll(
@@ -414,7 +414,7 @@ it.instance(
                     recent: [{ providerID: "kappa", modelID: "anthropic/recent" }],
                   }),
                 ),
-                CloudCatalog.layer({ env: { KILO_API_URL: url.origin } }),
+                CloudCatalog.layer({ env: { KAPPA_API_URL: url.origin } }),
               ),
             ),
           )

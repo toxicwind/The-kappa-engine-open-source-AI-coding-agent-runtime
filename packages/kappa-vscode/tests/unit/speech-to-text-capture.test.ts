@@ -79,7 +79,7 @@ describe("ffmpeg args", () => {
 describe("useMacCapture", () => {
   it("preserves explicit FFmpeg overrides", () => {
     expect(useMacCapture("darwin", {})).toBe(true)
-    expect(useMacCapture("darwin", { KILO_FFMPEG_PATH: "/custom/ffmpeg" })).toBe(false)
+    expect(useMacCapture("darwin", { KAPPA_FFMPEG_PATH: "/custom/ffmpeg" })).toBe(false)
     expect(useMacCapture("darwin", { FFMPEG_PATH: "/custom/ffmpeg" })).toBe(false)
     expect(useMacCapture("linux", {})).toBe(false)
     expect(useMacCapture("win32", {})).toBe(false)

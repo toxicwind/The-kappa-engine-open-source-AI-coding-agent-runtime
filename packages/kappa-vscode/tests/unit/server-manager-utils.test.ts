@@ -117,7 +117,7 @@ describe("cli tree-sitter resources", () => {
     expect(treeSitterDirForBinary(bin)).toBe(`${root}/bin/tree-sitter`)
     expect(treeSitterDirForExtension(root)).toBe(`${root}/bin/tree-sitter`)
     expect(kappaSandboxWorkerForBinary(bin)).toBe(`${root}/bin/kappa-sandbox-mutation-worker.js`)
-    expect(resolveTreeSitterEnv(root)).toEqual({ KILO_TREE_SITTER_WASM_DIR: `${root}/bin/tree-sitter` })
+    expect(resolveTreeSitterEnv(root)).toEqual({ KAPPA_TREE_SITTER_WASM_DIR: `${root}/bin/tree-sitter` })
   })
 
   it("resolves resources next to a Windows packaged CLI", () => {
@@ -128,7 +128,7 @@ describe("cli tree-sitter resources", () => {
     expect(treeSitterDirForExtension(root)).toBe(String.raw`${root}\bin\tree-sitter`)
     expect(kappaSandboxWorkerForBinary(bin)).toBe(String.raw`${root}\bin\kappa-sandbox-mutation-worker.js`)
     expect(resolveTreeSitterEnv(root)).toEqual({
-      KILO_TREE_SITTER_WASM_DIR: String.raw`${root}\bin\tree-sitter`,
+      KAPPA_TREE_SITTER_WASM_DIR: String.raw`${root}\bin\tree-sitter`,
     })
   })
 
@@ -384,8 +384,8 @@ describe("server workspace helpers", () => {
   })
 
   it("disables codebase indexing only when no workspace folder is open", () => {
-    expect(resolveIndexingEnv(undefined)).toEqual({ KILO_DISABLE_CODEBASE_INDEXING: "vscode-no-workspace" })
-    expect(resolveIndexingEnv([])).toEqual({ KILO_DISABLE_CODEBASE_INDEXING: "vscode-no-workspace" })
+    expect(resolveIndexingEnv(undefined)).toEqual({ KAPPA_DISABLE_CODEBASE_INDEXING: "vscode-no-workspace" })
+    expect(resolveIndexingEnv([])).toEqual({ KAPPA_DISABLE_CODEBASE_INDEXING: "vscode-no-workspace" })
     expect(resolveIndexingEnv([{ uri: { fsPath: "/repo" } }])).toEqual({})
   })
 
@@ -393,20 +393,20 @@ describe("server workspace helpers", () => {
     expect(
       resolveManagedServerEnv({
         PATH: "/usr/bin",
-        KILO_DISABLE_CHANNEL_DB: "false",
-        KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "false",
+        KAPPA_DISABLE_CHANNEL_DB: "false",
+        KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: "false",
       }),
     ).toEqual({
       PATH: "/usr/bin",
-      KILO_DISABLE_CHANNEL_DB: "true",
-      KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
+      KAPPA_DISABLE_CHANNEL_DB: "true",
+      KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
     })
   })
 
   it("uses the explicit migration environment value before the setting", () => {
     expect(resolveClaudeMigrationEnv({}, false)).toBe("false")
     expect(resolveClaudeMigrationEnv({}, true)).toBe("true")
-    expect(resolveClaudeMigrationEnv({ KILO_EXPERIMENTAL_CLAUDE_MIGRATION: "false" }, true)).toBe("false")
-    expect(resolveClaudeMigrationEnv({ KILO_EXPERIMENTAL_CLAUDE_MIGRATION: "" }, true)).toBe("")
+    expect(resolveClaudeMigrationEnv({ KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION: "false" }, true)).toBe("false")
+    expect(resolveClaudeMigrationEnv({ KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION: "" }, true)).toBe("")
   })
 })

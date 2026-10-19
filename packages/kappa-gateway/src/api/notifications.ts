@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { KILO_API_BASE } from "./constants.js"
+import { KAPPA_API_BASE } from "./constants.js"
 import { getDefaultHeaders, buildKappaHeaders } from "../headers.js"
 
 /**
@@ -40,7 +40,7 @@ export async function fetchKappacodeNotifications(options: {
   const token = options.kappacodeToken
   if (!token) return []
 
-  const url = `${KILO_API_BASE}/api/users/notifications`
+  const url = `${KAPPA_API_BASE}/api/users/notifications`
 
   try {
     const response = await fetch(url, {

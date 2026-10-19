@@ -11,7 +11,7 @@ export async function smoke(file = Shell.preferred(), args: string[] = []) {
   const proc = spawn(file, args, {
     name: "xterm-256color",
     cwd: process.cwd(),
-    env: { ...process.env, TERM: "xterm-256color", KILO_TERMINAL: "1" } as Record<string, string>,
+    env: { ...process.env, TERM: "xterm-256color", KAPPA_TERMINAL: "1" } as Record<string, string>,
     cols: 80,
     rows: 24,
   })
@@ -21,7 +21,7 @@ export async function smoke(file = Shell.preferred(), args: string[] = []) {
   const data = proc.onData((chunk) => {
     state.output += chunk
     const lines = state.output.replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "").split(/\r?\n/)
-    if (lines.some((line) => line.trim() === "KILO_PTY_READY")) output.resolve()
+    if (lines.some((line) => line.trim() === "KAPPA_PTY_READY")) output.resolve()
   })
   const exit = proc.onExit((event) => {
     state.exited = true
@@ -31,7 +31,7 @@ export async function smoke(file = Shell.preferred(), args: string[] = []) {
   const probe = () => {
     if (state.exited) return
     try {
-      proc.write("echo KILO_PTY_READY\r")
+      proc.write("echo KAPPA_PTY_READY\r")
     } catch (err) {
       output.reject(err)
     }

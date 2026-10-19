@@ -34,13 +34,13 @@ describe("Kappa reference compatibility", () => {
       ])
 
       return Effect.gen(function* () {
-        const previous = process.env.KILO_REPO_CLONE_GITHUB_BASE_URL
+        const previous = process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL
         const base = pathToFileURL(fixture.root).href
-        process.env.KILO_REPO_CLONE_GITHUB_BASE_URL = base.endsWith("/") ? base : `${base}/`
+        process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL = base.endsWith("/") ? base : `${base}/`
         yield* Effect.addFinalizer(() =>
           Effect.sync(() => {
-            if (previous === undefined) delete process.env.KILO_REPO_CLONE_GITHUB_BASE_URL
-            else process.env.KILO_REPO_CLONE_GITHUB_BASE_URL = previous
+            if (previous === undefined) delete process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL
+            else process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL = previous
           }),
         )
 

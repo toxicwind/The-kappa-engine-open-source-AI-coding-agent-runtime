@@ -11,7 +11,7 @@ import { disposeAllInstances, tmpdir } from "../../../fixture/fixture"
 void Log.init({ print: false })
 
 const env = {
-  KILO_AUTH_CONTENT: process.env.KILO_AUTH_CONTENT,
+  KAPPA_AUTH_CONTENT: process.env.KAPPA_AUTH_CONTENT,
   INCEPTION_API_KEY: process.env.INCEPTION_API_KEY,
 }
 
@@ -35,7 +35,7 @@ function app() {
       Layer.provide(
         ConfigProvider.layer(
           ConfigProvider.fromUnknown({
-            KILO_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KILO_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
+            KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: process.env.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER ?? "true",
           }),
         ),
       ),
@@ -79,7 +79,7 @@ function completion(input: RequestInfo | URL) {
 }
 
 function authenticate() {
-  process.env.KILO_AUTH_CONTENT = JSON.stringify({
+  process.env.KAPPA_AUTH_CONTENT = JSON.stringify({
     kappa: {
       type: "oauth",
       refresh: "refresh-token",
@@ -105,12 +105,12 @@ afterEach(async () => {
 
 describe("HttpApi Kappa next edit", () => {
   test("requires Kappa Gateway authentication for the Kappa-backed model", async () => {
-    process.env.KILO_AUTH_CONTENT = "{}"
+    process.env.KAPPA_AUTH_CONTENT = "{}"
     expect((await send()).status).toBe(401)
   })
 
   test("rejects non-edit placeholder targets", async () => {
-    process.env.KILO_AUTH_CONTENT = "{}"
+    process.env.KAPPA_AUTH_CONTENT = "{}"
     expect((await send({ ...edit, model: "mistralai/codestral-2508" })).status).toBe(400)
   })
 
@@ -150,7 +150,7 @@ describe("HttpApi Kappa next edit", () => {
   })
 
   test("preserves direct Inception BYOK edits", async () => {
-    process.env.KILO_AUTH_CONTENT = "{}"
+    process.env.KAPPA_AUTH_CONTENT = "{}"
     process.env.INCEPTION_API_KEY = "inception-token"
     const calls: Array<{ input: RequestInfo | URL; init?: RequestInit }> = []
     const mock = stub(async (input, init) => {

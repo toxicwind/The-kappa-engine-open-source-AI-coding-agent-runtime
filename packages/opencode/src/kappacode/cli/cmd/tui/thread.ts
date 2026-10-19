@@ -55,10 +55,10 @@ export namespace KappaTuiThreadDaemon {
   // worker credentials once so the spawned worker server and the TUI's SDK
   // clients share the same Basic auth material.
   export function workerAuth() {
-    const password = Flag.KILO_SERVER_PASSWORD ?? randomUUID()
-    const username = Flag.KILO_SERVER_USERNAME ?? "kappa"
+    const password = Flag.KAPPA_SERVER_PASSWORD ?? randomUUID()
+    const username = Flag.KAPPA_SERVER_USERNAME ?? "kappa"
     return {
-      env: { KILO_SERVER_USERNAME: username, KILO_SERVER_PASSWORD: password },
+      env: { KAPPA_SERVER_USERNAME: username, KAPPA_SERVER_PASSWORD: password },
       headers: ServerAuth.headers({ password, username }),
     }
   }

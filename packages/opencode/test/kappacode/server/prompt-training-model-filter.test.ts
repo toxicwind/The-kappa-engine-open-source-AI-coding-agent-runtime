@@ -52,25 +52,25 @@ for (const scenario of [
     Effect.gen(function* () {
       yield* Effect.acquireRelease(
         Effect.sync(() => {
-          const previous = Flag.KILO_DISABLE_MODELS_FETCH
-          Flag.KILO_DISABLE_MODELS_FETCH = true
+          const previous = Flag.KAPPA_DISABLE_MODELS_FETCH
+          Flag.KAPPA_DISABLE_MODELS_FETCH = true
           return previous
         }),
         (previous) =>
           Effect.sync(() => {
-            Flag.KILO_DISABLE_MODELS_FETCH = previous
+            Flag.KAPPA_DISABLE_MODELS_FETCH = previous
           }),
       )
       const cache = yield* ModelCache.Service
       yield* cache.clear("kappa")
       const env = {
-        KILO_AUTH_CONTENT: process.env.KILO_AUTH_CONTENT,
-        KILO_API_KEY: process.env.KILO_API_KEY,
-        KILO_ORG_ID: process.env.KILO_ORG_ID,
+        KAPPA_AUTH_CONTENT: process.env.KAPPA_AUTH_CONTENT,
+        KAPPA_API_KEY: process.env.KAPPA_API_KEY,
+        KAPPA_ORG_ID: process.env.KAPPA_ORG_ID,
       }
       yield* Effect.acquireRelease(
         Effect.sync(() => {
-          process.env.KILO_AUTH_CONTENT = JSON.stringify({
+          process.env.KAPPA_AUTH_CONTENT = JSON.stringify({
             kappa: {
               type: "oauth",
               access: "test-token",
@@ -79,8 +79,8 @@ for (const scenario of [
               accountId: "org-oauth",
             },
           })
-          delete process.env.KILO_API_KEY
-          process.env.KILO_ORG_ID = "org-env"
+          delete process.env.KAPPA_API_KEY
+          process.env.KAPPA_ORG_ID = "org-env"
         }),
         () =>
           Effect.sync(() => {
@@ -271,15 +271,15 @@ it.live(
       ),
       (tmp) => Effect.promise(() => tmp[Symbol.asyncDispose]()),
     )
-    const key = process.env.KILO_API_KEY
+    const key = process.env.KAPPA_API_KEY
     yield* Effect.acquireRelease(
       Effect.sync(() => {
-        process.env.KILO_API_KEY = "test-key"
+        process.env.KAPPA_API_KEY = "test-key"
       }),
       () =>
         Effect.sync(() => {
-          if (key === undefined) delete process.env.KILO_API_KEY
-          else process.env.KILO_API_KEY = key
+          if (key === undefined) delete process.env.KAPPA_API_KEY
+          else process.env.KAPPA_API_KEY = key
         }),
     )
 

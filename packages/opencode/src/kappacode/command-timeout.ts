@@ -5,7 +5,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
 import type { ChildProcessHandle } from "effect/unstable/process/ChildProcessSpawner"
 
 function max() {
-  const value = process.env.KILO_COMMAND_TIMEOUT_MAX_MS
+  const value = process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS
   if (!value) return
   const timeout = Number(value)
   return Number.isInteger(timeout) && timeout > 0 ? timeout : undefined
@@ -30,7 +30,7 @@ export namespace CommandTimeout {
   }
 
   export function note(limit: Limit, text: string) {
-    const msg = process.env.KILO_COMMAND_TIMEOUT_MAX_MS_MESSAGE?.trim()
+    const msg = process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS_MESSAGE?.trim()
     const base = `${text} after exceeding environment timeout ${limit.timeout} ms.`
     return msg ? `${base} ${msg}` : base
   }

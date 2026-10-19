@@ -48,10 +48,10 @@ const ORG_ENV = "11111111-2222-4333-8444-555555555555"
 const ORG_AUTH = "99999999-8888-4777-8666-555555555555"
 
 const ENV_KEYS = [
-  "KILO_API_KEY",
-  "KILO_SESSION_INGEST_URL",
-  "KILO_ORG_ID",
-  "KILO_AGENT_NOTIFICATION_TIMEOUT_MS",
+  "KAPPA_API_KEY",
+  "KAPPA_SESSION_INGEST_URL",
+  "KAPPA_ORG_ID",
+  "KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS",
 ] as const
 
 /** Snapshot env keys we patch so afterEach can restore even if layer build fails. */
@@ -78,7 +78,7 @@ function restoreFetch() {
 }
 
 beforeEach(() => {
-  delete process.env.KILO_ORG_ID
+  delete process.env.KAPPA_ORG_ID
   clearRenameMarks()
 })
 
@@ -87,7 +87,7 @@ beforeEach(() => {
 afterEach(() => {
   restoreFetch()
   restoreEnv()
-  delete process.env.KILO_ORG_ID
+  delete process.env.KAPPA_ORG_ID
   clearRenameMarks()
   reset("test-token")
 })
@@ -208,13 +208,13 @@ const drainIngest = Effect.gen(function* () {
   yield* Effect.promise(() => KappaSessions.drainIngestForShutdown())
 })
 
-it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountId", () => {
+it.instance("meta org precedence: session metadata > KAPPA_ORG_ID > auth accountId", () => {
   const requests: Req[] = []
   installFetch(mockFetch(requests))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_ORG_ID: ORG_ENV,
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_ORG_ID: ORG_ENV,
   })
   reset("test-token")
 
@@ -253,7 +253,7 @@ it.instance("meta org precedence: session metadata > KILO_ORG_ID > auth accountI
       expect(metaItems(requests).some((m) => m.orgId === ORG_ENV)).toBe(true)
 
       // 3) auth accountId when env cleared
-      delete process.env.KILO_ORG_ID
+      delete process.env.KAPPA_ORG_ID
       clearInFlightCache("kappa-sessions:org")
       requests.length = 0
       const authOnly = yield* sessions.create({})
@@ -270,9 +270,9 @@ it.instance("meta falls through invalid metadata orgId to env", () => {
   const requests: Req[] = []
   installFetch(mockFetch(requests))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_ORG_ID: ORG_ENV,
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_ORG_ID: ORG_ENV,
   })
   reset("test-token")
 
@@ -297,9 +297,9 @@ it.instance("meta falls back to env when session row has no resolvable org", () 
   const requests: Req[] = []
   installFetch(mockFetch(requests))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_ORG_ID: ORG_ENV,
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_ORG_ID: ORG_ENV,
   })
   reset("test-token")
 
@@ -322,10 +322,10 @@ it.instance("meta falls back to env when session row has no resolvable org", () 
 
 it.instance("meta falls back to env when Session.Service.get fails", () => {
   // meta(sessionId) with no preloaded info: resolveSessionOrg loads via the
-  // global runtime; unknown id → get rejects → .catch(() => null) → KILO_ORG_ID.
+  // global runtime; unknown id → get rejects → .catch(() => null) → KAPPA_ORG_ID.
   // Must not throw or drop the process-global org claim on a fetch blip.
   // Production callers pass info; this path is API robustness when they omit it.
-  patchEnv({ KILO_ORG_ID: ORG_ENV })
+  patchEnv({ KAPPA_ORG_ID: ORG_ENV })
   clearInFlightCache("kappa-sessions:org")
 
   return Effect.gen(function* () {
@@ -338,9 +338,9 @@ it.instance("title broadcast: auto-title posts generated true; custom posts gene
   const requests: Req[] = []
   installFetch(mockFetch(requests))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
   })
   reset("test-token")
 
@@ -402,9 +402,9 @@ it.instance(
     const requests: Req[] = []
     installFetch(mockFetch(requests))
     patchEnv({
-      KILO_API_KEY: "test-token",
-      KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-      KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+      KAPPA_API_KEY: "test-token",
+      KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+      KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
     })
     reset("test-token")
 
@@ -444,9 +444,9 @@ it.instance("title broadcast: first rename after create (rename-before-prompt) P
   const requests: Req[] = []
   installFetch(mockFetch(requests))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
   })
   reset("test-token")
 
@@ -471,9 +471,9 @@ it.instance("title broadcast: first rename after restart seeds from list and POS
   const requests: Req[] = []
   installFetch(mockFetch(requests))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
   })
   reset("test-token")
 
@@ -518,9 +518,9 @@ it.instance("reportSessionTitle goes through readiness and tolerates POST failur
   )
   installFetch(fetch)
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
   })
   reset("test-token")
 
@@ -541,8 +541,8 @@ it.instance("reportSessionTitle goes through readiness and tolerates POST failur
 })
 
 it.instance("reportSessionTitle reports not_connected when unauthenticated", () => {
-  patchEnv({ KILO_API_KEY: undefined })
-  delete process.env.KILO_API_KEY
+  patchEnv({ KAPPA_API_KEY: undefined })
+  delete process.env.KAPPA_API_KEY
   reset()
 
   return Effect.gen(function* () {
@@ -557,9 +557,9 @@ it.instance("title report: permanent 4xx failure preserves title so same-title U
   const titleStatuses = new Map<string, number>()
   installFetch(titleTestFetch(requests, titleStatuses, "remote-4xx"))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
   })
   reset("test-token")
 
@@ -601,9 +601,9 @@ it.instance("title report: transient 5xx failure restores title so same-title Up
   const titleStatuses = new Map<string, number>()
   installFetch(titleTestFetch(requests, titleStatuses, "remote-5xx"))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
   })
   reset("test-token")
 
@@ -646,9 +646,9 @@ it.instance("title report: transient 408/429 restores title so same-title Update
   const titleStatuses = new Map<string, number>()
   installFetch(titleTestFetch(requests, titleStatuses, "remote-4xxr"))
   patchEnv({
-    KILO_API_KEY: "test-token",
-    KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-    KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+    KAPPA_API_KEY: "test-token",
+    KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+    KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
   })
   reset("test-token")
 
@@ -727,9 +727,9 @@ it.instance(
     )
     installFetch(fetch)
     patchEnv({
-      KILO_API_KEY: "test-token",
-      KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-      KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+      KAPPA_API_KEY: "test-token",
+      KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+      KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
     })
     reset("test-token")
 
@@ -785,9 +785,9 @@ it.instance(
     const requests: Req[] = []
     installFetch(mockFetch(requests))
     patchEnv({
-      KILO_API_KEY: "test-token",
-      KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-      KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+      KAPPA_API_KEY: "test-token",
+      KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+      KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
     })
     reset("test-token")
 
@@ -859,9 +859,9 @@ it.instance(
     const requests: Req[] = []
     installFetch(mockFetch(requests))
     patchEnv({
-      KILO_API_KEY: "test-token",
-      KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-      KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+      KAPPA_API_KEY: "test-token",
+      KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+      KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
     })
     reset("test-token")
 
@@ -902,9 +902,9 @@ it.instance(
     const requests: Req[] = []
     installFetch(mockFetch(requests))
     patchEnv({
-      KILO_API_KEY: "test-token",
-      KILO_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
-      KILO_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
+      KAPPA_API_KEY: "test-token",
+      KAPPA_SESSION_INGEST_URL: "https://ingest.kappasessions.ai",
+      KAPPA_AGENT_NOTIFICATION_TIMEOUT_MS: "5000",
     })
     reset("test-token")
 

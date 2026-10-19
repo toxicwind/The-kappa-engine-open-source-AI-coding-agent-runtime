@@ -35,37 +35,37 @@ describe("shared agent board enablement", () => {
 
   it.effect("enables when the specific env flag is true", () =>
     Effect.gen(function* () {
-      expect(yield* resolve(undefined, { KILO_EXPERIMENTAL_SHARED_AGENT_BOARD: "true" })).toBe(true)
+      expect(yield* resolve(undefined, { KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD: "true" })).toBe(true)
     }),
   )
 
   it.effect("disables when the specific env flag is false", () =>
     Effect.gen(function* () {
-      expect(yield* resolve(undefined, { KILO_EXPERIMENTAL_SHARED_AGENT_BOARD: "false" })).toBe(false)
+      expect(yield* resolve(undefined, { KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD: "false" })).toBe(false)
     }),
   )
 
   it.effect("lets the env opt-out win over an explicit config enable", () =>
     Effect.gen(function* () {
-      expect(yield* resolve(true, { KILO_EXPERIMENTAL_SHARED_AGENT_BOARD: "false" })).toBe(false)
+      expect(yield* resolve(true, { KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD: "false" })).toBe(false)
     }),
   )
 
   it.effect("lets the config opt-out win over the specific env enable", () =>
     Effect.gen(function* () {
-      expect(yield* resolve(false, { KILO_EXPERIMENTAL_SHARED_AGENT_BOARD: "true" })).toBe(false)
+      expect(yield* resolve(false, { KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD: "true" })).toBe(false)
     }),
   )
 
-  it.effect("stays enabled when the KILO_EXPERIMENTAL umbrella is true", () =>
+  it.effect("stays enabled when the KAPPA_EXPERIMENTAL umbrella is true", () =>
     Effect.gen(function* () {
-      expect(yield* resolve(undefined, { KILO_EXPERIMENTAL: "true" })).toBe(true)
+      expect(yield* resolve(undefined, { KAPPA_EXPERIMENTAL: "true" })).toBe(true)
     }),
   )
 
-  it.effect("stays enabled when the KILO_EXPERIMENTAL umbrella is false", () =>
+  it.effect("stays enabled when the KAPPA_EXPERIMENTAL umbrella is false", () =>
     Effect.gen(function* () {
-      expect(yield* resolve(undefined, { KILO_EXPERIMENTAL: "false" })).toBe(true)
+      expect(yield* resolve(undefined, { KAPPA_EXPERIMENTAL: "false" })).toBe(true)
     }),
   )
 })

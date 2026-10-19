@@ -63,17 +63,17 @@ it.instance(
     const source = `http://127.0.0.1:${server.port}`
     const file = path.join(Global.Path.cache, `models-${Hash.fast(source)}.json`)
     const flags = {
-      source: Flag.KILO_MODELS_URL,
-      path: Flag.KILO_MODELS_PATH,
-      disabled: Flag.KILO_DISABLE_MODELS_FETCH,
+      source: Flag.KAPPA_MODELS_URL,
+      path: Flag.KAPPA_MODELS_PATH,
+      disabled: Flag.KAPPA_DISABLE_MODELS_FETCH,
       key: process.env.ACME_API_KEY,
     }
 
     yield* Effect.acquireUseRelease(
       Effect.promise(async () => {
-        Flag.KILO_MODELS_URL = source
-        Flag.KILO_MODELS_PATH = undefined
-        Flag.KILO_DISABLE_MODELS_FETCH = true
+        Flag.KAPPA_MODELS_URL = source
+        Flag.KAPPA_MODELS_PATH = undefined
+        Flag.KAPPA_DISABLE_MODELS_FETCH = true
         process.env.ACME_API_KEY = "test-key"
         await mkdir(Global.Path.cache, { recursive: true })
         await writeFile(file, JSON.stringify(initial))
@@ -95,9 +95,9 @@ it.instance(
         }).pipe(Effect.provide(Layer.merge(AppNodeBuilder.build(ModelsDev.node), AppNodeBuilder.build(Provider.node)))),
       () =>
         Effect.promise(async () => {
-          Flag.KILO_MODELS_URL = flags.source
-          Flag.KILO_MODELS_PATH = flags.path
-          Flag.KILO_DISABLE_MODELS_FETCH = flags.disabled
+          Flag.KAPPA_MODELS_URL = flags.source
+          Flag.KAPPA_MODELS_PATH = flags.path
+          Flag.KAPPA_DISABLE_MODELS_FETCH = flags.disabled
           if (flags.key === undefined) delete process.env.ACME_API_KEY
           else process.env.ACME_API_KEY = flags.key
           await rm(file, { force: true })

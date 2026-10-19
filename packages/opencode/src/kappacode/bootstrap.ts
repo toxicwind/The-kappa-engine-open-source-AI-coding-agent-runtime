@@ -95,7 +95,7 @@ export namespace KappacodeBootstrap {
             Effect.sync(() => log.warn("session export bootstrap failed", { err: Cause.squash(cause) })),
           ),
         )
-        if (process.env["KILO_PLATFORM"] !== "vscode") {
+        if (process.env["KAPPA_PLATFORM"] !== "vscode") {
           yield* EffectBridge.fromPromise(() =>
             import("@/kappacode/indexing").then((mod) => mod.KappaIndexing.init()),
           ).pipe(

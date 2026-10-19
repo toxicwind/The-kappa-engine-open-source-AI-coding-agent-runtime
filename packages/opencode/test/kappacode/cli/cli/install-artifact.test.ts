@@ -12,7 +12,7 @@ describe("npm install artifact behavior", () => {
   test("keeps the CLI wrapper contract", async () => {
     const text = await fs.readFile(wrapper, "utf8")
     expect(text.startsWith("#!/usr/bin/env node")).toBe(true)
-    expect(text).toContain("const envPath = process.env.KILO_BIN_PATH")
+    expect(text).toContain("const envPath = process.env.KAPPA_BIN_PATH")
     expect(text).toContain('const base = "@kappacode/cli-" + platform + "-" + arch')
     expect(text).toContain("function findBinary(startDir)")
   })

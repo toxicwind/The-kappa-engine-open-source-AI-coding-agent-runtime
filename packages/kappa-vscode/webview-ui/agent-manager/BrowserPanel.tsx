@@ -27,7 +27,7 @@ export function createBrowserPanel(
   sessions: Accessor<{ id: string }[]>,
 ) {
   const [enabled, configure] = createSignal(
-    (globalThis as typeof globalThis & { KILO_BROWSER_AUTOMATION?: boolean }).KILO_BROWSER_AUTOMATION === true,
+    (globalThis as typeof globalThis & { KAPPA_BROWSER_AUTOMATION?: boolean }).KAPPA_BROWSER_AUTOMATION === true,
   )
   const [cached, setCached] = createSignal(false)
   const visible = () => current() === SidePanel.Browser

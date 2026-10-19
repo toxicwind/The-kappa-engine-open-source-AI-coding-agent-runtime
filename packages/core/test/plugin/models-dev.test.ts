@@ -137,11 +137,11 @@ describe("ModelsDevPlugin", () => {
     Effect.acquireUseRelease(
       Effect.sync(() => {
         const previous = {
-          path: Flag.KILO_MODELS_PATH,
-          disabled: Flag.KILO_DISABLE_MODELS_FETCH,
+          path: Flag.KAPPA_MODELS_PATH,
+          disabled: Flag.KAPPA_DISABLE_MODELS_FETCH,
         }
-        Flag.KILO_MODELS_PATH = path.join(import.meta.dir, "fixtures", "models-dev.json")
-        Flag.KILO_DISABLE_MODELS_FETCH = true
+        Flag.KAPPA_MODELS_PATH = path.join(import.meta.dir, "fixtures", "models-dev.json")
+        Flag.KAPPA_DISABLE_MODELS_FETCH = true
         return previous
       }),
       () =>
@@ -171,8 +171,8 @@ describe("ModelsDevPlugin", () => {
         }).pipe(Effect.provide(AppNodeBuilder.build(ModelsDev.node))),
       (previous) =>
         Effect.sync(() => {
-          Flag.KILO_MODELS_PATH = previous.path
-          Flag.KILO_DISABLE_MODELS_FETCH = previous.disabled
+          Flag.KAPPA_MODELS_PATH = previous.path
+          Flag.KAPPA_DISABLE_MODELS_FETCH = previous.disabled
         }),
     ),
   )

@@ -90,10 +90,10 @@ describe("BrowserBroker", () => {
     }
     const broker = fixture(page)
     const env = await broker.env()
-    const response = await fetch(`${env.KILO_BROWSER_BROKER_URL}/browser/open`, {
+    const response = await fetch(`${env.KAPPA_BROWSER_BROKER_URL}/browser/open`, {
       method: "POST",
       headers: {
-        authorization: `Bearer ${env.KILO_BROWSER_BROKER_TOKEN}`,
+        authorization: `Bearer ${env.KAPPA_BROWSER_BROKER_TOKEN}`,
         "content-type": "application/json",
       },
       body: JSON.stringify({ sessionID: "refused", directory: "/tmp/project", url: "http://localhost:31847/" }),
@@ -143,10 +143,10 @@ describe("BrowserBroker", () => {
       () => decision.promise,
     )
     const env = await broker.env()
-    const response = await fetch(`${env.KILO_BROWSER_BROKER_URL}/browser/open`, {
+    const response = await fetch(`${env.KAPPA_BROWSER_BROKER_URL}/browser/open`, {
       method: "POST",
       headers: {
-        authorization: `Bearer ${env.KILO_BROWSER_BROKER_TOKEN}`,
+        authorization: `Bearer ${env.KAPPA_BROWSER_BROKER_TOKEN}`,
         "content-type": "application/json",
       },
       body: JSON.stringify({ sessionID: "approval", directory: "/tmp/project", url: "https://google.com/" }),
@@ -262,10 +262,10 @@ describe("BrowserBroker", () => {
     })
     const env = await broker.env()
     const request = () =>
-      fetch(`${env.KILO_BROWSER_BROKER_URL}/browser/open`, {
+      fetch(`${env.KAPPA_BROWSER_BROKER_URL}/browser/open`, {
         method: "POST",
         headers: {
-          authorization: `Bearer ${env.KILO_BROWSER_BROKER_TOKEN}`,
+          authorization: `Bearer ${env.KAPPA_BROWSER_BROKER_TOKEN}`,
           "content-type": "application/json",
         },
         body: JSON.stringify({ sessionID: "agent", directory: "/tmp/project", url: "http://localhost:3000/" }),
@@ -289,7 +289,7 @@ describe("BrowserBroker", () => {
     brokers.push(broker)
     const env = await broker.env()
     const result = await new Promise<{ status?: number; body: string }>((resolve, reject) => {
-      const url = new URL(`${env.KILO_BROWSER_BROKER_URL}/browser/state`)
+      const url = new URL(`${env.KAPPA_BROWSER_BROKER_URL}/browser/state`)
       const req = request(url, { method: "POST", headers: { "content-type": "application/json" } }, (res) => {
         const chunks: Buffer[] = []
         res.on("data", (chunk) => chunks.push(chunk))
@@ -300,7 +300,7 @@ describe("BrowserBroker", () => {
     })
     expect(result.status).toBe(401)
     expect(JSON.parse(result.body)).toEqual({ error: "Unauthorized" })
-    const malformed = await fetch(`${env.KILO_BROWSER_BROKER_URL}/browser/status`, {
+    const malformed = await fetch(`${env.KAPPA_BROWSER_BROKER_URL}/browser/status`, {
       headers: { authorization: `Bearer ${"é".repeat(64)}` },
     })
     expect(malformed.status).toBe(401)
@@ -312,8 +312,8 @@ describe("BrowserBroker", () => {
     const broker = new BrowserBroker({ log: () => {}, enabled: () => enabled, trusted: () => trusted })
     brokers.push(broker)
     const env = await broker.env()
-    const headers = { authorization: `Bearer ${env.KILO_BROWSER_BROKER_TOKEN}` }
-    const url = `${env.KILO_BROWSER_BROKER_URL}/browser/status`
+    const headers = { authorization: `Bearer ${env.KAPPA_BROWSER_BROKER_TOKEN}` }
+    const url = `${env.KAPPA_BROWSER_BROKER_URL}/browser/status`
     expect((await fetch(url)).status).toBe(401)
     expect(await (await fetch(url, { headers })).json()).toEqual({ enabled: false })
     enabled = true
@@ -433,7 +433,7 @@ describe("BrowserBroker", () => {
       const first = await broker.devtools("first", "project")
       const second = await broker.devtools("second", "project", "light")
       expect(first.browserId).not.toBe(second.browserId)
-      expect(first.url).not.toContain(env.KILO_BROWSER_BROKER_TOKEN)
+      expect(first.url).not.toContain(env.KAPPA_BROWSER_BROKER_TOKEN)
       expect(new URL(first.url).searchParams.has("can_dock")).toBe(false)
       const frontend = await fetch(first.url)
       expect(frontend.status).toBe(200)
@@ -548,10 +548,10 @@ describe("BrowserBroker", () => {
     )
     const env = await broker.env()
     const headers = {
-      authorization: `Bearer ${env.KILO_BROWSER_BROKER_TOKEN}`,
+      authorization: `Bearer ${env.KAPPA_BROWSER_BROKER_TOKEN}`,
       "content-type": "application/json",
     }
-    const url = `${env.KILO_BROWSER_BROKER_URL}/browser/open`
+    const url = `${env.KAPPA_BROWSER_BROKER_URL}/browser/open`
     for (const input of [
       { sessionID: "unknown", directory: "/tmp/known", url: "http://localhost:3000/" },
       { sessionID: "known", directory: "/tmp/other", url: "http://localhost:3000/" },

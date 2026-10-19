@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from "bun:test"
 
-const env = "KILO_LANCEDB_PATH"
+const env = "KAPPA_LANCEDB_PATH"
 const prev = process.env[env]
 
 afterEach(() => {

@@ -1089,8 +1089,8 @@ async function load(input: {
       }).pipe(Effect.provide(AppNodeBuilder.build(RuntimeFlags.node))),
     )
     const pluginOrigins = config.plugin_origins ?? (await TuiConfig.pluginOrigins())
-    const records = Flag.KILO_PURE ? [] : pluginOrigins
-    if (Flag.KILO_PURE && pluginOrigins.length) {
+    const records = Flag.KAPPA_PURE ? [] : pluginOrigins
+    if (Flag.KAPPA_PURE && pluginOrigins.length) {
     }
 
     for (const item of internalTuiPlugins(flags)) {

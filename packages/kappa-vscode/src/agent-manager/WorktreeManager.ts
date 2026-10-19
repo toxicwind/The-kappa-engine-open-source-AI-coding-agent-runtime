@@ -122,7 +122,7 @@ function stripRemotePrefix(ref: string): { branch: string; remote?: string } {
   return { branch: ref }
 }
 
-import { KILO_DIR, LEGACY_DIR, migrateAgentManagerData, resolveGitDir } from "./constants"
+import { KAPPA_DIR, LEGACY_DIR, migrateAgentManagerData, resolveGitDir } from "./constants"
 
 const SESSION_ID_FILE = "session-id"
 const METADATA_FILE = "metadata.json"
@@ -160,7 +160,7 @@ export class WorktreeManager {
     home?: string,
   ) {
     this.root = root
-    this.dir = path.join(root, KILO_DIR, "worktrees")
+    this.dir = path.join(root, KAPPA_DIR, "worktrees")
     this.ops = ops
     this.binary = binary ?? ops?.path ?? "git"
     this.git = this.client(root)
@@ -949,7 +949,7 @@ export class WorktreeManager {
     if (current) return current
 
     // Check .kappa/ first, then legacy .kappacode/
-    for (const dirName of [KILO_DIR, LEGACY_DIR]) {
+    for (const dirName of [KAPPA_DIR, LEGACY_DIR]) {
       const result = await this.readMetadataFrom(worktreePath, dirName)
       if (result) return result
     }

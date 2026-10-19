@@ -205,13 +205,13 @@ describe("sandbox policy", () => {
       { path: Global.Path.config, kind: "subtree" },
     ])
     expect(policy.environment.deny).toEqual([
-      "KILO_CONFIG",
-      "KILO_CONFIG_CONTENT",
-      "KILO_CONFIG_DIR",
-      "KILO_SERVER_PASSWORD",
-      "KILO_SERVER_USERNAME",
-      "KILO_BROWSER_BROKER_URL",
-      "KILO_BROWSER_BROKER_TOKEN",
+      "KAPPA_CONFIG",
+      "KAPPA_CONFIG_CONTENT",
+      "KAPPA_CONFIG_DIR",
+      "KAPPA_SERVER_PASSWORD",
+      "KAPPA_SERVER_USERNAME",
+      "KAPPA_BROWSER_BROKER_URL",
+      "KAPPA_BROWSER_BROKER_TOKEN",
     ])
     expect(Exit.isFailure(storeWrite)).toBe(true)
     expect(Exit.isFailure(prefWrite)).toBe(true)

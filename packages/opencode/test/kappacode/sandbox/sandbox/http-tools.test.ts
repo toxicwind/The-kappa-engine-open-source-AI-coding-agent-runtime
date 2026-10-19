@@ -173,8 +173,8 @@ describe("model HTTP tool network policy", () => {
         })
       })
       const env = yield* Env.Service
-      yield* env.set("KILO_BROWSER_BROKER_URL", server.url.origin)
-      yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+      yield* env.set("KAPPA_BROWSER_BROKER_URL", server.url.origin)
+      yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
       const info = yield* BrowserOpenTool
       const browser = yield* info.init()
       const result = yield* run(
@@ -217,8 +217,8 @@ describe("model HTTP tool network policy", () => {
         })
       })
       const env = yield* Env.Service
-      yield* env.set("KILO_BROWSER_BROKER_URL", server.url.origin)
-      yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+      yield* env.set("KAPPA_BROWSER_BROKER_URL", server.url.origin)
+      yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
       const info = yield* BrowserOpenTool
       const browser = yield* info.init()
       const result = yield* run(
@@ -258,8 +258,8 @@ describe("model HTTP tool network policy", () => {
         })
         const http = yield* HttpClient.HttpClient
         const env = yield* Env.Service
-        yield* env.set("KILO_BROWSER_BROKER_URL", server.url.origin)
-        yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+        yield* env.set("KAPPA_BROWSER_BROKER_URL", server.url.origin)
+        yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
         const info = yield* BrowserOpenTool
         const browser = yield* info.init()
         const result = yield* run(
@@ -310,8 +310,8 @@ describe("model HTTP tool network policy", () => {
       })
       const server = yield* serve(() => Response.redirect(target.url, 302))
       const env = yield* Env.Service
-      yield* env.set("KILO_BROWSER_BROKER_URL", server.url.origin)
-      yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+      yield* env.set("KAPPA_BROWSER_BROKER_URL", server.url.origin)
+      yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
       const info = yield* BrowserOpenTool
       const browser = yield* info.init()
       const result = yield* run(
@@ -336,8 +336,8 @@ describe("model HTTP tool network policy", () => {
         return new Response("unexpected")
       })
       const env = yield* Env.Service
-      yield* env.set("KILO_BROWSER_BROKER_URL", server.url.origin)
-      yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+      yield* env.set("KAPPA_BROWSER_BROKER_URL", server.url.origin)
+      yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
       const info = yield* BrowserOpenTool
       const browser = yield* info.init()
       for (const url of [
@@ -382,8 +382,8 @@ describe("model HTTP tool network policy", () => {
     Effect.gen(function* () {
       const server = yield* serve(() => new Response("not json", { headers: { "content-type": "application/json" } }))
       const env = yield* Env.Service
-      yield* env.set("KILO_BROWSER_BROKER_URL", server.url.origin)
-      yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+      yield* env.set("KAPPA_BROWSER_BROKER_URL", server.url.origin)
+      yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
       const info = yield* BrowserOpenTool
       const browser = yield* info.init()
       const result = yield* run(
@@ -406,8 +406,8 @@ describe("model HTTP tool network policy", () => {
         return new Response("cancelled")
       })
       const env = yield* Env.Service
-      yield* env.set("KILO_BROWSER_BROKER_URL", server.url.origin)
-      yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+      yield* env.set("KAPPA_BROWSER_BROKER_URL", server.url.origin)
+      yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
       const info = yield* BrowserOpenTool
       const browser = yield* info.init()
       const result = yield* run(
@@ -425,8 +425,8 @@ describe("model HTTP tool network policy", () => {
   it.instance("rejects browser broker origins outside the injected loopback endpoint", () =>
     Effect.gen(function* () {
       const env = yield* Env.Service
-      yield* env.set("KILO_BROWSER_BROKER_URL", "https://example.com")
-      yield* env.set("KILO_BROWSER_BROKER_TOKEN", "browser-secret")
+      yield* env.set("KAPPA_BROWSER_BROKER_URL", "https://example.com")
+      yield* env.set("KAPPA_BROWSER_BROKER_TOKEN", "browser-secret")
       const info = yield* BrowserOpenTool
       const browser = yield* info.init()
       const result = yield* run(

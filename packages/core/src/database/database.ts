@@ -48,14 +48,14 @@ export function layerFromPath(filename: string) {
 }
 
 export function path() {
-  if (Flag.KILO_DB) {
-    if (Flag.KILO_DB === ":memory:" || isAbsolute(Flag.KILO_DB)) return Flag.KILO_DB
-    return join(Global.Path.data, Flag.KILO_DB)
+  if (Flag.KAPPA_DB) {
+    if (Flag.KAPPA_DB === ":memory:" || isAbsolute(Flag.KAPPA_DB)) return Flag.KAPPA_DB
+    return join(Global.Path.data, Flag.KAPPA_DB)
   }
   if (
     ["latest", "beta", "prod"].includes(InstallationChannel) ||
-    process.env.KILO_DISABLE_CHANNEL_DB === "1" ||
-    process.env.KILO_DISABLE_CHANNEL_DB === "true"
+    process.env.KAPPA_DISABLE_CHANNEL_DB === "1" ||
+    process.env.KAPPA_DISABLE_CHANNEL_DB === "true"
   )
     return join(Global.Path.data, "kappa.db")
   // kappacode_change start - kappa-branded dev-channel db name, falling back to a pre-existing opencode-named db
@@ -67,7 +67,7 @@ export function path() {
   // kappacode_change end
 }
 
-// kappacode_change - resolve the database path when the layer builds, not at module evaluation, so KILO_DB overrides set after import (tests, embedded hosts) take effect
+// kappacode_change - resolve the database path when the layer builds, not at module evaluation, so KAPPA_DB overrides set after import (tests, embedded hosts) take effect
 export const node = makeGlobalNode({
   service: Service,
   layer: Layer.unwrap(Effect.sync(() => layerFromPath(path()))),

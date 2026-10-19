@@ -8,7 +8,7 @@ const dir = path.resolve(__dirname, "..")
 
 process.chdir(dir)
 
-const modelsUrl = process.env.KILO_MODELS_URL || "https://models.dev"
+const modelsUrl = process.env.KAPPA_MODELS_URL || "https://models.dev"
 // kappacode_change start
 const cacheFile = path.resolve(dir, "node_modules/.cache/models-dev-api.json")
 const raw = await (async () => {

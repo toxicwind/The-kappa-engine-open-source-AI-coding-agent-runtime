@@ -45,7 +45,7 @@ Links in agent responses use terminal hyperlink metadata when the terminal suppo
 
 Ghostty sends native link clicks through the TUI when mouse capture is enabled. Use `Ctrl+Shift+click` on Linux or `Cmd+Shift+click` on macOS for terminal-native activation. The application click handler does not depend on those modifiers.
 
-If a link cannot open, select and copy its visible URL. Links are opened on the machine running Kappa, so use the copy fallback when Kappa runs over SSH and the browser is on your local machine. `KILO_DISABLE_MOUSE=1` can help diagnose terminal-native link behavior, but it also disables TUI mouse controls and is not required for normal link activation.
+If a link cannot open, select and copy its visible URL. Links are opened on the machine running Kappa, so use the copy fallback when Kappa runs over SSH and the browser is on your local machine. `KAPPA_DISABLE_MOUSE=1` can help diagnose terminal-native link behavior, but it also disables TUI mouse controls and is not required for normal link activation.
 
 ## Update
 
@@ -536,7 +536,7 @@ Use `{env:VARIABLE_NAME}` syntax in config files to reference environment variab
 ```
 
 {% callout type="warning" title="Only works in trusted config" %}
-`{env:VAR}` (and `{file:...}`) references are resolved **only** in trusted config: your global config (`~/.config/kappa`), a config passed via `KILO_CONFIG` / `KILO_CONFIG_CONTENT`, or organization/MDM-managed config. A project-level `kappa.json` / `opencode.json` committed to a repository **cannot** use `{env:VAR}` — the reference is ignored and a warning is logged. This prevents a malicious repository from exfiltrating your secrets to an attacker-controlled `baseURL` simply by being opened. `{file:...}` still works in project config, but only for files that resolve inside the project root — references that leave it (absolute paths outside the root, `../` traversal, and symlink escapes) are rejected.
+`{env:VAR}` (and `{file:...}`) references are resolved **only** in trusted config: your global config (`~/.config/kappa`), a config passed via `KAPPA_CONFIG` / `KAPPA_CONFIG_CONTENT`, or organization/MDM-managed config. A project-level `kappa.json` / `opencode.json` committed to a repository **cannot** use `{env:VAR}` — the reference is ignored and a warning is logged. This prevents a malicious repository from exfiltrating your secrets to an attacker-controlled `baseURL` simply by being opened. `{file:...}` still works in project config, but only for files that resolve inside the project root — references that leave it (absolute paths outside the root, `../` traversal, and symlink escapes) are rejected.
 {% /callout %}
 
 For full details on all configuration options including compaction, file watchers, plugins, and experimental features, see the [OpenCode Config documentation](https://opencode.ai/docs/config).
@@ -703,9 +703,9 @@ Anyone with access to your Kappa account can send messages to your computer when
 
 The CLI supports overriding config values with environment variables. The supported environment variables are:
 
-- `KILO_PROVIDER`: Override the active provider ID
+- `KAPPA_PROVIDER`: Override the active provider ID
 - For `kappacode` provider: `KAPPACODE_<FIELD_NAME>` (e.g., `KAPPACODE_MODEL` → `kappacodeModel`)
-- For other providers: `KILO_<FIELD_NAME>` (e.g., `KILO_API_KEY` → `apiKey`)
+- For other providers: `KILO_<FIELD_NAME>` (e.g., `KAPPA_API_KEY` → `apiKey`)
 
 ## Using the CLI in an Organization
 
@@ -721,6 +721,6 @@ Your selection is persisted locally so it carries over to future sessions.
 
 There is no `--org` or `--team` flag on `kappa run`. Instead, the organization is determined from the following sources, in order of priority (highest first):
 
-1. **`KILO_ORG_ID` environment variable** — Best for non-interactive and CI environments.
+1. **`KAPPA_ORG_ID` environment variable** — Best for non-interactive and CI environments.
 
 2. **`Persisted selection from the last `/teams` pick`** — If you've run an interactive session and selected an organization via `/teams`, that selection is stored in the CLI auth file and reused automatically.

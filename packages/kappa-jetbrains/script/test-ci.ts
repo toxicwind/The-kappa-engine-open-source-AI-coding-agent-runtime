@@ -24,7 +24,7 @@ const gradlew = process.platform === "win32" ? "gradlew.bat" : "./gradlew"
 const args = ["clean", "test", "--continue", "--stacktrace", "--console=plain"]
 const cmd = process.platform === "win32" ? ["cmd.exe", "/c", gradlew, ...args] : [gradlew, ...args]
 const fallback = 45 * 60 * 1000
-const parsed = Number(process.env.KILO_JETBRAINS_TEST_TIMEOUT_MS ?? fallback)
+const parsed = Number(process.env.KAPPA_JETBRAINS_TEST_TIMEOUT_MS ?? fallback)
 const timeout = Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
 
 const proc = Bun.spawn(cmd, {

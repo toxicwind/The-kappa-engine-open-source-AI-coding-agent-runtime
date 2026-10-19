@@ -1,6 +1,6 @@
 // Dev-only JSONL event trace for direct interactive mode.
 //
-// Enable with KILO_DIRECT_TRACE=1. Writes one JSON line per event to
+// Enable with KAPPA_DIRECT_TRACE=1. Writes one JSON line per event to
 // ~/.local/share/kappa/log/direct/<timestamp>-<pid>.jsonl. Also writes // kappacode_change
 // a latest.json pointer so you can quickly find the most recent trace.
 //
@@ -55,7 +55,7 @@ export function trace(): Trace | undefined {
     return state || undefined
   }
 
-  if (!process.env.KILO_DIRECT_TRACE) {
+  if (!process.env.KAPPA_DIRECT_TRACE) {
     state = false
     return undefined
   }

@@ -75,15 +75,15 @@ const normalize = (value: string) => value.replaceAll("\r\n", "\n")
 const githubBase = <A, E, R>(url: string, self: Effect.Effect<A, E, R>) =>
   Effect.acquireUseRelease(
     Effect.sync(() => {
-      const previous = process.env.KILO_REPO_CLONE_GITHUB_BASE_URL
-      process.env.KILO_REPO_CLONE_GITHUB_BASE_URL = url
+      const previous = process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL
+      process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL = url
       return previous
     }),
     () => self,
     (previous) =>
       Effect.sync(() => {
-        if (previous) process.env.KILO_REPO_CLONE_GITHUB_BASE_URL = previous
-        else delete process.env.KILO_REPO_CLONE_GITHUB_BASE_URL
+        if (previous) process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL = previous
+        else delete process.env.KAPPA_REPO_CLONE_GITHUB_BASE_URL
       }),
   )
 

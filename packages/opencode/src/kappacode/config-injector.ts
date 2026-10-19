@@ -110,7 +110,7 @@ export namespace KappacodeConfigInjector {
       return {}
     }
     return {
-      KILO_CONFIG_CONTENT: configJson,
+      KAPPA_CONFIG_CONTENT: configJson,
     }
   }
 }

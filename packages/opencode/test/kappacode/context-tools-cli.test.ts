@@ -27,7 +27,7 @@ describe("experimental self-context tools through the CLI", () => {
     ({ llm, opencode }) =>
       Effect.gen(function* () {
         const server = yield* opencode.serve({
-          env: { KILO_EXPERIMENTAL: "false", KILO_EXPERIMENTAL_CONTEXT_TOOLS: "false" },
+          env: { KAPPA_EXPERIMENTAL: "false", KAPPA_EXPERIMENTAL_CONTEXT_TOOLS: "false" },
         })
         const client = createKappaClient({ baseUrl: server.url })
         const session = yield* Effect.promise(() => client.session.create({ permission: [...permission] }))
@@ -60,7 +60,7 @@ describe("experimental self-context tools through the CLI", () => {
     "reports context information and compacts the context when experimental features are on",
     ({ llm, opencode }) =>
       Effect.gen(function* () {
-        const server = yield* opencode.serve({ env: { KILO_EXPERIMENTAL: "1" } })
+        const server = yield* opencode.serve({ env: { KAPPA_EXPERIMENTAL: "1" } })
         const client = createKappaClient({ baseUrl: server.url })
         const session = yield* Effect.promise(() => client.session.create({ permission: [...permission] }))
         const sessionID = session.data?.id

@@ -35,9 +35,9 @@ export async function load(
 }
 
 function base() {
-  if (!process.env.KILO_API_URL) return "https://app.kappa.ai"
+  if (!process.env.KAPPA_API_URL) return "https://app.kappa.ai"
   try {
-    return new URL(process.env.KILO_API_URL).origin
+    return new URL(process.env.KAPPA_API_URL).origin
   } catch {
     return "https://app.kappa.ai"
   }
