@@ -31,8 +31,8 @@ describe("compose", () => {
     const document = bom()
     expect(document.metadata.component).toMatchObject({ hashes: [{ alg: "SHA-256", content: DIGEST }] })
     const properties = document.metadata.properties as { name: string; value: string }[]
-    expect(properties).toContainEqual({ name: "kilocode:subject:name", value: "kappa-linux-x64.tar.gz" })
-    expect(properties).toContainEqual({ name: "kilocode:subject:sha256", value: DIGEST })
+    expect(properties).toContainEqual({ name: "kappacode:subject:name", value: "kappa-linux-x64.tar.gz" })
+    expect(properties).toContainEqual({ name: "kappacode:subject:sha256", value: DIGEST })
   })
 
   test("derives a deterministic serial number from the subject digest", () => {
@@ -58,10 +58,10 @@ describe("compose", () => {
       build: { commit: "c".repeat(40), channel: "latest", properties: { "build:tag": "jetbrains/v1.2.3" } },
     })
     const properties = document.metadata.properties as { name: string; value: string }[]
-    expect(properties).toContainEqual({ name: "kilocode:target:abi", value: "musl" })
-    expect(properties).toContainEqual({ name: "kilocode:target:baseline", value: "true" })
-    expect(properties).toContainEqual({ name: "kilocode:build:commit", value: "c".repeat(40) })
-    expect(properties).toContainEqual({ name: "kilocode:build:tag", value: "jetbrains/v1.2.3" })
+    expect(properties).toContainEqual({ name: "kappacode:target:abi", value: "musl" })
+    expect(properties).toContainEqual({ name: "kappacode:target:baseline", value: "true" })
+    expect(properties).toContainEqual({ name: "kappacode:build:commit", value: "c".repeat(40) })
+    expect(properties).toContainEqual({ name: "kappacode:build:tag", value: "jetbrains/v1.2.3" })
   })
 
   test("maps delivery onto CycloneDX scope so host-provided code is not claimed as shipped", async () => {
@@ -80,7 +80,7 @@ describe("compose", () => {
   test("records coverage gaps instead of silently omitting unknown data", () => {
     const document = bom({ gaps: [{ component: "syft", reason: "not installed" }] })
     expect(document.metadata.properties).toContainEqual({
-      name: "kilocode:coverage:gap:syft",
+      name: "kappacode:coverage:gap:syft",
       value: "not installed",
     })
   })
@@ -88,7 +88,7 @@ describe("compose", () => {
   test("keeps a gap with no matching component, since there is nothing to reconcile it against", () => {
     const document = bom({ gaps: [{ component: "ghost", reason: "not resolvable from bun.lock" }] })
     expect(document.metadata.properties).toContainEqual({
-      name: "kilocode:coverage:gap:ghost",
+      name: "kappacode:coverage:gap:ghost",
       value: "not resolvable from bun.lock",
     })
   })
@@ -122,7 +122,7 @@ describe("compose", () => {
       { license: { id: "Apache-2.0" } },
     ])
     expect(document.metadata.properties).not.toContainEqual(
-      expect.objectContaining({ name: "kilocode:coverage:gap:com.squareup.okhttp3:okhttp@4.12.0" }),
+      expect.objectContaining({ name: "kappacode:coverage:gap:com.squareup.okhttp3:okhttp@4.12.0" }),
     )
   })
 
@@ -140,7 +140,7 @@ describe("compose", () => {
       ],
     })
     expect(document.metadata.properties).toContainEqual({
-      name: "kilocode:coverage:gap:com.squareup.okhttp3:okhttp@4.12.0",
+      name: "kappacode:coverage:gap:com.squareup.okhttp3:okhttp@4.12.0",
       value: "licence unknown: not tracked by the Gradle version catalog",
     })
   })
@@ -153,7 +153,7 @@ describe("compose", () => {
       ],
       dependencies: { "pkg:npm/a@1": ["pkg:npm/b@1"] },
     })
-    const root = document.dependencies.find((item) => item.ref.startsWith("kilocode:artifact:"))
+    const root = document.dependencies.find((item) => item.ref.startsWith("kappacode:artifact:"))
     expect(root?.dependsOn).toEqual(["pkg:npm/a@1"])
     expect(document.dependencies.find((item) => item.ref === "pkg:npm/a@1")?.dependsOn).toEqual(["pkg:npm/b@1"])
     expect(await validate(document)).toEqual([])
@@ -232,7 +232,7 @@ describe("dedupe", () => {
       dependencies: { cli: ["pkg:npm/dep@1"] },
     })
     expect(await validate(document)).toEqual([])
-    const root = document.dependencies.find((item) => item.ref.startsWith("kilocode:artifact:"))
+    const root = document.dependencies.find((item) => item.ref.startsWith("kappacode:artifact:"))
     expect(root?.dependsOn).toEqual(["cli"])
     expect(document.dependencies.find((item) => item.ref === "cli")?.dependsOn).toEqual(["pkg:npm/dep@1"])
   })
@@ -243,7 +243,7 @@ describe("validate", () => {
     const document = bom()
     document.metadata.properties = []
     expect(await validate(document)).toEqual(
-      expect.arrayContaining([expect.stringContaining("kilocode:subject:name")]),
+      expect.arrayContaining([expect.stringContaining("kappacode:subject:name")]),
     )
   })
 

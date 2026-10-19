@@ -169,19 +169,19 @@ export function closure(input: { lock: Lock; workspace: string; platform?: Platf
   const workspaceRefs = new Map<string, string>()
   for (const [dir, meta] of Object.entries(input.lock.workspaces)) {
     if (dir === "" || !meta.name) continue
-    workspaceRefs.set(meta.name, `kilocode:workspace:${meta.name}@${meta.version ?? "0.0.0"}`)
+    workspaceRefs.set(meta.name, `kappacode:workspace:${meta.name}@${meta.version ?? "0.0.0"}`)
   }
 
   const queue: { from: string; owner: string; deps: Record<string, string>; optional: boolean }[] = [
     {
       from: "",
-      owner: input.root ?? `kilocode:workspace:${workspace.name}@${workspace.version ?? "0.0.0"}`,
+      owner: input.root ?? `kappacode:workspace:${workspace.name}@${workspace.version ?? "0.0.0"}`,
       deps: { ...workspace.dependencies },
       optional: false,
     },
     {
       from: "",
-      owner: input.root ?? `kilocode:workspace:${workspace.name}@${workspace.version ?? "0.0.0"}`,
+      owner: input.root ?? `kappacode:workspace:${workspace.name}@${workspace.version ?? "0.0.0"}`,
       deps: { ...workspace.optionalDependencies },
       optional: true,
     },
@@ -230,7 +230,7 @@ export function closure(input: { lock: Lock; workspace: string; platform?: Platf
 
       const id = purl(resolved.name, resolved.version)
       edge(dependencies, task.owner, id)
-      if (task.owner === (input.root ?? `kilocode:workspace:${workspace.name}@${workspace.version ?? "0.0.0"}`)) {
+      if (task.owner === (input.root ?? `kappacode:workspace:${workspace.name}@${workspace.version ?? "0.0.0"}`)) {
         roots.push(id)
       }
       if (visited.has(key)) continue

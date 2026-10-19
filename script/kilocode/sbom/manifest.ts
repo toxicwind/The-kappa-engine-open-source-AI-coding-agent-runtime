@@ -131,7 +131,7 @@ export async function verify(input: { manifest: Manifest; dir: string }): Promis
     }
 
     const declared = (bom.metadata?.properties ?? []).find(
-      (item: { name?: string }) => item?.name === "kilocode:subject:sha256",
+      (item: { name?: string }) => item?.name === "kappacode:subject:sha256",
     )?.value
     if (declared !== entry.sha256) {
       issues.push(`${entry.sbom}: declares digest ${declared} but ${entry.artifact} is ${entry.sha256}`)
@@ -140,7 +140,7 @@ export async function verify(input: { manifest: Manifest; dir: string }): Promis
     }
 
     const subject = (bom.metadata?.properties ?? []).find(
-      (item: { name?: string }) => item?.name === "kilocode:subject:name",
+      (item: { name?: string }) => item?.name === "kappacode:subject:name",
     )?.value
     if (subject !== entry.artifact) {
       issues.push(`${entry.sbom}: declares subject ${subject} but is recorded for ${entry.artifact}`)

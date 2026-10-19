@@ -98,8 +98,8 @@ describe("jetbrains plugin", () => {
       const result = await JetBrains.plugin({ file, variant: "lean", version: "1.2.3", cli: "9.9.9" })
       const bom = await Bun.file(result.sidecar).json()
 
-      const root = bom.dependencies.find((item: any) => item.ref.startsWith("kilocode:artifact:"))
-      const clis = JetBrains.PLATFORMS.map((platform) => `kilocode:cli:${platform}@9.9.9`)
+      const root = bom.dependencies.find((item: any) => item.ref.startsWith("kappacode:artifact:"))
+      const clis = JetBrains.PLATFORMS.map((platform) => `kappacode:cli:${platform}@9.9.9`)
       // The root should reach the CLIs and the plugin's own libraries, not the
       // roughly one thousand npm packages compiled into each CLI.
       expect(root.dependsOn).toEqual(expect.arrayContaining(clis))
@@ -181,7 +181,7 @@ describe("jetbrains plugin", () => {
       const okhttp = bom.components.find((item: any) => item.name === "okhttp")
       expect(okhttp.licenses).toBeUndefined()
       expect(bom.metadata.properties).toContainEqual({
-        name: `kilocode:coverage:gap:com.squareup.okhttp3:okhttp@${catalog()}`,
+        name: `kappacode:coverage:gap:com.squareup.okhttp3:okhttp@${catalog()}`,
         value: "licence unknown: not tracked by the Gradle version catalog",
       })
     } finally {
@@ -203,9 +203,9 @@ describe("jetbrains plugin", () => {
         merge: "f".repeat(40),
       })
       const properties = (await Bun.file(result.sidecar).json()).metadata.properties
-      expect(properties).toContainEqual({ name: "kilocode:build:tag", value: "jetbrains/v1.2.3" })
-      expect(properties).toContainEqual({ name: "kilocode:build:metadata-commit", value: "f".repeat(40) })
-      expect(properties).toContainEqual({ name: "kilocode:build:variant", value: "lean" })
+      expect(properties).toContainEqual({ name: "kappacode:build:tag", value: "jetbrains/v1.2.3" })
+      expect(properties).toContainEqual({ name: "kappacode:build:metadata-commit", value: "f".repeat(40) })
+      expect(properties).toContainEqual({ name: "kappacode:build:variant", value: "lean" })
     } finally {
       await fs.promises.rm(dir, { recursive: true, force: true })
     }
@@ -246,7 +246,7 @@ describe("vscode vsix", () => {
       const bom = await Bun.file(result.sidecar).json()
 
       expect(await validate(bom)).toEqual([])
-      expect(bom.metadata.properties).toContainEqual({ name: "kilocode:embedded:cli", value: "linux-x64" })
+      expect(bom.metadata.properties).toContainEqual({ name: "kappacode:embedded:cli", value: "linux-x64" })
       expect(names(bom)).toContain("@ffmpeg-installer/linux-x64")
       expect(names(bom)).toContain("bubblewrap")
     } finally {

@@ -62,7 +62,7 @@ test("a permanently failing asset is reported without cancelling the rest", asyn
   })
 
   await expect(result).rejects.toThrow(
-    "release v7.8.6: 1 asset(s) failed\nkilo-linux-x64.tar.gz: HTTP 500: Internal Server Error",
+    "release v7.8.6: 1 asset(s) failed\nkappa-linux-x64.tar.gz: HTTP 500: Internal Server Error",
   )
   expect([...assets.keys()].sort()).toEqual(NAMES.filter((name) => name !== NAMES[1]).sort())
 })
