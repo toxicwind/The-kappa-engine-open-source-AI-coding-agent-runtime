@@ -9,7 +9,7 @@ updates:
   # A limit of 0 does not disable security updates: alerts still open PRs, and
   # security-findings-notify.yml reports them. Those PRs mostly edit upstream
   # manifests, and a root `overrides` or catalog pin can make them a no-op
-  # (check the resolved version in bun.lock before merging). packages/kilo-docs
+  # (check the resolved version in bun.lock before merging). packages/kappa-docs
   # has its own block below, since this scan can't see its separate
   # pnpm-lock.yaml.
   - package-ecosystem: "bun"
@@ -31,9 +31,9 @@ updates:
         patterns:
           - "*"
 
-  # packages/kilo-docs deploys separately via pnpm; see note above.
+  # packages/kappa-docs deploys separately via pnpm; see note above.
   - package-ecosystem: "npm"
-    directory: "/packages/kilo-docs"
+    directory: "/packages/kappa-docs"
     schedule:
       interval: "weekly"
     cooldown:
@@ -76,7 +76,7 @@ updates:
           - "patch"
 
   - package-ecosystem: "gradle"
-    directory: "/packages/kilo-jetbrains"
+    directory: "/packages/kappa-jetbrains"
     schedule:
       interval: "weekly"
     cooldown:
