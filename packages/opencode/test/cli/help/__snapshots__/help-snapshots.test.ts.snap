@@ -1,7 +1,7 @@
 // Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo acp --help 1`] = `
-"kilo acp
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa acp --help 1`] = `
+"kappa acp
 
 start ACP (Agent Client Protocol) server
 
@@ -15,24 +15,24 @@ Options:
       --hostname     hostname to listen on                           [string] [default: "127.0.0.1"]
       --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)
                                                                           [boolean] [default: false]
-      --mdns-domain  custom domain name for mDNS service (default: kilo.local)
-                                                                [string] [default: "kilo.local"]
+      --mdns-domain  custom domain name for mDNS service (default: kappa.local)
+                                                               [string] [default: "kappa.local"]
       --cors         additional domains to allow for CORS                      [array] [default: []]
       --cwd          working directory [string] [default: "<HOME>"]
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo mcp --help 1`] = `
-"kilo mcp
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa mcp --help 1`] = `
+"kappa mcp
 
 manage MCP (Model Context Protocol) servers
 
 Commands:
-  kilo mcp add [name]     add an MCP server
-  kilo mcp list           list MCP servers and their status                        [aliases: ls]
-  kilo mcp auth [name]    authenticate with an OAuth-enabled MCP server
-  kilo mcp logout [name]  remove OAuth credentials for an MCP server
-  kilo mcp debug <name>   debug OAuth connection for an MCP server
+  kappa mcp add [name]     add an MCP server
+  kappa mcp list           list MCP servers and their status                       [aliases: ls]
+  kappa mcp auth [name]    authenticate with an OAuth-enabled MCP server
+  kappa mcp logout [name]  remove OAuth credentials for an MCP server
+  kappa mcp debug <name>   debug OAuth connection for an MCP server
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -43,10 +43,10 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo attach --help 1`] = `
-"kilo attach <url>
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa attach --help 1`] = `
+"kappa attach <url>
 
-attach to a running kilo server
+attach to a running kappa server
 
 Positionals:
   url  http://localhost:4096                                                     [string] [required]
@@ -62,18 +62,18 @@ Options:
   -s, --session       session id to continue                                                [string]
       --fork          fork the session when continuing (use with --continue or --session)  [boolean]
       --cloud-fork    fetch session from cloud and continue locally (use with --session)   [boolean]
-  -p, --password      basic auth password (defaults to KILO_SERVER_PASSWORD)                [string]
-  -u, --username      basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')      [string]
+  -p, --password      basic auth password (defaults to KAPPA_SERVER_PASSWORD)               [string]
+  -u, --username      basic auth username (defaults to KAPPA_SERVER_USERNAME or 'kappa')    [string]
       --mini          start the minimal interactive interface             [boolean] [default: false]
       --no-replay     disable mini session history replay on resume and after resize       [boolean]
       --replay-limit  cap visible mini replay to the newest N messages                      [number]
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo run --help 1`] = `
-"kilo run [message..]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa run --help 1`] = `
+"kappa run [message..]
 
-run kilo with a message
+run kappa with a message
 
 Positionals:
   message  message to send                                                     [array] [default: []]
@@ -96,9 +96,9 @@ Options:
                                           [string] [choices: "default", "json"] [default: "default"]
   -f, --file         file(s) to attach to message                                            [array]
       --title        title for the session (uses truncated prompt if no value provided)     [string]
-      --attach       attach to a running kilo server (e.g., http://localhost:4096)          [string]
-  -p, --password     basic auth password (defaults to KILO_SERVER_PASSWORD)                 [string]
-  -u, --username     basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')       [string]
+      --attach       attach to a running kappa server (e.g., http://localhost:4096)         [string]
+  -p, --password     basic auth password (defaults to KAPPA_SERVER_PASSWORD)                [string]
+  -u, --username     basic auth username (defaults to KAPPA_SERVER_USERNAME or 'kappa')     [string]
       --dir          directory to run in, path on remote server if attaching                [string]
       --port         port for the local server (defaults to random port if no value provided)
                                                                                             [number]
@@ -111,25 +111,25 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo debug --help 1`] = `
-"kilo debug
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa debug --help 1`] = `
+"kappa debug
 
 debugging and troubleshooting tools
 
 Commands:
-  kilo debug config        show resolved configuration
-  kilo debug lsp           LSP debugging utilities
-  kilo debug rg            ripgrep debugging utilities
-  kilo debug file          file system debugging utilities
-  kilo debug scrap         list all known projects
-  kilo debug skill         list all available skills
-  kilo debug snapshot      snapshot debugging utilities
-  kilo debug startup       print startup timing
-  kilo debug agent <name>  show agent configuration details
-  kilo debug v2            debug v2 catalog and built-in plugins
-  kilo debug info          show debug information
-  kilo debug paths         show global paths (data, config, cache, state)
-  kilo debug wait          wait indefinitely (for debugging)
+  kappa debug config        show resolved configuration
+  kappa debug lsp           LSP debugging utilities
+  kappa debug rg            ripgrep debugging utilities
+  kappa debug file          file system debugging utilities
+  kappa debug scrap         list all known projects
+  kappa debug skill         list all available skills
+  kappa debug snapshot      snapshot debugging utilities
+  kappa debug startup       print startup timing
+  kappa debug agent <name>  show agent configuration details
+  kappa debug v2            debug v2 catalog and built-in plugins
+  kappa debug info          show debug information
+  kappa debug paths         show global paths (data, config, cache, state)
+  kappa debug wait          wait indefinitely (for debugging)
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -140,15 +140,15 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo providers --help 1`] = `
-"kilo auth
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa providers --help 1`] = `
+"kappa auth
 
 manage AI providers and credentials
 
 Commands:
-  kilo providers list               list providers and credentials                 [aliases: ls]
-  kilo providers login [url]        log in to a provider
-  kilo providers logout [provider]  log out from a configured provider
+  kappa providers list               list providers and credentials                [aliases: ls]
+  kappa providers login [url]        log in to a provider
+  kappa providers logout [provider]  log out from a configured provider
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -159,14 +159,14 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo agent --help 1`] = `
-"kilo agent
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa agent --help 1`] = `
+"kappa agent
 
 manage agents
 
 Commands:
-  kilo agent create  create a new agent
-  kilo agent list    list all available agents
+  kappa agent create  create a new agent
+  kappa agent list    list all available agents
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -177,10 +177,10 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo upgrade --help 1`] = `
-"kilo upgrade [target]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa upgrade --help 1`] = `
+"kappa upgrade [target]
 
-upgrade kilo to the latest or a specific version
+upgrade kappa to the latest or a specific version
 
 Positionals:
   target  version to upgrade to, for ex '0.1.48' or 'v0.1.48'                               [string]
@@ -196,10 +196,10 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo uninstall --help 1`] = `
-"kilo uninstall
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa uninstall --help 1`] = `
+"kappa uninstall
 
-uninstall kilo and remove all related files
+uninstall kappa and remove all related files
 
 Options:
   -h, --help         show help                                                             [boolean]
@@ -214,10 +214,10 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo serve --help 1`] = `
-"kilo serve
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa serve --help 1`] = `
+"kappa serve
 
-starts a headless kilo server
+starts a headless kappa server
 
 Options:
   -h, --help         show help                                                             [boolean]
@@ -229,14 +229,14 @@ Options:
       --hostname     hostname to listen on                           [string] [default: "127.0.0.1"]
       --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)
                                                                           [boolean] [default: false]
-      --mdns-domain  custom domain name for mDNS service (default: kilo.local)
-                                                                [string] [default: "kilo.local"]
+      --mdns-domain  custom domain name for mDNS service (default: kappa.local)
+                                                               [string] [default: "kappa.local"]
       --cors         additional domains to allow for CORS                      [array] [default: []]
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo models --help 1`] = `
-"kilo models [provider]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa models --help 1`] = `
+"kappa models [provider]
 
 list all available models
 
@@ -254,8 +254,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo stats --help 1`] = `
-"kilo stats
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa stats --help 1`] = `
+"kappa stats
 
 show token usage and cost statistics
 
@@ -273,8 +273,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo export --help 1`] = `
-"kilo export [sessionID]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa export --help 1`] = `
+"kappa export [sessionID]
 
 export session data as JSON
 
@@ -291,8 +291,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo import --help 1`] = `
-"kilo import <file>
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa import --help 1`] = `
+"kappa import <file>
 
 import session data from JSON file or URL
 
@@ -308,14 +308,14 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo github --help 1`] = `
-"kilo github
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa github --help 1`] = `
+"kappa github
 
 manage GitHub agent
 
 Commands:
-  kilo github install  install the GitHub agent
-  kilo github run      run the GitHub agent
+  kappa github install  install the GitHub agent
+  kappa github run      run the GitHub agent
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -326,16 +326,16 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo pr --help 1`] = `
-"kilo pr
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa pr --help 1`] = `
+"kappa pr
 
 manage pull requests
 
 Commands:
-  kilo pr checkout <number>  fetch and checkout a GitHub PR branch, then run kilo
-  kilo pr link <url>         link a session to a pull request
-  kilo pr unlink             clear a session's linked pull request
-  kilo pr status             show a session's linked pull request
+  kappa pr checkout <number>  fetch and checkout a GitHub PR branch, then run kappa
+  kappa pr link <url>         link a session to a pull request
+  kappa pr unlink             clear a session's linked pull request
+  kappa pr status             show a session's linked pull request
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -346,14 +346,14 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo session --help 1`] = `
-"kilo session
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa session --help 1`] = `
+"kappa session
 
 manage sessions
 
 Commands:
-  kilo session list                list sessions
-  kilo session delete <sessionID>  delete a session
+  kappa session list                list sessions
+  kappa session delete <sessionID>  delete a session
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -364,8 +364,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo plugin --help 1`] = `
-"kilo plugin <module>
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa plugin --help 1`] = `
+"kappa plugin <module>
 
 install plugin and update config
 
@@ -383,14 +383,14 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo db --help 1`] = `
-"kilo db
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa db --help 1`] = `
+"kappa db
 
 database tools
 
 Commands:
-  kilo db [query]     open an interactive sqlite3 shell or run a query                     [default]
-  kilo db path        print the database path
+  kappa db [query]     open an interactive sqlite3 shell or run a query                    [default]
+  kappa db path        print the database path
 
 Positionals:
   query  SQL query to execute                                                               [string]
@@ -405,8 +405,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo mcp list --help 1`] = `
-"kilo mcp list
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa mcp list --help 1`] = `
+"kappa mcp list
 
 list MCP servers and their status
 
@@ -419,8 +419,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo mcp add --help 1`] = `
-"kilo mcp add [name]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa mcp add --help 1`] = `
+"kappa mcp add [name]
 
 add an MCP server
 
@@ -439,13 +439,13 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo mcp auth --help 1`] = `
-"kilo mcp auth [name]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa mcp auth --help 1`] = `
+"kappa mcp auth [name]
 
 authenticate with an OAuth-enabled MCP server
 
 Commands:
-  kilo mcp auth list  list OAuth-capable MCP servers and their auth status         [aliases: ls]
+  kappa mcp auth list  list OAuth-capable MCP servers and their auth status        [aliases: ls]
 
 Positionals:
   name  name of the MCP server                                                              [string]
@@ -459,8 +459,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo mcp logout --help 1`] = `
-"kilo mcp logout [name]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa mcp logout --help 1`] = `
+"kappa mcp logout [name]
 
 remove OAuth credentials for an MCP server
 
@@ -476,8 +476,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo providers list --help 1`] = `
-"kilo providers list
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa providers list --help 1`] = `
+"kappa providers list
 
 list providers and credentials
 
@@ -490,13 +490,13 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo providers login --help 1`] = `
-"kilo providers login [url]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa providers login --help 1`] = `
+"kappa providers login [url]
 
 log in to a provider
 
 Positionals:
-  url  kilo auth provider                                                                   [string]
+  url  kappa auth provider                                                                  [string]
 
 Options:
   -h, --help        show help                                                              [boolean]
@@ -509,8 +509,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo providers logout --help 1`] = `
-"kilo providers logout [provider]
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa providers logout --help 1`] = `
+"kappa providers logout [provider]
 
 log out from a configured provider
 
@@ -526,8 +526,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo agent create --help 1`] = `
-"kilo agent create
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa agent create --help 1`] = `
+"kappa agent create
 
 create a new agent
 
@@ -547,8 +547,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo agent list --help 1`] = `
-"kilo agent list
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa agent list --help 1`] = `
+"kappa agent list
 
 list all available agents
 
@@ -561,8 +561,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo session list --help 1`] = `
-"kilo session list
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa session list --help 1`] = `
+"kappa session list
 
 list sessions
 
@@ -579,8 +579,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo session delete --help 1`] = `
-"kilo session delete <sessionID>
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa session delete --help 1`] = `
+"kappa session delete <sessionID>
 
 delete a session
 
@@ -596,8 +596,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo github install --help 1`] = `
-"kilo github install
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa github install --help 1`] = `
+"kappa github install
 
 install the GitHub agent
 
@@ -610,8 +610,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo github run --help 1`] = `
-"kilo github run
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa github run --help 1`] = `
+"kappa github run
 
 run the GitHub agent
 
@@ -626,8 +626,8 @@ Options:
 "
 `;
 
-exports[`Kilo CLI help-text snapshots every documented command emits stable help text: kilo db path --help 1`] = `
-"kilo db path
+exports[`Kappa CLI help-text snapshots every documented command emits stable help text: kappa db path --help 1`] = `
+"kappa db path
 
 print the database path
 
