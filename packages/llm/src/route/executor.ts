@@ -384,7 +384,7 @@ const FINGERPRINT_HEADER = "x-kappa-fingerprint"
 const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kappacode_change
   // effect@4 Headers.get returns Option<string>, not string | undefined.
   const fingerprintOpt = Headers.get(request.headers, FINGERPRINT_HEADER)
-  if (fingerprintOpt._tag === "None" || fingerprintOpt._tag === "none") return request
+  if (fingerprintOpt._tag === "None") return request
   const fingerprint = (fingerprintOpt as { _tag: string; value?: string }).value ?? ""
   const isChromePersona = fingerprint.trim().toLowerCase() === "chrome"
   const overlay = Headers.fromInput(
