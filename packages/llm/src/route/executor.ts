@@ -1,4 +1,7 @@
 import { Cause, Context, Effect, Layer, Random } from "effect"
+// kappacode_change: InstallationVersion feeds the honest fingerprint UA.
+import { InstallationChannel as KAPPA_CHANNEL, InstallationVersion as KAPPA_VERSION } from "../../../core/src/installation/version"
+import { Flag as KAPPA_FLAG } from "../../../core/src/flag/flag"
 import {
   FetchHttpClient,
   Headers,
@@ -364,25 +367,44 @@ const retryStatusFailures = <A, R>(
   })
 
 // kappacode_change start
-// Kappa browser-fingerprint transport marker header. A request carrying
-// `request.http.fingerprint` is tagged with this header by the Kappa fingerprint
-// transport; the executor then forwards it with a Chrome-aligned header set so
-// Cloudflare-guarded providers (freeinference error 1010) see a browser
-// signature. The marker header is stripped before the request reaches the wire.
+// Kappa fingerprint transport marker header. A request carrying
+// `request.http.fingerprint` gets a configurable header overlay applied by the
+// executor; the marker header itself is stripped before it reaches the wire.
+//
+// Policy (2026-10-19): the default overlay is HONEST client identification —
+// `kappa/<version> (+https://github.com/toxicwind/kappa-code)` — because
+// providers like freeinference ban fake user agents ("Account using fake user
+// agent will be banned."). Live probes (estate/docs/freeinference-provider.md,
+// 2026-10-19) show honest UA passes: the historic Cloudflare 1010 gate no
+// longer fires. The Chrome-aligned set remains available ONLY via an explicit
+// `fingerprint: chrome` opt-in for providers that re-enable header gating.
 const FINGERPRINT_HEADER = "x-kappa-fingerprint"
 // kappacode_change end
 
 const withFingerprintHeaders = (request: HttpClientRequest.HttpClientRequest) => { // kappacode_change
-  if (!Headers.has(request.headers, FINGERPRINT_HEADER)) return request
-  const chrome = Headers.fromInput({
-    "accept": "application/json, text/plain, */*",
-    "accept-language": "en-US,en;q=0.9",
-    "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": '"Linux"',
-  })
+  // effect@4 Headers.get returns Option<string>, not string | undefined.
+  const fingerprintOpt = Headers.get(request.headers, FINGERPRINT_HEADER)
+  if (fingerprintOpt._tag === "None" || fingerprintOpt._tag === "none") return request
+  const fingerprint = (fingerprintOpt as { _tag: string; value?: string }).value ?? ""
+  const isChromePersona = fingerprint.trim().toLowerCase() === "chrome"
+  const overlay = Headers.fromInput(
+    isChromePersona
+      ? {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": '"Linux"',
+        }
+      : {
+          // Honest identification persona (default): kappa's own UA convention
+          // (mirrors models-dev.ts) + fork repo backlink.
+          "user-agent": `kappa/${KAPPA_CHANNEL}/${KAPPA_VERSION}/${KAPPA_FLAG.KAPPA_CLIENT} (+https://github.com/toxicwind/kappa-code)`,
+          "accept": "application/json, text/plain, */*",
+        },
+  )
   const withoutFp = Headers.remove(request.headers, FINGERPRINT_HEADER)
-  const combined = Headers.merge(withoutFp, chrome)
+  const combined = Headers.merge(withoutFp, overlay)
   return HttpClientRequest.makeWith(
     request.method,
     request.url,
