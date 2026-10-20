@@ -142,6 +142,18 @@ updates:
           - "minor"
           - "patch"
       jetbrains-minor-patch:
+        # Same compiler-plugin exclusion as kotlin-minor-patch above:
+        # a dependency excluded from an earlier group falls through to
+        # this catch-all, so the Kotlin *compiler plugins* (jvm,
+        # serialization) must be excluded here too. 2.3.20 -> 2.4.21
+        # broke :shared:compileKotlin with a ClassCastException in
+        # intellij-rpc-plugin's RpcComponentRegistrar (built vs 2.3);
+        # the 00:10Z jetbrains-minor-patch bump re-broke typecheck-jetbrains
+        # the same way. Bump compiler plugins by hand, on purpose,
+        # together with the rpc plugin version.
+        exclude-patterns:
+          - "*gradle.plugin*"
+          - "*plugin.serialization*"
         update-types:
           - "minor"
           - "patch"
