@@ -1,5 +1,6 @@
 {
   "name": "@kappacode/kappa-docs",
+  "packageManager": "pnpm@10",
   "version": "7.8.10",
   "private": true,
   "scripts": {

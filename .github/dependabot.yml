@@ -109,6 +109,15 @@ updates:
         patterns:
           - "org.jetbrains.kotlin*"
           - "org.jetbrains.kotlinx*"
+        # The Kotlin *compiler plugins* (jvm, serialization) change the
+        # compiler ABI even on minor bumps: 2.3.20 -> 2.4.21 broke
+        # :shared:compileKotlin with a ClassCastException in
+        # intellij-rpc-plugin's RpcComponentRegistrar (built against 2.3).
+        # Bump compiler plugins by hand, on purpose, together with the
+        # rpc plugin version. Library deps (kotlinx-*) stay auto-bumped.
+        exclude-patterns:
+          - "*gradle.plugin*"
+          - "*plugin.serialization*"
         update-types:
           - "minor"
           - "patch"
