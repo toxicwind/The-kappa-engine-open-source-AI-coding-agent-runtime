@@ -10,7 +10,7 @@ import { existsSync } from "fs" // kappacode_change
 import { DbPreflight } from "../kappacode/db-preflight" // kappacode_change
 import { ensure as compat } from "../kappacode/database-compat" // kappacode_change
 import { DatabaseMigration } from "./migration"
-import { InstallationChannel } from "../installation/version"
+import { InstallationChannel, safeChannelToken } from "../installation/version"
 import { makeGlobalNode } from "../effect/app-node"
 
 const makeDatabase = EffectDrizzleSqlite.makeWithDefaults()
@@ -59,7 +59,7 @@ export function path() {
   )
     return join(Global.Path.data, "kappa.db")
   // kappacode_change start - kappa-branded dev-channel db name, falling back to a pre-existing opencode-named db
-  const safe = InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, "-")
+  const safe = safeChannelToken(InstallationChannel) // kappacode_change
   const next = join(Global.Path.data, `kappa-${safe}.db`)
   const prev = join(Global.Path.data, `opencode-${safe}.db`)
   if (!existsSync(next) && existsSync(prev)) return prev

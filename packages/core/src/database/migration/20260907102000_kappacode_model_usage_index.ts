@@ -6,7 +6,7 @@ export default {
   up(tx) {
     return Effect.gen(function* () {
       yield* tx.run(
-        `CREATE INDEX \`part_session_step_finish_idx\` ON \`part\` (\`session_id\`) WHERE json_valid("part"."data") AND json_extract("part"."data", '$.type') = 'step-finish';`,
+        `CREATE INDEX IF NOT EXISTS \`part_session_step_finish_idx\` ON \`part\` (\`session_id\`) WHERE json_valid("part"."data") AND json_extract("part"."data", '$.type') = 'step-finish';`,
       )
     })
   },

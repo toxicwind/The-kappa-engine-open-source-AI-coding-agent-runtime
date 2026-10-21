@@ -8,7 +8,7 @@ export default {
     return Effect.gen(function* () {
       // kappacode_change start
       yield* tx.run(`
-        CREATE TABLE \`kappa_board_message\` (
+        CREATE TABLE IF NOT EXISTS \`kappa_board_message\` (
           \`id\` text PRIMARY KEY,
           \`board_root_session_id\` text NOT NULL,
           \`seq\` integer NOT NULL,
@@ -26,7 +26,7 @@ export default {
       // kappacode_change end
       // kappacode_change start
       yield* tx.run(`
-        CREATE TABLE \`kappa_board\` (
+        CREATE TABLE IF NOT EXISTS \`kappa_board\` (
           \`root_session_id\` text PRIMARY KEY,
           \`objective\` text NOT NULL,
           \`objective_message_id\` text,
@@ -41,7 +41,7 @@ export default {
       // kappacode_change end
       // kappacode_change start
       yield* tx.run(
-        `CREATE UNIQUE INDEX \`kappa_board_message_board_seq_idx\` ON \`kappa_board_message\` (\`board_root_session_id\`,\`seq\`);`,
+        `CREATE UNIQUE INDEX IF NOT EXISTS \`kappa_board_message_board_seq_idx\` ON \`kappa_board_message\` (\`board_root_session_id\`,\`seq\`);`,
       )
       // kappacode_change end
     })

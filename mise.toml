@@ -13,6 +13,7 @@ sources = [
   "bun.lock",
   "packages/cli/src/**/*.{ts,tsx}",
   "packages/cli/script/**/*.ts",
+  "packages/core/src/**/*.{ts,tsx}",
   "packages/llm/src/**/*.ts",
   "packages/kappa-console/src/**/*.{ts,tsx}",
 ]

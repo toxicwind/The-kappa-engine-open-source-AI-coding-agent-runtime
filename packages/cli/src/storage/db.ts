@@ -5,6 +5,7 @@ export * from "drizzle-orm"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { LocalContext } from "@/util/local-context"
 import { Global } from "@opencode-ai/core/global"
+import { safeChannelToken } from "@opencode-ai/core/installation/version" // kappacode_change
 import { DbPreflight } from "@opencode-ai/core/kappacode/db-preflight" // kappacode_change
 import * as Log from "@opencode-ai/core/util/log"
 import { NamedError } from "@opencode-ai/core/util/error"
@@ -33,7 +34,7 @@ const readRuntimeFlags = () =>
 export function getChannelPath(flags: Pick<DatabaseFlags, "disableChannelDb"> = readRuntimeFlags()) {
   if (["latest", "beta", "prod"].includes(InstallationChannel) || flags.disableChannelDb)
     return path.join(Global.Path.data, "kappa.db") // kappacode_change
-  const safe = InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, "-")
+  const safe = safeChannelToken(InstallationChannel) // kappacode_change
   const next = path.join(Global.Path.data, `kappa-${safe}.db`) // kappacode_change
   const prev = path.join(Global.Path.data, `opencode-${safe}.db`) // kappacode_change
   if (!existsSync(next) && existsSync(prev)) return prev // kappacode_change
