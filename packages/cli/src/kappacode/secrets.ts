@@ -12,8 +12,14 @@ const PROVIDER_KEYS: Record<string, { env: string; attrs: Record<string, string>
   moonshot: { env: "MOONSHOT_API_KEY", attrs: { service: "kappa", provider: "moonshot" } },
   openrouter: { env: "OPENROUTER_API_KEY", attrs: { service: "kappa", provider: "openrouter" } },
   mistral: { env: "MISTRAL_API_KEY", attrs: { service: "kappa", provider: "mistral" } },
-  【entity-nvidia¦canonical_name=NVIDIA】: { env: "NVIDIA_API_KEY", attrs: { service: "kappa", provider: "【entity-nvidia¦canonical_name=NVIDIA】" } },
-  【entity-github¦canonical_name=github】: { env: "GITHUB_TOKEN", attrs: { service: "kappa", provider: "【entity-github¦canonical_name=github】" } },
+  ["【entity-nvidia¦canonical_name=NVIDIA】"]: {
+    env: "NVIDIA_API_KEY",
+    attrs: { service: "kappa", provider: "【entity-nvidia¦canonical_name=NVIDIA】" },
+  },
+  ["【entity-github¦canonical_name=github】"]: {
+    env: "GITHUB_TOKEN",
+    attrs: { service: "kappa", provider: "【entity-github¦canonical_name=github】" },
+  },
   xai: { env: "XAI_API_KEY", attrs: { service: "kappa", provider: "xai" } },
   cerebras: { env: "CEREBRAS_API_KEY", attrs: { service: "kappa", provider: "cerebras" } },
   perplexity: { env: "PERPLEXITY_API_KEY", attrs: { service: "kappa", provider: "perplexity" } },

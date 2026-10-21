@@ -195,6 +195,13 @@ it.live("notifies the parent when a human steers a subagent", () =>
           type: "INFO",
           body: expect.stringContaining("steer the worker to inspect the parser"),
         }),
+        // Additive consumer-side verification: the admitted steer was confirmed consumed.
+        expect.objectContaining({
+          from: child.id,
+          to: "main",
+          type: "INFO",
+          body: expect.stringMatching(/\[steer_consumed\] steer msg[\w:-]+ consumed/),
+        }),
       ])
     }),
     { git: true, config },
@@ -212,7 +219,7 @@ it.live("posts escape-heavy steering that exceeds the raw excerpt size", () =>
       yield* llm.push(reply().text("ack").stop())
       yield* prompt.prompt({ sessionID: child.id, agent: "code", parts: [steer('"\\'.repeat(2000))] })
 
-      expect((yield* BoardStore.read({ sessionID: chat.id })).messages).toHaveLength(1)
+      expect((yield* BoardStore.read({ sessionID: chat.id })).messages).toHaveLength(2)
     }),
     { git: true, config },
   ),
@@ -272,6 +279,63 @@ it.live("does not notify the parent when the task tool launches a subagent", () 
       const users = (yield* sessions.messages({ sessionID: child.id })).filter((item) => item.info.role === "user")
       expect(JSON.stringify(users)).toContain("worker assignment: inspect the parser edge")
       expect((yield* BoardStore.read({ sessionID: chat.id })).messages).toEqual([])
+    }),
+    { git: true, config },
+  ),
+)
+
+it.live("posts a consumed-confirmation to the parent once the steered turn actually runs", () =>
+  provideTmpdirServer(
+    Effect.fnUntraced(function* ({ llm }) {
+      const prompt = yield* SessionPrompt.Service
+      const sessions = yield* Session.Service
+      const chat = yield* sessions.create({ title: "Consumed steer" })
+      const child = yield* sessions.create({ parentID: chat.id, title: "Worker" })
+
+      yield* llm.push(reply().text("ack").stop())
+      yield* prompt.prompt({
+        sessionID: child.id,
+        agent: "code",
+        parts: [steer("steer the worker to inspect the parser")],
+      })
+
+      const board = yield* BoardStore.read({ sessionID: chat.id })
+      expect(board.messages).toEqual([
+        expect.objectContaining({ from: child.id, to: "main", type: "INFO" }),
+        expect.objectContaining({
+          from: child.id,
+          to: "main",
+          type: "INFO",
+          body: expect.stringMatching(/\[steer_consumed\] steer msg[\w:-]+ consumed/),
+        }),
+      ])
+      // The consumed-confirmation references a steer message ID so the parent can correlate.
+      const consumed = board.messages.find(
+        (item) => item.body.startsWith("[steer_consumed] steer ") && item.body.endsWith(" consumed"),
+      )
+      expect(consumed).toBeDefined()
+    }),
+    { git: true, config },
+  ),
+)
+
+it.live("does not post a consumed-confirmation for unmarked child prompts", () =>
+  provideTmpdirServer(
+    Effect.fnUntraced(function* ({ llm }) {
+      const prompt = yield* SessionPrompt.Service
+      const sessions = yield* Session.Service
+      const chat = yield* sessions.create({ title: "Unmarked consumed" })
+      const child = yield* sessions.create({ parentID: chat.id, title: "Worker" })
+
+      yield* llm.push(reply().text("ack").stop())
+      yield* prompt.prompt({
+        sessionID: child.id,
+        agent: "code",
+        parts: [{ type: "text", text: "task-tool style prompt without a steering mark" }],
+      })
+
+      const board = yield* BoardStore.read({ sessionID: chat.id })
+      expect(board.messages.some((item) => item.body.startsWith("[steer_consumed]"))).toBe(false)
     }),
     { git: true, config },
   ),

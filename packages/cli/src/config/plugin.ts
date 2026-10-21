@@ -2,7 +2,7 @@ import { Glob } from "@opencode-ai/core/util/glob"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
 import { pathToFileURL } from "url"
 import { isPathPluginSpec, parsePluginSpecifier, resolvePathPluginTarget } from "@/plugin/shared"
-import { LEGACY_DISCOVERY_GLOBS, normalizeLegacyKappaSpec } from "@/kappacode/config/legacy-kappa" // kappacode_change - legacy kappa plugin compat
+import { LEGACY_DISCOVERY_GLOBS, normalizeLegacyKappaSpec } from "@/kappacode/config/legacy-kilo" // kappacode_change - legacy kappa plugin compat
 import path from "path"
 
 export type Scope = "global" | "local"

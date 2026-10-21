@@ -97,6 +97,7 @@ import { SessionResumeImport } from "@/kappacode/session-resume/import" // kappa
 import { KappaSessionContinuation } from "@/kappacode/session/continuation" // kappacode_change
 import { KappaSessionControl } from "@/kappacode/session/control" // kappacode_change
 import { KappaSessionSteering } from "@/kappacode/session/steering" // kappacode_change
+import { SteeringConsumed } from "@/kappacode/session/steering-consumed" // kappacode_change
 import { Goal } from "@/kappacode/session/goal/runner" // kappacode_change
 import { GoalPolicy } from "@/kappacode/session/goal/policy" // kappacode_change
 import { GoalState } from "@/kappacode/session/goal/state" // kappacode_change
@@ -1499,6 +1500,10 @@ export const layer = Layer.effect(
         // Tell the parent when a human steers this subagent; only a turn that will run counts.
         const steer = { session, parts: input.parts, messageID: message.info.id }
         yield* KappaSessionSteering.notify({ ...steer, config, flags, database })
+        // kappacode_change start - consumer-side verification: register the admitted steer so the
+        // running child turn can confirm it was consumed (see SteeringConsumed.confirm in runLoop).
+        yield* SteeringConsumed.mark({ session, parts: input.parts, messageID: message.info.id })
+        // kappacode_change end
         // Queue tails and runner fibers can resume outside the HTTP request's
         // ambient instance context; bridge both Effect refs and legacy ALS.
         const bridge = yield* EffectBridge.make()
@@ -1551,6 +1556,11 @@ export const layer = Layer.effect(
       let structured: unknown
       let step = 0
       const session = yield* sessions.get(sessionID).pipe(Effect.orDie)
+
+      // kappacode_change start - consumer-side verification: when the runLoop starts processing a
+      // queued steer slot, tell its parent the steer was actually consumed (not just admitted).
+      yield* SteeringConsumed.confirm({ sessionID, config, flags, database })
+      // kappacode_change end
 
       while (true) {
         yield* status.set(sessionID, { type: "busy" })
@@ -2544,10 +2554,7 @@ export const PromptInput = Schema.Struct({
 // `parts` type from the exported Schema input types so callers see a proper
 // tagged union.
 type PartInputUnion =
-  | MessageV2.TextPartInput
-  | MessageV2.FilePartInput
-  | MessageV2.AgentPartInput
-  | MessageV2.SubtaskPartInput
+  MessageV2.TextPartInput | MessageV2.FilePartInput | MessageV2.AgentPartInput | MessageV2.SubtaskPartInput
 export type PromptInput = Omit<Schema.Schema.Type<typeof PromptInput>, "parts" | "editorContext"> & {
   parts: PartInputUnion[]
   editorContext?: MessageV2.EditorContext
