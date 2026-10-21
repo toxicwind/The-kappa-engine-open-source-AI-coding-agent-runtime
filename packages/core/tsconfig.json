@@ -4,6 +4,10 @@
   "compilerOptions": {
     "noUncheckedIndexedAccess": false,
     "types": ["bun"],
-    "lib": ["ESNext", "DOM", "DOM.Iterable"]
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@kappacode/sdk/v2/types": ["../sdk/js/src/v2/gen/types.gen.ts"],
+      "@kappacode/sdk/v2/*": ["../sdk/js/src/v2/*"]
+    }
   }
 }

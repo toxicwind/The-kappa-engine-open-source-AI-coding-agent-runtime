@@ -11,7 +11,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@tui/*": ["../tui/src/*"], // kappacode_change - extracted TUI imports used by Kappa-owned components
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
+      "@kappacode/sdk/v2/types": ["../sdk/js/src/v2/gen/types.gen.ts"],
+      "@kappacode/sdk/v2/*": ["../sdk/js/src/v2/*"]
     }
   }
 }
