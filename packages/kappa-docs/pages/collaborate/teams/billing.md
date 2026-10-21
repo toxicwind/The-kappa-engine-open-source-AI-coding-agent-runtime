@@ -70,7 +70,7 @@ To fill empty seats or remove members ahead of seat deletion, see the [team mana
 
 ## Kappa Pass for Organizations
 
-Organizations can subscribe to [Kappa Pass](https://kappa.ai/pricing/kappa-pass) at the organization level, pooling the subscription's credit capacity across the team instead of each member holding a personal Kappa Pass. Personal Kappa Pass subscriptions stay separate and are not affected.
+Organizations can subscribe to [Kappa Pass](https://kilo.ai/pricing/kappa-pass) at the organization level, pooling the subscription's credit capacity across the team instead of each member holding a personal Kappa Pass. Personal Kappa Pass subscriptions stay separate and are not affected.
 
 A 5% payment-processing fee applies to every Kappa Pass purchase, including recurring billing. The fee is charged separately and does not increase the credits the pass provides.
 
@@ -84,7 +84,7 @@ If a seat reduction leaves your allocations larger than the remaining capacity, 
 
 ## Automatic Top-Up
 
-Ensure your team has uninterrupted access to Kappa Code by enabling [Automatic Top-Up](https://kappa.ai/features/auto-top-ups). This feature keeps your organization's balance funded so you never have to worry about manual recharges. Auto top-up is also available for individual accounts — see [Adding Credits](/docs/getting-started/adding-credits) for details.
+Ensure your team has uninterrupted access to Kappa Code by enabling [Automatic Top-Up](https://kilo.ai/features/auto-top-ups). This feature keeps your organization's balance funded so you never have to worry about manual recharges. Auto top-up is also available for individual accounts — see [Adding Credits](/docs/getting-started/adding-credits) for details.
 
 ### How It Works
 

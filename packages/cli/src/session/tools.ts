@@ -212,7 +212,7 @@ export const resolve = Effect.fn("SessionTools.resolve")(function* (input: {
               })),
             }
             // kappacode_change - mark successful targeted memory recalls for the assistant badge
-            if (item.id === "kilo_memory_recall") MemoryMarker.recall({ result: output, cache: input.memoryCache }) // kappacode_change
+            if (item.id === "kappa_memory_recall") MemoryMarker.recall({ result: output, cache: input.memoryCache }) // kappacode_change
             yield* plugin.trigger(
               "tool.execute.after",
               { tool: item.id, sessionID: ctx.sessionID, callID: ctx.callID, args },

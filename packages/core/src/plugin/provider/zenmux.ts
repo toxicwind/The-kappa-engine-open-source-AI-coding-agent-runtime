@@ -13,7 +13,7 @@ export const ZenmuxPlugin = define({
           if (item.provider.api.url !== "https://zenmux.ai/api/v1") continue
           if (item.provider.id !== ProviderV2.ID.make("zenmux")) continue // kappacode_change
           evt.provider.update(item.provider.id, (provider) => {
-            provider.request.headers["HTTP-Referer"] ??= "https://kappa.ai/" // kappacode_change
+            provider.request.headers["HTTP-Referer"] ??= "https://kilo.ai/" // kappacode_change
             provider.request.headers["X-Title"] ??= "Kappa Code" // kappacode_change
           })
         }

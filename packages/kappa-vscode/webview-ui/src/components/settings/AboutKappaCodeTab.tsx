@@ -216,7 +216,7 @@ const AboutKappaCodeTab: Component<AboutKappaCodeTabProps> = (props) => {
             Reddit
           </span>
           , {language.t("settings.aboutKappaCode.feedback.or")}{" "}
-          <span style={linkStyle} onClick={() => open("https://kappa.ai/discord")}>
+          <span style={linkStyle} onClick={() => open("https://kilo.ai/discord")}>
             Discord
           </span>
           .
@@ -230,8 +230,8 @@ const AboutKappaCodeTab: Component<AboutKappaCodeTabProps> = (props) => {
           }}
         >
           {language.t("settings.aboutKappaCode.support.prefix")}{" "}
-          <span style={linkStyle} onClick={() => open("https://kappa.ai/support")}>
-            kappa.ai/support
+          <span style={linkStyle} onClick={() => open("https://kilo.ai/support")}>
+            kilo.ai/support
           </span>
           .
         </p>

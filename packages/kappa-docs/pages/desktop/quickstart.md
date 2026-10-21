@@ -13,7 +13,7 @@ On first launch, a short setup wizard walks you through the setup steps.
 
 ### 1. Review the terms of service
 
-Review and accept Kappa's [terms of service](https://kappa.ai/terms).
+Review and accept Kappa's [terms of service](https://kilo.ai/terms).
 
 ### 2. Connect to Kappa
 

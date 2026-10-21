@@ -9,7 +9,7 @@ test("marks transformed Kilo branding and preserves legacy config names", () => 
     true,
   )
   expect(result.result).toContain('"product": "Kilo", // kilocode_change')
-  expect(result.result).toContain('"docs": "https://kappa.ai/docs", // kilocode_change')
+  expect(result.result).toContain('"docs": "https://kilo.ai/docs", // kilocode_change')
   expect(result.result).toContain('"legacy": ".opencode/opencode.json",')
   expect(result.replacements).toBe(2)
 })

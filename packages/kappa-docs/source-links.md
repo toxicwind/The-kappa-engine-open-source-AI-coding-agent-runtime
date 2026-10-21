@@ -102,50 +102,50 @@
   <!-- packages/cli/src/provider/provider.ts -->
 - <https://inference.do-ai.run/v1>
   <!-- packages/cli/src/plugin/digitalocean.ts -->
-- <https://kappa.ai>
+- <https://kilo.ai>
   <!-- packages/cli/src/cli/cmd/github.handler.ts -->
   <!-- packages/cli/src/kappacode/cloud/origin.ts -->
   <!-- packages/cli/src/mcp/oauth-provider.ts -->
   <!-- packages/cli/src/session/network.ts -->
-- <https://kappa.ai/>
+- <https://kilo.ai/>
   <!-- packages/cli/src/cli/cmd/generate.ts -->
   <!-- packages/cli/src/kappacode/server/httpapi/public.ts -->
   <!-- packages/cli/src/provider/provider.ts -->
-- <https://kappa.ai/cli/install>
+- <https://kilo.ai/cli/install>
   <!-- packages/cli/src/kappacode/installation/index.ts -->
-- <https://kappa.ai/discord>
+- <https://kilo.ai/discord>
   <!-- packages/kappa-vscode/webview-ui/src/components/chat/FeedbackDialog.tsx -->
   <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKappaCodeTab.tsx -->
   <!-- packages/cli/src/kappacode/cli/cmd/tui/component/dialog-about.tsx -->
-- <https://kappa.ai/docs>
+- <https://kilo.ai/docs>
   <!-- packages/kappa-vscode/webview-ui/src/hooks/useSlashCommand.ts -->
   <!-- packages/cli/src/kappacode/cli/cmd/tui/app.tsx -->
   <!-- packages/cli/src/kappacode/cli/cmd/tui/component/dialog-about.tsx -->
-- <https://kappa.ai/docs/ai-providers/cloudflare>
+- <https://kilo.ai/docs/ai-providers/cloudflare>
   <!-- packages/cli/src/cli/cmd/providers.ts -->
-- <https://kappa.ai/docs/ai-providers/gemini>
+- <https://kilo.ai/docs/ai-providers/gemini>
   <!-- packages/cli/src/kappacode/provider/error.ts -->
-- <https://kappa.ai/docs/ai-providers#custom-provider>
+- <https://kilo.ai/docs/ai-providers#custom-provider>
   <!-- packages/kappa-vscode/webview-ui/src/components/settings/CustomProviderDialog.tsx -->
-- <https://kappa.ai/docs/automate/agent-manager-workflows>
+- <https://kilo.ai/docs/automate/agent-manager-workflows>
   <!-- packages/kappa-vscode/webview-ui/agent-manager/intro/AgentManagerIntro.tsx -->
-- <https://kappa.ai/docs/automate/mcp/what-is-mcp>
+- <https://kilo.ai/docs/automate/mcp/what-is-mcp>
   <!-- packages/kappa-vscode/webview-ui/src/components/marketplace/InstallModal.tsx -->
-- <https://kappa.ai/docs/code-with-ai/platforms/github>
+- <https://kilo.ai/docs/code-with-ai/platforms/github>
   <!-- packages/cli/src/cli/cmd/github.handler.ts -->
-- <https://kappa.ai/docs/customize/marketplace>
+- <https://kilo.ai/docs/customize/marketplace>
   <!-- packages/kappa-vscode/webview-ui/src/components/marketplace/InstallModal.tsx -->
   <!-- packages/kappa-vscode/webview-ui/src/components/marketplace/MarketplaceListView.tsx -->
-- <https://kappa.ai/docs/getting-started/settings>
+- <https://kilo.ai/docs/getting-started/settings>
   <!-- packages/cli/src/kappacode/config/claude-migration.ts -->
   <!-- packages/cli/src/kappacode/config/config.ts -->
-- <https://kappa.ai/docs/oauth/kappa/client.json>
+- <https://kilo.ai/docs/oauth/kappa/client.json>
   <!-- packages/cli/src/kappacode/mcp/client-metadata.ts -->
-- <https://kappa.ai/gateway>
+- <https://kilo.ai/gateway>
   <!-- packages/cli/src/kappacode/cli/cmd/tui/component/dialog-provider.tsx -->
-- <https://kappa.ai/pricing/kappa-pass>
+- <https://kilo.ai/pricing/kappa-pass>
   <!-- packages/kappa-vscode/webview-ui/src/components/profile/ProfileView.tsx -->
-- <https://kappa.ai/support>
+- <https://kilo.ai/support>
   <!-- packages/kappa-vscode/webview-ui/src/components/chat/FeedbackDialog.tsx -->
   <!-- packages/kappa-vscode/webview-ui/src/components/settings/AboutKappaCodeTab.tsx -->
 - <https://kappacode.ai>

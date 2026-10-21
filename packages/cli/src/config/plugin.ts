@@ -2,7 +2,7 @@ import { Glob } from "@opencode-ai/core/util/glob"
 import { ConfigPluginV1 } from "@opencode-ai/core/v1/config/plugin"
 import { pathToFileURL } from "url"
 import { isPathPluginSpec, parsePluginSpecifier, resolvePathPluginTarget } from "@/plugin/shared"
-import { LEGACY_DISCOVERY_GLOBS, normalizeLegacyKiloSpec } from "@/kappacode/config/legacy-kilo" // kappacode_change - legacy kappa plugin compat
+import { LEGACY_DISCOVERY_GLOBS, normalizeLegacyKappaSpec } from "@/kappacode/config/legacy-kappa" // kappacode_change - legacy kappa plugin compat
 import path from "path"
 
 export type Scope = "global" | "local"
@@ -48,9 +48,9 @@ export async function resolvePluginSpec(
   plugin: ConfigPluginV1.Spec,
   configFilepath: string,
 ): Promise<ConfigPluginV1.Spec> {
-  // kappacode_change start - legacy kilo npm specs resolve to kappa packages
+  // kappacode_change start - legacy kappa npm specs resolve to kappa packages
   const spec = pluginSpecifier(plugin)
-  const normalized = normalizeLegacyKiloSpec(spec)
+  const normalized = normalizeLegacyKappaSpec(spec)
   if (!isPathPluginSpec(normalized) && normalized !== spec) {
     return Array.isArray(plugin) ? [normalized, plugin[1]] : normalized
   }

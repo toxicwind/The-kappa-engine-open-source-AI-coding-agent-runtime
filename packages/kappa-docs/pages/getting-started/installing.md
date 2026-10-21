@@ -133,6 +133,6 @@ After installation:
 
 If you encounter issues not covered here:
 
-- Join our [Discord community](https://kappa.ai/discord) for real-time support
+- Join our [Discord community](https://kilo.ai/discord) for real-time support
 - Submit issues on [GitHub](https://github.com/Kappa-Org/kappacode/issues)
 - Visit our [Reddit community](https://www.reddit.com/r/KappaCode)

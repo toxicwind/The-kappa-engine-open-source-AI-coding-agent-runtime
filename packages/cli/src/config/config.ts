@@ -205,8 +205,8 @@ export const use = serviceUse(Service)
 
 function globalConfigFile() {
   // kappacode_change start
-  // legacy kilo.json/kilo.jsonc accepted for backwards compatibility
-  const candidates = ["kappa.jsonc", "kappa.json", "kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
+  // legacy kappa.json/kappa.jsonc accepted for backwards compatibility
+  const candidates = ["kappa.jsonc", "kappa.json", "kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
     // kappacode_change end
     path.join(Global.Path.config, file),
   )
@@ -474,11 +474,11 @@ const layer = Layer.effect(
       // kappacode_change start - legacy kappa global config compat
       result = mergeConfig(
         result,
-        yield* loadFile(path.join(Global.Path.config, "kilo.json"), env, true, undefined, configWarnings),
+        yield* loadFile(path.join(Global.Path.config, "kappa.json"), env, true, undefined, configWarnings),
       )
       result = mergeConfig(
         result,
-        yield* loadFile(path.join(Global.Path.config, "kilo.jsonc"), env, true, undefined, configWarnings),
+        yield* loadFile(path.join(Global.Path.config, "kappa.jsonc"), env, true, undefined, configWarnings),
       )
       // kappacode_change end
       result = mergeConfig(
@@ -792,8 +792,8 @@ const layer = Layer.effect(
         }
 
         if (!Flag.KAPPA_DISABLE_PROJECT_CONFIG) {
-          // kappacode_change start - also discover kappa.json project files; kilo.json for legacy compat
-          for (const name of ["kappa", "kilo", "opencode"] as const) {
+          // kappacode_change start - also discover kappa.json project files; kappa.json for legacy compat
+          for (const name of ["kappa", "kappa", "opencode"] as const) {
             for (const file of yield* ConfigPaths.files(name, ctx.directory, ctx.worktree).pipe(Effect.orDie)) {
               yield* merge(
                 file,

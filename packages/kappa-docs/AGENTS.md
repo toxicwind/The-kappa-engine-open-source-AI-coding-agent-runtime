@@ -28,7 +28,7 @@ Use the Markdoc image tag format:
 {% image src="/docs/img/kappa-provider/connected-accounts.png" alt="Connect account screen" width="800" caption="Connect account screen" /%}
 ```
 
-Note that this site is served under kappa.ai/docs so the `/docs` prefix **must** be present in every image path.
+Note that this site is served under kilo.ai/docs so the `/docs` prefix **must** be present in every image path.
 
 #### Generated screenshots
 

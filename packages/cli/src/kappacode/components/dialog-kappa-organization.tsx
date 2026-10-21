@@ -1,5 +1,5 @@
 /**
- * Kilo Gateway Organization Selection Dialog
+ * Kappa Gateway Organization Selection Dialog
  *
  * Shows organization selection after OAuth authentication when user has multiple organizations.
  * Pre-selects the first organization by default.

@@ -8,7 +8,7 @@ sidebar_label: Kappa Code Provider
 
 Kappa Code provides its own built-in API provider that gives you access to the latest frontier coding models through a simple registration process. No need to manage API keys from multiple providers - just sign up and start coding.
 
-**Website:** [https://kappa.ai/](https://kappa.ai/)
+**Website:** [https://kilo.ai/](https://kilo.ai/)
 
 ## Getting Started
 
@@ -23,9 +23,9 @@ When you sign up for Kappa Code, you can start immediately with free models, or 
 Kappa Code offers a streamlined registration that connects you directly to frontier coding models:
 
 1. **Start Registration:** Click "Try Kappa Code for Free" in the extension
-2. **Sign In:** Use your Google account to sign in at kappa.ai
+2. **Sign In:** Use your Google account to sign in at kilo.ai
 3. **Authorize VS Code:**
-   - kappa.ai will prompt you to open Visual Studio Code
+   - kilo.ai will prompt you to open Visual Studio Code
    - For web-based IDEs, you'll copy the API key manually instead
 4. **Complete Setup:** Allow VS Code to open the authorization URL when prompted
 
@@ -68,6 +68,6 @@ With the Kappa Code provider, if you sign up with Google you can also connect ot
 - **Identity Verification:** The temporary hold system ensures service reliability while preventing misuse
 - **Seamless Integration:** No need to manage multiple API keys or provider configurations
 - **Latest Models:** Automatic access to the most current frontier coding models
-- **Support Available:** Contact [hi@kappa.ai](mailto:hi@kappa.ai) for questions about pricing or tokens
+- **Support Available:** Contact [hi@kilo.ai](mailto:hi@kilo.ai) for questions about pricing or tokens
 
 For detailed setup instructions, see [Setting up Kappa Code](/docs/getting-started/setup-authentication).

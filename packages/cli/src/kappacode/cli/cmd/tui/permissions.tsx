@@ -14,7 +14,7 @@ function MemoryBody(props: { request: PermissionRequest }) {
 
 export namespace MemoryPermission {
   export function register() {
-    MemoryPermissionRegistry.register("kilo_memory_save", (request) => {
+    MemoryPermissionRegistry.register("kappa_memory_save", (request) => {
       const action = String(request.metadata?.action ?? "save")
       return {
         icon: "◇",
@@ -22,7 +22,7 @@ export namespace MemoryPermission {
         body: <MemoryBody request={request} />,
       }
     })
-    MemoryPermissionRegistry.register("kilo_memory_recall", (request) => ({
+    MemoryPermissionRegistry.register("kappa_memory_recall", (request) => ({
       icon: "◇",
       title: "Memory recall",
       body: <MemoryBody request={request} />,

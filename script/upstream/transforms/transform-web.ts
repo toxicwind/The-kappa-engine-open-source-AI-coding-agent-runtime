@@ -51,7 +51,7 @@ const WEB_REPLACEMENTS: WebReplacement[] = [
   },
   {
     pattern: /opencode\.ai(?!\/zen)/g,
-    replacement: "kappa.ai",
+    replacement: "kilo.ai",
     description: "Main domain (excluding zen)",
   },
 

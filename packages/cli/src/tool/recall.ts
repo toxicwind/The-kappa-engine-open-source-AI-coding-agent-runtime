@@ -30,7 +30,7 @@ const Parameters = Schema.Struct({
 })
 
 export const RecallTool = Tool.define(
-  "kilo_local_recall",
+  "kappa_local_recall",
   Effect.gen(function* () {
     const git = yield* Git.Service
     const sessions = yield* Session.Service // kappacode_change

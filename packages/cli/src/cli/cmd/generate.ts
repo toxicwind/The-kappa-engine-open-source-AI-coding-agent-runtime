@@ -41,7 +41,7 @@ export const GenerateCommand = {
       .replaceAll("OpenCode", "Kappa")
       .replaceAll("opencode.local", "kappa.local")
       .replaceAll("opencode serve", "kappa serve")
-      .replaceAll("https://opencode.ai/", "https://kappa.ai/")
+      .replaceAll("https://opencode.ai/", "https://kilo.ai/")
     // kappacode_change end
 
     // Format through prettier so output is byte-identical to committed file

@@ -46,7 +46,7 @@ export { KappaTuiConfig } from "@/kappacode/cli/cmd/tui/context/tui-config"
 export const APP_TITLE = "Kappa CLI"
 
 /** Public docs URL shown in the command palette. */
-export const DOCS_URL = "https://kappa.ai/docs"
+export const DOCS_URL = "https://kilo.ai/docs"
 
 /** Human-readable product name used in user-facing messages. */
 export const APP_NAME = "Kappa"
@@ -236,7 +236,7 @@ export function handleSessionError(error: unknown, toast: ReturnType<typeof useT
  * One-shot initialiser called from the App component body.
  *
  * - Injects TUI dependencies into kappa-gateway
- * - Registers Kilo Gateway commands (profile, teams, etc.)
+ * - Registers Kappa Gateway commands (profile, teams, etc.)
  * - Registers the auto-approve toggle command
  */
 export function init() {
@@ -262,7 +262,7 @@ export function init() {
     TextAttributes,
   })
 
-  // Register Kilo Gateway commands (profile, teams, remote, etc.)
+  // Register Kappa Gateway commands (profile, teams, remote, etc.)
   registerKappaCommands(useSDK)
   useCaffeination()
 

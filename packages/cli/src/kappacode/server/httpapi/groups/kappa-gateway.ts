@@ -258,8 +258,8 @@ export const KappaGatewayApi = HttpApi.make("kappa")
         }).annotateMerge(
           OpenApi.annotations({
             identifier: "kappa.profile",
-            summary: "Get Kilo Gateway profile",
-            description: "Fetch user profile and organizations from Kilo Gateway",
+            summary: "Get Kappa Gateway profile",
+            description: "Fetch user profile and organizations from Kappa Gateway",
           }),
         ),
         HttpApiEndpoint.get("authStatus", KappaGatewayPaths.authStatus, {
@@ -292,7 +292,7 @@ export const KappaGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.fim",
             summary: "FIM completion",
-            description: "Proxy a Fill-in-the-Middle completion request to the Kilo Gateway",
+            description: "Proxy a Fill-in-the-Middle completion request to the Kappa Gateway",
           }),
         ),
         HttpApiEndpoint.post("edit", KappaGatewayPaths.edit, {
@@ -318,7 +318,7 @@ export const KappaGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.audio.transcriptions",
             summary: "Speech to text transcription",
-            description: "Proxy an audio transcription request to the Kilo Gateway",
+            description: "Proxy an audio transcription request to the Kappa Gateway",
           }),
         ),
         HttpApiEndpoint.get("imageModels", KappaGatewayPaths.imageModels, {
@@ -329,7 +329,7 @@ export const KappaGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.models.images",
             summary: "Image generation models",
-            description: "List image-capable models from the Kilo Gateway OpenRouter passthrough",
+            description: "List image-capable models from the Kappa Gateway OpenRouter passthrough",
           }),
         ),
         HttpApiEndpoint.get("transcriptionModels", KappaGatewayPaths.transcriptionModels, {
@@ -340,7 +340,7 @@ export const KappaGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.models.transcriptions",
             summary: "Speech-to-text models",
-            description: "List transcription-capable models from the Kilo Gateway catalog",
+            description: "List transcription-capable models from the Kappa Gateway catalog",
           }),
         ),
         HttpApiEndpoint.get("notifications", KappaGatewayPaths.notifications, {
@@ -351,7 +351,7 @@ export const KappaGatewayApi = HttpApi.make("kappa")
           OpenApi.annotations({
             identifier: "kappa.notifications",
             summary: "Get Kappa notifications",
-            description: "Fetch notifications from Kilo Gateway for CLI display",
+            description: "Fetch notifications from Kappa Gateway for CLI display",
           }),
         ),
         HttpApiEndpoint.post("organization", KappaGatewayPaths.organization, {
@@ -362,8 +362,8 @@ export const KappaGatewayApi = HttpApi.make("kappa")
         }).annotateMerge(
           OpenApi.annotations({
             identifier: "kappa.organization.set",
-            summary: "Update Kilo Gateway organization",
-            description: "Switch to a different Kilo Gateway organization",
+            summary: "Update Kappa Gateway organization",
+            description: "Switch to a different Kappa Gateway organization",
           }),
         ),
         HttpApiEndpoint.get("cloudSessions", KappaGatewayPaths.cloudSessions, {
@@ -410,7 +410,7 @@ export const KappaGatewayApi = HttpApi.make("kappa")
       .annotateMerge(
         OpenApi.annotations({
           title: "kappa",
-          description: "Kilo Gateway routes.",
+          description: "Kappa Gateway routes.",
         }),
       )
       .middleware(InstanceContextMiddleware)

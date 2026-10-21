@@ -57,7 +57,7 @@ const BRANDING_REPLACEMENTS: BrandingReplacement[] = [
   },
   {
     pattern: /opencode\.ai(?!\/zen)/g,
-    replacement: "kappa.ai",
+    replacement: "kilo.ai",
     description: "Main domain (excluding zen)",
   },
 

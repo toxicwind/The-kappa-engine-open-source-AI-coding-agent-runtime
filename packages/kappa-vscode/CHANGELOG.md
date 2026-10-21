@@ -3860,7 +3860,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 - [#5744](https://github.com/Kappa-Org/kappacode/pull/5744) [`870cdd5`](https://github.com/Kappa-Org/kappacode/commit/870cdd57e7b096caca536ca0aa0da393a68eb730) Thanks [@fstanis](https://github.com/fstanis)! - Fix Opus 4.6 model name
 
-- [#5767](https://github.com/Kappa-Org/kappacode/pull/5767) [`57daae1`](https://github.com/Kappa-Org/kappacode/commit/57daae1c3765bd1c37ee5791cb465edc7bd9a861) Thanks [@kiloconnect](https://github.com/apps/kiloconnect)! - Update Discord link in docs footer to use kappa.ai/discord
+- [#5767](https://github.com/Kappa-Org/kappacode/pull/5767) [`57daae1`](https://github.com/Kappa-Org/kappacode/commit/57daae1c3765bd1c37ee5791cb465edc7bd9a861) Thanks [@kiloconnect](https://github.com/apps/kiloconnect)! - Update Discord link in docs footer to use kilo.ai/discord
 
 - [#5758](https://github.com/Kappa-Org/kappacode/pull/5758) [`25f0043`](https://github.com/Kappa-Org/kappacode/commit/25f0043f66248cb12c1c353c9cd9935a0d2d9d60) Thanks [@markijbema](https://github.com/markijbema)! - Minor improvement of auto-execute commands with input redirection
 
@@ -5289,7 +5289,7 @@ If you have any issues with the migration the original data is not yet deleted a
 
 - [#3466](https://github.com/Kappa-Org/kappacode/pull/3466) [`e623ce1`](https://github.com/Kappa-Org/kappacode/commit/e623ce146bbad7453355ee84a4b4bb2fc894b031) Thanks [@chrarnoldus](https://github.com/chrarnoldus)! - Thanks @pranjaldatta! Added support for Inception as a provider
 
-- [#2435](https://github.com/Kappa-Org/kappacode/pull/2435) [`c13fe3c`](https://github.com/Kappa-Org/kappacode/commit/c13fe3c634496b9e1fc08371822a4071407ff9bc) Thanks [@catrielmuller](https://github.com/catrielmuller)! - Auto Cleanup automatically manages your task history by removing old tasks to free up disk space and improve performance - https://kappa.ai/docs/advanced-usage/auto-cleanup
+- [#2435](https://github.com/Kappa-Org/kappacode/pull/2435) [`c13fe3c`](https://github.com/Kappa-Org/kappacode/commit/c13fe3c634496b9e1fc08371822a4071407ff9bc) Thanks [@catrielmuller](https://github.com/catrielmuller)! - Auto Cleanup automatically manages your task history by removing old tasks to free up disk space and improve performance - https://kilo.ai/docs/advanced-usage/auto-cleanup
 
 ### Patch Changes
 

@@ -64,7 +64,7 @@ describe("KappaPlugin", () => {
       yield* addPlugin()
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://kappa.ai/",
+        "HTTP-Referer": "https://kilo.ai/",
         "X-Title": "Kappa Code", // kappacode_change
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter))?.request.headers).toEqual({})
@@ -86,7 +86,7 @@ describe("KappaPlugin", () => {
       yield* addPlugin()
 
       expect((yield* catalog.provider.get(ProviderV2.ID.kappa))?.request.headers).toEqual({
-        "HTTP-Referer": "https://kappa.ai/",
+        "HTTP-Referer": "https://kilo.ai/",
         "X-Title": "Kappa Code", // kappacode_change
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kappa")))?.request.headers).not.toHaveProperty(
@@ -115,7 +115,7 @@ describe("KappaPlugin", () => {
       yield* addPlugin()
 
       expect((yield* catalog.provider.get(ProviderV2.ID.kappa))?.request.headers).toEqual({
-        "HTTP-Referer": "https://kappa.ai/",
+        "HTTP-Referer": "https://kilo.ai/",
         "X-Title": "Kappa Code", // kappacode_change
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("custom-kappa")))?.request.headers).toEqual({})
@@ -123,7 +123,7 @@ describe("KappaPlugin", () => {
   )
 
   // kappacode_change start
-  it.effect("routes the Kappa catalog through the Kilo Gateway SDK", () =>
+  it.effect("routes the Kappa catalog through the Kappa Gateway SDK", () =>
     withEnv({ KAPPA_API_KEY: undefined, KAPPA_ORG_ID: undefined }, () =>
       Effect.gen(function* () {
         const aisdk = yield* AISDK.Service
@@ -150,9 +150,9 @@ describe("KappaPlugin", () => {
 
         const result = yield* aisdk.runSDK({
           model: ModelV2.Info.make({
-            ...ModelV2.Info.empty(ProviderV2.ID.kappa, ModelV2.ID.make("kilo-auto/free")),
+            ...ModelV2.Info.empty(ProviderV2.ID.kappa, ModelV2.ID.make("kappa-auto/free")),
             api: {
-              id: ModelV2.ID.make("kilo-auto/free"),
+              id: ModelV2.ID.make("kappa-auto/free"),
               type: "aisdk",
               package: "@kappacode/kappa-gateway",
             },

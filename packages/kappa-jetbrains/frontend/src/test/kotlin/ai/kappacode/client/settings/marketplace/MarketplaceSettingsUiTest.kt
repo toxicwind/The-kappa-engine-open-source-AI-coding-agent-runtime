@@ -694,7 +694,7 @@ class MarketplaceSettingsUiTest : BasePlatformTestCase() {
 
         click(panel, "mcp:context7", "docs")
 
-        assertEquals(listOf("https://kappa.ai"), opened)
+        assertEquals(listOf("https://kilo.ai"), opened)
     }
 
     fun `test configurable lifecycle triggers initial list load`() {
@@ -732,7 +732,7 @@ class MarketplaceSettingsUiTest : BasePlatformTestCase() {
             description = "Docs lookup",
             category = "tools",
             author = "Kilo",
-            authorUrl = "https://kappa.ai",
+            authorUrl = "https://kilo.ai",
             url = "https://github.com/example/context7",
             content = "{}",
             installedProject = false,

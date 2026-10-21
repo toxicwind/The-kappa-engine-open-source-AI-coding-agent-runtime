@@ -985,7 +985,7 @@ export namespace RemoteSender {
       if (msg.command === "create_session") {
         // kappacode_change - K1 W1: in-process create_session. Optional wire
         // fields (agent/model/orgId) ride protocolVersion 1; orgId lands in
-        // session metadata so the first kilo_meta carries the claim. Handler
+        // session metadata so the first kappa_meta carries the claim. Handler
         // (a) accepts an absent `sessionId` (instance-picker path), (b)
         // resolves the target directory from that session or options.directory,
         // (c) attaches in-process; attach failures roll back via sessionRemove.

@@ -7,9 +7,9 @@ description: "How to add credits to your Kappa Code account"
 
 Once you've used any initial free Kappa Credits, you can easily add more:
 
-- Subscribe to the [Kappa Pass](https://kappa.ai/pricing/kappa-pass), the most cost effective way to add credits.
+- Subscribe to the [Kappa Pass](https://kilo.ai/pricing/kappa-pass), the most cost effective way to add credits.
 - Purchase additional credits as a one-time transaction.
-- Enable [automatic top-up](https://kappa.ai/features/auto-top-ups), which purchases additional credits when your balance runs low. Auto top-up is available for both individual and organization accounts.
+- Enable [automatic top-up](https://kilo.ai/features/auto-top-ups), which purchases additional credits when your balance runs low. Auto top-up is available for both individual and organization accounts.
 
 These options are available to purchase from your [personal profile page](https://app.kilo.ai/profile). Organization owners can manage credits and auto top-up from the [Organization dashboard](https://app.kilo.ai).
 
@@ -24,7 +24,7 @@ At Kappa Code, we believe in complete pricing transparency:
 - $1 of purchased credits funds $1 of usage.
 - A 5% payment-processing fee applies when you purchase credits. This fee is charged separately and does not increase your credit balance.
 
-For current platform, inference, credit purchase, and cloud compute pricing, see [Kappa Code pricing](https://kappa.ai/pricing).
+For current platform, inference, credit purchase, and cloud compute pricing, see [Kappa Code pricing](https://kilo.ai/pricing).
 
 ## Future Plans
 
@@ -34,5 +34,5 @@ We're continuously working to improve Kappa Code and expand our offerings:
 - More payment options and other plans are under development
 
 {% callout type="tip" title="Need Help?" %}
-If you have any questions about pricing or tokens, please reach out to our [support team](mailto:hi@kappa.ai) or ask in our [Discord community](https://kappa.ai/discord).
+If you have any questions about pricing or tokens, please reach out to our [support team](mailto:hi@kilo.ai) or ask in our [Discord community](https://kilo.ai/discord).
 {% /callout %}

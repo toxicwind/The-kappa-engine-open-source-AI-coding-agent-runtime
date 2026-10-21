@@ -14,7 +14,7 @@ Kappa Desktop is distributed as a native installer for your operating system. Do
 
 ## Install the app
 
-1. Download the [Kappa Desktop installer](https://kappa.ai/install) for your platform.
+1. Download the [Kappa Desktop installer](https://kilo.ai/install) for your platform.
 2. Run the installer and follow the prompts.
 3. Launch Kappa Desktop.
 

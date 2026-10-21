@@ -33,7 +33,7 @@ Cloud Agent compute is billed per second while the container is awake. Compute a
 
 Usage is measured in whole seconds, with no rounding up to a longer billing interval and no minimum usage charge. Your balance must contain at least $5 to launch a container, but this is not an extra charge or minimum spend. BYOK users still pay for cloud compute because their provider keys cover inference only.
 
-See [Kappa Code pricing](https://kappa.ai/pricing) for current rates and pricing for other cloud products.
+See [Kappa Code pricing](https://kilo.ai/pricing) for current rates and pricing for other cloud products.
 
 ### Session cost display
 

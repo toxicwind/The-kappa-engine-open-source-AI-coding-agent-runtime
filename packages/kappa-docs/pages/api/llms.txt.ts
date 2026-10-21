@@ -106,7 +106,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     )
     sections.push("")
     const protocol = req.headers["x-forwarded-proto"] || "https"
-    const host = req.headers.host || "kappa.ai"
+    const host = req.headers.host || "kilo.ai"
     const baseUrl = `${protocol}://${host}`
     const titleMap = buildTitleMap(markdownFiles, pagesDir)
 

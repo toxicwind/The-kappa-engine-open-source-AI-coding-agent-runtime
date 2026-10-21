@@ -107953,7 +107953,7 @@
     "npm": "@ai-sdk/openai-compatible",
     "api": "https://api.kilo.ai/api/gateway",
     "name": "Kilo Gateway",
-    "doc": "https://kappa.ai",
+    "doc": "https://kilo.ai",
     "models": {
       "inclusionai/ling-2.6-1t": {
         "id": "inclusionai/ling-2.6-1t",

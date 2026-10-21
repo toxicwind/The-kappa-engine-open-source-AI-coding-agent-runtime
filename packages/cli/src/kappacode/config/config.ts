@@ -683,7 +683,7 @@ export namespace KappacodeConfig {
   // ── Opencode config migration notice ─────────────────────────────────
 
   /** Client-neutral docs page describing where Kappa reads configuration from. */
-  export const CONFIG_DOCS_URL = "https://kappa.ai/docs/getting-started/settings"
+  export const CONFIG_DOCS_URL = "https://kilo.ai/docs/getting-started/settings"
 
   /** Stable id for the synthetic "move your opencode config" notification (used for client-side dismissal). */
   export const OPENCODE_NOTIFICATION_ID = "kappa.local.opencode-config-detected"

@@ -58,7 +58,7 @@ Switch to **Kappa Teams** or **Kappa Enterprise** from other AI coding tools and
 **Step 2: Kappa Setup**
 
 1. **Create organization** at [app.kilo.ai](https://app.kilo.ai)
-2. **Subscribe to Teams ($15/user/month)** or **Enterprise ([Contact Sales](https://kappa.ai/contact-sales))**
+2. **Subscribe to Teams ($15/user/month)** or **Enterprise ([Contact Sales](https://kilo.ai/contact-sales))**
 3. **Configure team settings** and usage policies
 4. **Purchase initial AI credits** based on usage estimates
 
@@ -351,7 +351,7 @@ Kappa Code also supports mode-specific rules (`.kappa/rules-{mode}/`), which Cur
 
 ### Getting Migration Help
 
-- **Email:** migrations@kappa.ai
+- **Email:** migrations@kilo.ai
 - **Discord:** Join our migration support channel
 - **Consultation:** Schedule free migration planning call
 - **Documentation:**
@@ -388,4 +388,4 @@ Kappa Code also supports mode-specific rules (`.kappa/rules-{mode}/`), which Cur
 - [Understand billing and pricing](/docs/collaborate/teams/billing)
 - [Migrate your rules and configurations](/docs/getting-started/migrating) (technical guide)
 
-Ready to make the switch? Contact our migration team at migrations@kappa.ai to plan your transition to transparent AI coding.
+Ready to make the switch? Contact our migration team at migrations@kilo.ai to plan your transition to transparent AI coding.

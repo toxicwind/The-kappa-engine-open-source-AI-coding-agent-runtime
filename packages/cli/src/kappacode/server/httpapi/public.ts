@@ -140,7 +140,7 @@ function rebrand(value: unknown): void {
       .replaceAll("OpenCode", "Kappa")
       .replaceAll("opencode.local", "kappa.local")
       .replaceAll("opencode serve", "kappa serve")
-      .replaceAll("https://opencode.ai/", "https://kappa.ai/")
+      .replaceAll("https://opencode.ai/", "https://kilo.ai/")
   }
 }
 

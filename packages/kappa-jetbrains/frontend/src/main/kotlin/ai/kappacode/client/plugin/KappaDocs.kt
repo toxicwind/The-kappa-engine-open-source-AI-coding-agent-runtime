@@ -1,8 +1,8 @@
 package ai.kappacode.client.plugin
 
-/** Central place for kappa.ai/docs links so settings pages do not hardcode URLs. */
+/** Central place for kilo.ai/docs links so settings pages do not hardcode URLs. */
 object KiloDocs {
-    const val BASE = "https://kappa.ai/docs"
+    const val BASE = "https://kilo.ai/docs"
     const val AGENTS = "$BASE/customize/custom-modes"
     const val MCP = "$BASE/automate/mcp/overview"
     const val SKILLS = "$BASE/customize/skills"

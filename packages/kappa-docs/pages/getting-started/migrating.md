@@ -439,7 +439,7 @@ mkdir -p .kappa/rules-docs
 - [Learn about Custom Rules](/docs/customize/custom-rules)
 - [Explore Custom Modes](/docs/customize/custom-modes)
 - [Set up Custom Instructions](/docs/customize/custom-instructions)
-- [Join our Discord](https://kappa.ai/discord) for migration support
+- [Join our Discord](https://kilo.ai/discord) for migration support
 
 ## Additional Resources
 

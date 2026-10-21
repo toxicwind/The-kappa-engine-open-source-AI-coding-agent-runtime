@@ -18,7 +18,7 @@ Auto Model is Kappa's smart routing system. Instead of selecting a specific prov
 | `kilo-auto/free` | Auto Free | No credits required — rotates through available free models | Free |
 
 {% callout type="info" title="Live model assignments" %}
-The underlying models behind each tier are updated server-side as better options become available or as providers change pricing. See [kappa.ai/models](https://kappa.ai/models) for current model assignments and live pricing.
+The underlying models behind each tier are updated server-side as better options become available or as providers change pricing. See [kilo.ai/models](https://kilo.ai/models) for current model assignments and live pricing.
 {% /callout %}
 
 ## What Makes Auto Efficient Efficient?
@@ -79,7 +79,7 @@ Kappa automatically applies prompt caching on supported providers. Repeated cont
 - Requests using **Auto Free** models are billed at $0 on Kappa's side.
 - **BYOK (Bring Your Own Key)** requests are billed at $0 on Kappa's side — you pay the provider directly.
 
-For current pricing, visit [kappa.ai/models](https://kappa.ai/models).
+For current pricing, visit [kilo.ai/models](https://kilo.ai/models).
 
 ## Related
 

@@ -84,7 +84,7 @@ The app follows your device language, with English as the fallback. Choose anoth
 
 ## Kappa Pass and billing
 
-For Kappa Pass pricing, billing, and account management details, use the [Kappa Pass pricing page](https://kappa.ai/pricing/kappa-pass).
+For Kappa Pass pricing, billing, and account management details, use the [Kappa Pass pricing page](https://kilo.ai/pricing/kappa-pass).
 
 Kappa Pass is not sold inside the iOS or Android app. Subscribe to or change your Kappa Pass on the web instead. If you try to buy a Kappa Pass in the app, it shows **Kappa Pass purchase is not available right now.** The Android app can open the web to manage a Kappa Pass you already have; the iOS app does not offer that link.
 

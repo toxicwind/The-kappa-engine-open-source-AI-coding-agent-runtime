@@ -8,7 +8,7 @@
  * 3. Preserving lines marked with `// kilocode_change`
  *
  * String replacement rules:
- * - opencode.ai -> kappa.ai (domain)
+ * - opencode.ai -> kilo.ai (domain)
  * - app.opencode.ai -> app.kilo.ai (app domain)
  * - OpenCode -> Kilo (product name in user-visible text)
  * - opencode upgrade -> kappa upgrade (CLI commands)
@@ -69,7 +69,7 @@ const I18N_REPLACEMENTS: StringReplacement[] = [
   },
   {
     pattern: /opencode\.ai(?!\/zen)/g,
-    replacement: "kappa.ai",
+    replacement: "kilo.ai",
     description: "Main domain (excluding zen)",
   },
 

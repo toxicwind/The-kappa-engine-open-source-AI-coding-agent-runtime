@@ -51,7 +51,7 @@ class KiloMarketplaceRpcApiImplTest {
                   "description": "Docs lookup",
                   "category": "tools",
                   "author": "Kilo",
-                  "authorUrl": "https://kappa.ai",
+                  "authorUrl": "https://kilo.ai",
                   "url": "https://github.com/example/context7",
                   "prerequisites": ["Node 18+"],
                   "parameters": [{"name":"API Key","key":"apiKey"}],

@@ -148,7 +148,7 @@ export const legacyImportLayer = Layer.effectDiscard(
                 continue
               }
               yield* tx.insert(CredentialTable).values({
-                id: ID.make(`cred_kilo_${Buffer.from(item.id).toString("base64url")}`),
+                id: ID.make(`cred_kappa_${Buffer.from(item.id).toString("base64url")}`),
                 integration_id: integration,
                 label: item.label,
                 value,

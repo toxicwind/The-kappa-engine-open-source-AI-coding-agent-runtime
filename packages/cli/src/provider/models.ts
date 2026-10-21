@@ -91,7 +91,7 @@ export const layer: Layer.Layer<Service, never, Core.Service | Config.Service | 
         const models = !valid || org || Object.keys(fetched).length > 0 ? fetched : (fallback?.models ?? {})
         providers.kappa = {
           id: "kappa",
-          name: "Kilo Gateway",
+          name: "Kappa Gateway",
           env: ["KAPPA_API_KEY"],
           api: KAPPA_OPENROUTER_BASE.endsWith("/") ? KAPPA_OPENROUTER_BASE : `${KAPPA_OPENROUTER_BASE}/`,
           npm: "@kappacode/kappa-gateway",

@@ -54,7 +54,7 @@ Some free models may be rate limited by the upstream provider. If you hit a rate
 Kappa's cloud services, including Code Reviewer, also support free models. Select any model labeled "(free)" in the model dropdown when configuring a cloud task.
 
 {% callout type="tip" %}
-Available free models change over time as Kappa partners with different inference providers. Subscribe to our blog or join our [Discord](https://kappa.ai/discord) for updates.
+Available free models change over time as Kappa partners with different inference providers. Subscribe to our blog or join our [Discord](https://kilo.ai/discord) for updates.
 {% /callout %}
 
 ## Free Autocomplete

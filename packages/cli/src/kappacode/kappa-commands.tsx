@@ -1,7 +1,7 @@
 /**
- * Kilo Gateway Commands for TUI
+ * Kappa Gateway Commands for TUI
  *
- * Provides /profile and /teams commands that are only visible when connected to Kilo Gateway.
+ * Provides /profile and /teams commands that are only visible when connected to Kappa Gateway.
  */
 
 import { createMemo } from "solid-js"
@@ -26,7 +26,7 @@ type UseSDK = any
 type SDK = any
 
 /**
- * Register all Kilo Gateway commands
+ * Register all Kappa Gateway commands
  * Call this from a component inside the TUI app
  *
  * @param useSDK - OpenCode's useSDK hook (passed from TUI context)
@@ -37,7 +37,7 @@ export function registerKappaCommands(useSDK: () => UseSDK) {
   const sdk = useSDK()
   const toast = useToast()
 
-  // Only show Kappa commands when connected to Kilo Gateway
+  // Only show Kappa commands when connected to Kappa Gateway
   const isKappaConnected = createMemo(() => {
     return sync.data.provider_next.connected.includes("kappa")
   })
@@ -100,7 +100,7 @@ export function registerKappaCommands(useSDK: () => UseSDK) {
       {
         name: "kappa.profile",
         title: "Profile",
-        desc: "View your Kilo Gateway profile",
+        desc: "View your Kappa Gateway profile",
         category: "Kappa",
         slashName: "profile",
         slashAliases: ["me", "whoami"],
@@ -124,7 +124,7 @@ export function registerKappaCommands(useSDK: () => UseSDK) {
               dialog.replace(() => (
                 <DialogAlert
                   title="Error"
-                  message="Failed to fetch profile. Please ensure you're authenticated with Kilo Gateway."
+                  message="Failed to fetch profile. Please ensure you're authenticated with Kappa Gateway."
                 />
               ))
               return
@@ -207,7 +207,7 @@ export function registerKappaCommands(useSDK: () => UseSDK) {
       {
         name: "kappa.teams",
         title: "Teams",
-        desc: "Switch between Kilo Gateway teams",
+        desc: "Switch between Kappa Gateway teams",
         category: "Kappa",
         slashName: "teams",
         slashAliases: ["team", "org", "orgs"],
@@ -222,7 +222,7 @@ export function registerKappaCommands(useSDK: () => UseSDK) {
               dialog.replace(() => (
                 <DialogAlert
                   title="Error"
-                  message="Failed to fetch teams. Please ensure you're authenticated with Kilo Gateway."
+                  message="Failed to fetch teams. Please ensure you're authenticated with Kappa Gateway."
                 />
               ))
               return

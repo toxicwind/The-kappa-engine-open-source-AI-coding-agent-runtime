@@ -12,7 +12,7 @@ export const VercelPlugin = define({
           if (item.provider.api.package !== "@ai-sdk/vercel") continue
           if (item.provider.id !== ProviderV2.ID.make("vercel")) continue // kappacode_change
           evt.provider.update(item.provider.id, (provider) => {
-            provider.request.headers["http-referer"] = "https://kappa.ai/" // kappacode_change
+            provider.request.headers["http-referer"] = "https://kilo.ai/" // kappacode_change
             provider.request.headers["x-title"] = "Kappa Code" // kappacode_change
           })
         }

@@ -11,7 +11,7 @@ const REFERENCE_PATH = root + "packages/kappa-docs/pages/code-with-ai/platforms/
 
 // End-user docs describe the release CLI. dev-setup / dev-alias are hidden
 // from release builds (see InstallationBuildKind in commands.ts), so strip
-// them here as well to keep kappa.ai/docs in sync with the shipped binary.
+// them here as well to keep kilo.ai/docs in sync with the shipped binary.
 // Cast mirrors loadCommands() in help.ts — the barrel's union type doesn't
 // collapse cleanly to CommandModule<any, any> on its own.
 const publicCommands = commands.filter((c) => c !== DevSetupCommand && c !== DevAliasCommand) as CommandModule<

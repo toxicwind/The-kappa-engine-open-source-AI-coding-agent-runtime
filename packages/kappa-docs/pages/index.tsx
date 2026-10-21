@@ -349,7 +349,7 @@ export default function HomePage() {
             <span className="footer-icon">💬</span>
             <div>
               <strong>Need help?</strong>
-              <Link href="https://kappa.ai/discord" className="footer-link">
+              <Link href="https://kilo.ai/discord" className="footer-link">
                 Join our Discord
               </Link>
             </div>

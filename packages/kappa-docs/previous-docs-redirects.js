@@ -1257,7 +1257,7 @@ module.exports = [
   },
   {
     source: "/auto-top-ups",
-    destination: "https://kappa.ai/features/auto-top-ups",
+    destination: "https://kilo.ai/features/auto-top-ups",
     basePath: false,
     permanent: true,
   },

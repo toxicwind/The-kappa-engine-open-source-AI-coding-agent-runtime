@@ -1,7 +1,7 @@
 {
-  "client_id": "https://kappa.ai/docs/oauth/kappa/client.json",
+  "client_id": "https://kilo.ai/docs/oauth/kappa/client.json",
   "client_name": "Kappa",
-  "client_uri": "https://kappa.ai",
+  "client_uri": "https://kilo.ai",
   "redirect_uris": ["http://127.0.0.1:19876/mcp/oauth/callback"],
   "grant_types": ["authorization_code", "refresh_token"],
   "response_types": ["code"],

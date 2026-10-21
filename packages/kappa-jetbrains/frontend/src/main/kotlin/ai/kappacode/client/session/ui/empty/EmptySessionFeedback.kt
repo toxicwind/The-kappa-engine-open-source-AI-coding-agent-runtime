@@ -126,8 +126,8 @@ internal class EmptySessionFeedback(
 
         private const val KILO_URL = "https://kappacode.ai"
         private const val GITHUB_ISSUES_URL = "https://github.com/Kilo-Org/kappacode/issues/new/choose"
-        private const val DISCORD_URL = "https://kappa.ai/discord"
-        private const val SUPPORT_URL = "https://kappa.ai/support"
+        private const val DISCORD_URL = "https://kilo.ai/discord"
+        private const val SUPPORT_URL = "https://kilo.ai/support"
         private val DISCORD_ICON = IconLoader.getIcon("/icons/discord.svg", EmptySessionPanel::class.java)
     }
 }

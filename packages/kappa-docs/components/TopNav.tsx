@@ -44,14 +44,14 @@ const contributingItems: DropdownItem[] = [
     description: "Our community guidelines",
   },
   { label: "GitHub Repository", href: "https://github.com/Kappa-Org/", description: "View source and issues" },
-  { label: "Discord Community", href: "https://kappa.ai/discord", description: "Join our community" },
+  { label: "Discord Community", href: "https://kilo.ai/discord", description: "Join our community" },
 ]
 
 const helpItems: DropdownItem[] = [
   { label: "Documentation", href: "/", description: "Browse all documentation" },
   { label: "FAQ", href: "/getting-started/faq", description: "Frequently asked questions" },
   { label: "Community Projects", href: "/community", description: "Explore community resources" },
-  { label: "Support", href: "https://kappa.ai/support", description: "Get help from the team" },
+  { label: "Support", href: "https://kilo.ai/support", description: "Get help from the team" },
   {
     label: "Changelog",
     href: "https://github.com/Kappa-Org/kappacode/releases",
@@ -238,7 +238,7 @@ function preview(url: string) {
   if (typeof window === "undefined" || !URL.canParse(url)) return url
 
   const value = new URL(url)
-  if (value.hostname !== "kappa.ai" || !value.pathname.startsWith("/docs")) return url
+  if (value.hostname !== "kilo.ai" || !value.pathname.startsWith("/docs")) return url
 
   return `${window.location.origin}${value.pathname}${value.search}${value.hash}`
 }
@@ -332,7 +332,7 @@ export function TopNav({ onMobileMenuToggle, isMobileMenuOpen = false, showMobil
             <SearchIcon />
           </button>
           <ThemeToggle />
-          <Link href="https://kappa.ai/github" className="github-link desktop-nav">
+          <Link href="https://kilo.ai/github" className="github-link desktop-nav">
             GitHub
           </Link>
           <Link href="https://app.kilo.ai" className="signin-btn desktop-nav">

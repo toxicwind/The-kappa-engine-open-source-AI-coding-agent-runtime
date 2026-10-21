@@ -118,7 +118,7 @@ export type Bom = {
   dependencies: { ref: string; dependsOn: string[] }[]
 }
 
-const SUPPLIER = { name: "Kilo Code", url: ["https://kappa.ai"] }
+const SUPPLIER = { name: "Kilo Code", url: ["https://kilo.ai"] }
 
 /**
  * Deterministic serial number.

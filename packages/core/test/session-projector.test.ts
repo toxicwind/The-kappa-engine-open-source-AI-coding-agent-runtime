@@ -354,7 +354,7 @@ describe("SessionProjector", () => {
       const compaction = rows.find((row) => row.type === "compaction")
       expect(compaction?.data).toMatchObject({
         summary: "summary\n\nRecent context:\nrecent context",
-        kilo_summary: "summary",
+        kappa_summary: "summary",
         recent: "recent context",
       })
       const released = Schema.decodeUnknownSync(

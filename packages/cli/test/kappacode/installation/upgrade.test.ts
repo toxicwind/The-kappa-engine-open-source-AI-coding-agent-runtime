@@ -223,7 +223,7 @@ describe("Kappa installation upgrade", () => {
   ).effect("uses the Kappa install script for curl upgrades", () =>
     Effect.gen(function* () {
       yield* Installation.Service.use((svc) => svc.upgrade("curl", "9.9.9"))
-      expect(curl).toContain("https://kappa.ai/cli/install")
+      expect(curl).toContain("https://kilo.ai/cli/install")
       expect(curl).toContain("sh")
     }),
   )

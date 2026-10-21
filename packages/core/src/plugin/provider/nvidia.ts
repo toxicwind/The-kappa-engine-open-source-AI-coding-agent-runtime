@@ -13,7 +13,7 @@ export const NvidiaPlugin = define({
           if (item.provider.api.url !== "https://integrate.api.nvidia.com/v1") continue
           if (item.provider.id !== ProviderV2.ID.make("nvidia")) continue // kappacode_change
           evt.provider.update(item.provider.id, (provider) => {
-            provider.request.headers["HTTP-Referer"] = "https://kappa.ai/" // kappacode_change
+            provider.request.headers["HTTP-Referer"] = "https://kilo.ai/" // kappacode_change
             // kappacode_change start
             provider.request.headers["X-Title"] = "Kappa Code"
             provider.request.headers["X-BILLING-INVOKE-ORIGIN"] ??= "KappaCode"

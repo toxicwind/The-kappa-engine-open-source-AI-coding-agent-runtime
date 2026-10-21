@@ -40,4 +40,4 @@ No credits are included with a Teams or Enterprise plan purchase.
 - **SLA commitments** for support issues
 - **Dedicated support channels** for private, direct communication
 
-**Cost:** [Contact Sales](https://kappa.ai/contact-sales)
+**Cost:** [Contact Sales](https://kilo.ai/contact-sales)

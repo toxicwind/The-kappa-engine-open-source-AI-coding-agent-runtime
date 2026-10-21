@@ -1258,7 +1258,7 @@ it.instance(
   Effect.gen(function* () {
     const providers = yield* list
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
-      "HTTP-Referer": "https://kappa.ai/", // kappacode_change
+      "HTTP-Referer": "https://kilo.ai/", // kappacode_change
       "X-Title": "Kappa Code", // kappacode_change
       "X-BILLING-INVOKE-ORIGIN": "KappaCode", // kappacode_change
     })
@@ -1271,7 +1271,7 @@ it.instance(
   Effect.gen(function* () {
     const providers = yield* list
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
-      "HTTP-Referer": "https://kappa.ai/", // kappacode_change
+      "HTTP-Referer": "https://kilo.ai/", // kappacode_change
       "X-Title": "Kappa Code", // kappacode_change
       "X-BILLING-INVOKE-ORIGIN": "KappaCode", // kappacode_change
     })

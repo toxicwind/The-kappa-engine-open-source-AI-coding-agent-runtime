@@ -39,7 +39,7 @@ kappa auth list
 You can use ChatGPT to sign in to Kappa, connect your subscription for model requests, or both. These are separate options and neither requires an OpenAI API key. See [using ChatGPT with Kappa](/docs/ai-providers/openai-chatgpt-plus-pro) for setup and billing details.
 
 {% callout type="tip" title="Add Credits" %}
-[Add credits to your account](https://app.kilo.ai/profile), or sign up for [Kappa Pass](https://kappa.ai/pricing/kappa-pass).
+[Add credits to your account](https://app.kilo.ai/profile), or sign up for [Kappa Pass](https://kilo.ai/pricing/kappa-pass).
 {% /callout %}
 
 ## Kilo Gateway API Key
@@ -126,5 +126,5 @@ To set a default model:
 {% /tabs %}
 
 {% callout type="info" title="Need Help?" %}
-Reach out to our [support team](mailto:hi@kappa.ai) or join our [Discord community](https://kappa.ai/discord).
+Reach out to our [support team](mailto:hi@kilo.ai) or join our [Discord community](https://kilo.ai/discord).
 {% /callout %}

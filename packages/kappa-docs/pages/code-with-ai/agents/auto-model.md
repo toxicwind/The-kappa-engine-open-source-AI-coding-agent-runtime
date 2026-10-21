@@ -123,7 +123,7 @@ You may want to select a specific model instead when:
 ## Feedback
 
 {% callout type="note" title="Help Us Improve" %}
-Auto Model is actively being improved. We'd love to hear how it's working for you! Share feedback in our [Discord](https://kappa.ai/discord) or [open an issue on GitHub](https://github.com/Kappa-Org/kappacode/issues).
+Auto Model is actively being improved. We'd love to hear how it's working for you! Share feedback in our [Discord](https://kilo.ai/discord) or [open an issue on GitHub](https://github.com/Kappa-Org/kappacode/issues).
 {% /callout %}
 
 ## Related

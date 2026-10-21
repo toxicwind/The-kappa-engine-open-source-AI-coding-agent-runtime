@@ -141,7 +141,7 @@ type IssueQueryResponse = {
   }
 }
 
-const AGENT_USERNAME = "kiloconnect[bot]" // kappacode_change
+const AGENT_USERNAME = "kappaconnect[bot]" // kappacode_change
 const AGENT_REACTION = "eyes"
 const WORKFLOW_FILE = ".github/workflows/kappa.yml" // kappacode_change
 
@@ -203,7 +203,7 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
             "",
             "    3. Go to a GitHub issue and comment `/kappa summarize` to see the agent in action", // kappacode_change
             "",
-            "   Learn more about the GitHub agent - https://kappa.ai/docs/code-with-ai/platforms/github", // kappacode_change
+            "   Learn more about the GitHub agent - https://kilo.ai/docs/code-with-ai/platforms/github", // kappacode_change
           ].join("\n"),
         )
       }
@@ -287,7 +287,7 @@ export const githubInstall = Effect.fn("Cli.github.install")(function* () {
         if (installation) return s.stop("GitHub app already installed")
 
         // Open browser
-        const url = "https://github.com/apps/kiloconnect" // kappacode_change
+        const url = "https://github.com/apps/kappaconnect" // kappacode_change
         const command =
           process.platform === "darwin"
             ? `open "${url}"`
@@ -440,7 +440,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
         ? (payload as IssueCommentEvent | IssuesEvent).issue.number
         : (payload as PullRequestEvent | PullRequestReviewCommentEvent).pull_request.number
     const runUrl = `/${owner}/${repo}/actions/runs/${runId}`
-    const shareBaseUrl = isMock ? "https://dev.kappa.ai" : "https://kappa.ai" // kappacode_change
+    const shareBaseUrl = isMock ? "https://dev.kilo.ai" : "https://kilo.ai" // kappacode_change
 
     let appToken: string
     let octoRest: Octokit
@@ -1379,7 +1379,7 @@ export const githubRun = Effect.fn("Cli.github.run")(function* (args: { event?: 
     function footer(opts?: { image?: boolean }) {
       // kappacode_change start - simplified footer with text branding (no image backend yet)
       const share = shareId ? `[kappa session](${shareBaseUrl}/s/${shareId})&nbsp;&nbsp;|&nbsp;&nbsp;` : ""
-      return `\n\n---\n*Powered by [Kappa](https://kappa.ai)*&nbsp;&nbsp;|&nbsp;&nbsp;${share}[github run](${runUrl})`
+      return `\n\n---\n*Powered by [Kappa](https://kilo.ai)*&nbsp;&nbsp;|&nbsp;&nbsp;${share}[github run](${runUrl})`
       // kappacode_change end
     }
 

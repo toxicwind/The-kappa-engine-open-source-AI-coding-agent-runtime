@@ -112,7 +112,7 @@ const ProfileView: Component<ProfileViewProps> = (props) => {
   }
 
   const handleGetPass = () => {
-    vscode.postMessage({ type: "openExternal", url: "https://kappa.ai/pricing/kappa-pass" })
+    vscode.postMessage({ type: "openExternal", url: "https://kilo.ai/pricing/kappa-pass" })
   }
 
   const handleCancelLogin = () => {

@@ -30,7 +30,7 @@ import javax.swing.JPanel
 
 internal const val DASHBOARD_URL = "https://app.kilo.ai/profile"
 internal const val TOP_UP_URL = "https://app.kilo.ai/credits"
-internal const val PASS_URL = "https://kappa.ai/pricing/kappa-pass"
+internal const val PASS_URL = "https://kilo.ai/pricing/kappa-pass"
 
 internal val edt = Dispatchers.EDT + ModalityState.any().asContextElement()
 

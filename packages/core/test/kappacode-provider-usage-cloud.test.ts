@@ -76,7 +76,7 @@ describe("managed provider usage", () => {
       providerID: "byteplus-coding",
       providerLabel: "BytePlus",
       planLabel: "BytePlus Coding Plan Lite",
-      sourceKind: "kilo_managed",
+      sourceKind: "kappa_managed",
       windows: [
         {
           id: "byteplus-plan:monthly",

@@ -79,7 +79,7 @@ const connections = (input: DirectInput, accountID?: string, failure?: () => "gl
             ? {
                 type: "credential" as const,
                 id: Credential.ID.make(
-                  id === kappa ? "cred_kilo" : id === chinaIntegration ? "cred_direct_cn" : "cred_direct",
+                  id === kappa ? "cred_kappa" : id === chinaIntegration ? "cred_direct_cn" : "cred_direct",
                 ),
                 label: "test",
               }
@@ -91,7 +91,7 @@ const connections = (input: DirectInput, accountID?: string, failure?: () => "gl
             connection.type === "credential" && connection.id === "cred_direct_cn" ? chinaIntegration : integration
           const direct = directValue(input, target)
           const kind =
-            connection.type === "credential" && connection.id === "cred_kilo"
+            connection.type === "credential" && connection.id === "cred_kappa"
               ? "kappa"
               : target === chinaIntegration
                 ? "china"
@@ -667,27 +667,27 @@ describe("ProviderUsage location service", () => {
       byokFailure = true
       const partial = yield* usage.refresh()
       // Discovery failure retains the last good Cloud state, so usage still refreshes.
-      expect(partial.items.find((item) => item.sourceKind === "kilo_managed")).toMatchObject({ fetchState: "ready" })
+      expect(partial.items.find((item) => item.sourceKind === "kappa_managed")).toMatchObject({ fetchState: "ready" })
       expect(partial.items.find((item) => item.sourceKind === "direct")).toMatchObject({ fetchState: "ready" })
       expect(JSON.stringify(partial)).not.toContain("private metadata failure")
 
       usageFailure = true
       const degraded = yield* usage.refresh()
-      expect(degraded.items.find((item) => item.sourceKind === "kilo_managed")).toMatchObject({ fetchState: "stale" })
+      expect(degraded.items.find((item) => item.sourceKind === "kappa_managed")).toMatchObject({ fetchState: "stale" })
       expect(JSON.stringify(degraded)).not.toContain("private usage failure")
 
       byokFailure = false
       usageFailure = false
       credentialFailure = "kappa"
       const credential = yield* usage.get()
-      expect(credential.items.find((item) => item.sourceKind === "kilo_managed")).toMatchObject({
+      expect(credential.items.find((item) => item.sourceKind === "kappa_managed")).toMatchObject({
         fetchState: "stale",
       })
       expect(credential.items.find((item) => item.sourceKind === "direct")).toBeDefined()
 
       organization = "org"
       const organizationResult = yield* usage.get()
-      expect(organizationResult.items.find((item) => item.sourceKind === "kilo_managed")).toBeUndefined()
+      expect(organizationResult.items.find((item) => item.sourceKind === "kappa_managed")).toBeUndefined()
       expect(organizationResult.items.find((item) => item.sourceKind === "direct")).toBeDefined()
     }),
   )

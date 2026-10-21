@@ -51,12 +51,12 @@ We are working to improve the experience in closely managing an agent. Identifie
 
 In the meantime we suggest exploring:
 
-- [Auto-approval](https://kappa.ai/docs/getting-started/settings/auto-approving-actions) of actions: to control what the agent is allowed to do, and require approval when desired
-- [Agents](https://kappa.ai/docs/code-with-ai/agents/using-agents) (previously known as Modes): Managing the agent types in the extension, adding new ones, and setting the default models for each.
+- [Auto-approval](https://kilo.ai/docs/getting-started/settings/auto-approving-actions) of actions: to control what the agent is allowed to do, and require approval when desired
+- [Agents](https://kilo.ai/docs/code-with-ai/agents/using-agents) (previously known as Modes): Managing the agent types in the extension, adding new ones, and setting the default models for each.
 
 ### How can I control which models each agent/mode uses?
 
-Modes have been renamed to Agents in the new extension. You can set the default model for each agent in `Settings -> Models -> Model per Mode`. For more information please check the [agents documentation](https://kappa.ai/docs/code-with-ai/agents/using-agents).
+Modes have been renamed to Agents in the new extension. You can set the default model for each agent in `Settings -> Models -> Model per Mode`. For more information please check the [agents documentation](https://kilo.ai/docs/code-with-ai/agents/using-agents).
 
 ### Where is the diff view for file changes?
 

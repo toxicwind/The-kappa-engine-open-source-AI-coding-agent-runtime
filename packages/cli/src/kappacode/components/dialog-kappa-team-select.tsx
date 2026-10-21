@@ -1,5 +1,5 @@
 /**
- * Kilo Gateway Team Selection Dialog
+ * Kappa Gateway Team Selection Dialog
  *
  * Allows switching between organizations and personal account.
  * Marks the current team with "→ (current)" indicator.

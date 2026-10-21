@@ -9,7 +9,7 @@ This guide walks you through making your first AI model request with the Kappa A
 
 ## Prerequisites
 
-You need a Kappa account with API credits. Sign up at [kappa.ai](https://kappa.ai) and add credits from your account dashboard.
+You need a Kappa account with API credits. Sign up at [kilo.ai](https://kilo.ai) and add credits from your account dashboard.
 
 ## Using the Vercel AI SDK
 

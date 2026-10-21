@@ -2,7 +2,7 @@ import { Effect } from "effect"
 import type { DatabaseMigration } from "../migration"
 
 export default {
-  id: "20260907102000_kilocode_model_usage_index",
+  id: "20260907102000_kappacode_model_usage_index",
   up(tx) {
     return Effect.gen(function* () {
       yield* tx.run(

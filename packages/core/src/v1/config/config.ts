@@ -67,7 +67,7 @@ export const Info = Schema.Struct({
     description: "Server configuration for the kappa serve command", // kappacode_change
   }),
   command: Schema.optional(Schema.Record(Schema.String, ConfigCommandV1.Info)).annotate({
-    description: "Command configuration, see https://kappa.ai/docs/customize/workflows", // kappacode_change
+    description: "Command configuration, see https://kilo.ai/docs/customize/workflows", // kappacode_change
   }),
   skills: Schema.optional(ConfigSkillsV1.Info).annotate({ description: "Additional skill folder paths" }),
   references: Schema.optional(ConfigReference.Info).annotate({
@@ -156,7 +156,7 @@ export const Info = Schema.Struct({
       "Controls whether MCP and generic tool blocks are expanded or collapsed by default in the VS Code chat UI",
   }),
   hide_prompt_training_models: Schema.optional(Schema.Boolean).annotate({
-    description: "Hide Kilo Gateway models that may train on your prompts from model listings",
+    description: "Hide Kappa Gateway models that may train on your prompts from model listings",
   }),
   privacy_mode: Schema.optional(Schema.Boolean).annotate({
     description:
@@ -247,7 +247,7 @@ export const Info = Schema.Struct({
       [Schema.Record(Schema.String, ConfigAgentV1.Info)],
     ),
     // kappacode_change start
-  ).annotate({ description: "Agent configuration, see https://kappa.ai/docs/customize/custom-subagents" }), // kappacode_change
+  ).annotate({ description: "Agent configuration, see https://kilo.ai/docs/customize/custom-subagents" }), // kappacode_change
   provider: Schema.optional(Schema.Record(Schema.String, Schema.NullOr(ConfigProviderV1.Info))).annotate({
     // kappacode_change end
     description: "Custom provider configurations and model overrides",
@@ -344,7 +344,7 @@ export const Info = Schema.Struct({
       }),
       speech_to_text_base_url: Schema.optional(Schema.String).annotate({
         description:
-          "Base URL of an OpenAI-compatible transcription API to use instead of the Kilo Gateway, for example https://api.openai.com/v1",
+          "Base URL of an OpenAI-compatible transcription API to use instead of the Kappa Gateway, for example https://api.openai.com/v1",
       }),
       speech_to_text_api_key: Schema.optional(Schema.String).annotate({
         description: "API key sent as a bearer token to the custom speech-to-text base URL",

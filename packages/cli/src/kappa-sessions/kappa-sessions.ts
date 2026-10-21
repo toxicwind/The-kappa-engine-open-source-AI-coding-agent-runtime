@@ -250,7 +250,7 @@ export namespace KappaSessions {
       const valid = await authValid(token)
       if (!valid) return undefined
 
-      const base = process.env["KAPPA_SESSION_INGEST_URL"] ?? "https://ingest.kilosessions.ai"
+      const base = process.env["KAPPA_SESSION_INGEST_URL"] ?? "https://ingest.kappasessions.ai"
       const baseHeaders: Record<string, string> = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -984,7 +984,7 @@ export namespace KappaSessions {
       }
       if (valid === undefined) throw new Error("Unable to enable remote: failed to verify Kappa credentials.")
 
-      const url = (process.env["KAPPA_SESSION_INGEST_URL"] ?? "https://ingest.kilosessions.ai")
+      const url = (process.env["KAPPA_SESSION_INGEST_URL"] ?? "https://ingest.kappasessions.ai")
         .replace(/^https:\/\//, "wss://")
         .replace(/^http:\/\//, "ws://")
 
@@ -1815,7 +1815,7 @@ export namespace KappaSessions {
     return AppRuntime.runPromise(Vcs.Service.use((svc) => svc.branch()))
   }
 
-  // Per-directory branch for session rows and persisted kilo_meta: a session
+  // Per-directory branch for session rows and persisted kappa_meta: a session
   // created in a nested repository must report that repository's branch, not
   // the host's launch directory. `Git.branch` returns undefined for
   // non-repositories, which collapses to "no branch metadata".

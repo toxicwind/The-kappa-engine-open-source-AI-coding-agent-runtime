@@ -24,7 +24,7 @@ export const KappaPlugin = define({
               url: KAPPA_OPENROUTER_BASE,
             }
             // kappacode_change end
-            provider.request.headers["HTTP-Referer"] = "https://kappa.ai/"
+            provider.request.headers["HTTP-Referer"] = "https://kilo.ai/"
             // kappacode_change start
             provider.request.headers["X-Title"] = "Kappa Code"
             options.apiKey = token ?? "anonymous"

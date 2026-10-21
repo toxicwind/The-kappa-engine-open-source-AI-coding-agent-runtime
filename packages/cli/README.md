@@ -6,9 +6,9 @@ The AI coding agent built for the terminal. Generate code from natural language,
 
 Kappa is the all-in-one agentic engineering platform. Build, ship, and iterate faster with the most popular open source coding agent.
 
-[Website](https://kappa.ai) · [Install](https://kappa.ai/install) · [IDE](https://kappa.ai/landing/vs-code) · [CLI](https://kappa.ai/cli) · [Docs](https://kappa.ai/docs) · [Models](https://kappa.ai/leaderboard) · [Gateway](https://kappa.ai/gateway) · [Pricing](https://kappa.ai/pricing) · [Kappa Pass](https://kappa.ai/pricing/kappa-pass)
+[Website](https://kilo.ai) · [Install](https://kilo.ai/install) · [IDE](https://kilo.ai/landing/vs-code) · [CLI](https://kilo.ai/cli) · [Docs](https://kilo.ai/docs) · [Models](https://kilo.ai/leaderboard) · [Gateway](https://kilo.ai/gateway) · [Pricing](https://kilo.ai/pricing) · [Kappa Pass](https://kilo.ai/pricing/kappa-pass)
 
-[500+ models](https://kappa.ai/leaderboard). One open source agent in [VS Code](https://kappa.ai/vscode-marketplace), [JetBrains](https://plugins.jetbrains.com/plugin/27133-kappa-code), [CLI](https://www.npmjs.com/package/@kappacode/cli), [Slack](https://kappa.ai/slack), and [Cloud](https://kappa.ai/cloud).
+[500+ models](https://kilo.ai/leaderboard). One open source agent in [VS Code](https://kilo.ai/vscode-marketplace), [JetBrains](https://plugins.jetbrains.com/plugin/27133-kappa-code), [CLI](https://www.npmjs.com/package/@kappacode/cli), [Slack](https://kilo.ai/slack), and [Cloud](https://kilo.ai/cloud).
 
 ## Install
 
@@ -75,15 +75,15 @@ Download pre-built binaries from the [Releases page](https://github.com/Kappa-Or
 
 ## Documentation
 
-- [Docs](https://kappa.ai/docs)
-- [Getting Started](https://kappa.ai/docs/getting-started)
+- [Docs](https://kilo.ai/docs)
+- [Getting Started](https://kilo.ai/docs/getting-started)
 
 ## Links
 
 - [GitHub](https://github.com/Kappa-Org/kappacode)
-- [Discord](https://kappa.ai/discord)
-- [VS Code Extension](https://kappa.ai/vscode-marketplace)
-- [Website](https://kappa.ai)
+- [Discord](https://kilo.ai/discord)
+- [VS Code Extension](https://kilo.ai/vscode-marketplace)
+- [Website](https://kilo.ai)
 
 ## License
 

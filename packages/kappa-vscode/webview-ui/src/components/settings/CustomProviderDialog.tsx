@@ -578,13 +578,13 @@ const CustomProviderDialog = (props: CustomProviderDialogProps) => {
             <div style={{ "font-size": "var(--kappa-font-size-14)", color: "var(--text-base)" }}>
               {language.t("provider.custom.description.prefix")}
               <a
-                href="https://kappa.ai/docs/ai-providers#custom-provider"
+                href="https://kilo.ai/docs/ai-providers#custom-provider"
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
                   vscode.postMessage({
                     type: "openExternal",
-                    url: "https://kappa.ai/docs/ai-providers#custom-provider",
+                    url: "https://kilo.ai/docs/ai-providers#custom-provider",
                   })
                 }}
               >

@@ -190,7 +190,7 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
     : Effect.succeed(undefined)
   const parent = input.parentSessionID ?? KappaSession.resolveParent(input.sessionID)
   // kappacode_change end
-  // kappacode_change start - attribute Kilo gateway usage to the root product session
+  // kappacode_change start - attribute Kappa gateway usage to the root product session
   const attr = KappaSession.attribution(input.sessionID)
   // kappacode_change end
 

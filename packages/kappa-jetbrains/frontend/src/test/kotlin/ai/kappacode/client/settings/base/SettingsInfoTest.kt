@@ -82,12 +82,12 @@ class SettingsInfoTest : BasePlatformTestCase() {
 
     fun `test learn more opens the doc link`() {
         var opened: String? = null
-        val info = SettingsInfo("Intro sentence.", "Longer explanation.", "https://kappa.ai/docs/example") { url -> opened = url }
+        val info = SettingsInfo("Intro sentence.", "Longer explanation.", "https://kilo.ai/docs/example") { url -> opened = url }
 
         edt { toggleLink(info).doClick() }
         edt { learnMoreLink(info).doClick() }
 
-        assertEquals("https://kappa.ai/docs/example", opened)
+        assertEquals("https://kilo.ai/docs/example", opened)
     }
 
     fun `test banner without a doc link exposes only the toggle action`() {
@@ -105,7 +105,7 @@ class SettingsInfoTest : BasePlatformTestCase() {
         assertEquals(EditorNotificationPanel.Status.Info, info.status)
     }
 
-    private fun info() = SettingsInfo("Intro sentence.", "Longer explanation.", "https://kappa.ai/docs/example")
+    private fun info() = SettingsInfo("Intro sentence.", "Longer explanation.", "https://kilo.ai/docs/example")
 
     /**
      * The banner renders its message in an HTML [JEditorPane]; whitespace is normalized because

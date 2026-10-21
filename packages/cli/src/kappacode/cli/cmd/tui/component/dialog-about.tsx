@@ -75,10 +75,10 @@ export function DialogAbout() {
   const projectRoot = () => project.data.project.mainDir ?? project.instance.path().directory ?? process.cwd()
 
   const links = [
-    { label: "Docs", url: "https://kappa.ai/docs" },
+    { label: "Docs", url: "https://kilo.ai/docs" },
     { label: "GitHub", url: "https://github.com/Kappa-Org/kappacode" },
     { label: "Issues", url: "https://github.com/Kappa-Org/kappacode/issues" },
-    { label: "Discord", url: "https://kappa.ai/discord" },
+    { label: "Discord", url: "https://kilo.ai/discord" },
   ]
 
   const copy = () => {
@@ -127,7 +127,7 @@ export function DialogAbout() {
 
       <box gap={1}>
         <text fg={theme.textMuted} wrapMode="word">
-          Open source AI coding agent. Access hundreds of models through Kilo Gateway.
+          Open source AI coding agent. Access hundreds of models through Kappa Gateway.
         </text>
 
         <box gap={0}>

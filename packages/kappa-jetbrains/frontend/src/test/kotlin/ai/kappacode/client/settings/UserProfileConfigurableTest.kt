@@ -369,7 +369,7 @@ class UserProfileConfigurableTest : BasePlatformTestCase() {
             buttons(panel).first { it.text == "Get Kilo Pass to add credits and earn bonuses" }.doClick()
         }
 
-        assertEquals(listOf("https://app.kilo.ai/profile", "https://app.kilo.ai/credits", "https://kappa.ai/pricing/kappa-pass"), urls)
+        assertEquals(listOf("https://app.kilo.ai/profile", "https://app.kilo.ai/credits", "https://kilo.ai/pricing/kappa-pass"), urls)
     }
 
     fun `test kappa pass renewal date uses utc`() {
