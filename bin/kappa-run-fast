@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-set -uo pipefail
-
+# compat shim -> unified kmake run (2s run-fast deadline wrapper).
+set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BUN_BIN="$(command -v bun || true)"
-if [ -z "$BUN_BIN" ]; then BUN_BIN="$HOME/.bun/bin/bun"; fi
-
-exec "$BUN_BIN" run "$DIR/script/run-fast.ts" "$@"
+exec bash "$DIR/bin/kmake" run "$@"
