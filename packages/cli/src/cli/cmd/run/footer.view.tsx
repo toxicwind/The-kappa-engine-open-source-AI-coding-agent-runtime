@@ -171,6 +171,21 @@ export function RunFooterView(props: RunFooterViewProps) {
   const foregroundSubagents = createMemo(
     () => props.backgroundSubagents && activeTabs().some((item) => !item.background),
   )
+  // kappacode_change start - auto-background synchronous subagents on prompt submit.
+  // Wraps the user's submit handler so that if any foreground (synchronous) subagents
+  // are running when the user sends a new prompt, they are promoted to background
+  // first. This removes the need for the manual session.background shortcut
+  // (previously Ctrl+B, now disabled) while injecting a fresh prompt.
+  const handleAutoBackgroundSubmit: RunFooterViewProps["onSubmit"] = (input) => {
+    try {
+      if (foregroundSubagents()) {
+        props.onBackground?.()
+      }
+    } catch {
+      // best-effort: never block the user's prompt submission
+    }
+    return props.onSubmit(input)
+  }
   const model = createMemo(() => {
     const current = props.currentModel()
     return current ? modelInfo(props.providers(), current) : { model: props.state().model, provider: undefined }
@@ -369,7 +384,7 @@ export function RunFooterView(props: RunFooterViewProps) {
     width,
     theme,
     history: props.history,
-    onSubmit: props.onSubmit,
+    onSubmit: handleAutoBackgroundSubmit, // kappacode_change - auto-background foreground subagents before submit
     onCycle: props.onCycle,
     onInterrupt: props.onInterrupt,
     onEditorOpen: props.onEditorOpen,

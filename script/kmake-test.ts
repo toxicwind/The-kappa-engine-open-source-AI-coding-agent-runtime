@@ -14,6 +14,10 @@
  *   bun script/kmake-test.ts start    # build/spin the grid (idempotent)
  *   bun script/kmake-test.ts status   # per-pane tail
  *   bun script/kmake-test.ts kill     # teardown
+ *
+ * Grid: 4 test-suite panes + 1 pane running the fastest typecheck (`tsgo --noEmit`
+ * on packages/cli). The typecheck pane is part of the scaffold so every run
+ * also verifies types, not just runtime tests.
  */
 import { $ } from "bun"
 
@@ -25,11 +29,16 @@ const HOME = process.env.HOME ?? "/home/toxic"
 // [pane-index, working-dir-relative, cmd] — run the PROJECT's own `bun test`
 // so bun + workspace deps resolve from the project (its node_modules), not an
 // ad-hoc PATH.
+const TYPE = "tsgo" // fastest typecheck (native TS compiler); NOT `tsc`
 const suites = [
   ["0.0", "packages/llm/test/kilocode", `${BUN} test fingerprint.test.ts`],
   ["0.1", "packages/llm", `${BUN} test`],
   ["0.2", "packages/cli", `${BUN} test ./test`],
   ["0.3", "packages/llm", `${BUN} test test/schema.test.ts`],
+  // kappacode_change - run the fastest typecheck as part of the scaffold grid.
+  // tsgo is the native-preview TS compiler (~10-50x faster than tsc) and covers
+  // the cli package + its workspace imports in one shot.
+  ["0.4", "packages/cli", `${TYPE} --noEmit`],
 ] as const
 
 const OUT = "/home/toxic/tmp/kappa-compact/kmake" // pane logs live here
@@ -39,12 +48,16 @@ const paneCmd = (dir: string, cmd: string, pane: string) =>
   `cd ${repo}${dir} && mkdir -p ${OUT} && ${cmd} > ${OUT}/pane-${pane}.log 2> ${OUT}/pane-${pane}.err; echo PANE_DONE_$?`
 
 const start = async () => {
-  const wall = await $`tmux ls`.quiet().text().catch(() => "")
+  const wall = await $`tmux ls`
+    .quiet()
+    .text()
+    .catch(() => "")
   if (!wall.includes(`${SESS}:`)) {
     await $`tmux new-session -d -s ${SESS} -n kappa-tests -x 230 -y 60`.quiet()
     await $`tmux split-window -v -t ${SESS}:0.0`.quiet() // pane 0.1
     await $`tmux split-window -h -t ${SESS}:0.0`.quiet() // pane 0.2
     await $`tmux split-window -h -t ${SESS}:0.1`.quiet() // pane 0.3
+    await $`tmux split-window -v -t ${SESS}:0.4`.quiet() // pane 0.4 - typecheck
     await $`tmux select-layout -t ${SESS} tiled`.quiet()
   }
   for (const [pane, dir, cmd] of suites) {
@@ -68,10 +81,17 @@ const kill = async () => {
 
 const op = process.argv[2] ?? "start"
 switch (op) {
-  case "start": await start(); break
-  case "status": await status(); break
-  case "kill": await kill(); break
-  default: console.log(`usage: bun script/kmake-test.ts start|status|kill`)
+  case "start":
+    await start()
+    break
+  case "status":
+    await status()
+    break
+  case "kill":
+    await kill()
+    break
+  default:
+    console.log(`usage: bun script/kmake-test.ts start|status|kill`)
 }
 
 const tmuxSend = false // placeholder; panes are dispatched directly above

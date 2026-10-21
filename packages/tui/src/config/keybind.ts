@@ -96,7 +96,7 @@ export const Definitions = {
   session_unshare: keybind("none", "Unshare current session"),
   session_interrupt: keybind("escape", "Interrupt current session"),
   subagent_interrupt: keybind("escape", "Interrupt current subagent"), // kappacode_change
-  session_background: keybind("ctrl+b", "Background synchronous subagents"),
+  session_background: keybind("none", "Background synchronous subagents"), // kappacode_change - auto-background replaces ctrl+b; disable the shortcut to avoid the input_move_left conflict
   session_compact: keybind("<leader>c", "Compact the session"),
   session_toggle_timestamps: keybind("none", "Toggle message timestamps"),
   session_toggle_generic_tool_output: keybind("none", "Toggle generic tool output"),
@@ -167,7 +167,7 @@ export const Definitions = {
   input_paste: keybind({ key: "ctrl+v", preventDefault: false }, "Paste from clipboard"),
   input_submit: keybind("return", "Submit input"),
   input_newline: keybind("shift+return,ctrl+return,alt+return,ctrl+j", "Insert newline in input"),
-  input_move_left: keybind("left,ctrl+b", "Move cursor left in input"),
+  input_move_left: keybind("left", "Move cursor left in input"), // kappacode_change - removed ctrl+b to avoid session.background conflict
   input_move_right: keybind("right,ctrl+f", "Move cursor right in input"),
   input_move_up: keybind("up", "Move cursor up in input"),
   input_move_down: keybind("down", "Move cursor down in input"),
