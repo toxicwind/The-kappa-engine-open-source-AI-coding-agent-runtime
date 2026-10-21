@@ -20,6 +20,7 @@ import { KappaSessionProcessor } from "../kappacode/session/processor.ts" // kap
 import { KappaSession } from "../kappacode/session/index.ts" // kappacode_change
 import { resumeHint } from "../kappacode/task-resume.ts" // kappacode_change
 import { errorMessage } from "@/util/error" // kappacode_change
+import { generateSeed, formatSeed } from "../kappacode/orchestrator-seed.ts" // kappacode_change: precompaction seed
 import { Effect, Exit, Schema, Scope } from "effect"
 import { Cause } from "effect" // kappacode_change
 import { EffectBridge } from "@/effect/bridge"
@@ -115,7 +116,9 @@ export const TaskTool = Tool.define(
       const cfg = yield* config.get()
       const runInBackground = params.background === true
       if (runInBackground && !flags.experimentalBackgroundSubagents) {
-        return yield* Effect.fail(new Error("Background subagents require KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true"))
+        return yield* Effect.fail(
+          new Error("Background subagents require KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true"),
+        )
       }
 
       const parent = yield* sessions.get(ctx.sessionID)
@@ -257,6 +260,89 @@ export const TaskTool = Tool.define(
         function* () {
           const parts = yield* ops.resolvePromptParts(params.prompt)
           KappaSessionProcessor.markReviewTelemetry(parts, params.command) // kappacode_change - carry review command into child session telemetry
+
+          // kappacode_change start - precompaction seed: inject orchestrator state into subagent prompt
+          // Gather seed data as a sequence of effects, then format
+          const subagentsRaw = ((yield* sessions.children(ctx.sessionID)) as any[]).map((child: any) => ({
+            id: child.id ?? "",
+            task_id: child.taskId ?? "",
+            status: (child.status ?? "pending") as string,
+            model: child.model?.modelID ?? child.model ?? "unknown",
+            provider: child.model?.providerID ?? "kappa",
+            lastActivity: null,
+            idleMs: null,
+          }))
+
+          const sessionData = (yield* sessions.get(ctx.sessionID)) as any
+          const pendingWork = sessionData?.pendingWork ?? []
+          const cwd = sessionData?.directory ?? process.cwd()
+
+          let fileChanges = {
+            modified: [] as string[],
+            added: [] as string[],
+            deleted: [] as string[],
+            gitAvailable: false,
+          }
+          try {
+            const { execFileSync } = require("child_process")
+            const diffRaw = execFileSync("git", ["diff", "--name-only", "--cached"], { cwd, encoding: "utf8" }).trim()
+            if (diffRaw) {
+              fileChanges.modified = diffRaw.split("\n").slice(0, 8)
+              fileChanges.gitAvailable = true
+            }
+            const diffAdded = execFileSync("git", ["diff", "--cached", "--diff-filter=A", "--name-only"], {
+              cwd,
+              encoding: "utf8",
+            }).trim()
+            if (diffAdded) fileChanges.added = diffAdded.split("\n").slice(0, 4)
+            const diffDeleted = execFileSync("git", ["diff", "--cached", "--diff-filter=D", "--name-only"], {
+              cwd,
+              encoding: "utf8",
+            }).trim()
+            if (diffDeleted) fileChanges.deleted = diffDeleted.split("\n").slice(0, 2)
+          } catch {
+            fileChanges.gitAvailable = false
+          }
+
+          const services: Array<{ name: string; port: number | null; status: string; note: string | null }> = []
+          try {
+            const { execSync } = require("child_process")
+            const out = execSync(`ss -tlnp | grep -E ":(25010|25100|25127) " || true`, { encoding: "utf8" })
+            const lines = out.trim().split("\n")
+            lines.forEach((line: string) => {
+              const portMatch = line.match(/:(\d+)\s/)
+              if (portMatch) {
+                const port = parseInt(portMatch[1])
+                const names: Record<number, string> = { 25010: "beellama", 25100: "nativelink", 25127: "gatehouse" }
+                services.push({ name: names[port] ?? "unknown", port, status: "up", note: null })
+              }
+            })
+          } catch {
+            // best-effort, ignore
+          }
+
+          const seed = generateSeed({
+            taskId: ctx.sessionID,
+            goalBrief: params.description || params.prompt?.slice(0, 120) || "subagent task",
+            subagents: subagentsRaw,
+            boardMessages: [],
+            pendingWork: pendingWork.map((w: any) => ({
+              description: w.description ?? "",
+              priority: w.priority ?? "medium",
+              blockedBy: w.blockedBy,
+            })),
+            fileChanges,
+            services,
+          })
+          const seedText = formatSeed(seed)
+          if (seedText) {
+            parts.unshift({
+              type: "text",
+              text: seedText,
+            })
+          }
+          // kappacode_change end
+
           // kappacode_change start
           const initial = yield* ops.prompt({
             messageID: MessageID.ascending(),
@@ -376,9 +462,12 @@ export const TaskTool = Tool.define(
           (costBefore) =>
             Effect.gen(function* () {
               const costAfter = yield* KappaCostPropagation.childCost(sessions, nextSession.id)
-              yield* KappaCostPropagation.propagate(sessions, ctx.sessionID, ctx.messageID, costAfter - costBefore).pipe(
-                Effect.provideService(Database.Service, database),
-              )
+              yield* KappaCostPropagation.propagate(
+                sessions,
+                ctx.sessionID,
+                ctx.messageID,
+                costAfter - costBefore,
+              ).pipe(Effect.provideService(Database.Service, database))
             }),
         )
 
