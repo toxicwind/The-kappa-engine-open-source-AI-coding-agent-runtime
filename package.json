@@ -25,9 +25,11 @@
     "dev-setup": "bun run --cwd packages/cli --conditions=browser src/index.ts dev-setup",
     "dev:local": "bun run packages/cli/script/dev-local.ts",
     "make:nativelink": "MISE_CACHE_REMOTE_URL=http://127.0.0.1:25148 mise run kappa-build && du -h packages/cli/dist/*/*/bin/kappa",
-    "kmake-test": "bun script/kmake-test.ts start",
-    "kmake-test:status": "bun script/kmake-test.ts status",
-    "kmake-test:kill": "bun script/kmake-test.ts kill",
+    "build": "bash bin/kmake build",
+    "kmake": "bash bin/kmake",
+    "kmake-test": "bash bin/kmake grid start",
+    "kmake-test:status": "bash bin/kmake grid status",
+    "kmake-test:kill": "bash bin/kmake grid kill",
     "test:script:ci": "mkdir -p .artifacts/unit && bun test ./script --timeout 30000 --reporter=junit --reporter-outfile=.artifacts/unit/junit.xml"
   },
   "workspaces": {
