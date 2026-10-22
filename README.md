@@ -57,7 +57,19 @@ flowchart TB
     CLI --> SH
 ```
 
-## 🔍 Tour it live — 5 commands
+## 🧭 Table of Contents
+
+1. [The kappa in one picture](#-the-kappa-in-one-picture)
+2. [Tour it live](#-tour-it-live-5-commands)
+3. [About](#-about)
+4. [The monorepo](#-the-monorepo)
+5. [Build](#-build)
+6. [Estate integration](#-estate-integration)
+7. [Getting started](#-getting-started)
+8. [Contributing](#-contributing)
+9. [License](#license)
+
+## 🔍 Tour it live (5 commands)
 
 ```bash
 # 1. Check kappa CLI version
@@ -74,20 +86,7 @@ bun pm ls
 
 # 5. Build the CLI binary
 bun run --cwd packages/cli script/build.ts --single --skip-install
-
-<details>
-<summary><b>Table of Contents</b></summary>
-
-1. [About](#-about)
-2. [The monorepo](#-the-monorepo)
-3. [Packages](#-packages)
-4. [Build](#-build)
-5. [Estate integration](#-estate-integration)
-6. [Getting started](#-getting-started)
-7. [Contributing](#-contributing)
-8. [License](#-license)
-
-</details>
+```
 
 ## 🏔️ About
 
@@ -134,13 +133,13 @@ All projects live under `packages/`. The bun workspace resolves dependencies acr
 
 ```bash
 # Full build (requires Zig for bubblewrap)
-# Full build
 bun install && bun run --cwd packages/cli script/build.ts
 
 # Single platform build
 bun run --cwd packages/cli script/build.ts --single --skip-install
 
 # Output → packages/cli/dist/@kappacode/cli-linux-x64/bin/kappa
+```
 
 ### All packages
 
@@ -150,12 +149,9 @@ bun run typecheck              # all packages
 bun run build                  # build all packages
 ```
 
-### Remote build cache (estate forge)
+### Default build route (estate forge)
 
-```bash
-# mise.toml task config routes through forge :25148
-mise run kappa-build
-```
+`make:nativelink` — `mise run kappa-build`, remote-cached via forge :25148 — is the **sole** CLI-binary build route. The non-nativelink `make` route was dropped; every build goes through the real `kappa-build` mise task.
 
 ## 🏗️ Estate integration
 
@@ -169,10 +165,22 @@ This fork is integrated with the estate build pipeline:
 
 ### 🏷️ Dynamic Versioning & Resolution
 
-- **Runtime/Build versions** correlate via `packages/script`:
-  - **Release tags / git branch**: Preview builds format dynamically as `0.0.0-<branch>-<timestamp>` (e.g. `0.0.0-main-20261019...`) unless `KAPPA_VERSION` or `KAPPA_BUMP` is specified.
-  - **Explicit version override**: Pass `KAPPA_VERSION=x.y.z` to bake a non-preview semver directly into compilation, or trigger automated bumps via `KAPPA_BUMP=patch|minor|major`.
-  - **Execution resolution**: The wrapper in `packages/cli/bin/kappa` resolves `.kappa` (pointing to the local compiled artifact in `dist/`) before falling back to global discovery or platform packages.
+Runtime and build versions correlate via `packages/script`:
+
+- **Release tags / git branch** — preview builds format dynamically as `0.0.0-<branch>-<timestamp>` (e.g. `0.0.0-main-20261019...`) unless `KAPPA_VERSION` or `KAPPA_BUMP` is specified.
+- **Explicit version override** — pass `KAPPA_VERSION=x.y.z` to bake a non-preview semver directly into compilation, or trigger an automated bump via `KAPPA_BUMP=patch|minor|major`.
+- **Execution resolution** — the wrapper in `packages/cli/bin/kappa` resolves `.kappa` (pointing to the local compiled artifact in `dist/`) before falling back to global discovery or platform packages.
+
+See [`.env.example`](.env.example) for the full, source-verified list of `KAPPA_*` environment variables.
+
+### 💾 Stable session database
+
+Sessions live in `~/.local/share/kappa/kappa-<token>.db`, where `<token>` is the **build channel** (git branch by default), sanitized by `safeChannelToken()` in `packages/core/src/installation/version.ts`.
+
+- **Deterministic, non-empty names** — a local/dev build made from a detached HEAD or branch-less git context previously sanitized the channel to `""`, silently forking the session database into `kappa-.db` and making sessions look "lost" (split away from `kappa-main.db`). `safeChannelToken()` falls back to a stable `dev` for empty/meaningless channels, so every build resolves to one predictable filename.
+- **One resolver for both layers** — the core (`packages/core/src/database/database.ts`) and the CLI (`packages/cli/src/storage/db.ts`) path resolvers share a single helper, so they can never disagree on which file to open.
+- **Idempotent migrations** — the `kappa_board` / `kappa_board_message` / model-usage-index migrations are replay-safe (`IF NOT EXISTS` / `cleared_seq` guard). After the `kilocode_* → kappacode_*` rename landed in prod, a fresh build replaying them against an existing database no longer crashes with `table kappa_board_message already exists`.
+
 ## 🚀 Getting started
 
 ```bash

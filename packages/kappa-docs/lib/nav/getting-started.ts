@@ -30,11 +30,14 @@ export const GettingStartedNav: NavSection[] = [
         ],
       },
       { href: "/getting-started/adding-credits", children: "Adding Credits" },
-      {
-        href: "/getting-started/rate-limits-and-costs",
-        children: "Cost Efficiency & Model Selection",
+{
+        href: "/getting-started/cost-controls-and-usage-safeguards",
+        children: "Cost Controls and Usage Safeguards",
       },
-      { href: "/getting-started/cost-controls-and-usage-safeguards", children: "Cost Controls and Usage Safeguards" },
+      {
+        href: "/getting-started/environment-variables",
+        children: "Environment Variables",
+      },
     ],
   },
   {
@@ -61,6 +64,10 @@ export const GettingStartedNav: NavSection[] = [
           {
             href: "/getting-started/troubleshooting/troubleshooting-extension",
             children: "Extension Troubleshooting",
+          },
+          {
+            href: "/getting-started/troubleshooting/session-database",
+            children: "Session Database",
           },
         ],
       },

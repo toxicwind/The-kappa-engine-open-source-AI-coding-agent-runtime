@@ -44,6 +44,7 @@ kappa run "add input validation to the signup form"
 - **MCP servers** -- extend agent capabilities with the Model Context Protocol
 - **Multiple modes** -- Plan with Architect, code with Coder, debug with Debugger, or create your own
 - **Sessions** -- resume previous conversations and export transcripts
+- **Reliable session persistence** -- a stable, deterministic database name (`kappa-<channel>.db`) keeps every build's sessions in one place, so local/dev builds can never silently fork your history into a stray `kappa-.db`
 - **API keys optional** -- bring your own keys or use Kappa credits
 
 ## Commands

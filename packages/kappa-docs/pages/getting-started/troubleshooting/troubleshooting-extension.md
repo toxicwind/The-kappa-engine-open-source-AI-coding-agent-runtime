@@ -27,16 +27,16 @@ If every prompt fails with `SQLiteError: database disk image is malformed`, Kapp
 
 ### Find the database
 
-When the kappa CLI uses the same environment as the affected installation, run `kappa db path` to print the selected database. See [Session History and Search](/docs/code-with-ai/agents/session-history) for normal database inspection and search workflows.
+When the kappa CLI uses the same environment as the affected installation, run `kappa db path` to print the selected database. See [Session database](/docs/getting-started/troubleshooting/session-database) for the database location and how to recover a split `kappa-.db`.
 
 The default database location depends on where Kappa Code is running:
 
 | Environment | Database path |
 |---|---|
-| Windows | `%USERPROFILE%\.local\share\kappa\kappa.db` |
-| macOS | `~/.local/share/kappa/kappa.db` |
-| Linux | `~/.local/share/kappa/kappa.db` |
-| VS Code Remote SSH | `~/.local/share/kappa/kappa.db` on the remote machine |
+| Windows | `%USERPROFILE%\.local\share\kappa\kappa-<channel>.db` |
+| macOS | `~/.local/share/kappa/kappa-<channel>.db` |
+| Linux | `~/.local/share/kappa/kappa-<channel>.db` |
+| VS Code Remote SSH | `~/.local/share/kappa/kappa-<channel>.db` on the remote machine |
 
 {% callout type="warning" %}
 When using VS Code Remote SSH, check the remote Linux machine, not your local Windows or macOS computer.
@@ -44,19 +44,20 @@ When using VS Code Remote SSH, check the remote Linux machine, not your local Wi
 
 ### Reset the database
 
-Close VS Code or stop the Kappa backend first. On Linux or Remote SSH, run:
+Close VS Code or stop the Kappa backend first. On Linux or Remote SSH, resolve the active database with `kappa db path`, then rename it aside:
 
 ```bash
 pkill -f "kappa serve"
 mkdir -p ~/.local/share/kappa
-mv ~/.local/share/kappa/kappa.db ~/.local/share/kappa/kappa.db.bak
-mv ~/.local/share/kappa/kappa.db-wal ~/.local/share/kappa/kappa.db-wal.bak 2>/dev/null
-mv ~/.local/share/kappa/kappa.db-shm ~/.local/share/kappa/kappa.db-shm.bak 2>/dev/null
+dbfile="$(kappa db path)"
+mv "$dbfile" "$dbfile.bak"
+mv "$dbfile-wal" "$dbfile-wal.bak" 2>/dev/null
+mv "$dbfile-shm" "$dbfile-shm.bak" 2>/dev/null
 ```
 
 Then reload VS Code or reconnect Remote SSH. Kappa Code recreates the database the next time it starts.
 
-On Windows or macOS, rename the database file and any `kappa.db-wal` or `kappa.db-shm` files in the same folder, then restart the IDE.
+On Windows or macOS, rename the database file produced by `kappa db path` and its `-wal` or `-shm` siblings in the same folder, then restart the IDE.
 
 {% callout type="warning" %}
 Renaming this database resets local Kappa Code sessions and history for that machine. Keep the `.bak` files if you need to share them with support or attempt recovery later.
