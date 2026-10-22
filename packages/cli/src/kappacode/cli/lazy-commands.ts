@@ -175,6 +175,13 @@ export const PluginCommand = lazy({
   load: async () => (await import("@/cli/cmd/plug")).PluginCommand,
 })
 
+export const MarketplaceCommand = lazy({
+  command: "marketplace <action> [name] [url]",
+  aliases: ["market"],
+  describe: "manage Kappa extension marketplaces",
+  load: async () => (await import("@/cli/cmd/marketplace")).MarketplaceCommand,
+})
+
 export const DbCommand = lazy({
   command: "db",
   describe: "database tools",
