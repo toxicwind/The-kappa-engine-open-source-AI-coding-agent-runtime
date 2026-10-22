@@ -101,7 +101,7 @@ function listHandler(): Effect.Effect<void> {
   })
 }
 
-function addHandler(args: ActionInput): Effect.Effect<void> {
+function addHandler(args: ActionInput): Effect.Effect<void, CliError> {
   return Effect.gen(function* () {
     const manifest = parseManifest(args.manifest)
     const result = yield* runMarketplace(() =>
@@ -120,7 +120,7 @@ function addHandler(args: ActionInput): Effect.Effect<void> {
   })
 }
 
-function removeHandler(name: string): Effect.Effect<void> {
+function removeHandler(name: string): Effect.Effect<void, CliError> {
   return Effect.gen(function* () {
     const result = yield* runMarketplace(() => removeMarketplace(name))
     if (!result.ok) {
@@ -131,7 +131,7 @@ function removeHandler(name: string): Effect.Effect<void> {
 }
 
 /** Run async marketplace work, converting thrown errors into a CliError. */
-function runMarketplace<T>(fn: () => Promise<T>): Effect.Effect<T> {
+function runMarketplace<T>(fn: () => Promise<T>): Effect.Effect<T, CliError> {
   return Effect.tryPromise({
     try: fn,
     catch: (err) =>
