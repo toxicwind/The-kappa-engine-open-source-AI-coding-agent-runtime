@@ -25,6 +25,7 @@
     "dev-setup": "bun run --cwd packages/cli --conditions=browser src/index.ts dev-setup",
     "dev:local": "bun run packages/cli/script/dev-local.ts",
     "make:nativelink": "MISE_CACHE_REMOTE_URL=http://127.0.0.1:25148 mise run kappa-build && du -h packages/cli/dist/*/*/bin/kappa",
+    "make": "bun run make:nativelink",
     "build": "bash bin/kmake build",
     "kmake": "bash bin/kmake",
     "kmake-test": "bash bin/kmake grid start",
