@@ -1,8 +1,9 @@
-import { describe, expect } from "bun:test"
-import { Effect, Schema } from "effect"
+import { describe, expect, test } from "bun:test"
+import { Effect, Option, Schema } from "effect"
 import { Catalog } from "@opencode-ai/core/catalog"
 import { Config } from "@opencode-ai/core/config"
 import { ConfigProviderPlugin } from "@opencode-ai/core/config/plugin/provider"
+import { ConfigProviderV1 } from "@opencode-ai/core/v1/config/provider"
 import { Integration } from "@opencode-ai/core/integration"
 import { ModelV2 } from "@opencode-ai/core/model"
 import { PluginV2 } from "@opencode-ai/core/plugin"
@@ -267,3 +268,29 @@ describe("ConfigProviderPlugin.Plugin", () => {
     ),
   )
 })
+
+// kappacode_change start — provider options carry a concurrency-429 retry contract
+describe("ConfigProvider options validators (concurrency-429)", () => {
+  test("accepts maxConcurrency + unlimitedRetryOn429 in provider options", () => {
+    const info = Schema.decodeUnknownSync(ConfigProviderV1.Info)({
+      options: {
+        baseURL: "https://freeinference.org/v1",
+        maxConcurrency: 4,
+        unlimitedRetryOn429: true,
+      },
+    })
+    expect(info.options).toMatchObject({
+      baseURL: "https://freeinference.org/v1",
+      maxConcurrency: 4,
+      unlimitedRetryOn429: true,
+    })
+  })
+
+  test("rejects a non-boolean unlimitedRetryOn429", () => {
+    const result = Schema.decodeUnknownOption(ConfigProviderV1.Info)({
+      options: { unlimitedRetryOn429: "yes" },
+    })
+    expect(Option.isSome(result)).toBe(false)
+  })
+})
+// kappacode_change end

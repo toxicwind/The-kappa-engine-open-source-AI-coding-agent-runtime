@@ -124,7 +124,7 @@ describe("session.retry.delay", () => {
     }),
   )
 
-  it.instance("policy stops after five retries", () =>
+  it.instance("policy stops after RETRY_MAX_RETRIES retries", () =>
     Effect.gen(function* () {
       const attempts: number[] = []
       const error = apiError({ "retry-after-ms": "0" })
@@ -143,9 +143,73 @@ describe("session.retry.delay", () => {
         Effect.ignore(step(error)),
       )
 
-      expect(attempts).toStrictEqual([1, 2, 3, 4, 5])
+      expect(attempts).toStrictEqual(
+        Array.from({ length: SessionRetry.RETRY_MAX_RETRIES }, (_, i) => i + 1),
+      )
     }),
   )
+
+  // kappacode_change start — config-gated unlimited retry on concurrency-contained 429
+  function shed429(): SessionV1.APIError {
+    return Schema.decodeUnknownSync(SessionV1.APIError.Schema)(
+      new SessionV1.APIError({
+        message: "Too many requests",
+        isRetryable: true,
+        statusCode: 429,
+        responseHeaders: { "retry-after-ms": "0" },
+      }).toObject(),
+    )
+  }
+
+  it.instance("policy hits the finite ceiling on a 429 without opt-in", () =>
+    Effect.gen(function* () {
+      const attempts: number[] = []
+      const error = shed429()
+      const step = yield* Schedule.toStepWithMetadata(
+        SessionRetry.policy({
+          provider: "test",
+          parse: Schema.decodeUnknownSync(SessionV1.APIError.Schema),
+          set: (info) =>
+            Effect.sync(() => {
+              attempts.push(info.attempt)
+            }),
+        }),
+      )
+
+      yield* Effect.forEach(Array.from({ length: SessionRetry.RETRY_MAX_RETRIES + 1 }), () =>
+        Effect.ignore(step(error)),
+      )
+
+      expect(attempts).toStrictEqual(
+        Array.from({ length: SessionRetry.RETRY_MAX_RETRIES }, (_, i) => i + 1),
+      )
+    }),
+  )
+
+  it.instance("policy retries a concurrency-shed 429 past the finite ceiling when opted in", () =>
+    Effect.gen(function* () {
+      const attempts: number[] = []
+      const error = shed429()
+      const step = yield* Schedule.toStepWithMetadata(
+        SessionRetry.policy({
+          provider: "test",
+          parse: Schema.decodeUnknownSync(SessionV1.APIError.Schema),
+          unlimitedOnRetryable429: true,
+          set: (info) =>
+            Effect.sync(() => {
+              attempts.push(info.attempt)
+            }),
+        }),
+      )
+
+      const run = SessionRetry.RETRY_MAX_RETRIES + 5
+      yield* Effect.forEach(Array.from({ length: run }), () => Effect.ignore(step(error)))
+
+      expect(attempts.length).toBe(run)
+      expect(attempts.at(-1)).toBe(run)
+    }),
+  )
+  // kappacode_change end
 })
 
 describe("session.retry.retryable", () => {

@@ -125,6 +125,13 @@ export const Info = Schema.Struct({
           description:
             "Timeout in milliseconds between streamed SSE chunks for this provider. If no chunk arrives within this window, the request is aborted.",
         }),
+        maxConcurrency: Schema.optional(PositiveInt).annotate({
+          description: "Client-side concurrency ceiling for this provider (default 2). NOT a provider cap.",
+        }),
+        unlimitedRetryOn429: Schema.optional(Schema.Boolean).annotate({
+          description:
+            "When true, a concurrency-contained 429 (local/Gatehouse shed with no real provider rate limit) is retried indefinitely instead of hitting the finite retry ceiling. Default off.",
+        }),
       }),
       [Schema.Record(Schema.String, Schema.Any)],
     ),
