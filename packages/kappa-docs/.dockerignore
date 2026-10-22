@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.artifacts
+.git
+.hg
+.svn
+Dockerfile
+.env*
+!.env.example
+.pnpm-store

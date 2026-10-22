@@ -2,6 +2,7 @@ const withMarkdoc = require("@markdoc/next.js")
 const previousDocsRedirects = require("./previous-docs-redirects")
 
 module.exports = withMarkdoc(/* config: https://markdoc.io/docs/nextjs#options */)({
+  output: "standalone", // kappacode_change: self-contained server deploy
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdoc"],
   basePath: "/docs",
   turbopack: {},
