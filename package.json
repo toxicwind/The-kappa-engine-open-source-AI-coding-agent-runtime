@@ -4,7 +4,7 @@
   "description": "AI-powered development tool",
   "private": true,
   "type": "module",
-  "packageManager": "bun@1.4.3",
+  "packageManager": "bun@1.4.2",
   "scripts": {
     "dev": "KAPPA_CLIENT=cli bun run --cwd packages/cli --conditions=node src/index.ts",
     "dev:stats": "bun sst shell --stage=production -- bun run --cwd packages/stats/app dev",
