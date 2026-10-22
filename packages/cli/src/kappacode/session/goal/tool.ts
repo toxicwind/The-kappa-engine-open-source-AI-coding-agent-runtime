@@ -9,11 +9,14 @@ const Parameters = Schema.Struct({
 })
 
 const ControlParameters = Schema.Struct({
-  action: Schema.Literals(["start", "resume"]).annotate({
-    description: "start a new goal with an objective, or resume the saved goal.",
+  action: Schema.Literals(["start", "resume", "change", "pause", "clear"]).annotate({
+    description:
+      "Control the session Goal. start begins a new goal; resume continues a saved/paused one; change replaces the current objective; pause suspends the current goal (resumable); clear drops the current goal and cancels its timers.",
   }),
   objective: Schema.optional(
-    Schema.String.annotate({ description: "The objective for action start. Ignored for action resume." }),
+    Schema.String.annotate({
+      description: "The objective for action start or change. Ignored for resume/pause/clear.",
+    }),
   ),
 })
 
@@ -21,7 +24,7 @@ export const GoalTool = Tool.define(
   "goal",
   Effect.succeed({
     description:
-      "Start or resume a session Goal so you keep working toward one objective across turns. Use action start with an objective, or action resume to continue a saved goal that is paused, blocked, or complete. The goal becomes active and the goal loop continues automatically after this turn. Do not keep working in this turn; give a short final response and report the outcome later with goal_report. Completion is your report, not independent verification. This tool does not grant permission or change scope.",
+      "Start, resume, change, pause, or clear a session Goal so you keep working toward one objective across turns. start begins a new goal with a objective; resume continues a saved/paused goal; change replaces the current objective; pause suspends the current goal (resumable via resume); clear drops the goal and cancels its timers. After start/change the goal becomes active and the loop continues after this turn — give a short final response and report the outcome later with goal_report. Completion is your report, not independent verification. This tool does not grant permission or change scope.",
     parameters: ControlParameters,
     execute: (input: Schema.Schema.Type<typeof ControlParameters>, ctx: Tool.Context) =>
       Effect.gen(function* () {
@@ -43,8 +46,22 @@ export const GoalTool = Tool.define(
           })
           .pipe(Effect.orDie)
         return {
-          title: input.action === "start" ? "Goal started" : "Goal resumed",
-          output: `Goal active: ${result.text}\nDo not continue this turn. Give a short final response; the goal loop continues automatically after this turn. Report completion or a blocker later with goal_report.`,
+          title:
+            input.action === "start"
+              ? "Goal started"
+              : input.action === "change"
+                ? "Goal changed"
+                : input.action === "pause"
+                  ? "Goal paused"
+                  : input.action === "clear"
+                    ? "Goal cleared"
+                    : "Goal resumed",
+          output:
+            input.action === "pause"
+              ? "Goal paused. Cancelled the armed wakeups and cron tasks. Use goal action resume to continue."
+              : input.action === "clear"
+                ? "Goal cleared. Cancelled the armed wakeups and cron tasks."
+                : `Goal active: ${result.text}\nDo not continue this turn. Give a short final response; the goal loop continues automatically after this turn. Report completion or a blocker later with goal_report.`,
           metadata: { action: input.action, objective: result.text },
         }
       }),

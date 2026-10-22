@@ -30,10 +30,17 @@ export type FetchOptions = {
 
 const cache = new Map<string, CacheEntry>()
 
-// Read the base URL per call (not at module load) so a test/enterprise override via
-// KAPPA_MARKETPLACE_BASE_URL is honored regardless of import order.
-function baseUrl(opts: FetchOptions) {
-  return opts.baseUrl ?? process.env["KAPPA_MARKETPLACE_BASE_URL"] ?? DEFAULT_BASE_URL
+// Read the base URL(s) per call (not at module load) so a test/enterprise override via
+// KAPPA_MARKETPLACE_BASE_URLS is honored regardless of import order.
+function baseUrls(opts: FetchOptions): string[] {
+  const explicit = opts.baseUrl ?? process.env["KAPPA_MARKETPLACE_BASE_URL"] ?? process.env["KAPPA_MARKETPLACE_BASE_URLS"]
+  const list = (explicit ?? DEFAULT_BASE_URL)
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+  // Default: kilo marketplace only. To support both kilo AND the opencode
+  // marketplace, export KAPPA_MARKETPLACE_BASE_URLS="https://api.kilo.ai/api/marketplace,<opencode base>".
+  return list.length ? list : [DEFAULT_BASE_URL]
 }
 
 export function kebabToTitleCase(str: string): string {
@@ -105,22 +112,37 @@ async function fetchText(url: string, kind: string, fetcher: Fetch, attempt = 0)
 }
 
 async function fetchKind<T>(kind: string, path: string, map: (item: Record<string, unknown>) => T, opts: FetchOptions) {
-  const root = baseUrl(opts)
-  const key = `${root}:${kind}`
-  const hit = cached(key)
-  if (hit) {
-    log.info("catalog cache hit", { kind })
-    return hit as T[]
+  // Try each marketplace base in order (default: kilo). KAPPA_MARKETPLACE_BASE_URLS
+  // supports a comma list so kappa can serve BOTH the kilo marketplace and the
+  // opencode marketplace: fall back to the next base on empty/error.
+  const roots = baseUrls(opts)
+  let lastErr: unknown = undefined
+  for (const root of roots) {
+    const key = `${root}:${kind}`
+    const hit = cached(key)
+    if (hit) {
+      log.info("catalog cache hit", { kind })
+      return hit as T[]
+    }
+    try {
+      const url = `${root}/${path}`
+      const text = await fetchText(url, kind, opts.fetch ?? fetch)
+      const parsed = parseResponse(text) as { items?: unknown[] }
+      const items = (parsed.items ?? []) as Array<Record<string, unknown>>
+      // An empty but VALID catalog is not an error — return it so aggregation
+      // stays per-kind. Only a fetch failure falls through to the next base.
+      const result = items.map(map)
+      store(key, result)
+      log.info("catalog fetched", { kind, count: result.length, root, cacheHit: false })
+      return result
+    } catch (err) {
+      lastErr = err
+      log.warn("catalog fetch failed, trying next marketplace base", { kind, root, err })
+    }
   }
-
-  const url = `${root}/${path}`
-  const text = await fetchText(url, kind, opts.fetch ?? fetch)
-  const parsed = parseResponse(text) as { items?: unknown[] }
-  const items = (parsed.items ?? []) as Array<Record<string, unknown>>
-  const result = items.map(map)
-  store(key, result)
-  log.info("catalog fetched", { kind, count: result.length, cacheHit: false })
-  return result
+  // No base yielded items: surface the last error so the caller can report it
+  // rather than silently returning an empty marketplace.
+  throw lastErr instanceof Error ? lastErr : new Error(String(lastErr ?? `no marketplace base served ${kind}`))
 }
 
 export async function fetchAgents(opts: FetchOptions = {}): Promise<AgentMarketplaceItem[]> {
