@@ -230,7 +230,10 @@ export namespace KappaSessionProcessor {
 
   // Dynamic import: app-runtime depends on this module, so a static import would
   // be circular; the annotated return type keeps the AppLayer type graph acyclic.
-  async function providerBaseURL(id: ProviderV2.ID | undefined, apiUrl: string | undefined): Promise<string | undefined> {
+  async function providerBaseURL(
+    id: ProviderV2.ID | undefined,
+    apiUrl: string | undefined,
+  ): Promise<string | undefined> {
     const url = (id ? await configured(id) : undefined) ?? apiUrl
     if (!url) return url
     // varsLoaders vars from resolveSDK are unreachable here; unexpanded names
@@ -341,10 +344,12 @@ export namespace KappaSessionProcessor {
     abort: AbortSignal
     set: (sessionID: SessionID, status: SessionStatus.Info) => Effect.Effect<void>
     used?: number
+    unlimitedRetryOn429?: boolean
   }) {
     const limit = Flag.KAPPA_SESSION_RETRY_LIMIT
     return {
       limit: limit === undefined ? undefined : Math.max(0, limit - (input.used ?? 0)),
+      unlimitedOnRetryable429: input.unlimitedRetryOn429 === true,
       offline: (info: { error: unknown; message: string }) =>
         handleOffline({
           error: info.error,

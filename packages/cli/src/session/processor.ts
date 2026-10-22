@@ -958,6 +958,12 @@ const layer = Layer.effect(
         return yield* Effect.gen(function* () {
           // kappacode_change start - publish retry state consistently for provider and empty-response retries
           const retries = { provider: 0 }
+          // kappacode_change start — config-gated unlimited retry on concurrency-contained 429
+          // provider.<id>.options.unlimitedRetryOn429 (default off): when a 429 is a
+          // concurrency shed with no real provider rate limit, retry indefinitely.
+          const unlimitedRetryOn429 =
+            (yield* config.get())?.provider?.[input.model.providerID]?.options?.["unlimitedRetryOn429"] === true
+          // kappacode_change end
           const setRetry = (info: {
             attempt: number
             message: string

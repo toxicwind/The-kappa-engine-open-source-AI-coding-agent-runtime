@@ -90,7 +90,13 @@ export function retryable(error: Err, _provider?: string): Retryable | undefined
     const status = error.data.statusCode
     // kappacode_change start - Current Kappa errors require user action (login/signup), don't retry
     if (isKappaError(error)) return undefined
-    if (error.data.isRetryable === false && (status === undefined || (status < 500 && status !== 429)) && !error.data.responseBody && !matchesRetryableMessage(error.data.message)) return undefined
+    if (
+      error.data.isRetryable === false &&
+      (status === undefined || (status < 500 && status !== 429)) &&
+      !error.data.responseBody &&
+      !matchesRetryableMessage(error.data.message)
+    )
+      return undefined
     // kappacode_change end
 
     // 5xx errors are transient server failures and should always be retried,
@@ -135,14 +141,36 @@ function parseJSON(value: unknown) {
   })
 }
 
+// kappacode_change start — detect a concurrency-contained 429 shed
+// A 429 with no provider rate-limit headers is a local/shelder concurrency
+// throttle (e.g. Gatehouse concurrency shedder, retry-after: 1) rather than a
+// real provider rate limit. When the requesting provider opts into unlimited
+// retry, these are retried indefinitely instead of hitting the hard cap.
+function isConcurrencyShed(error: Err): boolean {
+  if (SessionV1.APIError.isInstance(error)) {
+    if (error.data.statusCode === 429) return true
+    if (matchesRetryableMessage(error.data.responseBody)) return true
+    const lower = String(error.data.message ?? "").toLowerCase()
+    if (lower.includes("too many requests") || lower.includes("rate limit")) return true
+  }
+  const lower = String(isRecord(error.data) ? error.data.message : "").toLowerCase()
+  return lower.includes("too_many_requests") || lower.includes("too many requests")
+}
+// kappacode_change end
+
 export function policy(opts: {
   provider: string
   parse: (error: unknown) => Err
   set: (input: { attempt: number; message: string; action?: Retryable["action"]; next: number }) => Effect.Effect<void>
-  // kappacode_change start
+
   limit?: number
-  offline?: (input: { error: unknown; message: string }) => Effect.Effect<"retry" | "blocked" | "aborted">
+  // kappacode_change start — config-gated unlimited retry on concurrency-contained 429
+  // When set and the failure is a concurrency shed (429 / "too many requests"
+  // with no real provider rate limit), retry indefinitely instead of capping at
+  // RETRY_MAX_RETRIES. Default OFF. Consumers wire this from provider config.
+  unlimitedOnRetryable429?: boolean
   // kappacode_change end
+  offline?: (input: { error: unknown; message: string }) => Effect.Effect<"retry" | "blocked" | "aborted">
 }) {
   const state = { offline: 0 } // kappacode_change
   return Schedule.fromStepWithMetadata(
@@ -176,7 +204,13 @@ export function policy(opts: {
 
         // kappacode_change start
         const attempt = opts.limit === undefined ? meta.attempt - state.offline : meta.attempt
-        if (opts.limit === undefined && attempt > RETRY_MAX_RETRIES) return yield* Cause.done(attempt)
+        // kappacode_change start — config-gated unlimited retry on concurrency-contained 429
+        // When the provider opts in and the failure is a concurrency shed (429 /
+        // "too many requests" with no real rate limit), retry indefinitely: skip
+        // the RETRY_MAX_RETRIES ceiling but keep honoring backoff / retry-after.
+        const unlimitedShed = opts.unlimitedOnRetryable429 === true && isConcurrencyShed(error)
+        if (opts.limit === undefined && attempt > RETRY_MAX_RETRIES && !unlimitedShed) return yield* Cause.done(attempt)
+        // kappacode_change end
         // kappacode_change end
         const wait = delay(attempt, SessionV1.APIError.isInstance(error) ? error : undefined) // kappacode_change
         const now = yield* Clock.currentTimeMillis
