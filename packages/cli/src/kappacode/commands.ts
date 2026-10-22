@@ -24,6 +24,7 @@ import { RemoteCommand } from "../cli/cmd/remote.ts"
 import { DbCommand } from "../cli/cmd/db.ts"
 import { ConfigCommand as ConfigCLICommand } from "../cli/cmd/config.ts"
 import { PluginCommand } from "../cli/cmd/plug.ts"
+import { MarketplaceCommand } from "../cli/cmd/marketplace.ts"
 import { DevSetupCommand, DevAliasCommand } from "./cli/dev-setup.ts"
 import { RollCallCommand } from "./cli/cmd/roll-call.ts"
 import { ProfileCommand } from "./cli/cmd/profile.ts"
@@ -77,6 +78,7 @@ export const commands = [
   ConfigCLICommand,
   ...dev,
   PluginCommand,
+  MarketplaceCommand,
   HelpCommand,
   CompletionCommand,
 ]
