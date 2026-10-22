@@ -96,7 +96,7 @@ export const Definitions = {
   session_unshare: keybind("none", "Unshare current session"),
   session_interrupt: keybind("escape", "Interrupt current session"),
   subagent_interrupt: keybind("escape", "Interrupt current subagent"), // kappacode_change
-  session_background: keybind("none", "Background synchronous subagents"), // kappacode_change - auto-background replaces ctrl+b; disable the shortcut to avoid the input_move_left conflict
+  session_background: keybind("ctrl+b", "Background synchronous subagents"), // kilocode_change - restore ctrl+b background toggle; keep input_move_left free of it (background owns the chord)
   session_compact: keybind("<leader>c", "Compact the session"),
   session_toggle_timestamps: keybind("none", "Toggle message timestamps"),
   session_toggle_generic_tool_output: keybind("none", "Toggle generic tool output"),
