@@ -27,7 +27,7 @@ import { KappaSessionPromptQueue } from "../prompt-queue.ts"
 import { isRecord } from "@/util/record"
 
 export namespace Goal {
-  export type Action = "start" | "resume"
+  export type Action = "start" | "resume" | "change" | "pause" | "clear"
   export type ArmInput = {
     sessionID: SessionID
     action: Action
@@ -276,6 +276,25 @@ export namespace Goal {
             yield* GoalLink.cleanup(id)
           }),
         )
+      })
+
+      // Drop the current goal entirely: end the run, remove the saved kappa.goal
+      // metadata, and cancel any armed timers so nothing can resume a cleared goal.
+      const clearSaved = Effect.fn("Goal.clear")(function* (id: SessionID) {
+        yield* ensure()
+        GoalState.pause(id, false)
+        yield* commit(
+          id,
+          Effect.gen(function* () {
+            const session = yield* sessions.get(id).pipe(Effect.orDie)
+            if (GoalState.read(session.metadata) == null) return
+            const metadata = { ...session.metadata }
+            delete metadata["kappa.goal"]
+            yield* sessions.setMetadata({ sessionID: id, metadata })
+          }),
+        )
+        GoalLink.clear(id)
+        yield* GoalLink.cleanup(id)
       })
 
       const context = Effect.fn("Goal.context")(function* (id: SessionID, parent: () => MessageID | undefined) {
@@ -755,13 +774,30 @@ export namespace Goal {
         const id = input.sessionID
         const session = yield* sessions.get(id).pipe(Effect.orDie)
         if (session.parentID) {
-          return yield* Effect.fail(new Error("Start goals from the main session, not a delegated session."))
+          return yield* Effect.fail(new Error("Control goals from the main session, not a delegated session."))
         }
         if (session.time.archived || session.revert) {
-          return yield* Effect.fail(new Error("Restore this session before starting a goal."))
+          return yield* Effect.fail(new Error("Restore this session before managing a goal."))
         }
-        if (GoalState.active(id)) {
-          return yield* Effect.fail(new Error("A goal is already active. Pause or clear it before starting another."))
+        // pause / clear / change act on the (possibly active) goal, so they
+        // bypass the "already active" guard that only bounds start/resume.
+        if (input.action === "pause" || input.action === "clear") {
+          yield* pause(id, input.action === "pause")
+          if (input.action === "clear") yield* clearSaved(id)
+          return yield* Effect.succeed({
+            text:
+              input.action === "clear"
+                ? "Goal cleared. Cancelled the armed wakeups and cron tasks."
+                : "Goal paused. Use goal action resume to continue.",
+          } as ArmResult)
+        }
+        if (input.action === "change") {
+          const objective = input.objective?.trim()
+          if (!objective) return yield* Effect.fail(new Error("Provide an objective to change the goal."))
+          // Replace: fall through to start-new-goal semantics (arm holds+replaces).
+        }
+        if (input.action === "start" && GoalState.active(id)) {
+          return yield* Effect.fail(new Error("A goal is already active. Use change, or pause/clear it first."))
         }
         const saved = GoalState.read(session.metadata)
         const text = input.action === "resume" ? saved?.text : input.objective?.trim()
