@@ -41,7 +41,7 @@ const suites = [
   ["0.4", "packages/cli", `${TYPE} --noEmit`],
 ] as const
 
-const OUT = "/home/toxic/tmp/kappa-compact/kmake" // pane logs live here
+const OUT = `${HOME}/.local/state/kappa/kmake` // pane logs live here (never in /tmp/kappa-compact)
 // Login shell (project env: direnv/etc. + node_modules on PATH) — full output
 // to a per-pane log (no `2>&1`, no `| tail`).
 const paneCmd = (dir: string, cmd: string, pane: string) =>
