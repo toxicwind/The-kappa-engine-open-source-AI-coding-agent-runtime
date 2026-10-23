@@ -58,6 +58,9 @@ tsconfig.tsbuildinfo
 .kilo/yarn.lock
 .kilo/node_modules
 .kilo/plans/*upstream-merge-report-*.md
+.ffs/
+*-tsc-result.txt
+test-layer-node-result.txt
 **/.kilo/jetbrains.json
 .kilocode/.gitignore
 .kilocode/package.json
