@@ -32,7 +32,7 @@ import { BoardEnabled } from "@/kappacode/board/enabled"
 import { Agent } from "@/agent/agent"
 import * as Truncate from "@/tool/truncate"
 import { InstanceState } from "@/effect/instance-state"
-import { KappaMemory } from "@kappacode/kappa-memory/effect"
+import { Service as CoreMemoryService, node as CoreMemoryNode } from "@kappacode/Memory"
 import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 
 const log = Log.create({ service: "kappacode-tool-registry" })
@@ -362,9 +362,13 @@ export namespace KappaToolRegistry {
       ...(Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode" ? [tools.process] : []),
       ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.schedule ? [tools.schedule] : []),
       ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cancel ? [tools.cancel] : []),
-      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronCreate ? [tools.cronCreate] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronCreate
+        ? [tools.cronCreate]
+        : []),
       ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronList ? [tools.cronList] : []),
-      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronDelete ? [tools.cronDelete] : []),
+      ...((Flag.KAPPA_CLIENT === "cli" || Flag.KAPPA_CLIENT === "vscode") && tools.cronDelete
+        ? [tools.cronDelete]
+        : []),
       tools.managerModels,
       ...(Flag.KAPPA_CLIENT === "vscode" ? [tools.manager] : []),
       ...(Flag.KAPPA_CLIENT === "vscode" && tools.browser ? [tools.browser] : []),
@@ -393,31 +397,20 @@ export namespace KappaToolRegistry {
     memoryEnabledCache.delete(root)
   }
 
-  /** Per-turn cache of `KappaMemory.toolEnabled` keyed by root string, with a short TTL so the
-   * step-loop coalesces probes inside a single turn. Cache is invalidated immediately on enable /
-   * disable / purge / rebuild via the MemoryEvents bus (subscribed in kappacode/bootstrap.ts). */
-  export function memoryToolsEnabled(input: { ctx: MemoryPaths.Ctx }) {
-    return Effect.gen(function* () {
-      const root = MemoryPaths.root({ ctx: input.ctx })
+  /** Per-turn cache of memory-tool availability.
+   * Core memory (Phase 2) is always available — no per-project enable/disable gate.
+   * Cache is invalidated on state mutations for consistency. */
+  export function memoryToolsEnabled(_input: { ctx: MemoryPaths.Ctx }) {
+    return Effect.sync(() => {
+      const root = MemoryPaths.root({ ctx: _input.ctx })
       const cached = memoryEnabledCache.get(root)
       if (cached && cached.deadline > Date.now()) return cached.enabled
-      const enabled = yield* Effect.tryPromise({
-        try: () => KappaMemory.toolEnabled({ ctx: input.ctx }),
-        catch: (err) => err,
-      }).pipe(
-        Effect.catch((err) =>
-          Effect.sync(() => {
-            log.warn("memory tools unavailable", { error: String(err) })
-            return false
-          }),
-        ),
-      )
-      memoryEnabledCache.set(root, { enabled, deadline: Date.now() + MEMORY_ENABLED_TTL_MS })
+      memoryEnabledCache.set(root, { enabled: true, deadline: Date.now() + MEMORY_ENABLED_TTL_MS })
       if (memoryEnabledCache.size > MEMORY_ENABLED_CACHE_MAX) {
         const oldest = memoryEnabledCache.keys().next().value
         if (oldest !== undefined) memoryEnabledCache.delete(oldest)
       }
-      return enabled
+      return true
     })
   }
   /** Hide Kappa memory tools from the model when project memory is disabled. */

@@ -17,6 +17,7 @@ import { InstanceRef } from "@/effect/instance-ref"
 import { Identity } from "@kappacode/kappa-telemetry"
 import { MemoryLifecycle } from "@/kappacode/memory/turn"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service"
+import { Memory } from "@opencode-ai/core/memory"
 import { MemoryEvents } from "@/kappacode/memory/events"
 import { installMemoryRuntime } from "@/kappacode/memory/runtime"
 import { KappaToolRegistry } from "@/kappacode/tool/registry"
@@ -64,11 +65,13 @@ export namespace KappacodeBootstrap {
         // fire immediately, the rest get their timers. A failure must not block bootstrap.
         const inst = yield* InstanceRef
         if (inst) {
-          yield* wake.adopt(inst.directory).pipe(
-            Effect.catchCause((cause) =>
-              Effect.sync(() => log.warn("wakeup adopt failed", { err: Cause.squash(cause) })),
-            ),
-          )
+          yield* wake
+            .adopt(inst.directory)
+            .pipe(
+              Effect.catchCause((cause) =>
+                Effect.sync(() => log.warn("wakeup adopt failed", { err: Cause.squash(cause) })),
+              ),
+            )
         }
         // Session export bootstrap.
         yield* Effect.gen(function* () {
@@ -119,6 +122,7 @@ export namespace KappacodeBootstrap {
       AppNodeBuilder.build(Provider.node),
       AppNodeBuilder.build(Config.node),
       MemoryService.layer,
+      Memory.node,
       Bus.defaultLayer,
       KappacodeWatcher.defaultLayer,
       AppNodeBuilder.build(Wakeup.node),
