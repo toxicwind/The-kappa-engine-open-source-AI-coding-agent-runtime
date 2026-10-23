@@ -41,7 +41,7 @@ import { LLMAISDK } from "./llm/ai-sdk.ts"
 import { LLMNativeRuntime } from "./llm/native-runtime.ts"
 import { LLMRequestPrep } from "./llm/request.ts"
 // kilocode_change start - per-provider concurrency queue shared by the provider as a whole
-import { LLMQueue } from "@/kappacode/session/llm/queue"
+import { LLMQueue, node as LLMQueueNode } from "@/kappacode/session/llm/queue"
 // kilocode_change end
 
 const log = Log.create({ service: "llm" }) // kappacode_change
@@ -521,7 +521,7 @@ export const node = LayerNode.make({
     llmClient,
     RuntimeFlags.node,
     // kilocode_change start - provider-wide per-provider concurrency queue
-    LLMQueue.node,
+    LLMQueueNode,
     // kilocode_change end
   ],
 })

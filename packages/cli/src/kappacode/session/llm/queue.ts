@@ -99,3 +99,5 @@ export const live = LayerNode.make({
   ),
   deps: [Config.node],
 })
+
+export const node = live

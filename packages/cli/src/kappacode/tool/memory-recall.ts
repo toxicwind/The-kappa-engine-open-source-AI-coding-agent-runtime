@@ -1,8 +1,8 @@
 // kilocode_change - new file — Phase 2: tool wrappers re-pointed to core memory service
-import { Effect, Layer } from "effect"
+import { Effect, Layer, Option } from "effect"
 import { Instance } from "@/kappacode/instance"
 import * as Tool from "@/tool/tool"
-import { Service, node as MemoryNode } from "@opencode-ai/core/memory"
+import { Service } from "@opencode-ai/core/memory"
 import { Permission } from "@/permission"
 
 const memoryPermission = "kilo_memory_recall"
@@ -11,7 +11,11 @@ const savePermission = "kilo_memory_save"
 export const MemoryRecallTool = Tool.define(
   "kappa_memory_recall",
   Effect.gen(function* () {
-    const memory = yield* Service
+    // Optional dependency: memory is an integrated capability, not a hard gate.
+    // effect v4 serviceOption reads the service from context without adding it to
+    // the required environment, so a runtime without Memory.node builds fine and
+    // the tool degrades to a "memory not available" result instead of crashing.
+    const memory = yield* Effect.serviceOption(Service)
     const render = (entries, query) => {
       if (entries.length === 0) return `No memories matched query: "${query}"`
       const lines = [`Found ${entries.length} memor${entries.length === 1 ? "y" : "ies"} for "${query}":`, ""]
@@ -45,13 +49,20 @@ export const MemoryRecallTool = Tool.define(
       },
       execute: (params, ctx) =>
         Effect.gen(function* () {
+          if (Option.isNone(memory)) {
+            return {
+              title: "memory_recall: unavailable",
+              output: "Built-in memory is not enabled in this runtime. Nothing to recall.",
+              metadata: { count: 0 },
+            }
+          }
           yield* ctx.ask({
             permission: memoryPermission,
             patterns: ["recall"],
             always: ["*"],
             metadata: { query: params.query, limit: params.limit },
           })
-          const result = yield* memory.recall({ query: params.query, limit: params.limit })
+          const result = yield* memory.value.recall({ query: params.query, limit: params.limit })
           return {
             title: `memory_recall: ${result.count} result${result.count === 1 ? "" : "s"}`,
             output: render(result.entries, params.query),

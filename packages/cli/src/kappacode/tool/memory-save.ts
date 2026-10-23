@@ -1,12 +1,16 @@
 // kilocode_change - new file — Phase 2: tool wrappers re-pointed to core memory service
-import { Effect } from "effect"
+import { Effect, Option } from "effect"
 import * as Tool from "@/tool/tool"
 import { Service } from "@opencode-ai/core/memory"
 
 export const MemorySaveTool = Tool.define(
   "kappa_memory_save",
   Effect.gen(function* () {
-    const memory = yield* Service
+    // Optional dependency: memory is an integrated capability, not a hard gate.
+    // serviceOption reads it from context without adding it to the required
+    // environment, so a runtime without Memory.node builds fine and this tool
+    // degrades to a "memory not available" result instead of crashing.
+    const memory = yield* Effect.serviceOption(Service)
     const render = (entry, key) => {
       const src = entry.source ?? "user"
       const keyLine = entry.key ? `\nsaved_key=${entry.key}` : ""
@@ -31,13 +35,20 @@ export const MemorySaveTool = Tool.define(
       },
       execute: (params, ctx) =>
         Effect.gen(function* () {
+          if (Option.isNone(memory)) {
+            return {
+              title: "memory_save: unavailable",
+              output: "Built-in memory is not enabled in this runtime. Nothing to save.",
+              metadata: { count: 0, source: params.source ?? "user" },
+            }
+          }
           yield* ctx.ask({
             permission: "kilo_memory_save",
             patterns: ["save"],
             always: [],
             metadata: { text: params.text.slice(0, 200), key: params.key },
           })
-          const entry = yield* memory.retain({
+          const entry = yield* memory.value.retain({
             text: params.text,
             key: params.key,
             source: params.source,
