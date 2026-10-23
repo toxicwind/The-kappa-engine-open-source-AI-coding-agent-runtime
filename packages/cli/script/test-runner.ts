@@ -39,6 +39,8 @@ if (argv.includes("--help") || argv.includes("-h")) {
       "  --bail               Stop on first failure",
       "  --dots               Show compact dot progress",
       "  --verbose            Show full output for every file",
+      "  --coverage           Enable coverage profiling (bun --coverage)",
+      "  --coverage-dir <dir> Directory for coverage data (default: .coverage)",
       "  -h, --help           Show this help",
       "",
       "Positional:",
@@ -71,6 +73,8 @@ const ci = argv.includes("--ci")
 const bail = argv.includes("--bail")
 const updateDurations = argv.includes("--update-durations") // kappacode_change
 const verbose = argv.includes("--verbose")
+const coverage = argv.includes("--coverage")
+const coverageDir = text("coverage-dir") ?? ".coverage"
 const dots = !verbose && (ci || argv.includes("--dots"))
 // Cap concurrency at 4 even on bigger runners: the bottleneck is shared
 // resources (ports, global filesystem like ~/.local/share/kappa), not CPU.
@@ -427,6 +431,8 @@ type Proc = ReturnType<typeof Bun.spawn>
 
 const xmldir = ci ? path.join(os.tmpdir(), `opencode-junit-${process.pid}`) : ""
 if (ci) await fs.mkdir(xmldir, { recursive: true })
+const covDir = coverage ? coverageDir : ""
+if (coverage) await fs.mkdir(covDir, { recursive: true })
 // kappacode_change start
 const supplied = process.env[TestCli.ENV]
 const built = supplied ? { binary: supplied, dir: undefined } : { binary: await TestCli.build(root), dir: undefined }
@@ -533,6 +539,10 @@ async function run(file: string): Promise<Result> {
   const cmd = ["bun", "test", ...targets, "--timeout", String(timeout)]
   // kappacode_change end
 
+  if (coverage) {
+    cmd.push("--coverage", "--coverage-reporter=text", `--coverage-dir=${coverageDir}`)
+  }
+
   if (ci) {
     const name = file.replace(/[/\\]/g, "_") + ".xml"
     cmd.push("--reporter=junit", `--reporter-outfile=${path.join(xmldir, name)}`)
@@ -544,7 +554,7 @@ async function run(file: string): Promise<Result> {
 
   const proc = Bun.spawn(cmd, {
     cwd: root,
-    env: { ...process.env, [TestCli.ENV]: built.binary },
+    env: { ...process.env, [TestCli.ENV]: built.binary, BUN_COVERAGE_DIR: covDir || undefined },
     stdout: "pipe",
     stderr: "pipe",
     windowsHide: true,

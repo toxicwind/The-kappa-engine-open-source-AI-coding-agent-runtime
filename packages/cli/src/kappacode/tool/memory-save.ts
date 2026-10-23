@@ -1,7 +1,17 @@
 // kilocode_change - new file — Phase 2: tool wrappers re-pointed to core memory service
-import { Effect, Option } from "effect"
+import { Effect, Option, Schema } from "effect"
 import * as Tool from "@/tool/tool"
 import { Service } from "@opencode-ai/core/memory"
+
+const SaveParams = Schema.Struct({
+  text: Schema.String.annotate({ description: "Memory text to save. Be concise and durable." }),
+  key: Schema.optional(Schema.String).annotate({
+    description: "Optional stable key for deduplication and targeted recall.",
+  }),
+  source: Schema.optional(Schema.Literals(["user", "auto", "tool"])).annotate({
+    description: "Memory source (default: user).",
+  }),
+})
 
 export const MemorySaveTool = Tool.define(
   "kappa_memory_save",
@@ -24,15 +34,7 @@ export const MemorySaveTool = Tool.define(
         "Memory is project-scoped and persistent: entries survive agent restarts.",
         "Use a descriptive key when the entry is a repeatable concept.",
       ].join("\n"),
-      parameters: {
-        type: "object",
-        properties: {
-          text: { type: "string", description: "Memory text to save. Be concise and durable." },
-          key: { type: "string", description: "Optional stable key for deduplication and targeted recall." },
-          source: { type: "string", enum: ["user", "auto", "tool"], description: "Memory source (default: user)." },
-        },
-        required: ["text"],
-      },
+      parameters: SaveParams,
       execute: (params, ctx) =>
         Effect.gen(function* () {
           if (Option.isNone(memory)) {

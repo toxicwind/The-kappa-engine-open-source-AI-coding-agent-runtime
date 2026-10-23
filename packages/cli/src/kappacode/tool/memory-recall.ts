@@ -1,12 +1,16 @@
 // kilocode_change - new file — Phase 2: tool wrappers re-pointed to core memory service
-import { Effect, Layer, Option } from "effect"
-import { Instance } from "@/kappacode/instance"
+import { Effect, Option, Schema } from "effect"
 import * as Tool from "@/tool/tool"
 import { Service } from "@opencode-ai/core/memory"
-import { Permission } from "@/permission"
 
 const memoryPermission = "kilo_memory_recall"
-const savePermission = "kilo_memory_save"
+
+const RecallParams = Schema.Struct({
+  query: Schema.String.annotate({
+    description: "Search query — topic, keyword, or phrase to find in stored memories.",
+  }),
+  limit: Schema.optional(Schema.Int).annotate({ description: "Maximum memories to return (default: 5, max: 20)." }),
+})
 
 export const MemoryRecallTool = Tool.define(
   "kappa_memory_recall",
@@ -36,17 +40,7 @@ export const MemoryRecallTool = Tool.define(
         "Memory is session-persistent: retains survive across turns and sessions within the same project.",
         "Use when the agent needs context from prior conversations, project decisions, or user corrections.",
       ].join("\n"),
-      parameters: {
-        type: "object",
-        properties: {
-          query: {
-            type: "string",
-            description: "Search query — topic, keyword, or phrase to find in stored memories.",
-          },
-          limit: { type: "number", description: "Maximum memories to return (default: 5, max: 20)." },
-        },
-        required: ["query"],
-      },
+      parameters: RecallParams,
       execute: (params, ctx) =>
         Effect.gen(function* () {
           if (Option.isNone(memory)) {
@@ -75,66 +69,6 @@ export const MemoryRecallTool = Tool.define(
               Effect.succeed({
                 title: "memory_recall: permission denied",
                 output: `Permission denied for memory recall: ${err.message}`,
-                metadata: { count: 0 },
-              }),
-          ),
-        ),
-      context: (ctx) => ({ sessionID: ctx.sessionID, ask: ctx.ask }),
-    }
-  }),
-)
-
-export const MemorySaveTool = Tool.define(
-  "kappa_memory_save",
-  Effect.gen(function* () {
-    const memory = yield* Service
-    const render = (entry, key) => {
-      const src = entry.source ?? "user"
-      const keyLine = entry.key ? `\nsaved_key=${entry.key}` : ""
-      return `Memory saved: ${entry.text.slice(0, 200)}${keyLine}\nsource=${src}`
-    }
-    return {
-      id: "kappa_memory_save",
-      description: [
-        "Save a fact, decision, constraint, or correction into kappa-code built-in memory.",
-        "Returns the saved entry with its key for future recall.",
-        "Memory is project-scoped and persistent: entries survive agent restarts.",
-        "Use a descriptive key when the entry is a repeatable concept (e.g. 'architecture_decision', 'project_constraint').",
-      ].join("\n"),
-      parameters: {
-        type: "object",
-        properties: {
-          text: { type: "string", description: "Memory text to save. Be concise and durable." },
-          key: { type: "string", description: "Optional stable key for deduplication and targeted recall." },
-          source: { type: "string", enum: ["user", "auto", "tool"], description: "Memory source (default: user)." },
-        },
-        required: ["text"],
-      },
-      execute: (params, ctx) =>
-        Effect.gen(function* () {
-          yield* ctx.ask({
-            permission: savePermission,
-            patterns: ["save"],
-            always: [],
-            metadata: { text: params.text.slice(0, 200), key: params.key },
-          })
-          const entry = yield* memory.retain({
-            text: params.text,
-            key: params.key,
-            source: params.source,
-          })
-          return {
-            title: "memory_save: saved",
-            output: render(entry, params.key ?? ""),
-            metadata: { count: 1, source: entry.source },
-          }
-        }).pipe(
-          Effect.catchIf(
-            (err) => err instanceof Error && err.message.startsWith("permission denied"),
-            (err) =>
-              Effect.succeed({
-                title: "memory_save: permission denied",
-                output: `Permission denied for memory save: ${err.message}`,
                 metadata: { count: 0 },
               }),
           ),

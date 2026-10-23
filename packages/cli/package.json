@@ -14,7 +14,12 @@
     "build": "bun run script/build.ts",
     "dev": "bun run ./src/index.ts",
     "dev:temporary": "bun run ./src/temporary.ts",
-    "test:ci": "bun run script/test-runner.ts --ci"
+    "test:ci": "bun run script/test-runner.ts --ci",
+    "test:coverage": "bun run script/test-runner.ts --coverage --coverage-dir=.coverage",
+    "test:coverage:gate": "bun run script/test-runner.ts --coverage --coverage-dir=/tmp/kappa-coverage-gate && bun run script/coverage-gate.ts --source src",
+    "coverage:gate": "bun run script/coverage-gate.ts",
+    "coverage:gate:cli": "bun run script/coverage-gate.ts --source src",
+    "coverage:gate:core": "cd packages/core && bun run ../../script/coverage-gate.ts --source src"
   },
   "bin": {
     "kappa": "./bin/kappa",

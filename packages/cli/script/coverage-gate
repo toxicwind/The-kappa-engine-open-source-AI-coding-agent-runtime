@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Coverage gate launcher — runs coverage-gate.ts bypassing the run-fast shim.
+# The script itself is a fast startup (parses args, spawns bun test), but the
+# bun test subprocess runs for seconds, so the shim would kill the whole thing.
+# Setting RUN_FAST_ACTIVE=1 disables the shim for this call chain.
+export RUN_FAST_ACTIVE=1
+cd "$(dirname "$0")/.."
+exec bun run script/coverage-gate.ts "$@"
