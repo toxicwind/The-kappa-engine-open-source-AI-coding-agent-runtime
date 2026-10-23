@@ -19,7 +19,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { InstanceRef } from "../../src/effect/instance-ref.ts"
 import { InstanceBootstrap } from "../../src/project/bootstrap-service.ts"
 import { context as instanceContext, type InstanceContext } from "../../src/project/instance-context.ts" // kappacode_change
-import { InstanceRuntime } from "../../src/project/instance-runtime.ts"
+import { InstanceRuntime, disposeDirectory as disposeInstanceForDir } from "../../src/project/instance-runtime.ts" // kilocode_change - add direct import to avoid circular InstanceRuntime namespace timing issue
 import { InstanceStore } from "../../src/project/instance-store.ts"
 import { TestLLMServer } from "../lib/llm-server.ts"
 import { remove as cleanup } from "../kappacode/cleanup.ts" // kappacode_change
@@ -75,7 +75,7 @@ export async function disposeAllInstances() {
 // kappacode_change start - dispose a directory's instance (and its watchers) before the directory is deleted
 async function disposeInstancesFor(directory: string) {
   await Promise.allSettled([
-    InstanceRuntime.disposeDirectory(directory),
+    disposeInstanceForDir(directory), // kilocode_change
     runTestInstanceStore((store) => store.disposeDirectory(directory)),
   ])
 }

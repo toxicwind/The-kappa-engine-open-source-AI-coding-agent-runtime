@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect } from "bun:test"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { Cause, Effect, Exit, Layer } from "effect"
+import { Global } from "@opencode-ai/core/global"
 import { Agent } from "../../src/agent/agent.ts"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { FSUtil } from "@opencode-ai/core/fs-util"
@@ -41,8 +42,12 @@ const compaction = (created = 3_000): Msg =>
 
 let session: { model?: { id: string; providerID: string } } = {}
 let lookup: Effect.Effect<{ limit: { context: number } }, unknown> = Effect.succeed({ limit: { context: 100_000 } })
-const created: Array<{ sessionID: string; agent: string; model: { providerID: string; modelID: string }; auto: boolean }> =
-  []
+const created: Array<{
+  sessionID: string
+  agent: string
+  model: { providerID: string; modelID: string }
+  auto: boolean
+}> = []
 
 const sessionLayer = Layer.mock(Session.Service, {
   get: () => Effect.succeed(session as any),
@@ -62,6 +67,7 @@ const compactionLayer = Layer.mock(SessionCompaction.Service, {
 const it = testEffect(
   LayerNode.compile(
     LayerNode.group([
+      Global.node,
       Agent.node,
       FSUtil.node,
       CrossSpawnSpawner.node,

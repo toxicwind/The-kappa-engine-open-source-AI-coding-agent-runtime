@@ -28,7 +28,7 @@ export type ShareData =
 // kappacode_change start
 /** Extract share token from a Kappa share URL like https://app.kilo.ai/s/<jwt> */
 export function parseShareUrl(url: string): string | null {
-  const match = url.match(/^https?:\/\/app\.kappa\.ai\/s\/([A-Za-z0-9_.-]+)$/)
+  const match = url.match(/^https?:\/\/app\.kilo\.ai\/s\/([A-Za-z0-9_.-]+)$/) // kilocode_change - was app.kappa.ai typo
   return match ? match[1] : null
 }
 // kappacode_change end
