@@ -5,6 +5,7 @@ import { ToolFailure } from "@opencode-ai/llm"
 import { Duration, Effect, Layer, Schema } from "effect"
 import { ChildProcess } from "effect/unstable/process"
 import { Config } from "../config"
+import { BackgroundJob } from "../background-job"
 import { makeLocationNode } from "../effect/app-node"
 import { FSUtil } from "../fs-util"
 import { LocationMutation } from "../location-mutation"
@@ -60,6 +61,15 @@ const isTimeout = (error: AppProcess.AppProcessError) =>
   error.cause instanceof Error && error.cause.message === "Timed out"
 
 /**
+ * Auto-background (kappa feature): a command that would exceed the tool
+ * deadline is NOT killed-and-retried — it is promoted into a BackgroundJob that
+ * keeps running, and the tool call returns a live job handle immediately. The
+ * agent stays in control: `background-job wait <id>` delivers the full output
+ * on completion (completion delivery), so one deadline never wastes the work.
+ */
+const BACKGROUND_WAIT_SLACK_MS = 500
+
+/**
  * Minimal V2 core shell boundary. Keep parity debt visible without pulling the
  * legacy shell runtime into core.
  */
@@ -102,6 +112,7 @@ const layer = Layer.effectDiscard(
     const appProcess = yield* AppProcess.Service
     const config = yield* Config.Service
     const permission = yield* PermissionV2.Service
+    const jobs = yield* BackgroundJob.Service
 
     yield* tools
       .register({
@@ -163,34 +174,49 @@ const layer = Layer.effectDiscard(
                 forceKillAfter: Duration.seconds(3),
               })
               const timeout = input.timeout ?? DEFAULT_TIMEOUT_MS
-              const result = yield* appProcess
-                .run(command, {
-                  combineOutput: true,
-                  timeout: Duration.millis(timeout),
-                  maxOutputBytes: MAX_CAPTURE_BYTES,
-                })
-                .pipe(
-                  Effect.catchTag("AppProcessError", (error) =>
-                    isTimeout(error) ? Effect.succeed(undefined) : Effect.fail(error),
-                  ),
-                )
-              if (!result) {
+              // Auto-background: the process is owned by a BackgroundJob from
+              // the start, so a deadline overrun hands off a LIVE job instead
+              // of killing the work and demanding a retry.
+              const job = yield* jobs.start({
+                type: "bash",
+                title: input.command.split("\n")[0]?.slice(0, 80),
+                run: Effect.gen(function* () {
+                  const run = yield* appProcess
+                    .run(command, {
+                      combineOutput: true,
+                      maxOutputBytes: MAX_CAPTURE_BYTES,
+                    })
+                    .pipe(
+                      Effect.catchTag("AppProcessError", (error) =>
+                        isTimeout(error) ? Effect.succeed(undefined) : Effect.fail(error),
+                      ),
+                    )
+                  if (run === undefined) return ""
+                  const notice = run.outputTruncated ? "\n[output capture truncated at the in-memory safety limit]" : ""
+                  return `${run.output?.toString("utf8") || "(no output)"}${notice}\n[exit ${run.exitCode}]`
+                }),
+              })
+              const waited = yield* jobs.wait({ id: job.id, timeout: timeout + BACKGROUND_WAIT_SLACK_MS })
+              const info = waited.info
+              if (!info || info.status === "running") {
                 return {
-                  output: `Command exceeded timeout of ${timeout} ms. Retry with a larger timeout if the command is expected to take longer.`,
+                  output: `Command exceeded timeout of ${timeout} ms and was AUTO-BACKGROUNDED as job ${job.id} (still running; output keeps streaming into the job).\nDeliver the result with: background-job wait { "id": "${job.id}" } — or cancel with: background-job cancel { "id": "${job.id}" }.`,
                   truncated: false,
-                  timeout: true,
+                  timeout: false,
                   ...(warnings.length ? { warnings } : {}),
                 }
               }
-
-              const output = result.output?.toString("utf8") || "(no output)"
-              const notice = result.outputTruncated
-                ? "[output capture truncated at the in-memory safety limit]"
-                : undefined
+              const completed = info.status !== "error"
+              const output = info.output || info.error || "(no output)"
+              const failed = info.status === "error" ? ` (job failed: ${info.error ?? "unknown"})` : ""
               return {
-                exit: result.exitCode,
-                output: notice ? `${output}\n\n${notice}` : output,
-                truncated: result.outputTruncated === true,
+                exit: completed
+                  ? info.output?.match(/\[exit (\d+)\]$/)?.[1]
+                    ? Number(info.output.match(/\[exit (\d+)\]$/)?.[1])
+                    : 0
+                  : 1,
+                output: `${output}${failed}`,
+                truncated: false,
                 ...(warnings.length ? { warnings } : {}),
               }
             }).pipe(Effect.mapError(() => new ToolFailure({ message: `Unable to execute command: ${input.command}` }))),
@@ -203,5 +229,13 @@ const layer = Layer.effectDiscard(
 export const node = makeLocationNode({
   name: "tool/bash",
   layer,
-  deps: [ToolRegistry.node, LocationMutation.node, FSUtil.node, AppProcess.node, Config.node, PermissionV2.node],
+  deps: [
+    ToolRegistry.node,
+    LocationMutation.node,
+    FSUtil.node,
+    AppProcess.node,
+    Config.node,
+    PermissionV2.node,
+    BackgroundJob.node,
+  ],
 })
