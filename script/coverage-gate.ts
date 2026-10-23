@@ -145,18 +145,20 @@ if (code === -1) {
 }
 
 const [outText, errText] = await Promise.all([stdout, stderr])
+// bun test --coverage-reporter=text sends coverage table to stderr, test results to stdout
+const combined = outText + errText
 if (errText) console.error(errText)
 
 if (code !== 0) {
   console.error(`bun test exited with code ${code}`)
-  const lastLines = outText.split("\n").slice(-200).join("\n")
+  const lastLines = combined.split("\n").slice(-200).join("\n")
   if (lastLines.trim()) console.error(lastLines)
   process.exit(1)
 }
 
 // Strip ANSI escape codes for reliable regex parsing
 const ESC = String.fromCharCode(27) + "\\[[0-9;]*[a-zA-Z]"
-const clean = outText.replace(new RegExp(ESC, "g"), "")
+const clean = combined.replace(new RegExp(ESC, "g"), "")
 
 // ---------------------------------------------------------------------------
 // Parse bun text-coverage output
