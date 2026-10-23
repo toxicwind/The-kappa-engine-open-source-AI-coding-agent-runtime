@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { Effect, Layer, Option } from "effect"
+import { Effect, Exit, Layer } from "effect"
 import { Permission } from "@/permission"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Database } from "@opencode-ai/core/database/database"
@@ -104,6 +104,48 @@ describe("provider-wide LLM concurrency queue", () => {
           expect(cap).toBe(5)
         }),
       { config: (url: string) => config(url, 0, 5) },
+    ),
+  )
+})
+
+describe("LLMQueue withPermit", () => {
+  it.live(
+    "runs the effect under a shared permit and returns its value, releasing the permit on success",
+    () =>
+      provideTmpdirServer(
+        () =>
+          Effect.gen(function* () {
+            const queue = yield* LLMQueue
+            const cap = yield* queue.concurrency("test")
+            expect(cap).toBe(1)
+            // cap = 1 yet both withPermit calls complete sequentially: the first
+            // releases its permit when its effect returns, so the second proceeds.
+            const out = yield* Effect.all([
+              queue.withPermit("test", Effect.succeed(1)),
+              queue.withPermit("test", Effect.succeed(2)),
+            ])
+            expect(out).toEqual([1, 2])
+            // Permit is free again after both returned.
+            yield* queue.acquire("test")
+          }),
+        { config: (url: string) => config(url, 1) },
+      ),
+    30000,
+  )
+
+  it.live("releases the permit when the effect inside fails", () =>
+    provideTmpdirServer(
+      () =>
+        Effect.gen(function* () {
+          const queue = yield* LLMQueue
+          const cap = yield* queue.concurrency("test")
+          expect(cap).toBe(1)
+          const failed = yield* Effect.exit(queue.withPermit("test", Effect.fail("boom")))
+          expect(Exit.isFailure(failed)).toBe(true)
+          // Permit released on failure, so a follow-up acquire succeeds immediately.
+          yield* queue.acquire("test")
+        }),
+      { config: (url: string) => config(url, 1) },
     ),
   )
 })
