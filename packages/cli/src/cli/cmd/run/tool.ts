@@ -463,12 +463,31 @@ function lspTitle(
   return `LSP ${op} ${file}${pos}`
 }
 
+// kilocode_change start
 function runLsp(p: ToolProps<typeof LspTool>): ToolInline {
+  const title = text(p.frame.state.title) || lspTitle(p.input)
+  const diagMeta = p.metadata.diagnostics
+  const diagCount = diagMeta && typeof diagMeta === "object" ? Object.keys(diagMeta).length : 0
+  const hasDiagnostics = diagMeta && typeof diagMeta === "object" && diagCount > 0
+
   return {
     icon: "→",
-    title: text(p.frame.state.title) || lspTitle(p.input),
+    title: hasDiagnostics ? `${title} (${diagCount} file${diagCount === 1 ? "" : "s"})` : title,
+    mode: "block" as const,
+    ...(hasDiagnostics && {
+      body:
+        Object.entries(diagMeta as Record<string, { severity?: number; message?: string }[]>)
+          .flatMap(([file, diags]) =>
+            diags
+              .filter((d) => d.severity === 1)
+              .slice(0, 5)
+              .map((d) => `  ✖ ${path.basename(file)}: ${d.message ?? "error"}`),
+          )
+          .join("\n") || undefined,
+    }),
   }
 }
+// kilocode_change end
 
 function runPlanExit(p: ToolProps<typeof PlanExitTool>): ToolInline {
   return {
@@ -859,6 +878,29 @@ function scrollLspStart(p: ToolProps<typeof LspTool>): string {
   return `→ ${lspTitle(p.input)}`
 }
 
+// kilocode_change start
+function scrollLspProgress(p: ToolProps<typeof LspTool>): string {
+  const raw = p.frame.raw?.trim()
+  if (!raw) return ""
+  const diagMeta = p.metadata.diagnostics
+  if (diagMeta && typeof diagMeta === "object") {
+    const files = Object.keys(diagMeta)
+    if (files.length > 0) {
+      const lines: string[] = []
+      for (const file of files) {
+        const diags = (diagMeta as Record<string, { severity?: number; message?: string }[]>)[file]
+        const errors = diags.filter((d) => d.severity === 1)
+        if (errors.length > 0) {
+          lines.push(`✖ ${path.basename(file)}: ${errors.length} error${errors.length === 1 ? "" : "s"}`)
+        }
+      }
+      if (lines.length > 0) return lines.join("\n")
+    }
+  }
+  return raw
+}
+// kilocode_change end
+
 function scrollSkillStart(p: ToolProps<typeof SkillTool>): string {
   return `→ Skill "${p.input.name ?? ""}"`
 }
@@ -1184,6 +1226,8 @@ const TOOL_RULES = {
     run: runLsp,
     scroll: {
       start: scrollLspStart,
+      // kilocode_change
+      progress: scrollLspProgress, // kilocode_change
     },
     permission: permLsp,
   },

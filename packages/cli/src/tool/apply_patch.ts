@@ -17,7 +17,9 @@ import { ConfigValidation } from "../kappacode/config-validation.ts" // kappacod
 import * as EncodedIO from "../kappacode/tool/encoded-io.ts" // kappacode_change
 import { Format } from "../format/index.ts"
 import * as Bom from "@/util/bom"
-import { assertMutablePath } from "../kappacode/agent-manager/protection.ts" // kappacode_change
+import { assertMutablePath } from "../kappacode/agent-manager/protection.ts"
+
+// kilocode_change: kairos-bounded diagnostics via lsp.diagnostics() timeout (D1) // kappacode_change
 
 export const Parameters = Schema.Struct({
   patchText: Schema.String.annotate({ description: "The full patch text that describes all changes to be made" }),

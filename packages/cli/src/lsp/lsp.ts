@@ -8,8 +8,10 @@ import * as LSPServer from "./server.ts"
 import { Config } from "@/config/config"
 import { Process } from "@/util/process"
 import { spawn as lspspawn } from "./launch.ts"
-import { Effect, Layer, Context, Schema } from "effect"
+import { Effect, Layer, Context, Schema, Option, Duration } from "effect" // kilocode_change
 import { InstanceState } from "@/effect/instance-state"
+// kilocode_change - kairos-bounded diagnostics timeout constant
+const DIAGNOSTICS_TIMEOUT_MS = 2000 // kilocode_change
 import { containsPath } from "@/project/instance-context"
 import { TsClient } from "../kappacode/ts-client.ts" // kappacode_change
 import { NonNegativeInt } from "@opencode-ai/core/schema"
@@ -377,18 +379,28 @@ const layer = Layer.effect(
       )
     })
 
+    // kilocode_change start
     const diagnostics = Effect.fn("LSP.diagnostics")(function* () {
+      const s = yield* InstanceState.get(state)
       const results: Record<string, LSPClient.Diagnostic[]> = {}
-      const all = yield* runAll(async (client) => client.diagnostics)
-      for (const result of all) {
+      const all = yield* Effect.timeoutOption(
+        runAll(async (client) => client.diagnostics),
+        { deadline: Duration.seconds(1) },
+      )
+      const list = Option.getOrElse(all, () => [] as Awaited<ReturnType<typeof runAll>>)
+      for (const result of list) {
         for (const [p, diags] of result.entries()) {
           const arr = results[p] || []
           arr.push(...diags)
           results[p] = arr
         }
       }
+      if (Option.isNone(all)) {
+        yield* Effect.logWarn("LSP diagnostics timed out", { timeoutMs: DIAGNOSTICS_TIMEOUT_MS })
+      }
       return results
     })
+    // kilocode_change end
 
     const hover = Effect.fn("LSP.hover")(function* (input: LocInput) {
       return yield* run(input.file, (client) =>

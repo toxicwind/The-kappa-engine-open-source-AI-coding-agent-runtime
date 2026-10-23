@@ -22,7 +22,9 @@ import { filterDiagnostics } from "./diagnostics.ts" // kappacode_change
 import { ConfigValidation } from "../kappacode/config-validation.ts" // kappacode_change
 import * as EncodedIO from "../kappacode/tool/encoded-io.ts" // kappacode_change
 import * as Encoding from "../kappacode/encoding.ts" // kappacode_change
-import { assertMutablePath } from "../kappacode/agent-manager/protection.ts" // kappacode_change
+import { assertMutablePath } from "../kappacode/agent-manager/protection.ts"
+
+// kilocode_change // kappacode_change
 
 const MAX_DIFF_CONTENT = 500_000 // kappacode_change
 

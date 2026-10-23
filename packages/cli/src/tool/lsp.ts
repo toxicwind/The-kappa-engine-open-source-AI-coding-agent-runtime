@@ -1,4 +1,4 @@
-import { Effect, Schema } from "effect"
+import { Effect, Schema } from "effect" // kilocode_change
 import * as Tool from "./tool.ts"
 import path from "path"
 import { LSP } from "@/lsp/lsp"
@@ -7,6 +7,8 @@ import { InstanceState } from "@/effect/instance-state"
 import { pathToFileURL } from "url"
 import { assertExternalDirectoryEffect } from "./external-directory.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
+
+// kilocode_change - LSP diagnostics operation (D2)
 
 const operations = [
   "goToDefinition",
@@ -18,15 +20,20 @@ const operations = [
   "prepareCallHierarchy",
   "incomingCalls",
   "outgoingCalls",
+  "diagnostics", // kilocode_change
 ] as const
 
 export const Parameters = Schema.Struct({
   operation: Schema.Literals(operations).annotate({ description: "The LSP operation to perform" }),
-  filePath: Schema.String.annotate({ description: "The absolute or relative path to the file" }),
-  line: Schema.Int.check(Schema.isGreaterThanOrEqualTo(1)).annotate({
+  filePath: Schema.optional(Schema.String).annotate({ description: "The absolute or relative path to the file" }), // kilocode_change
+  line: Schema.optional(Schema.Int.check(Schema.isGreaterThanOrEqualTo(1))).annotate({ // kilocode_change
+    // kilocode_change
+    // kilocode_change
     description: "The line number (1-based, as shown in editors)",
   }),
-  character: Schema.Int.check(Schema.isGreaterThanOrEqualTo(1)).annotate({
+  character: Schema.optional(Schema.Int.check(Schema.isGreaterThanOrEqualTo(1))).annotate({ // kilocode_change
+    // kilocode_change
+    // kilocode_change
     description: "The character offset (1-based, as shown in editors)",
   }),
   query: Schema.optional(Schema.String).annotate({
@@ -61,14 +68,21 @@ export const LspTool = Tool.define(
           })
 
           const uri = pathToFileURL(file).href
-          const position = { file, line: args.line - 1, character: args.character - 1 }
+          // kilocode_change start
+          const position = {
+            file,
+            line: args.line ? args.line - 1 : 0,
+            character: args.character ? args.character - 1 : 0,
+          }
           const relPath = path.relative(instance.worktree, file)
           const detail =
             args.operation === "workspaceSymbol"
               ? ""
               : args.operation === "documentSymbol"
                 ? relPath
-                : `${relPath}:${args.line}:${args.character}`
+                : args.operation === "diagnostics"
+                  ? relPath
+                  : `${relPath}:${args.line}:${args.character}`
           const title = detail ? `${args.operation} ${detail}` : args.operation
 
           const exists = yield* fs.existsSafe(file)
@@ -79,7 +93,7 @@ export const LspTool = Tool.define(
 
           yield* lsp.touchFile(file, "document")
 
-          const result: unknown[] = yield* (() => {
+          const opsResult: unknown = yield* (() => {
             switch (args.operation) {
               case "goToDefinition":
                 return lsp.definition(position)
@@ -99,14 +113,35 @@ export const LspTool = Tool.define(
                 return lsp.incomingCalls(position)
               case "outgoingCalls":
                 return lsp.outgoingCalls(position)
+              case "diagnostics":
+                return lsp.diagnostics()
             }
           })()
 
+          const ops: unknown[] = args.operation === "diagnostics" ? [opsResult] : (opsResult as unknown[])
+
+          const opMeta: Record<string, unknown> =
+            args.operation === "diagnostics"
+              ? { diagnostics: opsResult }
+              : args.operation === "workspaceSymbol"
+                ? { operation: args.operation }
+                : args.operation === "documentSymbol"
+                  ? { operation: args.operation, filePath: file }
+                  : { operation: args.operation, filePath: file, line: args.line, character: args.character }
+
           return {
             title,
-            metadata: { result },
-            output: result.length === 0 ? `No results found for ${args.operation}` : JSON.stringify(result, null, 2),
+            metadata: opMeta,
+            output:
+              args.operation === "diagnostics"
+                ? Object.keys(opsResult as Record<string, unknown> | {}).length === 0
+                  ? "No diagnostics found"
+                  : JSON.stringify(opsResult, null, 2)
+                : ops.length === 0
+                  ? `No results found for ${args.operation}`
+                  : JSON.stringify(ops, null, 2),
           }
+          // kilocode_change end
         }).pipe(Effect.orDie),
     }
   }),

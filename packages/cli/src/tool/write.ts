@@ -19,6 +19,8 @@ import * as EncodedIO from "../kappacode/tool/encoded-io.ts" // kappacode_change
 import { assertMutablePath } from "../kappacode/agent-manager/protection.ts" // kappacode_change
 import * as Bom from "@/util/bom"
 
+// kilocode_change
+
 const MAX_PROJECT_DIAGNOSTICS_FILES = 5
 
 export const Parameters = Schema.Struct({
@@ -84,6 +86,7 @@ export const WriteTool = Tool.define(
 
           let output = "Wrote file successfully."
           yield* lsp.touchFile(filepath, "document")
+          // kilocode_change
           const diagnostics = yield* lsp.diagnostics()
           const normalizedFilepath = FSUtil.normalizePath(filepath)
           let projectDiagnosticsCount = 0
