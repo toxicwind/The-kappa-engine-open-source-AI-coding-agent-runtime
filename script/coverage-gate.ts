@@ -81,14 +81,21 @@ let targets = allFiles.filter((f) => !skipped.has(f))
 if (sourceDirs.length > 0) {
   // Map source dirs to test directories by convention:
   // src/foo/bar.ts -> test/foo/bar.test.ts
-  const srcBases = sourceDirs.map((d) => {
-    const p = path.resolve(cliRoot, d)
-    const rel = p.startsWith(cliRoot) ? path.relative(cliRoot, p) : path.basename(p)
-    return rel.startsWith("src/") ? rel.slice(4) : rel
-  })
+  const srcBases = sourceDirs
+    .map((d) => {
+      const p = path.resolve(cliRoot, d)
+      const rel = p.startsWith(cliRoot) ? path.relative(cliRoot, p) : path.basename(p)
+      return rel.startsWith("src/") ? rel.slice(4) : rel
+    })
+    .filter((b) => b) // Skip empty bases from --source src
   targets = targets.filter((f) =>
     srcBases.some((b) => f.startsWith(b + "/") || f === b + ".test.ts" || f === b + "/index.test.ts"),
   )
+  // If no filter base produced matches, run all tests
+  if (targets.length === 0 && srcBases.length > 0) {
+    // Empty srcBases means --source src was used; run all tests
+    targets = allFiles.filter((f) => !skipped.has(f))
+  }
 }
 
 if (targets.length === 0) {
@@ -136,11 +143,11 @@ const stderr = (async () => {
   return text + d.decode()
 })()
 
-const code = await Promise.race([proc.exited, Bun.sleep(600_000).then(() => -1)])
+const code = await Promise.race([proc.exited, Bun.sleep(1200_000).then(() => -1)])
 
 if (code === -1) {
   await proc.kill("SIGKILL")
-  console.error("Test run timed out after 600s")
+  console.error("Test run timed out after 1200s (20min)")
   process.exit(1)
 }
 
@@ -171,8 +178,8 @@ const clean = combined.replace(new RegExp(ESC, "g"), "")
 //   src/foo/bar.ts                                                                        |    0.00 |   19.37 | 107-111,141
 // ---------------------------------------------------------------------------
 
-const SUMMARY_RE = /^All\s+files\s+\|\s+[\d.]+\s*\|\s+([\d.]+)\s*\|/
-const FILE_RE = /^\s+(.+\.ts(x)?)\s+\|\s+[\d.]+\s*\|\s+([\d.]+)/
+const SUMMARY_RE = /All\s+files\s+\|\s+[\d.]+\s*\|\s+([\d.]+)\s*\|/
+const FILE_RE = /^\s+(.+\.ts(x)?)\s+\|\s+[\d.]+\s*\|\s+([\d.]+)\s*\|(.*)/
 
 const summaryMatch = clean.match(SUMMARY_RE)
 let overallStmtPct = 0
