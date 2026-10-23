@@ -22,6 +22,9 @@ import { trace } from "./trace.ts"
 import { cycleVariant, formatModelLabel, resolveSavedVariant, resolveVariant, saveVariant } from "./variant.shared.ts"
 // kappacode_change - preserve compatible variants when switching models
 import { resolvePreservedVariant } from "@/kappacode/cli/cmd/run/variant" // kappacode_change
+// kappacode_change start - soft steering for Ctrl+Enter background gesture
+import { KappaSessionSoftSteering } from "@/kappacode/session/soft-steering"
+// kappacode_change end
 import type { LocalReplayAnchor, LocalReplayRow, RunInput, RunPrompt, RunProvider, StreamCommit } from "./types.ts"
 
 /** @internal Exported for testing */
@@ -361,6 +364,9 @@ async function runInteractiveRuntime(input: RunRuntimeInput, deps: RunRuntimeDep
     },
     onBackground: () => {
       if (!hasSession(input, state)) return
+      // kappacode_change start - fire soft steering signal so running tools detect Ctrl+Enter
+      KappaSessionSoftSteering.steer()
+      // kappacode_change end
       void ctx.sdk.experimental.session.background({ sessionID: state.sessionID }).catch(() => {})
     },
     onSubagentSelect: (sessionID) => {

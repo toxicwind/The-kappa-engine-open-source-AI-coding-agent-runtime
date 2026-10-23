@@ -55,6 +55,9 @@ import type {
 } from "./types.ts"
 import type { RunTheme } from "./theme.ts"
 import { modelInfo } from "./variant.shared.ts"
+// kappacode_change start - soft steering for Ctrl+Enter background gesture
+import { KappaSessionSoftSteering } from "@/kappacode/session/soft-steering"
+// kappacode_change end
 
 registerOpencodeSpinner()
 
@@ -478,6 +481,11 @@ export function RunFooterView(props: RunFooterViewProps) {
     if (foregroundSubagents() && backgroundShortcut()) {
       items.push({ kind: "background", key: backgroundShortcut(), label: "background" })
     }
+    // kappacode_change start - show Ctrl+Enter hint for submit+background
+    if (foregroundSubagents()) {
+      items.push({ kind: "background-submit", key: "ctrl+enter", label: "submit+bg" })
+    }
+    // kappacode_change end
     if (queuedPrompts().length > 0 && queuedShortcut()) {
       items.push({ kind: "queued", key: queuedShortcut(), label: `${queue()} queued` })
     }
@@ -549,6 +557,37 @@ export function RunFooterView(props: RunFooterViewProps) {
     ],
     bindings: props.tuiConfig.keybinds.get("session.background"),
   }))
+
+  // kappacode_change start - Ctrl+Enter = submit + background (soft steering signal).
+  // When the user presses Ctrl+Enter while a foreground subagent is running,
+  // fire the soft steering signal so the running tool promotes cooperatively
+  // to background, then submit the current composer text as a new prompt.
+  useBindings(() => ({
+    mode: KAPPA_BASE_MODE,
+    enabled: active().type === "prompt" && route().type === "composer" && foregroundSubagents(),
+    priority: 2,
+    commands: [
+      {
+        name: "session.background-submit",
+        title: "Submit and background foreground subagents",
+        category: "Session",
+        run: () => {
+          // Fire soft steering signal so running tools detect the steer.
+          KappaSessionSoftSteering.steer()
+          // Submit the composer content — this will trigger a new turn.
+          const composerEl = document.querySelector("textarea")
+          if (composerEl) {
+            const input = (composerEl as HTMLTextAreaElement).value.trim()
+            if (input) {
+              props.onSubmit({ text: input, parts: [] })
+            }
+          }
+        },
+      },
+    ],
+    bindings: [[{ key: "enter", meta: true, ctrl: true }]],
+  }))
+  // kappacode_change end
 
   useBindings(() => ({
     mode: KAPPA_BASE_MODE,

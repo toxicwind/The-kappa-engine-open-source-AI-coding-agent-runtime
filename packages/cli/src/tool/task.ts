@@ -18,12 +18,13 @@ import { KappaTaskBackgroundProcess } from "../kappacode/tool/task-background-pr
 import { KappaCostPropagation } from "../kappacode/session/cost-propagation.ts" // kappacode_change
 import { KappaSessionProcessor } from "../kappacode/session/processor.ts" // kappacode_change
 import { KappaSession } from "../kappacode/session/index.ts" // kappacode_change
+import { KappaSessionSoftSteering } from "../kappacode/session/soft-steering.ts" // kappacode_change
+import { KappaBackgrounder } from "../kappacode/tool/backgrounder.ts" // kappacode_change
 import { resumeHint } from "../kappacode/task-resume.ts" // kappacode_change
 import { errorMessage } from "@/util/error" // kappacode_change
 import { generateSeed, formatSeed } from "../kappacode/orchestrator-seed.ts" // kappacode_change: precompaction seed
 import { Effect, Exit, Schema, Scope } from "effect"
 import { Cause } from "effect" // kappacode_change
-import { EffectBridge } from "@/effect/bridge"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import * as SandboxPolicy from "@/kappacode/sandbox/policy" // kappacode_change
 import { Database } from "@opencode-ai/core/database/database"
@@ -500,26 +501,17 @@ export const TaskTool = Tool.define(
       const foregroundCost = runInBackground
         ? undefined
         : yield* KappaCostPropagation.childCost(sessions, nextSession.id) // kappacode_change - snapshot before the foreground job starts
-      // kappacode_change start
-      const start = KappaTask.start(background, (id) => ops.cancel(id), runInBackground ? notify : undefined)
-      const info = yield* start({
-        // kappacode_change end
+      // kappacode_change start - start the job for background/notify metadata tracking
+      const jobInfo = yield* KappaTask.start(
+        background,
+        (id) => ops.cancel(id),
+        runInBackground ? notify : undefined,
+      )({
         id: nextSession.id,
         type: id,
         title: params.description,
         metadata,
-        // kappacode_change start
-        onPromote: notify(nextSession.id).pipe(
-          Effect.andThen(
-            ctx.metadata({
-              title: params.description,
-              metadata: { ...metadata, background: true, jobId: nextSession.id },
-            }),
-          ),
-        ),
-        // kappacode_change end
-        // kappacode_change - only the initial-background start needs its own cost bracket; the
-        // foreground/promoted path below is already wrapped by the acquireUseRelease at the bottom of run()
+        // kappacode_change - the foreground/promoted path below uses the backgrounder wrapper
         run: runInBackground ? backgroundRun : runTask().pipe(Effect.onInterrupt(() => ops.cancel(nextSession.id))),
       })
 
@@ -529,7 +521,7 @@ export const TaskTool = Tool.define(
           metadata: {
             ...metadata,
             background: true,
-            jobId: info.id,
+            jobId: jobInfo.id,
           },
           output: renderOutput({
             sessionID: nextSession.id,
@@ -542,73 +534,78 @@ export const TaskTool = Tool.define(
 
       if (runInBackground) return backgroundResult() // kappacode_change
 
-      const runCancel = yield* EffectBridge.make()
-      const cancel = KappaTask.cancelForeground(background, nextSession.id, ops.cancel(nextSession.id)) // kappacode_change
+      // kappacode change - auto-promote a long-running foreground subagent via the
+      // backgrounder wrapper. Replaces the ad-hoc deadline race with a shared
+      // bounded-wait that auto-promotes after the kairos ceiling (~4s) when the
+      // deadline hasn't been overridden. Observes the soft steering signal so a
+      // Ctrl+Enter gesture promotes cooperatively instead of hard-killing.
+      const deadline = KappaBackgrounder.getDeadline(flags.foregroundSubagentDeadlineMs)
+      const steerSignal = flags.experimentalBackgroundSubagents ? KappaSessionSoftSteering.steer() : undefined
 
-      function onAbort() {
-        runCancel.fork(cancel)
+      const raceResult = yield* KappaBackgrounder.raceWithSteering({
+        jobs: background,
+        id: nextSession.id,
+        run: runTask().pipe(Effect.orDie),
+        deadline,
+        steerSignal,
+        onPromote: notify(jobInfo.id).pipe(
+          Effect.andThen(
+            ctx.metadata({
+              title: params.description,
+              metadata: { ...metadata, background: true, jobId: nextSession.id },
+            }),
+          ),
+          Effect.catch(() => Effect.void),
+        ),
+      }).pipe(Effect.scoped)
+      // kappacode_change end
+
+      if (raceResult.type === "promoted") return backgroundResult()
+
+      if (raceResult.info.status === "error")
+        return yield* Effect.fail(new Error(raceResult.info.error ?? "Task failed"))
+
+      // kappacode change - only an explicit stop/delete cancels a task its parent still awaits
+      if (raceResult.info.status === "cancelled") return yield* Effect.fail(new Error("Task cancelled by the user"))
+      // kappacode change end
+
+      const completed = {
+        title: params.description,
+        metadata,
+        output: renderOutput({ sessionID: nextSession.id, state: "completed", text: raceResult.info.output ?? "" }),
       }
 
-      return yield* Effect.acquireUseRelease(
-        // kappacode_change start - snapshot child cost so we propagate only the delta on resume (#6321)
-        Effect.gen(function* () {
-          ctx.abort.addEventListener("abort", onAbort)
-          return foregroundCost ?? (yield* KappaCostPropagation.childCost(sessions, nextSession.id))
-        }),
-        // kappacode_change end
-        () =>
-          Effect.gen(function* () {
-            const result = yield* Effect.raceFirst(
-              background.wait({ id: nextSession.id }).pipe(Effect.map((waited) => waited.info)),
-              background.waitForPromotion(nextSession.id),
-            )
-            // kappacode_change start
-            if (result?.metadata?.background === true) {
-              yield* notify(info.id)
-              return backgroundResult()
-            }
-            // kappacode_change end
-            if (result?.status === "error") return yield* Effect.fail(new Error(result.error ?? "Task failed"))
-            // kappacode_change start - only an explicit stop/delete cancels a task its parent still awaits;
-            // without that reason, models treat the result as a failure and start a new subagent right away
-            if (result?.status === "cancelled") return yield* Effect.fail(new Error("Task cancelled by the user"))
-            // kappacode_change end
-            return {
-              title: params.description,
-              metadata,
-              output: renderOutput({ sessionID: nextSession.id, state: "completed", text: result?.output ?? "" }),
-            }
-          }),
-        // kappacode_change start - propagate subagent cost delta to parent on every exit path (#6321)
-        (costBefore, exit) =>
+      // kappacode change - propagate subagent cost delta on exit
+      const cancelJob = KappaTask.cancelForeground(background, nextSession.id, ops.cancel(nextSession.id))
+      function onAbort() {
+        void Effect.runPromise(cancelJob.pipe(Effect.forkIn(scope, { startImmediately: true })))
+      }
+      ctx.abort.addEventListener("abort", onAbort)
+      const costBeforeVal = foregroundCost ?? 0
+      const result = yield* Effect.acquireUseRelease(
+        Effect.succeed(costBeforeVal),
+        () => Effect.succeed(completed),
+        (cv, exit) =>
           Effect.gen(function* () {
             if (Exit.hasInterrupts(exit))
-              yield* KappaTask.cancelForeground(
-                background,
-                nextSession.id,
-                Effect.all([cancel, background.cancel(nextSession.id)], { discard: true }),
-              )
-          }).pipe(
-            Effect.ensuring(
-              Effect.gen(function* () {
-                ctx.abort.removeEventListener("abort", onAbort)
-                const costAfter = yield* KappaCostPropagation.childCost(sessions, nextSession.id).pipe(
-                  Effect.catchTag("NotFoundError", () => Effect.succeed(costBefore)),
-                )
-                yield* KappaCostPropagation.propagate(
-                  sessions,
-                  ctx.sessionID,
-                  ctx.messageID,
-                  costAfter - costBefore,
-                ).pipe(
-                  Effect.provideService(Database.Service, database),
-                  Effect.catchTag("NotFoundError", () => Effect.void),
-                )
-              }),
-            ),
-          ),
-        // kappacode_change end
+              yield* Effect.all([cancelJob, background.cancel(nextSession.id)], { discard: true })
+            const ca = yield* KappaCostPropagation.childCost(sessions, nextSession.id).pipe(
+              Effect.catchTag("NotFoundError", () => Effect.succeed(cv)),
+            )
+            yield* KappaCostPropagation.propagate(
+              sessions,
+              ctx.sessionID,
+              ctx.messageID,
+              ((ca as number) ?? cv) - cv,
+            ).pipe(
+              Effect.provideService(Database.Service, database),
+              Effect.catchTag("NotFoundError", () => Effect.void),
+            )
+          }).pipe(Effect.ensuring(Effect.sync(() => ctx.abort.removeEventListener("abort", onAbort)))),
       )
+      // kappacode change end
+
+      return result
     })
 
     // kappacode_change start

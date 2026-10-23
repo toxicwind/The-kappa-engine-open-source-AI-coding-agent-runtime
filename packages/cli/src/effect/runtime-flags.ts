@@ -48,6 +48,11 @@ export class Service extends ConfigService.Service<Service>()("@opencode/Runtime
   experimentalBackgroundSubagents: Config.boolean("KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS").pipe(
     Config.withDefault(true),
   ),
+  // kappacode_change - auto-promote a foreground subagent to background after this deadline (ms);
+  // default 4s (kairos ceiling) so a long-running child yields a live background handle
+  // instead of blocking the turn. Requires KAPPA_FOREGROUND_TASK_DEADLINE_MS to be a positive
+  // integer when set.
+  foregroundSubagentDeadlineMs: positiveInteger("KAPPA_FOREGROUND_TASK_DEADLINE_MS").pipe(Config.withDefault(4_000)),
   // kappacode_change end
   experimentalLspTy: bool("KAPPA_EXPERIMENTAL_LSP_TY"),
   experimentalLspTool: enabledByExperimental("KAPPA_EXPERIMENTAL_LSP_TOOL"),
