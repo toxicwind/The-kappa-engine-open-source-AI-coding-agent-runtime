@@ -312,9 +312,11 @@ export const make = Effect.gen(function* () {
       state.jobs,
       Effect.fnUntraced(function* (jobs) {
         const job = jobs.get(id)
-        if (!job || job.info.status !== "running") return [{}, jobs] as readonly [PromoteResult, Map<string, Active>]
+        // kilocode_change start: explicit yields satisfy the no-generator-without-yield check
+        if (!job || job.info.status !== "running")
+          return yield* Effect.succeed([{}, jobs] as readonly [PromoteResult, Map<string, Active>])
         if (job.info.metadata?.background === true)
-          return [{ info: snapshot(job) }, jobs] as readonly [PromoteResult, Map<string, Active>]
+          return yield* Effect.succeed([{ info: snapshot(job) }, jobs] as readonly [PromoteResult, Map<string, Active>])
         const next = {
           ...job,
           onPromote: undefined,
@@ -323,10 +325,11 @@ export const make = Effect.gen(function* () {
             metadata: { ...job.info.metadata, background: true },
           },
         }
-        return [
+        return yield* Effect.succeed([
           { info: snapshot(next), onPromote: job.onPromote, promoted: job.promoted },
           new Map(jobs).set(id, next),
-        ] as readonly [PromoteResult, Map<string, Active>]
+        ] as readonly [PromoteResult, Map<string, Active>])
+        // kilocode_change end
       }),
     )
     if (result.info && result.promoted) yield* Deferred.succeed(result.promoted, result.info).pipe(Effect.ignore)

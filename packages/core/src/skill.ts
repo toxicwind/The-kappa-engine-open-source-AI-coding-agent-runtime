@@ -122,7 +122,9 @@ const layer = Layer.effect(
       transform: state.transform,
       reload: state.reload,
       sources: Effect.fn("SkillV2.sources")(function* () {
-        return state.get().sources
+        // kilocode_change start: explicit yield to satisfy the no-generator-without-yield check
+        return yield* Effect.succeed(state.get().sources)
+        // kilocode_change end
       }),
       list,
     })

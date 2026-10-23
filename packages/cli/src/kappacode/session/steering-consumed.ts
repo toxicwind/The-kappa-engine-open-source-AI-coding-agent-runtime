@@ -40,6 +40,7 @@ export const mark = Effect.fn("SteeringConsumed.mark")(function* (input: {
     pending.set(input.session.id, per)
   }
   per.set(input.messageID, parent)
+  return yield* Effect.void
 })
 
 /**

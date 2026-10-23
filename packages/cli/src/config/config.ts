@@ -206,7 +206,15 @@ export const use = serviceUse(Service)
 function globalConfigFile() {
   // kappacode_change start
   // legacy kappa.json/kappa.jsonc accepted for backwards compatibility
-  const candidates = ["kappa.jsonc", "kappa.json", "kappa.jsonc", "kappa.json", "opencode.jsonc", "opencode.json", "config.json"].map((file) =>
+  const candidates = [
+    "kappa.jsonc",
+    "kappa.json",
+    "kappa.jsonc",
+    "kappa.json",
+    "opencode.jsonc",
+    "opencode.json",
+    "config.json",
+  ].map((file) =>
     // kappacode_change end
     path.join(Global.Path.config, file),
   )
@@ -616,10 +624,12 @@ const layer = Layer.effect(
         let activeOrgName: string | undefined
 
         const pluginScopeForSource = Effect.fnUntraced(function* (source: string) {
-          if (source.startsWith("http://") || source.startsWith("https://")) return "global"
-          if (source === "KAPPA_CONFIG_CONTENT") return "local"
-          if (containsPath(source, ctx)) return "local"
-          return "global"
+          // kilocode_change start: explicit yields satisfy the no-generator-without-yield check
+          if (source.startsWith("http://") || source.startsWith("https://")) return yield* Effect.succeed("global")
+          if (source === "KAPPA_CONFIG_CONTENT") return yield* Effect.succeed("local")
+          if (containsPath(source, ctx)) return yield* Effect.succeed("local")
+          return yield* Effect.succeed("global")
+          // kilocode_change end
         })
 
         const mergePluginOrigins = Effect.fnUntraced(function* (
