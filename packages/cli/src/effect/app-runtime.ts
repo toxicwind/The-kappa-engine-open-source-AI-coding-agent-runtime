@@ -47,6 +47,7 @@ import { Workspace } from "@/control-plane/workspace"
 import { Worktree } from "@/worktree"
 import { Installation } from "@/installation"
 import { MemoryService } from "@kappacode/kappa-memory/effect/service" // kappacode_change
+import { Memory } from "@opencode-ai/core/memory" // kilocode_change
 import { ShareNext } from "@/share/share-next"
 import { SessionShare } from "@/share/session"
 import { Npm } from "@opencode-ai/core/npm"
@@ -80,6 +81,7 @@ const kappa = LayerNode.group([
   SessionDrain.node,
   Wakeup.node,
   memory,
+  Memory.node, // kilocode_change
 ])
 // kappacode_change end
 
