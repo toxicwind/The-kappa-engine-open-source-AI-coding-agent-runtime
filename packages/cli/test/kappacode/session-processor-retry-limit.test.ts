@@ -31,9 +31,10 @@ import { Session } from "../../src/session/session.ts"
 import { LLM } from "../../src/session/llm.ts"
 import { MessageV2 } from "../../src/session/message-v2.ts"
 import { SessionProcessor } from "../../src/session/processor.ts"
+import { KappaSessionProcessor } from "../../src/kappacode/session/processor.ts"
 import { SessionNetwork } from "../../src/session/network.ts"
 import { SessionRetry } from "../../src/session/retry.ts"
-import { MessageID } from "../../src/session/schema.ts"
+import { MessageID, SessionID } from "../../src/session/schema.ts"
 import { SessionStatus } from "../../src/session/status.ts"
 import { SessionSummary } from "../../src/session/summary.ts"
 import { Snapshot } from "../../src/snapshot/index.ts"
@@ -379,4 +380,15 @@ describe("session processor retry limit", () => {
       delete process.env.KAPPA_SESSION_RETRY_LIMIT
     }),
   )
+
+  test("retryOpts threads unlimitedRetryOn429 into unlimitedOnRetryable429", () => {
+    const base = {
+      sessionID: SessionID.make("session-test"),
+      abort: new AbortController().signal,
+      set: () => Effect.void,
+    }
+    expect(KappaSessionProcessor.retryOpts({ ...base, unlimitedRetryOn429: true }).unlimitedOnRetryable429).toBe(true)
+    expect(KappaSessionProcessor.retryOpts({ ...base, unlimitedRetryOn429: false }).unlimitedOnRetryable429).toBe(false)
+    expect(KappaSessionProcessor.retryOpts({ ...base }).unlimitedOnRetryable429).toBe(false)
+  })
 })

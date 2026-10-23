@@ -1033,6 +1033,7 @@ const layer = Layer.effect(
                     abort: ac.signal,
                     set: status.set,
                     used: retries.provider,
+                    unlimitedRetryOn429, // kappacode_change - thread concurrency-429 unlimited retry through to the retry policy
                   }),
                   set: (info) => {
                     if (info.attempt > 0) retries.provider += 1

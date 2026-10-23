@@ -40,6 +40,9 @@ import { RuntimeFlags } from "@/effect/runtime-flags"
 import { LLMAISDK } from "./llm/ai-sdk.ts"
 import { LLMNativeRuntime } from "./llm/native-runtime.ts"
 import { LLMRequestPrep } from "./llm/request.ts"
+// kilocode_change start - per-provider concurrency queue shared by the provider as a whole
+import { LLMQueue } from "@/kappacode/session/llm/queue"
+// kilocode_change end
 
 const log = Log.create({ service: "llm" }) // kappacode_change
 
@@ -96,6 +99,9 @@ const live: Layer.Layer<
     const events = yield* EventV2Bridge.Service
     const llmClient = yield* LLMClient.Service
     const flags = yield* RuntimeFlags.Service
+    // kilocode_change start - provider-wide per-provider concurrency queue
+    const queue = yield* LLMQueue
+    // kilocode_change end
 
     const run = Effect.fn("LLM.run")(function* (input: StreamRequest) {
       const l = log.clone().tag("providerID", input.model.providerID).tag("modelID", input.model.id) // kappacode_change
@@ -142,10 +148,7 @@ const live: Layer.Layer<
           : base.messages
       const preflight = input.preflight === true && KappaSessionOverflow.enabled({ cfg, model: input.model })
       const cap = KappaLLM.needsEstimate({ model: input.model, configured: base.params.maxOutputTokens })
-      const usage =
-        cap || preflight
-          ? KappaSessionOverflow.measure({ messages: estimated, tools })
-          : undefined
+      const usage = cap || preflight ? KappaSessionOverflow.measure({ messages: estimated, tools }) : undefined
       const maxOutputTokens = KappaLLM.capOutputTokens({
         model: input.model,
         messages: estimated,
@@ -458,36 +461,43 @@ const live: Layer.Layer<
     })
 
     const stream: Interface["stream"] = (input) =>
-      Stream.scoped(
-        Stream.unwrap(
-          Effect.gen(function* () {
-            const ctrl = yield* Effect.acquireRelease(
-              Effect.sync(() => new AbortController()),
-              (ctrl) => Effect.sync(() => ctrl.abort()),
-            )
+      // kilocode_change start - hold ONE provider-wide concurrency permit for the
+      // whole stream; same-provider streams (all freeinference models, incl.
+      // subagent turns) line up on a single queue instead of tripping the local
+      // Gatehouse shed that reads as 429.
+      Stream.acquireRelease(queue.acquire(input.model.providerID), () => queue.release(input.model.providerID)).pipe(
+        Stream.flatMap(() =>
+          Stream.unwrap(
+            Effect.gen(function* () {
+              const ctrl = yield* Effect.acquireRelease(
+                Effect.sync(() => new AbortController()),
+                (ctrl) => Effect.sync(() => ctrl.abort()),
+              )
 
-            const result = yield* run({ ...input, abort: ctrl.signal })
+              const result = yield* run({ ...input, abort: ctrl.signal })
 
-            if (result.type === "native") return result.stream
+              if (result.type === "native") return result.stream
 
-            // Adapter seam: both runtimes expose the same LLMEvent stream. Native
-            // already returns one; AI SDK streams are converted here.
-            const state = LLMAISDK.adapterState()
-            return Stream.fromAsyncIterable(result.result.fullStream, (e) =>
-              e instanceof Error ? e : new Error(String(e)),
-            ).pipe(
-              Stream.mapEffect((event) => LLMAISDK.toLLMEvents(state, event)),
-              // kappacode_change start - emit structural diagnostics when the AI SDK
-              // rejects the assembled ModelMessage[] before dispatch (#13185)
-              Stream.tapError((e) =>
-                Effect.sync(() => KappaMessageDiagnostics.reportModelMessageError(e, result.messages)),
-              ),
-              // kappacode_change end
-              Stream.flatMap((events) => Stream.fromIterable(events)),
-            )
-          }),
+              // Adapter seam: both runtimes expose the same LLMEvent stream. Native
+              // already returns one; AI SDK streams are converted here.
+              const state = LLMAISDK.adapterState()
+              return Stream.fromAsyncIterable(result.result.fullStream, (e) =>
+                e instanceof Error ? e : new Error(String(e)),
+              ).pipe(
+                Stream.mapEffect((event) => LLMAISDK.toLLMEvents(state, event)),
+                // kappacode_change start - emit structural diagnostics when the AI SDK
+                // rejects the assembled ModelMessage[] before dispatch (#13185)
+                Stream.tapError((e) =>
+                  Effect.sync(() => KappaMessageDiagnostics.reportModelMessageError(e, result.messages)),
+                ),
+                // kappacode_change end
+                Stream.flatMap((events) => Stream.fromIterable(events)),
+              )
+            }),
+          ),
         ),
       )
+    // kilocode_change end
 
     return Service.of({ stream })
   }),
@@ -510,6 +520,9 @@ export const node = LayerNode.make({
     EventV2Bridge.node,
     llmClient,
     RuntimeFlags.node,
+    // kilocode_change start - provider-wide per-provider concurrency queue
+    LLMQueue.node,
+    // kilocode_change end
   ],
 })
 
