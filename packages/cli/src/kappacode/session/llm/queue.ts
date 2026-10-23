@@ -28,7 +28,8 @@ import { Context, Effect, Layer, Ref, Semaphore } from "effect"
 export const DEFAULT_MAX_CONCURRENCY = 2 /* legacy sentinel — actual default flows through ConfigV1.defaultMaxConcurrency */
 
 /** Sentinel shared by every LLMQueue instance. Holds semaphore-per-provider. */
-const globalRef = Ref.make(new Map<string, Semaphore.Semaphore>())
+// kilocode_change - module-scope singleton: Ref.make returns an Effect, Ref.makeUnsafe returns a Ref.
+const globalRef = Ref.makeUnsafe(new Map<string, Semaphore.Semaphore>())
 
 function entry(id: string, cap: number) {
   return Ref.modify(globalRef, (map) => {
@@ -74,14 +75,14 @@ export const live = LayerNode.make({
         Effect.gen(function* () {
           const cap = yield* count(providerID)
           const s = yield* sem(providerID, cap)
-          yield* s.acquire
+          yield* s.take(1)
         })
 
       const release = (providerID: string) =>
         Effect.gen(function* () {
           const cap = yield* count(providerID)
           const s = yield* sem(providerID, cap)
-          yield* s.release
+          yield* s.release(1)
         })
 
       const withPermit = (providerID: string, effect: Effect.Effect<unknown>) =>
