@@ -25,7 +25,7 @@ import { Context, Effect, Layer, Ref, Semaphore } from "effect"
  * primitives so a caller can hold a permit across a whole stream lifecycle with
  * Stream.acquireRelease; `withPermit` is the whole-effect convenience form.
  */
-export const DEFAULT_MAX_CONCURRENCY = 2
+export const DEFAULT_MAX_CONCURRENCY = 2 /* legacy sentinel — actual default flows through ConfigV1.defaultMaxConcurrency */
 
 /** Sentinel shared by every LLMQueue instance. Holds semaphore-per-provider. */
 const globalRef = Ref.make(new Map<string, Semaphore.Semaphore>())
@@ -63,7 +63,9 @@ export const live = LayerNode.make({
       const count = (providerID: string) =>
         Effect.gen(function* () {
           const cfg = yield* config.get()
-          return cfg.provider?.[providerID]?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY
+          return (
+            cfg.provider?.[providerID]?.options?.maxConcurrency ?? cfg.defaultMaxConcurrency ?? DEFAULT_MAX_CONCURRENCY
+          )
         })
 
       const sem = (providerID: string, cap: number) => entry(providerID, cap)

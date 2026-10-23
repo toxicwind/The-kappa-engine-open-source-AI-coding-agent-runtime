@@ -35,19 +35,19 @@ const it = testEffect(
   ),
 )
 
-function config(url: string, maxConcurrency: number) {
+function config(url: string, maxConcurrency: number, defaultMaxConcurrency?: number) {
   return {
     model: "test/test-model",
     enabled_providers: ["test"],
     snapshot: false,
     subagent_depth: 3,
     permission: { "*": "allow" as const },
+    ...(defaultMaxConcurrency !== undefined ? { defaultMaxConcurrency } : {}),
     provider: {
       test: {
         npm: "@ai-sdk/openai-compatible",
-        maxConcurrency,
         models: { "test-model": { name: "Test", limit: { context: 100000, output: 10000 } } },
-        options: { apiKey: "test-key", baseURL: url },
+        options: { apiKey: "test-key", baseURL: url, ...(maxConcurrency !== 0 && { maxConcurrency }) },
       },
     },
   }
@@ -80,7 +80,6 @@ describe("provider-wide LLM concurrency queue", () => {
             const cap = yield* queue.concurrency("test")
             expect(cap).toBe(DEFAULT_MAX_CONCURRENCY)
 
-            // Grab every permit so the provider is saturated.
             const laps = yield* Effect.all(
               Array.from({ length: cap }, () => queue.acquire("test").pipe(Effect.succeed)),
             )
@@ -93,5 +92,18 @@ describe("provider-wide LLM concurrency queue", () => {
         { config: (url: string) => config(url, DEFAULT_MAX_CONCURRENCY) },
       ),
     30000,
+  )
+
+  it.live("falls back to top-level defaultMaxConcurrency when provider has no per-provider maxConcurrency", () =>
+    provideTmpdirServer(
+      () =>
+        Effect.gen(function* () {
+          const queue = yield* LLMQueue
+          const cap = yield* queue.concurrency("test")
+          // Provider "test" has no options.maxConcurrency, so it should use defaultMaxConcurrency
+          expect(cap).toBe(5)
+        }),
+      { config: (url: string) => config(url, 0, 5) },
+    ),
   )
 })

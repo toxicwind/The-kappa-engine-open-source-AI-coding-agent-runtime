@@ -62,6 +62,70 @@ export const Info = Schema.Struct({
     description: "JSON schema reference for configuration validation",
   }),
   shell: Schema.optional(Schema.String).annotate({ description: "Default shell to use for terminal and bash tool" }),
+  // kilocode_change start
+  defaultMaxConcurrency: Schema.optional(
+    PositiveInt.annotate({
+      description:
+        "Default client-side concurrency ceiling for providers that do not set their own maxConcurrency (default 2).",
+    }),
+  ).annotate({
+    description:
+      "Default client-side concurrency ceiling for providers that do not set their own maxConcurrency. Per-provider override lives at provider.<id>.options.maxConcurrency.",
+  }),
+  retry: Schema.optional(
+    Schema.Struct({
+      initialDelayMs: Schema.optional(PositiveInt).annotate({
+        description: "Initial retry delay in milliseconds (default 2000).",
+      }),
+      maxRetries: Schema.optional(PositiveInt).annotate({
+        description: "Maximum retry attempts before failing (default 10).",
+      }),
+      maxDelayMs: Schema.optional(PositiveInt).annotate({
+        description: "Maximum retry delay in milliseconds, cap for exponential backoff (default 30000).",
+      }),
+      backoffFactor: Schema.optional(
+        Schema.Number.check(Schema.isGreaterThan(1), Schema.isLessThanOrEqualTo(10)).annotate({
+          description: "Exponential backoff multiplier between retries (default 2).",
+        }),
+      ),
+    }),
+  ).annotate({
+    description: "Global retry and backoff tunables for transient API errors (429, 5xx, network failures).",
+  }),
+  remote: Schema.optional(
+    Schema.Struct({
+      heartbeatIntervalMs: Schema.optional(PositiveInt).annotate({
+        description: "Heartbeat interval in ms for remote WebSocket (default 10000).",
+      }),
+      activityTimeoutMs: Schema.optional(PositiveInt).annotate({
+        description: "Inactivity timeout in ms — force-close WebSocket if no inbound message (default 30000).",
+      }),
+      connectTimeoutMs: Schema.optional(PositiveInt).annotate({
+        description: "Connection-attempt deadline in ms for remote WebSocket (default 30000).",
+      }),
+      tokenTimeoutMs: Schema.optional(PositiveInt).annotate({
+        description: "Token-acquisition deadline in ms for remote WebSocket (default 15000).",
+      }),
+      gatherTimeoutMs: Schema.optional(PositiveInt).annotate({
+        description: "Session-gather deadline in ms for remote WebSocket heartbeats (default 15000).",
+      }),
+      maxOutstandingGathers: Schema.optional(PositiveInt).annotate({
+        description: "Max unresolved gather operations before degraded heartbeats (default 4).",
+      }),
+      reconnectInitialBackoffMs: Schema.optional(PositiveInt).annotate({
+        description: "Initial reconnect backoff in ms for remote WebSocket (default 1000).",
+      }),
+      reconnectMaxBackoffMs: Schema.optional(PositiveInt).annotate({
+        description: "Maximum reconnect backoff in ms for remote WebSocket (default 60000).",
+      }),
+      messageBufferMax: Schema.optional(PositiveInt).annotate({
+        description: "Max outbound messages buffered when WebSocket is disconnected (default 200).",
+      }),
+    }),
+  ).annotate({
+    description: "Tunables for the remote WebSocket connection (heartbeat, timeouts, reconnect backoff).",
+  }),
+  // kilocode_change end
   logLevel: Schema.optional(LogLevelRef).annotate({ description: "Log level" }),
   server: Schema.optional(ConfigServerV1.Server).annotate({
     description: "Server configuration for the kappa serve command", // kappacode_change
