@@ -465,35 +465,39 @@ const live: Layer.Layer<
       // whole stream; same-provider streams (all freeinference models, incl.
       // subagent turns) line up on a single queue instead of tripping the local
       // Gatehouse shed that reads as 429.
-      Stream.acquireRelease(queue.acquire(input.model.providerID), () => queue.release(input.model.providerID)).pipe(
-        Stream.flatMap(() =>
-          Stream.unwrap(
-            Effect.gen(function* () {
-              const ctrl = yield* Effect.acquireRelease(
-                Effect.sync(() => new AbortController()),
-                (ctrl) => Effect.sync(() => ctrl.abort()),
-              )
+      Stream.scoped(
+        Stream.unwrap(
+          Effect.acquireRelease(queue.acquire(input.model.providerID), () => queue.release(input.model.providerID)).pipe(
+            Effect.map(() =>
+              Stream.unwrap(
+                Effect.gen(function* () {
+                  const ctrl = yield* Effect.acquireRelease(
+                    Effect.sync(() => new AbortController()),
+                    (ctrl) => Effect.sync(() => ctrl.abort()),
+                  )
 
-              const result = yield* run({ ...input, abort: ctrl.signal })
+                  const result = yield* run({ ...input, abort: ctrl.signal })
 
-              if (result.type === "native") return result.stream
+                  if (result.type === "native") return result.stream
 
-              // Adapter seam: both runtimes expose the same LLMEvent stream. Native
-              // already returns one; AI SDK streams are converted here.
-              const state = LLMAISDK.adapterState()
-              return Stream.fromAsyncIterable(result.result.fullStream, (e) =>
-                e instanceof Error ? e : new Error(String(e)),
-              ).pipe(
-                Stream.mapEffect((event) => LLMAISDK.toLLMEvents(state, event)),
-                // kappacode_change start - emit structural diagnostics when the AI SDK
-                // rejects the assembled ModelMessage[] before dispatch (#13185)
-                Stream.tapError((e) =>
-                  Effect.sync(() => KappaMessageDiagnostics.reportModelMessageError(e, result.messages)),
-                ),
-                // kappacode_change end
-                Stream.flatMap((events) => Stream.fromIterable(events)),
-              )
-            }),
+                  // Adapter seam: both runtimes expose the same LLMEvent stream. Native
+                  // already returns one; AI SDK streams are converted here.
+                  const state = LLMAISDK.adapterState()
+                  return Stream.fromAsyncIterable(result.result.fullStream, (e) =>
+                    e instanceof Error ? e : new Error(String(e)),
+                  ).pipe(
+                    Stream.mapEffect((event) => LLMAISDK.toLLMEvents(state, event)),
+                    // kappacode_change start - emit structural diagnostics when the AI SDK
+                    // rejects the assembled ModelMessage[] before dispatch (#13185)
+                    Stream.tapError((e) =>
+                      Effect.sync(() => KappaMessageDiagnostics.reportModelMessageError(e, result.messages)),
+                    ),
+                    // kappacode_change end
+                    Stream.flatMap((events) => Stream.fromIterable(events)),
+                  )
+                }),
+              ),
+            ),
           ),
         ),
       )
