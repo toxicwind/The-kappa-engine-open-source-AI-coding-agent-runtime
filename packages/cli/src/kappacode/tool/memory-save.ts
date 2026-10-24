@@ -1,7 +1,7 @@
 // kilocode_change - new file — Phase 2: tool wrappers re-pointed to core memory service
 import { Effect, Option, Schema } from "effect"
 import * as Tool from "@/tool/tool"
-import { Service } from "@opencode-ai/core/memory"
+import { Service, type MemoryEntry } from "@opencode-ai/core/memory"
 
 const SaveParams = Schema.Struct({
   text: Schema.String.annotate({ description: "Memory text to save. Be concise and durable." }),
@@ -21,7 +21,7 @@ export const MemorySaveTool = Tool.define(
     // environment, so a runtime without Memory.node builds fine and this tool
     // degrades to a "memory not available" result instead of crashing.
     const memory = yield* Effect.serviceOption(Service)
-    const render = (entry, key) => {
+    const render = (entry: MemoryEntry, key: string) => {
       const src = entry.source ?? "user"
       const keyLine = entry.key ? `\nsaved_key=${entry.key}` : ""
       return `Memory saved: ${entry.text.slice(0, 200)}${keyLine}\nsource=${src}`
@@ -35,7 +35,7 @@ export const MemorySaveTool = Tool.define(
         "Use a descriptive key when the entry is a repeatable concept.",
       ].join("\n"),
       parameters: SaveParams,
-      execute: (params, ctx) =>
+      execute: (params: Schema.Schema.Type<typeof SaveParams>, ctx: Tool.Context) =>
         Effect.gen(function* () {
           if (Option.isNone(memory)) {
             return {
@@ -62,7 +62,7 @@ export const MemorySaveTool = Tool.define(
           }
         }).pipe(
           Effect.catchIf(
-            (err) => err instanceof Error && err.message.startsWith("permission denied"),
+            (err: unknown) => err instanceof Error && err.message.startsWith("permission denied"),
             () =>
               Effect.succeed({
                 title: "memory_save: permission denied",
@@ -71,7 +71,7 @@ export const MemorySaveTool = Tool.define(
               }),
           ),
         ),
-      context: (ctx) => ({ sessionID: ctx.sessionID, ask: ctx.ask }),
+      context: (ctx: Tool.Context) => ({ sessionID: ctx.sessionID, ask: ctx.ask }),
     }
   }),
 )

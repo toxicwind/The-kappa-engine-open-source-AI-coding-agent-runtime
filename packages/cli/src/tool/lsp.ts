@@ -52,7 +52,8 @@ export const LspTool = Tool.define(
       execute: (args: Schema.Schema.Type<typeof Parameters>, ctx: Tool.Context) =>
         Effect.gen(function* () {
           const instance = yield* InstanceState.context
-          const file = path.isAbsolute(args.filePath) ? args.filePath : path.join(instance.directory, args.filePath)
+          const filePath = args.filePath ?? ""
+          const file = path.isAbsolute(filePath) ? filePath : path.join(instance.directory, filePath)
           yield* assertExternalDirectoryEffect(ctx, file)
           const meta =
             args.operation === "workspaceSymbol"

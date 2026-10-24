@@ -11,7 +11,7 @@ import fs from "fs/promises"
 import { LSP } from "@/lsp/lsp"
 import type { LSPClient } from "@/lsp/client"
 import { LspTool } from "../../src/tool/lsp.ts"
-import { disposeAllInstances, withTmpdirInstance } from "../fixture/fixture.ts"
+import { disposeAllInstances, TestInstance, withTmpdirInstance } from "../fixture/fixture.ts"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Truncate } from "@/tool/truncate"
@@ -47,24 +47,32 @@ const testLayer = (diagResult: Record<string, LSPClient.Diagnostic[]>) =>
     ],
   ])
 
-const runDiagnosticsTest = (dir: string, diagResult: Record<string, LSPClient.Diagnostic[]>) =>
+const testCtx = {
+  sessionID: "ses_test",
+  messageID: "msg_test",
+  callID: "",
+  agent: "test",
+  abort: AbortSignal.any([]),
+  messages: [],
+  metadata: () => Effect.void,
+  ask: () => Effect.void,
+} as any
+
+const runDiagnosticsTest = (diagResult: Record<string, LSPClient.Diagnostic[]>) =>
   Effect.gen(function* () {
-    const file = path.join(dir, "test.ts")
+    const inst = yield* TestInstance
+    const file = path.join(inst.directory, "test.ts")
     yield* Effect.promise(() => Bun.write(file, "const x = 1\n"))
 
     const tool = yield* LspTool
     const info = yield* tool.init()
-    return yield* info.execute({ operation: "diagnostics", filePath: file }, {
-      sessionID: "ses_test",
-      messageID: "msg_test",
-      callID: "",
-      agent: "test",
-      abort: AbortSignal.any([]),
-      messages: [],
-      metadata: () => Effect.void,
-      ask: () => Effect.void,
-    } as any)
-  })
+    return yield* info.execute({ operation: "diagnostics", filePath: file }, testCtx)
+  }).pipe(
+    Effect.provide(testLayer(diagResult)),
+    withTmpdirInstance(),
+    Effect.scoped,
+    Effect.runPromise,
+  )
 
 describe("tool.lsp diagnostics operation", () => {
   test("returns JSON with diagnostic details when lsp.diagnostics returns results", async () => {
@@ -83,9 +91,7 @@ describe("tool.lsp diagnostics operation", () => {
       ],
     }
 
-    const result = await withTmpdirInstance((dir) =>
-      runDiagnosticsTest(dir, diagResult).pipe(Effect.provide(testLayer(diagResult))),
-    )
+    const result = await runDiagnosticsTest(diagResult)
 
     expect(result.output).toContain("Type 'string' is not assignable to type 'number'")
     expect(result.output).toContain("Unused variable")
@@ -99,7 +105,7 @@ describe("tool.lsp diagnostics operation", () => {
   })
 
   test("returns 'No diagnostics found' when lsp.diagnostics returns empty", async () => {
-    const result = await withTmpdirInstance((dir) => runDiagnosticsTest(dir, {}).pipe(Effect.provide(testLayer({}))))
+    const result = await runDiagnosticsTest({})
 
     expect(result.output).toBe("No diagnostics found")
   })
@@ -115,9 +121,7 @@ describe("tool.lsp diagnostics operation", () => {
       ],
     }
 
-    const result = await withTmpdirInstance((dir) =>
-      runDiagnosticsTest(dir, diagResult).pipe(Effect.provide(testLayer(diagResult))),
-    )
+    const result = await runDiagnosticsTest(diagResult)
 
     const parsed = JSON.parse(result.output)
     expect(Object.keys(parsed)).toContain("/project/src/app.ts")
@@ -126,28 +130,21 @@ describe("tool.lsp diagnostics operation", () => {
   })
 
   test("title includes operation and relative path for diagnostics", async () => {
-    const diagResult: Record<string, LSPClient.Diagnostic[]> = {}
+    const result = await Effect.gen(function* () {
+      const inst = yield* TestInstance
+      const subDir = path.join(inst.directory, "myproject")
+      yield* Effect.promise(() => fs.mkdir(subDir, { recursive: true }))
+      const file = path.join(subDir, "app.ts")
+      yield* Effect.promise(() => Bun.write(file, "const x = 1\n"))
 
-    const result = await withTmpdirInstance((dir) =>
-      Effect.gen(function* () {
-        const subDir = path.join(dir, "myproject")
-        yield* Effect.promise(() => fs.mkdir(subDir, { recursive: true }))
-        const file = path.join(subDir, "app.ts")
-        yield* Effect.promise(() => Bun.write(file, "const x = 1\n"))
-
-        const tool = yield* LspTool
-        const info = yield* tool.init()
-        return yield* info.execute({ operation: "diagnostics", filePath: file }, {
-          sessionID: "ses_test",
-          messageID: "msg_test",
-          callID: "",
-          agent: "test",
-          abort: AbortSignal.any([]),
-          messages: [],
-          metadata: () => Effect.void,
-          ask: () => Effect.void,
-        } as any)
-      }).pipe(Effect.provide(testLayer(diagResult))),
+      const tool = yield* LspTool
+      const info = yield* tool.init()
+      return yield* info.execute({ operation: "diagnostics", filePath: file }, testCtx)
+    }).pipe(
+      Effect.provide(testLayer({})),
+      withTmpdirInstance(),
+      Effect.scoped,
+      Effect.runPromise,
     )
 
     expect(result.title).toContain("diagnostics")

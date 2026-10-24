@@ -23,7 +23,7 @@ import { Context, Effect, Layer, Ref, Semaphore } from "effect"
  *
  * `acquire` (wait for a free permit) / `release` (return it) are reservation
  * primitives so a caller can hold a permit across a whole stream lifecycle with
- * Stream.acquireRelease; `withPermit` is the whole-effect convenience form.
+ * Effect.acquireRelease; `withPermit` is the whole-effect convenience form.
  */
 export const DEFAULT_MAX_CONCURRENCY = 2 /* legacy sentinel — actual default flows through ConfigV1.defaultMaxConcurrency */
 
@@ -50,7 +50,7 @@ export class LLMQueue extends Context.Service<
     /** Return the permit held from acquire. */
     readonly release: (providerID: string) => Effect.Effect<void>
     /** Run `effect` under a permit, releasing it when `effect` completes. */
-    readonly withPermit: (providerID: string, effect: Effect.Effect<unknown>) => Effect.Effect<unknown>
+    readonly withPermit: (providerID: string, effect: Effect.Effect<unknown, unknown>) => Effect.Effect<unknown, unknown>
   }
 >()("@kappacode/LLMQueue") {}
 
@@ -85,7 +85,7 @@ export const live = LayerNode.make({
           yield* s.release(1)
         })
 
-      const withPermit = (providerID: string, effect: Effect.Effect<unknown>) =>
+      const withPermit = (providerID: string, effect: Effect.Effect<unknown, unknown>) =>
         Effect.gen(function* () {
           const cap = yield* count(providerID)
           const s = yield* sem(providerID, cap)

@@ -1648,7 +1648,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     <>
       {/* kappacode_change start - provide compact routed-model metadata to part renderers */}
       <RoutedModelMeta.Context.Provider value={routed}>
-        <For each={props.parts}>
+        <For each={coalesceReasoningParts(props.parts)}>
           {(part, index) => {
             const component = createMemo(() => PART_MAPPING[part.type as keyof typeof PART_MAPPING])
             return (
@@ -1745,6 +1745,42 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     </>
   )
 }
+
+// kappacode_change start - merge runs of adjacent reasoning parts into one for display
+function coalesceReasoningParts(parts: Part[]): Part[] {
+  if (!parts || parts.length === 0) return parts
+  const result: Part[] = []
+  let i = 0
+  while (i < parts.length) {
+    const part = parts[i]
+    if (part.type === "reasoning") {
+      const reasoningPart = part as ReasoningPart
+      let mergedText = reasoningPart.text
+      let mergedStart = reasoningPart.time?.start ?? 0
+      let mergedEnd = reasoningPart.time?.end
+      let mergedMetadata = reasoningPart.metadata
+      while (i + 1 < parts.length && parts[i + 1].type === "reasoning") {
+        i++
+        const next = parts[i] as ReasoningPart
+        mergedText += next.text
+        mergedStart = next.time?.start ?? mergedStart
+        mergedEnd = next.time?.end ?? mergedEnd
+        if (next.metadata) mergedMetadata = { ...mergedMetadata, ...next.metadata }
+      }
+      result.push({
+        ...reasoningPart,
+        text: mergedText,
+        time: { start: mergedStart, end: mergedEnd },
+        metadata: mergedMetadata,
+      } as ReasoningPart)
+    } else {
+      result.push(part)
+    }
+    i++
+  }
+  return result
+}
+// kappacode_change end
 
 // kappacode_change start - register rendered step-finish parts
 const PART_MAPPING = {

@@ -2387,6 +2387,8 @@ export type ProviderConfig = {
      */
     headerTimeout?: number | false
     chunkTimeout?: number
+    maxConcurrency?: number
+    unlimitedRetryOn429?: boolean
     [key: string]: unknown
   }
   models?: {
@@ -2517,6 +2519,27 @@ export type AttachmentConfig = {
 export type Config = {
   $schema?: string
   shell?: string
+  /**
+   * Default client-side concurrency ceiling for providers that do not set their own maxConcurrency (default 2).
+   */
+  defaultMaxConcurrency?: number
+  retry?: {
+    initialDelayMs?: number
+    maxRetries?: number
+    maxDelayMs?: number
+    backoffFactor?: number | "NaN" | "Infinity" | "-Infinity" | "Infinity" | "-Infinity" | "NaN"
+  }
+  remote?: {
+    heartbeatIntervalMs?: number
+    activityTimeoutMs?: number
+    connectTimeoutMs?: number
+    tokenTimeoutMs?: number
+    gatherTimeoutMs?: number
+    maxOutstandingGathers?: number
+    reconnectInitialBackoffMs?: number
+    reconnectMaxBackoffMs?: number
+    messageBufferMax?: number
+  }
   logLevel?: LogLevel
   server?: ServerConfig
   command?: {
@@ -4431,7 +4454,7 @@ export type ProviderUsageError = {
 export type ProviderUsageSnapshot = {
   id: string
   providerID: string
-  sourceKind: "kilo_managed" | "direct"
+  sourceKind: "kilo_managed" | "kappa_managed" | "direct"
   providerLabel: string
   planLabel: string
   sourceLabel: string
@@ -16553,7 +16576,8 @@ export type KappaAudioTranscriptionsResponses = {
   }
 }
 
-export type KappaAudioTranscriptionsResponse = KappaAudioTranscriptionsResponses[keyof KappaAudioTranscriptionsResponses]
+export type KappaAudioTranscriptionsResponse =
+  KappaAudioTranscriptionsResponses[keyof KappaAudioTranscriptionsResponses]
 
 export type KappaModelsImagesData = {
   body?: never
@@ -17167,7 +17191,8 @@ export type KappacodeMarketplaceListResponses = {
   200: MarketplaceListResult
 }
 
-export type KappacodeMarketplaceListResponse = KappacodeMarketplaceListResponses[keyof KappacodeMarketplaceListResponses]
+export type KappacodeMarketplaceListResponse =
+  KappacodeMarketplaceListResponses[keyof KappacodeMarketplaceListResponses]
 
 export type KappacodeMarketplaceInstallData = {
   body?: {
@@ -17192,7 +17217,8 @@ export type KappacodeMarketplaceInstallErrors = {
   400: BadRequestError
 }
 
-export type KappacodeMarketplaceInstallError = KappacodeMarketplaceInstallErrors[keyof KappacodeMarketplaceInstallErrors]
+export type KappacodeMarketplaceInstallError =
+  KappacodeMarketplaceInstallErrors[keyof KappacodeMarketplaceInstallErrors]
 
 export type KappacodeMarketplaceInstallResponses = {
   /**
@@ -17328,7 +17354,8 @@ export type KappacodeSnapshotPrepareResponses = {
   }
 }
 
-export type KappacodeSnapshotPrepareResponse = KappacodeSnapshotPrepareResponses[keyof KappacodeSnapshotPrepareResponses]
+export type KappacodeSnapshotPrepareResponse =
+  KappacodeSnapshotPrepareResponses[keyof KappacodeSnapshotPrepareResponses]
 
 export type KappacodeProviderUsageGetData = {
   body?: never
@@ -17588,7 +17615,8 @@ export type KappacodeAgentManagerRejectErrors = {
   404: NotFoundError
 }
 
-export type KappacodeAgentManagerRejectError = KappacodeAgentManagerRejectErrors[keyof KappacodeAgentManagerRejectErrors]
+export type KappacodeAgentManagerRejectError =
+  KappacodeAgentManagerRejectErrors[keyof KappacodeAgentManagerRejectErrors]
 
 export type KappacodeAgentManagerRejectResponses = {
   /**
@@ -17858,7 +17886,8 @@ export type KappacodeRetentionStatusResponses = {
   }
 }
 
-export type KappacodeRetentionStatusResponse = KappacodeRetentionStatusResponses[keyof KappacodeRetentionStatusResponses]
+export type KappacodeRetentionStatusResponse =
+  KappacodeRetentionStatusResponses[keyof KappacodeRetentionStatusResponses]
 
 export type KappacodeRetentionRunData = {
   body?: {
@@ -17941,7 +17970,8 @@ export type KappacodeRetentionCancelResponses = {
   }
 }
 
-export type KappacodeRetentionCancelResponse = KappacodeRetentionCancelResponses[keyof KappacodeRetentionCancelResponses]
+export type KappacodeRetentionCancelResponse =
+  KappacodeRetentionCancelResponses[keyof KappacodeRetentionCancelResponses]
 
 export type AnacondaDesktopStatusData = {
   body?: never
@@ -18092,7 +18122,8 @@ export type KappacodeMigrateSessionsResponses = {
   200: KappacodeMigrateSessionsResult
 }
 
-export type KappacodeMigrateSessionsResponse = KappacodeMigrateSessionsResponses[keyof KappacodeMigrateSessionsResponses]
+export type KappacodeMigrateSessionsResponse =
+  KappacodeMigrateSessionsResponses[keyof KappacodeMigrateSessionsResponses]
 
 export type KappacodeMigrateDiscoverData = {
   body?: {
@@ -18127,7 +18158,8 @@ export type KappacodeMigrateDiscoverResponses = {
   200: KappacodeMigrateSessionsDiscoverResult
 }
 
-export type KappacodeMigrateDiscoverResponse = KappacodeMigrateDiscoverResponses[keyof KappacodeMigrateDiscoverResponses]
+export type KappacodeMigrateDiscoverResponse =
+  KappacodeMigrateDiscoverResponses[keyof KappacodeMigrateDiscoverResponses]
 
 export type NetworkListData = {
   body?: never

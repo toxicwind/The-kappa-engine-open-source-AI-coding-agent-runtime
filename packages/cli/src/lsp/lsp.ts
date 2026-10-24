@@ -383,11 +383,10 @@ const layer = Layer.effect(
     const diagnostics = Effect.fn("LSP.diagnostics")(function* () {
       const s = yield* InstanceState.get(state)
       const results: Record<string, LSPClient.Diagnostic[]> = {}
-      const all = yield* Effect.timeoutOption(
-        runAll(async (client) => client.diagnostics),
-        { deadline: Duration.seconds(1) },
+      const all = yield* runAll(async (client) => client.diagnostics).pipe(
+        Effect.timeoutOption(Duration.seconds(1)),
       )
-      const list = Option.getOrElse(all, () => [] as Awaited<ReturnType<typeof runAll>>)
+      const list = Option.getOrElse(all, () => [] as Map<string, LSPClient.Diagnostic[]>[])
       for (const result of list) {
         for (const [p, diags] of result.entries()) {
           const arr = results[p] || []
@@ -396,7 +395,7 @@ const layer = Layer.effect(
         }
       }
       if (Option.isNone(all)) {
-        yield* Effect.logWarn("LSP diagnostics timed out", { timeoutMs: DIAGNOSTICS_TIMEOUT_MS })
+        yield* Effect.logWarning("LSP diagnostics timed out", { timeoutMs: DIAGNOSTICS_TIMEOUT_MS })
       }
       return results
     })

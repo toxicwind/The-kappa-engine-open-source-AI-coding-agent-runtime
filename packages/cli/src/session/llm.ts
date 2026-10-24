@@ -88,6 +88,7 @@ const live: Layer.Layer<
   | EventV2Bridge.Service
   | LLMClientService
   | RuntimeFlags.Service
+  | LLMQueue
 > = Layer.effect(
   Service,
   Effect.gen(function* () {

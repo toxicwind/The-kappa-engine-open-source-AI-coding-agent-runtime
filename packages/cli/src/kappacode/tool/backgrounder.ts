@@ -1,4 +1,4 @@
-import { Effect, Deferred, Scope } from "effect"
+import { Effect, Deferred, Option, Scope } from "effect"
 import type { BackgroundJob } from "@/background/job"
 import type { SessionID } from "@/session/schema"
 
@@ -58,7 +58,7 @@ export namespace KappaBackgrounder {
     > = steerSignal
       ? Effect.gen(function* () {
           const steerDeferred = yield* Deferred.make<true>()
-          const settledDeferred = yield* Deferred.make<ReturnType<typeof settled>>()
+          const settledDeferred = yield* Deferred.make<Effect.Success<typeof settledOrTimeout>>()
 
           const sub = () => {
             void Deferred.succeed(steerDeferred, true).pipe(Effect.ignore)
@@ -74,12 +74,12 @@ export namespace KappaBackgrounder {
           const cleanup = Effect.sync(() => steerSignal.removeEventListener("abort", sub))
 
           const steerWinner = yield* Deferred.await(steerDeferred).pipe(
-            Effect.timeout("1 millis"),
-            Effect.map(() => {
-              if (steerSignal.aborted) return { kind: "steer" as const }
+            Effect.timeoutOption("1 millis"),
+            Effect.map((opt) => {
+              if (Option.isSome(opt) && steerSignal.aborted) return { kind: "steer" as const }
               return { kind: "settled" as const }
             }),
-            Effect.andThen(cleanup),
+            Effect.tap(() => cleanup),
           )
 
           void steerWinner

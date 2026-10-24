@@ -122,7 +122,7 @@ export namespace KappacodeBootstrap {
       AppNodeBuilder.build(Provider.node),
       AppNodeBuilder.build(Config.node),
       MemoryService.layer,
-      Memory.node,
+      LayerNode.compile(Memory.node),
       Bus.defaultLayer,
       KappacodeWatcher.defaultLayer,
       AppNodeBuilder.build(Wakeup.node),

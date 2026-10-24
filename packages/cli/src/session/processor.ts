@@ -97,6 +97,9 @@ interface ProcessorContext extends Input {
   compactionError: ReturnType<typeof MessageV2.ContextOverflowError.prototype.toObject> | undefined // kappacode_change
   currentText: SessionV1.TextPart | undefined
   reasoningMap: Record<string, SessionV1.ReasoningPart>
+  // kappacode_change start - coalesce interleaved reasoning bursts into a single part
+  lastFinishedReasoningPart: { id: string; text: string; timeStart: number } | undefined
+  // kappacode_change end
   // kappacode_change start
   stepStart: number
   stepStartDate: number | undefined
@@ -150,6 +153,7 @@ const layer = Layer.effect(
         compactionError: undefined, // kappacode_change
         currentText: undefined,
         reasoningMap: {},
+        lastFinishedReasoningPart: undefined,
         // kappacode_change start
         telemetry: input.telemetry,
         stepStart: 0,
@@ -336,7 +340,15 @@ const layer = Layer.effect(
         // oxlint-disable-next-line no-self-assign -- reactivity trigger
         ctx.reasoningMap[reasoningID].text = ctx.reasoningMap[reasoningID].text
         ctx.reasoningMap[reasoningID].time = { ...ctx.reasoningMap[reasoningID].time, end: Date.now() }
-        yield* session.updatePart(ctx.reasoningMap[reasoningID])
+        // kappacode_change start - remember for potential coalescing on next reasoning-start
+        const part = ctx.reasoningMap[reasoningID]
+        ctx.lastFinishedReasoningPart = {
+          id: part.id,
+          text: part.text,
+          timeStart: part.time.start ?? 0,
+        }
+        // kappacode_change end
+        yield* session.updatePart(part)
         delete ctx.reasoningMap[reasoningID]
       })
 
@@ -407,6 +419,28 @@ const layer = Layer.effect(
         switch (value.type) {
           case "reasoning-start":
             if (value.id in ctx.reasoningMap) return
+            // kappacode_change start - coalesce interleaved reasoning bursts into one part
+            // If the last emitted part was a finished reasoning part with no meaningful text/tool
+            // emitted since, reopen it instead of creating a new part. This defeats the pattern
+            // where reasoning_content / content alternation produces 1ms parts.
+            if (ctx.lastFinishedReasoningPart) {
+              const reused = ctx.lastFinishedReasoningPart
+              // kappacode_change start - PartID is a branded string, cast to satisfy type checker
+              ctx.reasoningMap[value.id] = {
+                id: reused.id as SessionV1.ReasoningPart["id"],
+                messageID: ctx.assistantMessage.id,
+                sessionID: ctx.assistantMessage.sessionID,
+                type: "reasoning" as const,
+                text: reused.text,
+                time: { start: reused.timeStart },
+                metadata: value.providerMetadata,
+              }
+              // kappacode_change end
+              ctx.lastFinishedReasoningPart = undefined
+              yield* session.updatePart(ctx.reasoningMap[value.id])
+              return
+            }
+            // kappacode_change end
             ctx.reasoningMap[value.id] = {
               id: PartID.ascending(),
               messageID: ctx.assistantMessage.id,
@@ -468,6 +502,9 @@ const layer = Layer.effect(
           // kappacode_change end
 
           case "tool-call": {
+            // kappacode_change start - clear coalesce candidate when a tool call breaks the stream
+            ctx.lastFinishedReasoningPart = undefined
+            // kappacode_change end
             if (ctx.assistantMessage.summary) {
               throw new Error(`Tool call not allowed while generating summary: ${value.name}`)
             }
@@ -764,6 +801,9 @@ const layer = Layer.effect(
           }
 
           case "text-start":
+            // kappacode_change start - clear coalesce candidate when real text starts
+            ctx.lastFinishedReasoningPart = undefined
+            // kappacode_change end
             ctx.currentText = {
               id: PartID.ascending(),
               messageID: ctx.assistantMessage.id,
