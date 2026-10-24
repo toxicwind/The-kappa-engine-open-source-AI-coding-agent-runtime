@@ -1,0 +1,15 @@
+{
+  "session": "unset",
+  "base": "unset",
+  "framing": {
+    "probed": false,
+    "models": { "verdict": "unprobed", "path": null, "evidence": null },
+    "completions": { "verdict": "unprobed", "path": null, "evidence": null }
+  },
+  "reasoningPassthrough": { "honored": null, "field": null, "model": null },
+  "loopTendency": { "selfNgram": null, "semantic": null, "runs": 0 },
+  "narrationTendency": { "runs": 0, "violations": 0, "actionPromises": 0 },
+  "catalog": [],
+  "ledger": [],
+  "probes": []
+}
