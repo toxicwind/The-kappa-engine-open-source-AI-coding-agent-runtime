@@ -31,12 +31,14 @@ import { SessionHistory } from "../history"
 import { SessionInput } from "../input"
 import { SessionSchema } from "../schema"
 import { SessionStore } from "../store"
+import { SessionMessage } from "../message"
 import { type RunError, Service } from "./index"
 import { SessionRunnerModel } from "./model"
 import { createLLMEventPublisher } from "./publish-llm-event"
 import { toLLMMessages } from "./to-llm-message"
 import { MAX_STEPS_PROMPT } from "./max-steps"
 import { Snapshot } from "../../snapshot"
+import { Service as NarrationGuardService, node as NarrationGuardNode, type GuardAction } from "../../narration-guard"
 import { makeLocationNode } from "../../effect/app-node"
 import { llmClient } from "../../effect/app-node-platform"
 
@@ -343,6 +345,78 @@ const layer = Layer.effect(
               }),
             )
           }
+
+          // Race gate: narration guard + semantic brake check
+          const narrationGuard = yield* NarrationGuardService
+          const assistantMsgId = yield* publisher.startAssistant()
+          const history = yield* SessionHistory.entriesForRunner(db, session.id, 0)
+          const lastAssistant = history
+            .filter((e) => e.message.id === assistantMsgId && e.message.type === "assistant")
+            .map((e) => e.message)[0]
+          if (lastAssistant && lastAssistant.type === "assistant" && "content" in lastAssistant) {
+            const assistantMsg = lastAssistant as { content: ReadonlyArray<{ type: string; [key: string]: unknown }> }
+            const toolCalls = assistantMsg.content
+              .filter(
+                (c): c is { type: "tool"; id: string; name: string; state: { status: string } } => c.type === "tool",
+              )
+              .map((c) => ({ name: c.name, ok: c.state.status === "success" }))
+            const reasoning = assistantMsg.content
+              .filter((c): c is { type: "reasoning"; text: string } => c.type === "reasoning")
+              .map((c) => c.text)
+              .join("\n")
+            const text = assistantMsg.content
+              .filter((c): c is { type: "text"; text: string } => c.type === "text")
+              .map((c) => c.text)
+              .join("\n")
+            const receipts = assistantMsg.content
+              .filter(
+                (c): c is { type: "tool"; id: string; state: { status: string } } =>
+                  c.type === "tool" && (c.state as { status: string }).status === "success",
+              )
+              .map((c) => c.id)
+            const priorReasoning = history
+              .filter((e) => e.message.type === "assistant" && "content" in e.message)
+              .flatMap((e) =>
+                (e.message as { content: ReadonlyArray<{ type: string; [key: string]: unknown }> }).content
+                  .filter((c): c is { type: "reasoning"; text: string } => c.type === "reasoning")
+                  .map((c) => c.text),
+              )
+              .slice(-6)
+            const toolHistory = history
+              .filter((e) => e.message.type === "assistant" && "content" in e.message)
+              .flatMap((e) =>
+                (e.message as { content: ReadonlyArray<{ type: string; [key: string]: unknown }> }).content
+                  .filter((c): c is { type: "tool"; name: string } => c.type === "tool")
+                  .map((c) => c.name),
+              )
+              .slice(-4)
+
+            let guardResult: GuardAction
+            try {
+              guardResult = yield* narrationGuard.check({
+                turn: currentStep,
+                runId: session.id,
+                reasoning,
+                text,
+                toolCalls,
+                receipts,
+                priorReasoning,
+                toolHistory,
+              })
+            } catch {
+              guardResult = { _tag: "accept", reason: "guard-error" }
+            }
+            if (guardResult._tag === "continue") {
+              // Inject guard message as user steer to force correction
+              yield* SessionInput.admit(db, events, {
+                id: SessionMessage.ID.make(`steer-${Date.now()}-${Math.random().toString(36).slice(2)}`),
+                sessionID: session.id,
+                prompt: { text: guardResult.inject },
+                delivery: "steer",
+              })
+              return { needsContinuation: true, step: currentStep }
+            }
+          }
           if (publisher.hasProviderError())
             yield* withPublication(publisher.failUnsettledTools("Tool execution interrupted"))
           if (stream._tag === "Success" && !publisher.hasProviderError())
@@ -358,7 +432,7 @@ const layer = Layer.effect(
       sessionID: SessionSchema.ID,
       promotion: SessionInput.Delivery | undefined,
       step: number,
-    ) => Effect.Effect<{ readonly needsContinuation: boolean; readonly step: number }, RunError>
+    ) => Effect.Effect<{ readonly needsContinuation: boolean; readonly step: number }, RunError | Error, Service>
 
     const runAfterOverflowCompaction: RunTurn = Effect.fnUntraced(function* (sessionID, promotion, step) {
       return yield* runTurnAttempt(sessionID, promotion, step).pipe(
@@ -414,7 +488,7 @@ const layer = Layer.effect(
     })
 
     return Service.of({
-      run,
+      run: run as Interface["run"],
     })
   }),
 )
@@ -436,5 +510,6 @@ export const node = makeLocationNode({
     Config.node,
     Snapshot.node,
     Database.node,
+    NarrationGuardNode,
   ],
 })

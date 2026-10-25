@@ -24,6 +24,7 @@ import { ConfigProvider } from "./config/provider"
 import { ConfigReference } from "./config/reference"
 import { ConfigToolOutput } from "./config/tool-output"
 import { ConfigWatcher } from "./config/watcher"
+import { ConfigGate } from "./config/gate"
 import { ConfigV1 } from "./v1/config/config"
 import { ConfigMigrateV1 } from "./v1/config/migrate"
 
@@ -105,6 +106,9 @@ export class Info extends Schema.Class<Info>("Config.Info")({
   }),
   experimental: ConfigExperimental.Experimental.pipe(Schema.optional),
   providers: Schema.Record(Schema.String, ConfigProvider.Info).pipe(Schema.optional),
+  gate: ConfigGate.Info.pipe(Schema.optional).annotate({
+    description: "Race gate configuration: framing-aware discovery, narration guard, semantic brake",
+  }),
 }) {}
 
 export class Document extends Schema.Class<Document>("Config.Document")({

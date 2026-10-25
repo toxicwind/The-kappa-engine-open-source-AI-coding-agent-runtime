@@ -101,6 +101,7 @@ import { SteeringConsumed } from "@/kappacode/session/steering-consumed" // kapp
 import { Goal } from "@/kappacode/session/goal/runner" // kappacode_change
 import { GoalPolicy } from "@/kappacode/session/goal/policy" // kappacode_change
 import { GoalState } from "@/kappacode/session/goal/state" // kappacode_change
+import { runLoop as _runLoop } from "./run-loop.ts" // kappacode_change
 
 // @ts-ignore
 globalThis.AI_SDK_LOG_WARNINGS = false
@@ -1540,471 +1541,46 @@ export const layer = Layer.effect(
     // kappacode_change — mutable close-reason per session, set by runLoop and read by loop
     const closeReasons = new Map<string, KappaSession.CloseReason>()
 
-    // kappacode_change start - retain request-scoped snapshot initialization policy
-    const runLoop: (input: LoopInput) => Effect.Effect<MessageV2.WithParts, NotFoundError> = Effect.fn(
-      "SessionPrompt.run",
-    )(function* (input: LoopInput) {
-      const sessionID = input.sessionID
-      // kappacode_change end
-      // kappacode_change — cache environment details per turn (prompt caching)
-      const envCache: KappaSessionPrompt.EnvCache = {}
-      const memoryCache = KappaSessionPrompt.memoryCache() // kappacode_change
-      const board = BoardContext.cache() // kappacode_change
-      closeReasons.delete(sessionID) // kappacode_change
-      let compactionAttempts = 0 // kappacode_change - cap compaction attempts per turn to avoid infinite loops
-      const ctx = yield* InstanceState.context
-      let structured: unknown
-      let step = 0
-      const session = yield* sessions.get(sessionID).pipe(Effect.orDie)
-
-      // kappacode_change start - consumer-side verification: when the runLoop starts processing a
-      // queued steer slot, tell its parent the steer was actually consumed (not just admitted).
-      yield* SteeringConsumed.confirm({ sessionID, config, flags, database })
-      // kappacode_change end
-
-      while (true) {
-        yield* status.set(sessionID, { type: "busy" })
-        yield* Effect.logInfo("loop", { "session.id": sessionID, step })
-
-        // kappacode_change start - provide the upstream Effect database to Kappa's retained prompt loop
-        let msgs = yield* MessageV2.filterCompactedEffect(sessionID).pipe(
-          Effect.provideService(Database.Service, database),
-        )
-        // kappacode_change end
-        msgs = KappaSessionPromptQueue.scope(sessionID, msgs) // kappacode_change - hide later queued prompts
-        msgs = KappaSessionPrompt.trimBeforeLastSummary(msgs) // kappacode_change - trim on any completed summary (e.g. manual /compact against a text user)
-
-        // kappacode_change start - select loop state by chronology after retained-tail projection
-        const latest = KappaSessionMessageOrder.latest(msgs)
-        const { user: lastUser, assistant: lastAssistant, finished: lastFinished, tasks } = latest
-        // kappacode_change end
-
-        if (input.resume && step === 0 && KappaSessionContinuation.target(msgs) !== input.resume) break // kappacode_change
-        if (!lastUser) throw new Error("No user message found in stream. This should never happen.")
-
-        const lastAssistantMsg = msgs.findLast(
-          (msg) => msg.info.role === "assistant" && msg.info.id === lastAssistant?.id,
-        )
-        // kappacode_change start - compare chronology, not generated IDs
-        const userBeforeAssistant =
-          latest.userMessage &&
-          latest.assistantMessage &&
-          KappaSessionMessageOrder.compare(latest.userMessage, latest.assistantMessage) < 0
-        // kappacode_change end
-        // kappacode_change start - carry local review command marker into LLM telemetry
-        const telemetry =
-          KappaSessionProcessor.extractReviewTelemetry(
-            msgs.findLast((m) => m.info.role === "user" && m.info.id === lastUser.id)?.parts ?? [],
-          ) ?? KappaSessionProcessor.extractSuggestionReviewTelemetry(lastAssistantMsg?.parts ?? [])
-        // kappacode_change end
-
-        // Some providers return "stop" even when the assistant message contains
-        // tool calls. Keep the loop running so tool results can be sent back to
-        // the model, but ignore cleanup-marked interrupted orphans.
-        const hasToolCalls =
-          lastAssistantMsg?.parts.some(
-            (part) => part.type === "tool" && !part.metadata?.providerExecuted && !isOrphanedInterruptedTool(part),
-          ) ?? false
-
-        // kappacode_change start - plan_exit is a hard stop before another model call
-        if (
-          lastAssistant?.finish &&
-          hasToolCalls &&
-          lastAssistant.parentID === lastUser.id &&
-          userBeforeAssistant &&
-          KappaSessionPrompt.shouldAskPlanFollowup({ messages: msgs, abort: AbortSignal.any([]) })
-        ) {
-          const action = yield* Effect.promise((signal) =>
-            KappaSessionPrompt.askPlanFollowup({ sessionID, messages: msgs, abort: signal, question }),
-          )
-          if (action === "continue") continue
-          yield* Effect.logInfo("exiting loop", { "session.id": sessionID })
-          break
-        }
-        // kappacode_change end
-
-        if (
-          lastAssistant?.finish &&
-          !["tool-calls"].includes(lastAssistant.finish) &&
-          lastAssistant.id !== input.resume && // kappacode_change
-          !hasToolCalls &&
-          lastAssistant.parentID === lastUser.id && // kappacode_change - unrelated later assistants do not answer this turn
-          userBeforeAssistant // kappacode_change - compare chronology, not generated IDs
-        ) {
-          const orphan = lastAssistantMsg?.parts.find(
-            (part): part is MessageV2.ToolPart => part.type === "tool" && isOrphanedInterruptedTool(part),
-          )
-          if (orphan) {
-            yield* Effect.logWarning("loop exit with orphaned interrupted tool", {
-              "session.id": sessionID,
-              messageID: lastAssistant.id,
-              tool: orphan.tool,
-              callID: orphan.callID,
-            })
-          }
-          yield* Effect.logInfo("exiting loop", { "session.id": sessionID })
-          break
-        }
-
-        step++
-
-        const model = yield* getModel(lastUser.model.providerID, lastUser.model.modelID, sessionID)
-        const task = tasks.pop()
-
-        if (task?.type === "subtask") {
-          yield* handleSubtask({ task, model, lastUser, sessionID, session, msgs })
-          continue
-        }
-
-        if (task?.type === "compaction") {
-          const result = yield* compaction.process({
-            messages: msgs,
-            parentID: task.messageID, // kappacode_change
-            sessionID,
-            auto: task.auto,
-            overflow: task.overflow,
-          })
-          // kappacode_change start - compaction.process returns "stop" after
-          // setting a terminal error on the summary message: either a
-          // ContextOverflowError or the empty-summary APIError; surface as turn error
-          if (result === "stop") {
-            closeReasons.set(sessionID, "error")
-            break
-          }
-          // kappacode_change end
-          continue
-        }
-
-        if (
-          lastFinished &&
-          lastFinished.summary !== true &&
-          (yield* compaction.isOverflow({ tokens: lastFinished.tokens, model }))
-        ) {
-          // kappacode_change start
-          const guard = KappaSessionPrompt.guardCompactionAttempt({
-            sessionID,
-            attempts: compactionAttempts,
-            closeReasons,
-            message: lastFinished,
-          })
-          if (guard.exhausted) {
-            // lastFinished is a prior turn's assistant — record exhaustion on the
-            // message whose size tipped us past the compaction cap.
-            yield* sessions.updateMessage(lastFinished)
-            yield* events.publish(Session.Event.Error, { sessionID, error: guard.error })
-            break
-          }
-          compactionAttempts++
-          // kappacode_change end
-          yield* compaction.create({
-            sessionID,
-            agent: lastUser.agent,
-            model: lastUser.model,
-            auto: true,
-            overflow: false,
-          }) // kappacode_change
-          continue
-        }
-
-        const agent = yield* agents.get(lastUser.agent)
-        if (!agent) {
-          const available = (yield* agents.list()).filter((a) => !a.hidden).map((a) => a.name)
-          const hint = available.length ? ` Available agents: ${available.join(", ")}` : ""
-          const error = new NamedError.Unknown({ message: `Agent not found: "${lastUser.agent}".${hint}` })
-          yield* events.publish(Session.Event.Error, { sessionID, error: error.toObject() })
-          throw error
-        }
-        const maxSteps = agent.steps ?? Infinity
-        const isLastStep = step >= maxSteps
-        msgs = yield* SessionReminders.apply({ messages: msgs, agent, session }).pipe(
-          Effect.provideService(RuntimeFlags.Service, flags),
-          Effect.provideService(FSUtil.Service, fsys),
-          Effect.provideService(Session.Service, sessions),
-        )
-
-        const msg: MessageV2.Assistant = {
-          id: MessageID.ascending(),
-          parentID: lastUser.id,
-          role: "assistant",
-          mode: agent.name,
-          agent: agent.name,
-          variant: lastUser.model.variant,
-          path: { cwd: ctx.directory, root: ctx.worktree },
-          cost: 0,
-          tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
-          modelID: model.id,
-          providerID: model.providerID,
-          time: { created: Date.now() },
-          sessionID,
-        }
-        yield* sessions.updateMessage(msg)
-        const finalize = Effect.gen(function* () {
-          if (msg.time.completed) return
-          msg.error ??= MessageV2.fromError(new DOMException("Aborted", "AbortError"), {
-            providerID: msg.providerID,
-            aborted: true,
-          })
-          msg.time.completed = Date.now()
-          yield* sessions.updateMessage(msg)
-        })
-        const handle = yield* processor
-          .create({
-            assistantMessage: msg,
-            sessionID,
-            model,
-            telemetry, // kappacode_change
-            snapshotInitialization: input.snapshotInitialization, // kappacode_change
-          })
-          .pipe(Effect.onInterrupt(() => finalize))
-
-        const outcome: "break" | "continue" = yield* Effect.gen(function* () {
-          const lastUserMsg = msgs.findLast((m) => m.info.role === "user")
-          const bypassAgentCheck = lastUserMsg?.parts.some((p) => p.type === "agent") ?? false
-          const promptOps = yield* ops(sessionID) // kappacode_change
-
-          // kappacode_change start
-          const notify = BoardContext.allowed({ session, agent, user: lastUser })
-            ? yield* BoardContext.notifier({ cache: board, session, agent, user: lastUser }).pipe(
-                Effect.provideService(Config.Service, config),
-                Effect.provideService(Database.Service, database),
-                Effect.provideService(Agent.Service, agents),
-                Effect.provideService(Session.Service, sessions),
-                Effect.provideService(RuntimeFlags.Service, flags),
-              )
-            : undefined
-          // kappacode_change end
-          const tools = yield* SessionTools.resolve({
-            agent,
-            session,
-            model,
-            processor: handle,
-            bypassAgentCheck,
-            messages: msgs,
-            promptOps,
-            goalOps: goals, // kappacode_change
-            memoryCache, // kappacode_change
-            notify, // kappacode_change
-          }).pipe(
-            Effect.provideService(Plugin.Service, plugin),
-            Effect.provideService(Permission.Service, permission),
-            Effect.provideService(Agent.Service, agents), // kappacode_change
-            Effect.provideService(Session.Service, sessions), // kappacode_change
-            Effect.provideService(ToolRegistry.Service, registry),
-            Effect.provideService(MCP.Service, mcp),
-            Effect.provideService(Truncate.Service, truncate),
-            // kappacode_change start - provide services used by session tool resolution
-            Effect.provideService(Config.Service, config),
-            Effect.provideService(Provider.Service, provider),
-            Effect.provideService(Database.Service, database),
-            Effect.provideService(RuntimeFlags.Service, flags),
-            // kappacode_change end
-          )
-
-          if (lastUser.format?.type === "json_schema") {
-            tools["StructuredOutput"] = createStructuredOutputTool({
-              schema: lastUser.format.schema,
-              onSuccess(output) {
-                structured = output
-              },
-            })
-          }
-
-          if (step === 1)
-            yield* summary.summarize({ sessionID, messageID: lastUser.id }).pipe(Effect.ignore, Effect.forkIn(scope))
-
-          yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
-
-          // kappacode_change start — ephemeral context injection + post-summary
-          // media strip (keeps outgoing body under the gateway body-size limit
-          // even when filterCompacted couldn't trim the pre-summary history).
-          KappaSessionPrompt.injectEditorContext({ msgs, session, sessionID, cache: envCache })
-          msgs = KappaSessionPrompt.maybeStripHistoricalMedia(msgs)
-          // kappacode_change end
-
-          // kappacode_change start - persistently prune stale tool outputs when payload is already large
-          const [skills, env, mem, instructions, mcpInstructions] = yield* Effect.all([
-            sys.skills(agent),
-            sys.environment(model, lastUser.editorContext), // kappacode_change
-            KappaSessionPrompt.memoryInject({ ctx, sessionID, record: step === 1, cache: memoryCache }), // kappacode_change
-            instruction.system().pipe(Effect.orDie),
-            sys.mcp(agent, session.permission),
-          ])
-          let modelMsgs = yield* MessageV2.toModelMessagesEffect(msgs, model).pipe(
-            Effect.provideService(Database.Service, database),
-          )
-          const size = Buffer.byteLength(JSON.stringify(modelMsgs))
-          if (size > REQUEST_PRUNE_BYTES) {
-            // prune marks cleared outputs on msgs, so re-convert only when it cleared something
-            const cleared = yield* compaction.prune({ sessionID, reason: "payload-limit", messages: msgs })
-            if (cleared > 0)
-              modelMsgs = yield* MessageV2.toModelMessagesEffect(msgs, model).pipe(
-                Effect.provideService(Database.Service, database),
-              )
-            const nextSize = cleared > 0 ? Buffer.byteLength(JSON.stringify(modelMsgs)) : size
-            if (nextSize > REQUEST_PRUNE_BYTES)
-              yield* Effect.logWarning("payload still large after pruning", { "session.id": sessionID, size: nextSize })
-          }
-          // kappacode_change end
-          const system = [
-            ...env,
-            ...mem, // kappacode_change
-            ...(tools.board_read && notify ? [BoardContext.instructions] : []), // kappacode_change
-            ...instructions,
-            ...(mcpInstructions ? [mcpInstructions] : []),
-            ...(skills ? [skills] : []),
-          ]
-          const format = lastUser.format ?? { type: "text" as const }
-          if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
-          const result = yield* handle.process({
-            // kappacode_change start - keep Ask/Plan tool filtering hardened against session allows
-            user: lastUser,
-            agent,
-            permission: KappaSessionPrompt.guardPermissions({ agent, session }),
-            // kappacode_change end
-            sessionID,
-            parentSessionID: session.parentID,
-            system,
-            messages: [
-              ...modelMsgs,
-              ...KappaSessionContinuation.context(!!input.resume && step === 1), // kappacode_change
-              ...(isLastStep ? [{ role: "user" as const, content: MAX_STEPS_PROMPT }] : []), // kappacode_change - avoid provider-incompatible assistant prefill
-            ],
-            tools,
-            model,
-            toolChoice: format.type === "json_schema" ? "required" : undefined,
-            // kappacode_change start - provider-reported context size feeds the output-token cap
-            // (see KappaLLM.capOutputTokens); summaries and trailing unfinished assistants invalidate it.
-            reportedContextTokens: KappaSessionOverflow.baseline({
-              assistant: lastAssistant,
-              finished: lastFinished,
-            }),
-            // kappacode_change end
-          })
-
-          // kappacode_change start - persist a lightweight marker when this assistant step had memory context
-          const marker = KappaSessionPrompt.memoryPart({ sessionID, message: handle.message, cache: memoryCache })
-          if (marker) yield* sessions.updatePart(marker)
-          // kappacode_change end
-
-          if (structured !== undefined) {
-            handle.message.structured = structured
-            handle.message.finish = handle.message.finish ?? "stop"
-            yield* sessions.updateMessage(handle.message)
-            return "break" as const
-          }
-
-          const finished = handle.message.finish && !["tool-calls", "unknown"].includes(handle.message.finish)
-          if (finished && !handle.message.error) {
-            if (handle.message.finish === "content-filter") {
-              handle.message.error = new SessionV1.ContentFilterError({
-                message: "The response was blocked by the provider's content filter",
-              }).toObject()
-              yield* sessions.updateMessage(handle.message)
-              yield* events.publish(Session.Event.Error, { sessionID, error: handle.message.error })
-              closeReasons.set(sessionID, "error") // kappacode_change - retain Kappa close-reason propagation
-              return "break" as const
-            }
-            if (format.type === "json_schema") {
-              handle.message.error = new MessageV2.StructuredOutputError({
-                message: "Model did not produce structured output",
-                retries: 0,
-              }).toObject()
-              yield* sessions.updateMessage(handle.message)
-              return "break" as const
-            }
-            // kappacode_change start
-            if (handle.message.finish === "error") {
-              KappaSessionProcessor.providerFinishError(handle.message)
-              yield* sessions.updateMessage(handle.message)
-              closeReasons.set(sessionID, "error")
-              return "break" as const
-            }
-            // kappacode_change end
-          }
-
-          // kappacode_change start
-          if (result === "stop") {
-            if (handle.message.error) closeReasons.set(sessionID, "error")
-            return "break" as const
-          }
-          // kappacode_change end
-          if (result === "compact") {
-            // kappacode_change start
-            const parts = yield* MessageV2.parts(handle.message.id).pipe(
-              Effect.provideService(Database.Service, database),
-            )
-            const tools = parts.some(
-              (part) => part.type === "tool" && !part.metadata?.providerExecuted && !isOrphanedInterruptedTool(part),
-            )
-            if (!handle.message.finish || ["tool-calls", "unknown"].includes(handle.message.finish) || tools) {
-              const guard = KappaSessionPrompt.guardCompactionAttempt({
-                sessionID,
-                attempts: compactionAttempts,
-                closeReasons,
-                message: handle.message,
-              })
-              if (guard.exhausted) {
-                yield* sessions.updateMessage(handle.message)
-                yield* events.publish(Session.Event.Error, { sessionID, error: guard.error })
-                return "break" as const
-              }
-              compactionAttempts++
-              yield* compaction.create({
-                sessionID,
-                agent: lastUser.agent,
-                model: lastUser.model,
-                auto: true,
-                overflow: handle.message.finish ? undefined : handle.compactError?.() !== undefined,
-              })
-            }
-            // kappacode_change end
-          }
-          // kappacode_change start — break out so a newer queued prompt can take over
-          // instead of starting another LLM step for the now-superseded turn. The
-          // current handle.process has fully drained (tokens + inline tool calls) by
-          // the time we get here, so nothing is cut off. The close reason is
-          // "superseded", not "interrupted": this is a deliberate queue handoff,
-          // not a premature stop, so clients must not flash an interruption warning.
-          if (KappaSessionPromptQueue.hasFollowup(sessionID)) {
-            closeReasons.set(sessionID, "superseded")
-            // kappacode_change - record which turn handed off so a goal loop that
-            // owns it can continue after the queued prompt instead of pausing.
-            // Only record while a goal is active, so plain sessions never
-            // accumulate markers.
-            const handoff = KappaSessionPromptQueue.active(sessionID)
-            if (handoff && GoalState.active(sessionID)) KappaSessionPromptQueue.markSuperseded(sessionID, handoff)
-            return "break" as const
-          }
-          // kappacode_change end
-          // kappacode_change start - guard against providers that end the stream
-          // without a terminal stop_reason (e.g. an Anthropic-style message_delta
-          // with stop_reason: null followed immediately by message_stop). Without
-          // a finishReason, the loop-exit check at the top of the next iteration
-          // sees a falsy `finish` (loaded from storage via filterCompactedEffect)
-          // and keeps stepping forever. Default to "unknown" and persist so the
-          // regular break condition fires when there are no tool calls. Skipped
-          // for the compact path so guardCompactionAttempt can still fill in
-          // "error" on exhaustion. Tool-call turns already get "tool-calls" from
-          // the AI SDK; even without it, !hasToolCalls keeps the break gated.
-          if (result !== "compact" && !handle.message.finish) {
-            handle.message.finish = "unknown"
-            yield* sessions.updateMessage(handle.message)
-          }
-          // kappacode_change end
-          return "continue" as const
-        }).pipe(
-          Effect.ensuring(instruction.clear(handle.message.id)),
-          Effect.onInterrupt(() => finalize),
-        )
-        if (outcome === "break") break
-        continue
-      }
-
-      yield* compaction.prune({ sessionID, reason: "normal" }).pipe(Effect.ignore, Effect.forkIn(scope))
-      // kappacode_change - Kappa defers session titles; see kappacode/session/title.ts
-      yield* KappaSessionTitle.deferred({ sessionID, scope, sessions, database, generate: title }).pipe(Effect.ignore)
-      return yield* lastAssistant(sessionID)
-    })
+    // kappacode_change - runLoop extracted to run-loop.ts
+    const runLoopDeps = {
+      status,
+      sessions,
+      agents,
+      provider,
+      processor,
+      compaction,
+      plugin,
+      config,
+      permission,
+      question,
+      fsys,
+      mcp,
+      lsp,
+      registry,
+      truncate,
+      image,
+      scope,
+      instruction,
+      state,
+      drain,
+      revert,
+      summary,
+      sys,
+      events,
+      flags,
+      database,
+      control,
+      goals,
+      closeReasons,
+      ops: (sid: SessionID) => ops(sid),
+      cancel,
+      resolvePromptParts,
+      currentModel,
+      title,
+      handleSubtask,
+      getModel,
+      lastAssistant,
+    }
 
     // kappacode_change start
     const loop: (
@@ -2035,7 +1611,7 @@ export const layer = Layer.effect(
             ),
             Effect.orDie,
           ),
-          runLoop(input).pipe(Effect.orDie),
+          _runLoop(runLoopDeps, input).pipe(Effect.orDie),
           ticket.running,
         ),
         Effect.fnUntraced(function* (exit) {
