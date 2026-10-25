@@ -88,6 +88,7 @@ const live: Layer.Layer<
   | EventV2Bridge.Service
   | LLMClientService
   | RuntimeFlags.Service
+  | LLMQueue
 > = Layer.effect(
   Service,
   Effect.gen(function* () {
@@ -464,7 +465,7 @@ const live: Layer.Layer<
       // kilocode_change start - hold ONE provider-wide concurrency permit for the
       // whole stream; same-provider streams (all freeinference models, incl.
       // subagent turns) line up on a single queue instead of tripping the local
-      // Gatehouse shed that reads as 429.
+      // Thresher shed that reads as 429.
       Stream.scoped(
         Stream.unwrap(
           Effect.acquireRelease(queue.acquire(input.model.providerID), () => queue.release(input.model.providerID)).pipe(

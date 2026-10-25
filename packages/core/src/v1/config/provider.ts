@@ -130,7 +130,7 @@ export const Info = Schema.Struct({
         }),
         unlimitedRetryOn429: Schema.optional(Schema.Boolean).annotate({
           description:
-            "When true, a concurrency-contained 429 (local/Gatehouse shed with no real provider rate limit) is retried indefinitely instead of hitting the finite retry ceiling. Default off.",
+            "When true, a concurrency-contained 429 (local/Thresher shed with no real provider rate limit) is retried indefinitely instead of hitting the finite retry ceiling. Default off.",
         }),
       }),
       [Schema.Record(Schema.String, Schema.Any)],

@@ -166,6 +166,9 @@ interface ParserState {
   readonly usage?: Usage
   readonly finishReason?: FinishReason
   readonly lifecycle: Lifecycle.State
+  // kappacode_change start - behavioral dedup of duplicated reasoning content in text stream
+  readonly reasoningText: string
+  // kappacode_change end
 }
 
 const invalid = ProviderShared.invalidRequest
@@ -415,16 +418,51 @@ const step = (state: ParserState, event: OpenAIChatEvent) =>
     let tools = state.tools
 
     let lifecycle = state.lifecycle
+    // kappacode_change start - behavioral dedup: track accumulated reasoning text for content dedup
+    let reasoningText = state.reasoningText
+    // kappacode_change end
 
-    if (delta?.reasoning_content)
-      lifecycle = Lifecycle.reasoningDelta(lifecycle, events, "reasoning-0", delta.reasoning_content)
-
+    // kappacode_change start - behavioral dedup: drop content deltas that are a continuation
+    // of the reasoning text already streamed via reasoning_content. This defeats relays that
+    // emit the think body both as reasoning_content deltas and duplicated inline in content
+    // deltas (with special tokens). Match on whitespace-normalized tails so mid-token chunk
+    // boundaries don't break the match.
     if (delta?.content) {
+      if (state.lifecycle.reasoning.has("reasoning-0") && state.reasoningText) {
+        const normalizedDelta = delta.content.replace(/\s+/g, " ").trim()
+        const normalizedReasoning = state.reasoningText.replace(/\s+/g, " ").trim()
+        if (
+          normalizedReasoning.length >= normalizedDelta.length &&
+          normalizedReasoning.endsWith(normalizedDelta) &&
+          normalizedReasoning.length > 0 &&
+          normalizedDelta.length > 0
+        ) {
+          // delta.content is a suffix of the already-streamed reasoning text — skip it
+          // but return the unchanged state so other processing (usage, etc.) still runs
+          return [
+            {
+              tools,
+              toolCallEvents: state.toolCallEvents,
+              usage,
+              finishReason,
+              lifecycle,
+              reasoningText: state.reasoningText,
+            },
+            [],
+          ] as const
+        }
+      }
       lifecycle = Lifecycle.reasoningEnd(lifecycle, events, "reasoning-0")
       lifecycle = Lifecycle.textDelta(lifecycle, events, "text-0", delta.content)
     }
+    // kappacode_change end
 
-    if (toolDeltas.length) lifecycle = Lifecycle.reasoningEnd(lifecycle, events, "reasoning-0")
+    if (delta?.reasoning_content) {
+      lifecycle = Lifecycle.reasoningDelta(lifecycle, events, "reasoning-0", delta.reasoning_content)
+      reasoningText += delta.reasoning_content
+    } else if (toolDeltas.length) {
+      lifecycle = Lifecycle.reasoningEnd(lifecycle, events, "reasoning-0")
+    }
 
     for (const tool of toolDeltas) {
       const result = ToolStream.appendOrStart(
@@ -454,6 +492,7 @@ const step = (state: ParserState, event: OpenAIChatEvent) =>
         usage,
         finishReason,
         lifecycle,
+        reasoningText,
       },
       events,
     ] as const
@@ -486,7 +525,12 @@ export const protocol = Protocol.make({
   },
   stream: {
     event: Protocol.jsonEvent(OpenAIChatEvent),
-    initial: () => ({ tools: ToolStream.empty<number>(), toolCallEvents: [], lifecycle: Lifecycle.initial() }),
+    initial: () => ({
+      tools: ToolStream.empty<number>(),
+      toolCallEvents: [],
+      lifecycle: Lifecycle.initial(),
+      reasoningText: "",
+    }),
     step,
     onHalt: finishEvents,
   },

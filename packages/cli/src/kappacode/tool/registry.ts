@@ -32,7 +32,6 @@ import { BoardEnabled } from "@/kappacode/board/enabled"
 import { Agent } from "@/agent/agent"
 import * as Truncate from "@/tool/truncate"
 import { InstanceState } from "@/effect/instance-state"
-import { Service as CoreMemoryService, node as CoreMemoryNode } from "@kappacode/Memory"
 import { MemoryPaths } from "@kappacode/kappa-memory/effect/paths"
 
 const log = Log.create({ service: "kappacode-tool-registry" })

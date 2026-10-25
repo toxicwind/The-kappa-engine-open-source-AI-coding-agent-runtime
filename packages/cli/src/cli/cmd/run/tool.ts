@@ -474,7 +474,7 @@ function runLsp(p: ToolProps<typeof LspTool>): ToolInline {
     icon: "→",
     title: hasDiagnostics ? `${title} (${diagCount} file${diagCount === 1 ? "" : "s"})` : title,
     mode: "block" as const,
-    ...(hasDiagnostics && {
+    ...(hasDiagnostics ? {
       body:
         Object.entries(diagMeta as Record<string, { severity?: number; message?: string }[]>)
           .flatMap(([file, diags]) =>
@@ -484,7 +484,7 @@ function runLsp(p: ToolProps<typeof LspTool>): ToolInline {
               .map((d) => `  ✖ ${path.basename(file)}: ${d.message ?? "error"}`),
           )
           .join("\n") || undefined,
-    }),
+    }: {}),
   }
 }
 // kilocode_change end
