@@ -143,7 +143,7 @@ function parseJSON(value: unknown) {
 
 // kappacode_change start — detect a concurrency-contained 429 shed
 // A 429 with no provider rate-limit headers is a local/shelder concurrency
-// throttle (e.g. Gatehouse concurrency shedder, retry-after: 1) rather than a
+// throttle (e.g. Thresher concurrency shedder, retry-after: 1) rather than a
 // real provider rate limit. When the requesting provider opts into unlimited
 // retry, these are retried indefinitely instead of hitting the hard cap.
 function isConcurrencyShed(error: Err): boolean {

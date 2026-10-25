@@ -314,7 +314,7 @@ export const TaskTool = Tool.define(
               const portMatch = line.match(/:(\d+)\s/)
               if (portMatch) {
                 const port = parseInt(portMatch[1])
-                const names: Record<number, string> = { 25010: "beellama", 25100: "nativelink", 25127: "gatehouse" }
+                const names: Record<number, string> = { 25010: "beellama", 25100: "nativelink", 25127: "thresher" }
                 services.push({ name: names[port] ?? "unknown", port, status: "up", note: null })
               }
             })

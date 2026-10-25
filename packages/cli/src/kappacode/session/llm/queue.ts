@@ -6,7 +6,7 @@ import { Context, Effect, Layer, Ref, Semaphore } from "effect"
  * Per-provider LLM concurrency queue, shared by the PROVIDER as a whole.
  *
  * A "429 with retry-after:1" from proxied tool calls is usually the local
- * Gatehouse/limiter shedding excess concurrency, not a provider rate limit. So
+ * Thresher/limiter shedding excess concurrency, not a provider rate limit. So
  * instead of an endless retry loop spelling against the shed, we never exceed
  * the provider's client-side concurrency ceiling in the first place: every
  * in-flight LLM request for a provider waits on ONE shared semaphore sized by
