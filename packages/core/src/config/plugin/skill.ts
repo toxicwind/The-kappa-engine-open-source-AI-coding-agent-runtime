@@ -9,6 +9,25 @@ import { SkillV2 } from "../../skill"
 import { Global } from "../../global"
 import { Location } from "../../location"
 
+// kappacode_change — accept both the string[] shorthand and the v1 {paths,urls}
+// struct for `skills`. Flatten to a single string[] (paths first, then urls) so
+// the count/decode logic downstream always sees one flat list. Mirrors the
+// upstream normalizeSkills boundary in a kappa-native pure function (unit-testable).
+export function flattenSkills(
+  skills: unknown,
+): ReadonlyArray<string> {
+  if (Array.isArray(skills)) return skills.filter((x): x is string => typeof x === "string")
+  // After the Array.isArray return above, a non-null object is the struct form.
+  if (typeof skills === "object" && skills !== null) {
+    const rec = skills as Readonly<{ paths?: unknown; urls?: unknown }>
+    const paths = Array.isArray(rec.paths) ? rec.paths.filter((x): x is string => typeof x === "string") : []
+    const urls = Array.isArray(rec.urls) ? rec.urls.filter((x): x is string => typeof x === "string") : []
+    return [...paths, ...urls]
+  }
+  return []
+}
+
+
 export const Plugin = define({
   id: "config-skill",
   effect: Effect.fn(function* (ctx) {
@@ -19,10 +38,9 @@ export const Plugin = define({
       Effect.fn(function* (draft) {
         const entries = yield* config.entries()
         const directories = entries.flatMap((entry) => (entry.type === "directory" ? [entry.path] : []))
-        const items: ReadonlyArray<string | { readonly paths?: readonly string[]; readonly urls?: readonly string[] }> =
-          entries.flatMap((entry) =>
-            entry.type === "document" ? (entry.info.skills ?? []) : [],
-          )
+        const items = entries.flatMap((entry) =>
+          entry.type === "document" ? flattenSkills(entry.info.skills) : [],
+        )
         for (const directory of directories) {
           draft.source(
             SkillV2.DirectorySource.make({ type: "directory", path: AbsolutePath.make(path.join(directory, "skill")) }),
@@ -35,10 +53,8 @@ export const Plugin = define({
           )
         }
         // kappacode_change — skills accepts both string[] and {paths, urls} struct;
-        // normalize to a flat string list (paths first, then urls) before source mapping.
-        const normalized = items.flatMap((item) =>
-          typeof item === "string" ? [item] : [...(item.paths ?? []), ...(item.urls ?? [])],
-        )
+        // flattenSkills above already normalized to one flat string[] list.
+        const normalized = items
         for (const item of normalized) {
           if (URL.canParse(item) && /^(https?:)$/.test(new URL(item).protocol)) {
             draft.source(SkillV2.UrlSource.make({ type: "url", url: item }))
