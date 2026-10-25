@@ -11,6 +11,10 @@
 import { Schema } from "effect"
 import { normalizeLegacyKiloSpec } from "@/kappacode/config/legacy-kilo"
 
+// kappacode_change - schema lives in core (Config.Info recognizes the
+// `marketplace` key); the CLI re-exports it and keeps only normalization here.
+export { KappaExtensionType, KappaExtension, MarketplaceEntrySchema as MarketplaceEntry, MarketplaceConfigSchema, type MarketplaceConfig } from "@opencode-ai/core/config/marketplace" // kappacode_change
+
 /** The kinds of extension Kappa understands natively. Mirrors the marketplace. */
 export const KappaExtensionType = Schema.Literals(["tool", "model", "hook", "agent", "integ"])
 export type KappaExtensionType = typeof KappaExtensionType.Type

@@ -32,7 +32,7 @@ import { SessionInput } from "../input"
 import { SessionSchema } from "../schema"
 import { SessionStore } from "../store"
 import { SessionMessage } from "../message"
-import { type RunError, Service } from "./index"
+import { type RunError, Service, type Interface } from "./index"
 import { SessionRunnerModel } from "./model"
 import { createLLMEventPublisher } from "./publish-llm-event"
 import { toLLMMessages } from "./to-llm-message"
@@ -107,6 +107,7 @@ const layer = Layer.effect(
     const referenceGuidance = yield* ReferenceGuidance.Service
     const config = yield* Config.Service
     const snapshots = yield* Snapshot.Service
+    const narrationGuard = yield* NarrationGuardService // kappacode_change — layer-scoped dependency: collapses NarrationGuard's R out of runTurn's channel
     const db = (yield* Database.Service).db
     const compaction = SessionCompaction.make({ events, llm, config: yield* config.entries() })
     const getSession = Effect.fn("SessionRunner.getSession")(function* (sessionID: SessionSchema.ID) {
@@ -347,7 +348,6 @@ const layer = Layer.effect(
           }
 
           // Race gate: narration guard + semantic brake check
-          const narrationGuard = yield* NarrationGuardService
           const assistantMsgId = yield* publisher.startAssistant()
           const history = yield* SessionHistory.entriesForRunner(db, session.id, 0)
           const lastAssistant = history

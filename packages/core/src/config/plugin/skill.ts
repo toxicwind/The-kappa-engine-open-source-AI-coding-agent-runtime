@@ -19,7 +19,10 @@ export const Plugin = define({
       Effect.fn(function* (draft) {
         const entries = yield* config.entries()
         const directories = entries.flatMap((entry) => (entry.type === "directory" ? [entry.path] : []))
-        const items = entries.flatMap((entry) => (entry.type === "document" ? (entry.info.skills ?? []) : []))
+        const items: ReadonlyArray<string | { readonly paths?: readonly string[]; readonly urls?: readonly string[] }> =
+          entries.flatMap((entry) =>
+            entry.type === "document" ? (entry.info.skills ?? []) : [],
+          )
         for (const directory of directories) {
           draft.source(
             SkillV2.DirectorySource.make({ type: "directory", path: AbsolutePath.make(path.join(directory, "skill")) }),
@@ -31,7 +34,12 @@ export const Plugin = define({
             }),
           )
         }
-        for (const item of items) {
+        // kappacode_change — skills accepts both string[] and {paths, urls} struct;
+        // normalize to a flat string list (paths first, then urls) before source mapping.
+        const normalized = items.flatMap((item) =>
+          typeof item === "string" ? [item] : [...(item.paths ?? []), ...(item.urls ?? [])],
+        )
+        for (const item of normalized) {
           if (URL.canParse(item) && /^(https?:)$/.test(new URL(item).protocol)) {
             draft.source(SkillV2.UrlSource.make({ type: "url", url: item }))
             continue
