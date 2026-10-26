@@ -2137,13 +2137,14 @@ export type PromptInput = Omit<Schema.Schema.Type<typeof PromptInput>, "parts" |
 }
 // kappacode_change end
 
-export class LoopInput extends Schema.Class<LoopInput>("SessionPrompt.LoopInput")({
-  sessionID: SessionID,
-  resume: Schema.optional(MessageID), // kappacode_change
-  snapshotInitialization: Schema.optional(Schema.Literal("wait")), // kappacode_change
-}) {
-  static readonly zod = zod(this)
-}
+// kappacode_change start - LoopInput lives in loop-input.ts (leaf module) to
+// break the Bun-bundler cycle: prompt.ts imports runLoop from run-loop.ts, and
+// run-loop.ts used to import LoopInput back from prompt.ts. Under Bun's
+// splitting:false compilation that mutual edge dropped run-loop.ts from the
+// binary (its export resolved undefined at runtime -> "X.pipe is not a
+// function" in the 500 middleware at prompt.ts:1614). Re-export here so
+// SessionPrompt.LoopInput callers keep working.
+export { LoopInput } from "./loop-input.ts" // kappacode_change
 
 export const ShellInput = Schema.Struct({
   sessionID: SessionID,

@@ -47,7 +47,7 @@ import { Goal } from "@/kappacode/session/goal/runner"
 import { GoalState } from "@/kappacode/session/goal/state"
 import { KappaSessionPromptQueue } from "@/kappacode/session/prompt-queue"
 import { KappaSessionOverflow } from "@/kappacode/session/overflow"
-import type { LoopInput } from "./prompt.ts"
+import type { LoopInput } from "./loop-input.ts"
 import { jsonSchema } from "ai"
 import type { ProviderV2 } from "@opencode-ai/core/provider"
 import type { ModelV2 } from "@opencode-ai/core/model"
@@ -69,8 +69,7 @@ function isOrphanedInterruptedTool(part: SessionV1.ToolPart) {
   return part.state.status === "error" && part.state.metadata?.interrupted === true
 }
 
-export const runLoop = (deps: unknown, input: LoopInput): Effect.Effect<MessageV2.WithParts, NotFoundError> =>
-  Effect.fn("RunLoop.run")(function* (_deps: unknown, input: LoopInput) {
+export const runLoop = Effect.fn("RunLoop.run")(function* (_deps: unknown, input: LoopInput) {
     const deps = _deps as {
       status: SessionStatus.Interface
       sessions: Session.Interface
@@ -571,4 +570,4 @@ export const runLoop = (deps: unknown, input: LoopInput): Effect.Effect<MessageV
     yield* compaction.prune({ sessionID, reason: "normal" }).pipe(Effect.ignore, Effect.forkIn(scope))
     yield* KappaSessionTitle.deferred({ sessionID, scope, sessions, database, generate: title }).pipe(Effect.ignore)
     return yield* lastAssistant(sessionID)
-  }) as unknown as Effect.Effect<MessageV2.WithParts, NotFoundError>
+  })
