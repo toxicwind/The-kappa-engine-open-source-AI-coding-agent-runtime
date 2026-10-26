@@ -3,7 +3,7 @@
  * Integrated into kappa-code runtime from the kappa product flail gate system.
  */
 
-import { Effect, Schema } from "effect"
+import { Cause, Context, Effect, Schema } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
 import { Global } from "@opencode-ai/core/global"
 import { existsSync, readFileSync, writeFileSync, renameSync, mkdirSync } from "node:fs"
@@ -40,7 +40,7 @@ export type GateConfig = Schema.Schema.Type<typeof GateConfig>
 
 // ── Notebook/Ledger Schema ────────────────────────────────────────────
 
-export const FramingVerdict = Schema.Literals("Buffered", "SseCorrupted", "Sse", "Absent", "Error", "unprobed")
+export const FramingVerdict = Schema.Literals(["Buffered", "SseCorrupted", "Sse", "Absent", "Error", "unprobed"])
 export type FramingVerdict = Schema.Schema.Type<typeof FramingVerdict>
 
 export const FramingInfo = Schema.Struct({
@@ -87,7 +87,7 @@ export const NarrationTendency = Schema.Struct({
 })
 export type NarrationTendency = Schema.Schema.Type<typeof NarrationTendency>
 
-export const Probe = Schema.Union(
+export const Probe = Schema.Union([
   Schema.Struct({
     path: Schema.String,
     status: Schema.Int,
@@ -104,7 +104,7 @@ export const Probe = Schema.Union(
     narration: Schema.Int,
     promises: Schema.Int,
   }),
-)
+])
 export type Probe = Schema.Schema.Type<typeof Probe>
 
 export const Notebook = Schema.Struct({
@@ -418,17 +418,26 @@ export async function probeCompletions(baseUrl: string, apiKey: string, model: s
 
   // 3) Update notebook
   const nb = loadNotebook()
-  nb.reasoningPassthrough = { honored, field: honored ? "reasoning_content" : null, model }
-  nb.loopTendency = { selfNgram: +selfNgram.toFixed(3), semantic: null, runs: texts.length }
-  nb.narrationTendency = { runs: texts.length, violations: narration, actionPromises: promises }
-  nb.probes.push({ kind: "completions", model, honored, selfNgram: +selfNgram.toFixed(3), narration, promises })
-  saveNotebook(nb)
+  saveNotebook({
+    ...nb,
+    reasoningPassthrough: { honored, field: honored ? "reasoning_content" : null, model },
+    loopTendency: { selfNgram: +selfNgram.toFixed(3), semantic: null, runs: texts.length },
+    narrationTendency: { runs: texts.length, violations: narration, actionPromises: promises },
+    probes: [...nb.probes, { kind: "completions", model, honored, selfNgram: +selfNgram.toFixed(3), narration, promises }],
+  })
 
   // 4) Adapt gate thresholds from measurement
   const gate = loadGate()
-  if (selfNgram > 0.5) { gate.proseTokenBudget = 600; gate.pivotBudget = 1 }
-  if (narration > 0) { gate.narration.escalateAfter = 1; gate.narration.criticalAfter = 2 }
-  saveGate(gate)
+  saveGate({
+    ...gate,
+    proseTokenBudget: selfNgram > 0.5 ? 600 : gate.proseTokenBudget,
+    pivotBudget: selfNgram > 0.5 ? 1 : gate.pivotBudget,
+    narration: {
+      ...gate.narration,
+      escalateAfter: narration > 0 ? 1 : gate.narration.escalateAfter,
+      criticalAfter: narration > 0 ? 2 : gate.narration.criticalAfter,
+    },
+  })
 
   return { honored, selfNgram, narration, promises }
 }
@@ -457,9 +466,11 @@ export async function initializeFlailGate(): Promise<{
 
   // 1) Probe model catalog framing
   const framing = await probeModels(baseUrl, apiKey)
-  nb.framing.models = { verdict: framing.verdict, path: framing.path, evidence: framing.evidence }
-  nb.probes = [...(nb.probes ?? []), ...framing.probes]
-  saveNotebook(nb)
+  saveNotebook({
+    ...nb,
+    framing: { ...nb.framing, models: { verdict: framing.verdict, path: framing.path, evidence: framing.evidence } },
+    probes: [...(nb.probes ?? []), ...framing.probes],
+  })
 
   // 2) Get catalog models
   let modelIds: string[] = []
@@ -499,8 +510,8 @@ export class FlailGate extends Context.Service<FlailGate, {
 export const live = Effect.gen(function* () {
   // Initialize on service creation
   yield* Effect.promise(() => initializeFlailGate()).pipe(
-    Effect.catchAll((err) => {
-      log.warn("flail gate initialization failed", { err })
+    Effect.catchCause((cause) => {
+      log.warn("flail gate initialization failed", { err: Cause.squash(cause) })
       return Effect.succeed({ framing: { verdict: "unprobed", path: null }, models: [] })
     }),
   )
@@ -513,8 +524,8 @@ export const live = Effect.gen(function* () {
     probeModels: (baseUrl, apiKey) => Effect.promise(() => probeModels(baseUrl, apiKey)),
     probeCompletions: (baseUrl, apiKey, model) => Effect.promise(() => probeCompletions(baseUrl, apiKey, model)),
   })
-}).pipe(Effect.catchAll((err) => {
-  log.error("flail gate service creation failed", { err })
+}).pipe(Effect.catchCause((cause) => {
+  log.error("flail gate service creation failed", { err: Cause.squash(cause) })
   return Effect.succeed(FlailGate.of({
     narrationGuard: (input) => Effect.succeed({ action: "accept", reason: "gate-unavailable" }),
     initialize: () => Effect.succeed({ framing: { verdict: "unprobed", path: null }, models: [] }),

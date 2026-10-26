@@ -25,7 +25,7 @@ import { Wakeup } from "@/kappacode/wakeup"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { KappacodeWatcher } from "@/kappacode/watcher"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
-import { FlailGate } from "@/kappacode/flail-gate"
+import { initializeFlailGate } from "@/kappacode/flail-gate"
 
 const log = Log.create({ service: "kappacode-bootstrap" })
 
@@ -55,10 +55,10 @@ export namespace KappacodeBootstrap {
         yield* watcher.init()
         yield* kappa.init()
         // Initialize Flail Gate (framing-aware discovery + narration guard + semantic brake)
-        yield* Effect.gen(function* () {
-          const flailGate = yield* FlailGate
-          yield* flailGate.initialize()
-        }).pipe(
+        // Direct call: no layer provides the FlailGate service yet, so the tag
+        // cannot be yielded here without leaking a FlailGate requirement into
+        // this service's Interface. This matches the service's own initialize.
+        yield* Effect.promise(() => initializeFlailGate()).pipe(
           Effect.catchCause((cause) =>
             Effect.sync(() => log.warn("flail gate initialization failed", { err: Cause.squash(cause) })),
           ),

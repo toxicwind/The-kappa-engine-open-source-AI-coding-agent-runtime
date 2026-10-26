@@ -15,7 +15,7 @@ import type { ProviderV2 } from "@opencode-ai/core/provider"
 import { SessionRetry } from "@/session/retry"
 import { computeMetrics as computeMetricsHelper, type TokenRates } from "@/kappacode/session/metrics"
 import { InvalidArgumentsError } from "@/tool/tool"
-import { FlailGate } from "@/kappacode/flail-gate"
+import { narrationGuard } from "@/kappacode/flail-gate"
 
 export type ReviewTelemetry = {
   mode: "review"
@@ -558,47 +558,9 @@ export namespace KappaSessionProcessor {
     priorReasoning?: string[]
     toolHistory?: string[]
   }): Effect.Effect<{ action: "accept" | "continue"; reason: string; inject?: string }> {
-    return Effect.gen(function* () {
-      const flailGate = yield* FlailGate
-      return yield* flailGate.narrationGuard(input)
-    })
+    // Direct call: the service's narrationGuard is this same pure function,
+    // and no layer provides the FlailGate service yet.
+    return Effect.succeed(narrationGuard(input))
   }
 }
 
-// kappacode_change - add FlailGate to processor dependencies
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { Session } from "@/session/session"
-import { Config } from "@/config/config"
-import { Snapshot } from "@/snapshot"
-import { Agent } from "@/agent/agent"
-import { LLM } from "@/session/llm"
-import { Permission } from "@/permission"
-import { Plugin } from "@/plugin"
-import { SessionSummary } from "@/session/summary"
-import { SessionStatus } from "@/session/status"
-import { Image } from "@/image/image"
-import { EventV2Bridge } from "@/event-v2-bridge"
-import { Database } from "@opencode-ai/core/database/database"
-import { RuntimeFlags } from "@/effect/runtime-flags"
-import { FlailGate } from "@/kappacode/flail-gate"
-
-export const node = LayerNode.make({
-  service: SessionProcessor.Service,
-  layer: SessionProcessor.layer,
-  deps: [
-    Session.node,
-    Config.node,
-    Snapshot.node,
-    Agent.node,
-    LLM.node,
-    Permission.node,
-    Plugin.node,
-    SessionSummary.node,
-    SessionStatus.node,
-    Image.node,
-    EventV2Bridge.node,
-    Database.node,
-    RuntimeFlags.node,
-    FlailGate.live,
-  ],
-})
