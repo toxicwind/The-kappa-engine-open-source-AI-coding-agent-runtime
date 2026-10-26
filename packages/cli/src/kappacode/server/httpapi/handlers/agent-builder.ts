@@ -3,7 +3,7 @@ import { AgentBuilder } from "@/kappacode/agent/builder"
 import { InstanceStore } from "@/project/instance-store"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { AgentBuilderID, AgentBuilderInput, AgentBuilderSaveInput } from "../groups/agent-builder.ts"
 
 export const agentBuilderHandlers = HttpApiBuilder.group(InstanceHttpApi, "agent-builder", (handlers) =>

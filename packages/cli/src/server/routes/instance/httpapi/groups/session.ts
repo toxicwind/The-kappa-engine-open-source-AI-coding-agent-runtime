@@ -12,7 +12,7 @@ import { Todo } from "@/session/todo"
 import { MessageID, PartID, SessionID } from "@/session/schema"
 import { Snapshot } from "@/snapshot"
 import { Schema, Struct } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/http-api"
 import { Authorization } from "../middleware/authorization.ts"
 import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
 import {
@@ -93,7 +93,7 @@ export const PermissionResponsePayload = Schema.Struct({
   response: PermissionV1.Reply,
 })
 // kappacode_change start
-const PresenceSessionId = Schema.String.check(Schema.isStartsWith("ses"), Schema.isMaxLength(234)).pipe(
+const PresenceSessionId = Schema.String.check(Schema.isStartingWith("ses"), Schema.isMaxLength(234)).pipe(
   Schema.brand("SessionID"),
 )
 export const ViewedPayload = Schema.Struct({

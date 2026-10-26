@@ -1,7 +1,7 @@
 import { expect } from "bun:test"
 import * as nativeFs from "fs/promises"
 import { Deferred, Effect, Exit, Fiber, Layer } from "effect"
-import { ChildProcess } from "effect/unstable/process"
+import { ChildProcess } from "effect/process"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Database } from "@opencode-ai/core/database/database"

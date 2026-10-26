@@ -16,7 +16,7 @@ import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { markInstanceForDisposal } from "@/server/routes/instance/httpapi/lifecycle"
 import { Effect, Option } from "effect"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import {
   ConfigModelStatePatch,
   ConfigOverlayConflictError,

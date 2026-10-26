@@ -42,7 +42,7 @@ export namespace CloudCatalog {
 
   export interface Input extends CloudAuth.Resolved {}
 
-  export class CatalogError extends Schema.TaggedErrorClass<CatalogError>()("CloudCatalogError", {
+  export class CatalogError extends Schema.TaggedError<CatalogError>()("CloudCatalogError", {
     kind: Schema.Literals(["auth", "network", "schema", "http"]),
     status: Schema.optional(Schema.Number),
     message: Schema.String,

@@ -6,7 +6,7 @@ import fs from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 import { Effect, Stream } from "effect"
-import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
+import { ChildProcess, ChildProcessSpawner } from "effect/process"
 import { backendSupport, run, type Profile } from "@kappacode/sandbox"
 import { CurrentProxyFactory, startProxy, type ProxyFactory } from "@kappacode/sandbox"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
@@ -831,7 +831,7 @@ linux("rejects a Bubblewrap helper inside a writable root", async () => {
   await fs.symlink(helper, link)
   const script = [
     'import { Effect } from "effect"',
-    'import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"',
+    'import { ChildProcess, ChildProcessSpawner } from "effect/process"',
     'import { backendSupport, run } from "@kappacode/sandbox"',
     'import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"',
     "if (!backendSupport().available) process.exit(2)",
@@ -870,7 +870,7 @@ linux("reports network namespace support separately and fails deny mode closed",
   await fs.chmod(helper, 0o755)
   const script = [
     'import { Effect } from "effect"',
-    'import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"',
+    'import { ChildProcess, ChildProcessSpawner } from "effect/process"',
     'import { backendSupport, run } from "@kappacode/sandbox"',
     'import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"',
     'const allow = backendSupport({ mode: "allow", allowedHosts: [] })',
@@ -897,7 +897,7 @@ linux("reports network namespace support separately and fails deny mode closed",
 linux("fails closed when Bubblewrap is unavailable", () => {
   const script = [
     'import { Effect } from "effect"',
-    'import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"',
+    'import { ChildProcess, ChildProcessSpawner } from "effect/process"',
     'import { backendSupport, run } from "@kappacode/sandbox"',
     'import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"',
     "if (backendSupport().available) process.exit(2)",

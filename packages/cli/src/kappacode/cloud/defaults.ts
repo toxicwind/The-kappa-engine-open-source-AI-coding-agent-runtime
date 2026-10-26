@@ -34,7 +34,7 @@ export namespace CloudDefaults {
     readonly model: string
   }
 
-  export class ResolutionError extends Schema.TaggedErrorClass<ResolutionError>()("CloudDefaultsResolutionError", {
+  export class ResolutionError extends Schema.TaggedError<ResolutionError>()("CloudDefaultsResolutionError", {
     kind: Schema.Literals(["mode", "model"]),
     message: Schema.String,
   }) {}

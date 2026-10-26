@@ -1,5 +1,5 @@
 import { Effect, PlatformError, Scope } from "effect"
-import { ChildProcess } from "effect/unstable/process"
+import { ChildProcess } from "effect/process"
 import { bubblewrap } from "./bubblewrap"
 import { current } from "./context"
 import { assertProcessNetwork, networkEnvironment } from "./network"

@@ -1,7 +1,7 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { afterEach, describe, expect } from "bun:test"
 import { Effect, Layer, Queue, Schema, Stream } from "effect"
-import * as Sse from "effect/unstable/encoding/Sse" // kappacode_change - decode the legacy SSE wire format
+import * as Sse from "effect/encoding/Sse" // kappacode_change - decode the legacy SSE wire format
 import { EventPaths } from "../../src/server/routes/instance/httpapi/groups/event.ts"
 // kappacode_change start - verify transformed EventV2 values at the legacy SSE boundary
 import { Catalog } from "@opencode-ai/core/catalog"

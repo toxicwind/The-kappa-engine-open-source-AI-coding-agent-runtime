@@ -1,5 +1,5 @@
 import { Effect, Schema } from "effect"
-import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http"
+import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
 
 const Package = Schema.Struct({ version: Schema.String })
 

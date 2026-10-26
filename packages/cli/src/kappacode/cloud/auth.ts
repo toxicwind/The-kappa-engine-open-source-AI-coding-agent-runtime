@@ -15,7 +15,7 @@ export namespace CloudAuth {
     readonly organizationID?: string
   }
 
-  export class ResolutionError extends Schema.TaggedErrorClass<ResolutionError>()("CloudAuthResolutionError", {
+  export class ResolutionError extends Schema.TaggedError<ResolutionError>()("CloudAuthResolutionError", {
     kind: Schema.Literals(["missing", "organization"]),
     message: Schema.String,
   }) {}

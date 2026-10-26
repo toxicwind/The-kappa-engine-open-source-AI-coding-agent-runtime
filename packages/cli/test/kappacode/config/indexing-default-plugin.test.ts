@@ -20,7 +20,7 @@ import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
 import { Filesystem } from "../../../src/util/filesystem.ts"
 import { provideTestInstance } from "../../fixture/fixture.ts"
 import { Npm } from "@opencode-ai/core/npm"
-import { HttpClient } from "effect/unstable/http"
+import { HttpClient } from "effect/http"
 import { disposeAllInstances, tmpdir } from "../../fixture/fixture.ts"
 import { LayerNodePlatform } from "@opencode-ai/core/effect/app-node-platform"
 

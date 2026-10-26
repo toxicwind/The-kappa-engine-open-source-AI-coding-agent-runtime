@@ -7,7 +7,7 @@ import "@opencode-ai/core/account"
 import "@/server/event"
 import "@/kappacode/indexing-event" // kappacode_change - register indexing.status before HttpApi event schemas
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi" // kappacode_change - HttpApiSchema for the bodyless upgrade payload
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/http-api" // kappacode_change - HttpApiSchema for the bodyless upgrade payload
 import semver from "semver"
 import { described } from "./metadata.ts"
 

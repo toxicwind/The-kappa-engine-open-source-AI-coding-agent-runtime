@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
+import { HttpApiBuilder, HttpApiError } from "effect/http-api"
 import { SessionImportService } from "@/kappacode/session-import/service"
 import { SessionImportType } from "@/kappacode/session-import/types"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"

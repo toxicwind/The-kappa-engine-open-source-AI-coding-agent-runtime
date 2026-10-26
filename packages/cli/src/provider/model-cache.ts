@@ -1,7 +1,7 @@
 // kappacode_change - new file
 import { fetchKappaModels, type KappaModelsResult } from "@kappacode/kappa-gateway"
 import { Context, Deferred, Duration, Effect, Exit, Fiber, Layer, Schema, Scope } from "effect"
-import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http"
+import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
 import { Config } from "../config/config.ts"
 import { Auth } from "../auth/index.ts"
 import { compatible, organization, token } from "@/kappacode/provider/catalog"

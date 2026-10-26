@@ -621,8 +621,8 @@ describe("effect-zod", () => {
       expect(schema.safeParse("abc").success).toBe(false)
     })
 
-    test("Schema.isStartsWith matches native zod .startsWith() JSON Schema", () => {
-      const schema = zod(Schema.String.check(Schema.isStartsWith("per")))
+    test("Schema.isStartingWith matches native zod .startsWith() JSON Schema", () => {
+      const schema = zod(Schema.String.check(Schema.isStartingWith("per")))
       const native = json(z.string().startsWith("per"))
       expect(json(schema)).toEqual(native)
       expect(schema.parse("per_abc")).toBe("per_abc")

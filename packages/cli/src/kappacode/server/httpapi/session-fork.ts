@@ -1,8 +1,8 @@
 import { SessionID } from "@/session/schema"
 import { ForkPayload } from "@/server/routes/instance/httpapi/groups/session"
 import { Effect, Schema } from "effect"
-import { HttpServerRequest } from "effect/unstable/http"
-import { HttpApiError } from "effect/unstable/httpapi"
+import { HttpServerRequest } from "effect/http"
+import { HttpApiError } from "effect/http-api"
 
 export namespace KappaSessionHttpApi {
   type Input = {

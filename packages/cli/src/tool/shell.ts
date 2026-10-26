@@ -23,8 +23,8 @@ import { CommandTimeout } from "@/kappacode/command-timeout" // kappacode_change
 import { heredocs } from "@/kappacode/tool/shell-heredoc" // kappacode_change
 import { unparsed } from "@/kappacode/tool/shell-unparsed" // kappacode_change
 import { pattern } from "@/kappacode/tool/shell-pattern" // kappacode_change
-import { ChildProcess } from "effect/unstable/process"
-import { ChildProcessSpawner } from "effect/unstable/process/ChildProcessSpawner"
+import { ChildProcess } from "effect/process"
+import { ChildProcessSpawner } from "effect/process/ChildProcessSpawner"
 import { ShellPrompt, type Parameters } from "./shell/prompt.ts"
 import { BashArity } from "@/permission/arity"
 import { mutates as mutatesGit } from "@/kappacode/sandbox/git" // kappacode_change

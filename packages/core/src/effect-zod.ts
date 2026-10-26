@@ -195,7 +195,7 @@ function translateFilter(out: z.ZodTypeAny, filter: SchemaAST.Filter<unknown>): 
     }
     case "isPattern":
       return call(out, "regex", meta.regExp)
-    case "isStartsWith":
+    case "isStartingWith":
       return call(out, "startsWith", meta.startsWith)
     case "isEndsWith":
       return call(out, "endsWith", meta.endsWith)

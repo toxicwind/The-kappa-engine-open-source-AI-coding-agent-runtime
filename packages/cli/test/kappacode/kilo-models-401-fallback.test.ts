@@ -5,7 +5,7 @@
 
 import { expect } from "bun:test"
 import { Effect, Layer } from "effect"
-import { FetchHttpClient } from "effect/unstable/http"
+import { FetchHttpClient } from "effect/http"
 import * as Log from "@opencode-ai/core/util/log"
 
 Log.init({ print: false })

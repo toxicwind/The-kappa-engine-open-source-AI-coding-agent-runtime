@@ -35,7 +35,7 @@ export namespace Suggestion {
     }),
   })
 
-  const SuggestionIDSchema = Schema.String.check(Schema.isStartsWith("sug"))
+  const SuggestionIDSchema = Schema.String.check(Schema.isStartingWith("sug"))
   const SuggestionID = toZod(SuggestionIDSchema)
   const SessionIDZod = toZod(SessionID)
 

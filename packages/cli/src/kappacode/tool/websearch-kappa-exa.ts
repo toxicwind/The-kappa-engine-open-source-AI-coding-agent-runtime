@@ -1,6 +1,6 @@
 // kappacode_change - new file
 import { Duration, Effect, Schema } from "effect"
-import { HttpClient, HttpClientRequest } from "effect/unstable/http"
+import { HttpClient, HttpClientRequest } from "effect/http"
 import { KAPPA_API_BASE } from "@kappacode/kappa-gateway"
 
 export const KAPPA_EXA_URL = `${KAPPA_API_BASE}/api/exa/search`

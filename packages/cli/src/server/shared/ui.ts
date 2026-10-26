@@ -1,6 +1,6 @@
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect } from "effect"
-import { HttpClient, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
+import { HttpClient, HttpServerRequest, HttpServerResponse } from "effect/http"
 import { createHash } from "node:crypto"
 import { ConsoleAssets } from "@/kappacode/console/assets" // kappacode_change
 

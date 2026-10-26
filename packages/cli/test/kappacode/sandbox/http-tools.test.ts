@@ -1,7 +1,7 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { describe, expect } from "bun:test"
 import { Cause, Effect, Exit, Layer } from "effect"
-import { HttpClient } from "effect/unstable/http"
+import { HttpClient } from "effect/http"
 import { enabled, run, type Profile } from "@kappacode/sandbox"
 import { Agent } from "@/agent/agent"
 import { Env } from "@/env"

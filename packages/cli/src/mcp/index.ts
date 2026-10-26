@@ -42,7 +42,7 @@ import { Cause, Effect, Exit, Layer, Context, Schema, Stream } from "effect"
 import { EffectBridge } from "@/effect/bridge"
 import { model as modelEnv } from "@/kappacode/process/env" // kappacode_change
 import { InstanceState } from "@/effect/instance-state"
-import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
+import { ChildProcess, ChildProcessSpawner } from "effect/process"
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import * as SandboxNetwork from "@/kappacode/sandbox/network" // kappacode_change
 import { McpCatalog } from "./catalog.ts"
@@ -97,7 +97,7 @@ export const Failed = NamedError.create("MCPFailed", {
   name: Schema.String,
 })
 
-export class NotFoundError extends Schema.TaggedErrorClass<NotFoundError>()("MCP.NotFoundError", {
+export class NotFoundError extends Schema.TaggedError<NotFoundError>()("MCP.NotFoundError", {
   name: Schema.String,
 }) {}
 

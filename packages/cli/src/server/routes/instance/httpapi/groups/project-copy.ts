@@ -1,6 +1,6 @@
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/http-api"
 import { Authorization } from "../middleware/authorization.ts"
 import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
 import { WorkspaceRoutingMiddleware, WorkspaceRoutingQuery } from "../middleware/workspace-routing.ts"

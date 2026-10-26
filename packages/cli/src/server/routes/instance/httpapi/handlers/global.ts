@@ -9,9 +9,9 @@ import { disposeAllInstancesAndEmitGlobalDisposed } from "@/server/global-lifecy
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
 import { Effect, Queue } from "effect"
 import * as Stream from "effect/Stream"
-import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http" // kappacode_change - raw request needed for Kappa SSE
-import { HttpApiBuilder } from "effect/unstable/httpapi"
-import * as Sse from "effect/unstable/encoding/Sse"
+import { HttpServerRequest, HttpServerResponse } from "effect/http" // kappacode_change - raw request needed for Kappa SSE
+import { HttpApiBuilder } from "effect/http-api"
+import * as Sse from "effect/encoding/Sse"
 import { RootHttpApi } from "../api.ts"
 import { GlobalUpgradeInput } from "../groups/global.ts"
 

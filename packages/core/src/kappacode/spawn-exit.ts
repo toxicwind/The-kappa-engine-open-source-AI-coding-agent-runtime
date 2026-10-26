@@ -1,4 +1,4 @@
-import type { ChildProcess } from "effect/unstable/process"
+import type { ChildProcess } from "effect/process"
 
 const commands = new WeakSet<object>()
 

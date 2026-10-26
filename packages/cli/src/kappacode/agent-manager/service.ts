@@ -12,7 +12,7 @@ const log = Log.create({ service: "agent-manager-host" })
 type WithoutID<T> = T extends unknown ? Omit<T, "id"> : never
 export type Input = WithoutID<Request>
 
-export class HostError extends Schema.TaggedErrorClass<HostError>()("AgentManagerHostError", {
+export class HostError extends Schema.TaggedError<HostError>()("AgentManagerHostError", {
   code: ErrorCode,
   detail: Schema.String,
 }) {
@@ -21,11 +21,11 @@ export class HostError extends Schema.TaggedErrorClass<HostError>()("AgentManage
   }
 }
 
-export class NotFoundError extends Schema.TaggedErrorClass<NotFoundError>()("AgentManager.NotFoundError", {
+export class NotFoundError extends Schema.TaggedError<NotFoundError>()("AgentManager.NotFoundError", {
   requestID: RequestID,
 }) {}
 
-export class InvalidReplyError extends Schema.TaggedErrorClass<InvalidReplyError>()("AgentManager.InvalidReplyError", {
+export class InvalidReplyError extends Schema.TaggedError<InvalidReplyError>()("AgentManager.InvalidReplyError", {
   requestID: RequestID,
 }) {}
 

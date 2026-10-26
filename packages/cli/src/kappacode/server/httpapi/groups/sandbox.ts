@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/http-api"
 import { SessionID } from "@/session/schema"
 import { Authorization } from "@/server/routes/instance/httpapi/middleware/authorization"
 import { InstanceContextMiddleware } from "@/server/routes/instance/httpapi/middleware/instance-context"

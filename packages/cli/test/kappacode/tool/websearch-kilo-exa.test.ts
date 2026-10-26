@@ -1,7 +1,7 @@
 // kappacode_change - new file
 import { describe, expect, test } from "bun:test"
 import { Effect, Exit, Layer } from "effect"
-import { HttpBody, HttpClient, HttpClientResponse } from "effect/unstable/http"
+import { HttpBody, HttpClient, HttpClientResponse } from "effect/http"
 import {
   KAPPA_EXA_URL,
   MAX_KILO_EXA_RESULTS,

@@ -83,7 +83,7 @@ const minimax: Adapter = {
   },
 }
 
-export class ServiceError extends Schema.TaggedErrorClass<ServiceError>()("ProviderUsageServiceError", {
+export class ServiceError extends Schema.TaggedError<ServiceError>()("ProviderUsageServiceError", {
   message: Schema.String,
 }) {}
 

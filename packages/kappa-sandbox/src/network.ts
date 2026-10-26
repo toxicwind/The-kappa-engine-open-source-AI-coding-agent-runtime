@@ -1,5 +1,5 @@
 import { Effect, Layer, PlatformError, Stream } from "effect"
-import { HttpClient, HttpClientError, HttpClientResponse, type HttpClientRequest } from "effect/unstable/http"
+import { HttpClient, HttpClientError, HttpClientResponse, type HttpClientRequest } from "effect/http"
 import { current } from "./context"
 import type { Profile } from "./profile"
 import { currentProxy, type ProxyRuntime } from "./proxy"

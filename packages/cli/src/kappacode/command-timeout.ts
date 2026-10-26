@@ -1,8 +1,8 @@
 import { Process } from "@/util/process"
 import { Shell } from "@opencode-ai/core/shell"
 import { Effect, Stream } from "effect"
-import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
-import type { ChildProcessHandle } from "effect/unstable/process/ChildProcessSpawner"
+import { ChildProcess, ChildProcessSpawner } from "effect/process"
+import type { ChildProcessHandle } from "effect/process/ChildProcessSpawner"
 
 function max() {
   const value = process.env.KAPPA_COMMAND_TIMEOUT_MAX_MS

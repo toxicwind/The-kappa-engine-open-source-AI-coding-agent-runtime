@@ -240,36 +240,36 @@ export const Status = Schema.Union([
 ]).annotate({ discriminator: "type", identifier: "AnacondaDesktopStatus" })
 export type Status = typeof Status.Type
 
-export class ConfigError extends Schema.TaggedErrorClass<ConfigError>()("AnacondaDesktopConfigError", {
+export class ConfigError extends Schema.TaggedError<ConfigError>()("AnacondaDesktopConfigError", {
   reason: Schema.Literals(["missing", "malformed", "missing-key", "invalid-port"]),
 }) {}
 
-export class StoreError extends Schema.TaggedErrorClass<StoreError>()("AnacondaDesktopStoreError", {
+export class StoreError extends Schema.TaggedError<StoreError>()("AnacondaDesktopStoreError", {
   reason: Schema.Literals(["missing", "malformed"]),
 }) {}
 
-export class PlatformError extends Schema.TaggedErrorClass<PlatformError>()("AnacondaDesktopPlatformError", {
+export class PlatformError extends Schema.TaggedError<PlatformError>()("AnacondaDesktopPlatformError", {
   operation: Schema.Literals(["data-dir", "installation", "open"]),
   reason: Schema.Literals(["unsupported", "not-installed", "failed"]),
 }) {}
 
-export class RequestError extends Schema.TaggedErrorClass<RequestError>()("AnacondaDesktopRequestError", {
+export class RequestError extends Schema.TaggedError<RequestError>()("AnacondaDesktopRequestError", {
   target: Schema.Literals(["management", "inference"]),
   reason: Schema.Literals(["timeout", "transport", "unauthorized", "unexpected-status", "malformed"]),
 }) {}
 
-export class NotReadyError extends Schema.TaggedErrorClass<NotReadyError>()("AnacondaDesktopNotReadyError", {
+export class NotReadyError extends Schema.TaggedError<NotReadyError>()("AnacondaDesktopNotReadyError", {
   status: Status,
 }) {}
 
-export class ToolAcknowledgementError extends Schema.TaggedErrorClass<ToolAcknowledgementError>()(
+export class ToolAcknowledgementError extends Schema.TaggedError<ToolAcknowledgementError>()(
   "AnacondaDesktopToolAcknowledgementError",
   {
     status: ReadyStatus,
   },
 ) {}
 
-export class SyncError extends Schema.TaggedErrorClass<SyncError>()("AnacondaDesktopSyncError", {
+export class SyncError extends Schema.TaggedError<SyncError>()("AnacondaDesktopSyncError", {
   operation: Schema.Literals(["encode", "store"]),
 }) {}
 

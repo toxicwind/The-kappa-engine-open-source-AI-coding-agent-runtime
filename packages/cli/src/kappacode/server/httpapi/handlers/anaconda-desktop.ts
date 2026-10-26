@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import * as AnacondaDesktop from "@/kappacode/anaconda-desktop/service"
 import { NotReadyError, PlatformError, SyncError, ToolAcknowledgementError } from "@/kappacode/anaconda-desktop/domain"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"

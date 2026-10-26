@@ -1,7 +1,7 @@
 import { Config as EffectConfig, Context, Effect, Layer } from "effect"
-import { HttpApiBuilder, OpenApi } from "effect/unstable/httpapi"
-import { HttpClient, HttpMiddleware, HttpRouter, HttpServer, HttpServerResponse } from "effect/unstable/http"
-import * as Socket from "effect/unstable/socket/Socket"
+import { HttpApiBuilder, OpenApi } from "effect/http-api"
+import { HttpClient, HttpMiddleware, HttpRouter, HttpServer, HttpServerResponse } from "effect/http"
+import * as Socket from "effect/socket/Socket"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock" // kappacode_change
 import * as Observability from "@opencode-ai/core/observability"

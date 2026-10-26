@@ -1,5 +1,5 @@
 import type { Effect } from "effect"
-import type { ChildProcess } from "effect/unstable/process"
+import type { ChildProcess } from "effect/process"
 
 const effects = new WeakMap<object, Effect.Effect<void, unknown>>()
 

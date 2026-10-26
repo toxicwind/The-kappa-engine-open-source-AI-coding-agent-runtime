@@ -19,8 +19,8 @@ import { WorktreeDiff } from "@/kappacode/review/worktree-diff" // kappacode_cha
 import { WorktreeFamily } from "@/kappacode/worktree-family" // kappacode_change
 import { Worktree } from "@/worktree"
 import { Effect, Option } from "effect"
-import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse"
-import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
+import * as HttpServerResponse from "effect/http/HttpServerResponse"
+import { HttpApiBuilder, HttpApiError } from "effect/http-api"
 import * as Log from "@opencode-ai/core/util/log" // kappacode_change
 import path from "path" // kappacode_change
 import { InstanceHttpApi } from "../api.ts"

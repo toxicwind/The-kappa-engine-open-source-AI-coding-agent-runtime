@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Cause } from "effect"
-import { LockTimeoutError, SqlError, UnknownError } from "effect/unstable/sql/SqlError"
+import { LockTimeoutError, SqlError, UnknownError } from "effect/sql/SqlError"
 import { EffectDrizzleQueryError } from "drizzle-orm/effect-core/errors"
 import { busyMessage, isBusy } from "@/kappacode/database/sqlite-error"
 

@@ -6,7 +6,7 @@ import { Event } from "./event"
 import { NonNegativeInt } from "./schema"
 import { SessionID } from "./session-id"
 
-const QuestionID = Schema.String.check(Schema.isStartsWith("que")).pipe(Schema.brand("QuestionID")) // kappacode_change
+const QuestionID = Schema.String.check(Schema.isStartingWith("que")).pipe(Schema.brand("QuestionID")) // kappacode_change
 
 export const Info = Schema.Union([
   Schema.Struct({

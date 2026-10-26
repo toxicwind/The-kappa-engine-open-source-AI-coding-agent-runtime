@@ -10,7 +10,7 @@ import {
   HttpRouter,
   HttpServer,
   HttpServerResponse,
-} from "effect/unstable/http"
+} from "effect/http"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { RuntimeFlags } from "../../src/effect/runtime-flags.ts"
 import { ServerAuth } from "../../src/server/auth.ts"

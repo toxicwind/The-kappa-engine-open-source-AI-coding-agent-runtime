@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { NamedError } from "@opencode-ai/core/util/error"
 import { SessionResumeImport } from "@/kappacode/session-resume/import"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"

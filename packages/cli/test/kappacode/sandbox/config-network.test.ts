@@ -1,7 +1,7 @@
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { Cause, Effect, Exit, Layer } from "effect"
 import { expect, test } from "bun:test"
-import { HttpClient } from "effect/unstable/http"
+import { HttpClient } from "effect/http"
 import { backendSupport, CurrentProxyFactory, startProxy, type ProxyFactory } from "@kappacode/sandbox"
 import { ProjectV2 } from "@opencode-ai/core/project"
 import { Database } from "@opencode-ai/core/database/database"

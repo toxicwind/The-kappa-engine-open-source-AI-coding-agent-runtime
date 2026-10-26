@@ -12,7 +12,7 @@ import {
   type Profile,
 } from "@kappacode/sandbox"
 import { Effect, Exit, Layer } from "effect"
-import { ChildProcess } from "effect/unstable/process"
+import { ChildProcess } from "effect/process"
 import fs from "node:fs/promises"
 import { tmpdir } from "node:os"
 import path from "node:path"

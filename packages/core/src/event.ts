@@ -41,7 +41,7 @@ export type SerializedEvent = {
   readonly data: Record<string, unknown>
 }
 
-export class InvalidDurableEventError extends Schema.TaggedErrorClass<InvalidDurableEventError>()(
+export class InvalidDurableEventError extends Schema.TaggedError<InvalidDurableEventError>()(
   "EventV2.InvalidDurableEvent",
   {
     type: Schema.String,
@@ -110,7 +110,7 @@ export const readAggregate = Effect.fn("EventV2.readAggregate")(function* <A>(
   }
 })
 
-export class SubscriberOverflowError extends Schema.TaggedErrorClass<SubscriberOverflowError>()(
+export class SubscriberOverflowError extends Schema.TaggedError<SubscriberOverflowError>()(
   "EventV2.SubscriberOverflow",
   { capacity: Schema.Int },
 ) {}

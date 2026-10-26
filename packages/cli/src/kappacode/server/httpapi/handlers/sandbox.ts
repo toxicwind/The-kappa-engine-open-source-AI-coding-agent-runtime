@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import * as SandboxActivation from "@/kappacode/sandbox/activation"
 import * as SandboxPolicy from "@/kappacode/sandbox/policy"
 import { Session } from "@/session/session"

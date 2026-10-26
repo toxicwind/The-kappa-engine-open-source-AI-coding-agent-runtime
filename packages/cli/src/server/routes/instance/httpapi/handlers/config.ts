@@ -10,7 +10,7 @@ import { filterPromptTrainingModels, nonEmptyProviders } from "@/kappacode/provi
 import { Provider } from "@/provider/provider"
 import * as InstanceState from "@/effect/instance-state"
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { InstanceHttpApi } from "../api.ts"
 import { markInstanceForDisposal } from "../lifecycle.ts"
 

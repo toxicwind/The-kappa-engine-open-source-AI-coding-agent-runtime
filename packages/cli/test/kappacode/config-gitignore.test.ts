@@ -23,7 +23,7 @@ import { Account } from "../../src/account/account.ts"
 import { provideTestInstance } from "../fixture/fixture.ts"
 import { Filesystem } from "../../src/util/filesystem.ts"
 import * as CrossSpawnSpawner from "@opencode-ai/core/cross-spawn-spawner"
-import { HttpClient } from "effect/unstable/http"
+import { HttpClient } from "effect/http"
 import { tmpdir } from "../fixture/fixture.ts"
 import { LayerNodePlatform } from "@opencode-ai/core/effect/app-node-platform"
 

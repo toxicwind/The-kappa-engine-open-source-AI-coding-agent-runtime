@@ -11,7 +11,7 @@ import {
 } from "@/server/routes/instance/httpapi/middleware/workspace-routing"
 import { described } from "@/server/routes/instance/httpapi/groups/metadata"
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/http-api"
 
 const Scope = Schema.Literals(["global", "project"])
 const Scoped = Scope.annotate({ default: "project" })
@@ -65,7 +65,7 @@ export const ConfigOverlayPatch = Schema.Struct({
   // page) still write unconditionally instead of failing the request.
   expected: Schema.optional(Schema.Struct({ path: Schema.String, revision: Schema.String })),
 })
-export class ConfigOverlayConflictError extends Schema.ErrorClass<ConfigOverlayConflictError>(
+export class ConfigOverlayConflictError extends Schema.Error<ConfigOverlayConflictError>(
   "ConfigOverlayConflictError",
 )(
   {
@@ -77,7 +77,7 @@ export class ConfigOverlayConflictError extends Schema.ErrorClass<ConfigOverlayC
 ) {}
 // A write succeeded on disk but a higher-priority config source still overrides the new value,
 // so the effective setting does not change. Surfaced as 409 so clients can show why.
-export class ConfigOverlayShadowedError extends Schema.ErrorClass<ConfigOverlayShadowedError>(
+export class ConfigOverlayShadowedError extends Schema.Error<ConfigOverlayShadowedError>(
   "ConfigOverlayShadowedError",
 )(
   {
@@ -89,7 +89,7 @@ export class ConfigOverlayShadowedError extends Schema.ErrorClass<ConfigOverlayS
 ) {}
 // The merged config would be invalid or the target file is unwritable. Surfaced as 400/403
 // with a message instead of an opaque 500.
-export class ConfigOverlayWriteError extends Schema.ErrorClass<ConfigOverlayWriteError>("ConfigOverlayWriteError")(
+export class ConfigOverlayWriteError extends Schema.Error<ConfigOverlayWriteError>("ConfigOverlayWriteError")(
   {
     message: Schema.String,
     path: Schema.optional(Schema.String),

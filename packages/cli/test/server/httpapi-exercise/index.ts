@@ -18,7 +18,7 @@
  * - `.mutating()` tells the runner to reset isolated state after destructive routes.
  */
 import { Effect, Layer } from "effect" // kappacode_change
-import { OpenApi } from "effect/unstable/httpapi"
+import { OpenApi } from "effect/http-api"
 import { TestLLMServer } from "../../lib/llm-server.ts"
 import path from "path"
 import { array, boolean, check, isRecord, message, object, stable } from "./assertions.ts"

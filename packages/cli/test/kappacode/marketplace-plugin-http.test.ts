@@ -1,6 +1,6 @@
 import { afterEach, expect, test } from "bun:test"
 import { ConfigProvider, Layer } from "effect"
-import { HttpRouter } from "effect/unstable/http"
+import { HttpRouter } from "effect/http"
 import path from "path"
 import { KappacodePaths } from "../../src/kappacode/server/httpapi/groups/kappacode.ts"
 import * as HttpApiServer from "../../src/server/routes/instance/httpapi/server.ts"

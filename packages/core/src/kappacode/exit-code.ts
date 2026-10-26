@@ -1,7 +1,7 @@
 import { constants } from "node:os"
 import * as Effect from "effect/Effect"
 import * as Predicate from "effect/Predicate"
-import { ExitCode } from "effect/unstable/process/ChildProcessSpawner"
+import { ExitCode } from "effect/process/ChildProcessSpawner"
 
 // A process terminated by a signal produces a null exit code (see the "exit"
 // event on node:child_process). Report the conventional 128 + signum code

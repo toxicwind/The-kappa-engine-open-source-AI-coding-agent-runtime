@@ -111,7 +111,7 @@ export function fallback(
   return input
 }
 // kappacode_change end
-export class ResizerUnavailableError extends Schema.TaggedErrorClass<ResizerUnavailableError>()(
+export class ResizerUnavailableError extends Schema.TaggedError<ResizerUnavailableError>()(
   "ImageResizerUnavailableError",
   {},
 ) {
@@ -120,7 +120,7 @@ export class ResizerUnavailableError extends Schema.TaggedErrorClass<ResizerUnav
   }
 }
 
-export class InvalidDataUrlError extends Schema.TaggedErrorClass<InvalidDataUrlError>()("ImageInvalidDataUrlError", {
+export class InvalidDataUrlError extends Schema.TaggedError<InvalidDataUrlError>()("ImageInvalidDataUrlError", {
   url: Schema.String,
 }) {
   override get message() {
@@ -128,13 +128,13 @@ export class InvalidDataUrlError extends Schema.TaggedErrorClass<InvalidDataUrlE
   }
 }
 
-export class DecodeError extends Schema.TaggedErrorClass<DecodeError>()("ImageDecodeError", {}) {
+export class DecodeError extends Schema.TaggedError<DecodeError>()("ImageDecodeError", {}) {
   override get message() {
     return "Image could not be decoded"
   }
 }
 
-export class SizeError extends Schema.TaggedErrorClass<SizeError>()("ImageSizeError", {
+export class SizeError extends Schema.TaggedError<SizeError>()("ImageSizeError", {
   bytes: Schema.Number,
   max: Schema.Number,
   width: Schema.Number,

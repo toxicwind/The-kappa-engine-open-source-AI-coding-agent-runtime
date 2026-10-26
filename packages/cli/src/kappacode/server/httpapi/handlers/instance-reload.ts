@@ -5,7 +5,7 @@ import { SessionStatus } from "@/session/status"
 import { ConflictError } from "@/server/routes/instance/httpapi/errors"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import type { SessionID } from "@/session/schema"
 
 export function hasActiveSession(statuses: Map<SessionID, SessionStatus.Info>): boolean {

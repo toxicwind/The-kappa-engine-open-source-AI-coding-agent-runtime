@@ -7,7 +7,7 @@ import { ascending } from "./identifier"
 import { SessionID } from "./session-id" // kappacode_change
 import { NonNegativeInt, PositiveInt, statics } from "./schema"
 
-const IDSchema = Schema.String.check(Schema.isStartsWith("pty")).pipe(Schema.brand("PtyID"))
+const IDSchema = Schema.String.check(Schema.isStartingWith("pty")).pipe(Schema.brand("PtyID"))
 
 export const ID = IDSchema.pipe(
   statics((schema: typeof IDSchema) => {
