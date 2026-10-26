@@ -581,6 +581,7 @@ import { EventV2Bridge } from "@/event-v2-bridge"
 import { Database } from "@opencode-ai/core/database/database"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { FlailGate } from "@/kappacode/flail-gate"
+import { SessionProcessor } from "@/session/processor"
 
 export const node = LayerNode.make({
   service: SessionProcessor.Service,

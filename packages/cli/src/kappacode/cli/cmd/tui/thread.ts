@@ -64,7 +64,10 @@ export namespace KappaTuiThreadDaemon {
   }
 
   export async function attach(input: Input) {
-    const daemon = await DaemonClient.maybe()
+    // explicit network flags mean the caller wants their own server — never
+    // reach for (or boot) the daemon in that case
+    const explicit = input.args["port"] != null || input.args["hostname"] != null || input.args["mdns"] != null
+    const daemon = await (explicit ? DaemonClient.maybe() : DaemonClient.start())
     if (!daemon) return false
 
     const prompt = await input.input()

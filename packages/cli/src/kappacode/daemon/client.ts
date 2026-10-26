@@ -35,4 +35,31 @@ export namespace DaemonClient {
       return undefined
     })
   }
+
+  // kappacode_change start - boot-or-reuse: connect to the running daemon, or
+  // ensure one exists (Daemon.ensure reuses a healthy daemon, boots otherwise).
+  // Explicit network flags (passed via input) mean the caller owns the server
+  // topology — those go through Daemon.ensure with the explicit options, never
+  // silently reused defaults.
+  export async function start(options: { port?: number; hostname?: string; mdns?: boolean } = {}): Promise<Connection | undefined> {
+    if (!enabled()) return undefined
+    const { Daemon } = await import("./daemon")
+    const explicit = [
+      ...(options.port != null ? (["port"] as const) : []),
+      ...(options.hostname != null ? (["hostname"] as const) : []),
+      ...(options.mdns != null ? (["mdns"] as const) : []),
+    ]
+    const opts: Daemon.Options = {
+      ...(options.port != null ? { port: options.port } : {}),
+      ...(options.hostname != null ? { hostname: options.hostname } : {}),
+      ...(options.mdns != null ? { mdns: options.mdns } : {}),
+    }
+    const ensured = await Daemon.ensure(opts, explicit)
+    const state = ensured.result.state
+    if (!state) {
+      log.warn("daemon ensure produced no state, falling back to embedded server")
+      return undefined
+    }
+    return { url: state.url, headers: headers(state), state }
+  }
 }

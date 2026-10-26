@@ -265,7 +265,8 @@ export const TuiThreadCommand = cmd({
 
     // kappacode_change start - lazy Kappa implementations so other CLI commands
     // don't pay their module cost at startup
-    const { importCloudSession, localSessionID, validateCloudFork, reportCloudImportError } = await import("@/kappacode/cloud-session")
+    const { importCloudSession, localSessionID, validateCloudFork, reportCloudImportError } =
+      await import("@/kappacode/cloud-session")
     const { KappaTuiThreadDaemon } = await import("@/kappacode/cli/cmd/tui/thread")
     const { preload } = await import("@/kappacode/cli/cmd/tui")
     const { resolveTuiDirectory } = await import("@/kappacode/cli/cmd/tui-worktree")
@@ -450,9 +451,9 @@ export const TuiThreadCommand = cmd({
 
       // kappacode_change - upstream validates here, but --cloud-fork's session id is only local after
       // the import below; the guarded validateSession further down covers both paths.
-      setTimeout(() => {
-        client.call("checkUpgrade", { directory: cwd }).catch((err) => console.error("Upgrade check failed", err))
-      }, 1000).unref?.()
+      // kappacode_change start - fire immediately: the check loads the server
+      // instance the TUI needs anyway; the old 1s delay just deferred warmup
+      client.call("checkUpgrade", { directory: cwd }).catch((err) => console.error("Upgrade check failed", err))
 
       try {
         // kappacode_change start - import cloud session before TUI renders
