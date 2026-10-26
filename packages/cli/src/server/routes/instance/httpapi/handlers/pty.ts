@@ -222,9 +222,7 @@ export const ptyConnectHandlers = HttpApiBuilder.group(PtyConnectApi, "pty-conne
         const socket = yield* Effect.orDie(ctx.request.upgrade)
         const write = yield* socket.writer
         const closeAccepted = (event: Socket.CloseEvent) =>
-          socket
-            .runRaw(() => Effect.void, { onOpen: write(event).pipe(Effect.catch(() => Effect.void)) })
-            .pipe(
+          runRaw(socket, () => Effect.void, { onOpen: write(event).pipe(Effect.catch(() => Effect.void)) }).pipe(
               Effect.timeout("1 second"),
               Effect.catchReason("SocketError", "SocketCloseError", () => Effect.void),
               Effect.catch(() => Effect.void),
@@ -272,7 +270,7 @@ export const ptyConnectHandlers = HttpApiBuilder.group(PtyConnectApi, "pty-conne
         // connection and the attachment is always released.
         yield* Effect.race(
           drain,
-          socket.runRaw((message) => {
+          runRaw(socket, (message) => {
             const decoded = PtyProtocol.decodeInput(message)
             if (decoded !== undefined) attachment.write(decoded)
           }),
