@@ -54,7 +54,8 @@ export function isProviderPolicyBlock(input: { status?: number; body?: unknown; 
   if (!body) return false
   const metadata = isRecord(body.metadata) ? body.metadata : undefined
   if (metadata?.failed_routing_step === GUARDRAIL_FAILED_STEP) return true
-  if (ineligibilityReasons(body).some((reason) => PROVIDER_POLICY_BLOCK_REASONS.has(reason))) return true
+  const reasons = [...ineligibilityReasons(body), ...(metadata ? ineligibilityReasons(metadata) : [])]
+  if (reasons.some((reason) => PROVIDER_POLICY_BLOCK_REASONS.has(reason))) return true
   const error = isRecord(body.error) ? body.error : undefined
   if (error && typeof error.message === "string" && GUARDRAIL_ZERO_ENDPOINTS.test(error.message)) return true
   return false
