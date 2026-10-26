@@ -118,7 +118,10 @@ export function parseStreamError(input: unknown): ParsedStreamError | undefined 
   // kappacode_change end
   if (body.type !== "error") return
 
-  switch (body?.error?.code ?? body?.error?.type) { // kappacode_change
+  switch (
+    body?.error?.code ??
+    body?.error?.type // kappacode_change
+  ) {
     case "context_length_exceeded":
       return {
         type: "context_overflow",
@@ -198,11 +201,31 @@ export function parseAPICallError(input: { providerID: ProviderV2.ID; error: API
   }
 
   const metadata = input.error.url ? { url: input.error.url } : undefined
+  // kappacode_change start - OpenRouter guardrail/policy blocks are a 404 that
+  // must NOT be retried. The openai-family branch treats every 404 as
+  // "model actually available, retry", which turns a permanent
+  // account-level privacy/guardrail exclusion into a multi-retry stall
+  // ("Retry budget exhausted after 3 retries: 404") before any fallback.
+  const policyBlocked = KappaError.isProviderPolicyBlock({
+    status: input.error.statusCode,
+    body,
+    message: m,
+  })
+  // kappacode_change end
   return {
     type: "api_error",
-    message: m,
+    // kappacode_change start - surface an actionable guardrail message instead
+    // of a bare 404 and mark it non-retryable so the retry policy gives up
+    // immediately (and any model fallback kicks in on the first failure).
+    message: policyBlocked
+      ? `${m}. Model blocked by OpenRouter account/guardrail privacy settings. Enable paid endpoints that may train on inputs at https://openrouter.ai/settings/privacy, or select a model with a compliant ZDR endpoint.`
+      : m,
     statusCode: input.error.statusCode,
-    isRetryable: (input.providerID.startsWith("openai") ? isOpenAiErrorRetryable(input.error) : input.error.isRetryable) || KappaError.isOverloaded(input.error.statusCode, body, m), // kappacode_change
+    isRetryable: policyBlocked
+      ? false
+      : (input.providerID.startsWith("openai") ? isOpenAiErrorRetryable(input.error) : input.error.isRetryable) ||
+        KappaError.isOverloaded(input.error.statusCode, body, m), // kappacode_change
+    // kappacode_change end
     responseHeaders: input.error.responseHeaders,
     responseBody: input.error.responseBody,
     metadata,
