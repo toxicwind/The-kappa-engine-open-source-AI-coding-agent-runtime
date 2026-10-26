@@ -115,6 +115,9 @@ export const make = (
         executeUnprepared(sql, params, transformRows) {
           return this.execute(sql, params, transformRows)
         },
+        executeValuesUnprepared(sql, params) {
+          return this.executeValues(sql, params)
+        },
         executeStream() {
           return Stream.die("executeStream not implemented")
         },
@@ -146,6 +149,7 @@ export const make = (
         acquirer,
         compiler,
         transactionAcquirer,
+        driver: "@opencode-ai/effect-sqlite-node",
         spanAttributes: [
           ...(options.spanAttributes ? Object.entries(options.spanAttributes) : []),
           [ATTR_DB_SYSTEM_NAME, "sqlite"],

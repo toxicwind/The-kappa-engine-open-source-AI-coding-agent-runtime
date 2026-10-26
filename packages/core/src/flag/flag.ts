@@ -1,4 +1,3 @@
-import { Config } from "effect"
 import { InstallationChannel } from "../installation/version" // kappacode_change
 
 export function truthy(key: string) {
@@ -73,11 +72,9 @@ export const Flag = {
 
   KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION: truthy("KAPPA_EXPERIMENTAL_CLAUDE_MIGRATION"), // kappacode_change
 
-  KAPPA_EXPERIMENTAL_FILEWATCHER: Config.boolean("KAPPA_EXPERIMENTAL_FILEWATCHER").pipe(Config.withDefault(false)), // kappacode_change
+  KAPPA_EXPERIMENTAL_FILEWATCHER: truthy("KAPPA_EXPERIMENTAL_FILEWATCHER"), // kappacode_change
 
-  KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: Config.boolean("KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER").pipe(
-    Config.withDefault(false),
-  ),
+  KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER: truthy("KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER"),
 
   KAPPA_EXPERIMENTAL_ICON_DISCOVERY: KAPPA_EXPERIMENTAL || truthy("KAPPA_EXPERIMENTAL_ICON_DISCOVERY"), // kappacode_change
 

@@ -280,11 +280,10 @@ function opt(ast: SchemaAST.AST): z.ZodTypeAny {
 
 type DecodeLink = {
   readonly transformation: {
+    // effect 4 (kappacode): decode is a tagged optional-effect with a unary
+    // `transform(input: Option) => Effect<Option>`; effect 3 exposed `.run`.
     readonly decode: {
-      readonly run: (
-        input: Option.Option<unknown>,
-        options: SchemaAST.ParseOptions,
-      ) => Effect.Effect<Option.Option<unknown>, unknown>
+      readonly transform: (input: Option.Option<unknown>) => Effect.Effect<Option.Option<unknown>, unknown>
     }
   }
 }
@@ -296,7 +295,7 @@ function extractDefault(ast: SchemaAST.AST): { value: unknown } | undefined {
   // a value from Option.none wins.  withDecodingDefault always puts its
   // defaulting Link adjacent to the optional Union.
   for (const link of encoding) {
-    const probe = Effect.runSyncExit(link.transformation.decode.run(Option.none(), {}))
+    const probe = Effect.runSyncExit(link.transformation.decode.transform(Option.none()))
     if (probe._tag !== "Success") continue
     if (Option.isSome(probe.value)) return { value: probe.value.value }
   }
