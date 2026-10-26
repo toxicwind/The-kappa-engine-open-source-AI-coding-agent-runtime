@@ -63,7 +63,7 @@ const ctx: Tool.Context = {
 
 function runRecall(
   memory: ReturnType<typeof makeMemory>,
-  params: unknown,
+  params: { readonly query: string; readonly limit?: number },
   context: Tool.Context = ctx,
 ) {
   const layer = Layer.mergeAll(
