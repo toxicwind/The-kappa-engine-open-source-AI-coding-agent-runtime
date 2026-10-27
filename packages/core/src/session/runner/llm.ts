@@ -375,7 +375,7 @@ const layer = Layer.effect(
               )
               .map((c) => c.id)
             const priorReasoning = history
-              .filter((e) => e.message.type === "assistant" && "content" in e.message)
+              .filter((e) => e.message.type === "assistant" && e.message.id !== assistantMsgId && "content" in e.message)
               .flatMap((e) =>
                 (e.message as { content: ReadonlyArray<{ type: string; [key: string]: unknown }> }).content
                   .filter((c): c is { type: "reasoning"; text: string } => c.type === "reasoning")
@@ -409,7 +409,7 @@ const layer = Layer.effect(
             if (guardResult._tag === "continue") {
               // Inject guard message as user steer to force correction
               yield* SessionInput.admit(db, events, {
-                id: SessionMessage.ID.make(`steer-${Date.now()}-${Math.random().toString(36).slice(2)}`),
+                id: SessionMessage.ID.create(),
                 sessionID: session.id,
                 prompt: { text: guardResult.inject },
                 delivery: "steer",
