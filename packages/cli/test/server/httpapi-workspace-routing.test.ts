@@ -11,7 +11,7 @@ import {
   HttpServerResponse,
 } from "effect/http"
 import * as Socket from "effect/socket/Socket"
-import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
+import { runRaw, runString } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/http-api"
 import Http from "node:http"
 import { mkdir } from "node:fs/promises"
@@ -208,7 +208,7 @@ const echoWebSocket = (request: HttpServerRequest.HttpServerRequest) =>
   Effect.gen(function* () {
     const socket = yield* Effect.orDie(request.upgrade)
     const write = yield* socket.writer
-    yield* runRaw(socket, (message) => write.write(`echo:${String(message)}`), { // kilocode_change
+    yield* runString(socket, (message) => write.write(`echo:${message}`), { // kilocode_change - decode frames: Bun 1.4.2 delivers WS text frames as bytes, String(bytes) joins decimals
       onOpen: write.write(`protocol:${request.headers["sec-websocket-protocol"] ?? "none"}`).pipe( // kilocode_change
         Effect.catch(() => Effect.void), // kilocode_change
       ), // kilocode_change
@@ -432,7 +432,7 @@ describe("HttpApi workspace routing middleware", () => {
         },
       )
       const messages = yield* Queue.unbounded<string>()
-      yield* runRaw(socket, (message) => Queue.offer(messages, String(message))).pipe(Effect.forkScoped) // kilocode_change
+      yield* runString(socket, (message) => Queue.offer(messages, message)).pipe(Effect.forkScoped) // kilocode_change - decode frames (see echo handler)
       const write = yield* socket.writer
 
       expect(yield* Queue.take(messages)).toBe("protocol:chat")

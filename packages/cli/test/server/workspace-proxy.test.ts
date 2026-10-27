@@ -4,7 +4,7 @@ import { describe, expect } from "bun:test"
 import { Context, Effect, Layer, Queue } from "effect"
 import { FetchHttpClient, HttpClient, HttpServer, HttpServerRequest, HttpServerResponse } from "effect/http"
 import * as Socket from "effect/socket/Socket"
-import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
+import { runRaw, runString } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
 import { HttpApiProxy } from "../../src/server/routes/instance/httpapi/middleware/proxy.ts"
 import { testEffect } from "../lib/effect.ts"
 
@@ -48,7 +48,7 @@ function echoWebSocket(request: HttpServerRequest.HttpServerRequest) {
     const write = yield* socket.writer
     // The upstream announces the negotiated protocol, then echoes every
     // received frame. The assertions use those messages to prove proxy flow.
-    yield* runRaw(socket, (message) => write.write(`echo:${String(message)}`), { // kilocode_change
+    yield* runString(socket, (message) => write.write(`echo:${message}`), { // kilocode_change - decode frames: Bun 1.4.2 delivers WS text frames as bytes, String(bytes) joins decimals
       onOpen: write.write(`protocol:${request.headers["sec-websocket-protocol"] ?? "none"}`).pipe( // kilocode_change
         Effect.catch(() => Effect.void), // kilocode_change
       ), // kilocode_change
@@ -169,7 +169,7 @@ describe("HttpApi workspace proxy", () => {
         protocols: "chat",
       })
       const messages = yield* Queue.unbounded<string>()
-      yield* runRaw(socket, (message) => Queue.offer(messages, String(message))).pipe(Effect.forkScoped) // kilocode_change
+      yield* runString(socket, (message) => Queue.offer(messages, message)).pipe(Effect.forkScoped) // kilocode_change - decode frames (see echo handler)
       const write = yield* socket.writer
 
       expect(yield* Queue.take(messages)).toBe("protocol:chat")
