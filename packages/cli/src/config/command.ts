@@ -63,7 +63,7 @@ export async function load(
       ...md.data,
       template: md.content.trim(),
     }
-    const parsed = decodeInfo(config, { errors: "all", propertyOrder: "original" })
+    const parsed = decodeInfo(config, { errors: "all" }) // kilocode_change
     if (Exit.isSuccess(parsed)) {
       result[config.name] = parsed.value
       continue

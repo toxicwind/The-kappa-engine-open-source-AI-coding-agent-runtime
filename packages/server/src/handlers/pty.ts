@@ -1,6 +1,7 @@
 import { Pty } from "@opencode-ai/core/pty"
 import { PtyProtocol } from "@opencode-ai/core/pty/protocol"
 import { PtyTicket } from "@opencode-ai/core/pty/ticket"
+import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change - effect 4 removed Socket.runRaw
 import { Location } from "@opencode-ai/core/location"
 import { Effect, Queue } from "effect"
 import { HttpServerRequest, HttpServerResponse } from "effect/http"
@@ -166,7 +167,7 @@ export const PtyHandler = HttpApiBuilder.group(Api, "server.pty", (handlers) =>
           const socket = yield* Effect.orDie(ctx.request.upgrade)
           const write = yield* socket.writer
           const closeAccepted = (event: Socket.CloseEvent) =>
-            runRaw(socket, () => Effect.void, { onOpen: write(event).pipe(Effect.catch(() => Effect.void)) }).pipe(
+            runRaw(socket, () => Effect.void, { onOpen: write.write(event).pipe(Effect.catch(() => Effect.void)) }).pipe( // kilocode_change
                 Effect.timeout("1 second"),
                 Effect.catchReason("SocketError", "SocketCloseError", () => Effect.void),
                 Effect.catch(() => Effect.void),
@@ -200,7 +201,7 @@ export const PtyHandler = HttpApiBuilder.group(Api, "server.pty", (handlers) =>
           const drain = Effect.gen(function* () {
             while (true) {
               const item = yield* Queue.take(outbox)
-              yield* write(item)
+              yield* write.write(item) // kilocode_change
               if (item instanceof Socket.CloseEvent) return
             }
           })
@@ -210,6 +211,7 @@ export const PtyHandler = HttpApiBuilder.group(Api, "server.pty", (handlers) =>
             runRaw(socket, (message) => {
               const decoded = PtyProtocol.decodeInput(message)
               if (decoded !== undefined) attachment.write(decoded)
+              return Effect.void // kilocode_change - void handler leaves runRaw error unknown, breaking catchReason
             }),
           ).pipe(
             Effect.catchReason("SocketError", "SocketCloseError", () => Effect.void),

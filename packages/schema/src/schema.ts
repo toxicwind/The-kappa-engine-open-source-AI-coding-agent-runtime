@@ -26,6 +26,13 @@ export const statics = <S extends object, M extends Record<string, unknown>>(met
   // that serves the attached statics first and forwards everything else to the
   // schema, so members like `make`/`parse`/`type`/`data` are overridable without
   // mutating (or losing identity of) the frozen-ish schema value.
+  // kilocode_change start - never shadow `make` (or any getter-memoized schema
+  // method) here: Effect 4 memoizes schema.make as a non-configurable own
+  // property on first read, so a proxy trap returning a different `make`
+  // throws a Proxy get-invariant TypeError under bun (first read when bound,
+  // second read otherwise). Constructors that need the original make live
+  // outside the proxy as plain functions (see makeSessionsCursor).
+  // kilocode_change end
   const cache = new WeakMap<object, M>()
   const resolved = (schema: S): M => {
     let m = cache.get(schema)

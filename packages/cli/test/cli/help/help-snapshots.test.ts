@@ -126,7 +126,7 @@ describe("Kappa CLI help-text snapshots", () => {
         // deterministic and per-command failures don't abort the rest of the
         // sweep. `Effect.partition` is the canonical "run all, separate
         // failures from successes" primitive — no mutable accumulator needed.
-        const [failures, results] = yield* Effect.partition(
+        const [results, failures] = yield* Effect.partition( // kilocode_change
           argvs,
           (argv) =>
             Effect.gen(function* () {

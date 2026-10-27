@@ -1406,7 +1406,7 @@ export const layer = Layer.effect(
       // kappacode_change - kappa normalizes images inside resolvePart, so there is no separate normalization pass here (unlike upstream)
       const parts = resolvedParts
 
-      const parsed = decodeMessageInfo(info, { errors: "all", propertyOrder: "original" })
+      const parsed = decodeMessageInfo(info, { errors: "all" }) // kilocode_change
       if (Exit.isFailure(parsed)) {
         yield* Effect.logError("invalid user message before save", {
           sessionID: input.sessionID,
@@ -1417,7 +1417,7 @@ export const layer = Layer.effect(
         })
       }
       for (const [index, part] of parts.entries()) {
-        const p = decodeMessagePart(part, { errors: "all", propertyOrder: "original" })
+        const p = decodeMessagePart(part, { errors: "all" }) // kilocode_change
         if (Exit.isSuccess(p)) continue
         yield* Effect.logError("invalid user part before save", {
           sessionID: input.sessionID,
@@ -1847,7 +1847,7 @@ export const layer = Layer.effect(
 
       if (Exit.isFailure(parseExit)) {
         const err = Cause.squash(parseExit.cause)
-        if (err instanceof NamedError.Unknown) {
+        if (NamedError.Unknown.isInstance(err)) { // kilocode_change
           yield* events.publish(Session.Event.Error, { sessionID: input.cmdInput.sessionID, error: err.toObject() })
         }
         return yield* Effect.failCause(parseExit.cause)
@@ -1884,7 +1884,7 @@ export const layer = Layer.effect(
       )
       if (Exit.isFailure(writeExit)) {
         const err = Cause.squash(writeExit.cause)
-        if (err instanceof NamedError.Unknown) {
+        if (NamedError.Unknown.isInstance(err)) { // kilocode_change
           yield* events.publish(Session.Event.Error, { sessionID: input.cmdInput.sessionID, error: err.toObject() })
         }
         return yield* Effect.failCause(writeExit.cause)

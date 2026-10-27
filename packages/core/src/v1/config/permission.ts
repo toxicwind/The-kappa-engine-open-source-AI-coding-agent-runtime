@@ -13,8 +13,10 @@ export const Rule = Schema.Union([Action, Object]).annotate({ identifier: "Permi
 export type Rule = Schema.Schema.Type<typeof Rule>
 
 // Known permission keys get explicit types in the Effect schema for generated
-// docs/types. Runtime config parsing uses Effect's `propertyOrder: "original"`
-// parse option so user key order is preserved for permission precedence.
+// kilocode_change start
+// docs/types. The decode path uses a Record (see below) because permission
+// precedence is order-sensitive and struct decode follows schema order.
+// kilocode_change end
 const InputObject = Schema.StructWithRest(
   Schema.Struct({
     read: Schema.optional(Rule),
@@ -43,16 +45,24 @@ const InputObject = Schema.StructWithRest(
   [Schema.Record(Schema.String, Rule)],
 )
 
-const InputSchema = Schema.Union([Action, InputObject])
+// kilocode_change start
+// Effect 4 removed the `propertyOrder: "original"` parse option, so a struct
+// decode reorders permission keys into schema order — breaking precedence,
+// which is order-sensitive. Decode through a Record (input key order
+// preserved end to end, including through decodeTo) and keep the struct
+// below as the documented type for known keys.
+const InputRecord = Schema.Record(Schema.String, Rule)
+const InputSchema = Schema.Union([Action, InputRecord])
 
-const normalizeInput = (input: Schema.Schema.Type<typeof InputSchema>): Schema.Schema.Type<typeof InputObject> =>
+const normalizeInput = (input: Schema.Schema.Type<typeof InputSchema>): Schema.Schema.Type<typeof InputRecord> =>
   input === null || typeof input === "string" ? { "*": input } : input // kappacode_change
 
 export const Info = InputSchema.pipe(
-  Schema.decodeTo(InputObject, {
+  Schema.decodeTo(InputRecord, {
     decode: SchemaGetter.transform(normalizeInput),
     encode: SchemaGetter.passthrough({ strict: false }),
   }),
 ).annotate({ identifier: "PermissionConfig" })
+// kilocode_change end
 type _Info = Schema.Schema.Type<typeof InputObject>
 export type Info = { -readonly [K in keyof _Info]: _Info[K] }

@@ -58,7 +58,7 @@ export class Service extends Context.Service<Service, Interface>()("@opencode/v2
 const layer = Layer.effect(
   Service,
   Effect.gen(function* () {
-    if (yield* Flag.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER) return Service.of({})
+    if (Flag.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER) return Service.of({}) // kilocode_change
 
     const backend = getBackend()
     const location = yield* Location.Service
@@ -108,7 +108,7 @@ const layer = Layer.effect(
       .filter((entry): entry is Config.Document => entry.type === "document")
       .flatMap((item) => item.info.watcher?.ignore ?? [])
     // kappacode_change start
-    if (location.vcs && (yield* Flag.KAPPA_EXPERIMENTAL_FILEWATCHER) && allowed(location.directory)) {
+    if (location.vcs && Flag.KAPPA_EXPERIMENTAL_FILEWATCHER && allowed(location.directory)) { // kilocode_change
       yield* Effect.forkScoped(
         subscribe(location.directory, [...Ignore.PATTERNS, ...config, ...protecteds(location.directory)]),
       )

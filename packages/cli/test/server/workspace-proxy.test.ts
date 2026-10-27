@@ -4,6 +4,7 @@ import { describe, expect } from "bun:test"
 import { Context, Effect, Layer, Queue } from "effect"
 import { FetchHttpClient, HttpClient, HttpServer, HttpServerRequest, HttpServerResponse } from "effect/http"
 import * as Socket from "effect/socket/Socket"
+import { runRaw, runString } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
 import { HttpApiProxy } from "../../src/server/routes/instance/httpapi/middleware/proxy.ts"
 import { testEffect } from "../lib/effect.ts"
 
@@ -47,12 +48,11 @@ function echoWebSocket(request: HttpServerRequest.HttpServerRequest) {
     const write = yield* socket.writer
     // The upstream announces the negotiated protocol, then echoes every
     // received frame. The assertions use those messages to prove proxy flow.
-    yield* socket
-      .runRaw((message) => write(`echo:${String(message)}`), {
-        onOpen: write(`protocol:${request.headers["sec-websocket-protocol"] ?? "none"}`).pipe(
-          Effect.catch(() => Effect.void),
-        ),
-      })
+    yield* runString(socket, (message) => write.write(`echo:${message}`), { // kilocode_change - decode frames: Bun 1.4.2 delivers WS text frames as bytes, String(bytes) joins decimals
+      onOpen: write.write(`protocol:${request.headers["sec-websocket-protocol"] ?? "none"}`).pipe( // kilocode_change
+        Effect.catch(() => Effect.void), // kilocode_change
+      ), // kilocode_change
+    }) // kilocode_change
       .pipe(Effect.catch(() => Effect.void))
     return HttpServerResponse.empty()
   })
@@ -166,15 +166,14 @@ describe("HttpApi workspace proxy", () => {
       const proxyUrl = yield* listenServer((request) => HttpApiProxy.websocket(request, `${upstreamUrl}/echo`))
 
       const socket = yield* Socket.makeWebSocket(`${proxyUrl.replace(/^http/, "ws")}/proxy`, {
-        closeCodeIsError: () => false,
         protocols: "chat",
       })
       const messages = yield* Queue.unbounded<string>()
-      yield* socket.runRaw((message) => Queue.offer(messages, String(message))).pipe(Effect.forkScoped)
+      yield* runString(socket, (message) => Queue.offer(messages, message)).pipe(Effect.forkScoped) // kilocode_change - decode frames (see echo handler)
       const write = yield* socket.writer
 
       expect(yield* Queue.take(messages)).toBe("protocol:chat")
-      yield* write("hello")
+      yield* write.write("hello") // kilocode_change
       expect(yield* Queue.take(messages)).toBe("echo:hello")
     }),
   )

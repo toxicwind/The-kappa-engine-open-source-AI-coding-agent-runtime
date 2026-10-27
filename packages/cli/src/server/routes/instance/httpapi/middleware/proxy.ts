@@ -1,4 +1,5 @@
 import { ProxyUtil } from "@/server/proxy-util"
+import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change - effect 4 removed Socket.runRaw
 import { Effect, Stream } from "effect"
 import { HttpBody, HttpClient, HttpClientRequest, HttpServerRequest, HttpServerResponse } from "effect/http"
 import * as Socket from "effect/socket/Socket"
@@ -31,15 +32,15 @@ export function websocket(
             Effect.catchReason("SocketError", "SocketCloseError", () => Effect.void),
             Effect.catch(() => Effect.void),
           )
-      const closeAccepted = Effect.all([closeSocket(inbound, writeInbound), closeSocket(outbound, writeOutbound)], {
+      const closeAccepted = Effect.all([closeSocket(inbound, (event) => writeInbound.write(event)), closeSocket(outbound, (event) => writeOutbound.write(event))], { // kilocode_change
         concurrency: "unbounded",
         discard: true,
       })
       const registered = yield* WebSocketTracker.register(
         Effect.all(
           [
-            writeInbound(WebSocketTracker.SERVER_CLOSING_EVENT()),
-            writeOutbound(WebSocketTracker.SERVER_CLOSING_EVENT()),
+            writeInbound.write(WebSocketTracker.SERVER_CLOSING_EVENT()), // kilocode_change
+            writeOutbound.write(WebSocketTracker.SERVER_CLOSING_EVENT()), // kilocode_change
           ],
           { concurrency: "unbounded", discard: true },
         ),
@@ -49,23 +50,23 @@ export function websocket(
         return HttpServerResponse.empty()
       }
 
-      yield* runRaw(outbound, (message) => writeInbound(message))
+      yield* runRaw(outbound, (message) => writeInbound.write(message)) // kilocode_change
         .pipe(
           Effect.catchReason("SocketError", "SocketCloseError", (reason) =>
-            writeInbound(new Socket.CloseEvent(reason.code, reason.closeReason)).pipe(Effect.catch(() => Effect.void)),
+            writeInbound.write(new Socket.CloseEvent(reason.code, reason.closeReason)).pipe(Effect.catch(() => Effect.void)), // kilocode_change
           ),
           Effect.catch(() =>
-            writeInbound(new Socket.CloseEvent(1011, "proxy error")).pipe(Effect.catch(() => Effect.void)),
+            writeInbound.write(new Socket.CloseEvent(1011, "proxy error")).pipe(Effect.catch(() => Effect.void)), // kilocode_change
           ),
           Effect.forkScoped,
         )
 
       yield* runRaw(inbound, (message) => {
-          return writeOutbound(typeof message === "string" ? message : message.slice())
+          return writeOutbound.write(typeof message === "string" ? message : message.slice()) // kilocode_change
         })
         .pipe(
           Effect.catch(() => Effect.void),
-          Effect.ensuring(writeOutbound(new Socket.CloseEvent()).pipe(Effect.catch(() => Effect.void))),
+          Effect.ensuring(writeOutbound.write(new Socket.CloseEvent()).pipe(Effect.catch(() => Effect.void))), // kilocode_change
         )
       return HttpServerResponse.empty()
     }).pipe(Effect.orDie),

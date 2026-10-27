@@ -10,14 +10,23 @@ export class SystemPart extends Schema.Class<SystemPart>("LLM.SystemPart")({
   cache: Schema.optional(CacheHint),
   metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
 }) {
-  static make(text: string): SystemPart {
-    return new SystemPart({ type: "text", text })
+  // kilocode_change start - Effect 4 base make + readonly-array narrowing
+  // Effect 4's base `make` takes the full fields object, so this override
+  // accepts both the fields and the plain-text shorthand callers use.
+  static override make(input: string | SystemPart): SystemPart {
+    return typeof input === "string" ? new SystemPart({ type: "text", text: input }) : new SystemPart({ ...input })
   }
 
   static content(input?: string | SystemPart | ReadonlyArray<SystemPart>): ReadonlyArray<SystemPart> {
     if (input === undefined) return []
-    return typeof input === "string" ? [SystemPart.make(input)] : Array.isArray(input) ? [...input] : [input]
+    // Array.isArray does not narrow readonly arrays, so narrow through a
+    // guard instead of instanceof: parts arriving decoded are plain objects,
+    // and spreading one would throw. Runtime behavior stays Array.isArray.
+    const isParts = (value: SystemPart | ReadonlyArray<SystemPart>): value is ReadonlyArray<SystemPart> =>
+      Array.isArray(value)
+    return typeof input === "string" ? [SystemPart.make(input)] : isParts(input) ? [...input] : [input]
   }
+  // kilocode_change end
 }
 
 export const TextPart = Schema.Struct({
@@ -118,7 +127,7 @@ export class ToolCallPart extends Schema.Class<ToolCallPart>("LLM.Content.ToolCa
   metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
   providerMetadata: Schema.optional(ProviderMetadata),
 }) {
-  static make(input: Omit<ToolCallPart, "type">): ToolCallPart {
+  static override make(input: Omit<ToolCallPart, "type">): ToolCallPart { // kilocode_change
     return new ToolCallPart({ type: "tool-call", ...input })
   }
 }
@@ -133,7 +142,7 @@ export class ToolResultPart extends Schema.Class<ToolResultPart>("LLM.Content.To
   metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
   providerMetadata: Schema.optional(ProviderMetadata),
 }) {
-  static make(
+  static override make( // kilocode_change
     input: Omit<ToolResultPart, "type" | "result"> & {
       readonly result: unknown
       readonly resultType?: ToolResultValue["type"]

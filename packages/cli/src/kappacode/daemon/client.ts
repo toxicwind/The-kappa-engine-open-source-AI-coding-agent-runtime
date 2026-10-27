@@ -49,10 +49,13 @@ export namespace DaemonClient {
       ...(options.hostname != null ? (["hostname"] as const) : []),
       ...(options.mdns != null ? (["mdns"] as const) : []),
     ]
-    const opts: Daemon.Options = {
-      ...(options.port != null ? { port: options.port } : {}),
-      ...(options.hostname != null ? { hostname: options.hostname } : {}),
-      ...(options.mdns != null ? { mdns: options.mdns } : {}),
+    // Daemon.Network requires every field, so fill unset ones with fresh-boot defaults; reuse is unchanged (matches() only compares explicit fields). // kilocode_change
+    const opts: Daemon.Options = { // kilocode_change
+      hostname: options.hostname ?? "127.0.0.1",
+      port: options.port ?? 0,
+      mdns: options.mdns ?? false,
+      mdnsDomain: "",
+      cors: [],
     }
     const ensured = await Daemon.ensure(opts, explicit)
     const state = ensured.result.state

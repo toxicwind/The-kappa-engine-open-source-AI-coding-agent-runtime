@@ -36,6 +36,17 @@ export const GenerateCommand = {
         ]
       }
     }
+    // kilocode_change start - Effect 4's OpenAPI generator references the
+    // SSE event union by its type-side identifier (V2Event) but only emits
+    // the encoded-side component (V2EventEncoded, a JSON string), leaving a
+    // dangling $ref that breaks the JS SDK build. Point the stream schema
+    // at the component that exists; it describes the wire exactly, since
+    // SSE data arrives as JSON text.
+    const apiEventSchema = specs.paths["/api/event"]?.get?.responses?.["200"]?.content?.["text/event-stream"]?.schema
+    if (apiEventSchema?.$ref === "#/components/schemas/V2Event") {
+      apiEventSchema.$ref = "#/components/schemas/V2EventEncoded"
+    }
+    // kilocode_change end
     const raw = JSON.stringify(specs, null, 2)
       // kappacode_change start - replace upstream product name in all descriptions
       .replaceAll("OpenCode", "Kappa")

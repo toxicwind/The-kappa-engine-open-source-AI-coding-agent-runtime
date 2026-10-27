@@ -432,7 +432,7 @@ function send(item: Sse) {
 
 const reset = Effect.fn("TestLLMServer.reset")(function* (item: Sse) {
   const req = yield* HttpServerRequest.HttpServerRequest
-  const res = NodeHttpServerRequest.toServerResponse(req)
+  const res = NodeHttpServerRequest.toServerResponse(req) as import("node:http").ServerResponse // kilocode_change
   yield* Effect.sync(() => {
     res.writeHead(200, { "content-type": "text/event-stream" })
     for (const part of item.head) res.write(line(part))
@@ -716,9 +716,9 @@ export class TestLLMServer extends Context.Service<TestLLMServer, TestLLMServer.
 
       return TestLLMServer.of({
         url:
-          server.address._tag === "TcpAddress"
-            ? `http://127.0.0.1:${server.address.port}/v1`
-            : `unix://${server.address.path}/v1`,
+          server.address._tag === "UnixPathAddress" // kilocode_change
+            ? `unix://${server.address.path}/v1` // kilocode_change
+            : `http://127.0.0.1:${server.address.port}/v1`, // kilocode_change
         push: Effect.fn("TestLLMServer.push")(function* (...input: (Item | Reply)[]) {
           queue(...input)
         }),

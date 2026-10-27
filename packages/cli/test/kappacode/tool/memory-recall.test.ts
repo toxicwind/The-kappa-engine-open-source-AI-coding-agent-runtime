@@ -63,7 +63,7 @@ const ctx: Tool.Context = {
 
 function runRecall(
   memory: ReturnType<typeof makeMemory>,
-  params: unknown,
+  params: { query: string; limit?: number }, // kilocode_change
   context: Tool.Context = ctx,
 ) {
   const layer = Layer.mergeAll(

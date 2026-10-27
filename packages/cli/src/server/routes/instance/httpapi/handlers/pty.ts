@@ -6,6 +6,7 @@ import { Pty } from "@opencode-ai/core/pty"
 import { PtyProtocol } from "@opencode-ai/core/pty/protocol"
 import { PtyID } from "@opencode-ai/core/pty/schema"
 import { PtyTicket } from "@opencode-ai/core/pty/ticket"
+import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change - effect 4 removed Socket.runRaw
 import { LocationServiceMap } from "@opencode-ai/core/location-services" // kappacode_change - reuse the server location map
 import { Location } from "@opencode-ai/core/location"
 import { AbsolutePath } from "@opencode-ai/core/schema"
@@ -222,12 +223,12 @@ export const ptyConnectHandlers = HttpApiBuilder.group(PtyConnectApi, "pty-conne
         const socket = yield* Effect.orDie(ctx.request.upgrade)
         const write = yield* socket.writer
         const closeAccepted = (event: Socket.CloseEvent) =>
-          runRaw(socket, () => Effect.void, { onOpen: write(event).pipe(Effect.catch(() => Effect.void)) }).pipe(
+          runRaw(socket, () => Effect.void, { onOpen: write.write(event).pipe(Effect.catch(() => Effect.void)) }).pipe( // kilocode_change
               Effect.timeout("1 second"),
               Effect.catchReason("SocketError", "SocketCloseError", () => Effect.void),
               Effect.catch(() => Effect.void),
             )
-        const registered = yield* WebSocketTracker.register(write(WebSocketTracker.SERVER_CLOSING_EVENT()))
+        const registered = yield* WebSocketTracker.register(write.write(WebSocketTracker.SERVER_CLOSING_EVENT())) // kilocode_change
         if (!registered) {
           yield* closeAccepted(WebSocketTracker.SERVER_CLOSING_EVENT())
           return HttpServerResponse.empty()
@@ -261,7 +262,7 @@ export const ptyConnectHandlers = HttpApiBuilder.group(PtyConnectApi, "pty-conne
         const drain = Effect.gen(function* () {
           while (true) {
             const item = yield* Queue.take(outbox)
-            yield* write(item)
+            yield* write.write(item) // kilocode_change
             if (item instanceof Socket.CloseEvent) return
           }
         })
@@ -273,6 +274,7 @@ export const ptyConnectHandlers = HttpApiBuilder.group(PtyConnectApi, "pty-conne
           runRaw(socket, (message) => {
             const decoded = PtyProtocol.decodeInput(message)
             if (decoded !== undefined) attachment.write(decoded)
+            return Effect.void // kilocode_change - void handler leaves runRaw error unknown, breaking catchReason
           }),
         ).pipe(
           Effect.catchReason("SocketError", "SocketCloseError", () => Effect.void),

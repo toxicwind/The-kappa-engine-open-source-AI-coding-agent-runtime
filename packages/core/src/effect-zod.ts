@@ -109,18 +109,34 @@ function encoded(ast: SchemaAST.AST): z.ZodTypeAny {
   )
 }
 
+// kilocode_change start
 // Transformations built via pure `SchemaGetter.transform(fn)` (the common
 // decodeTo case) resolve synchronously, so running with no services is safe.
 // Effectful / middleware-based transforms will surface as Effect defects.
+// Effect 4 getters expose `transform(value, options)` taking the raw value
+// (the Effect 3 `.run` entry point took an Option and is gone), and sync
+// getters return the decoded value directly while effectful ones return an
+// Effect — so resolve either shape, unwrapping Options when present.
 function decode(transformation: SchemaAST.Link["transformation"], value: unknown): unknown {
-  const exit = Effect.runSyncExit(
-    (transformation.decode as any).run(Option.some(value), EMPTY_PARSE_OPTIONS) as Effect.Effect<
-      Option.Option<unknown>
-    >,
-  )
+  const getter = transformation.decode as {
+    readonly run?: (input: Option.Option<unknown>, options: SchemaAST.ParseOptions) => Effect.Effect<Option.Option<unknown>>
+    readonly transform?: (input: unknown, options: SchemaAST.ParseOptions) => unknown
+  }
+  const unwrap = (resolved: unknown) => (Option.isOption(resolved) ? Option.getOrElse(resolved, () => value) : resolved)
+  if (typeof getter.transform === "function") {
+    const result = getter.transform(value, EMPTY_PARSE_OPTIONS)
+    if (Effect.isEffect(result)) {
+      const exit = Effect.runSyncExit(result as Effect.Effect<unknown>)
+      if (exit._tag === "Failure") throw new Error(`effect-zod: transform failed: ${String(exit.cause)}`)
+      return unwrap(exit.value)
+    }
+    return unwrap(result)
+  }
+  const exit = Effect.runSyncExit(getter.run!(Option.some(value), EMPTY_PARSE_OPTIONS))
   if (exit._tag === "Failure") throw new Error(`effect-zod: transform failed: ${String(exit.cause)}`)
-  return Option.getOrElse(exit.value, () => value)
+  return unwrap(exit.value)
 }
+// kilocode_change end
 
 // Flatten FilterGroups and any nested variants into a linear list of Filters.
 // Well-known filters (Schema.isInt, isGreaterThan, isPattern, …) are
@@ -156,62 +172,73 @@ function applyChecks(out: z.ZodTypeAny, checks: SchemaAST.Checks, ast: SchemaAST
   })
 }
 
+// kilocode_change start
 // Translate a well-known Effect Schema filter into a native Zod method call on
-// `out`. Dispatch is keyed on `filter.annotations.meta._tag`, which every
-// built-in check factory (isInt, isGreaterThan, isPattern, …) attaches at
-// construction time. Returns `undefined` for unrecognised filters so the
-// caller can fall back to the generic .superRefine path.
+// `out`. Dispatch is keyed on the Effect 4 filter `representation` annotation
+// (`{ id: "effect/schema/<name>", payload }`), which every built-in check
+// factory (isInt, isGreaterThan, isPattern, …) attaches at construction time.
+// Returns `undefined` for unrecognised filters so the caller can fall back to
+// the generic .superRefine path.
 function translateFilter(out: z.ZodTypeAny, filter: SchemaAST.Filter<unknown>): z.ZodTypeAny | undefined {
-  const meta = (filter.annotations as { meta?: Record<string, unknown> } | undefined)?.meta
-  if (!meta || typeof meta._tag !== "string") return undefined
-  switch (meta._tag) {
-    case "isInt":
+  const representation = (filter.annotations as { representation?: { id?: unknown; payload?: unknown } } | undefined)
+    ?.representation
+  if (!representation || typeof representation.id !== "string") return undefined
+  const payload = (representation.payload ?? {}) as Record<string, unknown>
+  const num = (key: string): number | undefined =>
+    typeof payload[key] === "number" ? (payload[key] as number) : undefined
+  const str = (key: string): string | undefined =>
+    typeof payload[key] === "string" ? (payload[key] as string) : undefined
+  // Missing payload values fall back to superRefine instead of calling a Zod
+  // method with undefined.
+  const callValue = (method: string, value: unknown) => (value === undefined ? undefined : call(out, method, value))
+  switch (representation.id) {
+    case "effect/schema/isInt":
       return call(out, "int")
-    case "isFinite":
+    case "effect/schema/isFinite":
       return call(out, "finite")
-    case "isGreaterThan":
-      return call(out, "gt", meta.exclusiveMinimum)
-    case "isGreaterThanOrEqualTo":
-      return call(out, "gte", meta.minimum)
-    case "isLessThan":
-      return call(out, "lt", meta.exclusiveMaximum)
-    case "isLessThanOrEqualTo":
-      return call(out, "lte", meta.maximum)
-    case "isBetween": {
-      const lo = meta.exclusiveMinimum ? call(out, "gt", meta.minimum) : call(out, "gte", meta.minimum)
+    case "effect/schema/isGreaterThan":
+      return callValue("gt", num("exclusiveMinimum"))
+    case "effect/schema/isGreaterThanOrEqualTo":
+      return callValue("gte", num("minimum"))
+    case "effect/schema/isLessThan":
+      return callValue("lt", num("exclusiveMaximum"))
+    case "effect/schema/isLessThanOrEqualTo":
+      return callValue("lte", num("maximum"))
+    case "effect/schema/isBetween": {
+      const minimum = num("minimum")
+      const maximum = num("maximum")
+      if (minimum === undefined || maximum === undefined) return undefined
+      const lo = payload.exclusiveMinimum ? call(out, "gt", minimum) : call(out, "gte", minimum)
       if (!lo) return undefined
-      return meta.exclusiveMaximum ? call(lo, "lt", meta.maximum) : call(lo, "lte", meta.maximum)
+      return payload.exclusiveMaximum ? call(lo, "lt", maximum) : call(lo, "lte", maximum)
     }
-    case "isMultipleOf":
-      return call(out, "multipleOf", meta.divisor)
-    case "isMinLength":
-      return call(out, "min", meta.minLength)
-    case "isMaxLength":
-      return call(out, "max", meta.maxLength)
-    case "isLengthBetween": {
-      const lo = call(out, "min", meta.minimum)
-      if (!lo) return undefined
-      return call(lo, "max", meta.maximum)
+    case "effect/schema/isMultipleOf":
+      return callValue("multipleOf", num("divisor"))
+    case "effect/schema/isMinLength":
+      return callValue("min", num("minLength"))
+    case "effect/schema/isMaxLength":
+      return callValue("max", num("maxLength"))
+    case "effect/schema/isPattern": {
+      const source = str("source")
+      if (source === undefined) return undefined
+      return call(out, "regex", new RegExp(source, str("flags") ?? ""))
     }
-    case "isPattern":
-      return call(out, "regex", meta.regExp)
-    case "isStartingWith":
-      return call(out, "startsWith", meta.startsWith)
-    case "isEndsWith":
-      return call(out, "endsWith", meta.endsWith)
-    case "isIncludes":
-      return call(out, "includes", meta.includes)
-    case "isUUID":
+    case "effect/schema/isStartingWith":
+      return callValue("startsWith", str("startsWith"))
+    case "effect/schema/isEndingWith":
+      return callValue("endsWith", str("endsWith"))
+    case "effect/schema/isUUID":
       return call(out, "uuid")
-    case "isULID":
+    case "effect/schema/isULID":
       return call(out, "ulid")
-    case "isBase64":
+    case "effect/schema/isBase64":
       return call(out, "base64")
-    case "isBase64Url":
+    case "effect/schema/isBase64Url":
       return call(out, "base64url")
   }
   return undefined
 }
+// kilocode_change end
 
 // Invoke a named Zod method on `target` if it exists, otherwise return
 // undefined so the caller can fall back. Using this helper instead of a

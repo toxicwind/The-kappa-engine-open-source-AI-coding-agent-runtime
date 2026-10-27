@@ -597,8 +597,8 @@ describe("effect-zod", () => {
       expect(schema.safeParse("abcdef").success).toBe(false)
     })
 
-    test("Schema.isLengthBetween on string emits both bounds", () => {
-      const schema = zod(Schema.String.check(Schema.isLengthBetween(2, 4)))
+    test("Schema.isMinLength + isMaxLength on string emits both bounds", () => {
+      const schema = zod(Schema.String.check(Schema.isMinLength(2), Schema.isMaxLength(4)))
       const shape = json(schema) as any
       expect(shape.minLength).toBe(2)
       expect(shape.maxLength).toBe(4)
@@ -629,8 +629,8 @@ describe("effect-zod", () => {
       expect(schema.safeParse("abc").success).toBe(false)
     })
 
-    test("Schema.isEndsWith matches native zod .endsWith() JSON Schema", () => {
-      const schema = zod(Schema.String.check(Schema.isEndsWith(".json")))
+    test("Schema.isEndingWith matches native zod .endsWith() JSON Schema", () => {
+      const schema = zod(Schema.String.check(Schema.isEndingWith(".json")))
       const native = json(z.string().endsWith(".json"))
       expect(json(schema)).toEqual(native)
       expect(schema.parse("a.json")).toBe("a.json")

@@ -63,7 +63,7 @@ const ctx: Tool.Context = {
 
 function runSave(
   memory: ReturnType<typeof makeMemory>,
-  params: unknown,
+  params: { text: string; key?: string; source?: "auto" | "tool" | "user" }, // kilocode_change
   context: Tool.Context = ctx,
 ) {
   const layer = Layer.mergeAll(

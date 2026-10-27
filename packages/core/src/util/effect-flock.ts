@@ -48,7 +48,7 @@ export namespace EffectFlock {
 
   const retrySchedule = Schedule.min([Schedule.exponential(BASE_DELAY_MS, 1.7), Schedule.spaced(MAX_DELAY_MS)]).pipe(
     Schedule.jittered,
-    Schedule.upTo(TIMEOUT_MS),
+    Schedule.upTo({ duration: TIMEOUT_MS }), // kilocode_change
   )
 
   // ---------------------------------------------------------------------------

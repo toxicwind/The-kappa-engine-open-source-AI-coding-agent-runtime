@@ -95,6 +95,11 @@ const make = (options: Config) =>
       executeValues(query, params) {
         return runValues(query, params)
       },
+      // kilocode_change start
+      executeValuesUnprepared(query, params) {
+        return runValues(query, params)
+      },
+      // kilocode_change end
       executeUnprepared(query, params, transformRows) {
         return this.execute(query, params, transformRows)
       },
@@ -134,6 +139,7 @@ const make = (options: Config) =>
         acquirer,
         compiler,
         transactionAcquirer,
+        driver: "sqlite-bun", // kilocode_change
         spanAttributes: [
           ...(options.spanAttributes ? Object.entries(options.spanAttributes) : []),
           [ATTR_DB_SYSTEM_NAME, "sqlite"],

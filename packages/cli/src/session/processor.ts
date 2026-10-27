@@ -62,7 +62,7 @@ export interface Handle {
     },
   ) => Effect.Effect<void>
   readonly process: (streamInput: LLM.StreamInput) => Effect.Effect<Result>
-  readonly compactError?: () => ReturnType<typeof MessageV2.ContextOverflowError.prototype.toObject> | undefined // kappacode_change
+  readonly compactError?: () => Schema.Schema.Type<typeof MessageV2.ContextOverflowError.Schema> | undefined // kilocode_change
 }
 
 type Input = {
@@ -94,7 +94,7 @@ interface ProcessorContext extends Input {
   snapshot: string | undefined
   blocked: boolean
   needsCompaction: boolean
-  compactionError: ReturnType<typeof MessageV2.ContextOverflowError.prototype.toObject> | undefined // kappacode_change
+  compactionError: Schema.Schema.Type<typeof MessageV2.ContextOverflowError.Schema> | undefined // kilocode_change
   currentText: SessionV1.TextPart | undefined
   reasoningMap: Record<string, SessionV1.ReasoningPart>
   // kappacode_change start - coalesce interleaved reasoning bursts into a single part

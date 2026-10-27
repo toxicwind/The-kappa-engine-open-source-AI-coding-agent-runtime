@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Effect, Schema } from "effect"
-import { SessionHistoryQuery, SessionsCursor } from "../src/groups/session"
+import { SessionHistoryQuery, SessionsCursor, makeSessionsCursor } from "../src/groups/session" // kilocode_change
 import { Session } from "@opencode-ai/schema/session"
 
 describe("SessionsCursor", () => {
@@ -11,7 +11,7 @@ describe("SessionsCursor", () => {
       order: "desc" as const,
       anchor: { id: Session.ID.make("ses_test"), time: 1, direction: "next" as const },
     }
-    const cursor = SessionsCursor.make(input)
+    const cursor = makeSessionsCursor(input) // kilocode_change
 
     expect(await Effect.runPromise(SessionsCursor.parse(cursor))).toEqual(input)
   })

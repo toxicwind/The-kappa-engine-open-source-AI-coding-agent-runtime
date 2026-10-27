@@ -11,6 +11,7 @@ import * as Socket from "effect/socket/Socket"
 import { HttpApiApp } from "../../src/server/routes/instance/httpapi/server.ts"
 import { Pty } from "@opencode-ai/core/pty"
 import { testEffect } from "../lib/effect.ts"
+import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
 
 const testPty = process.platform === "win32" ? test.skip : test
 
@@ -299,15 +300,15 @@ describe("pty HttpApi bridge", () => {
       expect(created.status).toBe(200)
       const info = yield* Schema.decodeUnknownEffect(Pty.Info)(yield* created.json)
 
-      const socket = yield* Socket.makeWebSocket(
-        `${(yield* serverUrl()).replace(/^http/, "ws")}${PtyPaths.connect.replace(":ptyID", info.id)}?cursor=0&directory=${encodeURIComponent(dir)}`,
-        { closeCodeIsError: () => false },
+      const socket = yield* Socket.makeWebSocket( // kilocode_change
+        `${(yield* serverUrl()).replace(/^http/, "ws").replace("[::]", "127.0.0.1")}${PtyPaths.connect.replace(":ptyID", info.id)}?cursor=0&directory=${encodeURIComponent(dir)}`, // kilocode_change - Bun drops node:http upgrade events for [::] clients; IPv4 loopback upgrades fine
       )
       const messages = yield* Queue.unbounded<string>()
-      yield* socket
-        .runRaw((message) =>
+      yield* runRaw( // kilocode_change
+        socket, // kilocode_change
+        (message) =>
           Queue.offer(messages, typeof message === "string" ? message : new TextDecoder().decode(message)),
-        )
+      )
         .pipe(Effect.catch(() => Effect.void))
         .pipe(Effect.forkScoped)
       const write = yield* socket.writer
@@ -327,9 +328,9 @@ describe("pty HttpApi bridge", () => {
       )
       expect(updated.status).toBe(200)
 
-      yield* write("PING\r")
+      yield* write.write("PING\r") // kilocode_change
       expect(yield* takeUntil("PONG")).toContain("PONG")
-      yield* write(new Socket.CloseEvent(1000, "done")).pipe(Effect.catch(() => Effect.void))
+      yield* write.write(new Socket.CloseEvent(1000, "done")).pipe(Effect.catch(() => Effect.void)) // kilocode_change
 
       const removed = yield* HttpClientRequest.delete(PtyPaths.remove.replace(":ptyID", info.id)).pipe(
         directoryHeader(dir),
