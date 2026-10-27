@@ -13,7 +13,8 @@ import { normalizeLegacyKiloSpec } from "@/kappacode/config/legacy-kilo"
 
 // kappacode_change - schema lives in core (Config.Info recognizes the
 // `marketplace` key); the CLI re-exports it and keeps only normalization here.
-export { KappaExtensionType, KappaExtension, MarketplaceEntrySchema, MarketplaceConfigSchema, type MarketplaceEntry, type MarketplaceConfig } from "@opencode-ai/core/config/marketplace" // kilocode_change
+import { KappaExtensionType, KappaExtension, MarketplaceEntrySchema, MarketplaceConfigSchema, type MarketplaceEntry, type MarketplaceConfig } from "@opencode-ai/core/config/marketplace" // kilocode_change
+export { KappaExtensionType, KappaExtension, MarketplaceEntrySchema, MarketplaceConfigSchema, type MarketplaceEntry, type MarketplaceConfig } // kilocode_change
 
 
 /** Parse a KappaExtension or fail, returning the original on non-Kappa shapes. */

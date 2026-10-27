@@ -301,7 +301,7 @@ describe("pty HttpApi bridge", () => {
       const info = yield* Schema.decodeUnknownEffect(Pty.Info)(yield* created.json)
 
       const socket = yield* Socket.makeWebSocket( // kilocode_change
-        `${(yield* serverUrl()).replace(/^http/, "ws")}${PtyPaths.connect.replace(":ptyID", info.id)}?cursor=0&directory=${encodeURIComponent(dir)}`,
+        `${(yield* serverUrl()).replace(/^http/, "ws").replace("[::]", "127.0.0.1")}${PtyPaths.connect.replace(":ptyID", info.id)}?cursor=0&directory=${encodeURIComponent(dir)}`, // kilocode_change - Bun drops node:http upgrade events for [::] clients; IPv4 loopback upgrades fine
       )
       const messages = yield* Queue.unbounded<string>()
       yield* runRaw( // kilocode_change

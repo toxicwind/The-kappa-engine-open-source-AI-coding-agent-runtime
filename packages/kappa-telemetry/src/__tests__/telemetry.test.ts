@@ -182,7 +182,11 @@ shell("uses conda's effective client ID in events", async () => {
     expect(await Conda.clientToken()).toBeUndefined()
   } finally {
     capture.mockRestore()
-    await Client.shutdown()
+    // Shutdown is cleanup, not an assertion: telemetry-shutdown.test.ts
+    // registers a process-wide posthog-node mock whose shutdown() always
+    // throws, and bun shares the module registry across files in one run,
+    // so this cleanup must never fail the conda test when that file runs first.
+    await Client.shutdown().catch(() => {})
     if (home === undefined) delete process.env.HOME
     else process.env.HOME = home
     if (exe === undefined) delete process.env.CONDA_EXE

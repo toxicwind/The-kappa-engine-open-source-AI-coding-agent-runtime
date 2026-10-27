@@ -11,6 +11,7 @@ import {
   HttpServerResponse,
 } from "effect/http"
 import * as Socket from "effect/socket/Socket"
+import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/http-api"
 import Http from "node:http"
 import { mkdir } from "node:fs/promises"
@@ -207,12 +208,11 @@ const echoWebSocket = (request: HttpServerRequest.HttpServerRequest) =>
   Effect.gen(function* () {
     const socket = yield* Effect.orDie(request.upgrade)
     const write = yield* socket.writer
-    yield* socket
-      .runRaw((message) => write(`echo:${String(message)}`), {
-        onOpen: write(`protocol:${request.headers["sec-websocket-protocol"] ?? "none"}`).pipe(
-          Effect.catch(() => Effect.void),
-        ),
-      })
+    yield* runRaw(socket, (message) => write.write(`echo:${String(message)}`), { // kilocode_change
+      onOpen: write.write(`protocol:${request.headers["sec-websocket-protocol"] ?? "none"}`).pipe( // kilocode_change
+        Effect.catch(() => Effect.void), // kilocode_change
+      ), // kilocode_change
+    }) // kilocode_change
       .pipe(Effect.catch(() => Effect.void))
     return HttpServerResponse.empty()
   })
@@ -426,18 +426,17 @@ describe("HttpApi workspace routing middleware", () => {
       yield* serveProbe
 
       const socket = yield* Socket.makeWebSocket(
-        `${(yield* serverUrl).replace(/^http/, "ws")}/probe?workspace=${workspace.id}`,
+        `${(yield* serverUrl).replace(/^http/, "ws").replace("[::]", "127.0.0.1")}/probe?workspace=${workspace.id}`, // kilocode_change - Bun drops node:http upgrade events for [::] clients; IPv4 loopback upgrades fine
         {
-          closeCodeIsError: () => false,
           protocols: "chat",
         },
       )
       const messages = yield* Queue.unbounded<string>()
-      yield* socket.runRaw((message) => Queue.offer(messages, String(message))).pipe(Effect.forkScoped)
+      yield* runRaw(socket, (message) => Queue.offer(messages, String(message))).pipe(Effect.forkScoped) // kilocode_change
       const write = yield* socket.writer
 
       expect(yield* Queue.take(messages)).toBe("protocol:chat")
-      yield* write("hello")
+      yield* write.write("hello") // kilocode_change
       expect(yield* Queue.take(messages)).toBe("echo:hello")
     }),
   )

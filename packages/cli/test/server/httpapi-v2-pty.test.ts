@@ -3,6 +3,7 @@ import { Context, Config as EffectConfig, Effect, Layer, Queue, Schema } from "e
 import { NodeHttpServer, NodeServices } from "@effect/platform-node"
 import { HttpClient, HttpClientRequest, HttpRouter, HttpServer } from "effect/http"
 import * as Socket from "effect/socket/Socket"
+import { runRaw } from "@opencode-ai/core/util/socket-run-raw" // kilocode_change
 import path from "path"
 import { pathToFileURL } from "url"
 import { mkdir } from "fs/promises"
@@ -166,14 +167,12 @@ describe("v2 pty HttpApi", () => {
       const info = body.data
 
       const socket = yield* Socket.makeWebSocket(
-        `${(yield* serverUrl()).replace(/^http/, "ws")}/api/pty/${info.id}/connect?cursor=0&location[directory]=${encodeURIComponent(dir)}`,
-        { closeCodeIsError: () => false },
+        `${(yield* serverUrl()).replace(/^http/, "ws").replace("[::]", "127.0.0.1")}/api/pty/${info.id}/connect?cursor=0&location[directory]=${encodeURIComponent(dir)}`, // kilocode_change - Bun drops node:http upgrade events for [::] clients; IPv4 loopback upgrades fine
       )
       const messages = yield* Queue.unbounded<string>()
-      yield* socket
-        .runRaw((message) =>
-          Queue.offer(messages, typeof message === "string" ? message : new TextDecoder().decode(message)),
-        )
+      yield* runRaw(socket, (message) => // kilocode_change
+        Queue.offer(messages, typeof message === "string" ? message : new TextDecoder().decode(message)), // kilocode_change
+      ) // kilocode_change
         .pipe(Effect.catch(() => Effect.void))
         .pipe(Effect.forkScoped)
       const write = yield* socket.writer
@@ -205,10 +204,10 @@ describe("v2 pty HttpApi", () => {
       )
       expect(resized.status).toBe(200)
 
-      yield* write("PING\r")
+      yield* write.write("PING\r") // kilocode_change
       expect(yield* takeUntil("PONG")).toContain("PONG")
-      yield* write("EXIT\r")
-      yield* write(new Socket.CloseEvent(1000, "done")).pipe(Effect.catch(() => Effect.void))
+      yield* write.write("EXIT\r") // kilocode_change
+      yield* write.write(new Socket.CloseEvent(1000, "done")).pipe(Effect.catch(() => Effect.void)) // kilocode_change
       const exit = yield* Effect.gen(function* () {
         while (true) {
           const response = yield* HttpClientRequest.get(`/api/pty/${info.id}`).pipe(
@@ -309,14 +308,12 @@ describe("v2 pty HttpApi", () => {
         const info = (yield* Schema.decodeUnknownEffect(Location.response(Pty.Info))(yield* created.json)).data
 
         const socket = yield* Socket.makeWebSocket(
-          `${(yield* serverUrl()).replace(/^http/, "ws")}/api/pty/${info.id}/connect?cursor=0&location[directory]=${encodeURIComponent(dir)}`,
-          { closeCodeIsError: () => false },
+          `${(yield* serverUrl()).replace(/^http/, "ws").replace("[::]", "127.0.0.1")}/api/pty/${info.id}/connect?cursor=0&location[directory]=${encodeURIComponent(dir)}`, // kilocode_change - Bun drops node:http upgrade events for [::] clients; IPv4 loopback upgrades fine
         )
         const messages = yield* Queue.unbounded<string>()
-        yield* socket
-          .runRaw((message) =>
-            Queue.offer(messages, typeof message === "string" ? message : new TextDecoder().decode(message)),
-          )
+        yield* runRaw(socket, (message) => // kilocode_change
+          Queue.offer(messages, typeof message === "string" ? message : new TextDecoder().decode(message)), // kilocode_change
+        ) // kilocode_change
           .pipe(
             Effect.catch(() => Effect.void),
             Effect.forkScoped,
@@ -333,7 +330,7 @@ describe("v2 pty HttpApi", () => {
         const output = yield* takeUntil("caller|plugin|plugin|xterm-256color")
         expect(output).toContain(`caller|plugin|plugin|xterm-256color|1|${info.id}|||${cwd}`)
         // kappacode_change end
-        yield* write(new Socket.CloseEvent(1000, "done")).pipe(Effect.catch(() => Effect.void))
+        yield* write.write(new Socket.CloseEvent(1000, "done")).pipe(Effect.catch(() => Effect.void)) // kilocode_change
         yield* HttpClientRequest.delete(`/api/pty/${info.id}`).pipe(directoryHeader(dir), HttpClient.execute)
       }),
     30_000, // kappacode_change - external plugin loading and websocket setup can exceed Bun's 5s default
