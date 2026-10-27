@@ -717,8 +717,8 @@ export class TestLLMServer extends Context.Service<TestLLMServer, TestLLMServer.
       return TestLLMServer.of({
         url:
           server.address._tag === "UnixPathAddress" // kilocode_change
-            ? `unix://${server.address.path}/v1`
-            : `http://127.0.0.1:${server.address.port}/v1`,
+            ? `unix://${server.address.path}/v1` // kilocode_change
+            : `http://127.0.0.1:${server.address.port}/v1`, // kilocode_change
         push: Effect.fn("TestLLMServer.push")(function* (...input: (Item | Reply)[]) {
           queue(...input)
         }),

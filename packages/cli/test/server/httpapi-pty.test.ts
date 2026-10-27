@@ -305,7 +305,7 @@ describe("pty HttpApi bridge", () => {
       )
       const messages = yield* Queue.unbounded<string>()
       yield* runRaw( // kilocode_change
-        socket,
+        socket, // kilocode_change
         (message) =>
           Queue.offer(messages, typeof message === "string" ? message : new TextDecoder().decode(message)),
       )
