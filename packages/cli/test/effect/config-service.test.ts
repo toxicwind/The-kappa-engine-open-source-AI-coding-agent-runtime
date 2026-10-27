@@ -4,9 +4,9 @@ import { ConfigService } from "../../src/effect/config-service.ts"
 import { it } from "../lib/effect.ts"
 
 class TestConfig extends ConfigService.Service<TestConfig>()("@test/ConfigService", {
-  name: Config.string("NAME"),
-  token: Config.string("TOKEN").pipe(Config.option),
-  port: Config.number("PORT").pipe(Config.withDefault(3000)),
+  name: Config.String("NAME"), // kilocode_change
+  token: Config.String("TOKEN").pipe(Config.option), // kilocode_change
+  port: Config.Number("PORT").pipe(Config.withDefault(3000)), // kilocode_change
 }) {}
 
 const fromConfig = (input: Record<string, unknown>) =>
