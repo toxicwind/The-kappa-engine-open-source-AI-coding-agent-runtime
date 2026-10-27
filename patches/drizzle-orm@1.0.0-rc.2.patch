@@ -1,6 +1,6 @@
 --- a/effect-core/errors.js
 +++ b/effect-core/errors.js
-@@ -2,7 +2,7 @@ import { entityKind } from "../entity.js";
+@@ -2,13 +2,13 @@
  import * as Schema from "effect/Schema";
  
  //#region src/effect-core/errors.ts
@@ -9,14 +9,16 @@
  	message: Schema.String,
  	cause: Schema.Unknown
  }) {
-@@ -11,7 +11,7 @@ var EffectDrizzleError = class extends Schema.TaggedErrorClass()("EffectDrizzleError", {
+ 	static [entityKind] = "EffectDrizzleError";
  };
 -var EffectDrizzleQueryError = class EffectDrizzleQueryError extends Schema.TaggedErrorClass()("EffectDrizzleQueryError", {
 +var EffectDrizzleQueryError = class EffectDrizzleQueryError extends Schema.TaggedError()("EffectDrizzleQueryError", {
  	query: Schema.String,
  	params: Schema.Array(Schema.Any).pipe(Schema.mutable),
  	cause: Schema.Unknown
-@@ -25,7 +25,7 @@ var EffectDrizzleQueryError = class EffectDrizzleQueryError extends Schema.TaggedErrorClass()("EffectDrizzleQueryError", {
+@@ -22,11 +22,11 @@
+ 		Error.captureStackTrace(this, EffectDrizzleQueryError);
+ 	}
  };
 -var EffectTransactionRollbackError = class extends Schema.TaggedErrorClass()("EffectTransactionRollbackError", {}) {
 +var EffectTransactionRollbackError = class extends Schema.TaggedError()("EffectTransactionRollbackError", {}) {
@@ -27,3 +29,4 @@
 +var MigratorInitError = class extends Schema.TaggedError()("MigratorInitError", { exitCode: Schema.Literals(["databaseMigrations", "localMigrations"]) }) {
  	static [entityKind] = "MigratorInitError";
  };
+ 
