@@ -12,6 +12,7 @@ import { resolveFileExtensions } from "./shared/supported-extensions"
  */
 export interface IndexingConfigInput {
   enabled: boolean
+  roots?: string[]
   embedderProvider: EmbedderProvider
   vectorStoreProvider?: "lancedb" | "qdrant"
   lancedbVectorStoreDirectory?: string

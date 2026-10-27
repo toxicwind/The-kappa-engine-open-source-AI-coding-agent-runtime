@@ -25,6 +25,10 @@ const stores = ["lancedb", "qdrant"] as const
 export const IndexingConfig = z
   .object({
     enabled: z.boolean().optional().describe("Enable codebase indexing"),
+    roots: z
+      .array(z.string().min(1))
+      .optional()
+      .describe("Additional absolute root directories to index alongside the active project"),
     provider: z.enum(providers).optional().describe("Embedding provider to use for codebase indexing"),
     model: z.string().nullable().optional().describe("Embedding model ID (uses provider default if omitted)"),
     dimension: z
@@ -148,6 +152,9 @@ const Score = Schema.Finite.check(Schema.isGreaterThanOrEqualTo(0), Schema.isLes
 
 export const IndexingSchema = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean).annotate({ description: "Enable codebase indexing" }),
+  roots: Schema.optional(Schema.mutable(Schema.Array(Schema.String)).check(Schema.isMinLength(1))).annotate({
+    description: "Additional absolute root directories to index alongside the active project",
+  }),
   provider: Schema.optional(Provider).annotate({
     description: "Embedding provider to use for codebase indexing",
   }),
@@ -237,9 +244,9 @@ export const IndexingSchema = Schema.Struct({
     description: "Maximum retry attempts for failed embedding batches (default: 3)",
   }),
   fileExtensions: Schema.optional(
-    Schema.mutable(
-      Schema.Array(Schema.String.check(Schema.isPattern(/^\s*\.?[A-Za-z0-9][A-Za-z0-9_+-]*\s*$/))),
-    ).check(Schema.isMinLength(1)),
+    Schema.mutable(Schema.Array(Schema.String.check(Schema.isPattern(/^\s*\.?[A-Za-z0-9][A-Za-z0-9_+-]*\s*$/)))).check(
+      Schema.isMinLength(1),
+    ),
   ).annotate({
     description: "File extension allowlist for codebase indexing (uses built-in defaults if omitted)",
   }),
@@ -253,6 +260,7 @@ export function toIndexingConfigInput(cfg: IndexingConfig | undefined): Indexing
 
   return {
     enabled: cfg?.enabled ?? false,
+    roots: cfg?.roots,
     embedderProvider: provider,
     vectorStoreProvider: cfg?.vectorStore ?? DEFAULT_VECTOR_STORE,
     modelId: cfg?.model ?? undefined,
