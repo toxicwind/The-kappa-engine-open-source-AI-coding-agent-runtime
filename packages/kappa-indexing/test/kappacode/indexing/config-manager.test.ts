@@ -240,3 +240,27 @@ describe("CodeIndexConfigManager", () => {
     })
   })
 })
+
+describe("IndexingConfig roots (declarative multi-root from kappa.json indexing.roots)", () => {
+  test("toIndexingConfigInput preserves the roots array", () => {
+    const out = toIndexingConfigInput({
+      enabled: true,
+      roots: ["/home/toxic/pens", "/home/toxic/estate"],
+    })
+    expect(out.roots).toEqual(["/home/toxic/pens", "/home/toxic/estate"])
+  })
+
+  test("toIndexingConfigInput yields undefined roots when not set", () => {
+    const out = toIndexingConfigInput({ enabled: true })
+    expect(out.roots).toBeUndefined()
+  })
+
+  test("zod IndexingConfig parses an allowed single/empty-nonzero roots array", () => {
+    const parsed = IndexingConfig.parse({ enabled: true, roots: ["/home/toxic/pens"] })
+    expect(parsed.roots).toEqual(["/home/toxic/pens"])
+  })
+
+  test("zod IndexingConfig rejects an empty roots entry", () => {
+    expect(() => IndexingConfig.parse({ roots: [""] })).toThrow()
+  })
+})

@@ -129,6 +129,7 @@ export namespace KappacodeConfigOverlay {
     ["indexing", "embeddingBatchSize"],
     ["indexing", "scannerMaxBatchRetries"],
     ["indexing", "fileExtensions"],
+    ["indexing", "roots"],
   ] as const
 
   const collectionPaths = ["provider", "mcp", "permission", "agent", "formatter", "lsp"] as const

@@ -9,7 +9,7 @@ import { IndexingStatus, disabledIndexingStatus } from "@kappacode/kappa-indexin
 import { Telemetry } from "@kappacode/kappa-telemetry"
 import { fetchKappaEmbeddingModelCatalog } from "@kappacode/kappa-gateway"
 import { allowed, message } from "@opencode-ai/core/kappacode/fff"
-import { Instance } from "@/kappacode/instance"
+import { Instance, provide as provideInstance } from "@/kappacode/instance"
 import { Bus } from "@/bus"
 import { Config } from "@/config/config"
 import { AppRuntime } from "@/effect/app-runtime"
@@ -243,6 +243,9 @@ export namespace KappaIndexing {
 
   const cache = new Map<string, Cache>()
   const projects = new Map<string, string>()
+  // Additional declared index roots (config `indexing.roots`), each backed by
+  // its own cache entry so search() fans out across all of them.
+  const extraRoots = new Map<string, Cache>()
 
   const inert = async (current: () => Status): Promise<Entry> => {
     const publish = async () => {
@@ -467,6 +470,49 @@ export namespace KappaIndexing {
     })
     await report()
 
+    // Index additional declared roots (`indexing.roots`). Each root gets its own
+    // cache entry, scoped to that directory, guarded by the same allowed() check
+    // as the project root; disallowed or missing roots are skipped with a warning.
+    for (const raw of cfgInput.roots ?? []) {
+      const root = path.resolve(raw)
+      if (cache.has(root)) continue
+      let ok = false
+      try {
+        ok = allowed(realpathSync.native(root))
+      } catch {
+        ok = false
+      }
+      if (!ok) {
+        log.warn("skipping disallowed indexing root", { root })
+        continue
+      }
+      const gate = Promise.withResolvers<Entry>()
+      const next = {
+        ready: gate.promise,
+        resolve: gate.resolve,
+        reject: gate.reject,
+      } as Cache
+      extraRoots.set(root, next)
+      log.info("initializing extra indexing root", { root })
+      // Boot this root as if it were the active project directory.
+      next.promise = provideInstance({ directory: root, fn: () => boot(next) })
+        .then(async (entryPromise: Promise<Entry>) => {
+          const entry = await entryPromise
+          if (next.disposed) {
+            await entry.dispose()
+            return entry
+          }
+          next.entry = entry
+          return entry
+        })
+        .catch(async (err: unknown) => {
+          next.reject(err)
+          extraRoots.delete(root)
+          log.warn("extra indexing root failed", { root, err })
+          return inert(() => failed(err))
+        })
+    }
+
     return base
   }
 
@@ -584,6 +630,24 @@ export namespace KappaIndexing {
     const entry = await hit().promise
     entry.scope(WorkspaceContext.workspaceID)
     if (!entry.initialized || entry.current().state === "Disabled" || !entry.engine) return []
-    return entry.engine.search(query, directoryPrefix)
+    const primary = entry.engine.search(query, directoryPrefix)
+    const roots = []
+    for (const [root, rootHit] of extraRoots) {
+      const rootEntry = rootHit.entry ?? (await rootHit.promise.catch(() => undefined))
+      if (!rootEntry?.initialized || rootEntry.current().state === "Disabled" || !rootEntry.engine) continue
+      roots.push(rootEntry.engine.search(query, directoryPrefix))
+    }
+    const [main, ...rest] = await Promise.all([primary, ...roots])
+    const seen = new Set<string>()
+    const merged: VectorStoreSearchResult[] = []
+    for (const group of [main, ...rest]) {
+      for (const item of group ?? []) {
+        const key = item.payload?.filePath ?? String(item.id)
+        if (seen.has(key)) continue
+        seen.add(key)
+        merged.push(item)
+      }
+    }
+    return merged
   }
 }
