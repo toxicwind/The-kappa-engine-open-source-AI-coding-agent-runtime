@@ -7,10 +7,7 @@ import { Cause, Context, Effect, Schema } from "effect"
 import * as Log from "@opencode-ai/core/util/log"
 import { Global } from "@opencode-ai/core/global"
 import { existsSync, readFileSync, writeFileSync, renameSync, mkdirSync } from "node:fs"
-import { join, dirname } from "node:path"
-import { fileURLToPath } from "node:url"
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import { join } from "node:path"
 const log = Log.create({ service: "kappacode.flail-gate" })
 
 // ── Gate Config Schema ────────────────────────────────────────────────
@@ -48,20 +45,28 @@ export const FramingInfo = Schema.Struct({
   models: Schema.Struct({
     verdict: FramingVerdict,
     path: Schema.optional(Schema.NullOr(Schema.String)),
-    evidence: Schema.optional(Schema.NullOr(Schema.Struct({
-      status: Schema.Int,
-      ctype: Schema.String,
-      bytes: Schema.Int,
-    }))),
+    evidence: Schema.optional(
+      Schema.NullOr(
+        Schema.Struct({
+          status: Schema.Int,
+          ctype: Schema.String,
+          bytes: Schema.Int,
+        }),
+      ),
+    ),
   }),
   completions: Schema.Struct({
     verdict: FramingVerdict,
     path: Schema.optional(Schema.NullOr(Schema.String)),
-    evidence: Schema.optional(Schema.NullOr(Schema.Struct({
-      status: Schema.Int,
-      ctype: Schema.String,
-      bytes: Schema.Int,
-    }))),
+    evidence: Schema.optional(
+      Schema.NullOr(
+        Schema.Struct({
+          status: Schema.Int,
+          ctype: Schema.String,
+          bytes: Schema.Int,
+        }),
+      ),
+    ),
   }),
 })
 export type FramingInfo = Schema.Schema.Type<typeof FramingInfo>
@@ -152,10 +157,45 @@ export function cachedProbeModels(nb: Notebook): Array<{
 
 // ── File Paths ────────────────────────────────────────────────────────
 
-const ROOT = join(__dirname, "..", "..", "..", "..") // kappa-code root
-const CONFIG_DIR = join(ROOT, "config")
+const CONFIG_DIR = join(Global.Path.config, "flail-gate")
 const GATE_FILE = join(CONFIG_DIR, "gate.json")
 const NOTEBOOK_FILE = join(CONFIG_DIR, "notebook.json")
+
+const DEFAULT_GATE = {
+  proseTokenBudget: 900,
+  pivotBudget: 2,
+  repetitionJaccard: 0.82,
+  raceSeconds: 8,
+  narration: {
+    actionPromises:
+      "\\b(?:on it|running (?:it )?now|starting (?:on )?that|handling (?:it|that)|kicking (?:it|this) off|i[''']ll (?:go|handle|run|start)|working on it|got it, running|let me (?:just )?(?:check|try|look)|recalibrat)\\b",
+    escalateAfter: 1,
+    criticalAfter: 3,
+    ttlMinutes: 10,
+  },
+  semanticBrake: {
+    windowTurns: 6,
+    killAt: 0.62,
+    detectors: ["semantic", "action", "ngram", "edit", "compression"],
+  },
+  coldTool: { lookbackTurns: 4, maxCandidates: 5 },
+}
+
+const FRESH_NOTEBOOK = () => ({
+  session: `run-${Date.now()}`,
+  base: "unset",
+  framing: {
+    probed: false,
+    models: { verdict: "unprobed" as FramingVerdict, path: null, evidence: null },
+    completions: { verdict: "unprobed" as FramingVerdict, path: null, evidence: null },
+  },
+  reasoningPassthrough: { honored: null, field: null, model: null },
+  loopTendency: { selfNgram: null, semantic: null, runs: 0 },
+  narrationTendency: { runs: 0, violations: 0, actionPromises: 0 },
+  catalog: [],
+  ledger: [],
+  probes: [],
+})
 
 // ── Gate State ────────────────────────────────────────────────────────
 
@@ -169,25 +209,13 @@ function loadGate(): GateConfig {
     gateConfig = JSON.parse(text) as GateConfig
     return gateConfig
   } catch (err) {
+    if (!existsSync(GATE_FILE)) {
+      gateConfig = Schema.decodeUnknownSync(GateConfig)(DEFAULT_GATE)
+      return gateConfig
+    }
     log.warn("failed to load gate.json, using defaults", { err })
-    return Schema.decodeUnknownSync(GateConfig)({
-      proseTokenBudget: 900,
-      pivotBudget: 2,
-      repetitionJaccard: 0.82,
-      raceSeconds: 8,
-      narration: {
-        actionPromises: "\\b(?:on it|running (?:it )?now|starting (?:on )?that|handling (?:it|that)|kicking (?:it|this) off|i[''']ll (?:go|handle|run|start)|working on it|got it, running|let me (?:just )?(?:check|try|look)|recalibrat)\\b",
-        escalateAfter: 1,
-        criticalAfter: 3,
-        ttlMinutes: 10,
-      },
-      semanticBrake: {
-        windowTurns: 6,
-        killAt: 0.62,
-        detectors: ["semantic", "action", "ngram", "edit", "compression"],
-      },
-      coldTool: { lookbackTurns: 4, maxCandidates: 5 },
-    })
+    gateConfig = Schema.decodeUnknownSync(GateConfig)(DEFAULT_GATE)
+    return gateConfig
   }
 }
 
@@ -198,26 +226,16 @@ function loadNotebook(): Notebook {
     notebook = JSON.parse(text) as Notebook
     return notebook
   } catch (err) {
-    log.warn("failed to load notebook.json, creating fresh", { err })
-    return Schema.decodeUnknownSync(Notebook)({
-      session: `run-${Date.now()}`,
-      base: "unset",
-      framing: {
-        probed: false,
-        models: { verdict: "unprobed", path: null, evidence: null },
-        completions: { verdict: "unprobed", path: null, evidence: null },
-      },
-      reasoningPassthrough: { honored: null, field: null, model: null },
-      loopTendency: { selfNgram: null, semantic: null, runs: 0 },
-      narrationTendency: { runs: 0, violations: 0, actionPromises: 0 },
-      catalog: [],
-      ledger: [],
-      probes: [],
-    })
+    if (existsSync(NOTEBOOK_FILE)) {
+      log.warn("failed to load notebook.json, creating fresh", { err })
+    }
+    notebook = Schema.decodeUnknownSync(Notebook)(FRESH_NOTEBOOK())
+    return notebook
   }
 }
 
 function saveNotebook(nb: Notebook): void {
+  mkdirSync(CONFIG_DIR, { recursive: true })
   const tmp = NOTEBOOK_FILE + ".tmp"
   writeFileSync(tmp, JSON.stringify(nb, null, 2))
   renameSync(tmp, NOTEBOOK_FILE)
@@ -227,7 +245,8 @@ function saveNotebook(nb: Notebook): void {
 // ── Narration Guard ──────────────────────────────────────────────────
 
 const NARRATION_RE = new RegExp(loadGate().narration.actionPromises, "i")
-const PIVOT_RE = /\b(oh wait|wait|actually|hold on|let me reconsider|hmm|no no|i mean|scratch that|let me think|recalibrat)\b/gi
+const PIVOT_RE =
+  /\b(oh wait|wait|actually|hold on|let me reconsider|hmm|no no|i mean|scratch that|let me think|recalibrat)\b/gi
 
 export interface TurnInput {
   turn: number
@@ -257,7 +276,8 @@ export function narrationGuard(input: TurnInput): GuardResult {
     return {
       action: "continue",
       reason: "narration",
-      inject: "NARRATION_GUARD: action promise with zero tool calls in this runId. End this turn with a ToolCall or a RaceTuple. Prose is not a constructor.",
+      inject:
+        "NARRATION_GUARD: action promise with zero tool calls in this runId. End this turn with a ToolCall or a RaceTuple. Prose is not a constructor.",
     }
   }
 
@@ -267,7 +287,8 @@ export function narrationGuard(input: TurnInput): GuardResult {
     return {
       action: "continue",
       reason: "pivot",
-      inject: "RACE_TUPLE required. Stop prose. Exactly 3 orthogonal candidates, each with a command, a falsifier, and a cost bound. Run via scripts/race-run.sh. Winner = fastest rc=0 with a receipt.",
+      inject:
+        "RACE_TUPLE required. Stop prose. Exactly 3 orthogonal candidates, each with a command, a falsifier, and a cost bound. Run via scripts/race-run.sh. Winner = fastest rc=0 with a receipt.",
     }
   }
 
@@ -327,17 +348,29 @@ const MODEL_MATRIX = [
   "/models?category=llm",
 ] as const
 
-export async function probeModels(baseUrl: string, apiKey: string): Promise<{
+export async function probeModels(
+  baseUrl: string,
+  apiKey: string,
+): Promise<{
   verdict: FramingVerdict
   path: string | null
   evidence: { status: number; ctype: string; bytes: number } | null
   probes: Array<{ path: string; status: number; ctype: string; bytes: number; verdict: FramingVerdict; note: string }>
 }> {
   const headers = { Authorization: `Bearer ${apiKey}`, Accept: "*/*" }
-  const probes: Array<{ path: string; status: number; ctype: string; bytes: number; verdict: FramingVerdict; note: string }> = []
+  const probes: Array<{
+    path: string
+    status: number
+    ctype: string
+    bytes: number
+    verdict: FramingVerdict
+    note: string
+  }> = []
 
   for (const path of MODEL_MATRIX) {
-    let status = 0, ctype = "", body = ""
+    let status = 0,
+      ctype = "",
+      body = ""
     try {
       const response = await fetch(`${baseUrl}${path}`, {
         headers,
@@ -355,10 +388,11 @@ export async function probeModels(baseUrl: string, apiKey: string): Promise<{
     if (verdict === "Buffered") break
   }
 
-  const winner = probes.find((p) => p.verdict === "Buffered")
-            ?? probes.find((p) => p.verdict === "SseCorrupted")
-            ?? probes.find((p) => p.verdict === "Sse")
-            ?? probes.find((p) => p.verdict === "Absent")
+  const winner =
+    probes.find((p) => p.verdict === "Buffered") ??
+    probes.find((p) => p.verdict === "SseCorrupted") ??
+    probes.find((p) => p.verdict === "Sse") ??
+    probes.find((p) => p.verdict === "Absent")
 
   return {
     verdict: winner?.verdict ?? "Absent",
@@ -373,17 +407,25 @@ function classify(status: number, ctype: string, body: string): FramingVerdict {
   if (status === 0 || status >= 500) return "Error"
   const isSse = /text\/event-stream/i.test(ctype) || /^(data|event):/m.test(body.slice(0, 512))
   if (!isSse) {
-    try { const j = JSON.parse(body); return (j && (j.data || j.object)) ? "Buffered" : "Error"; }
-    catch { return "Error" }
+    try {
+      const j = JSON.parse(body)
+      return j && (j.data || j.object) ? "Buffered" : "Error"
+    } catch {
+      return "Error"
+    }
   }
   const hasErrorFrame = /event:\s*error|\bproxy_stream_error\b|"error"\s*:/.test(body)
   const hasPartialJson = /^\s*\{/.test(body) && !/\}\s*$/.test(body.trim())
-  return (hasErrorFrame || hasPartialJson) ? "SseCorrupted" : "Sse"
+  return hasErrorFrame || hasPartialJson ? "SseCorrupted" : "Sse"
 }
 
 // ── Completion Probe ─────────────────────────────────────────────────
 
-export async function probeCompletions(baseUrl: string, apiKey: string, model: string): Promise<{
+export async function probeCompletions(
+  baseUrl: string,
+  apiKey: string,
+  model: string,
+): Promise<{
   honored: boolean
   selfNgram: number
   narration: number
@@ -402,18 +444,24 @@ export async function probeCompletions(baseUrl: string, apiKey: string, model: s
     })
     const text = await r.text()
     let j: any = null
-    try { j = JSON.parse(text) } catch {}
+    try {
+      j = JSON.parse(text)
+    } catch {}
     return { status: r.status, text, j }
   }
 
   function content(j: any): string {
-    try { return j.choices?.[0]?.message?.content ?? "" } catch { return "" }
+    try {
+      return j.choices?.[0]?.message?.content ?? ""
+    } catch {
+      return ""
+    }
   }
   function hasReasoning(j: any): boolean {
     return /"reasoning_content"\s*:/.test(JSON.stringify(j ?? {}))
   }
   function ngrams(s: string, n = 3): Set<string> {
-    const w = (s.toLowerCase().match(/[a-z0-9]+/g) ?? [])
+    const w = s.toLowerCase().match(/[a-z0-9]+/g) ?? []
     const out = new Set<string>()
     for (let i = 0; i + n <= w.length; i++) out.add(w.slice(i, i + n).join(" "))
     return out
@@ -426,16 +474,26 @@ export async function probeCompletions(baseUrl: string, apiKey: string, model: s
   }
 
   // 1) Reasoning passthrough
-  const offR = await call({ "X-Reasoning-Passthrough": "false" }, { messages: [{ role: "user", content: "Reply with exactly: PONG" }] })
-  const onR = await call({ "X-Reasoning-Passthrough": "true" }, { messages: [{ role: "user", content: "Reply with exactly: PONG" }] })
+  const offR = await call(
+    { "X-Reasoning-Passthrough": "false" },
+    { messages: [{ role: "user", content: "Reply with exactly: PONG" }] },
+  )
+  const onR = await call(
+    { "X-Reasoning-Passthrough": "true" },
+    { messages: [{ role: "user", content: "Reply with exactly: PONG" }] },
+  )
   const honored = hasReasoning(onR.j) && !hasReasoning(offR.j)
 
   // 2) Loop + narration tendency
   const PROMPT = "List three ways to verify a port is listening, then stop. Do not explain."
   const texts: string[] = []
-  let narration = 0, promises = 0
+  let narration = 0,
+    promises = 0
   for (let i = 0; i < 5; i++) {
-    const r = await call({ "X-Reasoning-Passthrough": honored ? "true" : "false" }, { messages: [{ role: "user", content: PROMPT }], tools: [] })
+    const r = await call(
+      { "X-Reasoning-Passthrough": honored ? "true" : "false" },
+      { messages: [{ role: "user", content: PROMPT }], tools: [] },
+    )
     const t = content(r.j)
     texts.push(t)
     if (narrRe.test(t)) promises++
@@ -443,7 +501,8 @@ export async function probeCompletions(baseUrl: string, apiKey: string, model: s
     if (narrRe.test(t) && tc === 0) narration++
   }
   const pairs: number[] = []
-  for (let i = 0; i < texts.length; i++) for (let j = i + 1; j < texts.length; j++) pairs.push(jac(ngrams(texts[i]), ngrams(texts[j])))
+  for (let i = 0; i < texts.length; i++)
+    for (let j = i + 1; j < texts.length; j++) pairs.push(jac(ngrams(texts[i]), ngrams(texts[j])))
   const selfNgram = pairs.length ? pairs.reduce((a, b) => a + b, 0) / pairs.length : 0
 
   // 3) Update notebook
@@ -453,7 +512,10 @@ export async function probeCompletions(baseUrl: string, apiKey: string, model: s
     reasoningPassthrough: { honored, field: honored ? "reasoning_content" : null, model },
     loopTendency: { selfNgram: +selfNgram.toFixed(3), semantic: null, runs: texts.length },
     narrationTendency: { runs: texts.length, violations: narration, actionPromises: promises },
-    probes: [...nb.probes, { kind: "completions", model, honored, selfNgram: +selfNgram.toFixed(3), narration, promises }],
+    probes: [
+      ...nb.probes,
+      { kind: "completions", model, honored, selfNgram: +selfNgram.toFixed(3), narration, promises },
+    ],
   })
 
   // 4) Adapt gate thresholds from measurement
@@ -473,6 +535,7 @@ export async function probeCompletions(baseUrl: string, apiKey: string, model: s
 }
 
 function saveGate(gate: GateConfig): void {
+  mkdirSync(CONFIG_DIR, { recursive: true })
   const tmp = GATE_FILE + ".tmp"
   writeFileSync(tmp, JSON.stringify(gate, null, 2))
   renameSync(tmp, GATE_FILE)
@@ -549,14 +612,24 @@ export async function initializeFlailGate(): Promise<{
 
 // ── Exported Service ────────────────────────────────────────────────
 
-export class FlailGate extends Context.Service<FlailGate, {
-  readonly narrationGuard: (input: TurnInput) => Effect.Effect<GuardResult>
-  readonly initialize: () => Effect.Effect<{ framing: { verdict: FramingVerdict; path: string | null }; models: Array<{ model: string; honored: boolean; selfNgram: number; narration: number }> }>
-  readonly loadGate: () => GateConfig
-  readonly loadNotebook: () => Notebook
-  readonly probeModels: (baseUrl: string, apiKey: string) => Effect.Effect<Awaited<ReturnType<typeof probeModels>>>
-  readonly probeCompletions: (baseUrl: string, apiKey: string, model: string) => Effect.Effect<Awaited<ReturnType<typeof probeCompletions>>>
-}>()("@kappacode/FlailGate") {}
+export class FlailGate extends Context.Service<
+  FlailGate,
+  {
+    readonly narrationGuard: (input: TurnInput) => Effect.Effect<GuardResult>
+    readonly initialize: () => Effect.Effect<{
+      framing: { verdict: FramingVerdict; path: string | null }
+      models: Array<{ model: string; honored: boolean; selfNgram: number; narration: number }>
+    }>
+    readonly loadGate: () => GateConfig
+    readonly loadNotebook: () => Notebook
+    readonly probeModels: (baseUrl: string, apiKey: string) => Effect.Effect<Awaited<ReturnType<typeof probeModels>>>
+    readonly probeCompletions: (
+      baseUrl: string,
+      apiKey: string,
+      model: string,
+    ) => Effect.Effect<Awaited<ReturnType<typeof probeCompletions>>>
+  }
+>()("@kappacode/FlailGate") {}
 
 export const live = Effect.gen(function* () {
   // Initialize on service creation
@@ -575,14 +648,18 @@ export const live = Effect.gen(function* () {
     probeModels: (baseUrl, apiKey) => Effect.promise(() => probeModels(baseUrl, apiKey)),
     probeCompletions: (baseUrl, apiKey, model) => Effect.promise(() => probeCompletions(baseUrl, apiKey, model)),
   })
-}).pipe(Effect.catchCause((cause) => {
-  log.error("flail gate service creation failed", { err: Cause.squash(cause) })
-  return Effect.succeed(FlailGate.of({
-    narrationGuard: (input) => Effect.succeed({ action: "accept", reason: "gate-unavailable" }),
-    initialize: () => Effect.succeed({ framing: { verdict: "unprobed", path: null }, models: [] }),
-    loadGate: () => loadGate(),
-    loadNotebook: () => loadNotebook(),
-    probeModels: () => Effect.succeed({ verdict: "unprobed", path: null, evidence: null, probes: [] }),
-    probeCompletions: () => Effect.succeed({ honored: false, selfNgram: 0, narration: 0, promises: 0 }),
-  }))
-}))
+}).pipe(
+  Effect.catchCause((cause) => {
+    log.error("flail gate service creation failed", { err: Cause.squash(cause) })
+    return Effect.succeed(
+      FlailGate.of({
+        narrationGuard: (input) => Effect.succeed({ action: "accept", reason: "gate-unavailable" }),
+        initialize: () => Effect.succeed({ framing: { verdict: "unprobed", path: null }, models: [] }),
+        loadGate: () => loadGate(),
+        loadNotebook: () => loadNotebook(),
+        probeModels: () => Effect.succeed({ verdict: "unprobed", path: null, evidence: null, probes: [] }),
+        probeCompletions: () => Effect.succeed({ honored: false, selfNgram: 0, narration: 0, promises: 0 }),
+      }),
+    )
+  }),
+)
