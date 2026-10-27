@@ -46,7 +46,7 @@ const reader = Layer.succeed(
   ReadToolFileSystem.Service.of({
     inspect: (input) =>
       resolveFailure === undefined
-        ? Effect.succeed({ path: input, type: resolvedType, dev: 0, ino: 0 })
+        ? Effect.succeed({ path: input, type: resolvedType, dev: 0n, ino: 0n }) // kilocode_change
         : Effect.die(resolveFailure),
     read: (target, _resource, page = {}) => {
       readCalls.push({ input: target.path, page })

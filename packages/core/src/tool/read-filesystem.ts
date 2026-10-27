@@ -94,8 +94,8 @@ export class ListPage extends Schema.Class<ListPage>("ReadTool.ListPage")({
 export interface Target {
   readonly path: AbsolutePath
   readonly type: "file" | "directory"
-  readonly dev: number
-  readonly ino: number
+  readonly dev: bigint // kilocode_change
+  readonly ino: bigint // kilocode_change
 }
 
 export interface Interface {
@@ -183,7 +183,7 @@ export const inspect = Effect.fn("ReadTool.inspect")(function* (fs: FSUtil.Inter
 })
 
 // kappacode_change - reject targets replaced after permission approval
-const verify = (target: Target, info: { readonly dev: number; readonly ino: Option.Option<number> }) => {
+const verify = (target: Target, info: { readonly dev: bigint; readonly ino: Option.Option<bigint> }) => { // kilocode_change
   if (target.dev === info.dev && target.ino === Option.getOrUndefined(info.ino)) return
   throw new Error("Path changed after approval")
 }

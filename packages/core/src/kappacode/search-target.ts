@@ -6,8 +6,8 @@ import { ToolOutputStore } from "../tool-output-store"
 export interface Target {
   readonly path: string
   readonly type: "file" | "directory"
-  readonly dev: number
-  readonly ino: number
+  readonly dev: bigint
+  readonly ino: bigint
 }
 
 export const inspect = Effect.fn("SearchTarget.inspect")(function* (fs: FSUtil.Interface, input: string) {

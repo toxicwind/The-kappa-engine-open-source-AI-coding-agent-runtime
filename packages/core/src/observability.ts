@@ -4,7 +4,7 @@ import { NodeFileSystem } from "@effect/platform-node"
 import { LayerNode } from "./effect/layer-node"
 import { Effect, Layer, Logger, References } from "effect"
 import { FetchHttpClient } from "effect/http"
-import { OtlpSerialization } from "effect/observability"
+import { OtlpExporter, OtlpSerialization } from "effect/observability" // kilocode_change
 import { Logging } from "./observability/logging"
 import { Otlp } from "./observability/otlp"
 
@@ -14,6 +14,7 @@ export const layer = Layer.unwrap(
       Layer.provide(NodeFileSystem.layer),
       Layer.provide(OtlpSerialization.layerJson),
       Layer.provide(FetchHttpClient.layer),
+      Layer.provide(OtlpExporter.layerFlusher), // kilocode_change
       Layer.orDie,
       Layer.merge(Layer.succeed(References.MinimumLogLevel, Logging.minimumLogLevel())),
     )

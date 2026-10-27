@@ -29,7 +29,11 @@ export namespace FSUtil {
     readonly type: "file" | "directory" | "symlink" | "other"
   }
 
-  export interface Interface extends FileSystem.FileSystem {
+  // kilocode_change start
+  export interface Interface extends Omit<FileSystem.FileSystem, "glob"> {
+    // Effect 4 added FileSystem.glob with root/exclude options; FSUtil's glob
+    // keeps the repo's Glob.Options scan, so it overrides rather than extends.
+    // kilocode_change end
     readonly isDir: (path: string) => Effect.Effect<boolean>
     readonly isFile: (path: string) => Effect.Effect<boolean>
     readonly existsSafe: (path: string) => Effect.Effect<boolean>
