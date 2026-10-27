@@ -2145,7 +2145,6 @@ export type PromptInput = Omit<Schema.Schema.Type<typeof PromptInput>, "parts" |
 // binary (its export resolved undefined at runtime -> "X.pipe is not a
 // function" in the 500 middleware at prompt.ts:1614). Re-export here so
 // SessionPrompt.LoopInput callers keep working.
-import type { LoopInput } from "./loop-input.ts" // kappacode_change
 export { LoopInput } from "./loop-input.ts" // kappacode_change
 
 export const ShellInput = Schema.Struct({
