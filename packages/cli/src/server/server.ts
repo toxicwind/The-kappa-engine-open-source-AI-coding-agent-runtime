@@ -153,9 +153,16 @@ function startListener(opts: ListenOptions, port: number) {
 
 function tcpAddress(state: ListenerState) {
   return Effect.gen(function* () {
-    if (state.server.address._tag === "TcpAddress") return state.server.address
+    // Effect 4.0.6 renamed the resolved TCP address: the tag is
+    // "InetAddressV4"/"InetAddressV6" (was "TcpAddress"), and the port
+    // lives on the address itself. Checking the old tag made every
+    // `kappa serve` die with "Unexpected HttpServer address tag:
+    // InetAddressV4" — the kappa-acp daemon could never start.
+    const address = state.server.address
+    if (address._tag === "InetAddressV4" || address._tag === "InetAddressV6") return address
+    if (address._tag === "TcpAddress") return address
     yield* Scope.close(state.scope, Exit.void).pipe(Effect.ignore)
-    return yield* Effect.die(new Error(`Unexpected HttpServer address tag: ${state.server.address._tag}`))
+    return yield* Effect.die(new Error(`Unexpected HttpServer address tag: ${address._tag}`))
   })
 }
 
