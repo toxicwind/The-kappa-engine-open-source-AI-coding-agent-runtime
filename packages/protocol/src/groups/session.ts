@@ -64,22 +64,26 @@ const encodeSessionsCursor = Schema.encodeSync(SessionsCursorJson)
 const decodeSessionsCursor = Schema.decodeUnknownEffect(SessionsCursorJson)
 const invalidCursor = "Invalid cursor" as const
 
-export const SessionsCursor = Schema.String.pipe(
-  Schema.brand("SessionsCursor"),
-  statics((schema) => {
-    const make = schema.make.bind(schema)
-    return {
-      make: (input: typeof SessionsCursorInput.Type) => make(Base64Url.encode(encodeSessionsCursor(input))),
-      parse: (input: string) =>
-        Effect.suspend(() => {
-          const result = Base64Url.decodeString(input)
-          return Result.isFailure(result)
-            ? Effect.fail(invalidCursor)
-            : decodeSessionsCursor(result.success).pipe(Effect.mapError(() => invalidCursor))
-        }),
-    }
-  }),
+// kilocode_change start - SessionsCursor.make must NOT live in statics:
+// Effect 4 memoizes schema.make as a non-configurable own property on first
+// read, so any proxy shadowing of `make` turns unreadable under bun (first
+// read with .bind, second read with a closure) and 500'd session.list, which
+// builds two cursors per response. The constructor lives outside the proxy.
+const SessionsCursorSchema = Schema.String.pipe(Schema.brand("SessionsCursor"))
+export const makeSessionsCursor = (input: typeof SessionsCursorInput.Type) =>
+  SessionsCursorSchema.make(Base64Url.encode(encodeSessionsCursor(input)))
+export const SessionsCursor = SessionsCursorSchema.pipe(
+  statics(() => ({
+    parse: (input: string) =>
+      Effect.suspend(() => {
+        const result = Base64Url.decodeString(input)
+        return Result.isFailure(result)
+          ? Effect.fail(invalidCursor)
+          : decodeSessionsCursor(result.success).pipe(Effect.mapError(() => invalidCursor))
+      }),
+  })),
 )
+// kilocode_change end
 export type SessionsCursor = typeof SessionsCursor.Type
 
 const SessionActive = Schema.Struct({

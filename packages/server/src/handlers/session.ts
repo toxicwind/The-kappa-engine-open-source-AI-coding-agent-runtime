@@ -2,7 +2,7 @@ import { SessionV2 } from "@opencode-ai/core/session"
 import { DateTime, Effect, Stream } from "effect"
 import { HttpApiBuilder, HttpApiSchema } from "effect/http-api"
 import { Api } from "../api"
-import { SessionsCursor } from "@opencode-ai/protocol/groups/session"
+import { SessionsCursor, makeSessionsCursor } from "@opencode-ai/protocol/groups/session" // kilocode_change
 import {
   ConflictError,
   InvalidCursorError,
@@ -41,7 +41,7 @@ export const SessionHandler = HttpApiBuilder.group(Api, "server.session", (handl
             data: sessions,
             cursor: {
               previous: first
-                ? SessionsCursor.make({
+                ? makeSessionsCursor({ // kilocode_change
                     ...query,
                     anchor: {
                       id: first.id,
@@ -51,7 +51,7 @@ export const SessionHandler = HttpApiBuilder.group(Api, "server.session", (handl
                   })
                 : undefined,
               next: last
-                ? SessionsCursor.make({
+                ? makeSessionsCursor({ // kilocode_change
                     ...query,
                     anchor: {
                       id: last.id,
