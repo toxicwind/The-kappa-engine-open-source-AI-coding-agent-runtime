@@ -49,17 +49,7 @@ export namespace DaemonClient {
       ...(options.hostname != null ? (["hostname"] as const) : []),
       ...(options.mdns != null ? (["mdns"] as const) : []),
     ]
-    // Daemon.Options requires the full Network set; fill the fields the caller
-    // did not pass with the CLI network defaults (see src/cli/network.ts) so
-    // Daemon.ensure's Network.parse never sees a partial object. `explicit`
-    // still records only the caller-passed flags, so reuse matching is
-    // unaffected by the filled defaults.
     const opts: Daemon.Options = {
-      hostname: "127.0.0.1",
-      port: 0,
-      mdns: false,
-      mdnsDomain: "kappa.local",
-      cors: [],
       ...(options.port != null ? { port: options.port } : {}),
       ...(options.hostname != null ? { hostname: options.hostname } : {}),
       ...(options.mdns != null ? { mdns: options.mdns } : {}),

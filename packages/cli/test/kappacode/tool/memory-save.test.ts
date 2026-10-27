@@ -63,7 +63,7 @@ const ctx: Tool.Context = {
 
 function runSave(
   memory: ReturnType<typeof makeMemory>,
-  params: { readonly text: string; readonly key?: string; readonly source?: "auto" | "tool" | "user" },
+  params: unknown,
   context: Tool.Context = ctx,
 ) {
   const layer = Layer.mergeAll(
