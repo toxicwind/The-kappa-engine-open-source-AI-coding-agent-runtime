@@ -1,6 +1,6 @@
 {
-  "proseTokenBudget": 900,
-  "pivotBudget": 2,
+  "proseTokenBudget": 600,
+  "pivotBudget": 1,
   "repetitionJaccard": 0.82,
   "raceSeconds": 8,
   "narration": {
@@ -12,7 +12,16 @@
   "semanticBrake": {
     "windowTurns": 6,
     "killAt": 0.62,
-    "detectors": ["semantic","action","ngram","edit","compression"]
+    "detectors": [
+      "semantic",
+      "action",
+      "ngram",
+      "edit",
+      "compression"
+    ]
   },
-  "coldTool": { "lookbackTurns": 4, "maxCandidates": 5 }
+  "coldTool": {
+    "lookbackTurns": 4,
+    "maxCandidates": 5
+  }
 }

@@ -35,19 +35,17 @@ export const statics = <S extends object, M extends Record<string, unknown>>(met
     }
     return m
   }
-  return (schema: S): S & M =>
-    new Proxy(schema, {
+  return (schema: S): S & M => {
+    const m = resolved(schema)
+    const proxy = new Proxy<S>(schema, {
       get(target, prop, receiver) {
-        const m = resolved(target)
         if (prop in m) return (m as Record<PropertyKey, unknown>)[prop]
         return Reflect.get(target, prop, receiver)
       },
       has(target, prop) {
-        const m = resolved(target)
         return prop in m || Reflect.has(target, prop)
       },
       getOwnPropertyDescriptor(target, prop) {
-        const m = resolved(target)
         if (prop in m) {
           const value = (m as Record<PropertyKey, unknown>)[prop]
           return { value, writable: true, enumerable: true, configurable: true }
@@ -55,9 +53,11 @@ export const statics = <S extends object, M extends Record<string, unknown>>(met
         return Reflect.getOwnPropertyDescriptor(target, prop)
       },
       ownKeys(target) {
-        return [...new Set([...Reflect.ownKeys(target), ...Reflect.ownKeys(resolved(target))])]
+        return [...new Set([...Reflect.ownKeys(target), ...Reflect.ownKeys(m)])]
       },
     })
+    return proxy as S & M
+  }
 }
 
 export const DateTimeUtcFromMillis = Schema.Finite.pipe(
