@@ -25,7 +25,6 @@ import { Skill } from "../skill/index.ts"
 import { Effect, Context, Layer, Schema } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import * as Option from "effect/Option"
-import * as OtelTracer from "@effect/opentelemetry/Tracer"
 import type { DeepMutable } from "@opencode-ai/core/schema" // kappacode_change
 // kappacode_change start
 import * as KappaAgent from "@/kappacode/agent"
