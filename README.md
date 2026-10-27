@@ -6,9 +6,9 @@
 
 # ⚡ kappa
 
-**The open source AI coding agent — estate-forked, monorepo-organized, first-class with forge/nativelink.**
+**The open source AI coding agent — VS Code, JetBrains, and the terminal, from one runtime.**
 
-*The Greek-letter sibling of tau (τ). Kilo Code renamed: a coding agent that meets you everywhere — VS Code, JetBrains, the CLI.*
+_Kappa (κ): a fork of [Kilo Code](https://github.com/Kilo-Org/kilo-code) (itself a fork of opencode) — a coding agent that meets you everywhere._
 
 <p align="center">
   <a href="packages/kappa-console/">Explore the docs »</a>
@@ -33,53 +33,42 @@ flowchart TB
         JB["kappa JetBrains plugin\n@kappacode/jetbrains"]
     end
     subgraph cli["⌨️ CLI / TUI"]
-        CLI["@kappacode/cli (opencode)\nbinary: kappa"]
+        CLI["@kappacode/cli\nbinary: kappa"]
     end
     subgraph runtime["⚙️ Runtime"]
         CORE["@kappacode/core\nproviders · plugins · config\nsessions · models · MCP"]
         GATE["@kappacode/kappa-gateway\nmodel routing\nprovider auth"]
     end
-    subgraph build["🔧 Build tooling"]
-        FORGE["Forge daemon\n:25148 · build cache"]
-        NL["Nativlink\n:25155 · RE API"]
-    end
-    subgraph infra["🏗️ Infrastructure"]
-        SM["Secretsmith\nsecretsmith keyring"]
-        SH["Shims\ngit hooks · env fix\nprompt units"]
-    end
     VSC --> CORE
     JB --> CORE
     CLI --> CORE
     CORE --> GATE
-    CLI --> FORGE
-    CORE --> NL
-    CLI --> SM
-    CLI --> SH
 ```
 
 ## 🧭 Table of Contents
 
 1. [The kappa in one picture](#-the-kappa-in-one-picture)
-2. [Tour it live](#-tour-it-live-5-commands)
+2. [Try it](#-try-it-5-commands)
 3. [About](#-about)
 4. [The monorepo](#-the-monorepo)
 5. [Build](#-build)
-6. [Estate integration](#-estate-integration)
-7. [Getting started](#-getting-started)
-8. [Contributing](#-contributing)
-9. [License](#license)
+6. [Tooling integration](#-tooling-integration)
+7. [Fork features](#-fork-features)
+8. [Getting started](#-getting-started)
+9. [Contributing](#-contributing)
+10. [License](#license)
 
-## 🔍 Tour it live (5 commands)
+## 🔍 Try it (5 commands)
 
 ```bash
 # 1. Check kappa CLI version
 kappa --version
 
-# 2. Check forge build daemon health
-curl -s http://127.0.0.1:25148/api/health
+# 2. Start the interactive TUI
+kappa
 
-# 3. List available models via the gateway
-curl -s http://127.0.0.1:25148/v1/models | head -c 300
+# 3. One-shot prompt from the shell
+kappa run "explain this repo in one paragraph"
 
 # 4. List workspace packages
 bun pm ls
@@ -90,15 +79,15 @@ bun run --cwd packages/cli script/build.ts --single --skip-install
 
 ## 🏔️ About
 
-**kappa** is the estate-forked monorepo of Kilo Code, reorganized as a proper bun workspaces monorepo with the `@kappacode/*` scope. Every subproject — editor extensions, CLI, gateway, build tooling, secret management — lives under `packages/` and is versioned and linked.
+**kappa** is a fork of [Kilo Code](https://github.com/Kilo-Org/kilo-code), reorganized as a proper bun workspaces monorepo with the `@kappacode/*` scope. Every subproject — editor extensions, CLI, gateway, build tooling, secret management — lives under `packages/` and is versioned and linked.
 
-The answer to *what does it take to run a serious AI coding agent on a live estate*:
+What it takes to run a serious AI coding agent:
 
 - **A unified runtime** that treats every workspace (VS Code, JetBrains, CLI) as first-class. `@kappacode/core` owns the model routing, plugin system, session management, and MCP server lifecycle.
 - **A gateway** for provider routing and auth. `@kappacode/kappa-gateway` sits in front of model providers, handling key rotation, rate limiting, and health checks.
-- **Build tooling that lives on the box.** Forge (:25148) and Nativlink (:25155) are first-class package dependencies — not external build scripts. The mise `[task_config.cache]` section routes through forge for remote build caching.
-- **Secrets in the keyring.** `@kappacode/secretsmith` wraps the estate's secretsmith keyring (freedesktop Secret Service via D-Bus). No secrets in config commits.
-- **Shims everywhere.** `@kappacode/shims` provides git hooks, env-sanity fixes, and ble.sh prompt units — making kappa a first-class citizen in the shell environment.
+- **Build tooling as packages.** `@kappacode/forge` and `@kappacode/nativelink` integrate remote build caching through standard Bun/mise task routes — not external build scripts.
+- **Secrets out of config files.** `@kappacode/secretsmith` reads provider keys from the OS keyring (freedesktop Secret Service via D-Bus). No secrets in config commits.
+- **Shell integration.** `@kappacode/shims` provides git hooks, env-sanity fixes, and ble.sh prompt units.
 
 ### Built with
 
@@ -108,24 +97,24 @@ TypeScript (Bun) · Effect · Solid.js · Hono · Turborepo · Zig · Rust
 
 All projects live under `packages/`. The bun workspace resolves dependencies across the entire tree.
 
-| Package | Path | Scope | What it is |
-|---|---|---|---|
-| Core | `packages/core/` | `@kappacode/core` | Runtime: providers, plugins, config, sessions, models, MCP |
-| CLI | `packages/cli/` | `@kappacode/cli` | The standalone CLI binary (`kappa` command) |
-| Gateway | `packages/kappa-gateway/` | `@kappacode/kappa-gateway` | HTTP API gateway for model routing |
-| VS Code | `packages/kappa-vscode/` | `@kappacode/vscode` | VS Code extension |
-| JetBrains | `packages/kappa-jetbrains/` | `@kappacode/jetbrains` | JetBrains plugin |
-| Console | `packages/kappa-console/` | `@kappacode/kappa-console` | Settings UI (providers, models, keybindings, MCP) |
-| Docs | `packages/kappa-docs/` | `@kappacode/kappa-docs` | Documentation site |
-| UI | `packages/ui/` | `@kappacode/ui` | Shared component library |
-| Forge | `packages/forge/` | `@kappacode/forge` | Build daemon integration (estate forge :25148) |
-| Nativlink | `packages/nativelink/` | `@kappacode/nativelink` | Remote build cache (Nativlink RE API) |
-| Secretsmith | `packages/secretsmith/` | `@kappacode/secretsmith` | Secret management (secretsmith keyring) |
-| Shims | `packages/shims/` | `@kappacode/shims` | System shims (git hooks, env fix, prompt units) |
-| Config | `packages/config/` | `@kappacode/config` | Configuration schemas & validation |
-| Protocol | `packages/protocol/` | `@kappacode/protocol` | Wire protocol definitions |
-| Schema | `packages/schema/` | `@kappacode/schema` | JSON schema definitions |
-| SDK | `packages/sdk/` | `@kappacode/sdk` | JS/TS SDK |
+| Package     | Path                        | Scope                      | What it is                                                 |
+| ----------- | --------------------------- | -------------------------- | ---------------------------------------------------------- |
+| Core        | `packages/core/`            | `@kappacode/core`          | Runtime: providers, plugins, config, sessions, models, MCP |
+| CLI         | `packages/cli/`             | `@kappacode/cli`           | The standalone CLI binary (`kappa` command)                |
+| Gateway     | `packages/kappa-gateway/`   | `@kappacode/kappa-gateway` | HTTP API gateway for model routing                         |
+| VS Code     | `packages/kappa-vscode/`    | `@kappacode/vscode`        | VS Code extension                                          |
+| JetBrains   | `packages/kappa-jetbrains/` | `@kappacode/jetbrains`     | JetBrains plugin                                           |
+| Console     | `packages/kappa-console/`   | `@kappacode/kappa-console` | Settings UI (providers, models, keybindings, MCP)          |
+| Docs        | `packages/kappa-docs/`      | `@kappacode/kappa-docs`    | Documentation site                                         |
+| UI          | `packages/ui/`              | `@kappacode/ui`            | Shared component library                                   |
+| Forge       | `packages/forge/`           | `@kappacode/forge`         | Build daemon integration                                   |
+| Nativlink   | `packages/nativelink/`      | `@kappacode/nativelink`    | Remote build cache (Nativelink RE API)                     |
+| Secretsmith | `packages/secretsmith/`     | `@kappacode/secretsmith`   | Secret management (OS keyring)                             |
+| Shims       | `packages/shims/`           | `@kappacode/shims`         | System shims (git hooks, env fix, prompt units)            |
+| Config      | `packages/config/`          | `@kappacode/config`        | Configuration schemas & validation                         |
+| Protocol    | `packages/protocol/`        | `@kappacode/protocol`      | Wire protocol definitions                                  |
+| Schema      | `packages/schema/`          | `@kappacode/schema`        | JSON schema definitions                                    |
+| SDK         | `packages/sdk/`             | `@kappacode/sdk`           | JS/TS SDK                                                  |
 
 ## 🔧 Build
 
@@ -149,19 +138,22 @@ bun run typecheck              # all packages
 bun run build                  # build all packages
 ```
 
-### Default build route (estate forge)
+### Remote-cached build route
 
-`make:nativelink` — `mise run kappa-build`, remote-cached via forge :25148 — is the **sole** CLI-binary build route. The non-nativelink `make` route was dropped; every build goes through the real `kappa-build` mise task.
+`bun run make:nativelink` builds through the mise `kappa-build` task with remote
+build caching (mise `[task_config.cache]` in `mise.toml` is the SSOT;
+`BUN_BUILD_REMOTE_CACHE` is dead code). The plain `bun run make` route builds
+locally.
 
-## 🏗️ Estate integration
+## 🧰 Tooling integration
 
-This fork is integrated with the estate build pipeline:
-
-- **Forge build daemon** (`:25148`) — remote build cache, `mise run kappa-build`
-- **Nativlink** (`:25155`) — RE API for remote execution (package: `@kappacode/nativelink`)
-- **Secretsmith** — secretsmith keyring for secret management (package: `@kappacode/secretsmith`)
+- **Forge** — build daemon integration (`@kappacode/forge`)
+- **Nativelink** — remote execution / cache RE API (`@kappacode/nativelink`)
+- **Secretsmith** — OS-keyring secret management (`@kappacode/secretsmith`)
 - **Mise** — task runner with remote cache (`mise.toml`)
-- **Kappa binary** executable directly from repo: `packages/cli/bin/kappa` (symlinked into `/usr/bin/kappa`, caching `./dist/@kappacode/cli-linux-x64/bin/kappa`)
+- **`kappa` wrapper** — `packages/cli/bin/kappa` resolves the local compiled
+  artifact in `dist/` before falling back to global discovery or platform
+  packages
 
 ### 🏷️ Dynamic Versioning & Resolution
 
@@ -179,7 +171,22 @@ Sessions live in `~/.local/share/kappa/kappa-<token>.db`, where `<token>` is the
 
 - **Deterministic, non-empty names** — a local/dev build made from a detached HEAD or branch-less git context previously sanitized the channel to `""`, silently forking the session database into `kappa-.db` and making sessions look "lost" (split away from `kappa-main.db`). `safeChannelToken()` falls back to a stable `dev` for empty/meaningless channels, so every build resolves to one predictable filename.
 - **One resolver for both layers** — the core (`packages/core/src/database/database.ts`) and the CLI (`packages/cli/src/storage/db.ts`) path resolvers share a single helper, so they can never disagree on which file to open.
-- **Idempotent migrations** — the `kappa_board` / `kappa_board_message` / model-usage-index migrations are replay-safe (`IF NOT EXISTS` / `cleared_seq` guard). After the `kilocode_* → kappacode_*` rename landed in prod, a fresh build replaying them against an existing database no longer crashes with `table kappa_board_message already exists`.
+- **Idempotent migrations** — the `kappa_board` / `kappa_board_message` / model-usage-index migrations are replay-safe (`IF NOT EXISTS` / `cleared_seq` guard): replaying them against an existing database no longer crashes with `table kappa_board_message already exists`.
+
+## ⚡ Fork features
+
+Two model-resilience features on top of upstream, both serving the same idea:
+**never trust what a provider claims — measure what the endpoint actually does.**
+
+- **Browser-fingerprint HTTP transport** — reach Cloudflare-guarded providers
+  by forwarding with Chrome-aligned headers. Opt in per provider with
+  `"http": { "fingerprint": "chrome" }`.
+- **Flail Gate** — model-agnostic loop/narration resilience: stops agents from
+  repeating tool calls, narrating instead of acting, or re-deriving the same
+  reasoning. Config lives in `~/.config/kappa/flail-gate/gate.json`.
+
+See the [parent repo README](https://github.com/toxicwind/kappa#fork-features)
+for full details and implementation links.
 
 ## 🚀 Getting started
 
