@@ -273,7 +273,7 @@ export class SyncError extends Schema.TaggedError<SyncError>()("AnacondaDesktopS
   operation: Schema.Literals(["encode", "store"]),
 }) {}
 
-const json = Schema.decodeUnknownOption(Schema.UnknownFromJsonString)
+const json = Schema.decodeUnknownOption(Schema.fromJsonString(Schema.Unknown))
 const config = Schema.decodeUnknownOption(Config)
 
 function record(input: unknown): input is Record<string, unknown> {
