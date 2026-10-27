@@ -57,11 +57,19 @@ const start = async () => {
     await $`tmux split-window -v -t ${SESS}:0.0`.quiet() // pane 0.1
     await $`tmux split-window -h -t ${SESS}:0.0`.quiet() // pane 0.2
     await $`tmux split-window -h -t ${SESS}:0.1`.quiet() // pane 0.3
-    await $`tmux split-window -v -t ${SESS}:0.4`.quiet() // pane 0.4 - typecheck
+    await $`tmux split-window -v -t ${SESS}:0.2`.quiet() // pane 0.4 - typecheck
     await $`tmux select-layout -t ${SESS} tiled`.quiet()
   }
   for (const [pane, dir, cmd] of suites) {
-    await $`tmux send-keys -t ${SESS}:${pane} ${paneCmd(dir, cmd, pane)} C-m`.quiet()
+    // after select-layout tiled, hardcoded "0.x" indices are unstable; resolve the
+    // real pane index by walking the (surviving) session panes, matching by order.
+    const idx =
+      (await $`tmux list-panes -t ${SESS} -F '#{pane_index}'`.text())
+        .trim()
+        .split("\n")
+        .filter(Boolean)
+        .at(Number(pane.split(".")[1])) ?? pane
+    await $`tmux send-keys -t ${SESS}:${idx} ${paneCmd(dir, cmd, idx)} C-m`.quiet()
   }
   console.log(`dispatched ${suites.length} suites into ${SESS} — attach: tmux attach -t ${SESS}`)
 }
