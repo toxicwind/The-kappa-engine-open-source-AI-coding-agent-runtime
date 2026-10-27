@@ -117,8 +117,38 @@ export const Notebook = Schema.Struct({
   catalog: Schema.Array(Schema.String),
   ledger: Schema.Array(Schema.Unknown),
   probes: Schema.Array(Probe),
+  // Epoch ms of the last completed probe round. Absent on notebooks written
+  // before this field existed, which simply means "probe on next boot".
+  probedAt: Schema.optional(Schema.Number),
 })
 export type Notebook = Schema.Schema.Type<typeof Notebook>
+
+// A completed probe round stays valid for 24h. Without this, every boot
+// re-fires the whole discovery round against the shared lane: up to 11
+// model-matrix GETs + a catalog fetch + up to 21 chat completions (7 per
+// model x 3 models), all outside LLMQueue, against a 2-concurrency shed
+// that tau and other kappa processes share. That bootstrap flood is the
+// self-inflicted 429 source: reuse the cached round while fresh.
+export const PROBE_TTL_MS = 24 * 60 * 60 * 1000
+export const MAX_CACHED_PROBES = 200
+
+export function probesFresh(nb: Notebook, now = Date.now()): boolean {
+  return typeof nb.probedAt === "number" && Number.isFinite(nb.probedAt) && now - nb.probedAt < PROBE_TTL_MS
+}
+
+export function cachedProbeModels(nb: Notebook): Array<{
+  model: string
+  honored: boolean
+  selfNgram: number
+  narration: number
+}> {
+  const latest = new Map<string, { model: string; honored: boolean; selfNgram: number; narration: number }>()
+  for (const p of nb.probes ?? []) {
+    if (!("kind" in p) || p.kind !== "completions") continue
+    latest.set(p.model, { model: p.model, honored: p.honored, selfNgram: p.selfNgram, narration: p.narration })
+  }
+  return [...latest.values()]
+}
 
 // ── File Paths ────────────────────────────────────────────────────────
 
@@ -459,9 +489,25 @@ export async function initializeFlailGate(): Promise<{
   const baseUrl = process.env.FREEINFERENCE_API_BASE ?? "https://freeinference.org/v1"
   const apiKey = process.env.FREEINFERENCE_API_KEY
 
+  if (process.env.KAPPA_FLAIL_PROBES === "0") {
+    log.warn("KAPPA_FLAIL_PROBES=0, skipping flail gate probes")
+    return { framing: { verdict: "unprobed", path: null }, models: [] }
+  }
+
   if (!apiKey) {
     log.warn("FREEINFERENCE_API_KEY not set, skipping flail gate probes")
     return { framing: { verdict: "unprobed", path: null }, models: [] }
+  }
+
+  // Fresh cached round: skip the network entirely. The bootstrap probe
+  // flood is the lane's own 429 source; the guard reads thresholds from
+  // gate.json and the notebook, both of which the last round already wrote.
+  if (probesFresh(nb) && nb.framing.models.verdict !== "unprobed") {
+    log.warn("flail gate probes fresh, reusing cached round")
+    return {
+      framing: { verdict: nb.framing.models.verdict, path: nb.framing.models.path ?? null },
+      models: cachedProbeModels(nb),
+    }
   }
 
   // 1) Probe model catalog framing
@@ -492,6 +538,11 @@ export async function initializeFlailGate(): Promise<{
       log.warn("probe-completions failed", { model: modelId, err })
     }
   }
+
+  // Stamp the completed round and bound the ledger: without the cap the
+  // probes array grows by ~14 entries on every boot, forever.
+  const fresh = loadNotebook()
+  saveNotebook({ ...fresh, probedAt: Date.now(), probes: (fresh.probes ?? []).slice(-MAX_CACHED_PROBES) })
 
   return { framing: { verdict: framing.verdict, path: framing.path }, models }
 }
