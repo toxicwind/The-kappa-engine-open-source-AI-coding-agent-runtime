@@ -6,7 +6,7 @@
   "type": "module",
   "packageManager": "bun@1.4.2",
   "scripts": {
-    "dev": "KAPPA_CLIENT=cli bun run --cwd packages/cli --conditions=node src/index.ts",
+    "dev": "KAPPA_CLIENT=cli KAPPA_DISABLE_AUTOUPDATE=1 bun run --cwd packages/cli --conditions=node src/index.ts",
     "dev:stats": "bun sst shell --stage=production -- bun run --cwd packages/stats/app dev",
     "dev:storybook": "bun --cwd packages/storybook storybook",
     "lint": "oxlint",
