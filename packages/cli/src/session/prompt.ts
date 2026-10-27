@@ -2,6 +2,7 @@ import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
 import { PermissionV1 } from "@opencode-ai/core/v1/permission"
 import path from "path"
+import { LoopInput } from "./loop-input.ts" // kappacode_change: bind LoopInput locally (leaf module)
 import fs from "node:fs" // kappacode_change
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import os from "os"

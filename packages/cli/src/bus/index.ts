@@ -2,7 +2,7 @@
 // in favour of EventV2; Kappa keeps it ONLY for existing Kappa-owned callers (kappacode/* features) that rely on
 // its eager-callback subscription + fork-atomicity semantics. Do NOT add new shared/upstream-shaped consumers.
 // Full migration of Kappa callers onto core EventV2 is tracked as a dedicated follow-up.
-import { Effect, Exit, Fiber, Layer, PubSub, Scope, Context, Stream, Schema } from "effect" // kappacode_change
+import { Effect, Exit, Fiber, Layer, PubSub, Scope, Context, Stream, Schema, Option } from "effect" // kappacode_change
 import { EffectBridge } from "@/effect/bridge"
 import * as Log from "@opencode-ai/core/util/log"
 import { BusEvent } from "./bus-event.ts"
@@ -213,7 +213,7 @@ export async function publish<D extends BusEvent.Definition>(
 // kappacode_change start - legacy callback facade inherits the active instance context
 function active() {
   const fiber = Fiber.getCurrent()
-  const current = fiber ? Context.getReferenceUnsafe(fiber.context, InstanceRef) : undefined
+  const current = fiber ? Option.getOrUndefined(Context.getOption(fiber.context, InstanceRef)) : undefined
   if (current) return current
   try {
     return instanceContext.use()

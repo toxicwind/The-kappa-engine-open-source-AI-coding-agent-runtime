@@ -1,4 +1,4 @@
-import { Context, Fiber } from "effect"
+import { Context, Fiber, Option } from "effect"
 import { InstanceRef } from "@/effect/instance-ref"
 import { context, type InstanceContext } from "@/project/instance-context"
 import { LocalContext } from "@/util/local-context"
@@ -41,7 +41,7 @@ export function capture() {
     if (!(err instanceof LocalContext.NotFound)) throw err
   }
   const fiber = Fiber.getCurrent()
-  return fiber ? Context.getReferenceUnsafe(fiber.context, InstanceRef) : undefined
+  return fiber ? Option.getOrUndefined(Context.getOption(fiber.context, InstanceRef)) : undefined
 }
 
 export function bind<F extends (...args: never[]) => unknown>(fn: F): F {

@@ -1,4 +1,4 @@
-import { Context, Effect, Exit, Fiber } from "effect"
+import { Context, Effect, Exit, Fiber, Option } from "effect"
 import { WorkspaceContext } from "@/control-plane/workspace-context"
 import type { WorkspaceV2 } from "@opencode-ai/core/workspace"
 import { InstanceRef, WorkspaceRef } from "./instance-ref.ts"
@@ -25,9 +25,10 @@ function restore<R>(instance: InstanceContext | undefined, workspace: WorkspaceV
 
 function captureSync() {
   const fiber = Fiber.getCurrent()
-  const instance = fiber ? Context.getReferenceUnsafe(fiber.context, InstanceRef) : undefined
+  const instance = fiber ? Option.getOrUndefined(Context.getOption(fiber.context, InstanceRef)) : undefined
   const workspace =
-    (fiber ? Context.getReferenceUnsafe(fiber.context, WorkspaceRef) : undefined) ?? WorkspaceContext.workspaceID
+    (fiber ? Option.getOrUndefined(Context.getOption(fiber.context, WorkspaceRef)) : undefined) ??
+    WorkspaceContext.workspaceID
   return { instance, workspace }
 }
 
