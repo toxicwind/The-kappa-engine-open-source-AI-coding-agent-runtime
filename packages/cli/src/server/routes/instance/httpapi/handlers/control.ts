@@ -6,7 +6,7 @@ import {
 } from "@/kappacode/server/provider-auth-lifecycle"
 // kappacode_change end
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { RootHttpApi } from "../api.ts"
 import { LogInput } from "../groups/control.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"

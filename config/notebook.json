@@ -1,0 +1,72 @@
+{
+  "session": "unset",
+  "base": "unset",
+  "framing": {
+    "probed": false,
+    "models": {
+      "verdict": "Buffered",
+      "path": "/models",
+      "evidence": {
+        "status": 200,
+        "ctype": "application/json",
+        "bytes": 2715
+      }
+    },
+    "completions": {
+      "verdict": "unprobed",
+      "path": null,
+      "evidence": null
+    }
+  },
+  "reasoningPassthrough": {
+    "honored": false,
+    "field": null,
+    "model": "qwen3.6-35b"
+  },
+  "loopTendency": {
+    "selfNgram": 1,
+    "semantic": null,
+    "runs": 5
+  },
+  "narrationTendency": {
+    "runs": 5,
+    "violations": 0,
+    "actionPromises": 0
+  },
+  "catalog": [],
+  "ledger": [],
+  "probes": [
+    {
+      "path": "/models",
+      "status": 200,
+      "ctype": "application/json",
+      "bytes": 2715,
+      "verdict": "Buffered",
+      "note": "{\"object\":\"list\",\"data\":[{\"id\":\"glm-5.3-flash\",\"name\":\"GLM-5.3 Flash\",\"object\":\"model\",\"created\":1792967825,\"owned_by\":\""
+    },
+    {
+      "kind": "completions",
+      "model": "glm-5.3-flash",
+      "honored": true,
+      "selfNgram": 0.454,
+      "narration": 0,
+      "promises": 0
+    },
+    {
+      "kind": "completions",
+      "model": "minimax-m3",
+      "honored": false,
+      "selfNgram": 0.107,
+      "narration": 0,
+      "promises": 0
+    },
+    {
+      "kind": "completions",
+      "model": "qwen3.6-35b",
+      "honored": false,
+      "selfNgram": 1,
+      "narration": 0,
+      "promises": 0
+    }
+  ]
+}

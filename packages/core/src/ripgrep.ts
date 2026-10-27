@@ -1,7 +1,7 @@
 export * as Ripgrep from "./ripgrep"
 
 import { Context, Duration, Effect, Fiber, Layer, Schema, Stream } from "effect"
-import { ChildProcess } from "effect/unstable/process"
+import { ChildProcess } from "effect/process"
 import { makeGlobalNode } from "./effect/app-node"
 import { Entry, Match } from "@opencode-ai/schema/filesystem"
 import * as KappaGlob from "./kappacode/ripgrep-glob" // kappacode_change
@@ -42,12 +42,12 @@ const RawMatch = Schema.Struct({
 
 type RawMatchData = (typeof RawMatch.Type)["data"] & { readonly context: boolean } // kappacode_change
 
-export class Error extends Schema.TaggedErrorClass<Error>()("Ripgrep.Error", {
+export class Error extends Schema.TaggedError<Error>()("Ripgrep.Error", {
   message: Schema.String,
   cause: Schema.optional(Schema.Defect()),
 }) {}
 
-export class InvalidPatternError extends Schema.TaggedErrorClass<InvalidPatternError>()("Ripgrep.InvalidPatternError", {
+export class InvalidPatternError extends Schema.TaggedError<InvalidPatternError>()("Ripgrep.InvalidPatternError", {
   pattern: Schema.String,
   message: Schema.String,
 }) {}

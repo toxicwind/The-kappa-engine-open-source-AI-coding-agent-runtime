@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test"
 import { ConfigProvider, Layer } from "effect"
-import { HttpRouter } from "effect/unstable/http"
+import { HttpRouter } from "effect/http"
 import { HEADER_FEATURE, HEADER_ORGANIZATIONID } from "@kappacode/kappa-gateway"
 import * as Log from "@opencode-ai/core/util/log"
 import { KappaGatewayPaths } from "../../../src/kappacode/server/httpapi/groups/kappa-gateway.ts"

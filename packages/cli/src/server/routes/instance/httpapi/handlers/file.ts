@@ -9,7 +9,7 @@ import { AbsolutePath, RelativePath } from "@opencode-ai/core/schema"
 import { Effect, Option } from "effect" // kappacode_change - location map is provided by the server
 import ignore from "ignore"
 import path from "path"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { InstanceHttpApi } from "../api.ts"
 
 export const fileHandlers = HttpApiBuilder.group(InstanceHttpApi, "file", (handlers) =>

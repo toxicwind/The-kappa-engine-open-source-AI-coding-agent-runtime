@@ -12,7 +12,7 @@ const log = Log.create({ service: "notebook-host" })
 type WithoutID<T> = T extends unknown ? Omit<T, "id"> : never
 export type Input = WithoutID<Request>
 
-export class HostError extends Schema.TaggedErrorClass<HostError>()("NotebookHostError", {
+export class HostError extends Schema.TaggedError<HostError>()("NotebookHostError", {
   code: ErrorCode,
   detail: Schema.String,
   path: Schema.optional(Schema.String),
@@ -24,11 +24,11 @@ export class HostError extends Schema.TaggedErrorClass<HostError>()("NotebookHos
   }
 }
 
-export class NotFoundError extends Schema.TaggedErrorClass<NotFoundError>()("Notebook.NotFoundError", {
+export class NotFoundError extends Schema.TaggedError<NotFoundError>()("Notebook.NotFoundError", {
   requestID: RequestID,
 }) {}
 
-export class InvalidReplyError extends Schema.TaggedErrorClass<InvalidReplyError>()("Notebook.InvalidReplyError", {
+export class InvalidReplyError extends Schema.TaggedError<InvalidReplyError>()("Notebook.InvalidReplyError", {
   requestID: RequestID,
 }) {}
 

@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/http-api"
 import { Authorization } from "@/server/routes/instance/httpapi/middleware/authorization"
 import { InstanceContextMiddleware } from "@/server/routes/instance/httpapi/middleware/instance-context"
 import {
@@ -27,11 +27,11 @@ const CommitMessageResponse = Schema.Struct({
   message: Schema.String,
 })
 
-export class CommitMessageNoChangesError extends Schema.ErrorClass<CommitMessageNoChangesError>(
+export class CommitMessageNoChangesError extends Schema.Error<CommitMessageNoChangesError>(
   "CommitMessageNoChangesError",
 )({ message: Schema.String }, { httpApiStatus: 422 }) {}
 
-export class CommitMessageFailedError extends Schema.ErrorClass<CommitMessageFailedError>("CommitMessageFailedError")(
+export class CommitMessageFailedError extends Schema.Error<CommitMessageFailedError>("CommitMessageFailedError")(
   { message: Schema.String },
   { httpApiStatus: 422 },
 ) {}

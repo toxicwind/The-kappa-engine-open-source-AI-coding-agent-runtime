@@ -24,6 +24,9 @@ import { ConfigProvider } from "./config/provider"
 import { ConfigReference } from "./config/reference"
 import { ConfigToolOutput } from "./config/tool-output"
 import { ConfigWatcher } from "./config/watcher"
+import { ConfigGate } from "./config/gate"
+import { MarketplaceConfigSchema as ConfigMarketplace } from "./config/marketplace" // kappacode_change
+import { ConfigSkillsV1 } from "./v1/config/skills" // kappacode_change
 import { ConfigV1 } from "./v1/config/config"
 import { ConfigMigrateV1 } from "./v1/config/migrate"
 
@@ -88,8 +91,11 @@ export class Info extends Schema.Class<Info>("Config.Info")({
   compaction: ConfigCompaction.Info.pipe(Schema.optional).annotate({
     description: "Conversation compaction behavior",
   }),
-  skills: Schema.String.pipe(Schema.Array, Schema.optional).annotate({
-    description: "Additional paths or URLs to discover skills from",
+  skills: Schema.Union([
+    Schema.String.pipe(Schema.Array),
+    ConfigSkillsV1.Info,
+  ]).pipe(Schema.optional).annotate({
+    description: "Additional paths or URLs to discover skills from (string[] shorthand or {paths, urls} struct)", // kappacode_change - accept the v1 struct shape too
   }),
   commands: Schema.Record(Schema.String, ConfigCommand.Info).pipe(Schema.optional).annotate({
     description: "Named slash command definitions",
@@ -105,6 +111,15 @@ export class Info extends Schema.Class<Info>("Config.Info")({
   }),
   experimental: ConfigExperimental.Experimental.pipe(Schema.optional),
   providers: Schema.Record(Schema.String, ConfigProvider.Info).pipe(Schema.optional),
+  gate: ConfigGate.Info.pipe(Schema.optional).annotate({
+    description: "Race gate configuration: framing-aware discovery, narration guard, semantic brake",
+  }),
+  marketplace: ConfigMarketplace.pipe(Schema.optional).annotate({
+    description: "Kappa extension marketplace sources: entries load as Kappa-native extensions or legacy Kilo plugin specs",
+  }),
+  marketplaces: ConfigMarketplace.pipe(Schema.optional).annotate({
+    description: "Alias of `marketplace`",
+  }),
 }) {}
 
 export class Document extends Schema.Class<Document>("Config.Document")({

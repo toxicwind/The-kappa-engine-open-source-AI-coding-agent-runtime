@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, OpenApi } from "effect/http-api"
 import { Authorization } from "@/server/routes/instance/httpapi/middleware/authorization"
 import { InstanceContextMiddleware } from "@/server/routes/instance/httpapi/middleware/instance-context"
 import {
@@ -109,7 +109,7 @@ const MigrateSessionsDiscoverResult = Schema.Struct({
   }),
 }).annotate({ identifier: "KappacodeMigrateSessionsDiscoverResult" })
 
-export class MigrateFailedError extends Schema.ErrorClass<MigrateFailedError>("MigrateFailedError")(
+export class MigrateFailedError extends Schema.Error<MigrateFailedError>("MigrateFailedError")(
   { message: Schema.String },
   { httpApiStatus: 422 },
 ) {}

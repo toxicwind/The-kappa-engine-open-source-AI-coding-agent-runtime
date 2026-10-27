@@ -8,7 +8,7 @@ import { SessionID } from "@/session/schema"
 import { Worktree } from "@/worktree"
 import { NonNegativeInt } from "@opencode-ai/core/schema"
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/http-api"
 import { Authorization } from "../middleware/authorization.ts"
 import { InstanceContextMiddleware } from "../middleware/instance-context.ts"
 import {
@@ -76,7 +76,7 @@ const WorktreeErrorName = Schema.Union([
   Schema.Literal("WorktreeResetFailedError"),
   Schema.Literal("WorktreeListFailedError"),
 ])
-export class WorktreeApiError extends Schema.ErrorClass<WorktreeApiError>("WorktreeError")(
+export class WorktreeApiError extends Schema.Error<WorktreeApiError>("WorktreeError")(
   {
     name: WorktreeErrorName,
     data: Schema.Struct({ message: Schema.String }),

@@ -24,7 +24,7 @@ import type { ConsoleState } from "@opencode-ai/core/v1/config/console-state"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { InstanceState } from "@/effect/instance-state"
 import { Context, Duration, Effect, Fiber, Layer, Option, Schema } from "effect"
-import { HttpClient, HttpClientRequest } from "effect/unstable/http"
+import { HttpClient, HttpClientRequest } from "effect/http"
 import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
 import { containsPath, type InstanceContext } from "../project/instance-context.ts"
 import { ConfigV1 } from "@opencode-ai/core/v1/config/config"
@@ -625,10 +625,10 @@ const layer = Layer.effect(
 
         const pluginScopeForSource = Effect.fnUntraced(function* (source: string) {
           // kilocode_change start: explicit yields satisfy the no-generator-without-yield check
-          if (source.startsWith("http://") || source.startsWith("https://")) return yield* Effect.succeed("global")
-          if (source === "KAPPA_CONFIG_CONTENT") return yield* Effect.succeed("local")
-          if (containsPath(source, ctx)) return yield* Effect.succeed("local")
-          return yield* Effect.succeed("global")
+          if (source.startsWith("http://") || source.startsWith("https://")) return yield* Effect.succeed("global" as const)
+          if (source === "KAPPA_CONFIG_CONTENT") return yield* Effect.succeed("local" as const)
+          if (containsPath(source, ctx)) return yield* Effect.succeed("local" as const)
+          return yield* Effect.succeed("global" as const)
           // kilocode_change end
         })
 

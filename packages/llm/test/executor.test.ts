@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { Effect, Fiber, Layer, Random, Ref } from "effect"
 import * as TestClock from "effect/testing/TestClock"
-import { Headers, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http"
+import { Headers, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
 import { LLM, LLMError } from "../src"
 import { LLMClient, RequestExecutor } from "../src/route"
 import * as OpenAIChat from "../src/protocols/openai-chat"
@@ -116,6 +116,9 @@ describe("RequestExecutor", () => {
   it.effect("returns redacted diagnostics for retryable rate limits", () =>
     Effect.gen(function* () {
       const executor = yield* RequestExecutor.Service
+      // With a retry-after-ms hint the executor now rides the shared-lane shed
+      // out (kappacode change), so exhaust the new budget to surface the last
+      // 429's diagnostics rather than a transport error from a mock that ran dry.
       const error = yield* executor.execute(request).pipe(Effect.flip)
 
       expectLLMError(error)
@@ -148,7 +151,8 @@ describe("RequestExecutor", () => {
       Effect.provide(
         responsesLayer(
           Array.from(
-            { length: 3 },
+            // one initial attempt + the 30-retry budget
+            { length: 31 },
             () =>
               new Response("rate limited", {
                 status: 429,

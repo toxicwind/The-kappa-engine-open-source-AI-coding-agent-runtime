@@ -1,7 +1,8 @@
 import { ServerAuth } from "@/server/auth"
-import { Effect, Encoding, Layer, Redacted } from "effect"
-import { HttpEffect, HttpRouter, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
-import { HttpApiError, HttpApiMiddleware } from "effect/unstable/httpapi"
+import { Effect, Layer, Redacted } from "effect"
+import { Base64 } from "effect/encoding"
+import { HttpEffect, HttpRouter, HttpServerRequest, HttpServerResponse } from "effect/http"
+import { HttpApiError, HttpApiMiddleware } from "effect/http-api"
 import { hasPtyConnectTicketURL } from "@/server/shared/pty-ticket"
 import { isPublicUIPath } from "@/server/shared/public-ui"
 export {
@@ -69,7 +70,7 @@ function guarded(url: URL, config: ServerAuth.Info) {
 // kappacode_change end
 
 function decodeCredential(input: string) {
-  return Effect.fromResult(Encoding.decodeBase64String(input)).pipe(
+  return Effect.fromResult(Base64.decodeString(input)).pipe(
     Effect.match({
       onFailure: emptyCredential,
       onSuccess: (header) => {

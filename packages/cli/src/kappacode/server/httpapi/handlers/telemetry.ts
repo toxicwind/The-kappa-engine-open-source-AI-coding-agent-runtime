@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { Telemetry } from "@kappacode/kappa-telemetry"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { TelemetryCapturePayload, TelemetrySetEnabledPayload } from "../groups/telemetry.ts"

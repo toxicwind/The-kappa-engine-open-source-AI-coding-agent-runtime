@@ -6,7 +6,7 @@ import { Context, Effect, Layer } from "effect"
 import { Global } from "../global"
 import { Flag } from "../flag/flag"
 import { isAbsolute, join } from "path"
-import { existsSync } from "fs" // kappacode_change
+import { existsSync, statSync } from "fs" // kappacode_change
 import { DbPreflight } from "../kappacode/db-preflight" // kappacode_change
 import { ensure as compat } from "../kappacode/database-compat" // kappacode_change
 import { DatabaseMigration } from "./migration"
@@ -58,11 +58,28 @@ export function path() {
     process.env.KAPPA_DISABLE_CHANNEL_DB === "true"
   )
     return join(Global.Path.data, "kappa.db")
-  // kappacode_change start - kappa-branded dev-channel db name, falling back to a pre-existing opencode-named db
+  // kappacode_change start - dev channels (0.0.0-* versions from feature branches)
+  // share the main DB so sessions survive across branch switches. Only explicitly
+  // named channels (main, rc) get their own db.
   const safe = safeChannelToken(InstallationChannel) // kappacode_change
   const next = join(Global.Path.data, `kappa-${safe}.db`)
   const prev = join(Global.Path.data, `opencode-${safe}.db`)
   if (!existsSync(next) && existsSync(prev)) return prev
+  // kappacode_change: dev channels that haven't created their own db yet use
+  // the main (or shared) db to preserve sessions across branch switches.
+  if (!existsSync(next)) {
+    if (existsSync(join(Global.Path.data, "kappa-main.db"))) return join(Global.Path.data, "kappa-main.db")
+    return join(Global.Path.data, "kappa.db")
+  }
+  // kappacode_change: even if a channel-specific db exists, check whether it's
+  // a skeleton build (smaller file size than the main db). In that case prefer
+  // the main db so sessions survive across branch switches.
+  const mainDb = join(Global.Path.data, "kappa-main.db")
+  if (existsSync(mainDb)) {
+    const mainSize = statSync(mainDb).size
+    const nextSize = existsSync(next) ? statSync(next).size : 0
+    if (nextSize < mainSize) return join(Global.Path.data, "kappa-main.db")
+  }
   return next
   // kappacode_change end
 }

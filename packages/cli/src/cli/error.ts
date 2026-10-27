@@ -51,7 +51,7 @@ export function FormatError(input: unknown): string | undefined {
     return `MCP server "${data}" failed.` // kappacode_change
   }
 
-  // AccountServiceError, AccountTransportError: TaggedErrorClass
+  // AccountServiceError, AccountTransportError: TaggedError
   if (isTaggedError(input, "AccountServiceError") || isTaggedError(input, "AccountTransportError")) {
     return stringField(input, "message") ?? ""
   }

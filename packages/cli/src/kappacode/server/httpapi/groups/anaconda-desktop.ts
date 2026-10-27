@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/http-api"
 import { ReadyStatus, Status } from "@/kappacode/anaconda-desktop/domain"
 import { Authorization } from "@/server/routes/instance/httpapi/middleware/authorization"
 import { InstanceContextMiddleware } from "@/server/routes/instance/httpapi/middleware/instance-context"
@@ -21,7 +21,7 @@ export const AnacondaDesktopSyncPayload = Schema.Struct({
   acknowledgeToolLimitations: Schema.optional(Schema.Boolean),
 })
 
-export class AnacondaDesktopConflictError extends Schema.ErrorClass<AnacondaDesktopConflictError>(
+export class AnacondaDesktopConflictError extends Schema.Error<AnacondaDesktopConflictError>(
   "AnacondaDesktopConflictError",
 )(
   {
@@ -32,7 +32,7 @@ export class AnacondaDesktopConflictError extends Schema.ErrorClass<AnacondaDesk
   { httpApiStatus: 409 },
 ) {}
 
-export class AnacondaDesktopOperationError extends Schema.ErrorClass<AnacondaDesktopOperationError>(
+export class AnacondaDesktopOperationError extends Schema.Error<AnacondaDesktopOperationError>(
   "AnacondaDesktopOperationError",
 )(
   {

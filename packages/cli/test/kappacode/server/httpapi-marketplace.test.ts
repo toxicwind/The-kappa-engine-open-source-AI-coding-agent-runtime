@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from "bun:test"
 import { ConfigProvider, Layer } from "effect"
-import { HttpRouter } from "effect/unstable/http"
+import { HttpRouter } from "effect/http"
 import * as Log from "@opencode-ai/core/util/log"
 import path from "path"
 import { mkdir, readFile, writeFile } from "fs/promises"

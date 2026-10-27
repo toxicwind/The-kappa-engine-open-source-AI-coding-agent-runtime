@@ -5,8 +5,8 @@ import { serverUrls } from "@/kappacode/cli/server-urls" // kappacode_change
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { Pty } from "@opencode-ai/core/pty" // kappacode_change
 import { ConfigProvider, Context, Effect, Exit, Layer, Scope } from "effect"
-import { HttpRouter, HttpServer } from "effect/unstable/http"
-import { OpenApi } from "effect/unstable/httpapi"
+import { HttpRouter, HttpServer } from "effect/http"
+import { OpenApi } from "effect/http-api"
 import { createServer } from "node:http"
 import { MDNS } from "./mdns.ts"
 import { HttpApiApp } from "./routes/instance/httpapi/server.ts"

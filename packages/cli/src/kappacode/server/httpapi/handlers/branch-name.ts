@@ -4,7 +4,7 @@ import { Session } from "@/session/session"
 import { SessionID } from "@/session/schema"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { Cause, Effect, Option } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { BranchNamePayload } from "../groups/branch-name.ts"
 
 const log = Log.create({ service: "branch-name" })

@@ -2,7 +2,7 @@ export * as SessionEvent from "./session-event"
 
 import { Schema } from "effect"
 import { optional } from "./schema"
-import { Event } from "./event"
+import * as EventNS from "./event"
 import { ProviderMetadata, ToolContent } from "./llm"
 import { Delivery } from "./session-delivery"
 import { Model } from "./model"
@@ -51,7 +51,7 @@ const stepSettlementOptions = {
 export const UnknownError = SessionMessage.UnknownError
 export type UnknownError = SessionMessage.UnknownError
 
-export const AgentSwitched = Event.define({
+export const AgentSwitched = EventNS.define({
   type: "session.next.agent.switched",
   ...options,
   schema: {
@@ -62,7 +62,7 @@ export const AgentSwitched = Event.define({
 })
 export type AgentSwitched = typeof AgentSwitched.Type
 
-export const ModelSwitched = Event.define({
+export const ModelSwitched = EventNS.define({
   type: "session.next.model.switched",
   ...options,
   schema: {
@@ -73,7 +73,7 @@ export const ModelSwitched = Event.define({
 })
 export type ModelSwitched = typeof ModelSwitched.Type
 
-export const Moved = Event.define({
+export const Moved = EventNS.define({
   type: "session.next.moved",
   ...options,
   schema: {
@@ -84,21 +84,21 @@ export const Moved = Event.define({
 })
 export type Moved = typeof Moved.Type
 
-export const Prompted = Event.define({
+export const Prompted = EventNS.define({
   type: "session.next.prompted",
   ...options,
   schema: PromptFields,
 })
 export type Prompted = typeof Prompted.Type
 
-export const PromptAdmitted = Event.define({
+export const PromptAdmitted = EventNS.define({
   type: "session.next.prompt.admitted",
   ...options,
   schema: PromptFields,
 })
 export type PromptAdmitted = typeof PromptAdmitted.Type
 
-export const ContextUpdated = Event.define({
+export const ContextUpdated = EventNS.define({
   type: "session.next.context.updated",
   ...options,
   schema: {
@@ -109,7 +109,7 @@ export const ContextUpdated = Event.define({
 })
 export type ContextUpdated = typeof ContextUpdated.Type
 
-export const Synthetic = Event.define({
+export const Synthetic = EventNS.define({
   type: "session.next.synthetic",
   ...options,
   schema: {
@@ -121,7 +121,7 @@ export const Synthetic = Event.define({
 export type Synthetic = typeof Synthetic.Type
 
 export namespace Shell {
-  export const Started = Event.define({
+  export const Started = EventNS.define({
     type: "session.next.shell.started",
     ...options,
     schema: {
@@ -133,7 +133,7 @@ export namespace Shell {
   })
   export type Started = typeof Started.Type
 
-  export const Ended = Event.define({
+  export const Ended = EventNS.define({
     type: "session.next.shell.ended",
     ...options,
     schema: {
@@ -146,7 +146,7 @@ export namespace Shell {
 }
 
 export namespace Step {
-  export const Started = Event.define({
+  export const Started = EventNS.define({
     type: "session.next.step.started",
     ...options,
     schema: {
@@ -159,7 +159,7 @@ export namespace Step {
   })
   export type Started = typeof Started.Type
 
-  export const Ended = Event.define({
+  export const Ended = EventNS.define({
     type: "session.next.step.ended",
     ...stepSettlementOptions,
     schema: {
@@ -182,7 +182,7 @@ export namespace Step {
   })
   export type Ended = typeof Ended.Type
 
-  export const Failed = Event.define({
+  export const Failed = EventNS.define({
     type: "session.next.step.failed",
     ...stepSettlementOptions,
     schema: {
@@ -195,7 +195,7 @@ export namespace Step {
 }
 
 export namespace Text {
-  export const Started = Event.define({
+  export const Started = EventNS.define({
     type: "session.next.text.started",
     ...options,
     schema: {
@@ -207,7 +207,7 @@ export namespace Text {
   export type Started = typeof Started.Type
 
   // Stream fragments are live-only; Text.Ended is the replayable full-value boundary.
-  export const Delta = Event.define({
+  export const Delta = EventNS.define({
     type: "session.next.text.delta",
     schema: {
       ...Base,
@@ -218,7 +218,7 @@ export namespace Text {
   })
   export type Delta = typeof Delta.Type
 
-  export const Ended = Event.define({
+  export const Ended = EventNS.define({
     type: "session.next.text.ended",
     ...options,
     schema: {
@@ -232,7 +232,7 @@ export namespace Text {
 }
 
 export namespace Reasoning {
-  export const Started = Event.define({
+  export const Started = EventNS.define({
     type: "session.next.reasoning.started",
     ...options,
     schema: {
@@ -245,7 +245,7 @@ export namespace Reasoning {
   export type Started = typeof Started.Type
 
   // Stream fragments are live-only; Reasoning.Ended is the replayable full-value boundary.
-  export const Delta = Event.define({
+  export const Delta = EventNS.define({
     type: "session.next.reasoning.delta",
     schema: {
       ...Base,
@@ -256,7 +256,7 @@ export namespace Reasoning {
   })
   export type Delta = typeof Delta.Type
 
-  export const Ended = Event.define({
+  export const Ended = EventNS.define({
     type: "session.next.reasoning.ended",
     ...options,
     schema: {
@@ -278,7 +278,7 @@ export namespace Tool {
   }
 
   export namespace Input {
-    export const Started = Event.define({
+    export const Started = EventNS.define({
       type: "session.next.tool.input.started",
       ...options,
       schema: {
@@ -289,7 +289,7 @@ export namespace Tool {
     export type Started = typeof Started.Type
 
     // Stream fragments are live-only; Input.Ended is the replayable raw-input boundary.
-    export const Delta = Event.define({
+    export const Delta = EventNS.define({
       type: "session.next.tool.input.delta",
       schema: {
         ...ToolBase,
@@ -298,7 +298,7 @@ export namespace Tool {
     })
     export type Delta = typeof Delta.Type
 
-    export const Ended = Event.define({
+    export const Ended = EventNS.define({
       type: "session.next.tool.input.ended",
       ...options,
       schema: {
@@ -309,7 +309,7 @@ export namespace Tool {
     export type Ended = typeof Ended.Type
   }
 
-  export const Called = Event.define({
+  export const Called = EventNS.define({
     type: "session.next.tool.called",
     ...options,
     schema: {
@@ -328,7 +328,7 @@ export namespace Tool {
    * Replayable bounded running-tool state. Tools should checkpoint semantic
    * transitions or at a bounded cadence, not persist every stdout/stderr chunk.
    */
-  export const Progress = Event.define({
+  export const Progress = EventNS.define({
     type: "session.next.tool.progress",
     ...options,
     schema: {
@@ -339,7 +339,7 @@ export namespace Tool {
   })
   export type Progress = typeof Progress.Type
 
-  export const Success = Event.define({
+  export const Success = EventNS.define({
     type: "session.next.tool.success",
     ...options,
     schema: {
@@ -356,7 +356,7 @@ export namespace Tool {
   })
   export type Success = typeof Success.Type
 
-  export const Failed = Event.define({
+  export const Failed = EventNS.define({
     type: "session.next.tool.failed",
     ...options,
     schema: {
@@ -384,7 +384,7 @@ export const RetryError = Schema.Struct({
 })
 export interface RetryError extends Schema.Schema.Type<typeof RetryError> {}
 
-export const Retried = Event.define({
+export const Retried = EventNS.define({
   type: "session.next.retried",
   ...options,
   schema: {
@@ -396,18 +396,19 @@ export const Retried = Event.define({
 export type Retried = typeof Retried.Type
 
 export namespace Compaction {
-  export const Started = Event.define({
+  const reason = Schema.Union([Schema.Literal("auto"), Schema.Literal("manual")])
+  export const Started = EventNS.define({
     type: "session.next.compaction.started",
     ...options,
     schema: {
       ...Base,
       messageID: SessionMessage.ID,
-      reason: Schema.Union([Schema.Literal("auto"), Schema.Literal("manual")]),
+      reason,
     },
   })
   export type Started = typeof Started.Type
 
-  export const Delta = Event.define({
+  export const Delta = EventNS.define({
     type: "session.next.compaction.delta",
     schema: {
       ...Base,
@@ -417,13 +418,13 @@ export namespace Compaction {
   })
   export type Delta = typeof Delta.Type
 
-  export const Ended = Event.define({
+  export const Ended = EventNS.define({
     type: "session.next.compaction.ended",
     ...options,
     schema: {
       ...Base,
       messageID: SessionMessage.ID,
-      reason: Started.data.fields.reason,
+      reason,
       text: Schema.String,
       recent: Schema.String,
       include: Schema.String.pipe(Schema.optional), // kappacode_change - released v1 readers recognize this compatibility field
@@ -433,20 +434,20 @@ export namespace Compaction {
 }
 
 export namespace RevertEvent {
-  export const Staged = Event.define({
+  export const Staged = EventNS.define({
     type: "session.next.revert.staged",
     ...options,
     schema: { ...Base, revert: Revert.State },
   })
-  export const Cleared = Event.define({ type: "session.next.revert.cleared", ...options, schema: Base })
-  export const Committed = Event.define({
+  export const Cleared = EventNS.define({ type: "session.next.revert.cleared", ...options, schema: Base })
+  export const Committed = EventNS.define({
     type: "session.next.revert.committed",
     ...options,
     schema: { ...Base, messageID: SessionMessage.ID },
   })
 }
 
-export const DurableDefinitions = Event.inventory(
+export const DurableDefinitions = EventNS.inventory(
   AgentSwitched,
   ModelSwitched,
   Moved,
@@ -477,7 +478,7 @@ export const DurableDefinitions = Event.inventory(
   RevertEvent.Committed,
 )
 
-export const Definitions = Event.inventory(
+export const Definitions = EventNS.inventory(
   AgentSwitched,
   ModelSwitched,
   Moved,

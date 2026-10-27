@@ -3,9 +3,9 @@ import { PtyProtocol } from "@opencode-ai/core/pty/protocol"
 import { PtyTicket } from "@opencode-ai/core/pty/ticket"
 import { Location } from "@opencode-ai/core/location"
 import { Effect, Queue } from "effect"
-import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
-import { HttpApiBuilder, HttpApiSchema } from "effect/unstable/httpapi"
-import * as Socket from "effect/unstable/socket/Socket"
+import { HttpServerRequest, HttpServerResponse } from "effect/http"
+import { HttpApiBuilder, HttpApiSchema } from "effect/http-api"
+import * as Socket from "effect/socket/Socket"
 import { Api } from "../api"
 import { CorsConfig, isAllowedRequestOrigin } from "../cors"
 import { ForbiddenError, PtyNotFoundError } from "@opencode-ai/protocol/errors"
@@ -166,9 +166,7 @@ export const PtyHandler = HttpApiBuilder.group(Api, "server.pty", (handlers) =>
           const socket = yield* Effect.orDie(ctx.request.upgrade)
           const write = yield* socket.writer
           const closeAccepted = (event: Socket.CloseEvent) =>
-            socket
-              .runRaw(() => Effect.void, { onOpen: write(event).pipe(Effect.catch(() => Effect.void)) })
-              .pipe(
+            runRaw(socket, () => Effect.void, { onOpen: write(event).pipe(Effect.catch(() => Effect.void)) }).pipe(
                 Effect.timeout("1 second"),
                 Effect.catchReason("SocketError", "SocketCloseError", () => Effect.void),
                 Effect.catch(() => Effect.void),
@@ -209,7 +207,7 @@ export const PtyHandler = HttpApiBuilder.group(Api, "server.pty", (handlers) =>
 
           yield* Effect.race(
             drain,
-            socket.runRaw((message) => {
+            runRaw(socket, (message) => {
               const decoded = PtyProtocol.decodeInput(message)
               if (decoded !== undefined) attachment.write(decoded)
             }),

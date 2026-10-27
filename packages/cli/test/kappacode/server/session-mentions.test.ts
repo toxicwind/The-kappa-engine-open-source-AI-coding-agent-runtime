@@ -14,7 +14,7 @@ import { resetDatabase } from "../../fixture/db.ts"
 import { disposeAllInstances, provideInstance, TestInstance, tmpdir } from "../../fixture/fixture.ts"
 import { testEffect } from "../../lib/effect.ts"
 import { httpApiLayer, requestInDirectory } from "../../server/httpapi-layer.ts"
-import { HttpClientResponse } from "effect/unstable/http"
+import { HttpClientResponse } from "effect/http"
 
 const it = testEffect(Layer.mergeAll(LayerNode.compile(LayerNode.group([Session.node, Database.node])), httpApiLayer))
 

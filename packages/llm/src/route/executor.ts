@@ -9,7 +9,7 @@ import {
   HttpClientError,
   HttpClientRequest,
   HttpClientResponse,
-} from "effect/unstable/http"
+} from "effect/http"
 import {
   AuthenticationReason,
   ContentPolicyReason,
@@ -39,6 +39,14 @@ const BODY_LIMIT = 16_384
 const MAX_RETRIES = 2
 const BASE_DELAY_MS = 500
 const MAX_DELAY_MS = 10_000
+// kappacode_change start - the local Thresher/limiter shed returns a 429 with
+// `retry-after-ms`: a scheduling hint ("the shared lane is busy, call back in
+// N ms"), not a provider failure. Failing after 2 flat attempts makes no sense
+// for a multi-process lane (tau + other kappa servers share it), so when the
+// server gives us an explicit backoff hint we ride it out for a generous
+// budget instead of giving up.
+const MAX_RETRY_AFTER_WAIT_MS = 60_000 // cap total wait when the server tells us when to retry
+const MAX_RETRIES_WITH_RETRY_AFTER = 30
 const REDACTED = "<redacted>"
 
 // One source of truth for what counts as a sensitive name across headers,
@@ -346,7 +354,11 @@ const toHttpError = (redactedNames: ReadonlyArray<string | RegExp>) => (error: u
 }
 
 const retryDelay = (error: LLMError, attempt: number) => {
-  if (error.retryAfterMs !== undefined) return Effect.succeed(Math.min(error.retryAfterMs, MAX_DELAY_MS))
+  // kappacode_change start - cap the per-attempt delay so a burst of
+  // retry-after hints can't exceed the overall waiting budget.
+  if (error.retryAfterMs !== undefined)
+    return Effect.succeed(Math.min(error.retryAfterMs, MAX_DELAY_MS, MAX_RETRY_AFTER_WAIT_MS))
+  // kappacode_change end
   return Random.nextBetween(
     Math.min(BASE_DELAY_MS * 2 ** attempt * 0.8, MAX_DELAY_MS),
     Math.min(BASE_DELAY_MS * 2 ** attempt * 1.2, MAX_DELAY_MS),
@@ -355,14 +367,17 @@ const retryDelay = (error: LLMError, attempt: number) => {
 
 const retryStatusFailures = <A, R>(
   effect: Effect.Effect<A, LLMError, R>,
-  retries = MAX_RETRIES,
+  retries?: number,
   attempt = 0,
 ): Effect.Effect<A, LLMError, R> =>
   Effect.catchTag(effect, "LLM.Error", (error): Effect.Effect<A, LLMError, R> => {
-    if (!error.retryable || retries <= 0) return Effect.fail(error)
+    // kappacode_change start - honor the server's retry-after-ms scheduling hint
+    // with a much larger budget: it's a shared-lane shed, not a hard failure.
+    const budget = error.retryAfterMs !== undefined ? MAX_RETRIES_WITH_RETRY_AFTER : MAX_RETRIES
+    if (!error.retryable || (retries ?? budget) <= 0) return Effect.fail(error)
     return retryDelay(error, attempt).pipe(
       Effect.flatMap((delay) => Effect.sleep(delay)),
-      Effect.flatMap(() => retryStatusFailures(effect, retries - 1, attempt + 1)),
+      Effect.flatMap(() => retryStatusFailures(effect, (retries ?? budget) - 1, attempt + 1)),
     )
   })
 

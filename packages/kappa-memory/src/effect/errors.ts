@@ -2,7 +2,7 @@ import { Schema } from "effect"
 import { MemoryRedact } from "../capture/redact"
 
 // Typed API error shapes so the SDK / OpenAPI reflect the real contract.
-export class MemoryApiClientError extends Schema.ErrorClass<MemoryApiClientError>("MemoryApiClientError")(
+export class MemoryApiClientError extends Schema.Error<MemoryApiClientError>("MemoryApiClientError")(
   {
     name: Schema.Literal("MemoryApiClientError"),
     data: Schema.Struct({ code: Schema.String, message: Schema.String }),
@@ -10,7 +10,7 @@ export class MemoryApiClientError extends Schema.ErrorClass<MemoryApiClientError
   { httpApiStatus: 400 },
 ) {}
 
-export class MemoryApiServerError extends Schema.ErrorClass<MemoryApiServerError>("MemoryApiServerError")(
+export class MemoryApiServerError extends Schema.Error<MemoryApiServerError>("MemoryApiServerError")(
   {
     name: Schema.Literal("MemoryApiServerError"),
     data: Schema.Struct({ code: Schema.String, message: Schema.String }),
@@ -18,7 +18,7 @@ export class MemoryApiServerError extends Schema.ErrorClass<MemoryApiServerError
   { httpApiStatus: 503 },
 ) {}
 
-export class MemoryDisabledError extends Schema.TaggedErrorClass<MemoryDisabledError>()("MemoryDisabledError", {
+export class MemoryDisabledError extends Schema.TaggedError<MemoryDisabledError>()("MemoryDisabledError", {
   reason: Schema.String,
   cause: Schema.optional(Schema.Unknown),
 }) {
@@ -27,7 +27,7 @@ export class MemoryDisabledError extends Schema.TaggedErrorClass<MemoryDisabledE
   }
 }
 
-export class MemoryInvalidInputError extends Schema.TaggedErrorClass<MemoryInvalidInputError>()(
+export class MemoryInvalidInputError extends Schema.TaggedError<MemoryInvalidInputError>()(
   "MemoryInvalidInputError",
   {
     reason: Schema.String,
@@ -39,7 +39,7 @@ export class MemoryInvalidInputError extends Schema.TaggedErrorClass<MemoryInval
   }
 }
 
-export class MemoryStorageError extends Schema.TaggedErrorClass<MemoryStorageError>()("MemoryStorageError", {
+export class MemoryStorageError extends Schema.TaggedError<MemoryStorageError>()("MemoryStorageError", {
   reason: Schema.String,
   cause: Schema.optional(Schema.Unknown),
 }) {
@@ -48,7 +48,7 @@ export class MemoryStorageError extends Schema.TaggedErrorClass<MemoryStorageErr
   }
 }
 
-export class MemoryRootError extends Schema.TaggedErrorClass<MemoryRootError>()("MemoryRootError", {
+export class MemoryRootError extends Schema.TaggedError<MemoryRootError>()("MemoryRootError", {
   reason: Schema.String,
   cause: Schema.optional(Schema.Unknown),
 }) {
@@ -57,7 +57,7 @@ export class MemoryRootError extends Schema.TaggedErrorClass<MemoryRootError>()(
   }
 }
 
-export class MemoryCorruptStateError extends Schema.TaggedErrorClass<MemoryCorruptStateError>()(
+export class MemoryCorruptStateError extends Schema.TaggedError<MemoryCorruptStateError>()(
   "MemoryCorruptStateError",
   {
     reason: Schema.String,
@@ -69,7 +69,7 @@ export class MemoryCorruptStateError extends Schema.TaggedErrorClass<MemoryCorru
   }
 }
 
-export class MemoryUnknownError extends Schema.TaggedErrorClass<MemoryUnknownError>()("MemoryUnknownError", {
+export class MemoryUnknownError extends Schema.TaggedError<MemoryUnknownError>()("MemoryUnknownError", {
   reason: Schema.String,
   cause: Schema.optional(Schema.Unknown),
 }) {

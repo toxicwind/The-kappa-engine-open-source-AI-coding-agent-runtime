@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { EffectBridge } from "@/effect/bridge"
 import { QuestionID } from "@/question/schema"
 import { SessionNetwork } from "@/session/network"

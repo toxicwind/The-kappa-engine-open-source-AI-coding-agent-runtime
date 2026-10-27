@@ -1,6 +1,6 @@
 import { describe, expect } from "bun:test"
 import { Effect, Layer, Ref } from "effect"
-import { Headers, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http"
+import { Headers, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
 import { RequestExecutor } from "../../src/route"
 import { InstallationChannel, InstallationVersion } from "../../../core/src/installation/version"
 import { Flag as KAPPA_FLAG } from "../../../core/src/flag/flag"

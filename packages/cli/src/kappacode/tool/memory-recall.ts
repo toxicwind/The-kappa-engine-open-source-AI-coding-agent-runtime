@@ -1,7 +1,7 @@
 // kilocode_change - new file — Phase 2: tool wrappers re-pointed to core memory service
 import { Effect, Option, Schema } from "effect"
 import * as Tool from "@/tool/tool"
-import { Service } from "@opencode-ai/core/memory"
+import { Service, type RecallResult } from "@opencode-ai/core/memory"
 
 const memoryPermission = "kilo_memory_recall"
 
@@ -20,7 +20,7 @@ export const MemoryRecallTool = Tool.define(
     // the required environment, so a runtime without Memory.node builds fine and
     // the tool degrades to a "memory not available" result instead of crashing.
     const memory = yield* Effect.serviceOption(Service)
-    const render = (entries, query) => {
+    const render = (entries: RecallResult["entries"], query: string) => {
       if (entries.length === 0) return `No memories matched query: "${query}"`
       const lines = [`Found ${entries.length} memor${entries.length === 1 ? "y" : "ies"} for "${query}":`, ""]
       for (const entry of entries) {
@@ -41,7 +41,7 @@ export const MemoryRecallTool = Tool.define(
         "Use when the agent needs context from prior conversations, project decisions, or user corrections.",
       ].join("\n"),
       parameters: RecallParams,
-      execute: (params, ctx) =>
+      execute: (params: Schema.Schema.Type<typeof RecallParams>, ctx: Tool.Context) =>
         Effect.gen(function* () {
           if (Option.isNone(memory)) {
             return {
@@ -64,8 +64,8 @@ export const MemoryRecallTool = Tool.define(
           }
         }).pipe(
           Effect.catchIf(
-            (err) => err instanceof Error && err.message.startsWith("permission denied"),
-            (err) =>
+            (err: unknown) => err instanceof Error && err.message.startsWith("permission denied"),
+            (err: { message: string }) =>
               Effect.succeed({
                 title: "memory_recall: permission denied",
                 output: `Permission denied for memory recall: ${err.message}`,
@@ -73,7 +73,7 @@ export const MemoryRecallTool = Tool.define(
               }),
           ),
         ),
-      context: (ctx) => ({ sessionID: ctx.sessionID, ask: ctx.ask }),
+      context: (ctx: Tool.Context) => ({ sessionID: ctx.sessionID, ask: ctx.ask }),
     }
   }),
 )

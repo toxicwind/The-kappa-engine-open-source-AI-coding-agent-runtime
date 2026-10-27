@@ -6782,7 +6782,7 @@ export class Audio extends HeyApiClient {
   /**
    * Speech to text transcription
    *
-   * Proxy an audio transcription request to the Kilo Gateway
+   * Proxy an audio transcription request to the Kappa Gateway
    */
   public transcriptions<ThrowOnError extends boolean = false>(
     parameters: {
@@ -6836,7 +6836,7 @@ export class Models extends HeyApiClient {
   /**
    * Image generation models
    *
-   * List image-capable models from the Kilo Gateway OpenRouter passthrough
+   * List image-capable models from the Kappa Gateway OpenRouter passthrough
    */
   public images<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6866,7 +6866,7 @@ export class Models extends HeyApiClient {
   /**
    * Speech-to-text models
    *
-   * List transcription-capable models from the Kilo Gateway catalog
+   * List transcription-capable models from the Kappa Gateway catalog
    */
   public transcriptions<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -6900,9 +6900,9 @@ export class Models extends HeyApiClient {
 
 export class Organization extends HeyApiClient {
   /**
-   * Update Kilo Gateway organization
+   * Update Kappa Gateway organization
    *
-   * Switch to a different Kilo Gateway organization
+   * Switch to a different Kappa Gateway organization
    */
   public set<ThrowOnError extends boolean = false>(
     parameters: {
@@ -6924,18 +6924,20 @@ export class Organization extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).post<KappaOrganizationSetResponses, KappaOrganizationSetErrors, ThrowOnError>(
-      {
-        url: "/kappa/organization",
-        ...options,
-        ...params,
-        headers: {
-          "Content-Type": "application/json",
-          ...options?.headers,
-          ...params.headers,
-        },
+    return (options?.client ?? this.client).post<
+      KappaOrganizationSetResponses,
+      KappaOrganizationSetErrors,
+      ThrowOnError
+    >({
+      url: "/kappa/organization",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
       },
-    )
+    })
   }
 }
 
@@ -6965,7 +6967,11 @@ export class Session3 extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).get<KappaCloudSessionGetResponses, KappaCloudSessionGetErrors, ThrowOnError>({
+    return (options?.client ?? this.client).get<
+      KappaCloudSessionGetResponses,
+      KappaCloudSessionGetErrors,
+      ThrowOnError
+    >({
       url: "/kappa/cloud/session/{id}",
       ...options,
       ...params,
@@ -7023,9 +7029,9 @@ export class Cloud extends HeyApiClient {
 
 export class Kappa extends HeyApiClient {
   /**
-   * Get Kilo Gateway profile
+   * Get Kappa Gateway profile
    *
-   * Fetch user profile and organizations from Kilo Gateway
+   * Fetch user profile and organizations from Kappa Gateway
    */
   public profile<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -7115,7 +7121,7 @@ export class Kappa extends HeyApiClient {
   /**
    * FIM completion
    *
-   * Proxy a Fill-in-the-Middle completion request to the Kilo Gateway
+   * Proxy a Fill-in-the-Middle completion request to the Kappa Gateway
    */
   public fim<ThrowOnError extends boolean = false>(
     parameters: {
@@ -7222,7 +7228,7 @@ export class Kappa extends HeyApiClient {
   /**
    * Get Kappa notifications
    *
-   * Fetch notifications from Kilo Gateway for CLI display
+   * Fetch notifications from Kappa Gateway for CLI display
    */
   public notifications<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -8756,18 +8762,20 @@ export class Kappacode extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).post<KappacodeRemoveSkillResponses, KappacodeRemoveSkillErrors, ThrowOnError>(
-      {
-        url: "/kappacode/skill/remove",
-        ...options,
-        ...params,
-        headers: {
-          "Content-Type": "application/json",
-          ...options?.headers,
-          ...params.headers,
-        },
+    return (options?.client ?? this.client).post<
+      KappacodeRemoveSkillResponses,
+      KappacodeRemoveSkillErrors,
+      ThrowOnError
+    >({
+      url: "/kappacode/skill/remove",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
       },
-    )
+    })
   }
 
   /**
@@ -8797,18 +8805,20 @@ export class Kappacode extends HeyApiClient {
         },
       ],
     )
-    return (options?.client ?? this.client).post<KappacodeRemoveAgentResponses, KappacodeRemoveAgentErrors, ThrowOnError>(
-      {
-        url: "/kappacode/agent/remove",
-        ...options,
-        ...params,
-        headers: {
-          "Content-Type": "application/json",
-          ...options?.headers,
-          ...params.headers,
-        },
+    return (options?.client ?? this.client).post<
+      KappacodeRemoveAgentResponses,
+      KappacodeRemoveAgentErrors,
+      ThrowOnError
+    >({
+      url: "/kappacode/agent/remove",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
       },
-    )
+    })
   }
 
   /**
@@ -12216,9 +12226,9 @@ export class KappaClient extends HeyApiClient {
     return (this._indexing ??= new Indexing({ client: this.client }))
   }
 
-  private _kilo?: Kappa
+  private _kappa?: Kappa
   get kappa(): Kappa {
-    return (this._kilo ??= new Kappa({ client: this.client }))
+    return (this._kappa ??= new Kappa({ client: this.client }))
   }
 
   private _kappacode?: Kappacode

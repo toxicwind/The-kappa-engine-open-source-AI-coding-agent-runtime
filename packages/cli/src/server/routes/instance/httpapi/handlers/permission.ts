@@ -5,7 +5,7 @@ import { Permission } from "@/permission"
 import { SessionID } from "@/session/schema"
 import { Effect, Schema } from "effect"
 // kappacode_change end
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { InstanceHttpApi } from "../api.ts"
 import { PermissionNotFoundError } from "../errors.ts"
 // kappacode_change start

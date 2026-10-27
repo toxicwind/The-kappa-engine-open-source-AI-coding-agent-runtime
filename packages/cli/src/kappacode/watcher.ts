@@ -80,7 +80,7 @@ export namespace KappacodeWatcher {
   // Gate the whole layer so LocationServiceMap is only warmed for clients that consume branch-update events.
   export const defaultLayer = Layer.unwrap(
     Effect.gen(function* () {
-      if (!eager() || (yield* Flag.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER.pipe(Effect.orElseSucceed(() => false))))
+      if (!eager() || Flag.KAPPA_EXPERIMENTAL_DISABLE_FILEWATCHER)
         return Layer.succeed(Service, Service.of({ init: () => Effect.void }))
       return layer.pipe(Layer.provide(locationServiceMapLayer))
     }),

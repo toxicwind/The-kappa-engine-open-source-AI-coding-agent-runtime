@@ -91,27 +91,27 @@ export const CronInput = Schema.Struct({
 export type CronInput = Types.DeepMutable<Schema.Schema.Type<typeof CronInput>>
 
 /** Neither a usable `when` nor a usable `delay` was supplied. */
-export class InvalidTime extends Schema.TaggedErrorClass<InvalidTime>()("Wakeup.InvalidTime", {
+export class InvalidTime extends Schema.TaggedError<InvalidTime>()("Wakeup.InvalidTime", {
   message: Schema.String,
 }) {}
 
 /** The requested time is at or before now. */
-export class PastTime extends Schema.TaggedErrorClass<PastTime>()("Wakeup.PastTime", {
+export class PastTime extends Schema.TaggedError<PastTime>()("Wakeup.PastTime", {
   message: Schema.String,
 }) {}
 
 /** The session already holds the maximum number of pending wakeups. */
-export class TooMany extends Schema.TaggedErrorClass<TooMany>()("Wakeup.TooMany", {
+export class TooMany extends Schema.TaggedError<TooMany>()("Wakeup.TooMany", {
   message: Schema.String,
 }) {}
 
 /** The cron expression was not a valid 5-field schedule. */
-export class InvalidSchedule extends Schema.TaggedErrorClass<InvalidSchedule>()("Wakeup.InvalidSchedule", {
+export class InvalidSchedule extends Schema.TaggedError<InvalidSchedule>()("Wakeup.InvalidSchedule", {
   message: Schema.String,
 }) {}
 
 /** The session already holds the maximum number of scheduled cron tasks. */
-export class TooManyCron extends Schema.TaggedErrorClass<TooManyCron>()("Wakeup.TooManyCron", {
+export class TooManyCron extends Schema.TaggedError<TooManyCron>()("Wakeup.TooManyCron", {
   message: Schema.String,
 }) {}
 

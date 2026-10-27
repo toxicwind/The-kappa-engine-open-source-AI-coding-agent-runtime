@@ -25,6 +25,7 @@ import { Wakeup } from "@/kappacode/wakeup"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { KappacodeWatcher } from "@/kappacode/watcher"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder" // kappacode_change
+import { initializeFlailGate } from "@/kappacode/flail-gate"
 
 const log = Log.create({ service: "kappacode-bootstrap" })
 
@@ -53,6 +54,15 @@ export namespace KappacodeBootstrap {
       const init = Effect.fn("KappacodeBootstrap.init")(function* () {
         yield* watcher.init()
         yield* kappa.init()
+        // Initialize Flail Gate (framing-aware discovery + narration guard + semantic brake)
+        // Direct call: no layer provides the FlailGate service yet, so the tag
+        // cannot be yielded here without leaking a FlailGate requirement into
+        // this service's Interface. This matches the service's own initialize.
+        yield* Effect.promise(() => initializeFlailGate()).pipe(
+          Effect.catchCause((cause) =>
+            Effect.sync(() => log.warn("flail gate initialization failed", { err: Cause.squash(cause) })),
+          ),
+        )
         yield* MemoryLifecycle.subscribe({ bus, sessions, summary, provider, config, memory })
         // Invalidate enabled cache on every memory state mutation (properties.directory holds the memory root).
         yield* bus.subscribeCallback(MemoryEvents.Status, (evt) =>
@@ -122,7 +132,7 @@ export namespace KappacodeBootstrap {
       AppNodeBuilder.build(Provider.node),
       AppNodeBuilder.build(Config.node),
       MemoryService.layer,
-      Memory.node,
+      LayerNode.compile(Memory.node),
       Bus.defaultLayer,
       KappacodeWatcher.defaultLayer,
       AppNodeBuilder.build(Wakeup.node),

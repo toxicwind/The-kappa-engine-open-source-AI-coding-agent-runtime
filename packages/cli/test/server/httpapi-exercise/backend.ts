@@ -1,5 +1,5 @@
 import { ConfigProvider, Effect, Layer } from "effect"
-import { HttpRouter } from "effect/unstable/http"
+import { HttpRouter } from "effect/http"
 import { parse } from "./assertions.ts"
 import { runtime, type Runtime } from "./runtime.ts"
 import type { ActiveScenario, BackendApp, CallResult, CaptureMode, SeededContext } from "./types.ts"

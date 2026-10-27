@@ -5,8 +5,9 @@ import { Session } from "@opencode-ai/schema/session"
 import { Project } from "@opencode-ai/schema/project"
 import { AbsolutePath, NonNegativeInt, PositiveInt, RelativePath, statics } from "@opencode-ai/schema/schema"
 import { Workspace } from "@opencode-ai/schema/workspace"
-import { Context, Effect, Encoding, Result, Schema, Struct } from "effect"
-import { HttpApiEndpoint, HttpApiGroup, HttpApiMiddleware, HttpApiSchema, OpenApi } from "effect/unstable/httpapi"
+import { Context, Effect, Result, Schema, Struct } from "effect"
+import { Base64Url } from "effect/encoding"
+import { HttpApiEndpoint, HttpApiGroup, HttpApiMiddleware, HttpApiSchema, OpenApi } from "effect/http-api"
 import {
   ConflictError,
   InvalidCursorError,
@@ -68,10 +69,10 @@ export const SessionsCursor = Schema.String.pipe(
   statics((schema) => {
     const make = schema.make.bind(schema)
     return {
-      make: (input: typeof SessionsCursorInput.Type) => make(Encoding.encodeBase64Url(encodeSessionsCursor(input))),
+      make: (input: typeof SessionsCursorInput.Type) => make(Base64Url.encode(encodeSessionsCursor(input))),
       parse: (input: string) =>
         Effect.suspend(() => {
-          const result = Encoding.decodeBase64UrlString(input)
+          const result = Base64Url.decodeString(input)
           return Result.isFailure(result)
             ? Effect.fail(invalidCursor)
             : decodeSessionsCursor(result.success).pipe(Effect.mapError(() => invalidCursor))

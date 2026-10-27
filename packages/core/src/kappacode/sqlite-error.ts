@@ -1,5 +1,5 @@
 import { Cause, Option } from "effect"
-import { isSqlError } from "effect/unstable/sql/SqlError"
+import { isSqlError } from "effect/sql/SqlError"
 
 export function isBusy(error: unknown): boolean {
   if (isSqlError(error)) return error.reason._tag === "LockTimeoutError"

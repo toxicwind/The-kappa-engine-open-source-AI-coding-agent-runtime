@@ -7,7 +7,7 @@ import {
 import { described } from "@/server/routes/instance/httpapi/groups/metadata"
 import { ConflictError } from "@/server/routes/instance/httpapi/errors"
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/http-api"
 
 export const ReloadPaths = {
   reload: "/instance/reload",

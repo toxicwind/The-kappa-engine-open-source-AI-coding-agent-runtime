@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect } from "bun:test"
 import { Effect, Layer } from "effect"
-import { HttpClient, HttpClientResponse } from "effect/unstable/http"
+import { HttpClient, HttpClientResponse } from "effect/http"
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { LayerNodePlatform } from "@opencode-ai/core/effect/app-node-platform"
 import { Flag } from "@opencode-ai/core/flag/flag"

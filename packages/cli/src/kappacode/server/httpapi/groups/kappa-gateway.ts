@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/unstable/httpapi"
+import { HttpApi, HttpApiEndpoint, HttpApiError, HttpApiGroup, HttpApiSchema, OpenApi } from "effect/http-api"
 import { Authorization } from "@/server/routes/instance/httpapi/middleware/authorization"
 import { InstanceContextMiddleware } from "@/server/routes/instance/httpapi/middleware/instance-context"
 import {
@@ -84,7 +84,7 @@ export const CloudSessionImportBody = Schema.Struct({
   sessionId: Schema.String,
 })
 
-export class CloudSessionImportError extends Schema.ErrorClass<CloudSessionImportError>("CloudSessionImportError")(
+export class CloudSessionImportError extends Schema.Error<CloudSessionImportError>("CloudSessionImportError")(
   { error: Schema.String },
   { httpApiStatus: 500 },
 ) {}

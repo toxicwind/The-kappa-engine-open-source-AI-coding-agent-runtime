@@ -1,8 +1,9 @@
 import { NodeFileSystem } from "@effect/platform-node"
+import { runRaw, runString } from "../src/run-raw.ts" // kappacode_change
 import { describe, expect, test } from "bun:test"
 import { Cause, Deferred, Effect, Exit, Fiber, Layer, Scope, Stream } from "effect"
-import { Headers, HttpBody, HttpClient, HttpClientRequest } from "effect/unstable/http"
-import { Socket } from "effect/unstable/socket"
+import { Headers, HttpBody, HttpClient, HttpClientRequest } from "effect/http"
+import { Socket } from "effect/socket"
 import * as fs from "node:fs"
 import * as os from "node:os"
 import * as path from "node:path"
@@ -210,27 +211,36 @@ describe("http-recorder", () => {
   test("records WebSocket frames in observed client/server order", async () => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), "http-recorder-websocket-"))
     const response = JSON.stringify({ type: "response.completed", token: "server-secret" })
-    let receive: ((message: string | Uint8Array) => Effect.Effect<unknown, unknown, unknown> | void) | undefined
-    const upstream = Socket.make({
-      runRaw: (handler, options) =>
-        Effect.gen(function* () {
-          receive = handler
-          if (options?.onOpen) yield* options.onOpen
-          receive = undefined
-        }),
-      writer: Effect.succeed(() =>
-        Effect.suspend(() => {
-          const result = receive?.(response)
-          return Effect.isEffect(result) ? Effect.asVoid(result) : Effect.void
-        }),
-      ),
-    })
+    // kappacode_change: 4.0.6 pull-based fake upstream — first pull waits for the
+    // client's write (the create), serves the server response, then closes.
+    const upstreamLayer = Layer.effect(
+      Socket.Socket,
+      Effect.gen(function* () {
+        const created = yield* Deferred.make<void>()
+        let served = false
+        return Socket.make({
+          reader: Effect.succeed({
+            pull: Effect.gen(function* () {
+              if (served) yield* Effect.fail(new Error("closed") as never)
+              yield* Deferred.await(created)
+              served = true
+              return [response] as const
+            }),
+            upgrade: () => Effect.void,
+          }),
+          writer: Effect.succeed({
+            write: () => Effect.asVoid(Deferred.succeed(created, undefined)),
+            writeAll: () => Effect.void,
+          }),
+        })
+      }),
+    )
 
     await Effect.runPromise(
       Effect.gen(function* () {
         const socket = yield* Socket.Socket
-        const write = yield* socket.writer
-        yield* socket.runRaw(() => {}, {
+        const writeObj = yield* socket.writer; const write = (m: Parameters<typeof writeObj.write>[0]) => writeObj.write(m)
+        yield* runRaw(socket, () => {}, {
           onOpen: write(JSON.stringify({ type: "response.create", token: "client-secret" })),
         })
       }).pipe(
@@ -240,7 +250,7 @@ describe("http-recorder", () => {
             "websocket/record",
             { url: "wss://example.test/realtime", headers: { "content-type": "application/json" } },
             { directory, metadata: { provider: "test" }, mode: "record" },
-          ).pipe(Layer.provide(Layer.succeed(Socket.Socket, upstream))),
+          ).pipe(Layer.provide(upstreamLayer)),
         ),
       ),
     )
@@ -277,8 +287,8 @@ describe("http-recorder", () => {
     await Effect.runPromise(
       Effect.gen(function* () {
         const socket = yield* Socket.Socket
-        const write = yield* socket.writer
-        yield* socket.runRaw((message) => {
+        const writeObj = yield* socket.writer; const write = (m: Parameters<typeof writeObj.write>[0]) => writeObj.write(m)
+        yield* runRaw(socket, (message) => {
           if (typeof message !== "string") return
           received.push(message)
           if (JSON.parse(message).type === "session.created")
@@ -296,8 +306,11 @@ describe("http-recorder", () => {
               Layer.succeed(
                 Socket.Socket,
                 Socket.make({
-                  runRaw: () => Effect.die(new Error("unexpected live WebSocket run")),
-                  writer: Effect.succeed(() => Effect.die(new Error("unexpected live WebSocket write"))),
+                  reader: Effect.fail(new Error("unexpected live WebSocket run") as never),
+                  writer: Effect.succeed({
+                    write: () => Effect.die(new Error("unexpected live WebSocket write")),
+                    writeAll: () => Effect.die(new Error("unexpected live WebSocket write")),
+                  }),
                 }),
               ),
             ),
@@ -422,8 +435,8 @@ describe("http-recorder", () => {
     await Effect.runPromise(
       Effect.gen(function* () {
         const socket = yield* Socket.Socket
-        const write = yield* socket.writer
-        yield* socket.runString(
+        const writeObj = yield* socket.writer; const write = (m: Parameters<typeof writeObj.write>[0]) => writeObj.write(m)
+        yield* runString(socket, 
           (message) =>
             Effect.gen(function* () {
               received.push(message)
@@ -469,7 +482,7 @@ describe("http-recorder", () => {
       Effect.gen(function* () {
         const socket = yield* Socket.Socket
         const second = yield* Deferred.make<void>()
-        yield* socket.runString((message) =>
+        yield* runString(socket, (message) =>
           message === "first" ? Deferred.await(second) : Deferred.succeed(second, undefined),
         )
       }).pipe(
@@ -508,8 +521,8 @@ describe("http-recorder", () => {
     const exit = await Effect.runPromise(
       Effect.gen(function* () {
         const socket = yield* Socket.Socket
-        const write = yield* socket.writer
-        return yield* Effect.exit(socket.runRaw(() => {}, { onOpen: write(new Socket.CloseEvent(1000)) }))
+        const writeObj = yield* socket.writer; const write = (m: Parameters<typeof writeObj.write>[0]) => writeObj.write(m)
+        return yield* Effect.exit(runRaw(socket, () => {}, { onOpen: write(new Socket.CloseEvent(1000)) }))
       }).pipe(
         Effect.scoped,
         Effect.provide(
@@ -540,7 +553,7 @@ describe("http-recorder", () => {
     const exit = await Effect.runPromise(
       Effect.gen(function* () {
         const socket = yield* Socket.Socket
-        return yield* Effect.exit(socket.runRaw(() => {}))
+        return yield* Effect.exit(runRaw(socket, () => {}))
       }).pipe(
         Effect.scoped,
         Effect.provide(
@@ -593,8 +606,8 @@ describe("http-recorder", () => {
     await Effect.runPromise(
       Effect.gen(function* () {
         const socket = yield* Socket.Socket
-        const write = yield* socket.writer
-        const run = socket.runRaw(
+        const writeObj = yield* socket.writer; const write = (m: Parameters<typeof writeObj.write>[0]) => writeObj.write(m)
+        const run = runRaw(socket, 
           (message) => {
             if (typeof message === "string") throw new Error("Expected a binary WebSocket frame")
             received.push([...message])

@@ -1,5 +1,5 @@
 import { Effect, Layer } from "effect"
-import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/unstable/http"
+import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/http"
 import { assertNetwork, assertSandbox, networkHttpLayer, unrestricted } from "@kappacode/sandbox"
 import { host, opaque } from "./network-tools.ts"
 

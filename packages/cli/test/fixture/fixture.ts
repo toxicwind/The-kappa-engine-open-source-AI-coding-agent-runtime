@@ -13,7 +13,7 @@ import { ProjectV2 } from "@opencode-ai/core/project" // kappacode_change
 import { ProjectTable } from "@opencode-ai/core/project/sql" // kappacode_change
 import { AbsolutePath } from "@opencode-ai/core/schema" // kappacode_change
 import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
+import { ChildProcess, ChildProcessSpawner } from "effect/process"
 import type { Config } from "@/config/config"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { InstanceRef } from "../../src/effect/instance-ref.ts"

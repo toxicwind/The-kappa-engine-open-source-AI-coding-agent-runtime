@@ -50,8 +50,8 @@ import { Glob } from "@opencode-ai/core/util/glob"
 import path from "path"
 import { pathToFileURL } from "url"
 import { Effect, Layer, Context, Option } from "effect" // kappacode_change
-import { ChildProcessSpawner } from "effect/unstable/process/ChildProcessSpawner"
-import { HttpClient } from "effect/unstable/http" // kappacode_change
+import { ChildProcessSpawner } from "effect/process/ChildProcessSpawner"
+import { HttpClient } from "effect/http" // kappacode_change
 import { CrossSpawnSpawner } from "@opencode-ai/core/cross-spawn-spawner"
 import { Format } from "../format/index.ts"
 import { InstanceState } from "@/effect/instance-state"

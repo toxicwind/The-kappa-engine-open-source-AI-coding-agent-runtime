@@ -7,7 +7,7 @@ import { MessageV2 } from "@/session/message-v2"
 import { isRecord } from "@/util/record"
 import { parseReviewCommand, reviewCommandName } from "@/kappacode/review/command"
 import * as Log from "@opencode-ai/core/util/log"
-import { Cause, Duration, Effect, Exit } from "effect"
+import { Cause, Duration, Effect, Exit, Context } from "effect"
 import { Flag } from "@opencode-ai/core/flag/flag"
 import { EffectBridge } from "@/effect/bridge"
 import type { LLMEvent, ProviderMetadata, Usage } from "@opencode-ai/llm"
@@ -15,6 +15,7 @@ import type { ProviderV2 } from "@opencode-ai/core/provider"
 import { SessionRetry } from "@/session/retry"
 import { computeMetrics as computeMetricsHelper, type TokenRates } from "@/kappacode/session/metrics"
 import { InvalidArgumentsError } from "@/tool/tool"
+import { narrationGuard } from "@/kappacode/flail-gate"
 
 export type ReviewTelemetry = {
   mode: "review"
@@ -541,4 +542,25 @@ export namespace KappaSessionProcessor {
     log.warn("provider finish error", { messageID: msg.id })
     return err
   }
+
+  /**
+   * Flail Gate narration guard integration.
+   * Called after each model step to detect narration, pivot, repetition, and budget violations.
+   */
+  export function flailGateCheck(input: {
+    sessionID: SessionID
+    turn: number
+    runId: string
+    reasoning?: string
+    text?: string
+    toolCalls?: Array<{ name: string; ok?: boolean }>
+    receipts?: string[]
+    priorReasoning?: string[]
+    toolHistory?: string[]
+  }): Effect.Effect<{ action: "accept" | "continue"; reason: string; inject?: string }> {
+    // Direct call: the service's narrationGuard is this same pure function,
+    // and no layer provides the FlailGate service yet.
+    return Effect.succeed(narrationGuard(input))
+  }
 }
+

@@ -2,7 +2,7 @@ import { BackgroundProcess } from "@/kappacode/background-process"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
 import { SessionID } from "@/session/schema"
 import { Effect } from "effect"
-import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
+import { HttpApiBuilder, HttpApiError } from "effect/http-api"
 
 const missing = () => new HttpApiError.NotFound({})
 

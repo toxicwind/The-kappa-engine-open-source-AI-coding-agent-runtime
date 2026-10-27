@@ -17,8 +17,8 @@ import { providerMetadata } from "@/kappacode/provider/metadata" // kappacode_ch
 import { filterPromptTrainingModels } from "@/kappacode/provider/model-filter" // kappacode_change
 import { overlay as overlayAnacondaDesktop } from "@/kappacode/anaconda-desktop/provider" // kappacode_change
 import { Effect, Schema } from "effect"
-import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpServerRequest, HttpServerResponse } from "effect/http"
+import { HttpApiBuilder } from "effect/http-api"
 import { InstanceHttpApi } from "../api.ts"
 import { ProviderAuthApiError } from "../groups/provider.ts"
 import { ProviderV2 } from "@opencode-ai/core/provider"

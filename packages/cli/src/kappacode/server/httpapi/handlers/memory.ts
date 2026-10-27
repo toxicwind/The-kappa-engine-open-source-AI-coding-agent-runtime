@@ -1,5 +1,5 @@
 import { Effect } from "effect"
-import { HttpApiBuilder } from "effect/unstable/httpapi"
+import { HttpApiBuilder } from "effect/http-api"
 import { InstanceState } from "@/effect/instance-state"
 import { MemoryError } from "@kappacode/kappa-memory/effect/errors"
 import { MemoryContract } from "@kappacode/kappa-memory/effect/httpapi"

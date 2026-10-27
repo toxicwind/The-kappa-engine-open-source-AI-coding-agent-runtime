@@ -1,4 +1,4 @@
-import { OpenApi } from "effect/unstable/httpapi"
+import { OpenApi } from "effect/http-api"
 // kappacode_change start
 import { matchLegacyKappaOpenApi } from "@/kappacode/server/httpapi/public"
 import * as KappaServer from "@/kappacode/server/server"

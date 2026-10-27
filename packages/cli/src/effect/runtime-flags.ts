@@ -1,15 +1,28 @@
-import { Config, ConfigProvider, Context, Effect, Layer, Option } from "effect"
+import { Config, ConfigProvider, Context, Effect, Layer, Option, Schema } from "effect"
 import { ConfigService } from "@/effect/config-service"
 
-const bool = (name: string) => Config.boolean(name).pipe(Config.withDefault(false))
+const bool = (name: string) =>
+  Config.String(name).pipe(
+    // effect 4.0.6: Config.schema(Schema.Boolean) only accepts "true"|"false",
+    // but the estate sets KAPPA_* booleans as "1"/"0" (see core flag.truthy).
+    // Replicate that truthy semantics here so a missing/mismatched value can't
+    // blow up config loading into a ConfigError.
+    Config.map((value) => value.toLowerCase() === "true" || value === "1"),
+    Config.withDefault(false),
+  )
+const boolDefaultTrue = (name: string) =>
+  Config.String(name).pipe(
+    Config.map((value) => !(value.toLowerCase() === "false" || value === "0")),
+    Config.withDefault(true),
+  )
 const positiveInteger = (name: string) =>
-  Config.number(name).pipe(
+  Config.schema(Schema.Number, name).pipe(
     Config.map((value) => (Number.isInteger(value) && value > 0 ? value : undefined)),
     Config.orElse(() => Config.succeed(undefined)),
   )
 const experimental = bool("KAPPA_EXPERIMENTAL")
 const enabledByExperimental = (name: string) =>
-  Config.all({ experimental, enabled: Config.boolean(name).pipe(Config.option) }).pipe(
+  Config.all({ experimental, enabled: Config.schema(Schema.Boolean, name).pipe(Config.option) }).pipe(
     Config.map((flags) => Option.getOrElse(flags.enabled, () => flags.experimental)),
   )
 
@@ -45,9 +58,7 @@ export class Service extends ConfigService.Service<Service>()("@opencode/Runtime
   experimentalScout: enabledByExperimental("KAPPA_EXPERIMENTAL_SCOUT"), // kappacode_change
   experimentalReferences: enabledByExperimental("KAPPA_EXPERIMENTAL_REFERENCES"),
   // kappacode_change start - enabled by default, with an opt-out kill switch
-  experimentalBackgroundSubagents: Config.boolean("KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS").pipe(
-    Config.withDefault(true),
-  ),
+  experimentalBackgroundSubagents: boolDefaultTrue("KAPPA_EXPERIMENTAL_BACKGROUND_SUBAGENTS"),
   // kappacode_change - auto-promote a foreground subagent to background after this deadline (ms);
   // default 4s (kairos ceiling) so a long-running child yields a live background handle
   // instead of blocking the turn. Requires KAPPA_FOREGROUND_TASK_DEADLINE_MS to be a positive
@@ -64,7 +75,7 @@ export class Service extends ConfigService.Service<Service>()("@opencode/Runtime
   experimentalEventSystem: enabledByExperimental("KAPPA_EXPERIMENTAL_EVENT_SYSTEM"),
   experimentalSessionSwitcher: enabledByExperimental("KAPPA_EXPERIMENTAL_SESSION_SWITCHER"), // kappacode_change
   // kappacode_change start - enabled by default, with an opt-out kill switch
-  experimentalSharedAgentBoard: Config.boolean("KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD").pipe(Config.withDefault(true)),
+  experimentalSharedAgentBoard: boolDefaultTrue("KAPPA_EXPERIMENTAL_SHARED_AGENT_BOARD"),
   // kappacode_change end
   experimentalWorkspaces: enabledByExperimental("KAPPA_EXPERIMENTAL_WORKSPACES"),
   experimentalIconDiscovery: enabledByExperimental("KAPPA_EXPERIMENTAL_ICON_DISCOVERY"),
@@ -73,7 +84,7 @@ export class Service extends ConfigService.Service<Service>()("@opencode/Runtime
   bashDefaultTimeoutMs: positiveInteger("KAPPA_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS"),
   experimentalNativeLlm: bool("KAPPA_EXPERIMENTAL_NATIVE_LLM"),
   experimentalWebSockets: bool("KAPPA_EXPERIMENTAL_WEBSOCKETS"),
-  client: Config.string("KAPPA_CLIENT").pipe(Config.withDefault("cli")),
+  client: Config.schema(Schema.String, "KAPPA_CLIENT").pipe(Config.withDefault("cli")),
 }) {}
 
 export type Info = Context.Service.Shape<typeof Service>

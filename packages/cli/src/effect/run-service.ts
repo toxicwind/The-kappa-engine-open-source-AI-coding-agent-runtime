@@ -1,4 +1,4 @@
-import { Effect, Fiber, Layer, ManagedRuntime } from "effect"
+import { Effect, Fiber, Layer, ManagedRuntime, Option } from "effect"
 import * as Context from "effect/Context"
 import { InstanceRef, WorkspaceRef } from "./instance-ref.ts"
 import * as Observability from "@opencode-ai/core/observability"
@@ -27,7 +27,7 @@ export function attach<A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A
   const workspace = WorkspaceContext.workspaceID
   const fiber = Fiber.getCurrent()
   // kappacode_change start - bridge legacy AsyncLocalStorage instance context into Effect runtimes
-  const current = fiber ? Context.getReferenceUnsafe(fiber.context, InstanceRef) : undefined
+  const current = fiber ? Option.getOrUndefined(Context.getOption(fiber.context, InstanceRef)) : undefined
   const instance = (() => {
     if (current) return current
     try {
@@ -39,7 +39,7 @@ export function attach<A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A
   return attachWith(effect, {
     instance,
     // kappacode_change end
-    workspace: workspace ?? (fiber ? Context.getReferenceUnsafe(fiber.context, WorkspaceRef) : undefined),
+    workspace: workspace ?? (fiber ? Option.getOrUndefined(Context.getOption(fiber.context, WorkspaceRef)) : undefined),
   })
 }
 

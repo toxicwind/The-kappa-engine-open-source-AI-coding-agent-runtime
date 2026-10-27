@@ -17,10 +17,48 @@ export const optional = <S extends Schema.Top>(schema: S) =>
     }),
   )
 
-export const statics =
-  <S extends object, M extends Record<string, unknown>>(methods: (schema: S) => M) =>
-  (schema: S): S & M =>
-    Object.assign(schema, methods(schema))
+export const statics = <S extends object, M extends Record<string, unknown>>(methods: (schema: S) => M) => {
+  // effect 4.0.6: schema prototypes expose a non-writable `make` (and other
+  // methods). The legacy `Object.assign(schema, methods(schema))` breaks when a
+  // statics key shadows one of those (ECMAScript forbids defining an own prop
+  // that overrides a non-writable inherited accessor -> "Attempted to assign to
+  // readonly property", observed under bun 1.4.x). Wrap the schema in a Proxy
+  // that serves the attached statics first and forwards everything else to the
+  // schema, so members like `make`/`parse`/`type`/`data` are overridable without
+  // mutating (or losing identity of) the frozen-ish schema value.
+  const cache = new WeakMap<object, M>()
+  const resolved = (schema: S): M => {
+    let m = cache.get(schema)
+    if (!m) {
+      m = methods(schema)
+      cache.set(schema, m)
+    }
+    return m
+  }
+  return (schema: S): S & M => {
+    const m = resolved(schema)
+    const proxy = new Proxy<S>(schema, {
+      get(target, prop, receiver) {
+        if (prop in m) return (m as Record<PropertyKey, unknown>)[prop]
+        return Reflect.get(target, prop, receiver)
+      },
+      has(target, prop) {
+        return prop in m || Reflect.has(target, prop)
+      },
+      getOwnPropertyDescriptor(target, prop) {
+        if (prop in m) {
+          const value = (m as Record<PropertyKey, unknown>)[prop]
+          return { value, writable: true, enumerable: true, configurable: true }
+        }
+        return Reflect.getOwnPropertyDescriptor(target, prop)
+      },
+      ownKeys(target) {
+        return [...new Set([...Reflect.ownKeys(target), ...Reflect.ownKeys(m)])]
+      },
+    })
+    return proxy as S & M
+  }
+}
 
 export const DateTimeUtcFromMillis = Schema.Finite.pipe(
   Schema.decodeTo(Schema.DateTimeUtc, {

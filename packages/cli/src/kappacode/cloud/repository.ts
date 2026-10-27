@@ -39,30 +39,30 @@ export namespace CloudRepository {
     readonly branch?: string
   }
 
-  export class InvalidRepositoryError extends Schema.TaggedErrorClass<InvalidRepositoryError>()(
+  export class InvalidRepositoryError extends Schema.TaggedError<InvalidRepositoryError>()(
     "CloudRepositoryInvalidRepositoryError",
     { message: Schema.String },
   ) {}
 
-  export class InvalidBranchError extends Schema.TaggedErrorClass<InvalidBranchError>()(
+  export class InvalidBranchError extends Schema.TaggedError<InvalidBranchError>()(
     "CloudRepositoryInvalidBranchError",
     { message: Schema.String },
   ) {}
 
-  export class NotWorktreeError extends Schema.TaggedErrorClass<NotWorktreeError>()("CloudRepositoryNotWorktreeError", {
+  export class NotWorktreeError extends Schema.TaggedError<NotWorktreeError>()("CloudRepositoryNotWorktreeError", {
     message: Schema.String,
   }) {}
 
-  export class NoRemoteError extends Schema.TaggedErrorClass<NoRemoteError>()("CloudRepositoryNoRemoteError", {
+  export class NoRemoteError extends Schema.TaggedError<NoRemoteError>()("CloudRepositoryNoRemoteError", {
     message: Schema.String,
   }) {}
 
-  export class AmbiguousRemoteError extends Schema.TaggedErrorClass<AmbiguousRemoteError>()(
+  export class AmbiguousRemoteError extends Schema.TaggedError<AmbiguousRemoteError>()(
     "CloudRepositoryAmbiguousRemoteError",
     { message: Schema.String },
   ) {}
 
-  export class DiscoveryError extends Schema.TaggedErrorClass<DiscoveryError>()("CloudRepositoryDiscoveryError", {
+  export class DiscoveryError extends Schema.TaggedError<DiscoveryError>()("CloudRepositoryDiscoveryError", {
     message: Schema.String,
   }) {}
 

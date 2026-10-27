@@ -1,7 +1,7 @@
 // kappacode_change - new file
 import { expect } from "bun:test"
 import { Deferred, Effect, Exit, Fiber, Layer, Option, Ref } from "effect"
-import { HttpClient, HttpClientResponse } from "effect/unstable/http"
+import { HttpClient, HttpClientResponse } from "effect/http"
 import { Auth } from "../../src/auth/index.ts"
 import { ModelCache } from "../../src/provider/model-cache.ts"
 import { TestConfig } from "../fixture/config.ts"

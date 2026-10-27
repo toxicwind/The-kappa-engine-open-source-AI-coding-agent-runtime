@@ -1,7 +1,7 @@
 import { expect } from "bun:test"
 import { Effect, Layer, Ref } from "effect"
 import * as TestClock from "effect/testing/TestClock"
-import { FetchHttpClient } from "effect/unstable/http"
+import { FetchHttpClient } from "effect/http"
 import type { KappaModelsResult } from "@kappacode/kappa-gateway"
 import * as Core from "@opencode-ai/core/models-dev"
 import * as ModelsRefresh from "@opencode-ai/core/kappacode/models-refresh"

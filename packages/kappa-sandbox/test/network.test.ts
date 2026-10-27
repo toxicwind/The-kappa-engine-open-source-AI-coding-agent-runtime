@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Effect, Result } from "effect"
-import { FetchHttpClient, HttpClient } from "effect/unstable/http"
+import { FetchHttpClient, HttpClient } from "effect/http"
 import { run } from "../src/context"
 import { assertNetwork, decorateHttpClient } from "../src/network"
 import type { Profile } from "../src/profile"

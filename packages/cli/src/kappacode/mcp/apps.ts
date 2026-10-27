@@ -1,5 +1,5 @@
 import { Effect, Schema } from "effect"
-import { HttpApiError } from "effect/unstable/httpapi"
+import { HttpApiError } from "effect/http-api"
 import type { MCP } from "@/mcp"
 import type { RuntimeFlags } from "@/effect/runtime-flags"
 

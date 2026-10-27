@@ -2,7 +2,7 @@ export * as ServerAuth from "./auth.ts"
 
 import { ConfigService } from "@/effect/config-service"
 import { Flag } from "@opencode-ai/core/flag/flag"
-import { Config as EffectConfig, Context, Option, Redacted } from "effect"
+import { Config as EffectConfig, Context, Option, Redacted, Schema } from "effect" // kappacode_change - effect4: Config.string -> Config.schema(Schema.String)
 
 export type Credentials = {
   password?: string
@@ -15,8 +15,8 @@ export type DecodedCredentials = {
 }
 
 export class Config extends ConfigService.Service<Config>()("@opencode/ServerAuthConfig", {
-  password: EffectConfig.string("KAPPA_SERVER_PASSWORD").pipe(EffectConfig.option),
-  username: EffectConfig.string("KAPPA_SERVER_USERNAME").pipe(EffectConfig.withDefault("kappa")), // kappacode_change
+  password: EffectConfig.schema(Schema.String, "KAPPA_SERVER_PASSWORD").pipe(EffectConfig.option),
+  username: EffectConfig.schema(Schema.String, "KAPPA_SERVER_USERNAME").pipe(EffectConfig.withDefault("kappa")), // kappacode_change
 }) {}
 
 export type Info = Context.Service.Shape<typeof Config>

@@ -7,7 +7,7 @@ import { DatabaseMigration } from "@opencode-ai/core/database/migration"
 import { migrations } from "@opencode-ai/core/database/migration.gen"
 import boardMigration from "@opencode-ai/core/database/migration/20260828074139_kappacode_board"
 import reset from "@opencode-ai/core/database/migration/20260903104806_kappacode_board_reset"
-import type { SqlClient as SqlClientService } from "effect/unstable/sql/SqlClient"
+import type { SqlClient as SqlClientService } from "effect/sql/SqlClient"
 import { line } from "../../../script/kappacode/migration"
 
 const make = EffectDrizzleSqlite.makeWithDefaults()

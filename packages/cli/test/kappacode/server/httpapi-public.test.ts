@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { Result, Schema as EffectSchema } from "effect"
-import { OpenApi } from "effect/unstable/httpapi"
+import { OpenApi } from "effect/http-api"
 import { AgentBuilderPaths } from "../../../src/kappacode/server/httpapi/groups/agent-builder.ts"
 import { BackgroundProcessPaths } from "../../../src/kappacode/server/httpapi/groups/background-process.ts"
 import { BranchNamePaths } from "../../../src/kappacode/server/httpapi/groups/branch-name.ts"

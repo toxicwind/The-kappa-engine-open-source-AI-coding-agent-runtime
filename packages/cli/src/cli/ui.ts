@@ -7,7 +7,7 @@ import { tui } from "../kappacode/cli/logo.ts" // kappacode_change
 const wordmark = [...tui()]
 // kappacode_change end
 
-export class CancelledError extends Schema.TaggedErrorClass<CancelledError>()("UICancelledError", {}) {}
+export class CancelledError extends Schema.TaggedError<CancelledError>()("UICancelledError", {}) {}
 
 export const Style = {
   TEXT_HIGHLIGHT: "\x1b[96m",

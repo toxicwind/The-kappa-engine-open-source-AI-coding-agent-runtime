@@ -13,6 +13,55 @@ const payload = z.looseObject({
   message: z.string().nullish(),
 })
 
+// kappacode_change start - OpenRouter provider-policy blocks
+//
+// OpenRouter rewrote its "model blocked by your privacy/guardrail settings"
+// message (2026-09) from the plain-text form to `0 endpoints out of N
+// requested are available...`. A blocked model surfaces as an HTTP 404 with
+// that body, and (newer responses) also carry structured metadata:
+//   metadata.failed_routing_step = "Filter by Guardrails"
+//   metadata.ineligibility_reasons[].reason in {model-ignored-by-guardrail,
+//   zdr-violation-by-account, zdr-violation-by-guardrail}
+//
+// This is a permanent account/guardrail routing exclusion, NOT a transient
+// 404 (openai-family clients historically treat any 404 as "model actually
+// available, retry"). Retrying it just burns the backoff budget ("Retry
+// budget exhausted after 3 retries: 404"). Detect it so the failing turn
+// gives up immediately / falls back instead of retrying.
+const GUARDRAIL_ZERO_ENDPOINTS =
+  /0 endpoints? out of \d+ requested (?:are|is|was)? available matching your guardrail restrictions and data policy/i
+const GUARDRAIL_FAILED_STEP = "Filter by Guardrails"
+export const PROVIDER_POLICY_BLOCK_REASONS = new Set([
+  "model-ignored-by-guardrail",
+  "zdr-violation-by-account",
+  "zdr-violation-by-guardrail",
+])
+
+function ineligibilityReasons(body: Record<string, unknown>): Array<string> {
+  const reasons = body.ineligibility_reasons
+  if (!Array.isArray(reasons)) return []
+  return reasons.flatMap((entry) => {
+    if (!isRecord(entry)) return []
+    const reason = entry.reason
+    return typeof reason === "string" ? [reason] : []
+  })
+}
+
+export function isProviderPolicyBlock(input: { status?: number; body?: unknown; message?: string }): boolean {
+  if (input.status !== 404) return false
+  if (typeof input.message === "string" && GUARDRAIL_ZERO_ENDPOINTS.test(input.message)) return true
+  const body = isRecord(input.body) ? input.body : undefined
+  if (!body) return false
+  const metadata = isRecord(body.metadata) ? body.metadata : undefined
+  if (metadata?.failed_routing_step === GUARDRAIL_FAILED_STEP) return true
+  const reasons = [...ineligibilityReasons(body), ...(metadata ? ineligibilityReasons(metadata) : [])]
+  if (reasons.some((reason) => PROVIDER_POLICY_BLOCK_REASONS.has(reason))) return true
+  const error = isRecord(body.error) ? body.error : undefined
+  if (error && typeof error.message === "string" && GUARDRAIL_ZERO_ENDPOINTS.test(error.message)) return true
+  return false
+}
+// kappacode_change end
+
 // OpenAI Responses API terminal frame forwarded by @ai-sdk/openai >= 3.0.82
 const terminal = z.looseObject({
   type: z.literal("response.failed"),
@@ -49,7 +98,8 @@ export function frame(body: unknown): Frame {
   return { ...body, error: isRecord(body.error) ? body.error : undefined }
 }
 
-const RETRYABLE = /rate.?limit|too.?many.?requests|rate increased too quickly|exhausted|overload|server|unavailable|timeout/i
+const RETRYABLE =
+  /rate.?limit|too.?many.?requests|rate increased too quickly|exhausted|overload|server|unavailable|timeout/i
 // Keep free-form message matching narrow: Session.retryable only applied
 // rate-limit phrases to prose; the wider pattern above is for structured
 // code/type fields only
@@ -88,7 +138,9 @@ export function isOverloaded(status: number | undefined, body: unknown, msg: str
   if (status !== undefined && [429, 500, 502, 503, 504, 520, 524, 529].includes(status)) return true
   const f = frame(body)
   if (retryable(f.error, msg)) return true
-  return /overload|overloaded_error|server_is_overloaded|exhausted|temporarily unavailable|at capacity|rate.?limit|too many requests/i.test(msg)
+  return /overload|overloaded_error|server_is_overloaded|exhausted|temporarily unavailable|at capacity|rate.?limit|too many requests/i.test(
+    msg,
+  )
 }
 
 const AUTH_ERROR =

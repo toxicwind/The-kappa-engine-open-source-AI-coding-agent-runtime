@@ -1,5 +1,5 @@
 import { Duration, Effect, Schema } from "effect"
-import { HttpClient, HttpClientRequest } from "effect/unstable/http"
+import { HttpClient, HttpClientRequest } from "effect/http"
 
 // kappacode_change start - the Exa URL is derived from a caller-provided key (resolved via
 // Env.Service in the tool) instead of a module-load process.env snapshot, so BYOK keys set

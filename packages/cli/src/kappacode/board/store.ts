@@ -113,12 +113,12 @@ export namespace BoardStore {
     objective: string
   }
 
-  export class Error extends Schema.TaggedErrorClass<Error>()("BoardStore.Error", {
+  export class Error extends Schema.TaggedError<Error>()("BoardStore.Error", {
     message: Schema.String,
     kind: Schema.optional(Schema.Literal("storage")),
   }) {}
 
-  export class Conflict extends Schema.TaggedErrorClass<Conflict>()("BoardStore.Conflict", {
+  export class Conflict extends Schema.TaggedError<Conflict>()("BoardStore.Conflict", {
     message: Schema.String,
   }) {}
 

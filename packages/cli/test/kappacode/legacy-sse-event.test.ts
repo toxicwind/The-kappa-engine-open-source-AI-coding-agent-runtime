@@ -1,6 +1,6 @@
 import { afterEach, describe, expect } from "bun:test"
 import { Effect, Queue, Stream } from "effect"
-import * as Sse from "effect/unstable/encoding/Sse"
+import * as Sse from "effect/encoding/Sse"
 import { Bus } from "../../src/bus/index.ts"
 import { GlobalBus } from "../../src/bus/global.ts"
 import { Changed } from "../../src/kappacode/sandbox/event.ts"

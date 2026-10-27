@@ -31,23 +31,23 @@ const log = Log.create({ service: "import-cloud-session" })
  */
 export namespace CloudSessionImportInProcess {
   // Missing kappa credentials (auth absent or no token).
-  export class Unauthorized extends Schema.TaggedErrorClass<Unauthorized>()("CloudSessionImportUnauthorized", {}) {}
+  export class Unauthorized extends Schema.TaggedError<Unauthorized>()("CloudSessionImportUnauthorized", {}) {}
 
   // The cloud fetch returned a non-ok status; carries the upstream status and
   // error string so callers can map 404/401/403 without logging tokens.
-  export class Upstream extends Schema.TaggedErrorClass<Upstream>()("CloudSessionImportUpstream", {
+  export class Upstream extends Schema.TaggedError<Upstream>()("CloudSessionImportUpstream", {
     status: Schema.Number,
     error: Schema.String,
   }) {}
 
   // The export failed validation or decoding before any persistence.
-  export class BadRequest extends Schema.TaggedErrorClass<BadRequest>()("CloudSessionImportBadRequest", {}) {}
+  export class BadRequest extends Schema.TaggedError<BadRequest>()("CloudSessionImportBadRequest", {}) {}
 
   // Any other failure (fetch threw, prepare threw, or the write failed).
-  export class Internal extends Schema.TaggedErrorClass<Internal>()("CloudSessionImportInternal", {}) {}
+  export class Internal extends Schema.TaggedError<Internal>()("CloudSessionImportInternal", {}) {}
 
   // A cut was requested but the cut message is not in the cloud session.
-  export class CutNotFound extends Schema.TaggedErrorClass<CutNotFound>()("CloudSessionImportCutNotFound", {}) {}
+  export class CutNotFound extends Schema.TaggedError<CutNotFound>()("CloudSessionImportCutNotFound", {}) {}
 
   function name(error: unknown): string {
     if (error instanceof Error) return error.name

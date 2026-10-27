@@ -246,6 +246,97 @@ describe("responses api terminal frames", () => {
   })
 })
 
+describe("OpenRouter provider-policy guardrail blocks", () => {
+  const GUARDRAIL_404 =
+    "0 endpoints out of 1 requested are available matching your guardrail restrictions and data policy. Please consider changing the model or customizing the guardrails on https://openrouter.ai/settings/privacy."
+
+  function openRouter404(body: object, message = GUARDRAIL_404, isRetryable = true) {
+    return new APICallError({
+      message: `404 page not found`,
+      url: "https://openrouter.ai/api/v1/chat/completions",
+      requestBodyValues: {},
+      statusCode: 404,
+      responseHeaders: { "content-type": "application/json" },
+      responseBody: JSON.stringify(body),
+      isRetryable,
+    })
+  }
+
+  test("marks a message-text guardrail 404 non-retryable", () => {
+    const result = MessageV2.fromError(openRouter404({ error: { message: GUARDRAIL_404 } }), {
+      providerID: ProviderV2.ID.make("openai"),
+    })
+
+    expect(MessageV2.APIError.isInstance(result)).toBe(true)
+    if (!MessageV2.APIError.isInstance(result)) throw new Error("expected APIError")
+    expect(result.data.isRetryable).toBe(false)
+    expect(result.data.statusCode).toBe(404)
+    expect(result.data.message).toContain("Model blocked by OpenRouter")
+  })
+
+  test("marks a structured metadata guardrail 404 non-retryable", () => {
+    const result = MessageV2.fromError(
+      openRouter404({
+        error: { message: "0 endpoints out of 3 requested are available" },
+        metadata: {
+          failed_routing_step: "Filter by Guardrails",
+          ineligibility_reasons: [{ reason: "model-ignored-by-guardrail" }],
+        },
+      }),
+      { providerID: ProviderV2.ID.make("openai") },
+    )
+
+    expect(MessageV2.APIError.isInstance(result)).toBe(true)
+    if (!MessageV2.APIError.isInstance(result)) throw new Error("expected APIError")
+    expect(result.data.isRetryable).toBe(false)
+  })
+
+  test("marks a zdr ineligibility reason non-retryable", () => {
+    const result = MessageV2.fromError(
+      openRouter404({
+        metadata: { ineligibility_reasons: [{ reason: "zdr-violation-by-account" }] },
+      }),
+      { providerID: ProviderV2.ID.make("openai") },
+    )
+
+    expect(MessageV2.APIError.isInstance(result)).toBe(true)
+    if (!MessageV2.APIError.isInstance(result)) throw new Error("expected APIError")
+    expect(result.data.isRetryable).toBe(false)
+  })
+
+  test("keeps non-guardrail openai 404s retryable", () => {
+    const result = MessageV2.fromError(openRouter404({ error: { message: "no such model" } }, "no such model"), {
+      providerID: ProviderV2.ID.make("openai"),
+    })
+
+    expect(MessageV2.APIError.isInstance(result)).toBe(true)
+    if (!MessageV2.APIError.isInstance(result)) throw new Error("expected APIError")
+    expect(result.data.isRetryable).toBe(true)
+  })
+
+  test("keeps a non-guardrail non-openai 404 at the provider's own retryability", () => {
+    const result = MessageV2.fromError(openRouter404({ error: { message: "no such model" } }, "no such model", false), {
+      providerID: ProviderV2.ID.make("anthropic"),
+    })
+
+    expect(MessageV2.APIError.isInstance(result)).toBe(true)
+    if (!MessageV2.APIError.isInstance(result)) throw new Error("expected APIError")
+    expect(result.data.isRetryable).toBe(false)
+  })
+
+  test("classifies a guardrail 404 consistently across provider families", () => {
+    for (const providerID of ["openai", "anthropic", "openrouter"]) {
+      const result = MessageV2.fromError(openRouter404({ error: { message: GUARDRAIL_404 } }), {
+        providerID: ProviderV2.ID.make(providerID),
+      })
+
+      expect(MessageV2.APIError.isInstance(result)).toBe(true)
+      if (!MessageV2.APIError.isInstance(result)) throw new Error("expected APIError")
+      expect(result.data.isRetryable).toBe(false)
+    }
+  })
+})
+
 describe("Google Gemini authentication errors", () => {
   test("explains how to troubleshoot the rejected API key", () => {
     const error = apiError(googleAuthError, "ACCESS_TOKEN_TYPE_UNSUPPORTED")
