@@ -250,22 +250,32 @@ export const errorText = (error: unknown) => {
   return "Unknown stream error"
 }
 
+// kilocode_change start - Effect 4 SseError mapping in sseFraming
 /**
  * `framing` step for Server-Sent Events. Decodes UTF-8, runs the SSE channel
  * decoder, and drops empty / `[DONE]` keep-alive events so the downstream
  * `decodeChunk` sees one JSON string per element. The SSE channel emits a
  * `Retry` control event on its error channel; we drop it here (we don't
- * implement client-driven retries) so the public error channel stays
- * `LLMError`.
+ * implement client-driven retries) and map `SseError` decode failures to
+ * `LLMError`, so the public error channel stays `LLMError`.
  */
 export const sseFraming = (bytes: Stream.Stream<Uint8Array, LLMError>): Stream.Stream<string, LLMError> =>
   bytes.pipe(
     Stream.decodeText(),
     Stream.pipeThroughChannel(Sse.decode()),
     Stream.catchTag("Retry", () => Stream.empty),
+    Stream.catchTag("SseError", (error) =>
+      Stream.fail(
+        new LLMError({
+          module: "ProviderShared",
+          method: "sseFraming",
+          reason: new InvalidProviderOutputReason({ message: error.message }),
+        }),
+      )),
     Stream.filter((event) => event.data.length > 0 && event.data !== "[DONE]"),
     Stream.map((event) => event.data),
   )
+// kilocode_change end
 
 /**
  * Canonical invalid-request constructor. Lift one-line `const invalid =

@@ -17,8 +17,8 @@ const renderKey = (name: string): string => (identifierSegment.test(name) ? name
 const effectNumberSentinel = (schema: JsonSchema) =>
   schema.type === "string" &&
   Array.isArray(schema.enum) &&
-  schema.enum.length === 1 &&
-  (schema.enum[0] === "NaN" || schema.enum[0] === "Infinity" || schema.enum[0] === "-Infinity")
+  schema.enum.length > 0 &&
+  schema.enum.every((value) => value === "NaN" || value === "Infinity" || value === "-Infinity")
 
 const intersection = (members: ReadonlyArray<string>): string => {
   const concrete = members.filter((member) => member !== "unknown")
@@ -129,9 +129,10 @@ const renderSchema = (
   const alternatives = schema.anyOf ?? schema.oneOf
   if (alternatives) {
     // Effect's number schema emits `anyOf: [{ type: "number" }, { const: "NaN" },
-    // { const: "Infinity" }, { const: "-Infinity" }]`. Collapse only that artifact;
-    // real JSON Schema unions such as `string | number` or `number | null` must keep
-    // every branch.
+    // { const: "Infinity" }, { const: "-Infinity" }]` (Effect 3) or the same
+    // sentinels merged into one string enum (Effect 4). Collapse only that
+    // artifact; real JSON Schema unions such as `string | number` or
+    // `number | null` must keep every branch.
     if (
       alternatives.some((item) => item.type === "number") &&
       alternatives.every((item) => item.type === "number" || effectNumberSentinel(item))

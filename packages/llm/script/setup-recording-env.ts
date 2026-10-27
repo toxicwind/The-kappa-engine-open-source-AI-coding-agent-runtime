@@ -265,7 +265,7 @@ const readEnvFile = Effect.fn("RecordingEnv.readFile")(function* () {
 })
 
 const readConfigString = (provider: ConfigProvider.ConfigProvider, name: string) =>
-  Config.string(name)
+  Config.String(name) // kilocode_change
     .parse(provider)
     .pipe(
       Effect.match({

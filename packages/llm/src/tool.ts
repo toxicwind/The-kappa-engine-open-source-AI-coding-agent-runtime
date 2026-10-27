@@ -230,7 +230,12 @@ export const toDefinitions = (tools: Tools): ReadonlyArray<ToolDefinitionClass> 
   )
 
 const toJsonSchema = (schema: Schema.Top): JsonSchema.JsonSchema => {
-  const document = Schema.toJsonSchemaDocument(schema)
+  // kilocode_change start - Effect 4 closed tool schemas
+  // Effect 4 leaves unmodeled properties open by default; tool schemas go
+  // to providers as closed objects (Bedrock toolSpec, strict outputs), so
+  // reject excess properties like Effect 3 did.
+  const document = Schema.toJsonSchemaDocument(schema, { onExcessProperty: "error" })
+  // kilocode_change end
   if (Object.keys(document.definitions).length === 0) return document.schema
   return { ...document.schema, $defs: document.definitions }
 }
