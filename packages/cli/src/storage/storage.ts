@@ -99,7 +99,7 @@ const MIGRATIONS: Migration[] = [
           cwd: full,
           absolute: true,
         })) {
-          const json = decodeRoot(yield* fs.readJson(msgFile), { onExcessProperty: "preserve" })
+          const json = decodeRoot(yield* fs.readJson(msgFile), { onExcessProperty: "ignore" }) // kilocode_change
           const root = Option.isSome(json) ? json.value.path?.root : undefined
           if (!root) continue
           worktree = root
@@ -144,7 +144,7 @@ const MIGRATIONS: Migration[] = [
           const dest = path.join(dir, "session", projectID, path.basename(sessionFile))
           yield* Effect.logInfo("copying", { sessionFile, dest })
           const session = yield* fs.readJson(sessionFile)
-          const info = decodeSession(session, { onExcessProperty: "preserve" })
+          const info = decodeSession(session, { onExcessProperty: "ignore" }) // kilocode_change
           yield* fs.writeWithDirs(dest, JSON.stringify(session, null, 2))
           if (Option.isNone(info)) continue
           yield* Effect.logInfo(`migrating messages for session ${info.value.id}`)
@@ -158,7 +158,7 @@ const MIGRATIONS: Migration[] = [
               dest: next,
             })
             const message = yield* fs.readJson(msgFile)
-            const item = decodeMessage(message, { onExcessProperty: "preserve" })
+            const item = decodeMessage(message, { onExcessProperty: "ignore" }) // kilocode_change
             yield* fs.writeWithDirs(next, JSON.stringify(message, null, 2))
             if (Option.isNone(item)) continue
 
@@ -186,7 +186,7 @@ const MIGRATIONS: Migration[] = [
       absolute: true,
     })) {
       const raw = yield* fs.readJson(item)
-      const session = decodeSummary(raw, { onExcessProperty: "preserve" })
+      const session = decodeSummary(raw, { onExcessProperty: "ignore" }) // kilocode_change
       if (Option.isNone(session)) continue
       const diffs = session.value.summary.diffs
       yield* fs.writeWithDirs(

@@ -12,7 +12,7 @@ interface TempOptions {
   readonly suffix?: string | undefined
 }
 
-export function ensureDirectory(fs: FileSystem.FileSystem, path: string) {
+export function ensureDirectory(fs: Pick<FileSystem.FileSystem, "makeDirectory">, path: string) {
   return fs.makeDirectory(path, { recursive: true }).pipe(
     Effect.catchIf(
       (err) => err.reason._tag === "AlreadyExists",

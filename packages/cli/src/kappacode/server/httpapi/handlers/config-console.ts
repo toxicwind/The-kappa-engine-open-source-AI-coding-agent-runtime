@@ -113,17 +113,17 @@ export const configConsoleHandlers = HttpApiBuilder.group(InstanceHttpApi, "conf
         catch: (error: unknown) => {
           // Config validation and JSON parse failures must reach the client as a typed
           // error with the file and issues instead of an opaque 500 defect.
-          if (error instanceof ConfigErrorV1.InvalidError) {
+          if (ConfigErrorV1.InvalidError.isInstance(error)) { // kilocode_change
             return new ConfigOverlayWriteError({
               message: error.data.message ?? `Config is invalid in ${error.data.path}`,
               path: error.data.path,
-              issues: error.data.issues?.map((issue: { message: string; path: unknown[] }) => ({
+              issues: error.data.issues?.map((issue: { message: string; path: readonly string[] }) => ({ // kilocode_change
                 message: issue.message,
                 path: issue.path.map(String),
               })),
             })
           }
-          if (error instanceof ConfigErrorV1.JsonError) {
+          if (ConfigErrorV1.JsonError.isInstance(error)) { // kilocode_change
             return new ConfigOverlayWriteError({
               message: error.data.message ?? `Config file contains invalid JSON: ${error.data.path}`,
               path: error.data.path,

@@ -46,7 +46,7 @@ type ListenOptions = CorsOptions & {
   mdnsDomain?: string
 }
 type ListenerState = {
-  scope: Scope.Scope
+  scope: Scope.Closeable // kilocode_change
   server: Context.Service.Shape<typeof HttpServer.HttpServer>
   http: ListenerServer
   websockets: WebSocketTracker.Interface
@@ -160,7 +160,6 @@ function tcpAddress(state: ListenerState) {
     // InetAddressV4" — the kappa-acp daemon could never start.
     const address = state.server.address
     if (address._tag === "InetAddressV4" || address._tag === "InetAddressV6") return address
-    if (address._tag === "TcpAddress") return address
     yield* Scope.close(state.scope, Exit.void).pipe(Effect.ignore)
     return yield* Effect.die(new Error(`Unexpected HttpServer address tag: ${address._tag}`))
   })
