@@ -29,6 +29,8 @@
     }
   },
   "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "bun-types": "^1.4.4",
     "@effect/platform-node": "catalog:",
     "@opencode-ai/core": "workspace:*",
     "@opencode-ai/httpapi-codegen": "workspace:*",

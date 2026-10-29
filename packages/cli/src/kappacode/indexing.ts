@@ -274,7 +274,10 @@ export namespace KappaIndexing {
       return track(hit, await inert(() => noWorkspace()))
     }
     try {
-      if (!allowed(realpathSync.native(dir))) return track(hit, await inert(() => unsafeRoot()))
+      // kappacode_change start - estate home IS the workspace; opt-in allows indexing there.
+      const homeAllowed = process.env["KAPPA_ALLOW_HOME_INDEXING"] === "1"
+      if (!homeAllowed && !allowed(realpathSync.native(dir))) return track(hit, await inert(() => unsafeRoot()))
+      // kappacode_change end
     } catch (err) {
       log.warn("indexing directory resolution failed", { err, workspacePath: dir })
       return track(hit, await inert(() => failed(err)))
@@ -478,7 +481,9 @@ export namespace KappaIndexing {
       if (cache.has(root)) continue
       let ok = false
       try {
-        ok = allowed(realpathSync.native(root))
+        // kappacode_change start - same home opt-in as the project-root guard
+        ok = process.env["KAPPA_ALLOW_HOME_INDEXING"] === "1" || allowed(realpathSync.native(root))
+        // kappacode_change end
       } catch {
         ok = false
       }

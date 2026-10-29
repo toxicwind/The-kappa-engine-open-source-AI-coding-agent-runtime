@@ -29,7 +29,7 @@ class SpinnerRenderable extends Renderable {
 
   constructor(ctx: RenderContext, options: SpinnerOptions) {
     super(ctx, options)
-    this.list = options.frames?.length ? options.frames : ["⠋"]
+    this.list = options.frames?.length ? options.frames : ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
     this.delay = options.interval ?? 80
     this.tone = options.color ?? "white"
     if (typeof this.tone !== "function") this.parsed = parseColor(this.tone)

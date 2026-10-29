@@ -43,6 +43,8 @@
     }
   },
   "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "bun-types": "^1.4.4",
     "@opentui/core": "catalog:",
     "@opentui/solid": "catalog:",
     "@tsconfig/node22": "catalog:",

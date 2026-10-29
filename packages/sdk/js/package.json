@@ -24,6 +24,8 @@
     "dist"
   ],
   "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "bun-types": "^1.4.4",
     "@hey-api/openapi-ts": "0.97.3",
     "@tsconfig/node22": "catalog:",
     "@types/cross-spawn": "catalog:",

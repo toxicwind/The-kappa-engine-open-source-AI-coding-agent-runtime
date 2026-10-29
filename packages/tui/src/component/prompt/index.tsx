@@ -44,7 +44,7 @@ import { Locale } from "../../util/locale"
 import { errorMessage } from "../../util/error"
 import { running } from "../../util/session"
 import { formatDuration } from "../../util/format"
-import { createColors, createFrames } from "../../ui/spinner"
+import { SPINNER_FRAMES } from "../spinner"
 import { useDialog } from "../../ui/dialog"
 import { DialogProvider as DialogProviderConnect } from "../dialog-provider"
 import { DialogAlert } from "../../ui/dialog-alert"
@@ -1217,15 +1217,17 @@ export function Prompt(props: PromptProps) {
       const restOfInput = firstLineEnd === -1 ? "" : inputText.slice(firstLineEnd + 1)
       const args = firstLineArgs.join(" ") + (restOfInput ? "\n" + restOfInput : "")
 
-      void sdk.client.session.command({
-        sessionID,
-        command: command.slice(1),
-        arguments: args,
-        agent: local.agent.current()?.name ?? "", // kappacode_change
-        model: `${selectedModel.providerID}/${selectedModel.modelID}`,
-        variant,
-        parts: nonTextParts.filter((x) => x.type === "file"),
-      }).then((result) => GoalPrompt.feedback(command.slice(1), args, result, toast)) // kappacode_change
+      void sdk.client.session
+        .command({
+          sessionID,
+          command: command.slice(1),
+          arguments: args,
+          agent: local.agent.current()?.name ?? "", // kappacode_change
+          model: `${selectedModel.providerID}/${selectedModel.modelID}`,
+          variant,
+          parts: nonTextParts.filter((x) => x.type === "file"),
+        })
+        .then((result) => GoalPrompt.feedback(command.slice(1), args, result, toast)) // kappacode_change
     } else {
       move.startSubmit()
       sdk.client.session
@@ -1487,27 +1489,18 @@ export function Prompt(props: PromptProps) {
   })
 
   const spinnerDef = createMemo(() => {
-    const agent =
-      running(status().type)
-        ? (local.agent.list().find((a) => a.name === lastUserMessage()?.agent) ?? local.agent.current())
-        : local.agent.current()
+    const agent = running(status().type)
+      ? (local.agent.list().find((a) => a.name === lastUserMessage()?.agent) ?? local.agent.current())
+      : local.agent.current()
     const color = agent ? local.agent.color(agent.name ?? "") : theme.border // kappacode_change
+    // kappacode_change start - classy braille orbit (WezTerm-safe): the Knight
+    // Rider blocks scanner (■/⬝, 55 frames incl. 30-frame hold) rendered as an
+    // erratic stutter in WezTerm (ambiguous-width chars + hold-frame stall).
     return {
-      frames: createFrames({
-        color,
-        style: "blocks",
-        inactiveFactor: 0.6,
-        // enableFading: false,
-        minAlpha: 0.3,
-      }),
-      color: createColors({
-        color,
-        style: "blocks",
-        inactiveFactor: 0.6,
-        // enableFading: false,
-        minAlpha: 0.3,
-      }),
+      frames: SPINNER_FRAMES,
+      color,
     }
+    // kappacode_change end
   })
   const maxHeight = createMemo(() => tuiConfig.prompt?.max_height ?? Math.max(6, Math.floor(dimensions().height / 3)))
   const moveLabelWidth = createMemo(() => Math.max(12, Math.min(44, dimensions().width - 48)))
@@ -1650,25 +1643,25 @@ export function Prompt(props: PromptProps) {
                         <text fg={fadeColor(theme.textMuted, agentMetaAlpha())}>auto</text>
                       </Show>
                       <Show when={store.mode === "normal"}>
-                      <box flexDirection="row" gap={1}>
-                        <text fg={fadeColor(theme.textMuted, modelMetaAlpha())}>·</text>
-                        <text
-                          flexShrink={0}
-                          fg={fadeColor(leader() ? theme.textMuted : theme.text, modelMetaAlpha())}
-                        >
-                          {local.model.parsed().model}
-                        </text>
-                        <text fg={fadeColor(theme.textMuted, modelMetaAlpha())}>{currentProviderLabel()}</text>
-                        <Show when={showVariant()}>
-                          <text fg={fadeColor(theme.textMuted, variantMetaAlpha())}>·</text>
-                          <text>
-                            <span style={{ fg: fadeColor(theme.warning, variantMetaAlpha()), bold: true }}>
-                              {local.model.variant.current()}
-                            </span>
+                        <box flexDirection="row" gap={1}>
+                          <text fg={fadeColor(theme.textMuted, modelMetaAlpha())}>·</text>
+                          <text
+                            flexShrink={0}
+                            fg={fadeColor(leader() ? theme.textMuted : theme.text, modelMetaAlpha())}
+                          >
+                            {local.model.parsed().model}
                           </text>
-                        </Show>
-                      </box>
-                    </Show>
+                          <text fg={fadeColor(theme.textMuted, modelMetaAlpha())}>{currentProviderLabel()}</text>
+                          <Show when={showVariant()}>
+                            <text fg={fadeColor(theme.textMuted, variantMetaAlpha())}>·</text>
+                            <text>
+                              <span style={{ fg: fadeColor(theme.warning, variantMetaAlpha()), bold: true }}>
+                                {local.model.variant.current()}
+                              </span>
+                            </text>
+                          </Show>
+                        </box>
+                      </Show>
                     </>
                   )}
                 </Show>
@@ -1782,7 +1775,11 @@ export function Prompt(props: PromptProps) {
 
                       return (
                         <Show when={retry()}>
-                          <box onMouseUp={handleMessageClick}>
+                          <box
+                            ref={(el: BoxRenderable) => {
+                              el.onMouseUp = () => handleMessageClick()
+                            }}
+                          >
                             <text fg={theme.error}>{retryText()}</text>
                           </box>
                         </Show>

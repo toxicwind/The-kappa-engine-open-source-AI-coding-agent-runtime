@@ -31,6 +31,7 @@ import { makeGlobalNode } from "./effect/app-node"
 import { LocationServiceMap } from "./location-service-map"
 import { MessageDecodeError } from "./session/error"
 import { SessionEvent } from "./session/event"
+import { autoJoinSquawkFleet } from "./fleet-join"
 import { SessionInput } from "./session/input"
 import { normalize } from "./kappacode/session-message" // kappacode_change
 import { Snapshot } from "./snapshot"
@@ -240,6 +241,7 @@ const layer = Layer.effect(
           tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
           time: { created: now, updated: now },
         })
+        autoJoinSquawkFleet(info)
         const projected = yield* events
           .publish(SessionV1.Event.Created, { sessionID, info }, { location: input.location })
           .pipe(

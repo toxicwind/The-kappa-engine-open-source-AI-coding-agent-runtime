@@ -1367,6 +1367,8 @@
     "extension:isolated:clean": "bun script/launch.ts --isolated --clean"
   },
   "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "bun-types": "^1.4.4",
     "@axe-core/playwright": "4.11.3",
     "@babel/core": "^7.28.4",
     "@babel/preset-typescript": "^7.27.1",

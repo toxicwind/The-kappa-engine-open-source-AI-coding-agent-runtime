@@ -19,6 +19,7 @@
         "@changesets/cli": "^2.27.10",
         "@cyclonedx/cyclonedx-library": "10.3.0",
         "@tsconfig/bun": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/bun": "catalog:",
         "@types/mime-types": "3.0.1",
         "@types/spdx-expression-parse": "4.0.0",
@@ -26,6 +27,7 @@
         "ajv": "8.20.0",
         "ajv-formats": "3.0.1",
         "ajv-formats-draft2019": "1.6.1",
+        "bun-types": "^1.4.4",
         "glob": "13.0.5",
         "husky": "9.1.7",
         "oxlint": "1.60.0",
@@ -220,8 +222,10 @@
         "@opencode-ai/httpapi-codegen": "workspace:*",
         "@opencode-ai/server": "workspace:*",
         "@tsconfig/bun": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/bun": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "effect": "catalog:",
       },
       "peerDependencies": {
@@ -248,6 +252,10 @@
     "packages/config": {
       "name": "@kappacode/config",
       "version": "0.0.0",
+      "devDependencies": {
+        "@types/bun": "^1.4.4",
+        "bun-types": "^1.4.4",
+      },
     },
     "packages/core": {
       "name": "@opencode-ai/core",
@@ -369,13 +377,19 @@
       },
       "devDependencies": {
         "@tsconfig/bun": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/node": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
       },
     },
     "packages/forge": {
       "name": "@kappacode/forge",
       "version": "0.0.0",
+      "devDependencies": {
+        "@types/bun": "^1.4.4",
+        "bun-types": "^1.4.4",
+      },
     },
     "packages/http-recorder": {
       "name": "@opencode-ai/http-recorder",
@@ -453,10 +467,12 @@
       },
       "devDependencies": {
         "@tailwindcss/postcss": "^4.1.18",
+        "@types/bun": "^1.4.4",
         "@types/node": "^25.9.9",
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
         "autoprefixer": "^10.6.1",
+        "bun-types": "^1.4.4",
         "postcss": "^8.5.30",
         "tailwindcss": "^4.1.18",
         "typescript": "^5.9.3",
@@ -482,8 +498,10 @@
         "@opentui/core": "catalog:",
         "@opentui/solid": "catalog:",
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/node": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "solid-js": "catalog:",
         "typescript": "catalog:",
       },
@@ -503,8 +521,10 @@
       "version": "7.8.10",
       "devDependencies": {
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/bun": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "typescript": "catalog:",
       },
     },
@@ -535,14 +555,20 @@
       },
       "devDependencies": {
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/node": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "typescript": "catalog:",
       },
     },
     "packages/kappa-jetbrains": {
       "name": "@kappacode/kappa-jetbrains",
       "version": "7.8.10",
+      "devDependencies": {
+        "@types/bun": "^1.4.4",
+        "bun-types": "^1.4.4",
+      },
     },
     "packages/kappa-memory": {
       "name": "@kappacode/kappa-memory",
@@ -553,8 +579,10 @@
       },
       "devDependencies": {
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/node": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "typescript": "catalog:",
       },
     },
@@ -613,7 +641,9 @@
         "@storybook/addon-docs": "10.2.10",
         "@storybook/addon-themes": "10.2.10",
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/bun": "catalog:",
+        "bun-types": "^1.4.4",
         "storybook": "10.2.10",
         "storybook-solidjs-vite": "10.0.9",
         "typescript": "catalog:",
@@ -678,6 +708,7 @@
         "@playwright/test": "1.57.0",
         "@storybook/addon-a11y": "10.2.10",
         "@storybook/addon-docs": "10.2.10",
+        "@types/bun": "^1.4.4",
         "@types/diff": "^6.0.0",
         "@types/mocha": "^10.0.10",
         "@types/node": "22.x",
@@ -688,6 +719,7 @@
         "@vscode/test-electron": "^2.5.2",
         "@vscode/vsce": "^4.0.0",
         "babel-preset-solid": "^1.9.9",
+        "bun-types": "^1.4.4",
         "esbuild": "^0.27.2",
         "esbuild-plugin-solid": "^0.6.0",
         "eslint": "^9.39.2",
@@ -744,6 +776,10 @@
     "packages/nativelink": {
       "name": "@kappacode/nativelink",
       "version": "0.0.0",
+      "devDependencies": {
+        "@types/bun": "^1.4.4",
+        "bun-types": "^1.4.4",
+      },
     },
     "packages/plugin": {
       "name": "@kappacode/plugin",
@@ -759,8 +795,10 @@
         "@opentui/keymap": "catalog:",
         "@opentui/solid": "catalog:",
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/node": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "typescript": "catalog:",
       },
       "peerDependencies": {
@@ -782,8 +820,10 @@
       },
       "devDependencies": {
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/node": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "typescript": "catalog:",
         "vitest": "^4.0.16",
       },
@@ -820,8 +860,10 @@
         "semver": "^7.6.3",
       },
       "devDependencies": {
+        "@types/bun": "^1.4.4",
         "@types/bun": "catalog:",
         "@types/semver": "^7.5.8",
+        "bun-types": "^1.4.4",
       },
     },
     "packages/sdk-next": {
@@ -848,9 +890,11 @@
       "devDependencies": {
         "@hey-api/openapi-ts": "0.97.3",
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/cross-spawn": "catalog:",
         "@types/node": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
         "typescript": "catalog:",
       },
     },
@@ -859,6 +903,10 @@
       "version": "2.0.0-bun",
       "bin": {
         "secretsmith-bun": "./bin/secretsmith-bun.ts",
+      },
+      "devDependencies": {
+        "@types/bun": "^1.4.4",
+        "bun-types": "^1.4.4",
       },
     },
     "packages/server": {
@@ -921,6 +969,10 @@
     "packages/shims": {
       "name": "@kappacode/shims",
       "version": "0.0.0",
+      "devDependencies": {
+        "@types/bun": "^1.4.4",
+        "bun-types": "^1.4.4",
+      },
     },
     "packages/storybook": {
       "name": "@opencode-ai/storybook",
@@ -936,8 +988,10 @@
         "@storybook/addon-vitest": "^10.2.13",
         "@tailwindcss/vite": "catalog:",
         "@tsconfig/node22": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/node": "catalog:",
         "@types/react": "18.0.25",
+        "bun-types": "^1.4.4",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "solid-js": "catalog:",
@@ -969,8 +1023,10 @@
       },
       "devDependencies": {
         "@tsconfig/bun": "catalog:",
+        "@types/bun": "^1.4.4",
         "@types/bun": "catalog:",
         "@typescript/native-preview": "catalog:",
+        "bun-types": "^1.4.4",
       },
     },
     "packages/ui": {
@@ -3023,7 +3079,7 @@
 
     "bun-pty": ["bun-pty@0.4.8", "", {}, "sha512-rO70Mrbr13+jxHHHu2YBkk2pNqrJE5cJn29WE++PUr+GFA0hq/VgtQPZANJ8dJo6d7XImvBk37Innt8GM7O28w=="],
 
-    "bun-types": ["bun-types@1.4.3", "", { "dependencies": { "@types/node": "*", "undici-types": "*" } }, "sha512-tinRJNGOmUN+tEAsn2y2e942n9JHRHR42iUYzDH75NmhJqVBokGSQkkfSFdNWwsANIdrK6ACH9t01M452YyTwg=="],
+    "bun-types": ["bun-types@1.4.4", "", { "dependencies": { "@types/node": "*", "undici-types": "*" } }, "sha512-yjrJh5oGX7mMPKGd19YXyIjmEuj4G4zNC30bs7PM9Az7NQ3ndF3j6hbeRdvJTRQEhJ/FYQwW0a2moweEi2hMxQ=="],
 
     "bundle-name": ["bundle-name@4.1.1", "", { "dependencies": { "run-applescript": "^7.0.0" } }, "sha512-DdH81/zPLVS11EUgWq3tEu/xn+EzljlMYooDNdzWEnFha3R3NBMpMV1UqYIpjYHV/SgpFKMIX1Oh7o06SjM/oA=="],
 
@@ -5420,6 +5476,8 @@
     "@testing-library/dom/aria-query": ["aria-query@5.3.0", "", { "dependencies": { "dequal": "^2.0.3" } }, "sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A=="],
 
     "@testing-library/dom/dom-accessibility-api": ["dom-accessibility-api@0.5.16", "", {}, "sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg=="],
+
+    "@types/bun/bun-types": ["bun-types@1.4.3", "", { "dependencies": { "@types/node": "*", "undici-types": "*" } }, "sha512-tinRJNGOmUN+tEAsn2y2e942n9JHRHR42iUYzDH75NmhJqVBokGSQkkfSFdNWwsANIdrK6ACH9t01M452YyTwg=="],
 
     "@types/markdown-it/@types/linkify-it": ["@types/linkify-it@5.0.0", "", {}, "sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q=="],
 

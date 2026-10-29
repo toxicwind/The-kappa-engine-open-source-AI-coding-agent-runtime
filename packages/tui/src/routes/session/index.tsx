@@ -1840,6 +1840,24 @@ function ReasoningPart(props: { last: boolean; part: ReasoningPart; message: Ass
   })
   const summary = createMemo(() => reasoningSummary(content()))
   const syntax = createSyntaxStyleMemo(() => generateSubtleSyntax(theme))
+  // kappacode_change start - bounded tail while streaming: the reasoning body
+  // streams token-by-token and filled the viewport (full re-layout per token,
+  // chaotic in WezTerm). Tail the last lines while thinking, then release the
+  // full body on completion — calm by construction.
+  const STREAM_TAIL_LINES = 8
+  const streamedBody = createMemo(() => {
+    const raw = summary().body
+    if (isDone()) return raw
+    const lines = raw.split("\n")
+    if (lines.length <= STREAM_TAIL_LINES) return raw
+    return lines.slice(-STREAM_TAIL_LINES).join("\n")
+  })
+  const withheld = createMemo(() => {
+    if (isDone()) return 0
+    const total = summary().body.split("\n").length
+    return Math.max(0, total - STREAM_TAIL_LINES)
+  })
+  // kappacode_change end
 
   const toggle = () => {
     if (!inMinimal() || opaque()) return
@@ -1855,7 +1873,11 @@ function ReasoningPart(props: { last: boolean; part: ReasoningPart; message: Ass
         flexDirection="column"
         flexShrink={0}
       >
-        <box onMouseUp={toggle}>
+        <box
+          ref={(el: BoxRenderable) => {
+            el.onMouseUp = () => toggle()
+          }}
+        >
           <ReasoningHeader
             /* kappacode_change start */
             partID={props.part.id}
@@ -1869,13 +1891,18 @@ function ReasoningPart(props: { last: boolean; part: ReasoningPart; message: Ass
           />
         </box>
         <Show when={!opaque() && (!inMinimal() || expanded()) && summary().body}>
-          <box paddingLeft={inMinimal() ? 2 : 0} marginTop={1}>
+          <box paddingLeft={inMinimal() ? 2 : 0} marginTop={1} flexDirection="column">
+            {/* kappacode_change start - withheld-lines hint keeps the tail honest */}
+            <Show when={withheld() > 0}>
+              <text fg={theme.textMuted}>{"  ·  " + withheld() + " earlier lines"}</text>
+            </Show>
+            {/* kappacode_change end */}
             <code
               filetype="markdown"
               drawUnstyledText={false}
               streaming={true}
               syntaxStyle={syntax()}
-              content={summary().body}
+              content={streamedBody()} // kappacode_change - bounded tail while streaming
               conceal={ctx.conceal()}
               fg={theme.textMuted}
             />

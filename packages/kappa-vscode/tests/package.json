@@ -2,6 +2,8 @@
   "type": "module",
   "version": "7.8.10",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "bun-types": "^1.4.4",},
   "peerDependencies": {}
 }
