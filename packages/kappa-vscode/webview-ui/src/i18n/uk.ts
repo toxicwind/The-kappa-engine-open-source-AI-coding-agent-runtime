@@ -934,8 +934,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "Голосове введення недоступне у віддалених вікнах. Відкрийте Kappa у локальному вікні, щоб використовувати мікрофон.",
   "settings.models.speechToTextModel.title": "Модель мовлення в текст",
-  "settings.models.speechToTextModel.description":
-    "Виберіть модель транскрипції Kilo Gateway для голосового введення.",
+  "settings.models.speechToTextModel.description": "Виберіть модель транскрипції Kilo Gateway для голосового введення.",
   "settings.experimental.nativeNotebookTools.title": "Власні інструменти для блокнотів",
   "settings.experimental.nativeNotebookTools.description":
     "Увімкнути експериментальні інструменти для читання, редагування та виконання блокнотів VS Code",

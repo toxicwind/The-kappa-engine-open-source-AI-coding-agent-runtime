@@ -1349,8 +1349,7 @@ export const dict = {
   "settings.models.speechToText.remoteDescription":
     "L'input vocale non è disponibile nelle finestre remote. Apri Kappa in una finestra locale per usare il microfono.",
   "settings.models.speechToTextModel.title": "Modello Da voce a testo",
-  "settings.models.speechToTextModel.description":
-    "Scegli il modello di trascrizione Kilo Gateway per l'input vocale.",
+  "settings.models.speechToTextModel.description": "Scegli il modello di trascrizione Kilo Gateway per l'input vocale.",
 
   // Compaction limit
   "settings.context.compactionLimit.title": "Limite compattazione automatica",

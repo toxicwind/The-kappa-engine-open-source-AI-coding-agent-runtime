@@ -1382,8 +1382,7 @@ const headerParts: Record<string, Part[]> = {
       state: {
         status: "completed",
         input: { pattern: "packages/cli/src/**/*.ts" },
-        output:
-          "packages/cli/src/cli/index.ts\npackages/cli/src/command/run.ts\npackages/cli/src/config/config.ts",
+        output: "packages/cli/src/cli/index.ts\npackages/cli/src/command/run.ts\npackages/cli/src/config/config.ts",
         title: "Find CLI files",
       },
     },
