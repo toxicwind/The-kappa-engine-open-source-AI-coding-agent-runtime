@@ -11,12 +11,13 @@ import { Watcher } from "@opencode-ai/core/filesystem/watcher"
 import { Format } from "../format/index.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { InstanceState } from "@/effect/instance-state"
-import { trimDiff, buildFileDiff } from "./edit.ts" // kappacode_change
+import { trimDiff, buildFileDiff } from "./edit.ts" // kilocode_change
 import { assertExternalDirectoryEffect } from "./external-directory.ts"
-import { filterDiagnostics } from "./diagnostics.ts" // kappacode_change
-import { ConfigValidation } from "../kappacode/config-validation.ts" // kappacode_change
-import * as EncodedIO from "../kappacode/tool/encoded-io.ts" // kappacode_change
-import { assertMutablePath } from "../kappacode/agent-manager/protection.ts" // kappacode_change
+import { filterDiagnostics } from "./diagnostics.ts" // kilocode_change
+import { ConfigValidation } from "../kappacode/config-validation.ts" // kilocode_change
+import * as EncodedIO from "../kappacode/tool/encoded-io.ts" // kilocode_change
+import { assertMutablePath } from "../kappacode/agent-manager/protection.ts" // kilocode_change
+import { isInternalUri, writeInternalUri } from "../kappacode/tool/internal-url.ts" // kilocode_change
 import * as Bom from "@/util/bom"
 
 // kilocode_change
@@ -44,25 +45,44 @@ export const WriteTool = Tool.define(
       execute: (params: { content: string; filePath: string }, ctx: Tool.Context) =>
         Effect.gen(function* () {
           const instance = yield* InstanceState.context
+          // kilocode_change start - write through the InternalUrlRouter for xd://, mcp://, etc.
+          if (isInternalUri(params.filePath)) {
+            const output = yield* Effect.tryPromise({
+              try: () => writeInternalUri(params.filePath, params.content, instance.directory),
+              catch: (err) => (err instanceof Error ? err : new Error(String(err))),
+            })
+            return {
+              title: params.filePath,
+              metadata: {
+                diagnostics: {},
+                filepath: params.filePath,
+                exists: true,
+                diff: "",
+                filediff: { file: params.filePath, before: "", after: params.content, additions: 0, deletions: 0 },
+              },
+              output,
+            }
+          }
+          // kilocode_change end
           const filepath = path.isAbsolute(params.filePath)
             ? params.filePath
             : path.join(instance.directory, params.filePath)
-          assertMutablePath(filepath) // kappacode_change
+          assertMutablePath(filepath) // kilocode_change
           yield* assertExternalDirectoryEffect(ctx, filepath)
 
           const exists = yield* fs.existsSafe(filepath)
-          // kappacode_change start - encoding-aware read; Encoding.read strips UTF-8 BOMs so
+          // kilocode_change start - encoding-aware read; Encoding.read strips UTF-8 BOMs so
           // derive the BOM flag from the detected encoding label instead of the decoded text.
           const pre = exists ? yield* EncodedIO.read(fs, filepath) : { text: "", encoding: "utf-8" }
           const source = { bom: pre.encoding === "utf-8-bom", text: pre.text, encoding: pre.encoding }
-          // kappacode_change end
+          // kilocode_change end
           const next = Bom.split(params.content)
           const desiredBom = source.bom || next.bom
           const contentOld = source.text
           const contentNew = next.text
 
           const diff = trimDiff(createTwoFilesPatch(filepath, filepath, contentOld, contentNew))
-          const filediff = buildFileDiff(filepath, contentOld, contentNew) // kappacode_change
+          const filediff = buildFileDiff(filepath, contentOld, contentNew) // kilocode_change
           yield* ctx.ask({
             permission: "edit",
             patterns: [path.relative(instance.worktree, filepath)],
@@ -70,11 +90,11 @@ export const WriteTool = Tool.define(
             metadata: {
               filepath,
               diff,
-              filediff, // kappacode_change
+              filediff, // kilocode_change
             },
           })
 
-          yield* EncodedIO.write(fs, filepath, Bom.join(contentNew, desiredBom), source.encoding) // kappacode_change - encoding-aware write (mkdirs) replaces fs.writeWithDirs
+          yield* EncodedIO.write(fs, filepath, Bom.join(contentNew, desiredBom), source.encoding) // kilocode_change - encoding-aware write (mkdirs) replaces fs.writeWithDirs
           if (yield* format.file(filepath)) {
             yield* EncodedIO.sync(fs, filepath, desiredBom, source.encoding)
           }
@@ -102,16 +122,16 @@ export const WriteTool = Tool.define(
             projectDiagnosticsCount++
             output += `\n\nLSP errors detected in other files:\n${block}`
           }
-          output += yield* Effect.promise(() => ConfigValidation.check(filepath)) // kappacode_change
+          output += yield* Effect.promise(() => ConfigValidation.check(filepath)) // kilocode_change
 
           return {
             title: path.relative(instance.worktree, filepath),
             metadata: {
-              diagnostics: filterDiagnostics(diagnostics, [normalizedFilepath]), // kappacode_change
+              diagnostics: filterDiagnostics(diagnostics, [normalizedFilepath]), // kilocode_change
               filepath,
               exists: exists,
-              diff, // kappacode_change
-              filediff, // kappacode_change
+              diff, // kilocode_change
+              filediff, // kilocode_change
             },
             output,
           }

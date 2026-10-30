@@ -779,6 +779,10 @@ export function Prompt(props: PromptProps) {
 
   function syncExtmarksWithPromptParts() {
     const allExtmarks = input.extmarks.getAllForTypeId(promptPartTypeId)
+    // kilocode_change start - this runs on every keystroke (onContentChange); short-circuit the
+    // full produce re-index when nothing has extmarks/parts, which is the plain-text case
+    if (allExtmarks.length === 0 && store.extmarkToPartIndex.size === 0 && store.prompt.parts.length === 0) return
+    // kilocode_change end
     setStore(
       produce((draft) => {
         const newMap = new Map<number, number>()

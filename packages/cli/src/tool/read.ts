@@ -1,31 +1,32 @@
-import { Effect, Schema, Scope } from "effect" // kappacode_change - stable object reads do not use Option
+import { Effect, Schema, Scope } from "effect" // kilocode_change - stable object reads do not use Option
 import { NonNegativeInt } from "@opencode-ai/core/schema"
 import * as path from "path"
-import { Readable } from "stream" // kappacode_change
+import { Readable } from "stream" // kilocode_change
 import { createInterface } from "readline"
 import * as Tool from "./tool.ts"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { LSP } from "@/lsp/lsp"
 import DESCRIPTION from "./read.txt"
 import { InstanceState } from "@/effect/instance-state"
-import { Config } from "@/config/config" // kappacode_change - optional configured reference authorization
+import { Config } from "@/config/config" // kilocode_change - optional configured reference authorization
 import { assertExternalDirectoryEffect } from "./external-directory.ts"
 import { Instruction } from "../session/instruction.ts"
 import { isPdfAttachment, sniffAttachmentMime } from "@/util/media"
-// kappacode_change start
+// kilocode_change start
 import * as Encoding from "../kappacode/encoding.ts"
 import { KappaReference } from "@/kappacode/reference/contains"
 import * as KappaConfiguredReference from "@/kappacode/reference"
 import { KappaReadObject } from "@/kappacode/tool/read-object"
 import * as Extract from "../kappacode/tool/read-extract.ts"
 import * as TextStream from "../kappacode/text-stream.ts"
-// kappacode_change end
+import { isInternalUri, resolveInternalUri } from "../kappacode/tool/internal-url.ts" // kilocode_change
+// kilocode_change end
 
 const DEFAULT_READ_LIMIT = 2000
 const MAX_LINE_LENGTH = 2000
-// kappacode_change start - report the safe Unicode slice length
+// kilocode_change start - report the safe Unicode slice length
 const suffix = (length: number) => `... (line truncated to ${length} chars)`
-// kappacode_change end
+// kilocode_change end
 const MAX_BYTES = 50 * 1024
 const MAX_BYTES_LABEL = `${MAX_BYTES / 1024} KB`
 const SAMPLE_BYTES = 4096
@@ -84,7 +85,7 @@ export const ReadTool = Tool.define<
     const lsp = yield* LSP.Service
     const scope = yield* Scope.Scope
 
-    // kappacode_change start - authorize missing paths without enumerating sibling names
+    // kilocode_change start - authorize missing paths without enumerating sibling names
     const miss = Effect.fn("ReadTool.miss")(function* (filepath: string, worktree: string, ctx: Tool.Context) {
       const dir = path.dirname(filepath)
       const parent = yield* fs.realPath(dir).pipe(Effect.option)
@@ -98,7 +99,7 @@ export const ReadTool = Tool.define<
       })
       return yield* Effect.fail(new Error(`File not found: ${filepath}`))
     })
-    // kappacode_change end
+    // kilocode_change end
 
     const warm = Effect.fn("ReadTool.warm")(function* (filepath: string) {
       // LSP warm-up is optional; do not let a background defect fail an otherwise successful read.
@@ -121,7 +122,7 @@ export const ReadTool = Tool.define<
       ).pipe(Effect.map((items: string[]) => items.sort((a, b) => a.localeCompare(b))))
     })
 
-    // kappacode_change start - extracted formats and text consume the authorized open object
+    // kilocode_change start - extracted formats and text consume the authorized open object
     const lines = Effect.fn("ReadTool.lines")(
       (file: KappaReadObject.File, opts: { limit: number; offset: number }, abort: AbortSignal) =>
         Effect.tryPromise({
@@ -141,7 +142,7 @@ export const ReadTool = Tool.define<
           catch: (err) => (err instanceof Error ? err : new Error(String(err))),
         }),
     )
-    // kappacode_change end
+    // kilocode_change end
 
     const isBinaryFile = (filepath: string, bytes: Uint8Array) => {
       const ext = path.extname(filepath).toLowerCase()
@@ -179,10 +180,10 @@ export const ReadTool = Tool.define<
 
       if (bytes.length === 0) return false
 
-      // kappacode_change start - UTF-16/32 BOM: NUL bytes are legitimate, skip the NUL/control-char heuristic
+      // kilocode_change start - UTF-16/32 BOM: NUL bytes are legitimate, skip the NUL/control-char heuristic
       const buf = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength)
       if (Encoding.hasUtf16Bom(buf, bytes.length) || Encoding.hasUtf32Bom(buf, bytes.length)) return false
-      // kappacode_change end
+      // kilocode_change end
 
       let nonPrintableCount = 0
       for (let i = 0; i < bytes.length; i++) {
@@ -200,6 +201,33 @@ export const ReadTool = Tool.define<
       ctx: Tool.Context<Metadata>,
     ) {
       const instance = yield* InstanceState.context
+      // kilocode_change start - resolve xd://, mcp://, and other internal URLs through the InternalUrlRouter
+      if (isInternalUri(params.filePath)) {
+        const resolved = yield* Effect.tryPromise({
+          try: () => resolveInternalUri(params.filePath, instance.directory),
+          catch: (err) => (err instanceof Error ? err : new Error(String(err))),
+        })
+        const linesArr = resolved.content.split(/\r?\n/)
+        return {
+          title: resolved.title,
+          output: `<path>${resolved.title}</path>\n<type>file</type>\n<content>\n${resolved.content}\n</content>`,
+          metadata: {
+            preview: linesArr.slice(0, 20).join("\n"),
+            truncated: false,
+            loaded: [],
+            display: {
+              type: "file" as const,
+              path: resolved.title,
+              text: resolved.content,
+              lineStart: 1,
+              lineEnd: linesArr.length,
+              totalLines: linesArr.length,
+              truncated: false,
+            },
+          },
+        }
+      }
+      // kilocode_change end
       let filepath = params.filePath
       if (!path.isAbsolute(filepath)) {
         filepath = path.resolve(instance.directory, filepath)
@@ -209,7 +237,7 @@ export const ReadTool = Tool.define<
       }
       const requested = filepath
       const title = path.relative(instance.worktree, requested)
-      // kappacode_change start - resolve V1 configured references without introducing a Core location-layer dependency
+      // kilocode_change start - resolve V1 configured references without introducing a Core location-layer dependency
       const config = yield* Effect.serviceOption(Config.Service)
       const references =
         config._tag === "Some"
@@ -219,8 +247,8 @@ export const ReadTool = Tool.define<
               worktree: instance.worktree,
             })
           : []
-      // kappacode_change end
-      // kappacode_change start - fail before read authorization when the target is missing
+      // kilocode_change end
+      // kilocode_change start - fail before read authorization when the target is missing
       const info = yield* fs.stat(requested).pipe(
         Effect.catchIf(
           (err) => "reason" in err && err.reason._tag === "NotFound",
@@ -230,9 +258,9 @@ export const ReadTool = Tool.define<
       if (!info) {
         return yield* miss(requested, instance.worktree, ctx)
       }
-      // kappacode_change end
+      // kilocode_change end
 
-      // kappacode_change start - directory mentions expose only a bound listing, never child file bodies
+      // kilocode_change start - directory mentions expose only a bound listing, never child file bodies
       if (info.type === "Directory") {
         const resolved = yield* fs.realPath(requested)
         const target = process.platform === "win32" ? FSUtil.normalizePath(resolved) : resolved
@@ -249,7 +277,7 @@ export const ReadTool = Tool.define<
           always: ["*"],
           metadata: {},
         })
-        // kappacode_change start - reject any canonical path change after permission approval
+        // kilocode_change start - reject any canonical path change after permission approval
         if (ctx.extra?.["denyDirectory"] === true) {
           // Re-resolve after permission approval to detect TOCTOU symlink swaps.
           // If the canonical target changed, the approved permission no longer
@@ -260,9 +288,9 @@ export const ReadTool = Tool.define<
             return yield* Effect.fail(new Error(`Directory attachments cannot be expanded: ${requested}`))
           }
         }
-        // kappacode_change end
+        // kilocode_change end
         const items = yield* list(target)
-        const limit = Math.max(1, params.limit ?? DEFAULT_READ_LIMIT) // kappacode_change - prevent zero-limit loops
+        const limit = Math.max(1, params.limit ?? DEFAULT_READ_LIMIT) // kilocode_change - prevent zero-limit loops
         const offset = params.offset || 1
         const start = offset - 1
         const sliced = items.slice(start, start + limit)
@@ -295,7 +323,7 @@ export const ReadTool = Tool.define<
           },
         }
       }
-      // kappacode_change start - authorize metadata, then bind every content read to the same reopened object
+      // kilocode_change start - authorize metadata, then bind every content read to the same reopened object
       const file = yield* KappaReadObject.file(requested)
       const explicit =
         typeof ctx.extra?.["referenceRoot"] === "string" &&
@@ -388,7 +416,7 @@ export const ReadTool = Tool.define<
           }
         }),
       )
-      // kappacode_change end
+      // kilocode_change end
     })
 
     return {
@@ -400,9 +428,9 @@ export const ReadTool = Tool.define<
   }),
 )
 
-// kappacode_change start - extracted formats use native readers; ordinary text is supplied by FSUtil above
+// kilocode_change start - extracted formats use native readers; ordinary text is supplied by FSUtil above
 async function collect(stream: Readable, opts: { limit: number; offset: number }) {
-  // kappacode_change end
+  // kilocode_change end
   const rl = createInterface({ input: stream, crlfDelay: Infinity })
   const start = opts.offset - 1
   const raw: string[] = []
@@ -418,10 +446,10 @@ async function collect(stream: Readable, opts: { limit: number; offset: number }
         more = true
         continue
       }
-      // kappacode_change start - keep truncated output valid Unicode
+      // kilocode_change start - keep truncated output valid Unicode
       const sliced = TextStream.safeSlice(text, MAX_LINE_LENGTH)
       const line = text.length > MAX_LINE_LENGTH ? sliced + suffix(sliced.length) : text
-      // kappacode_change end
+      // kilocode_change end
       const size = Buffer.byteLength(line, "utf-8") + (raw.length > 0 ? 1 : 0)
       if (bytes + size > MAX_BYTES) {
         cut = true
