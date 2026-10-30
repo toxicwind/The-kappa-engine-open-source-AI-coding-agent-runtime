@@ -260,7 +260,7 @@ function cleanEnv(input: NodeJS.ProcessEnv) {
 async function ensureDependencies() {
   const required = [
     { name: "esbuild", dir: root },
-    { name: "@opencode-ai/core/npm", dir: join(repo, "packages", "opencode") },
+    { name: "@opencode-ai/core/npm", dir: join(repo, "packages", "cli") },
     { name: "@hey-api/openapi-ts", dir: join(repo, "packages", "sdk", "js") },
   ]
   const ready = required.every((item) => {
