@@ -23,6 +23,11 @@ export function resolveInteractiveStdin(
     } catch {
       // best-effort: cooked mode means keystrokes may be line-buffered
     }
+    try {
+      if (typeof stdin.resume === "function") {
+        stdin.resume()
+      }
+    } catch {}
     return { stdin }
   }
 
@@ -35,13 +40,20 @@ export function resolveInteractiveStdin(
     } catch {
       // best-effort raw mode on /dev/tty fallback
     }
+    try {
+      if (typeof stream.resume === "function") {
+        stream.resume()
+      }
+    } catch {}
     return {
       stdin: stream,
       cleanup: () => {
         try {
           stream.setRawMode?.(false)
         } catch {}
-        stream.destroy()
+        try {
+          stream.destroy()
+        } catch {}
       },
     }
   } catch (error) {
