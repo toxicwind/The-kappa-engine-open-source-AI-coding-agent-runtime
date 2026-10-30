@@ -576,7 +576,10 @@ describe("Deferred tool card remount contract (source)", () => {
   const basic = fs.readFileSync(BASIC_TOOL_FILE, "utf-8")
   const wrapper = fs.readFileSync(path.join(MONOREPO_ROOT, "packages/kappa-ui/src/components/basic-tool.tsx"), "utf-8")
   const css = fs.readFileSync(KAPPA_BASIC_TOOL_CSS_FILE, "utf-8")
-  const scroll = fs.readFileSync(path.join(MONOREPO_ROOT, "packages/kappa-ui/src/hooks/create-auto-scroll.tsx"), "utf-8")
+  const scroll = fs.readFileSync(
+    path.join(MONOREPO_ROOT, "packages/kappa-ui/src/hooks/create-auto-scroll.tsx"),
+    "utf-8",
+  )
 
   it("reserves remembered-open card height while remounting its body later", () => {
     // Restoring the measured height prevents the collapsed frame and
