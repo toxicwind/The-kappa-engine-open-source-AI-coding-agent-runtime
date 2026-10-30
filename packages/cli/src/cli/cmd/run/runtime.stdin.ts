@@ -18,6 +18,11 @@ export function resolveInteractiveStdin(
   platform = process.platform,
 ): InteractiveStdin {
   if (stdin.isTTY) {
+    try {
+      stdin.setRawMode?.(true)
+    } catch {
+      // best-effort: cooked mode means keystrokes may be line-buffered
+    }
     return { stdin }
   }
 
@@ -25,9 +30,17 @@ export function resolveInteractiveStdin(
 
   try {
     const stream = open(file)
+    try {
+      stream.setRawMode?.(true)
+    } catch {
+      // best-effort raw mode on /dev/tty fallback
+    }
     return {
       stdin: stream,
       cleanup: () => {
+        try {
+          stream.setRawMode?.(false)
+        } catch {}
         stream.destroy()
       },
     }
