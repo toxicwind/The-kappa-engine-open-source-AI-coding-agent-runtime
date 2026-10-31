@@ -40,7 +40,7 @@
     "@kappacode/plugin": "workspace:*",
     "@lancedb/lancedb": "0.26.2",
     "@parcel/watcher": "2.5.1",
-    "@qdrant/js-client-rest": "1.17.0",
+    "@qdrant/js-client-rest": "1.19.0",
     "async-mutex": "0.5.0",
     "effect": "catalog:",
     "glob": "13.0.6",

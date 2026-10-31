@@ -55,7 +55,7 @@ function locateBin(): string | null {
   if (binCache !== undefined) return binCache;
   const cands = [
     (() => { try { const r = Bun.spawnSync({ cmd: ["bash", "-lc", "command -v secretsmith"] }); const o = r.stdout.toString().trim(); return o || null; } catch { return null; } })(),
-    "/home/toxic/estate/ranch/secretsmith/bin/secretsmith",
+    "/home/toxic/pens/estate/ranch/secretsmith/bin/secretsmith",
     join(homedir(), ".local/bin/secretsmith"),
   ];
   binCache = cands.find((c) => c && existsSync(c)) ?? null;

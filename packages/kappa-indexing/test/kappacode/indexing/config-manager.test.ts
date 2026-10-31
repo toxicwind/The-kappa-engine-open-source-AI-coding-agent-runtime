@@ -245,9 +245,9 @@ describe("IndexingConfig roots (declarative multi-root from kappa.json indexing.
   test("toIndexingConfigInput preserves the roots array", () => {
     const out = toIndexingConfigInput({
       enabled: true,
-      roots: ["/home/toxic/pens", "/home/toxic/estate"],
+      roots: ["/home/toxic/pens", "/home/toxic/pens/estate"],
     })
-    expect(out.roots).toEqual(["/home/toxic/pens", "/home/toxic/estate"])
+    expect(out.roots).toEqual(["/home/toxic/pens", "/home/toxic/pens/estate"])
   })
 
   test("toIndexingConfigInput yields undefined roots when not set", () => {

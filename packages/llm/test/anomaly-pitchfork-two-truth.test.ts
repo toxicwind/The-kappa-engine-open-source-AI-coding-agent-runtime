@@ -13,8 +13,8 @@ describe("Anomaly 6: Pitchfork two-truth capability contract", () => {
   
   test("pitchfork.toml monolith is the only live truth", () => {
     const configSources = {
-      monolith: "/home/toxic/estate/pitchfork.toml", // LIVE
-      fragments: "/home/toxic/estate/pitchfork.d/" // 103 DEAD fragments
+      monolith: "/home/toxic/pens/estate/pitchfork.toml", // LIVE
+      fragments: "/home/toxic/pens/estate/pitchfork.d/" // 103 DEAD fragments
     }
     
     expect(configSources.monolith).toContain("pitchfork.toml")

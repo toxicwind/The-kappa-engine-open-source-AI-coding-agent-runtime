@@ -210,7 +210,7 @@ const layer = Layer.effect(
     const get = Effect.fn("Command.get")(function* (name: string) {
       const s = yield* InstanceState.get(state)
       const exact = s.commands[name] // kappacode_change
-      if (exact) return exact // kappacode_change
+      if (exact) return yield* materialize(exact) // kappacode_change
 
       // kappacode_change start
       const target = skillName(name)
@@ -233,6 +233,19 @@ const layer = Layer.effect(
     })
 
     // kappacode_change start
+    // A Promise template is not a JSON value: HttpApi response encoding of the
+    // lazy MCP-prompt commands 400s the whole call ("Expected JSON value at
+    // [N][template]"), which the TUI surfaces as "Commands Unavailable" and an
+    // empty slash menu on every boot. Resolve lazily-templated commands at the
+    // HTTP boundary; a failed prompt resolution degrades to an empty template
+    // instead of killing the response.
+    const materialize = Effect.fn("Command.materialize")(function* (item: Info) {
+      if (typeof item.template === "string") return item
+      const maybe = yield* Effect.option(Effect.promise(() => Promise.resolve(item.template)))
+      const template = maybe._tag === "Some" ? maybe.value : ""
+      return { ...item, template }
+    })
+
     const list = Effect.fn("Command.list")(function* () {
       const s = yield* InstanceState.get(state)
       const result = Object.values(s.commands)
@@ -241,7 +254,7 @@ const layer = Layer.effect(
         if (s.commands[item.name]?.source === "skill" || s.commands[`${item.name}:skill`]?.source === "skill") continue
         if (names.has(item.name)) result.push(fromSkill(item, directory(item)))
       }
-      return result
+      return yield* Effect.forEach(result, (item) => materialize(item), { concurrency: "unbounded" })
     })
     // kappacode_change end
 

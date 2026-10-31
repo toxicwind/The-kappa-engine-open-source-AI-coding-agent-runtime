@@ -89,6 +89,11 @@ import * as TuiAudio from "./audio"
 import { win32DisableProcessedInput, win32FlushInputBuffer } from "./terminal-win32"
 import { destroyRenderer } from "./util/renderer"
 import { cliErrorMessage, errorFormat } from "./util/error"
+// kappacode_change start - deterministic tty input: bypass the flaky Node-compat
+// stdin stream (frozen TUI) by feeding the renderer's stdin parser from Bun's
+// native stdin stream via a fake renderer stdin.
+import { attachTtyInput, createFakeStdin, type RawInputSink } from "./kappacode/input/tty-input"
+// kappacode_change end
 import * as KappaApp from "@/kappacode/cli/cmd/tui/app" // kappacode_change
 import { kitty, resetTerminalState } from "@/kappacode/cli/cmd/tui/util/terminal" // kappacode_change
 import { hasDisplay } from "@/kappacode/cli/cmd/tui/util/display" // kappacode_change
@@ -200,6 +205,7 @@ export const run = Effect.fn("Tui.run")(function* (input: TuiInput) {
         Effect.tryPromise({
           try: () =>
             createCliRenderer({
+              stdin: createFakeStdin(), // kappacode_change - renderer never subscribes fd 0
               externalOutputMode: "passthrough",
               targetFps: 60,
               gatherStats: false,
@@ -220,6 +226,15 @@ export const run = Effect.fn("Tui.run")(function* (input: TuiInput) {
           }),
       )
       win32DisableProcessedInput()
+      // kappacode_change start - native stdin pump feeds the renderer parser.
+      // Released with the renderer so teardown never leaks a reader.
+      // Vendored @opentui/core marks stdinListener private in its types but
+      // exposes it at runtime; the sink contract is the single integration
+      // boundary between the pump and the renderer parser.
+      const ttyInput = attachTtyInput(renderer as unknown as RawInputSink)
+      yield* Effect.addFinalizer(() => Effect.sync(() => ttyInput.stop()))
+      renderer.once("destroy", () => ttyInput.stop()) // belt-and-braces with the effect finalizer
+      // kappacode_change end
       const keymap = createDefaultOpenTuiKeymap(renderer)
       yield* Effect.acquireRelease(
         Effect.sync(() => registerOpencodeKeymap(keymap, renderer, input.config)),

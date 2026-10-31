@@ -12,7 +12,7 @@ const bin = ((): string | null => {
     const hit = r.stdout.toString().trim();
     if (hit) return hit;
   }
-  const paths = ["/home/toxic/estate/ranch/secretsmith/bin/secretsmith", join(homedir(), ".local/bin/secretsmith")];
+  const paths = ["/home/toxic/pens/estate/ranch/secretsmith/bin/secretsmith", join(homedir(), ".local/bin/secretsmith")];
   return paths.find((p) => existsSync(p)) ?? null;
 })();
 const skip = bin == null;
