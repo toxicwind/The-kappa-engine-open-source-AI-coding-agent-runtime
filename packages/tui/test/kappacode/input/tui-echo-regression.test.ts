@@ -1,4 +1,6 @@
 import { describe, expect, test } from "bun:test"
+import { writeFileSync } from "node:fs"
+import { join } from "node:path"
 import { spawn, type Proc } from "@opencode-ai/core/pty/driver"
 // Regression gate for the frozen-TUI bug (2026-10-31): a fresh TUI must
 // consume stdin and echo keystrokes within 1s. The original failure mode:
@@ -29,6 +31,7 @@ describe("TUI input regression gate", () => {
         process.env.KAPPA_BINARY ?? "kappa",
         [],
         {
+          name: "kappa",
           cwd: dir,
           env: { ...process.env, TERM: "xterm-256color", KAPPA_DISABLE_AUTOUPDATE: "1" },
           cols: 120,
@@ -76,6 +79,7 @@ describe("TUI input regression gate", () => {
         stub,
         [],
         {
+          name: "kappa-stub",
           cols: 100,
           rows: 40,
         },
