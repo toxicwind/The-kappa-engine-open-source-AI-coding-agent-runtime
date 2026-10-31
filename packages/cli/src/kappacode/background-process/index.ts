@@ -411,9 +411,14 @@ export namespace BackgroundProcess {
     })
   }
 
+  const lastEmitted = new WeakMap<Active, string>()
+
   function publish(active: Active) {
     if (active.disposed) return
     update(active)
+    const key = backgroundProcessEmitKey(active.info)
+    if (lastEmitted.get(active) === key) return
+    lastEmitted.set(active, key)
     emit(active)
   }
 
@@ -633,14 +638,86 @@ export namespace BackgroundProcess {
     return Number.isInteger(value) && value > 0 ? value : undefined
   }
 
+/**
+ * Extract field 22 (starttime) from a `/proc/<pid>/stat` line. The comm field
+ * may contain spaces and parentheses, so parsing anchors on the LAST `)`.
+ * Returns undefined for malformed input.
+ */
+export function parseStatStarttime(stat: string): string | undefined {
+  const close = stat.lastIndexOf(")")
+  if (close === -1) return undefined
+  const fields = stat.slice(close + 2).split(" ")
+  // After pid+comm the fields restart at 3; starttime is field 22 -> index 19.
+  return fields[19]
+}
+
+/**
+ * Verified ownership cache keyed by pid + kernel starttime. A pid that keeps
+ * its starttime is provably the same process incarnation, so a previously
+ * verified token presence is still valid without another 35KB environ read.
+ * A changed starttime (pid reuse) misses and forces re-verification.
+ */
+export class ProcessOwnershipCache {
+  private readonly byPid = new Map<number, { starttime: string; owned: boolean }>()
+
+  lookup(pid: number, stat: string): boolean | undefined {
+    const starttime = parseStatStarttime(stat)
+    if (starttime === undefined) return undefined
+    const hit = this.byPid.get(pid)
+    if (hit && hit.starttime === starttime) return hit.owned
+    return undefined
+  }
+
+  set(pid: number, stat: string, owned: boolean): void {
+    const starttime = parseStatStarttime(stat)
+    if (starttime !== undefined) this.byPid.set(pid, { starttime, owned })
+  }
+
+  delete(pid: number): void {
+    this.byPid.delete(pid)
+  }
+}
+
+const ownershipCache = new ProcessOwnershipCache()
+
+/**
+ * Stable string for the observable state of an info object: when this key does
+ * not change between watch ticks, the `updated` bus event is suppressed.
+ * Keeps the background-process bus quiet (no per-tick SSE publish storm).
+ */
+export function backgroundProcessEmitKey(info: BackgroundProcess.Info): string {
+  const out = info.output ?? ""
+  return [
+    info.id,
+    info.status,
+    info.pid ?? "",
+    info.ready ? "1" : "0",
+    info.exitCode ?? "",
+    out.length,
+  ].join("|")
+}
+
   async function linux(active: Active): Promise<Probe> {
     const pid = active.info.pid
     const token = active.token
     if (!pid || !token) return "unknown"
     const leader = await readFile(`/proc/${pid}/stat`, "utf8").catch(() => undefined)
-    if (leader && pgrp(leader) === pid) {
+    if (!leader) {
+      ownershipCache.delete(pid)
+      return "gone"
+    }
+    // Hot-path cache: a verified leader keeps its ownership while starttime is
+    // unchanged, so the 35KB /proc/<pid>/environ read happens once per process
+    // instead of every PUBLISH_MS tick (12 watchers x 2Hz was ~840KB/s of
+    // /proc churn). PID reuse changes starttime -> re-verification.
+    const cached = ownershipCache.lookup(pid, leader)
+    if (cached !== undefined) return cached ? "owned" : "foreign"
+    if (pgrp(leader) === pid) {
       const data = await readFile(`/proc/${pid}/environ`).catch(() => undefined)
-      if (data?.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) return "owned"
+      if (data?.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) {
+        ownershipCache.set(pid, leader, true)
+        return "owned"
+      }
     }
     const names = await readdir("/proc").catch(() => undefined)
     if (!names) return "unknown"
@@ -650,14 +727,25 @@ export namespace BackgroundProcess {
       const text = await readFile(`/proc/${name}/stat`, "utf8").catch(() => undefined)
       if (text && pgrp(text) === pid) members.push(Number(name))
     }
-    if (members.length === 0) return "gone"
+    if (members.length === 0) {
+      // Leader is gone: cache the negative so the next tick short-circuits
+      // instead of re-scanning /proc.
+      ownershipCache.set(pid, leader, false)
+      return "gone"
+    }
     let read = false
     for (const member of members) {
       const data = await readFile(`/proc/${member}/environ`).catch(() => undefined)
       if (!data) continue
       read = true
-      if (data.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) return "owned"
+      if (data.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) {
+        ownershipCache.set(pid, leader, true)
+        return "owned"
+      }
     }
+    // Cache negative results too: a foreign pid keeps a stable starttime, so
+    // the full /proc scan runs once per pid, not once per tick.
+    ownershipCache.set(pid, leader, false)
     return read ? "foreign" : "unknown"
   }
 
