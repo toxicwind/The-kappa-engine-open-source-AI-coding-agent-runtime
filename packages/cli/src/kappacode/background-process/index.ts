@@ -697,56 +697,86 @@ export function backgroundProcessEmitKey(info: BackgroundProcess.Info): string {
   ].join("|")
 }
 
+/**
+ * I/O seam for the ownership probe. Production wires real /proc reads; tests
+ * inject counting fakes to pin the hot-path contract ("one environ read per
+ * pid across any number of ticks").
+ */
+export type ProcessProbeIo = {
+  readStat: (file: string) => Promise<string | undefined>
+  readEnviron: (file: string) => Promise<string | undefined>
+  readdir: (dir: string) => Promise<string[] | undefined>
+}
+
+export const realProcessProbeIo: ProcessProbeIo = {
+  readStat: (file) => readFile(file, "utf8").catch(() => undefined),
+  readEnviron: (file) => readFile(file).then((d) => d.toString("utf8")).catch(() => undefined),
+  readdir: (dir) => readdir(dir).catch(() => undefined),
+}
+
+/**
+ * Pure ownership probe. `linux()` in the service layer delegates here with the
+ * shared module cache; tests inject a fresh cache + counting io to verify the
+ * amortization contract across many watch ticks.
+ */
+export async function probeLinux(
+  pid: number,
+  token: string | undefined,
+  cache: ProcessOwnershipCache,
+  io: ProcessProbeIo = realProcessProbeIo,
+): Promise<"owned" | "foreign" | "gone" | "unknown"> {
+  if (!token) return "unknown"
+  const leader = await io.readStat(`/proc/${pid}/stat`)
+  if (!leader) {
+    cache.delete(pid)
+    return "gone"
+  }
+  // Hot-path cache: a verified leader keeps its ownership while starttime is
+  // unchanged, so the 35KB /proc/<pid>/environ read happens once per process
+  // instead of every PUBLISH_MS tick (12 watchers x 2Hz was ~840KB/s of
+  // /proc churn). PID reuse changes starttime -> re-verification.
+  const cached = cache.lookup(pid, leader)
+  if (cached !== undefined) return cached ? "owned" : "foreign"
+  if (pgrp(leader) === pid) {
+    const data = await io.readEnviron(`/proc/${pid}/environ`)
+    if (data?.split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) {
+      cache.set(pid, leader, true)
+      return "owned"
+    }
+  }
+  const names = await io.readdir("/proc")
+  if (!names) return "unknown"
+  const members: number[] = []
+  for (const name of names) {
+    if (!/^\d+$/.test(name)) continue
+    const text = await io.readStat(`/proc/${name}/stat`)
+    if (text && pgrp(text) === pid) members.push(Number(name))
+  }
+  if (members.length === 0) {
+    // Leader is gone: cache the negative so the next tick short-circuits
+    // instead of re-scanning /proc.
+    cache.set(pid, leader, false)
+    return "gone"
+  }
+  let read = false
+  for (const member of members) {
+    const data = await io.readEnviron(`/proc/${member}/environ`)
+    if (!data) continue
+    read = true
+    if (data.split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) {
+      cache.set(pid, leader, true)
+      return "owned"
+    }
+  }
+  // Cache negative results too: a foreign pid keeps a stable starttime, so
+  // the full /proc scan runs once per pid, not once per tick.
+  cache.set(pid, leader, false)
+  return read ? "foreign" : "unknown"
+}
+
   async function linux(active: Active): Promise<Probe> {
-    const pid = active.info.pid
-    const token = active.token
-    if (!pid || !token) return "unknown"
-    const leader = await readFile(`/proc/${pid}/stat`, "utf8").catch(() => undefined)
-    if (!leader) {
-      ownershipCache.delete(pid)
-      return "gone"
-    }
-    // Hot-path cache: a verified leader keeps its ownership while starttime is
-    // unchanged, so the 35KB /proc/<pid>/environ read happens once per process
-    // instead of every PUBLISH_MS tick (12 watchers x 2Hz was ~840KB/s of
-    // /proc churn). PID reuse changes starttime -> re-verification.
-    const cached = ownershipCache.lookup(pid, leader)
-    if (cached !== undefined) return cached ? "owned" : "foreign"
-    if (pgrp(leader) === pid) {
-      const data = await readFile(`/proc/${pid}/environ`).catch(() => undefined)
-      if (data?.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) {
-        ownershipCache.set(pid, leader, true)
-        return "owned"
-      }
-    }
-    const names = await readdir("/proc").catch(() => undefined)
-    if (!names) return "unknown"
-    const members: number[] = []
-    for (const name of names) {
-      if (!/^\d+$/.test(name)) continue
-      const text = await readFile(`/proc/${name}/stat`, "utf8").catch(() => undefined)
-      if (text && pgrp(text) === pid) members.push(Number(name))
-    }
-    if (members.length === 0) {
-      // Leader is gone: cache the negative so the next tick short-circuits
-      // instead of re-scanning /proc.
-      ownershipCache.set(pid, leader, false)
-      return "gone"
-    }
-    let read = false
-    for (const member of members) {
-      const data = await readFile(`/proc/${member}/environ`).catch(() => undefined)
-      if (!data) continue
-      read = true
-      if (data.toString("utf8").split("\0").includes(`KAPPA_BACKGROUND_PROCESS_TOKEN=${token}`)) {
-        ownershipCache.set(pid, leader, true)
-        return "owned"
-      }
-    }
-    // Cache negative results too: a foreign pid keeps a stable starttime, so
-    // the full /proc scan runs once per pid, not once per tick.
-    ownershipCache.set(pid, leader, false)
-    return read ? "foreign" : "unknown"
+    if (!active.info.pid) return "unknown"
+    return probeLinux(active.info.pid, active.token, ownershipCache)
   }
 
   async function unix(active: Active): Promise<Probe> {

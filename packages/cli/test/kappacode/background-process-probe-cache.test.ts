@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { BackgroundProcess } from "../../src/kappacode/background-process/index.ts"
 
 const { parseStatStarttime, ProcessOwnershipCache, backgroundProcessEmitKey } = BackgroundProcess
+type ProcessProbeIo = BackgroundProcess.ProcessProbeIo
 
 // Sample /proc/<pid>/stat shapes: comm may contain spaces/parens; field 22
 // (1-indexed, 3rd field after the trailing ")" of comm) is starttime.
@@ -83,5 +84,56 @@ describe("backgroundProcessEmitKey", () => {
   test("unobservable mutations produce the same key", () => {
     const same = { ...base, output: "", readyChanged: true }
     expect(backgroundProcessEmitKey(same as never)).toBe(backgroundProcessEmitKey(base as never))
+  })
+})
+
+describe("probeLinux hot-path amortization", () => {
+  const LEADER_STAT = `99999 (leader) S 1 99999 99999 0 -1 4194560 652 0 0 0 0 0 0 0 0 1 0 0 424242 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0`
+
+  test("10 ticks read /proc/<pid>/environ exactly once", async () => {
+    const TOKEN = "tok-contract-123"
+    let environReads = 0
+    const io: ProcessProbeIo = {
+      readStat: async () => LEADER_STAT,
+      readEnviron: async () => {
+        environReads++
+        return `KAPPA_BACKGROUND_PROCESS_TOKEN=${TOKEN}\0OTHER=1`
+      },
+      readdir: async () => ["1", "99999"],
+    }
+    const cache = new ProcessOwnershipCache()
+    for (let i = 0; i < 10; i++) {
+      const result = await BackgroundProcess.probeLinux(99999, TOKEN, cache, io)
+      expect(result).toBe("owned")
+    }
+    expect(environReads).toBe(1)
+  })
+
+  test("pid reuse forces exactly one re-read of environ", async () => {
+    const TOKEN = "tok-reuse-456"
+    let environReads = 0
+    let statCalls = 0
+    const io: ProcessProbeIo = {
+      readStat: async (file) => {
+        // Stat is re-read every tick; the STARTTIME flips on tick 6 to
+        // simulate the OS reusing pid 99999 for a new process.
+        void file
+        statCalls++
+        return statCalls <= 5 ? LEADER_STAT : LEADER_STAT.replace("424242", "777777")
+      },
+      readEnviron: async () => {
+        environReads++
+        return `KAPPA_BACKGROUND_PROCESS_TOKEN=${TOKEN}\0`
+      },
+      readdir: async () => ["1", "99999"],
+    }
+    const cache = new ProcessOwnershipCache()
+    // Tick 1: environ read (cache miss). Ticks 2-5: cache hits (0 reads).
+    // Tick 6: starttime flip -> re-verification (1 read). Ticks 7-10: hits.
+    for (let i = 0; i < 10; i++) {
+      const result = await BackgroundProcess.probeLinux(99999, TOKEN, cache, io)
+      expect(result).toBe("owned")
+    }
+    expect(environReads).toBe(2)
   })
 })
