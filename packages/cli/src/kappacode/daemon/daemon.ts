@@ -366,7 +366,11 @@ export namespace Daemon {
       const failure = new Promise<never>((_, reject) => child.once("error", reject))
       child.unref()
       return await Promise.race([wait(out, child.pid, input.timeout ?? 10_000), failure]).catch(async (err) => {
-        if (child.pid && alive(child.pid)) await terminate(child.pid, true)
+        // Orphan-leak fix (2026-10-31, mirrors ghost-daemon anomaly #78): the
+        // child is detached+unref'd; ANY launch failure — timeout, exit before
+        // listening, spawn error — must terminate it or it lives on as a
+        // ppid=1 orphan with stdin /dev/null and a deleted log.
+        if (child.pid && alive(child.pid)) await terminate(child.pid, true).catch(() => undefined)
         throw err
       })
     } finally {

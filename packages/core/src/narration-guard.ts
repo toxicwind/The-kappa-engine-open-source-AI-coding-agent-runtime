@@ -150,6 +150,14 @@ const makeNarrationGuard = Effect.gen(function* () {
           const calls = input.toolCalls ?? []
           const receipts = input.receipts ?? []
 
+          // 0) Error-loop brake: repeated failed tool calls with zero
+          // successes signals a flag-hallucination/usage-dump loop (e.g.
+          // `git diff --no-index --cached` retried verbatim). Force an
+          // orthogonal fork before the loop burns the turn budget.
+          if (calls.length >= 3 && calls.every((c) => c.ok === false) && receipts.length === 0) {
+            return { _tag: "continue", reason: "error-loop", inject: "ERROR_LOOP_BRAKE: " + calls.length + " consecutive failed tool calls with zero successes. Stop retrying the same shape. Verify the exact tool/command syntax against its real schema or --help output BEFORE calling again; fork 2 orthogonal approaches (different tool or different command shape)." } as GuardAction
+          }
+
           // 1) Run-scoped narration: action promise with zero tool calls in this runId
           if (NARR.test(prose) && calls.length === 0 && receipts.length === 0) {
             return { _tag: "continue", reason: "narration", inject: "NARRATION_GUARD: action promise with zero tool calls in this runId. End this turn with a ToolCall or a RaceTuple. Prose is not a constructor." } as GuardAction

@@ -271,6 +271,22 @@ export function narrationGuard(input: TurnInput): GuardResult {
   const calls = input.toolCalls ?? []
   const receipts = input.receipts ?? []
 
+  // 0) Error-loop brake: repeated failed tool calls with zero successes
+  // signals a flag-hallucination/usage-dump loop (e.g. `git diff --no-index
+  // --cached` retried verbatim). Force an orthogonal fork before the loop
+  // burns the turn budget. Mirrors packages/core/src/narration-guard.ts —
+  // keep both copies in sync until they share one module.
+  if (calls.length >= 3 && calls.every((c) => c.ok === false) && receipts.length === 0) {
+    return {
+      action: "continue",
+      reason: "error-loop",
+      inject:
+        "ERROR_LOOP_BRAKE: " +
+        calls.length +
+        " consecutive failed tool calls with zero successes. Stop retrying the same shape. Verify the exact tool/command syntax against its real schema or --help output BEFORE calling again; fork 2 orthogonal approaches (different tool or different command shape).",
+    }
+  }
+
   // 1) Run-scoped narration: whole runId, not last message
   if (NARRATION_RE.test(prose) && calls.length === 0 && receipts.length === 0) {
     return {
